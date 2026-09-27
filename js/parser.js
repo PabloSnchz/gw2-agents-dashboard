@@ -31,13 +31,43 @@ class DashboardParser {
         // Parsear "Tareas en curso" → estados de agentes
         const tareasSection = this._extractSection(md, 'Tareas en curso');
         if (tareasSection) {
-            const agentRegex = /\*\*([^*]+):\*\*\s*([\s\S]*?)(?=\n\*\*|\n- |\n\n)/g;
-            let match;
-            while ((match = agentRegex.exec(tareasSection)) !== null) {
-                const name = match[1].trim();
-                const desc = match[2].trim().substring(0, 200);
-                const status = this._extractAgentStatus(desc);
-                data.agents.push({ name, desc, status });
+            // Parseo line-by-line: más robusto que regex con lookahead (que fallaba
+            // con $ + flag m en líneas intermedias)
+            const agentLines = tareasSection.split('\n');
+            let currentName = null;
+            let currentDesc = '';
+
+            for (const line of agentLines) {
+                // Detectar línea de agente principal: "- **name:**"
+                const agentMatch = line.match(/^(- )?\*\*([^*]+):\*\*/);
+                if (agentMatch) {
+                    // Guardar agente anterior
+                    if (currentName) {
+                        const desc = currentDesc.trim();
+                        data.agents.push({
+                            name: currentName,
+                            desc: desc.substring(0, 200),
+                            status: this._extractAgentStatus(desc)
+                        });
+                    }
+                    // Iniciar nuevo agente
+                    currentName = agentMatch[2].trim();
+                    // Extraer descripción restante de la línea (después de ":**")
+                    const afterColon = line.substring(agentMatch[0].length).trim();
+                    currentDesc = afterColon;
+                } else if (currentName && line.trim()) {
+                    // Sub-bullet o continuación de descripción
+                    currentDesc += '\n' + line;
+                }
+            }
+            // Guardar último agente
+            if (currentName) {
+                const desc = currentDesc.trim();
+                data.agents.push({
+                    name: currentName,
+                    desc: desc.substring(0, 200),
+                    status: this._extractAgentStatus(desc)
+                });
             }
         }
 
