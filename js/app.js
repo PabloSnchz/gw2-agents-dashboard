@@ -172,7 +172,7 @@
 
     // --- UTIL: Renderizar archivo o error en zona de estado actual ---
     function renderFileOrError(files, filename) {
-        const file = files.find(f => f.name === filename);
+        const file = files.find(f => f.filename === filename);
 
         if (!file) {
             return '<p class="loading">Archivo no configurado.</p>';
