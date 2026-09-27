@@ -72,8 +72,10 @@
         const detectedFiles = await fetcher.fetchFileList();
         if (detectedFiles) {
             results = await fetcher.fetchAll(force, detectedFiles);
+            showStatus(`Detectados ${detectedFiles.length} archivos via API`, 'status-ok');
         } else {
             results = await fetcher.fetchAll(force);
+            showStatus(`Usando lista hardcodeada (${config.files.length} archivos)`, 'status-warning');
         }
 
         // Separar por zona
