@@ -88,17 +88,37 @@ class MarkdownFetcher {
      * @returns {Promise<Array>} resultados con metadata de zona y label
      */
     async fetchAll(force = false, fileList = null) {
-        const files = fileList || this.config.files;
-        const results = [];
-        for (const file of files) {
-            const result = await this.fetchFile(file.name, force);
-            results.push({
-                ...result,
-                zone: file.zone,
-                label: file.label
-            });
+        // Opción C' — Merge: archivos descubiertos via API + fallback hardcodeado.
+        // Si la API devuelve archivos, usamos esos. Pero también garantizamos
+        // que los archivos hardcodeados (BACKLOG.md, TEAM_STATUS.md, etc.)
+        // siempre estén presentes, incluso si la API no los descubrió.
+        const seen = new Set();
+        const merged = [];
+
+        if (fileList && Array.isArray(fileList)) {
+            for (const f of fileList) {
+                if (f.name) {
+                    seen.add(f.name);
+                    merged.push(f);
+                }
+            }
         }
-        return results;
+
+        // Agregar hardcodeados no descubiertos por la API
+        for (const f of this.config.files) {
+            if (!seen.has(f.name)) {
+                merged.push({ name: f.name, zone: f.zone, label: f.label });
+            }
+        }
+
+        // Fetch paralelo (Promise.all) — fetchFile nunca rechaza, siempre retorna {success, ...}
+        const promises = merged.map(file => this.fetchFile(file.name, force));
+        const settled = await Promise.all(promises);
+        return settled.map((result, i) => ({
+            ...result,
+            zone: merged[i].zone,
+            label: merged[i].label
+        }));
     }
 
     /**

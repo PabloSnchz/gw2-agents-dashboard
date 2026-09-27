@@ -1,6 +1,6 @@
-/* theme.css - Skin: colores, bordes, hover, glow */
+/* theme.css - Skin: colores, badges, estados de agente, glow */
 
-/* Botones */
+/* ===== Botones ===== */
 .btn {
     padding: 8px 16px;
     border: 1px solid rgba(255,255,255,0.08);
@@ -11,64 +11,68 @@
     font-size: 0.85rem;
     transition: all 0.22s cubic-bezier(0.2, 0.9, 0.4, 1.1);
 }
-
 .btn:hover {
     transform: translateY(-2px);
     box-shadow: 0 0 12px rgba(106, 27, 185, 0.3);
     border-color: rgba(106, 27, 185, 0.5);
 }
-
-.btn-secondary {
-    background: rgba(15, 15, 25, 0.8);
-    color: #90d0ff;
-}
-
+.btn-secondary { background: rgba(15, 15, 25, 0.8); color: #90d0ff; }
 .btn-secondary:hover {
     background: rgba(20, 20, 35, 0.9);
     box-shadow: 0 0 12px rgba(144, 208, 255, 0.3);
     border-color: rgba(144, 208, 255, 0.5);
 }
-
 .btn-sm { padding: 4px 10px; font-size: 0.75rem; margin-top: 8px; }
 
-/* Toggle auto-refresh */
+/* ===== Toggle auto-refresh ===== */
 .toggle-auto-refresh {
-    display: flex;
-    align-items: center;
-    gap: 8px;
-    font-size: 0.8rem;
-    color: #aaa;
-    cursor: pointer;
+    display: flex; align-items: center; gap: 8px;
+    font-size: 0.8rem; color: #aaa; cursor: pointer;
 }
-
 .toggle-auto-refresh input[type="checkbox"] {
-    width: 16px;
-    height: 16px;
+    width: 16px; height: 16px;
     cursor: pointer;
     accent-color: #6a1b9a;
 }
 
-/* Zone border-left colors (borderLeft only, según convención) */
-.zone-current { border-left: 3px solid rgba(106, 27, 185, 0.5); }
-.zone-recent { border-left: 3px solid rgba(76, 175, 80, 0.5); }
-.zone-history { border-left: 3px solid rgba(255, 152, 0, 0.5); }
+/* ===== KPI Cards ===== */
+.kpi-agents { border-left: 3px solid rgba(106, 27, 185, 0.5); }
+.kpi-alerts { border-left: 3px solid rgba(244, 67, 54, 0.5); }
+.kpi-comms  { border-left: 3px solid rgba(76, 175, 80, 0.5); }
+.kpi-logs   { border-left: 3px solid rgba(255, 152, 0, 0.5); }
 
-/* Status colors */
+/* ===== Agent Status Colors ===== */
+.agent-ok       { border-left: 3px solid rgba(76, 175, 80, 0.5); }
+.agent-running  { border-left: 3px solid rgba(33, 150, 89, 0.5); }
+.agent-timeout  { border-left: 3px solid rgba(255, 152, 0, 0.5); }
+.agent-idle     { border-left: 3px solid rgba(158, 158, 158, 0.5); }
+.agent-error    { border-left: 3px solid rgba(244, 67, 54, 0.5); }
+.agent-unknown  { border-left: 3px solid rgba(158, 158, 158, 0.5); }
+
+/* ===== Badge Severities ===== */
+.badge-critical { background: rgba(244, 67, 54, 0.2); color: #ff6b6b; border: 1px solid rgba(244, 67, 54, 0.4); }
+.badge-medium   { background: rgba(255, 152, 0, 0.2); color: #ffa726; border: 1px solid rgba(255, 152, 0, 0.4); }
+.badge-low      { background: rgba(76, 175, 80, 0.2); color: #4caf50; border: 1px solid rgba(76, 175, 80, 0.4); }
+.badge-info     { background: rgba(33, 150, 243, 0.2); color: #2196f3; border: 1px solid rgba(33, 150, 243, 0.4); }
+
+/* ===== Accordións ===== */
+.accordion { border-left: 3px solid rgba(158, 158, 158, 0.3); }
+.accordion:hover { border-left-color: rgba(158, 158, 158, 0.5); }
+.accordion-header:hover { background: rgba(25, 25, 45, 0.9); }
+.accordion-body.open { display: block; }
+.accordion-toggle { transition: transform 0.2s ease; }
+
+/* ===== Status colors ===== */
 .status-ok { color: #4caf50; }
 .status-warning { color: #ff9800; }
 .status-error { color: #f44336; }
 .status-loading { color: #9e9e9e; }
 
-/* Glow base */
-.dashboard { box-shadow: 0 0 12px rgba(90, 110, 154, 0.12); }
-.file-card { box-shadow: 0 0 8px rgba(90, 110, 154, 0.08); }
-.zone { box-shadow: 0 0 8px rgba(90, 110, 154, 0.08); }
-
-/* Hover unified */
-.file-card:hover {
+/* ===== Hover unified ===== */
+.kpi-card:hover,
+.agent-card:hover,
+.column-section:hover {
     transform: translateY(-3px);
     box-shadow: 0 4px 16px rgba(0, 0, 0, 0.4);
 }
-.zone:hover {
-    box-shadow: 0 4px 16px rgba(0, 0, 0, 0.4);
-}
+.accordion:hover { border-left-color: rgba(106, 27, 185, 0.4); }

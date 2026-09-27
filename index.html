@@ -9,6 +9,7 @@
 </head>
 <body>
     <div class="dashboard">
+        <!-- Header -->
         <header class="dashboard-header">
             <h1>🐈 Agentes Dashboard</h1>
             <div class="refresh-controls">
@@ -20,32 +21,31 @@
             </div>
         </header>
 
-        <main class="dashboard-content">
-            <!-- Estado actual (top) -->
-            <section class="zone zone-current">
-                <h2>📊 Estado Actual</h2>
-                <div class="zone-content" id="content-current">
-                    <p class="loading">Cargando estado...</p>
-                </div>
-            </section>
+        <!-- KPIs (2×2 grid) -->
+        <section class="kpi-section">
+            <h2>📊 KPIs del Sistema</h2>
+            <div id="kpi-grid" class="kpi-grid"></div>
+        </section>
 
-            <!-- Últimas 24h (medio) -->
-            <section class="zone zone-recent">
-                <h2>📋 Últimas 24h</h2>
-                <div class="zone-content" id="content-recent">
-                    <p class="loading">Cargando...</p>
-                </div>
-            </section>
+        <!-- Agent Cards -->
+        <section class="agent-section">
+            <h2>👥 Estado del Equipo</h2>
+            <div id="agent-cards" class="agent-grid"></div>
+        </section>
 
-            <!-- Histórico (abajo) -->
-            <section class="zone zone-history">
-                <h2>📚 Histórico</h2>
-                <div class="zone-content" id="content-history">
-                    <p class="loading">Cargando...</p>
-                </div>
-            </section>
-        </main>
+        <!-- Alerts & Comms (2-columnas) -->
+        <section class="alerts-section">
+            <h2>⚠️ Alertas & Comunicaciones</h2>
+            <div id="alerts-comms" class="alerts-comms-container"></div>
+        </section>
 
+        <!-- Logs (Acordeones) -->
+        <section class="logs-section">
+            <h2>📋 Logs (Acordeones)</h2>
+            <div id="accordion-container" class="accordion-container"></div>
+        </section>
+
+        <!-- Footer -->
         <footer class="dashboard-footer">
             <p>Monitor de agentes — datos de <a href="https://github.com/PabloSnchz/gw2-wallet-agents" target="_blank">gw2-wallet-agents</a></p>
             <span id="status-bar" class="status-loading"></span>
@@ -54,8 +54,10 @@
 
     <!-- marked.js v4 (CDN, no se commitea) -->
     <script src="https://cdn.jsdelivr.net/npm/marked/marked.min.js"></script>
-    <script src="js/config.js?v=4"></script>
-    <script src="js/fetcher.js?v=4"></script>
-    <script src="js/app.js?v=4"></script>
+    <script src="js/config.js?v=3"></script>
+    <script src="js/fetcher.js?v=3"></script>
+    <script src="js/parser.js?v=3"></script>
+    <script src="js/renderer.js?v=3"></script>
+    <script src="js/app.js?v=3"></script>
 </body>
 </html>
