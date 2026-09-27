@@ -1,0 +1,6 @@
+# vendor (CDN, no se commitea)
+vendor/
+
+# Sistema
+.DS_Store
+Thumbs.db

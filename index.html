@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>GW2 Agents Dashboard</title>
+    <link rel="stylesheet" href="css/main.css">
+    <link rel="stylesheet" href="css/theme.css">
+</head>
+<body>
+    <div class="dashboard">
+        <header class="dashboard-header">
+            <h1>🐈 Agentes Dashboard</h1>
+            <div class="refresh-controls">
+                <button id="btn-refresh" class="btn btn-secondary">🔄 Refrescar</button>
+                <label class="toggle-auto-refresh">
+                    <input type="checkbox" id="toggle-autorefresh">
+                    <span>Auto-refresh (5 min)</span>
+                </label>
+            </div>
+        </header>
+
+        <main class="dashboard-content">
+            <!-- Estado actual (top) -->
+            <section class="zone zone-current">
+                <h2>📊 Estado Actual</h2>
+                <div class="zone-content" id="content-current">
+                    <p class="loading">Cargando estado...</p>
+                </div>
+            </section>
+
+            <!-- Últimas 24h (medio) -->
+            <section class="zone zone-recent">
+                <h2>📋 Últimas 24h</h2>
+                <div class="zone-content" id="content-recent">
+                    <p class="loading">Cargando...</p>
+                </div>
+            </section>
+
+            <!-- Histórico (abajo) -->
+            <section class="zone zone-history">
+                <h2>📚 Histórico</h2>
+                <div class="zone-content" id="content-history">
+                    <p class="loading">Cargando...</p>
+                </div>
+            </section>
+        </main>
+
+        <footer class="dashboard-footer">
+            <p>Monitor de agentes — datos de <a href="https://github.com/PabloSnchz/gw2-wallet-agents" target="_blank">gw2-wallet-agents</a></p>
+            <span id="status-bar" class="status-loading"></span>
+        </footer>
+    </div>
+
+    <!-- marked.js v4 (CDN, no se commitea) -->
+    <script src="https://cdn.jsdelivr.net/npm/marked/marked.min.js"></script>
+    <script src="js/config.js"></script>
+    <script src="js/fetcher.js"></script>
+    <script src="js/app.js"></script>
+</body>
+</html>

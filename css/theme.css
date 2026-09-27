@@ -1,0 +1,74 @@
+/* theme.css - Skin: colores, bordes, hover, glow */
+
+/* Botones */
+.btn {
+    padding: 8px 16px;
+    border: 1px solid rgba(255,255,255,0.08);
+    border-radius: 6px;
+    background: rgba(20, 20, 35, 0.9);
+    color: #d0d0d0;
+    cursor: pointer;
+    font-size: 0.85rem;
+    transition: all 0.22s cubic-bezier(0.2, 0.9, 0.4, 1.1);
+}
+
+.btn:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 0 12px rgba(106, 27, 185, 0.3);
+    border-color: rgba(106, 27, 185, 0.5);
+}
+
+.btn-secondary {
+    background: rgba(15, 15, 25, 0.8);
+    color: #90d0ff;
+}
+
+.btn-secondary:hover {
+    background: rgba(20, 20, 35, 0.9);
+    box-shadow: 0 0 12px rgba(144, 208, 255, 0.3);
+    border-color: rgba(144, 208, 255, 0.5);
+}
+
+.btn-sm { padding: 4px 10px; font-size: 0.75rem; margin-top: 8px; }
+
+/* Toggle auto-refresh */
+.toggle-auto-refresh {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    font-size: 0.8rem;
+    color: #aaa;
+    cursor: pointer;
+}
+
+.toggle-auto-refresh input[type="checkbox"] {
+    width: 16px;
+    height: 16px;
+    cursor: pointer;
+    accent-color: #6a1b9a;
+}
+
+/* Zone border-left colors (borderLeft only, según convención) */
+.zone-current { border-left: 3px solid rgba(106, 27, 185, 0.5); }
+.zone-recent { border-left: 3px solid rgba(76, 175, 80, 0.5); }
+.zone-history { border-left: 3px solid rgba(255, 152, 0, 0.5); }
+
+/* Status colors */
+.status-ok { color: #4caf50; }
+.status-warning { color: #ff9800; }
+.status-error { color: #f44336; }
+.status-loading { color: #9e9e9e; }
+
+/* Glow base */
+.dashboard { box-shadow: 0 0 12px rgba(90, 110, 154, 0.12); }
+.file-card { box-shadow: 0 0 8px rgba(90, 110, 154, 0.08); }
+.zone { box-shadow: 0 0 8px rgba(90, 110, 154, 0.08); }
+
+/* Hover unified */
+.file-card:hover {
+    transform: translateY(-3px);
+    box-shadow: 0 4px 16px rgba(0, 0, 0, 0.4);
+}
+.zone:hover {
+    box-shadow: 0 4px 16px rgba(0, 0, 0, 0.4);
+}
