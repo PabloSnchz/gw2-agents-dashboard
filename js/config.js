@@ -31,5 +31,23 @@ const DASHBOARD_CONFIG = {
     // Genera URL raw de GitHub para un archivo
     getUrl(filename) {
         return `https://raw.githubusercontent.com/${this.repoOwner}/${this.repoName}/${this.branch}/${filename}`;
+    },
+
+    // Opción C' — GitHub Contents API (primary) para auto-detectar .md
+    getApiUrl() {
+        return `https://api.github.com/repos/${this.repoOwner}/${this.repoName}/contents?ref=${this.branch}`;
+    },
+
+    // Heurística de zonas para archivos descubiertos dinámicamente via API
+    getZoneForFile(filename) {
+        const f = filename.toUpperCase();
+        if (f.startsWith('TEAM_') || f.startsWith('ALERTS') || f.startsWith('COMMS')) return 'current';
+        if (f.startsWith('PRE_')) return 'history';
+        return 'recent'; // default: SESSION, BACKLOG, DECISIONS, y nuevos archivos
+    },
+
+    // Genera label legible a partir del nombre de archivo
+    getLabelForFile(filename) {
+        return filename.replace(/_/g, ' ').replace(/\.md$/i, '');
     }
 };

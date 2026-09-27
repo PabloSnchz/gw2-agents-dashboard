@@ -33,11 +33,15 @@ class MarkdownFetcher {
      */
     async fetchFile(filename, force = false) {
         const url = this.config.getUrl(filename);
-        const cacheKey = `${filename}:${new Date().toDateString()}`;
+        const cacheKey = filename;
+        const CACHE_TTL = 5 * 60 * 1000; // 5 minutos (anti rate-limit)
 
-        // Cache check (salvo force)
+        // Cache check con TTL (salvo force)
         if (!force && this.cache.has(cacheKey)) {
-            return this.cache.get(cacheKey);
+            const cached = this.cache.get(cacheKey);
+            if (Date.now() - cached.timestamp < CACHE_TTL) {
+                return cached.data;
+            }
         }
 
         try {
@@ -59,7 +63,7 @@ class MarkdownFetcher {
                 error: null
             };
 
-            this.cache.set(cacheKey, result);
+            this.cache.set(cacheKey, { data: result, timestamp: Date.now() });
             return result;
 
         } catch (error) {
@@ -79,11 +83,14 @@ class MarkdownFetcher {
     /**
      * Fetch todos los archivos configurados.
      * @param {boolean} force - forzar refresh
+     * @param {Array|null} fileList - lista de archivos a usar (auto-detectada via API)
+     *     Si es null, usa config.files (fallback hardcodeado)
      * @returns {Promise<Array>} resultados con metadata de zona y label
      */
-    async fetchAll(force = false) {
+    async fetchAll(force = false, fileList = null) {
+        const files = fileList || this.config.files;
         const results = [];
-        for (const file of this.config.files) {
+        for (const file of files) {
             const result = await this.fetchFile(file.name, force);
             results.push({
                 ...result,
@@ -92,5 +99,30 @@ class MarkdownFetcher {
             });
         }
         return results;
+    }
+
+    /**
+     * Opción C' — Auto-detecta archivos .md en el repo vía GitHub Contents API.
+     * Si la API falla (rate limit, network, etc.), retorna null para usar fallback.
+     */
+    async fetchFileList() {
+        const url = this.config.getApiUrl();
+        try {
+            const response = await fetch(url);
+            if (!response.ok) throw new Error('API ' + response.status);
+            const items = await response.json();
+
+            const mdFiles = items
+                .filter(item => item.name && item.name.endsWith('.md'))
+                .map(item => ({
+                    name: item.name,
+                    zone: this.config.getZoneForFile(item.name),
+                    label: this.config.getLabelForFile(item.name)
+                }));
+
+            return mdFiles.length > 0 ? mdFiles : null;
+        } catch (error) {
+            return null; // fallback a config.files
+        }
     }
 }

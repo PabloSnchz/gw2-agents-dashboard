@@ -41,7 +41,7 @@
 
         // Restaurar auto-refresh si estaba activo
         if (saved === 'true') {
-            autoRefreshTimer = setInterval(loadAll, config.autoRefreshInterval);
+            autoRefreshTimer = setInterval(() => loadAll(false), config.autoRefreshInterval);
         }
     }
 
@@ -51,7 +51,7 @@
         localStorage.setItem(config.autoRefreshKey, String(enabled));
 
         if (enabled) {
-            autoRefreshTimer = setInterval(loadAll, config.autoRefreshInterval);
+            autoRefreshTimer = setInterval(() => loadAll(false), config.autoRefreshInterval);
             showStatus('Auto-refresh activado (cada 5 min)', 'status-ok');
         } else {
             clearInterval(autoRefreshTimer);
@@ -61,13 +61,20 @@
     }
 
     // --- LOAD ALL ---
-    async function loadAll() {
+    async function loadAll(force = true) {
         showStatus('Cargando...', 'status-loading');
 
         // Limpiar zonas
         Object.values(elements.zones).forEach(zone => zone.innerHTML = '');
 
-        const results = await fetcher.fetchAll(true);
+        // Opción C' — API primary (auto-detect), fallback a 7 hardcodeados
+        let results;
+        const detectedFiles = await fetcher.fetchFileList();
+        if (detectedFiles) {
+            results = await fetcher.fetchAll(force, detectedFiles);
+        } else {
+            results = await fetcher.fetchAll(force);
+        }
 
         // Separar por zona
         const byZone = {
