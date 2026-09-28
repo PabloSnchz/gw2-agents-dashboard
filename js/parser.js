@@ -193,6 +193,109 @@ class DashboardParser {
     }
 
     /**
+     * Parsea COMMS_LOG.md → comunicaciones detalladas (activas + cerradas)
+     * KPIs: total, active, closed, pending, timeouts, resolved
+     *
+     * Modelo de datos:
+     *   { id, from, to, summary, status, statusLabel,
+     *     created, updated, sourceSection }
+     * status: 'pending' | 'timeout' | 'resolved' | 'inProgress' | 'error' | 'unknown'
+     */
+    static parseCommunications(md) {
+        const data = {
+            parseable: true,
+            total: 0,
+            active: 0,
+            closed: 0,
+            pending: 0,
+            inProgress: 0,
+            timeout: 0,
+            resolved: 0,
+            details: []
+        };
+
+        if (!md || typeof md !== 'string') {
+            return { parseable: false, ...data };
+        }
+
+        // Parsear "Comunicaciones activas"
+        const activeSection = this._extractSection(md, 'Comunicaciones activas');
+        if (activeSection) {
+            const rows = this._parseTable(activeSection);
+            rows.forEach(row => {
+                if (row.length >= 5) {
+                    data.total++;
+                    data.active++;
+                    const state = row[4] || '';
+                    const parsed = this._parseCommStatus(state);
+                    data.details.push({
+                        id: 'comm-' + data.total,
+                        from: this._cleanCell(row[1]),
+                        to: this._cleanCell(row[2]),
+                        summary: this._cleanCell(row[3], true),
+                        status: parsed.status,
+                        statusLabel: parsed.label,
+                        created: this._cleanCell(row[5]),
+                        updated: this._cleanCell(row[6]),
+                        sourceSection: 'activas'
+                    });
+                    if (parsed.status === 'pending') data.pending++;
+                    if (parsed.status === 'inProgress') data.inProgress++;
+                    if (parsed.status === 'timeout') data.timeout++;
+                }
+            });
+        }
+
+        // Parsear "Comunicaciones cerradas (últimas 24h)"
+        const closedSection = this._extractSection(md, 'Comunicaciones cerradas');
+        if (closedSection) {
+            const rows = this._parseTable(closedSection);
+            rows.forEach(row => {
+                if (row.length >= 5) {
+                    data.total++;
+                    data.closed++;
+                    const result = row[4] || '';
+                    const parsed = this._parseCommStatus(result);
+                    data.details.push({
+                        id: 'comm-' + data.total,
+                        from: this._cleanCell(row[1]),
+                        to: this._cleanCell(row[2]),
+                        summary: this._cleanCell(row[3], true),
+                        status: parsed.status,
+                        statusLabel: parsed.label,
+                        created: this._cleanCell(row[5]),
+                        closed: this._cleanCell(row[6]),
+                        sourceSection: 'cerradas'
+                    });
+                    if (parsed.status === 'resolved') data.resolved++;
+                    if (parsed.status === 'timeout') data.timeout++;
+                }
+            });
+        }
+
+        return data;
+    }
+
+    /** Limpia una celda de tabla: remueve backticks y comillas, opcional truncado */
+    static _cleanCell(cell, truncate = false) {
+        if (!cell) return '';
+        let cleaned = cell.replace(/[`]/g, '').trim();
+        if (truncate) cleaned = cleaned.substring(0, 200);
+        return cleaned;
+    }
+
+    /** Parsea el estado de una comunicación (emoji → status enum + label) */
+    static _parseCommStatus(text) {
+        if (/⏳|esperando/i.test(text)) return { status: 'pending', label: 'Esperando' };
+        if (/⏱|timeout/i.test(text)) return { status: 'timeout', label: 'Timeout' };
+        if (/consumido|completad/i.test(text)) return { status: 'resolved', label: 'Consumido' };
+        if (/✅/.test(text)) return { status: 'resolved', label: 'Respondido' };
+        if (/🔄|en progreso/i.test(text)) return { status: 'inProgress', label: 'En progreso' };
+        if (/❌|fallid/i.test(text)) return { status: 'error', label: 'Fallido' };
+        return { status: 'unknown', label: 'Desconocido' };
+    }
+
+    /**
      * Parsea SESSION_LOG.md → sesiones recientes + decisiones
      * KPIs: session count, last activity
      */

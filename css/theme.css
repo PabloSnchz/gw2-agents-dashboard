@@ -76,3 +76,33 @@
     box-shadow: 0 4px 16px rgba(0, 0, 0, 0.4);
 }
 .accordion:hover { border-left-color: rgba(106, 27, 185, 0.4); }
+
+/* ===== Comms KPI Cards ===== */
+.kpi-comms-active  { border-left: 3px solid rgba(76, 175, 80, 0.5); }
+.kpi-comms-pending { border-left: 3px solid rgba(255, 152, 0, 0.5); }
+.kpi-comms-closed  { border-left: 3px solid rgba(33, 150, 89, 0.5); }
+.kpi-comms-timeout { border-left: 3px solid rgba(244, 67, 54, 0.5); }
+
+/* ===== Comms Status Badges ===== */
+.badge-pending    { background: rgba(255, 152, 0, 0.2); color: #ffa726; border: 1px solid rgba(255, 152, 0, 0.4); }
+.badge-timeout    { background: rgba(244, 67, 54, 0.2); color: #ff6b6b; border: 1px solid rgba(244, 67, 54, 0.4); }
+.badge-resolved   { background: rgba(76, 175, 80, 0.2); color: #4caf50; border: 1px solid rgba(76, 175, 80, 0.4); }
+.badge-inprogress { background: rgba(33, 150, 243, 0.2); color: #2196f3; border: 1px solid rgba(33, 150, 243, 0.4); }
+.badge-error      { background: rgba(244, 67, 54, 0.2); color: #ff6b6b; border: 1px solid rgba(244, 67, 54, 0.4); }
+
+/* ===== Comms Table Hover ===== */
+.comm-row:hover {
+    background: rgba(20, 20, 35, 0.6);
+}
+
+/* ===== Comms Toolbar Hover ===== */
+.comms-filter-select:hover {
+    border-color: rgba(106, 27, 185, 0.4);
+    background: rgba(20, 20, 35, 0.9);
+}
+
+/* ===== Unified Hover para KPIs ===== */
+.comms-kpi-grid .kpi-card:hover {
+    transform: translateY(-3px);
+    box-shadow: 0 4px 16px rgba(0, 0, 0, 0.4);
+}

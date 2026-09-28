@@ -19,6 +19,10 @@
     // Estado
     let autoRefreshTimer = null;
 
+    // Estado de comunicaciones (sort + filtros, persistido con prefijo gn:)
+    let commsSortState = null;
+    let commsFilterState = { statusFilter: 'all', searchTerm: '' };
+
     // --- INIT ---
     init();
 
@@ -30,6 +34,17 @@
         // Event listeners
         elements.refreshBtn.addEventListener('click', () => loadAll(true));
         elements.autoRefreshToggle.addEventListener('change', toggleAutoRefresh);
+
+        // Comms filters + search (restaurados después de loadAll)
+        const savedSortKey = localStorage.getItem('gn:dashboard:comms:sort:key');
+        const savedSortDir = localStorage.getItem('gn:dashboard:comms:sort:dir');
+        if (savedSortKey && savedSortDir) {
+            commsSortState = { key: savedSortKey, direction: savedSortDir };
+        }
+        const savedFilterStatus = localStorage.getItem('gn:dashboard:comms:filter:status');
+        if (savedFilterStatus) {
+            commsFilterState.statusFilter = savedFilterStatus;
+        }
 
         // Cargar datos inmediatamente
         loadAll(true);
@@ -92,9 +107,14 @@
             kpiData.alerts = DashboardParser.parseAlerts(fileMap['ALERTS_LOG.md'].content);
         }
 
-        // COMMS_LOG.md → comunicaciones pendientes
+        // COMMS_LOG.md → comunicaciones pendientes (compact KPI)
         if (fileMap['COMMS_LOG.md'] && fileMap['COMMS_LOG.md'].success) {
             kpiData.comms = DashboardParser.parseComms(fileMap['COMMS_LOG.md'].content);
+        }
+
+        // COMMS_LOG.md → comunicaciones detalladas (activas + cerradas)
+        if (fileMap['COMMS_LOG.md'] && fileMap['COMMS_LOG.md'].success) {
+            kpiData.commsDetail = DashboardParser.parseCommunications(fileMap['COMMS_LOG.md'].content);
         }
 
         // SESSION_LOG.md → sesiones
@@ -117,6 +137,15 @@
         DashboardRenderer.renderAlertsAndComms(alertsData, commsData);
 
         DashboardRenderer.renderAccordions(fetchResults);
+
+        // Render comunicaciones detalladas (KPIs + toolbar + tabla)
+        if (kpiData.commsDetail && kpiData.commsDetail.parseable) {
+            window.commsData = kpiData.commsDetail;
+            DashboardRenderer.renderCommsKPIs(kpiData.commsDetail);
+            DashboardRenderer.renderCommsToolbar(commsFilterState);
+            DashboardRenderer.renderCommsTable(kpiData.commsDetail, commsSortState, commsFilterState);
+            attachCommsListeners();
+        }
 
         showStatus(`Última actualización: ${new Date().toLocaleTimeString()}`, 'status-ok');
     }
@@ -142,5 +171,56 @@
 
     window.retryAccordion = function(filename) {
         loadAll(true);
+    };
+
+    // --- COMMS LISTENERS ---
+    function attachCommsListeners() {
+        const filterSelect = $('comms-filter-status');
+        const searchInput = $('comms-search');
+
+        if (filterSelect) {
+            filterSelect.addEventListener('change', (e) => {
+                commsFilterState.statusFilter = e.target.value;
+                localStorage.setItem('gn:dashboard:comms:filter:status', e.target.value);
+                if (window.commsData) {
+                    DashboardRenderer.renderCommsTable(window.commsData, commsSortState, commsFilterState);
+                }
+            });
+        }
+
+        if (searchInput) {
+            searchInput.addEventListener('input', (e) => {
+                commsFilterState.searchTerm = e.target.value;
+                localStorage.setItem('gn:dashboard:comms:search', e.target.value);
+                // Debounce simple: no re-render on cada tecla si es muy rápido
+                if (window.commsData) {
+                    DashboardRenderer.renderCommsTable(window.commsData, commsSortState, commsFilterState);
+                }
+            });
+        }
+
+        // Close modal: outside click + Escape
+        const modal = $('comms-detail-modal');
+        if (modal) {
+            modal.addEventListener('click', (e) => {
+                if (e.target === modal) window.closeCommsModal();
+            });
+            modal.addEventListener('keydown', (e) => {
+                if (e.key === 'Escape') window.closeCommsModal();
+            });
+        }
+    }
+
+    // --- COMMS SORT (global para onclick en table headers) ---
+    window.applyCommsSort = function(key) {
+        if (!window.commsData) return;
+        if (commsSortState && commsSortState.key === key) {
+            commsSortState.direction = commsSortState.direction === 'asc' ? 'desc' : 'asc';
+        } else {
+            commsSortState = { key, direction: 'asc' };
+        }
+        localStorage.setItem('gn:dashboard:comms:sort:key', key);
+        localStorage.setItem('gn:dashboard:comms:sort:dir', commsSortState.direction);
+        DashboardRenderer.renderCommsTable(window.commsData, commsSortState, commsFilterState);
     };
 })();
