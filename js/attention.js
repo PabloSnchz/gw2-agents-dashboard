@@ -98,6 +98,17 @@ class DashboardAttention {
             }
         });
 
+        // 5) Escalados a Pablo (desde TEAM_STATUS.md) — al principio porque son lo más urgente
+        if (data.escalations && Array.isArray(data.escalations)) {
+            data.escalations.forEach(e => {
+                items.unshift({
+                    title: e.title,
+                    detail: e.detail,
+                    action: e.action
+                });
+            });
+        }
+
         return items.slice(0, 10);
     }
 

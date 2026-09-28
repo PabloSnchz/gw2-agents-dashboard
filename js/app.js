@@ -207,7 +207,10 @@
                 crons: kpiData.crons
             },
             backlog: fileMap['BACKLOG.md']?.success ? { content: fileMap['BACKLOG.md'].content } : null,
-            sessionLog: fileMap['SESSION_LOG.md']?.success ? { content: fileMap['SESSION_LOG.md'].content } : null
+            sessionLog: fileMap['SESSION_LOG.md']?.success ? { content: fileMap['SESSION_LOG.md'].content } : null,
+            escalations: fileMap['TEAM_STATUS.md']?.success 
+                ? DashboardParser.parseEscalations(fileMap['TEAM_STATUS.md'].content) 
+                : []
         });
 
         // Parsear CRON_SCHEDULE.md y DASHBOARD_PO_IDEAS.md

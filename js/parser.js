@@ -28,20 +28,42 @@ class DashboardParser {
         const tsMatch = md.match(/> Actualizado:?\s*(.+)/i);
         if (tsMatch) data.lastHeartbeat = tsMatch[1].trim();
 
-        // Parsear "Tareas en curso" → estados de agentes
-        const tareasSection = this._extractSection(md, 'Tareas en curso');
+        // Parsear "Estado de tareas" o "Tareas en curso" → estados de agentes
+        const tareasSection = this._extractSection(md, 'Estado de tareas') 
+                            || this._extractSection(md, 'Tareas en curso');
         if (tareasSection) {
-            // Parseo line-by-line: más robusto que regex con lookahead (que fallaba
-            // con $ + flag m en líneas intermedias)
             const agentLines = tareasSection.split('\n');
             let currentName = null;
             let currentDesc = '';
 
             for (const line of agentLines) {
-                // Detectar línea de agente principal: "- **name:**"
-                const agentMatch = line.match(/^(- )?\*\*([^*]+):\*\*/);
-                if (agentMatch) {
-                    // Guardar agente anterior
+                // Formato nuevo: "    default (Principal): ..." o "    product-owner: ..."
+                // Formato viejo: "- **Nombre:** ..."
+                let newName = null;
+                let afterColon = '';
+
+                // Intento 1: formato nuevo con "(Label)"
+                let m = line.match(/^\s{2,8}([a-z][a-z0-9_-]+)\s*\(([^)]+)\):\s*(.*)$/i);
+                if (m) {
+                    newName = `${m[1].trim()} (${m[2].trim()})`;
+                    afterColon = m[3].trim();
+                } else {
+                    // Intento 2: formato nuevo sin label "    product-owner:"
+                    m = line.match(/^\s{2,8}([a-z][a-z0-9_-]+):\s*(.*)$/i);
+                    if (m && !line.match(/^\s*-\s/)) {
+                        newName = m[1].trim();
+                        afterColon = m[2].trim();
+                    } else {
+                        // Intento 3: formato viejo "- **Nombre:**"
+                        m = line.match(/^(- )?\*\*([^*]+):\*\*/);
+                        if (m) {
+                            newName = m[2].trim();
+                            afterColon = line.substring(m[0].length).trim();
+                        }
+                    }
+                }
+
+                if (newName) {
                     if (currentName) {
                         const desc = currentDesc.trim();
                         data.agents.push({
@@ -50,17 +72,13 @@ class DashboardParser {
                             status: this._extractAgentStatus(desc)
                         });
                     }
-                    // Iniciar nuevo agente
-                    currentName = agentMatch[2].trim();
-                    // Extraer descripción restante de la línea (después de ":**")
-                    const afterColon = line.substring(agentMatch[0].length).trim();
+                    currentName = newName;
                     currentDesc = afterColon;
                 } else if (currentName && line.trim()) {
-                    // Sub-bullet o continuación de descripción
                     currentDesc += '\n' + line;
                 }
             }
-            // Guardar último agente
+
             if (currentName) {
                 const desc = currentDesc.trim();
                 data.agents.push({
@@ -551,5 +569,56 @@ class DashboardParser {
         }
 
         return data;
+    }
+
+    /**
+     * Parsea TEAM_STATUS.md buscando escalados a Pablo.
+     * Retorna un array de items con severidad "critical".
+     */
+    static parseEscalations(md) {
+        const items = [];
+        if (!md || typeof md !== 'string') return items;
+
+        const lines = md.split('\n');
+        lines.forEach(line => {
+            // "ESCALADO a Pablo" (con o sin markdown bold)
+            if (/ESCALADO a Pablo/i.test(line)) {
+                const clean = this._cleanCell(
+                    line.replace(/^\s*[-*🚨⚠️]+\s*/, '')
+                        .replace(/\*+/g, '')
+                        .replace(/^ESCALADO a Pablo[.:]?\s*/i, '')
+                );
+                if (clean.length > 10) {
+                    items.push({
+                        severity: 'critical',
+                        title: 'Escalado a Pablo',
+                        detail: clean.substring(0, 250),
+                        action: 'Requiere tu decisión'
+                    });
+                }
+            }
+            // "Requires Pablo" (no duplicar si ya matcheó ESCALADO)
+            else if (/Requires Pablo/i.test(line)) {
+                const clean = this._cleanCell(
+                    line.replace(/^\s*[-*🚨⚠️]+\s*/, '').replace(/\*+/g, '')
+                );
+                if (clean.length > 10) {
+                    items.push({
+                        severity: 'critical',
+                        title: 'Requiere OK de Pablo',
+                        detail: clean.substring(0, 250),
+                        action: 'Requiere tu decisión'
+                    });
+                }
+            }
+        });
+
+        // Deduplicar por detail
+        const seen = new Set();
+        return items.filter(i => {
+            if (seen.has(i.detail)) return false;
+            seen.add(i.detail);
+            return true;
+        });
     }
 }
