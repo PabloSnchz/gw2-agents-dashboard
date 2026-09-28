@@ -105,7 +105,7 @@ class DashboardRenderer {
         const alertItems = (alerts.details || []).slice(0, 5).map(a => `
             <div class="item-row">
                 <span class="badge ${this._severityBadgeClass(a.severity)}">
-                    ${this._severityIcon(a.severity)} ${a.severity}
+                    ${this._severityIcon(a.severity)} ${a.severity.replace(/[🔴🟡🟢⚠️]\s*/g, '').trim()}
                 </span>
                 <span class="item-text">${this._truncate(a.description || '', 100)}</span>
                 <span class="item-agent">${a.agent || ''}</span>
