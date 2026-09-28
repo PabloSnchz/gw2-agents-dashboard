@@ -168,3 +168,17 @@
     color: #b8a4d8;
     border: 1px solid rgba(106, 27, 185, 0.3);
 }
+
+
+/* ===== Timeline category hint ===== */
+.timeline-category-hint {
+    font-size: 0.78rem;
+    color: #7a8fa8;
+    font-style: italic;
+    margin-left: 4px;
+    flex: 1;
+    min-width: 0;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+}

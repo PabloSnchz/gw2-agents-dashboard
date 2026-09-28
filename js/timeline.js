@@ -43,6 +43,9 @@ class DashboardTimeline {
             return;
         }
 
+        // Actualizar el hint de categoría (texto a la derecha del dropdown)
+        this._updateCategoryHint(categoryFilter);
+
         const grouped = this._groupByDay(events);
         let html = '';
         for (const [dayLabel, dayEvents] of grouped) {
@@ -91,6 +94,39 @@ class DashboardTimeline {
             select.value = 'all';
             if (window.timelineState) window.timelineState.categoryFilter = 'all';
         }
+    }
+
+    /**
+     * Actualiza el texto hint a la derecha del dropdown de categoría.
+     * Muestra una descripción coloquial de qué tipo de registros se están viendo.
+     */
+    static _updateCategoryHint(categoryFilter) {
+        const hint = document.getElementById('timeline-category-hint');
+        if (!hint) return;
+
+        const map = {
+            'all': 'Mostrando todos los registros del período',
+            'feature': 'Commits que agregaron funcionalidad nueva',
+            'fix': 'Commits que arreglaron bugs o errores',
+            'docs': 'Commits que actualizaron documentación',
+            'chore': 'Commits de mantenimiento: ajustes internos sin cambios visibles',
+            'refactor': 'Commits que reorganizaron código sin cambiar funcionalidad',
+            'test': 'Commits que agregaron o modificaron tests',
+            'style': 'Commits de formato: estilos sin cambio de comportamiento',
+            'perf': 'Commits que mejoraron el rendimiento',
+            'ci': 'Commits relacionados con CI/CD (integración continua)',
+            'build': 'Commits relacionados con el build del proyecto',
+            'merge': 'Uniones de ramas de trabajo',
+            'revert': 'Reversiones de cambios anteriores',
+            'commit': 'Commits sin categoría específica',
+            'heartbeat': 'Registros automáticos del equipo (revisión periódica)',
+            'deploy': 'Subidas de código al servidor',
+            'error': 'Registros de errores y timeouts',
+            'decision': 'Decisiones importantes del equipo',
+            'event': 'Eventos generales del ecosistema'
+        };
+
+        hint.textContent = map[categoryFilter] || '';
     }
 
     static _parseSessionLog(md) {
