@@ -182,3 +182,17 @@
     text-overflow: ellipsis;
     white-space: nowrap;
 }
+
+
+/* ===== Attention Section Colors ===== */
+.attention-group--critical .attention-group-header { color: #ff6b6b; }
+.attention-group--critical .attention-item-title { color: #ff9d9d; }
+.attention-group--critical .attention-group-count { background: rgba(244, 67, 54, 0.2); color: #ff6b6b; }
+
+.attention-group--medium .attention-group-header { color: #ffa726; }
+.attention-group--medium .attention-item-title { color: #ffd39d; }
+.attention-group--medium .attention-group-count { background: rgba(255, 152, 0, 0.2); color: #ffa726; }
+
+.attention-group--low .attention-group-header { color: #4caf50; }
+.attention-group--low .attention-item-title { color: #a0ffc8; }
+.attention-group--low .attention-group-count { background: rgba(76, 175, 80, 0.2); color: #4caf50; }

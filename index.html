@@ -4,8 +4,8 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>GW2 Agents Dashboard</title>
-    <link rel="stylesheet" href="css/main.css?v=6">
-    <link rel="stylesheet" href="css/theme.css?v=6">
+    <link rel="stylesheet" href="css/main.css?v=7">
+    <link rel="stylesheet" href="css/theme.css?v=7">
 </head>
 <body>
     <div class="dashboard">
@@ -31,6 +31,12 @@
         <section class="agent-section">
             <h2>👥 Estado del Equipo</h2>
             <div id="agent-cards" class="agent-grid"></div>
+        </section>
+
+        <!-- Requiere tu atención -->
+        <section class="attention-section">
+            <h2>⚠️ Requiere tu atención</h2>
+            <div id="attention-container" class="attention-container"></div>
         </section>
 
         <!-- Timeline (Mientras no estabas) -->
@@ -120,6 +126,7 @@
     <script src="js/parser.js?v=6"></script>
     <script src="js/renderer.js?v=6"></script>
     <script src="js/timeline.js?v=5"></script>
-    <script src="js/app.js?v=6"></script>
+    <script src="js/attention.js?v=1"></script>
+    <script src="js/app.js?v=7"></script>
 </body>
 </html>

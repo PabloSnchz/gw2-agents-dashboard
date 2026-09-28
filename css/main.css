@@ -368,6 +368,82 @@ body {
     margin-top: 4px;
 }
 
+/* ===== Requiere tu atención ===== */
+.attention-section { margin-top: 24px; }
+.attention-section h2 { font-size: 1.1rem; margin-bottom: 16px; }
+
+.attention-container {
+    background: rgba(15, 15, 25, 0.8);
+    border: 1px solid rgba(255,255,255,0.08);
+    border-radius: 8px;
+    padding: 12px 16px;
+}
+
+.attention-empty {
+    text-align: center;
+    padding: 16px;
+    color: #4caf50;
+    font-size: 0.9rem;
+}
+
+.attention-section-group {
+    margin-bottom: 16px;
+}
+.attention-section-group:last-child {
+    margin-bottom: 0;
+}
+
+.attention-group-header {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    font-size: 0.78rem;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    margin-bottom: 8px;
+}
+
+.attention-group-count {
+    background: rgba(255,255,255,0.08);
+    padding: 1px 8px;
+    border-radius: 10px;
+    font-size: 0.72rem;
+}
+
+.attention-list {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+}
+
+.attention-item {
+    padding: 10px 0;
+    border-bottom: 1px solid rgba(255,255,255,0.04);
+}
+.attention-item:last-child {
+    border-bottom: none;
+}
+
+.attention-item-title {
+    font-size: 0.85rem;
+    color: #d0d0d0;
+    margin-bottom: 4px;
+}
+
+.attention-item-detail {
+    font-size: 0.75rem;
+    color: #888;
+    margin-bottom: 4px;
+    line-height: 1.4;
+}
+
+.attention-item-action {
+    font-size: 0.72rem;
+    color: #7a8fa8;
+    font-style: italic;
+}
+
 /* Responsive */
 @media (max-width: 768px) {
     .dashboard-header { flex-direction: column; gap: 12px; }

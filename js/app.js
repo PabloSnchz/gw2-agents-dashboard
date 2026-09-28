@@ -163,6 +163,18 @@
             );
         }
 
+        // Render del Panel "Requiere tu atención"
+        DashboardAttention.render({
+            alerts: kpiData.alerts,
+            comms: kpiData.commsDetail,
+            teamStatus: {
+                agents: kpiData.agents,
+                crons: kpiData.crons
+            },
+            backlog: fileMap['BACKLOG.md']?.success ? { content: fileMap['BACKLOG.md'].content } : null,
+            sessionLog: fileMap['SESSION_LOG.md']?.success ? { content: fileMap['SESSION_LOG.md'].content } : null
+        });
+
         showStatus(`Última actualización: ${new Date().toLocaleTimeString()}`, 'status-ok');
     }
 
