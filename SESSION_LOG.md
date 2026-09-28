@@ -30,3 +30,22 @@
 - CSS 2 capas (main.css layout + theme.css skin) — apropiado para un dashboard standalone, no aplica la regla de 3 capas de gw2-wallet-ligero.
 - localStorage prefijo `gn:` para auto-refresh toggle (siguiendo convención del proyecto).
 - Cache en memoria con TTL diaria en fetcher.js (evita rate limits de raw.githubusercontent.com).
+
+## [2026-09-27] Rediseño Sección Comunicaciones
+
+### Qué se hizo
+- ✅ `parser.js`: método `parseCommunications()` — parsea secciones "Comunicaciones activas" + "Comunicaciones cerradas (últimas 24h)" en un solo modelo unificado con id, from, to, summary, status (enum), statusLabel, created, updated, sourceSection, closed.
+- ✅ `renderer.js`: métodos `renderCommsKPIs()` (4 KPI cards: Activas/Pendientes/Cerradas/Timeouts), `renderCommsToolbar()` (select de filtro + search input), `renderCommsTable()` (tabla sortable con 6 columnas + indicadores de orden), `renderCommsDetail()` (modal de detalle con grid de campos).
+- ✅ `app.js`: wiring completo — parseo con `parseCommunications()`, render de KPIs + toolbar + tabla, listeners para filtros/search/sort, estado persistido con prefijo `gn:dashboard:comms:*` (sort:key, sort:dir, filter:status, search), función `window.applyCommsSort()` expuesta globalmente.
+- ✅ `index.html`: nueva `<section class="comms-section">` con toolbar, KPI grid, tabla; `<div class="modal-overlay">` para detalle; cache-busting `?v=3 → ?v=4`.
+- ✅ `main.css`: estilos estructurales — `.comms-toolbar`, `.comms-kpi-grid`, `.comms-table`, `.comm-row`, `.modal-overlay`, `.modal`, `.comm-detail-grid`.
+- ✅ `theme.css`: badges semánticos (`.badge-pending/orange`, `.badge-timeout/red`, `.badge-resolved/green`, `.badge-inprogress/blue`, `.badge-error/red`), KPIs con `border-left` coloreado, hover unificado.
+- ✅ Branch `feature/comms-redesign` mergeada a `main`, push exitoso.
+
+### Qué se rompió
+- Nada. Cambios extendidos (no reescritos). `parseComms()` preservado para backward compatibility con KPI compacto + preview.
+
+### Qué quedó pendiente
+- Review de PRs del Code Reviewer (bug de session_id mismatch → timeout). Validación manual realizada por Principal.
+- Posible futuro enhancement: thread-level detail (mensajes individuales) — COMMS_LOG.md actual solo tiene filas de resumen.
+- Auto-refresh no incluye comms section (solo refetch completo en loadAll). Pendiente futuro: websocket/live-update para alerts/comms.
