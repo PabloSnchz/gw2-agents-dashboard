@@ -4,8 +4,8 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>GW2 Agents Dashboard</title>
-    <link rel="stylesheet" href="css/main.css?v=7">
-    <link rel="stylesheet" href="css/theme.css?v=7">
+    <link rel="stylesheet" href="css/main.css?v=8">
+    <link rel="stylesheet" href="css/theme.css?v=8">
 </head>
 <body>
     <div class="dashboard">
@@ -21,81 +21,110 @@
             </div>
         </header>
 
-        <!-- KPIs (2×2 grid) -->
-        <section class="kpi-section">
-            <h2>📊 KPIs del Sistema</h2>
-            <div id="kpi-grid" class="kpi-grid"></div>
-        </section>
+        <!-- Tabs nav -->
+        <nav class="dashboard-tabs">
+            <button class="dashboard-tab active" data-tab="resumen" onclick="setDashboardTab('resumen')">📊 Resumen</button>
+            <button class="dashboard-tab" data-tab="equipo" onclick="setDashboardTab('equipo')">👥 Equipo</button>
+            <button class="dashboard-tab" data-tab="historial" onclick="setDashboardTab('historial')">📅 Historial</button>
+            <button class="dashboard-tab" data-tab="proximas" onclick="setDashboardTab('proximas')">⏰ Próximas</button>
+            <button class="dashboard-tab" data-tab="logs" onclick="setDashboardTab('logs')">📋 Logs</button>
+        </nav>
 
-        <!-- Agent Cards -->
-        <section class="agent-section">
-            <h2>👥 Estado del Equipo</h2>
-            <div id="agent-cards" class="agent-grid"></div>
-        </section>
+        <!-- Tab: Resumen -->
+        <div class="dashboard-tab-content active" data-tab-content="resumen">
+            <section class="kpi-section">
+                <h2>📊 KPIs del Sistema</h2>
+                <div id="kpi-grid" class="kpi-grid"></div>
+            </section>
 
-        <!-- Requiere tu atención -->
-        <section class="attention-section">
-            <h2>⚠️ Requiere tu atención</h2>
-            <div id="attention-container" class="attention-container"></div>
-        </section>
+            <section class="attention-section">
+                <h2>⚠️ Requiere tu atención</h2>
+                <div id="attention-container" class="attention-container"></div>
+            </section>
+        </div>
 
-        <!-- Timeline (Mientras no estabas) -->
-        <section class="timeline-section">
-            <h2>📅 Mientras no estabas</h2>
-            <div class="timeline-controls">
-                <div class="timeline-range-group">
-                    <button class="timeline-range-btn" data-range="1h" onclick="setTimelineRange('1h')">1h</button>
-                    <button class="timeline-range-btn active" data-range="8h" onclick="setTimelineRange('8h')">8h</button>
-                    <button class="timeline-range-btn" data-range="24h" onclick="setTimelineRange('24h')">24h</button>
-                    <button class="timeline-range-btn" data-range="7d" onclick="setTimelineRange('7d')">7d</button>
+        <!-- Tab: Equipo -->
+        <div class="dashboard-tab-content" data-tab-content="equipo">
+            <section class="agent-section">
+                <h2>👥 Estado del Equipo</h2>
+                <div id="agent-cards" class="agent-grid"></div>
+            </section>
+        </div>
+
+        <!-- Tab: Historial -->
+        <div class="dashboard-tab-content" data-tab-content="historial">
+            <section class="timeline-section">
+                <h2>📅 Mientras no estabas</h2>
+                <div class="timeline-controls">
+                    <div class="timeline-range-group">
+                        <button class="timeline-range-btn" data-range="1h" onclick="setTimelineRange('1h')">1h</button>
+                        <button class="timeline-range-btn active" data-range="8h" onclick="setTimelineRange('8h')">8h</button>
+                        <button class="timeline-range-btn" data-range="24h" onclick="setTimelineRange('24h')">24h</button>
+                        <button class="timeline-range-btn" data-range="7d" onclick="setTimelineRange('7d')">7d</button>
+                    </div>
+                    <select class="timeline-agent-filter" onchange="setTimelineAgent(this.value)">
+                        <option value="all">Todos los agentes</option>
+                        <option value="principal">Principal</option>
+                        <option value="po">PO</option>
+                        <option value="documenter">Documentador</option>
+                        <option value="reviewer">Code Reviewer</option>
+                        <option value="architect">Arquitecto</option>
+                        <option value="admin">Admin</option>
+                    </select>
+                    <select class="timeline-agent-filter" id="timeline-category-filter" onchange="setTimelineCategory(this.value)">
+                        <option value="all" selected>Todas las categorías</option>
+                    </select>
+                    <span id="timeline-category-hint" class="timeline-category-hint"></span>
                 </div>
-                <select class="timeline-agent-filter" onchange="setTimelineAgent(this.value)">
-                    <option value="all">Todos los agentes</option>
-                    <option value="principal">Principal</option>
-                    <option value="po">PO</option>
-                    <option value="documenter">Documentador</option>
-                    <option value="reviewer">Code Reviewer</option>
-                    <option value="architect">Arquitecto</option>
-                    <option value="admin">Admin</option>
-                </select>
-                <select class="timeline-agent-filter" id="timeline-category-filter" onchange="setTimelineCategory(this.value)">
-                    <option value="all" selected>Todas las categorías</option>
-                </select>
-                <span id="timeline-category-hint" class="timeline-category-hint"></span>
-            </div>
-            <div id="timeline-container" class="timeline-container"></div>
-        </section>
+                <div id="timeline-container" class="timeline-container"></div>
+            </section>
+        </div>
 
-        <!-- Alerts & Comms (2-columnas) -->
-        <section class="alerts-section">
-            <h2>⚠️ Alertas & Comunicaciones</h2>
-            <div id="alerts-comms" class="alerts-comms-container"></div>
-        </section>
+        <!-- Tab: Próximas -->
+        <div class="dashboard-tab-content" data-tab-content="proximas">
+            <section class="upcoming-section">
+                <h2>⏰ Próximas horas</h2>
+                <div id="upcoming-container" class="upcoming-container">
+                    <p class="loading">Próximamente: panel de próximas horas en construcción.</p>
+                </div>
+            </section>
+        </div>
 
-        <!-- Comunicaciones Detalladas -->
-        <section class="comms-section">
-            <h2>💬 Comunicaciones</h2>
-            <div id="comms-toolbar" class="comms-toolbar"></div>
-            <div id="comms-kpis" class="comms-kpi-grid"></div>
-            <div class="comms-table-wrapper">
-                <table class="comms-table">
-                    <thead>
-                        <tr>
-                            <th onclick="sortComms('from')">De ↕</th>
-                            <th onclick="sortComms('to')">A ↕</th>
-                            <th onclick="sortComms('summary')">Pedido ↕</th>
-                            <th onclick="sortComms('status')">Estado ↕</th>
-                            <th onclick="sortComms('created')">Creado ↕</th>
-                            <th onclick="sortComms('updated')">Actualizado ↕</th>
-                        </tr>
-                    </thead>
-                    <tbody id="comms-tbody">
-                    </tbody>
-                </table>
-            </div>
-        </section>
+        <!-- Tab: Logs -->
+        <div class="dashboard-tab-content" data-tab-content="logs">
+            <section class="alerts-section">
+                <h2>⚠️ Alertas & Comunicaciones</h2>
+                <div id="alerts-comms" class="alerts-comms-container"></div>
+            </section>
 
-        <!-- Comms Detail Modal -->
+            <section class="comms-section">
+                <h2>💬 Comunicaciones</h2>
+                <div id="comms-toolbar" class="comms-toolbar"></div>
+                <div id="comms-kpis" class="comms-kpi-grid"></div>
+                <div class="comms-table-wrapper">
+                    <table class="comms-table">
+                        <thead>
+                            <tr>
+                                <th onclick="sortComms('from')">De ↕</th>
+                                <th onclick="sortComms('to')">A ↕</th>
+                                <th onclick="sortComms('summary')">Pedido ↕</th>
+                                <th onclick="sortComms('status')">Estado ↕</th>
+                                <th onclick="sortComms('created')">Creado ↕</th>
+                                <th onclick="sortComms('updated')">Actualizado ↕</th>
+                            </tr>
+                        </thead>
+                        <tbody id="comms-tbody"></tbody>
+                    </table>
+                </div>
+            </section>
+
+            <section class="logs-section">
+                <h2>📋 Logs (Acordeones)</h2>
+                <div id="accordion-container" class="accordion-container"></div>
+            </section>
+        </div>
+
+        <!-- Comms Detail Modal (fuera de tabs) -->
         <div id="comms-detail-modal" class="modal-overlay" style="display:none;">
             <div class="modal" tabindex="0">
                 <div class="modal-header">
@@ -106,12 +135,6 @@
             </div>
         </div>
 
-        <!-- Logs (Acordeones) -->
-        <section class="logs-section">
-            <h2>📋 Logs (Acordeones)</h2>
-            <div id="accordion-container" class="accordion-container"></div>
-        </section>
-
         <!-- Footer -->
         <footer class="dashboard-footer">
             <p>Monitor de agentes — datos de <a href="https://github.com/PabloSnchz/gw2-wallet-agents" target="_blank">gw2-wallet-agents</a></p>
@@ -121,12 +144,12 @@
 
     <!-- marked.js v4 (CDN, no se commitea) -->
     <script src="https://cdn.jsdelivr.net/npm/marked/marked.min.js"></script>
-    <script src="js/config.js?v=6"></script>
-    <script src="js/fetcher.js?v=6"></script>
-    <script src="js/parser.js?v=6"></script>
-    <script src="js/renderer.js?v=6"></script>
-    <script src="js/timeline.js?v=5"></script>
-    <script src="js/attention.js?v=3"></script>
-    <script src="js/app.js?v=7"></script>
+    <script src="js/config.js?v=7"></script>
+    <script src="js/fetcher.js?v=7"></script>
+    <script src="js/parser.js?v=7"></script>
+    <script src="js/renderer.js?v=7"></script>
+    <script src="js/timeline.js?v=6"></script>
+    <script src="js/attention.js?v=4"></script>
+    <script src="js/app.js?v=8"></script>
 </body>
 </html>
