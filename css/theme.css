@@ -123,3 +123,48 @@
 
 .timeline-event--error .timeline-event__title { color: #ff9d9d; }
 .timeline-event--deploy .timeline-event__title { color: #a0ffc8; }
+
+
+/* ===== Timeline v2 — Extras ===== */
+.timeline-day-separator {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    padding: 12px 16px 8px;
+    font-size: 0.72rem;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    color: #666;
+}
+.timeline-day-separator::before,
+.timeline-day-separator::after {
+    content: '';
+    flex: 1;
+    height: 1px;
+    background: rgba(255,255,255,0.06);
+}
+
+.timeline-event__header {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    margin-bottom: 4px;
+    flex-wrap: wrap;
+}
+.timeline-event__type {
+    font-size: 0.68rem;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+    color: #7a8fa8;
+}
+.timeline-event__scope {
+    font-family: 'Consolas', 'Monaco', monospace;
+    font-size: 0.68rem;
+    padding: 1px 6px;
+    border-radius: 3px;
+    background: rgba(106, 27, 185, 0.15);
+    color: #b8a4d8;
+    border: 1px solid rgba(106, 27, 185, 0.3);
+}
