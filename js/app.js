@@ -27,55 +27,7 @@
     const TAB_STORAGE_KEY = 'gn:dashboard:active-tab';
     const VALID_TABS = ['resumen', 'equipo', 'historial', 'proximas', 'logs'];
 
-    // --- INIT ---
-    init();
-
-    function init() {
-        // Restaurar tab activo (desde hash o localStorage)
-        const hashTab = location.hash.replace('#', '').toLowerCase();
-        const savedTab = localStorage.getItem(TAB_STORAGE_KEY);
-        const initialTab = VALID_TABS.includes(hashTab) ? hashTab
-                          : VALID_TABS.includes(savedTab) ? savedTab
-                          : 'resumen';
-        setDashboardTab(initialTab, true);
-
-        // Listener de hashchange para actualizar tab
-        window.addEventListener('hashchange', () => {
-            const t = location.hash.replace('#', '').toLowerCase();
-            if (VALID_TABS.includes(t) && t !== getActiveTab()) {
-                setDashboardTab(t, true);
-            }
-        });
-
-        // Cargar estado guardado de auto-refresh
-        const saved = localStorage.getItem(config.autoRefreshKey);
-        elements.autoRefreshToggle.checked = saved === 'true';
-
-        // Event listeners
-        elements.refreshBtn.addEventListener('click', () => loadAll(true));
-        elements.autoRefreshToggle.addEventListener('change', toggleAutoRefresh);
-
-        // Comms filters + search (restaurados después de loadAll)
-        const savedSortKey = localStorage.getItem('gn:dashboard:comms:sort:key');
-        const savedSortDir = localStorage.getItem('gn:dashboard:comms:sort:dir');
-        if (savedSortKey && savedSortDir) {
-            commsSortState = { key: savedSortKey, direction: savedSortDir };
-        }
-        const savedFilterStatus = localStorage.getItem('gn:dashboard:comms:filter:status');
-        if (savedFilterStatus) {
-            commsFilterState.statusFilter = savedFilterStatus;
-        }
-
-        // Cargar datos inmediatamente
-        loadAll(true);
-
-        // Restaurar auto-refresh si estaba activo
-        if (saved === 'true') {
-            autoRefreshTimer = setInterval(() => loadAll(false), config.autoRefreshInterval);
-        }
-    }
-
-    // --- TABS ---
+    // ============ TABS (definido PRIMERO, antes de init) ============
     window.setDashboardTab = function(tabName, silent) {
         if (!VALID_TABS.includes(tabName)) return;
 
@@ -96,9 +48,6 @@
         document.querySelectorAll('.dashboard-tab-content').forEach(content => {
             content.classList.toggle('active', content.dataset.tabContent === tabName);
         });
-
-        // Scroll al tope
-        window.scrollTo({ top: 0, behavior: 'smooth' });
     };
 
     function getActiveTab() {
@@ -106,7 +55,55 @@
         return active ? active.dataset.tab : 'resumen';
     }
 
-    // --- AUTO REFRESH ---
+    // ============ INIT ============
+    init();
+
+    function init() {
+        // Restaurar tab activo (desde hash o localStorage)
+        const hashTab = location.hash.replace('#', '').toLowerCase();
+        const savedTab = localStorage.getItem(TAB_STORAGE_KEY);
+        const initialTab = VALID_TABS.includes(hashTab) ? hashTab
+                          : VALID_TABS.includes(savedTab) ? savedTab
+                          : 'resumen';
+        setDashboardTab(initialTab, true);
+
+        // Listener de hashchange
+        window.addEventListener('hashchange', () => {
+            const t = location.hash.replace('#', '').toLowerCase();
+            if (VALID_TABS.includes(t) && t !== getActiveTab()) {
+                setDashboardTab(t, true);
+            }
+        });
+
+        // Cargar estado guardado de auto-refresh
+        const saved = localStorage.getItem(config.autoRefreshKey);
+        elements.autoRefreshToggle.checked = saved === 'true';
+
+        // Event listeners
+        elements.refreshBtn.addEventListener('click', () => loadAll(true));
+        elements.autoRefreshToggle.addEventListener('change', toggleAutoRefresh);
+
+        // Comms filters + search
+        const savedSortKey = localStorage.getItem('gn:dashboard:comms:sort:key');
+        const savedSortDir = localStorage.getItem('gn:dashboard:comms:sort:dir');
+        if (savedSortKey && savedSortDir) {
+            commsSortState = { key: savedSortKey, direction: savedSortDir };
+        }
+        const savedFilterStatus = localStorage.getItem('gn:dashboard:comms:filter:status');
+        if (savedFilterStatus) {
+            commsFilterState.statusFilter = savedFilterStatus;
+        }
+
+        // Cargar datos inmediatamente
+        loadAll(true);
+
+        // Restaurar auto-refresh si estaba activo
+        if (saved === 'true') {
+            autoRefreshTimer = setInterval(() => loadAll(false), config.autoRefreshInterval);
+        }
+    }
+
+    // ============ AUTO REFRESH ============
     function toggleAutoRefresh(e) {
         const enabled = e.target.checked;
         localStorage.setItem(config.autoRefreshKey, String(enabled));
@@ -121,7 +118,7 @@
         }
     }
 
-    // --- LOAD ALL ---
+    // ============ LOAD ALL ============
     async function loadAll(force = true) {
         showStatus('Cargando...', 'status-loading');
 
@@ -166,7 +163,7 @@
 
         const commits = await fetcher.fetchCommits(50).catch(() => []);
 
-        // --- Render ---
+        // Render KPIs
         DashboardRenderer.renderKPIs({
             agents: kpiData.agents,
             alerts: kpiData.alerts,
@@ -216,13 +213,13 @@
         showStatus(`Última actualización: ${new Date().toLocaleTimeString()}`, 'status-ok');
     }
 
-    // --- STATUS BAR ---
+    // ============ STATUS BAR ============
     function showStatus(message, className) {
         elements.statusBar.textContent = message;
         elements.statusBar.className = className;
     }
 
-    // --- RETRY ---
+    // ============ RETRY ============
     window.retryLoad = function() {
         loadAll(true);
     };
@@ -239,7 +236,7 @@
         loadAll(true);
     };
 
-    // --- COMMS LISTENERS ---
+    // ============ COMMS LISTENERS ============
     function attachCommsListeners() {
         const filterSelect = $('comms-filter-status');
         const searchInput = $('comms-search');
@@ -275,7 +272,7 @@
         }
     }
 
-    // --- COMMS SORT (global para onclick en table headers) ---
+    // ============ COMMS SORT ============
     window.applyCommsSort = function(key) {
         if (!window.commsData) return;
         if (commsSortState && commsSortState.key === key) {
