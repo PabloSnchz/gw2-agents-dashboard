@@ -82,15 +82,14 @@ class DashboardTimeline {
 
         select.innerHTML = html;
 
-        // Restaurar valor si sigue existiendo
-        if (currentValue !== 'all' && counts[currentValue]) {
-            select.value = currentValue;
+        // Sincronizar state con el dropdown.
+        // Prioridad: state actual → sino 'all'.
+        const stateValue = (window.timelineState && window.timelineState.categoryFilter) || 'all';
+        if (stateValue !== 'all' && counts[stateValue]) {
+            select.value = stateValue;
         } else {
             select.value = 'all';
-            // Si el filtro quedó huérfano, resetear el state
-            if (window.timelineState && window.timelineState.categoryFilter !== 'all') {
-                window.timelineState.categoryFilter = 'all';
-            }
+            if (window.timelineState) window.timelineState.categoryFilter = 'all';
         }
     }
 
