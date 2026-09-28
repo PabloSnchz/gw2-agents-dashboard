@@ -332,11 +332,25 @@ class DashboardParser {
 
     // --- Util ---
 
-    /** Extrae el contenido de una sección (## Heading) hasta el siguiente ## */
+    /**
+     * Extrae el contenido de una sección (## Heading) hasta el siguiente ##.
+     * FIX: usa ^## con flag m para no confundirse con sub-secciones ### y
+     * no depender de lookahead frágil (que cortaba el contenido antes de tiempo).
+     */
     static _extractSection(md, heading) {
-        const pattern = new RegExp(`## ${heading}\\s*\\n([\\s\\S]*?)(?=\\n##|\\n\\n##|\\n$)`, 'i');
-        const match = md.match(pattern);
-        return match ? match[1] : null;
+        // Buscar la línea que empieza con "## heading" (case-insensitive)
+        const startRegex = new RegExp(`^##\\s+${heading}[^\\n]*\\n`, 'im');
+        const startMatch = md.match(startRegex);
+        if (!startMatch) return null;
+
+        const startIdx = startMatch.index + startMatch[0].length;
+        const rest = md.substring(startIdx);
+
+        // Buscar el próximo "## " al inicio de línea
+        const endMatch = rest.match(/^##\s/m);
+        const sectionContent = endMatch ? rest.substring(0, endMatch.index) : rest;
+
+        return sectionContent;
     }
 
     /** Parsea una tabla markdown → array de arrays (sin header ni separador) */
