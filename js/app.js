@@ -1,7 +1,7 @@
 /**
  * js/app.js
  * Orquestación del dashboard: fetch paralelo → parser KPIs → renderer estructurado.
- * KPIs + agent cards arriba, alertas/comms en 2-columnas, logs en acordeones.
+ * Tabs: Resumen / Equipo / Historial / Próximas / Logs.
  */
 
 (() => {
@@ -23,10 +23,30 @@
     let commsSortState = null;
     let commsFilterState = { statusFilter: 'all', searchTerm: '' };
 
+    // Estado del tab activo
+    const TAB_STORAGE_KEY = 'gn:dashboard:active-tab';
+    const VALID_TABS = ['resumen', 'equipo', 'historial', 'proximas', 'logs'];
+
     // --- INIT ---
     init();
 
     function init() {
+        // Restaurar tab activo (desde hash o localStorage)
+        const hashTab = location.hash.replace('#', '').toLowerCase();
+        const savedTab = localStorage.getItem(TAB_STORAGE_KEY);
+        const initialTab = VALID_TABS.includes(hashTab) ? hashTab
+                          : VALID_TABS.includes(savedTab) ? savedTab
+                          : 'resumen';
+        setDashboardTab(initialTab, true);
+
+        // Listener de hashchange para actualizar tab
+        window.addEventListener('hashchange', () => {
+            const t = location.hash.replace('#', '').toLowerCase();
+            if (VALID_TABS.includes(t) && t !== getActiveTab()) {
+                setDashboardTab(t, true);
+            }
+        });
+
         // Cargar estado guardado de auto-refresh
         const saved = localStorage.getItem(config.autoRefreshKey);
         elements.autoRefreshToggle.checked = saved === 'true';
@@ -55,6 +75,37 @@
         }
     }
 
+    // --- TABS ---
+    window.setDashboardTab = function(tabName, silent) {
+        if (!VALID_TABS.includes(tabName)) return;
+
+        // Guardar en localStorage
+        localStorage.setItem(TAB_STORAGE_KEY, tabName);
+
+        // Actualizar hash (si no es silencioso)
+        if (!silent && location.hash !== '#' + tabName) {
+            location.hash = tabName;
+        }
+
+        // Actualizar botones activos
+        document.querySelectorAll('.dashboard-tab').forEach(btn => {
+            btn.classList.toggle('active', btn.dataset.tab === tabName);
+        });
+
+        // Mostrar/ocultar contenidos
+        document.querySelectorAll('.dashboard-tab-content').forEach(content => {
+            content.classList.toggle('active', content.dataset.tabContent === tabName);
+        });
+
+        // Scroll al tope
+        window.scrollTo({ top: 0, behavior: 'smooth' });
+    };
+
+    function getActiveTab() {
+        const active = document.querySelector('.dashboard-tab.active');
+        return active ? active.dataset.tab : 'resumen';
+    }
+
     // --- AUTO REFRESH ---
     function toggleAutoRefresh(e) {
         const enabled = e.target.checked;
@@ -74,18 +125,14 @@
     async function loadAll(force = true) {
         showStatus('Cargando...', 'status-loading');
 
-        // Opción C' — API discovery + fallback hardcodeado
-        let results;
         const detectedFiles = await fetcher.fetchFileList();
         const fetchResults = detectedFiles
             ? await fetcher.fetchAll(force, detectedFiles)
             : await fetcher.fetchAll(force);
 
-        // Build lookup por filename para el parser
         const fileMap = {};
         fetchResults.forEach(r => { fileMap[r.filename] = r; });
 
-        // --- Parse KPIs estructurados ---
         const kpiData = {
             agents: [],
             alerts: null,
@@ -93,7 +140,6 @@
             sessions: null
         };
 
-        // TEAM_STATUS.md → agent states + crons
         if (fileMap['TEAM_STATUS.md'] && fileMap['TEAM_STATUS.md'].success) {
             const parsed = DashboardParser.parseTeamStatus(fileMap['TEAM_STATUS.md'].content);
             if (parsed.parseable) {
@@ -102,27 +148,22 @@
             }
         }
 
-        // ALERTS_LOG.md → alertas por severidad
         if (fileMap['ALERTS_LOG.md'] && fileMap['ALERTS_LOG.md'].success) {
             kpiData.alerts = DashboardParser.parseAlerts(fileMap['ALERTS_LOG.md'].content);
         }
 
-        // COMMS_LOG.md → comunicaciones pendientes (compact KPI)
         if (fileMap['COMMS_LOG.md'] && fileMap['COMMS_LOG.md'].success) {
             kpiData.comms = DashboardParser.parseComms(fileMap['COMMS_LOG.md'].content);
         }
 
-        // COMMS_LOG.md → comunicaciones detalladas (activas + cerradas)
         if (fileMap['COMMS_LOG.md'] && fileMap['COMMS_LOG.md'].success) {
             kpiData.commsDetail = DashboardParser.parseCommunications(fileMap['COMMS_LOG.md'].content);
         }
 
-        // SESSION_LOG.md → sesiones
         if (fileMap['SESSION_LOG.md'] && fileMap['SESSION_LOG.md'].success) {
             kpiData.sessions = DashboardParser.parseSessionLog(fileMap['SESSION_LOG.md'].content);
         }
 
-        // Commits de GitHub (para el timeline) — fetch en paralelo, tolerante a fallos
         const commits = await fetcher.fetchCommits(50).catch(() => []);
 
         // --- Render ---
@@ -141,7 +182,6 @@
 
         DashboardRenderer.renderAccordions(fetchResults);
 
-        // Render comunicaciones detalladas (KPIs + toolbar + tabla)
         if (kpiData.commsDetail && kpiData.commsDetail.parseable) {
             window.commsData = kpiData.commsDetail;
             DashboardRenderer.renderCommsKPIs(kpiData.commsDetail);
@@ -150,7 +190,6 @@
             attachCommsListeners();
         }
 
-        // Render del Timeline (Mientras no estabas)
         if (fileMap['SESSION_LOG.md'] && fileMap['SESSION_LOG.md'].success) {
             window._timelineData = {
                 sessionLog: fileMap['SESSION_LOG.md'].content,
@@ -163,7 +202,6 @@
             );
         }
 
-        // Render del Panel "Requiere tu atención"
         DashboardAttention.render({
             alerts: kpiData.alerts,
             comms: kpiData.commsDetail,
@@ -220,14 +258,12 @@
             searchInput.addEventListener('input', (e) => {
                 commsFilterState.searchTerm = e.target.value;
                 localStorage.setItem('gn:dashboard:comms:search', e.target.value);
-                // Debounce simple: no re-render on cada tecla si es muy rápido
                 if (window.commsData) {
                     DashboardRenderer.renderCommsTable(window.commsData, commsSortState, commsFilterState);
                 }
             });
         }
 
-        // Close modal: outside click + Escape
         const modal = $('comms-detail-modal');
         if (modal) {
             modal.addEventListener('click', (e) => {
