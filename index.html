@@ -39,6 +39,40 @@
             <div id="alerts-comms" class="alerts-comms-container"></div>
         </section>
 
+        <!-- Comunicaciones Detalladas -->
+        <section class="comms-section">
+            <h2>💬 Comunicaciones</h2>
+            <div id="comms-toolbar" class="comms-toolbar"></div>
+            <div id="comms-kpis" class="comms-kpi-grid"></div>
+            <div class="comms-table-wrapper">
+                <table class="comms-table">
+                    <thead>
+                        <tr>
+                            <th onclick="sortComms('from')">De ↕</th>
+                            <th onclick="sortComms('to')">A ↕</th>
+                            <th onclick="sortComms('summary')">Pedido ↕</th>
+                            <th onclick="sortComms('status')">Estado ↕</th>
+                            <th onclick="sortComms('created')">Creado ↕</th>
+                            <th onclick="sortComms('updated')">Actualizado ↕</th>
+                        </tr>
+                    </thead>
+                    <tbody id="comms-tbody">
+                    </tbody>
+                </table>
+            </div>
+        </section>
+
+        <!-- Comms Detail Modal -->
+        <div id="comms-detail-modal" class="modal-overlay" style="display:none;">
+            <div class="modal" tabindex="0">
+                <div class="modal-header">
+                    <h3 id="comms-modal-title">Detalle de comunicación</h3>
+                    <button class="modal-close" onclick="closeCommsModal()">✕</button>
+                </div>
+                <div class="modal-body" id="comms-modal-body"></div>
+            </div>
+        </div>
+
         <!-- Logs (Acordeones) -->
         <section class="logs-section">
             <h2>📋 Logs (Acordeones)</h2>
@@ -54,10 +88,10 @@
 
     <!-- marked.js v4 (CDN, no se commitea) -->
     <script src="https://cdn.jsdelivr.net/npm/marked/marked.min.js"></script>
-    <script src="js/config.js?v=3"></script>
-    <script src="js/fetcher.js?v=3"></script>
-    <script src="js/parser.js?v=3"></script>
-    <script src="js/renderer.js?v=3"></script>
-    <script src="js/app.js?v=3"></script>
+    <script src="js/config.js?v=4"></script>
+    <script src="js/fetcher.js?v=4"></script>
+    <script src="js/parser.js?v=4"></script>
+    <script src="js/renderer.js?v=4"></script>
+    <script src="js/app.js?v=4"></script>
 </body>
 </html>
