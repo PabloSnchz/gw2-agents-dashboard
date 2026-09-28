@@ -1,11 +1,9 @@
 /**
  * js/fetcher.js
  * Fetcher de archivos .md desde raw.githubusercontent.com.
- * Incluye cache en memoria (diaria) y manejo de errores (404, network, invalid).
- * + Cache persistente en localStorage para las API calls de api.github.com.
+ * Incluye cache en memoria (5 min) y manejo de errores (404, network, invalid).
  */
 
-// Error types
 class FileNotFoundError extends Error {
     constructor(filename) {
         super(`Archivo no encontrado: ${filename}`);
@@ -23,12 +21,9 @@ class NetworkError extends Error {
 class MarkdownFetcher {
     constructor(config) {
         this.config = config;
-        this.cache = new Map(); // cache diaria por filename
+        this.cache = new Map();
     }
 
-    /**
-     * Fetch un archivo .md.
-     */
     async fetchFile(filename, force = false) {
         const url = this.config.getUrl(filename);
         const cacheKey = filename;
@@ -54,7 +49,6 @@ class MarkdownFetcher {
 
             const text = await response.text();
             const result = { success: true, content: text, filename, error: null };
-
             this.cache.set(cacheKey, { data: result, timestamp: Date.now() });
             return result;
 
@@ -71,9 +65,6 @@ class MarkdownFetcher {
         }
     }
 
-    /**
-     * Fetch todos los archivos configurados.
-     */
     async fetchAll(force = false, fileList = null) {
         const seen = new Set();
         const merged = [];
@@ -102,57 +93,8 @@ class MarkdownFetcher {
         }));
     }
 
-    /**
-     * Lee del caché persistente (localStorage) si está dentro del TTL.
-     * Retorna el caché aunque esté expirado si hay un error (fallback).
-     */
-    _readLocalCache(key, ttl, allowExpired = false) {
-        try {
-            const raw = localStorage.getItem(key);
-            if (!raw) return null;
-            const parsed = JSON.parse(raw);
-            if (!parsed || typeof parsed.timestamp !== 'number') return null;
-            const age = Date.now() - parsed.timestamp;
-            if (age < ttl || allowExpired) {
-                return parsed;
-            }
-            return null;
-        } catch (e) {
-            console.warn('[fetcher] Cache read error:', e.message);
-            return null;
-        }
-    }
-
-    /**
-     * Escribe en el caché persistente.
-     */
-    _writeLocalCache(key, data) {
-        try {
-            localStorage.setItem(key, JSON.stringify({
-                timestamp: Date.now(),
-                data: data
-            }));
-        } catch (e) {
-            console.warn('[fetcher] Cache write error:', e.message);
-        }
-    }
-
-    /**
-     * Opción C' — Auto-detecta archivos .md vía GitHub Contents API.
-     * Con caché persistente de 60 min + fallback a caché expirado.
-     */
     async fetchFileList() {
-        const CACHE_KEY = 'gn:dashboard:api:filelist';
-        const CACHE_TTL = 60 * 60 * 1000; // 1 hora
         const url = this.config.getApiUrl();
-
-        // 1) Intentar caché fresco
-        const freshCache = this._readLocalCache(CACHE_KEY, CACHE_TTL);
-        if (freshCache) {
-            return freshCache.data;
-        }
-
-        // 2) Fetch real
         try {
             const response = await fetch(url);
             if (!response.ok) throw new Error('API ' + response.status);
@@ -166,77 +108,25 @@ class MarkdownFetcher {
                     label: this.config.getLabelForFile(item.name)
                 }));
 
-            const result = mdFiles.length > 0 ? mdFiles : null;
-            this._writeLocalCache(CACHE_KEY, result);
-            return result;
-
+            return mdFiles.length > 0 ? mdFiles : null;
         } catch (error) {
-            // 3) Fallback: caché expirado
-            const expired = this._readLocalCache(CACHE_KEY, CACHE_TTL, true);
-            if (expired) {
-                console.warn('[fetcher] API error, usando caché expirado de fileList');
-                return expired.data;
-            }
-            console.warn('[fetcher] No cache disponible, usando fallback hardcodeado');
             return null;
         }
     }
 
-    /**
-     * Fetch de commits de GitHub API.
-     * Con caché persistente de 60 min + fallback a caché expirado.
-     */
     async fetchCommits(limit = 50) {
-        const CACHE_KEY = 'gn:dashboard:api:commits';
-        const CACHE_TTL = 60 * 60 * 1000; // 1 hora
         const url = this.config.getCommitsUrl(limit);
-
-        // 1) Intentar caché fresco
-        const freshCache = this._readLocalCache(CACHE_KEY, CACHE_TTL);
-        if (freshCache) {
-            return freshCache.data;
-        }
-
-        // 2) Fetch real
         try {
             const response = await fetch(url);
             if (!response.ok) {
                 console.warn('[fetcher] Commits API error:', response.status);
-                // Fallback a caché expirado
-                const expired = this._readLocalCache(CACHE_KEY, CACHE_TTL, true);
-                return expired ? expired.data : [];
+                return [];
             }
             const data = await response.json();
-            // Guardar solo los campos necesarios para reducir tamaño
-            const slim = (Array.isArray(data) ? data : []).map(c => ({
-                sha: c.sha,
-                commit: {
-                    author: {
-                        name: c.commit?.author?.name || '',
-                        date: c.commit?.author?.date || ''
-                    },
-                    message: c.commit?.message || ''
-                },
-                author: {
-                    login: c.author?.login || ''
-                }
-            }));
-            this._writeLocalCache(CACHE_KEY, slim);
-            return slim;
-
+            return Array.isArray(data) ? data : [];
         } catch (error) {
             console.warn('[fetcher] Commits fetch failed:', error.message);
-            // Fallback a caché expirado
-            const expired = this._readLocalCache(CACHE_KEY, CACHE_TTL, true);
-            return expired ? expired.data : [];
+            return [];
         }
-    }
-
-    /**
-     * Limpiar el caché persistente de las API calls.
-     */
-    clearApiCache() {
-        localStorage.removeItem('gn:dashboard:api:filelist');
-        localStorage.removeItem('gn:dashboard:api:commits');
     }
 }
