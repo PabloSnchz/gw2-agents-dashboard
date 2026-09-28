@@ -2,6 +2,7 @@
  * js/timeline.js
  * Panel "Mientras no estabas" — Timeline de eventos.
  * Fuentes: SESSION_LOG.md + commits de GitHub API.
+ * v2 — Fix parser SESSION_LOG, agrupación por día, traducciones, timestamps relativos.
  */
 
 class DashboardTimeline {
@@ -45,33 +46,42 @@ class DashboardTimeline {
             return;
         }
 
-        container.innerHTML = events.map(e => this._eventHTML(e)).join('');
+        // 7) Agrupar por día
+        const grouped = this._groupByDay(events);
+
+        // 8) Renderizar con separadores de día
+        let html = '';
+        for (const [dayLabel, dayEvents] of grouped) {
+            html += `<div class="timeline-day-separator"><span>${this._escape(dayLabel)}</span></div>`;
+            html += dayEvents.map(e => this._eventHTML(e)).join('');
+        }
+
+        container.innerHTML = html;
     }
 
     /**
      * Parsea SESSION_LOG.md → array de eventos.
-     * Formato esperado: `[YYYY-MM-DDTHH:MMZ] Título` + contenido debajo.
+     * Formato: `## [YYYY-MM-DDTHH:MMZ] Título` (con ## opcional)
      */
     static _parseSessionLog(md) {
         if (!md || typeof md !== 'string') return [];
 
         const events = [];
-        // Buscar todos los headers con formato [timestamp]
-        const headerRegex = /^\[(\d{4}-\d{2}-\d{2}T\d{2}:\d{2}Z)\]\s*(.+)$/gm;
+        // Regex corregida: permite `## ` opcional antes de `[timestamp]`
+        const headerRegex = /^#{1,3}\s*\[(\d{4}-\d{2}-\d{2}T\d{2}:\d{2}Z)\]\s*(.+)$/gm;
         let match;
 
         while ((match = headerRegex.exec(md)) !== null) {
             const timestamp = new Date(match[1]).getTime();
-            const title = match[2].trim();
+            const title = match[2].trim().replace(/\r$/, '');
 
-            // Detectar tipo por emoji en el título o por texto
+            if (isNaN(timestamp) || timestamp === 0) continue;
+
             const type = this._detectEventType(title);
-
-            // Detectar agente por texto del título
             const agent = this._detectAgent(title);
 
             events.push({
-                timestamp: isNaN(timestamp) ? 0 : timestamp,
+                timestamp,
                 type,
                 agent,
                 title,
@@ -85,7 +95,6 @@ class DashboardTimeline {
 
     /**
      * Parsea commits de GitHub API → array de eventos.
-     * Formato: { commit: { author: { date }, message }, author: { login } }
      */
     static _parseCommits(commits) {
         if (!Array.isArray(commits)) return [];
@@ -93,21 +102,75 @@ class DashboardTimeline {
         return commits.map(c => {
             const dateStr = c.commit?.author?.date || c.commit?.committer?.date;
             const timestamp = dateStr ? new Date(dateStr).getTime() : 0;
-            const message = (c.commit?.message || '').split('\n')[0]; // primera línea
+            const fullMessage = c.commit?.message || '';
+            const firstLine = fullMessage.split('\n')[0].trim();
 
-            const type = this._detectCommitType(message);
-            const agent = this._detectAgentFromCommit(message);
+            const parsed = this._parseCommitMessage(firstLine);
+            const agent = this._detectAgentFromCommit(firstLine);
 
             return {
                 timestamp,
-                type,
+                type: parsed.type,
                 agent,
-                title: message,
-                subtitle: `Commit ${c.sha?.substring(0, 7) || ''}`,
+                title: parsed.title,
+                scope: parsed.scope,
+                subtitle: '',
                 source: 'commit',
-                sha: c.sha
+                sha: (c.sha || '').substring(0, 7),
+                author: c.commit?.author?.name || c.author?.login || 'Pablo'
             };
         }).filter(e => e.timestamp > 0);
+    }
+
+    /**
+     * Parsea el mensaje del commit: separa tipo, scope y título.
+     * Ejemplo: "feat(legendary-tracker): skeleton del módulo" →
+     *   { type: 'feature', scope: 'legendary-tracker', title: 'skeleton del módulo' }
+     */
+    static _parseCommitMessage(message) {
+        // Formato: "type(scope): title" o "type: title"
+        const withScope = message.match(/^(\w+)(\(([^)]+)\))?:\s*(.+)$/);
+
+        if (withScope) {
+            const typeKey = withScope[1].toLowerCase();
+            const scope = withScope[3] || '';
+            const title = withScope[4].trim();
+
+            return {
+                type: this._mapCommitType(typeKey),
+                scope,
+                title
+            };
+        }
+
+        // Formato sin prefijo (merge, revert, etc.)
+        if (/^merge/i.test(message)) {
+            return { type: 'merge', scope: '', title: message };
+        }
+        if (/^revert/i.test(message)) {
+            return { type: 'revert', scope: '', title: message };
+        }
+
+        return { type: 'commit', scope: '', title: message };
+    }
+
+    /**
+     * Mapea el tipo de commit a un tipo de evento interno.
+     */
+    static _mapCommitType(typeKey) {
+        const map = {
+            'feat': 'feature',
+            'fix': 'fix',
+            'docs': 'docs',
+            'chore': 'chore',
+            'refactor': 'refactor',
+            'test': 'test',
+            'style': 'style',
+            'perf': 'perf',
+            'ci': 'ci',
+            'build': 'build'
+        };
+        return map[typeKey] || 'commit';
     }
 
     /**
@@ -124,43 +187,32 @@ class DashboardTimeline {
     }
 
     /**
-     * Detecta tipo de evento del mensaje del commit.
-     */
-    static _detectCommitType(message) {
-        if (/^fix/i.test(message)) return 'fix';
-        if (/^feat/i.test(message)) return 'feature';
-        if (/^docs/i.test(message)) return 'docs';
-        if (/^chore/i.test(message)) return 'chore';
-        if (/^refactor/i.test(message)) return 'refactor';
-        if (/^test/i.test(message)) return 'test';
-        return 'commit';
-    }
-
-    /**
-     * Detecta agente del título.
+     * Detecta agente del título del log.
      */
     static _detectAgent(title) {
-        if (/po\b|product.owner/i.test(title)) return 'po';
-        if (/principal|dev chat|heartbeat principal/i.test(title)) return 'principal';
+        if (/\bpo\b|product.owner/i.test(title)) return 'po';
+        if (/heartbeat principal|principal/i.test(title)) return 'principal';
         if (/documentador|documenter/i.test(title)) return 'documenter';
         if (/reviewer|code.review/i.test(title)) return 'reviewer';
         if (/arquitecto|architect/i.test(title)) return 'architect';
         if (/admin/i.test(title)) return 'admin';
+        if (/heartbeat #\d+/i.test(title)) return 'principal';
         return 'system';
     }
 
     /**
-     * Detecta agente del mensaje de commit.
-     * Limitación: la API de GitHub no expone el "agente" — solo el autor humano (Pablo).
-     * Este método intenta inferir del scope del mensaje.
+     * Detecta agente del mensaje de commit (por scope).
      */
     static _detectAgentFromCommit(message) {
         if (/\(legendary/i.test(message)) return 'principal';
         if (/\(comms/i.test(message)) return 'admin';
         if (/\(heartbeat/i.test(message)) return 'principal';
         if (/\(status/i.test(message)) return 'principal';
-        if (/\(po/i.test(message)) return 'po';
+        if (/\(admin/i.test(message)) return 'admin';
+        if (/\(po\b/i.test(message)) return 'po';
         if (/\(docs/i.test(message)) return 'documenter';
+        if (/\(backlog/i.test(message)) return 'principal';
+        if (/\(session/i.test(message)) return 'principal';
         return 'system';
     }
 
@@ -178,43 +230,103 @@ class DashboardTimeline {
     }
 
     /**
+     * Agrupa los eventos por día.
+     * Retorna un Map: { 'Hoy': [...], 'Ayer': [...], '27/09': [...] }
+     */
+    static _groupByDay(events) {
+        const groups = new Map();
+        const now = new Date();
+        const today = now.toDateString();
+        const yesterday = new Date(now.getTime() - 24 * 60 * 60 * 1000).toDateString();
+
+        events.forEach(e => {
+            const d = new Date(e.timestamp);
+            const dayKey = d.toDateString();
+            let label;
+
+            if (dayKey === today) {
+                label = 'Hoy';
+            } else if (dayKey === yesterday) {
+                label = 'Ayer';
+            } else {
+                const dd = String(d.getDate()).padStart(2, '0');
+                const mo = String(d.getMonth() + 1).padStart(2, '0');
+                label = `${dd}/${mo}`;
+            }
+
+            if (!groups.has(label)) groups.set(label, []);
+            groups.get(label).push(e);
+        });
+
+        return groups;
+    }
+
+    /**
      * Genera el HTML de un evento.
      */
     static _eventHTML(e) {
         const time = this._formatTime(e.timestamp);
+        const relative = this._formatRelative(e.timestamp);
         const icon = this._iconForType(e.type);
+        const typeLabel = this._typeLabel(e.type);
         const agentLabel = this._agentLabel(e.agent);
+
+        // Subtítulo: SHA + Agente + tiempo relativo
+        const subtitleParts = [];
+        if (e.sha) subtitleParts.push(`SHA ${e.sha}`);
+        if (agentLabel) subtitleParts.push(agentLabel);
+        if (relative) subtitleParts.push(relative);
+
+        const subtitle = subtitleParts.join(' · ');
+
+        // Scope badge (para commits)
+        const scopeBadge = e.scope
+            ? `<span class="timeline-event__scope">${this._escape(e.scope)}</span>`
+            : '';
+
+        // Título: si es commit, mostrar title limpio; si es log, mostrar title completo
+        const title = this._escape(e.title);
 
         return `
             <div class="timeline-event timeline-event--${e.type}">
                 <div class="timeline-event__time">${time}</div>
                 <div class="timeline-event__icon">${icon}</div>
                 <div class="timeline-event__content">
-                    <div class="timeline-event__title">${this._escape(e.title)}</div>
-                    ${e.subtitle ? `<div class="timeline-event__subtitle">${this._escape(e.subtitle)}</div>` : ''}
-                    ${agentLabel ? `<div class="timeline-event__agent">${agentLabel}</div>` : ''}
+                    <div class="timeline-event__header">
+                        <span class="timeline-event__type">${typeLabel}</span>
+                        ${scopeBadge}
+                    </div>
+                    <div class="timeline-event__title">${title}</div>
+                    ${subtitle ? `<div class="timeline-event__subtitle">${this._escape(subtitle)}</div>` : ''}
                 </div>
             </div>
         `;
     }
 
     /**
-     * Formatea el timestamp a HH:MM o DD/MM HH:MM si es de otro día.
+     * Formatea el timestamp: HH:MM (hoy) o DD/MM HH:MM.
      */
     static _formatTime(ts) {
         if (!ts) return '--:--';
         const d = new Date(ts);
-        const now = new Date();
-        const sameDay = d.toDateString() === now.toDateString();
-
         const hh = String(d.getHours()).padStart(2, '0');
         const mm = String(d.getMinutes()).padStart(2, '0');
+        return `${hh}:${mm}`;
+    }
 
-        if (sameDay) return `${hh}:${mm}`;
-
-        const dd = String(d.getDate()).padStart(2, '0');
-        const mo = String(d.getMonth() + 1).padStart(2, '0');
-        return `${dd}/${mo} ${hh}:${mm}`;
+    /**
+     * Formatea tiempo relativo: "hace 5 min", "hace 2h", "hace 3d".
+     */
+    static _formatRelative(ts) {
+        if (!ts) return '';
+        const diff = Date.now() - ts;
+        const min = Math.floor(diff / 60000);
+        if (min < 1) return 'ahora';
+        if (min < 60) return `hace ${min} min`;
+        const h = Math.floor(min / 60);
+        if (h < 24) return `hace ${h}h`;
+        const d = Math.floor(h / 24);
+        return `hace ${d}d`;
     }
 
     /**
@@ -232,10 +344,43 @@ class DashboardTimeline {
             'chore': '🧹',
             'refactor': '♻️',
             'test': '🧪',
+            'style': '🎨',
+            'perf': '⚡',
+            'ci': '🔁',
+            'build': '📦',
+            'merge': '🔀',
+            'revert': '↩️',
             'commit': '📦',
             'event': '•'
         };
         return map[type] || '•';
+    }
+
+    /**
+     * Label en español del tipo de evento.
+     */
+    static _typeLabel(type) {
+        const map = {
+            'heartbeat': 'Heartbeat',
+            'fix': 'Corrección',
+            'deploy': 'Deploy',
+            'error': 'Error',
+            'feature': 'Nueva feature',
+            'decision': 'Decisión',
+            'docs': 'Documentación',
+            'chore': 'Mantenimiento',
+            'refactor': 'Refactor',
+            'test': 'Test',
+            'style': 'Estilo',
+            'perf': 'Rendimiento',
+            'ci': 'CI/CD',
+            'build': 'Build',
+            'merge': 'Merge',
+            'revert': 'Revert',
+            'commit': 'Commit',
+            'event': 'Evento'
+        };
+        return map[type] || 'Evento';
     }
 
     /**
@@ -272,11 +417,9 @@ window.timelineState = { range: '8h', agentFilter: 'all' };
 // Handler global para cambio de rango
 window.setTimelineRange = function(range) {
     window.timelineState.range = range;
-    // Actualizar botones activos
     document.querySelectorAll('.timeline-range-btn').forEach(btn => {
         btn.classList.toggle('active', btn.dataset.range === range);
     });
-    // Re-render
     if (window._timelineData) {
         DashboardTimeline.render(
             window._timelineData.sessionLog,
