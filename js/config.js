@@ -11,7 +11,7 @@ const DASHBOARD_CONFIG = {
     branch: 'main',
 
     // Config de auto-refresh
-    autoRefreshInterval: 5 * 60 * 1000, // 5 minutos
+    autoRefreshInterval: 10 * 60 * 1000, // 10 minutos
     autoRefreshKey: 'gn:dashboard:auto-refresh', // prefijo gn: según convención
 
     // Archivos a monitorear → zona de render
