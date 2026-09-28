@@ -145,4 +145,24 @@ class MarkdownFetcher {
             return null; // fallback a config.files
         }
     }
+
+    /**
+     * Fetch de commits de GitHub API.
+     * Retorna array de commits o [] si falla.
+     */
+    async fetchCommits(limit = 50) {
+        const url = this.config.getCommitsUrl(limit);
+        try {
+            const response = await fetch(url);
+            if (!response.ok) {
+                console.warn('[fetcher] Commits API error:', response.status);
+                return [];
+            }
+            const data = await response.json();
+            return Array.isArray(data) ? data : [];
+        } catch (error) {
+            console.warn('[fetcher] Commits fetch failed:', error.message);
+            return [];
+        }
+    }
 }

@@ -38,6 +38,11 @@ const DASHBOARD_CONFIG = {
         return `https://api.github.com/repos/${this.repoOwner}/${this.repoName}/contents?ref=${this.branch}`;
     },
 
+    // GitHub Commits API — para el timeline
+    getCommitsUrl(limit = 50) {
+        return `https://api.github.com/repos/${this.repoOwner}/${this.repoName}/commits?sha=${this.branch}&per_page=${limit}`;
+    },
+
     // Heurística de zonas para archivos descubiertos dinámicamente via API
     getZoneForFile(filename) {
         const f = filename.toUpperCase();

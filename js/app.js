@@ -122,6 +122,9 @@
             kpiData.sessions = DashboardParser.parseSessionLog(fileMap['SESSION_LOG.md'].content);
         }
 
+        // Commits de GitHub (para el timeline) — fetch en paralelo, tolerante a fallos
+        const commits = await fetcher.fetchCommits(50).catch(() => []);
+
         // --- Render ---
         DashboardRenderer.renderKPIs({
             agents: kpiData.agents,
@@ -145,6 +148,19 @@
             DashboardRenderer.renderCommsToolbar(commsFilterState);
             DashboardRenderer.renderCommsTable(kpiData.commsDetail, commsSortState, commsFilterState);
             attachCommsListeners();
+        }
+
+        // Render del Timeline (Mientras no estabas)
+        if (fileMap['SESSION_LOG.md'] && fileMap['SESSION_LOG.md'].success) {
+            window._timelineData = {
+                sessionLog: fileMap['SESSION_LOG.md'].content,
+                commits: commits
+            };
+            DashboardTimeline.render(
+                fileMap['SESSION_LOG.md'].content,
+                commits,
+                window.timelineState || { range: '8h', agentFilter: 'all' }
+            );
         }
 
         showStatus(`Última actualización: ${new Date().toLocaleTimeString()}`, 'status-ok');

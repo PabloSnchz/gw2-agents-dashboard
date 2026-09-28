@@ -106,3 +106,20 @@
     transform: translateY(-3px);
     box-shadow: 0 4px 16px rgba(0, 0, 0, 0.4);
 }
+
+/* ===== Timeline Event Colors ===== */
+.timeline-event--heartbeat { border-left-color: rgba(106, 27, 185, 0.5); }
+.timeline-event--fix       { border-left-color: rgba(255, 152, 0, 0.5); }
+.timeline-event--deploy    { border-left-color: rgba(76, 175, 80, 0.5); }
+.timeline-event--error     { border-left-color: rgba(244, 67, 54, 0.5); }
+.timeline-event--feature   { border-left-color: rgba(33, 150, 243, 0.5); }
+.timeline-event--decision  { border-left-color: rgba(156, 39, 176, 0.5); }
+.timeline-event--docs      { border-left-color: rgba(96, 125, 139, 0.5); }
+.timeline-event--chore     { border-left-color: rgba(120, 120, 120, 0.5); }
+.timeline-event--refactor  { border-left-color: rgba(0, 150, 136, 0.5); }
+.timeline-event--test      { border-left-color: rgba(255, 193, 7, 0.5); }
+.timeline-event--commit    { border-left-color: rgba(120, 120, 120, 0.3); }
+.timeline-event--event     { border-left-color: rgba(120, 120, 120, 0.3); }
+
+.timeline-event--error .timeline-event__title { color: #ff9d9d; }
+.timeline-event--deploy .timeline-event__title { color: #a0ffc8; }

@@ -4,8 +4,8 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>GW2 Agents Dashboard</title>
-    <link rel="stylesheet" href="css/main.css?v=5">
-    <link rel="stylesheet" href="css/theme.css?v=5">
+    <link rel="stylesheet" href="css/main.css?v=6">
+    <link rel="stylesheet" href="css/theme.css?v=6">
 </head>
 <body>
     <div class="dashboard">
@@ -31,6 +31,28 @@
         <section class="agent-section">
             <h2>👥 Estado del Equipo</h2>
             <div id="agent-cards" class="agent-grid"></div>
+        </section>
+
+        <!-- Timeline (Mientras no estabas) -->
+        <section class="timeline-section">
+            <h2>📅 Mientras no estabas</h2>
+            <div class="timeline-controls">
+                <div class="timeline-range-group">
+                    <button class="timeline-range-btn" data-range="1h" onclick="setTimelineRange('1h')">1h</button>
+                    <button class="timeline-range-btn active" data-range="8h" onclick="setTimelineRange('8h')">8h</button>
+                    <button class="timeline-range-btn" data-range="24h" onclick="setTimelineRange('24h')">24h</button>
+                    <button class="timeline-range-btn" data-range="7d" onclick="setTimelineRange('7d')">7d</button>
+                </div>
+                <select class="timeline-agent-filter" onchange="setTimelineAgent(this.value)">
+                    <option value="all">Todos los agentes</option>
+                    <option value="principal">Principal</option>
+                    <option value="po">PO</option>
+                    <option value="documenter">Documentador</option>
+                    <option value="reviewer">Code Reviewer</option>
+                    <option value="architect">Arquitecto</option>
+                </select>
+            </div>
+            <div id="timeline-container" class="timeline-container"></div>
         </section>
 
         <!-- Alerts & Comms (2-columnas) -->
@@ -88,10 +110,11 @@
 
     <!-- marked.js v4 (CDN, no se commitea) -->
     <script src="https://cdn.jsdelivr.net/npm/marked/marked.min.js"></script>
-    <script src="js/config.js?v=5"></script>
-    <script src="js/fetcher.js?v=5"></script>
-    <script src="js/parser.js?v=5"></script>
-    <script src="js/renderer.js?v=5"></script>
-    <script src="js/app.js?v=5"></script>
+    <script src="js/config.js?v=6"></script>
+    <script src="js/fetcher.js?v=6"></script>
+    <script src="js/parser.js?v=6"></script>
+    <script src="js/renderer.js?v=6"></script>
+    <script src="js/timeline.js?v=1"></script>
+    <script src="js/app.js?v=6"></script>
 </body>
 </html>
