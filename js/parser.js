@@ -581,14 +581,20 @@ class DashboardParser {
 
         const lines = md.split('\n');
         lines.forEach(line => {
+            // Ignorar líneas de tabla markdown (empiezan con |)
+            if (line.trim().startsWith('|')) return;
+
             // "ESCALADO a Pablo" (con o sin markdown bold)
             if (/ESCALADO a Pablo/i.test(line)) {
-                const clean = this._cleanCell(
-                    line.replace(/^\s*[-*🚨⚠️]+\s*/, '')
-                        .replace(/\*+/g, '')
-                        .replace(/^ESCALADO a Pablo[.:]?\s*/i, '')
-                );
-                if (clean.length > 10) {
+                let clean = line
+                    .replace(/\*+/g, '')
+                    .replace(/^\s*[-*🚨⚠️\d.]+\s*/, '')          // guiones, emojis, números al inicio
+                    .replace(/^\d+\.\s*/, '')                     // numeración "1. "
+                    .replace(/^ESCALADO a Pablo[.:]?\s*/i, '')    // prefijo redundante
+                    .replace(/^🚨\s*/, '')                        // emoji extra
+                    .trim();
+
+                if (clean.length > 15) {
                     items.push({
                         severity: 'critical',
                         title: 'Escalado a Pablo',
@@ -599,10 +605,13 @@ class DashboardParser {
             }
             // "Requires Pablo" (no duplicar si ya matcheó ESCALADO)
             else if (/Requires Pablo/i.test(line)) {
-                const clean = this._cleanCell(
-                    line.replace(/^\s*[-*🚨⚠️]+\s*/, '').replace(/\*+/g, '')
-                );
-                if (clean.length > 10) {
+                let clean = line
+                    .replace(/\*+/g, '')
+                    .replace(/^\s*[-*🚨⚠️\d.]+\s*/, '')
+                    .replace(/^\d+\.\s*/, '')
+                    .trim();
+
+                if (clean.length > 15) {
                     items.push({
                         severity: 'critical',
                         title: 'Requiere OK de Pablo',
