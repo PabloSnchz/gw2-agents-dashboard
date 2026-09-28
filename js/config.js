@@ -25,6 +25,8 @@ const DASHBOARD_CONFIG = {
         { name: 'SESSION_LOG.md', zone: 'recent',  label: 'Session Log' },
         { name: 'BACKLOG.md',      zone: 'recent',  label: 'Backlog' },
         { name: 'DECISIONS_LOG.md', zone: 'recent', label: 'Decisiones' },
+        { name: 'CRON_SCHEDULE.md', zone: 'recent', label: 'Programación' },
+        { name: 'DASHBOARD_PO_IDEAS.md', zone: 'recent', label: 'Ideas del PO' },
         { name: 'PRE_BACKLOG.md', zone: 'history', label: 'Pre-Backlog' },
     ],
 

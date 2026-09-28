@@ -390,4 +390,166 @@ class DashboardParser {
         if (/🟢|baja|low/i.test(normalized)) return 'low';
         return null;
     }
+
+    /**
+     * Parsea CRON_SCHEDULE.md → crons, tareas en curso, bloqueadas, últimos resultados.
+     */
+    static parseCronSchedule(md) {
+        const data = {
+            parseable: true,
+            updatedAt: null,
+            nextUpdate: null,
+            crons: [],
+            descriptions: {},
+            inProgress: [],
+            blocked: [],
+            lastResults: []
+        };
+
+        if (!md || typeof md !== 'string') {
+            return { parseable: false, ...data };
+        }
+
+        // Timestamps del header
+        const updatedMatch = md.match(/>\s*Actualizado:\s*(.+)/i);
+        if (updatedMatch) data.updatedAt = updatedMatch[1].trim();
+        const nextMatch = md.match(/>\s*Próxima actualización esperada:\s*(.+)/i);
+        if (nextMatch) data.nextUpdate = nextMatch[1].trim();
+
+        // Parsear "Crons activos"
+        const cronsSection = this._extractSection(md, 'Crons activos');
+        if (cronsSection) {
+            const rows = this._parseTable(cronsSection);
+            rows.forEach(row => {
+                data.crons.push({
+                    id: this._cleanCell(row[0]),
+                    name: this._cleanCell(row[1]),
+                    agent: this._cleanCell(row[2]),
+                    schedule: this._cleanCell(row[3]),
+                    every: this._cleanCell(row[4]),
+                    timeout: this._cleanCell(row[5]),
+                    state: this._cleanCell(row[6])
+                });
+            });
+        }
+
+        // Parsear "Descripciones" — bloques: **Nombre**\nDescripción
+        const descSection = this._extractSection(md, 'Descripciones');
+        if (descSection) {
+            const blocks = descSection.split(/\n(?=\*\*)/);
+            blocks.forEach(block => {
+                const match = block.match(/^\*\*([^*]+)\*\*\s*\n([\s\S]+)/);
+                if (match) {
+                    data.descriptions[match[1].trim()] = match[2].trim().replace(/\n+/g, ' ');
+                }
+            });
+        }
+
+        // Parsear "Tareas en curso"
+        const inProgressSection = this._extractSection(md, 'Tareas en curso');
+        if (inProgressSection) {
+            const rows = this._parseTable(inProgressSection);
+            rows.forEach(row => {
+                data.inProgress.push({
+                    agent: this._cleanCell(row[0]),
+                    task: this._cleanCell(row[1]),
+                    started: this._cleanCell(row[2]),
+                    eta: this._cleanCell(row[3]),
+                    state: this._cleanCell(row[4])
+                });
+            });
+        }
+
+        // Parsear "Tareas bloqueadas"
+        const blockedSection = this._extractSection(md, 'Tareas bloqueadas');
+        if (blockedSection) {
+            const rows = this._parseTable(blockedSection);
+            rows.forEach(row => {
+                data.blocked.push({
+                    task: this._cleanCell(row[0]),
+                    blockedBy: this._cleanCell(row[1]),
+                    unblocker: this._cleanCell(row[2]),
+                    notes: this._cleanCell(row[3])
+                });
+            });
+        }
+
+        // Parsear "Últimos resultados de crons"
+        const resultsSection = this._extractSection(md, 'Últimos resultados de crons');
+        if (resultsSection) {
+            const rows = this._parseTable(resultsSection);
+            rows.forEach(row => {
+                data.lastResults.push({
+                    cron: this._cleanCell(row[0]),
+                    lastRun: this._cleanCell(row[1]),
+                    result: this._cleanCell(row[2]),
+                    commit: this._cleanCell(row[3])
+                });
+            });
+        }
+
+        return data;
+    }
+
+    /**
+     * Parsea DASHBOARD_PO_IDEAS.md → top prioridades + pospuestas.
+     */
+    static parsePoIdeas(md) {
+        const data = {
+            parseable: true,
+            updatedAt: null,
+            topPriorities: [],
+            postponed: [],
+            metadata: {}
+        };
+
+        if (!md || typeof md !== 'string') {
+            return { parseable: false, ...data };
+        }
+
+        const updatedMatch = md.match(/>\s*Actualizado:\s*(.+)/i);
+        if (updatedMatch) data.updatedAt = updatedMatch[1].trim();
+
+        // Parsear "Top prioridades"
+        const topSection = this._extractSection(md, 'Top prioridades');
+        if (topSection) {
+            const rows = this._parseTable(topSection);
+            rows.forEach(row => {
+                data.topPriorities.push({
+                    rank: this._cleanCell(row[0]),
+                    idea: this._cleanCell(row[1]),
+                    difficulty: this._cleanCell(row[2]),
+                    state: this._cleanCell(row[3]),
+                    eta: this._cleanCell(row[4])
+                });
+            });
+        }
+
+        // Parsear "Ideas pospuestas"
+        const postponedSection = this._extractSection(md, 'Ideas pospuestas');
+        if (postponedSection) {
+            const rows = this._parseTable(postponedSection);
+            rows.forEach(row => {
+                data.postponed.push({
+                    rank: this._cleanCell(row[0]),
+                    idea: this._cleanCell(row[1]),
+                    reason: this._cleanCell(row[2])
+                });
+            });
+        }
+
+        // Parsear "Metadatos"
+        const metaSection = this._extractSection(md, 'Metadatos');
+        if (metaSection) {
+            const lines = metaSection.split('\n');
+            lines.forEach(line => {
+                const m = line.match(/^[-*]\s*([^:]+):\s*(.+)$/);
+                if (m) {
+                    data.metadata[m[1].trim()] = m[2].trim();
+                }
+            });
+        }
+
+        return data;
+    }
 }

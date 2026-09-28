@@ -564,6 +564,12 @@ body {
     font-style: italic;
     margin-top: 2px;
 }
+.upcoming-item-lastrun {
+    font-size: 0.72rem;
+    color: #7a8fa8;
+    margin-top: 3px;
+    font-family: 'Consolas', 'Monaco', monospace;
+}
 
 /* Responsive */
 @media (max-width: 768px) {

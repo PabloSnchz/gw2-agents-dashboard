@@ -210,13 +210,24 @@
             sessionLog: fileMap['SESSION_LOG.md']?.success ? { content: fileMap['SESSION_LOG.md'].content } : null
         });
 
+        // Parsear CRON_SCHEDULE.md y DASHBOARD_PO_IDEAS.md
+        const cronSchedule = fileMap['CRON_SCHEDULE.md']?.success
+            ? DashboardParser.parseCronSchedule(fileMap['CRON_SCHEDULE.md'].content)
+            : null;
+
+        const poIdeas = fileMap['DASHBOARD_PO_IDEAS.md']?.success
+            ? DashboardParser.parsePoIdeas(fileMap['DASHBOARD_PO_IDEAS.md'].content)
+            : null;
+
         // Render del Panel "Próximas horas"
         DashboardUpcoming.render({
             teamStatus: {
                 content: fileMap['TEAM_STATUS.md']?.success ? fileMap['TEAM_STATUS.md'].content : '',
                 crons: kpiData.crons
             },
-            backlog: fileMap['BACKLOG.md']?.success ? { content: fileMap['BACKLOG.md'].content } : null
+            backlog: fileMap['BACKLOG.md']?.success ? { content: fileMap['BACKLOG.md'].content } : null,
+            cronSchedule: cronSchedule,
+            poIdeas: poIdeas
         });
 
         showStatus(`Última actualización: ${new Date().toLocaleTimeString()}`, 'status-ok');
