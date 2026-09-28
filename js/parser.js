@@ -65,11 +65,12 @@ class DashboardParser {
 
                 if (newName) {
                     if (currentName) {
-                        const desc = currentDesc.trim();
+                        const fullDesc = currentDesc.trim();
+                        const firstLine = fullDesc.split('\n')[0];
                         data.agents.push({
                             name: currentName,
-                            desc: desc.substring(0, 200),
-                            status: this._extractAgentStatus(desc)
+                            desc: fullDesc.substring(0, 200),
+                            status: this._extractAgentStatus(firstLine)
                         });
                     }
                     currentName = newName;
@@ -80,11 +81,12 @@ class DashboardParser {
             }
 
             if (currentName) {
-                const desc = currentDesc.trim();
+                const fullDesc = currentDesc.trim();
+                const firstLine = fullDesc.split('\n')[0];
                 data.agents.push({
                     name: currentName,
-                    desc: desc.substring(0, 200),
-                    status: this._extractAgentStatus(desc)
+                    desc: fullDesc.substring(0, 200),
+                    status: this._extractAgentStatus(firstLine)
                 });
             }
         }
@@ -392,22 +394,22 @@ class DashboardParser {
     static _extractAgentStatus(desc) {
         if (!desc) return 'unknown';
 
-        // Timeout explícito: "TIMEOUT" o "timed out" o el emoji ⏱
+        // Timeout explícito
         if (/TIMEOUT|timed?\s*out|⏱/i.test(desc)) return 'timeout';
 
-        // Error explícito: ❌ o "error" con contexto
+        // Error explícito
         if (/❌|\(error\)|\berror:/i.test(desc)) return 'error';
 
-        // Completado con ✅
-        if (/✅/.test(desc)) return 'ok';
+        // Éxito explícito (✅ o palabras de completado)
+        if (/✅|ejecutado|completad|done|resuelt/i.test(desc)) return 'ok';
 
         // En progreso
-        if (/🔄|en progreso/i.test(desc)) return 'running';
+        if (/🔄|en progreso|running/i.test(desc)) return 'running';
 
-        // Idle (⏳ o ⏸)
+        // Idle
         if (/⏳|⏸/.test(desc)) return 'idle';
 
-        // Sin marcadores → desconocido (no asumir error por palabras sueltas)
+        // Sin marcadores
         return 'unknown';
     }
 
