@@ -365,6 +365,21 @@ class DashboardTimeline {
             return map[m];
         });
     }
+
+    static _cleanMarkdown(str) {
+        if (!str) return '';
+        return String(str)
+            .replace(/\*\*/g, '')
+            .replace(/`/g, '')
+            .replace(/⏱|✅|🔄|⏳|❌|🔴|🟡|🟢|⚠️|🚀|📝|🧹|♻️|🧪|🎨|⚡|🔁|📦|🔀|↩️|💓/g, '')
+            .replace(/\s+/g, ' ')
+            .trim();
+    }
+
+    static _truncate(str, max) {
+        if (!str) return '';
+        return str.length > max ? str.substring(0, max) + '…' : str;
+    }
 }
 
 // Estado global del timeline

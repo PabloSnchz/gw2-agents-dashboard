@@ -92,7 +92,7 @@ class DashboardAttention {
             if (a.status === 'error' || a.status === 'timeout') {
                 items.push({
                     title: `Agente "${a.name}" con problemas`,
-                    detail: a.desc?.substring(0, 100) || '',
+                    detail: this._truncate(this._cleanMarkdown(a.desc), 140),
                     action: 'Revisar estado'
                 });
             }
@@ -136,8 +136,8 @@ class DashboardAttention {
         const matches = sessions.match(/timeout|timed out/gi);
         if (matches && matches.length > 0) {
             items.push({
-                title: `${matches.length} timeout(s) recientes en el log`,
-                detail: 'Revisar SESSION_LOG.md',
+                title: `Timeouts registrados en el log: ${matches.length}`,
+                detail: 'Pueden ser de distintos períodos. Revisá SESSION_LOG.md para detalles.',
                 action: 'Revisar timeouts'
             });
         }
@@ -210,5 +210,20 @@ class DashboardAttention {
             const map = { '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' };
             return map[m];
         });
+    }
+
+    static _cleanMarkdown(str) {
+        if (!str) return '';
+        return String(str)
+            .replace(/\*\*/g, '')
+            .replace(/`/g, '')
+            .replace(/⏱|✅|🔄|⏳|❌|🔴|🟡|🟢|⚠️|🚀|📝|🧹|♻️|🧪|🎨|⚡|🔁|📦|🔀|↩️|💓/g, '')
+            .replace(/\s+/g, ' ')
+            .trim();
+    }
+
+    static _truncate(str, max) {
+        if (!str) return '';
+        return str.length > max ? str.substring(0, max) + '…' : str;
     }
 }
