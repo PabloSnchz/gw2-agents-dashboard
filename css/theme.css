@@ -213,3 +213,8 @@
 
 .upcoming-group--blocked .upcoming-group-header { color: #ffa726; }
 .upcoming-group--blocked .upcoming-group-count { background: rgba(255, 152, 0, 0.2); color: #ffa726; }
+
+
+/* ===== Upcoming Group: Ideas ===== */
+.upcoming-group--ideas .upcoming-group-header { color: #e2ae43; }
+.upcoming-group--ideas .upcoming-group-count { background: rgba(226, 174, 67, 0.2); color: #e2ae43; }
