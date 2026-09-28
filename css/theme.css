@@ -218,3 +218,20 @@
 /* ===== Upcoming Group: Ideas ===== */
 .upcoming-group--ideas .upcoming-group-header { color: #e2ae43; }
 .upcoming-group--ideas .upcoming-group-count { background: rgba(226, 174, 67, 0.2); color: #e2ae43; }
+
+
+/* ===== Live Status Cards ===== */
+.live-card--active { border-left: 3px solid rgba(76, 175, 80, 0.6); }
+.live-card--active .live-card__status { color: #a0ffc8; }
+
+.live-card--heartbeat { border-left: 3px solid rgba(255, 152, 0, 0.6); }
+.live-card--heartbeat .live-card__status { color: #ffd36b; }
+
+.live-card--idle { border-left: 3px solid rgba(158, 158, 158, 0.4); }
+.live-card--idle .live-card__status { color: #aaa; }
+
+.live-card--error { border-left: 3px solid rgba(244, 67, 54, 0.6); }
+.live-card--error .live-card__status { color: #ff9d9d; }
+
+.live-card--unknown { border-left: 3px solid rgba(120, 120, 120, 0.3); }
+.live-card--unknown .live-card__status { color: #888; }

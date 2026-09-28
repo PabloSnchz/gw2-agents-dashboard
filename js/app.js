@@ -230,6 +230,13 @@
             poIdeas: poIdeas
         });
 
+        // Render del Panel "Estado en vivo"
+        DashboardLiveStatus.render({
+            commits: commits,
+            sessionLog: fileMap['SESSION_LOG.md']?.success ? fileMap['SESSION_LOG.md'].content : '',
+            alerts: kpiData.alerts
+        });
+
         showStatus(`Última actualización: ${new Date().toLocaleTimeString()}`, 'status-ok');
     }
 

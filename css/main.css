@@ -571,6 +571,64 @@ body {
     font-family: 'Consolas', 'Monaco', monospace;
 }
 
+/* ===== Live Status (Estado en vivo) ===== */
+.live-section { margin-top: 0; }
+.live-section h2 { font-size: 1.1rem; margin-bottom: 16px; }
+
+.live-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+    gap: 12px;
+}
+
+.live-card {
+    background: rgba(15, 15, 25, 0.8);
+    border: 1px solid rgba(255,255,255,0.08);
+    border-radius: 8px;
+    padding: 14px 16px;
+    transition: transform 0.15s ease;
+}
+.live-card:hover {
+    transform: translateY(-2px);
+}
+
+.live-card__header {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    margin-bottom: 8px;
+}
+.live-card__icon { font-size: 1.2rem; }
+.live-card__name { font-weight: 600; font-size: 0.9rem; }
+
+.live-card__status {
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    margin-bottom: 8px;
+    font-size: 0.75rem;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+}
+
+.live-card__activity {
+    font-size: 0.82rem;
+    color: #c0c0c0;
+    line-height: 1.4;
+    margin-bottom: 8px;
+    min-height: 34px;
+}
+
+.live-card__meta {
+    display: flex;
+    flex-direction: column;
+    gap: 2px;
+    font-size: 0.72rem;
+    color: #7a8fa8;
+    font-family: 'Consolas', 'Monaco', monospace;
+}
+
 /* Responsive */
 @media (max-width: 768px) {
     .dashboard-header { flex-direction: column; gap: 12px; }
