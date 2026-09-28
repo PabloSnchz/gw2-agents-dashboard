@@ -210,6 +210,15 @@
             sessionLog: fileMap['SESSION_LOG.md']?.success ? { content: fileMap['SESSION_LOG.md'].content } : null
         });
 
+        // Render del Panel "Próximas horas"
+        DashboardUpcoming.render({
+            teamStatus: {
+                content: fileMap['TEAM_STATUS.md']?.success ? fileMap['TEAM_STATUS.md'].content : '',
+                crons: kpiData.crons
+            },
+            backlog: fileMap['BACKLOG.md']?.success ? { content: fileMap['BACKLOG.md'].content } : null
+        });
+
         showStatus(`Última actualización: ${new Date().toLocaleTimeString()}`, 'status-ok');
     }
 

@@ -202,3 +202,14 @@
 .dashboard-tab.active {
     color: #d8b8ff;
 }
+
+
+/* ===== Upcoming Group Colors ===== */
+.upcoming-group--progress .upcoming-group-header { color: #7bc2ff; }
+.upcoming-group--progress .upcoming-group-count { background: rgba(33, 150, 243, 0.2); color: #7bc2ff; }
+
+.upcoming-group--scheduled .upcoming-group-header { color: #b8a4d8; }
+.upcoming-group--scheduled .upcoming-group-count { background: rgba(106, 27, 185, 0.2); color: #b8a4d8; }
+
+.upcoming-group--blocked .upcoming-group-header { color: #ffa726; }
+.upcoming-group--blocked .upcoming-group-count { background: rgba(255, 152, 0, 0.2); color: #ffa726; }
