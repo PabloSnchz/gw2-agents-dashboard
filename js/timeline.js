@@ -2,54 +2,48 @@
  * js/timeline.js
  * Panel "Mientras no estabas" — Timeline de eventos.
  * Fuentes: SESSION_LOG.md + commits de GitHub API.
- * v2 — Fix parser SESSION_LOG, agrupación por día, traducciones, timestamps relativos.
+ * v3 — Filtro por categoría + dropdown dinámico.
  */
 
 class DashboardTimeline {
 
-    /**
-     * Renderiza el timeline completo.
-     * @param {string} sessionLogContent - contenido raw de SESSION_LOG.md
-     * @param {Array} commits - array de commits de GitHub API (o [])
-     * @param {Object} options - { range: '1h' | '8h' | '24h' | '7d', agentFilter: 'all' | '<name>' }
-     */
     static render(sessionLogContent, commits, options = {}) {
         const container = document.getElementById('timeline-container');
         if (!container) return;
 
         const range = options.range || '8h';
         const agentFilter = options.agentFilter || 'all';
+        const categoryFilter = options.categoryFilter || 'all';
 
-        // 1) Parsear eventos del SESSION_LOG
         const logEvents = this._parseSessionLog(sessionLogContent);
-
-        // 2) Parsear eventos de commits
         const commitEvents = this._parseCommits(commits);
 
-        // 3) Combinar + ordenar (descendente por timestamp)
         let events = [...logEvents, ...commitEvents];
         events.sort((a, b) => b.timestamp - a.timestamp);
 
-        // 4) Filtrar por rango temporal
         const rangeMs = this._rangeToMs(range);
         const cutoff = Date.now() - rangeMs;
         events = events.filter(e => e.timestamp >= cutoff);
 
-        // 5) Filtrar por agente
+        // Poblar dropdown de categorías (solo con las presentes en el rango actual)
+        this._populateCategoryFilter(events);
+
+        // Aplicar filtro de agente
         if (agentFilter !== 'all') {
             events = events.filter(e => e.agent === agentFilter);
         }
 
-        // 6) Renderizar
+        // Aplicar filtro de categoría
+        if (categoryFilter !== 'all') {
+            events = events.filter(e => e.type === categoryFilter);
+        }
+
         if (events.length === 0) {
-            container.innerHTML = `<p class="loading">Sin eventos en el rango seleccionado.</p>`;
+            container.innerHTML = `<p class="loading">Sin eventos con los filtros aplicados.</p>`;
             return;
         }
 
-        // 7) Agrupar por día
         const grouped = this._groupByDay(events);
-
-        // 8) Renderizar con separadores de día
         let html = '';
         for (const [dayLabel, dayEvents] of grouped) {
             html += `<div class="timeline-day-separator"><span>${this._escape(dayLabel)}</span></div>`;
@@ -60,30 +54,62 @@ class DashboardTimeline {
     }
 
     /**
-     * Parsea SESSION_LOG.md → array de eventos.
-     * Formato: `## [YYYY-MM-DDTHH:MMZ] Título` (con ## opcional)
+     * Puebla el dropdown de categorías con las que existen en los eventos.
+     * Mantiene la selección actual si sigue siendo válida.
      */
+    static _populateCategoryFilter(events) {
+        const select = document.getElementById('timeline-category-filter');
+        if (!select) return;
+
+        // Contar eventos por categoría
+        const counts = {};
+        events.forEach(e => {
+            counts[e.type] = (counts[e.type] || 0) + 1;
+        });
+
+        // Ordenar por cantidad descendente
+        const sorted = Object.entries(counts).sort((a, b) => b[1] - a[1]);
+
+        // Guardar valor actual
+        const currentValue = select.value || 'all';
+
+        // Reconstruir opciones
+        let html = `<option value="all">Todas las categorías (${events.length})</option>`;
+        sorted.forEach(([type, count]) => {
+            const label = this._typeLabel(type);
+            html += `<option value="${type}">${label} (${count})</option>`;
+        });
+
+        select.innerHTML = html;
+
+        // Restaurar valor si sigue existiendo
+        if (currentValue !== 'all' && counts[currentValue]) {
+            select.value = currentValue;
+        } else {
+            select.value = 'all';
+            // Si el filtro quedó huérfano, resetear el state
+            if (window.timelineState && window.timelineState.categoryFilter !== 'all') {
+                window.timelineState.categoryFilter = 'all';
+            }
+        }
+    }
+
     static _parseSessionLog(md) {
         if (!md || typeof md !== 'string') return [];
 
         const events = [];
-        // Regex corregida: permite `## ` opcional antes de `[timestamp]`
         const headerRegex = /^#{1,3}\s*\[(\d{4}-\d{2}-\d{2}T\d{2}:\d{2}Z)\]\s*(.+)$/gm;
         let match;
 
         while ((match = headerRegex.exec(md)) !== null) {
             const timestamp = new Date(match[1]).getTime();
             const title = match[2].trim().replace(/\r$/, '');
-
             if (isNaN(timestamp) || timestamp === 0) continue;
-
-            const type = this._detectEventType(title);
-            const agent = this._detectAgent(title);
 
             events.push({
                 timestamp,
-                type,
-                agent,
+                type: this._detectEventType(title),
+                agent: this._detectAgent(title),
                 title,
                 subtitle: '',
                 source: 'log'
@@ -93,9 +119,6 @@ class DashboardTimeline {
         return events;
     }
 
-    /**
-     * Parsea commits de GitHub API → array de eventos.
-     */
     static _parseCommits(commits) {
         if (!Array.isArray(commits)) return [];
 
@@ -122,60 +145,29 @@ class DashboardTimeline {
         }).filter(e => e.timestamp > 0);
     }
 
-    /**
-     * Parsea el mensaje del commit: separa tipo, scope y título.
-     * Ejemplo: "feat(legendary-tracker): skeleton del módulo" →
-     *   { type: 'feature', scope: 'legendary-tracker', title: 'skeleton del módulo' }
-     */
     static _parseCommitMessage(message) {
-        // Formato: "type(scope): title" o "type: title"
         const withScope = message.match(/^(\w+)(\(([^)]+)\))?:\s*(.+)$/);
-
         if (withScope) {
-            const typeKey = withScope[1].toLowerCase();
-            const scope = withScope[3] || '';
-            const title = withScope[4].trim();
-
             return {
-                type: this._mapCommitType(typeKey),
-                scope,
-                title
+                type: this._mapCommitType(withScope[1].toLowerCase()),
+                scope: withScope[3] || '',
+                title: withScope[4].trim()
             };
         }
-
-        // Formato sin prefijo (merge, revert, etc.)
-        if (/^merge/i.test(message)) {
-            return { type: 'merge', scope: '', title: message };
-        }
-        if (/^revert/i.test(message)) {
-            return { type: 'revert', scope: '', title: message };
-        }
-
+        if (/^merge/i.test(message)) return { type: 'merge', scope: '', title: message };
+        if (/^revert/i.test(message)) return { type: 'revert', scope: '', title: message };
         return { type: 'commit', scope: '', title: message };
     }
 
-    /**
-     * Mapea el tipo de commit a un tipo de evento interno.
-     */
     static _mapCommitType(typeKey) {
         const map = {
-            'feat': 'feature',
-            'fix': 'fix',
-            'docs': 'docs',
-            'chore': 'chore',
-            'refactor': 'refactor',
-            'test': 'test',
-            'style': 'style',
-            'perf': 'perf',
-            'ci': 'ci',
-            'build': 'build'
+            'feat': 'feature', 'fix': 'fix', 'docs': 'docs', 'chore': 'chore',
+            'refactor': 'refactor', 'test': 'test', 'style': 'style',
+            'perf': 'perf', 'ci': 'ci', 'build': 'build'
         };
         return map[typeKey] || 'commit';
     }
 
-    /**
-     * Detecta tipo de evento del título del log.
-     */
     static _detectEventType(title) {
         if (/heartbeat/i.test(title)) return 'heartbeat';
         if (/fix|bug/i.test(title)) return 'fix';
@@ -186,9 +178,6 @@ class DashboardTimeline {
         return 'event';
     }
 
-    /**
-     * Detecta agente del título del log.
-     */
     static _detectAgent(title) {
         if (/\bpo\b|product.owner/i.test(title)) return 'po';
         if (/heartbeat principal|principal/i.test(title)) return 'principal';
@@ -200,9 +189,6 @@ class DashboardTimeline {
         return 'system';
     }
 
-    /**
-     * Detecta agente del mensaje de commit (por scope).
-     */
     static _detectAgentFromCommit(message) {
         if (/\(legendary/i.test(message)) return 'principal';
         if (/\(comms/i.test(message)) return 'admin';
@@ -216,9 +202,6 @@ class DashboardTimeline {
         return 'system';
     }
 
-    /**
-     * Convierte el rango ('1h', '8h', '24h', '7d') a milisegundos.
-     */
     static _rangeToMs(range) {
         const map = {
             '1h': 60 * 60 * 1000,
@@ -229,10 +212,6 @@ class DashboardTimeline {
         return map[range] || map['8h'];
     }
 
-    /**
-     * Agrupa los eventos por día.
-     * Retorna un Map: { 'Hoy': [...], 'Ayer': [...], '27/09': [...] }
-     */
     static _groupByDay(events) {
         const groups = new Map();
         const now = new Date();
@@ -244,11 +223,9 @@ class DashboardTimeline {
             const dayKey = d.toDateString();
             let label;
 
-            if (dayKey === today) {
-                label = 'Hoy';
-            } else if (dayKey === yesterday) {
-                label = 'Ayer';
-            } else {
+            if (dayKey === today) label = 'Hoy';
+            else if (dayKey === yesterday) label = 'Ayer';
+            else {
                 const dd = String(d.getDate()).padStart(2, '0');
                 const mo = String(d.getMonth() + 1).padStart(2, '0');
                 label = `${dd}/${mo}`;
@@ -261,9 +238,6 @@ class DashboardTimeline {
         return groups;
     }
 
-    /**
-     * Genera el HTML de un evento.
-     */
     static _eventHTML(e) {
         const time = this._formatTime(e.timestamp);
         const relative = this._formatRelative(e.timestamp);
@@ -271,21 +245,15 @@ class DashboardTimeline {
         const typeLabel = this._typeLabel(e.type);
         const agentLabel = this._agentLabel(e.agent);
 
-        // Subtítulo: SHA + Agente + tiempo relativo
         const subtitleParts = [];
         if (e.sha) subtitleParts.push(`SHA ${e.sha}`);
         if (agentLabel) subtitleParts.push(agentLabel);
         if (relative) subtitleParts.push(relative);
-
         const subtitle = subtitleParts.join(' · ');
 
-        // Scope badge (para commits)
         const scopeBadge = e.scope
             ? `<span class="timeline-event__scope">${this._escape(e.scope)}</span>`
             : '';
-
-        // Título: si es commit, mostrar title limpio; si es log, mostrar title completo
-        const title = this._escape(e.title);
 
         return `
             <div class="timeline-event timeline-event--${e.type}">
@@ -296,16 +264,13 @@ class DashboardTimeline {
                         <span class="timeline-event__type">${typeLabel}</span>
                         ${scopeBadge}
                     </div>
-                    <div class="timeline-event__title">${title}</div>
+                    <div class="timeline-event__title">${this._escape(e.title)}</div>
                     ${subtitle ? `<div class="timeline-event__subtitle">${this._escape(subtitle)}</div>` : ''}
                 </div>
             </div>
         `;
     }
 
-    /**
-     * Formatea el timestamp: HH:MM (hoy) o DD/MM HH:MM.
-     */
     static _formatTime(ts) {
         if (!ts) return '--:--';
         const d = new Date(ts);
@@ -314,9 +279,6 @@ class DashboardTimeline {
         return `${hh}:${mm}`;
     }
 
-    /**
-     * Formatea tiempo relativo: "hace 5 min", "hace 2h", "hace 3d".
-     */
     static _formatRelative(ts) {
         if (!ts) return '';
         const diff = Date.now() - ts;
@@ -329,79 +291,38 @@ class DashboardTimeline {
         return `hace ${d}d`;
     }
 
-    /**
-     * Icono por tipo de evento.
-     */
     static _iconForType(type) {
         const map = {
-            'heartbeat': '💓',
-            'fix': '🔧',
-            'deploy': '🚀',
-            'error': '⚠️',
-            'feature': '✨',
-            'decision': '📌',
-            'docs': '📝',
-            'chore': '🧹',
-            'refactor': '♻️',
-            'test': '🧪',
-            'style': '🎨',
-            'perf': '⚡',
-            'ci': '🔁',
-            'build': '📦',
-            'merge': '🔀',
-            'revert': '↩️',
-            'commit': '📦',
-            'event': '•'
+            'heartbeat': '💓', 'fix': '🔧', 'deploy': '🚀', 'error': '⚠️',
+            'feature': '✨', 'decision': '📌', 'docs': '📝', 'chore': '🧹',
+            'refactor': '♻️', 'test': '🧪', 'style': '🎨', 'perf': '⚡',
+            'ci': '🔁', 'build': '📦', 'merge': '🔀', 'revert': '↩️',
+            'commit': '📦', 'event': '•'
         };
         return map[type] || '•';
     }
 
-    /**
-     * Label en español del tipo de evento.
-     */
     static _typeLabel(type) {
         const map = {
-            'heartbeat': 'Heartbeat',
-            'fix': 'Corrección',
-            'deploy': 'Deploy',
-            'error': 'Error',
-            'feature': 'Nueva feature',
-            'decision': 'Decisión',
-            'docs': 'Documentación',
-            'chore': 'Mantenimiento',
-            'refactor': 'Refactor',
-            'test': 'Test',
-            'style': 'Estilo',
-            'perf': 'Rendimiento',
-            'ci': 'CI/CD',
-            'build': 'Build',
-            'merge': 'Merge',
-            'revert': 'Revert',
-            'commit': 'Commit',
-            'event': 'Evento'
+            'heartbeat': 'Heartbeat', 'fix': 'Corrección', 'deploy': 'Deploy',
+            'error': 'Error', 'feature': 'Nueva feature', 'decision': 'Decisión',
+            'docs': 'Documentación', 'chore': 'Mantenimiento', 'refactor': 'Refactor',
+            'test': 'Test', 'style': 'Estilo', 'perf': 'Rendimiento',
+            'ci': 'CI/CD', 'build': 'Build', 'merge': 'Merge',
+            'revert': 'Revert', 'commit': 'Commit', 'event': 'Evento'
         };
         return map[type] || 'Evento';
     }
 
-    /**
-     * Label legible del agente.
-     */
     static _agentLabel(agent) {
         const map = {
-            'principal': 'Principal',
-            'po': 'PO',
-            'documenter': 'Documentador',
-            'reviewer': 'Code Reviewer',
-            'architect': 'Arquitecto',
-            'admin': 'Admin',
-            'system': ''
+            'principal': 'Principal', 'po': 'PO', 'documenter': 'Documentador',
+            'reviewer': 'Code Reviewer', 'architect': 'Arquitecto',
+            'admin': 'Admin', 'system': ''
         };
         return map[agent] || '';
     }
 
-    /**
-     * Escape HTML básico.
-     */
     static _escape(str) {
         if (!str) return '';
         return String(str).replace(/[&<>"']/g, m => {
@@ -411,8 +332,8 @@ class DashboardTimeline {
     }
 }
 
-// Estado global del timeline (para filtros)
-window.timelineState = { range: '8h', agentFilter: 'all' };
+// Estado global del timeline
+window.timelineState = { range: '8h', agentFilter: 'all', categoryFilter: 'all' };
 
 // Handler global para cambio de rango
 window.setTimelineRange = function(range) {
@@ -432,6 +353,18 @@ window.setTimelineRange = function(range) {
 // Handler global para cambio de filtro de agente
 window.setTimelineAgent = function(agent) {
     window.timelineState.agentFilter = agent;
+    if (window._timelineData) {
+        DashboardTimeline.render(
+            window._timelineData.sessionLog,
+            window._timelineData.commits,
+            window.timelineState
+        );
+    }
+};
+
+// Handler global para cambio de filtro de categoría
+window.setTimelineCategory = function(category) {
+    window.timelineState.categoryFilter = category;
     if (window._timelineData) {
         DashboardTimeline.render(
             window._timelineData.sessionLog,
