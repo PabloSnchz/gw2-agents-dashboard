@@ -125,13 +125,13 @@ class DashboardAttention {
             if (/🟡|media|medium/i.test(a.severity || '')) {
                 items.push({
                     title: 'Alerta media sin resolver',
-                    detail: a.description?.substring(0, 120) || '',
+                    detail: this._truncate(this._cleanMarkdown(a.description), 140),
                     action: `Agente: ${a.agent || 'desconocido'}`
                 });
             }
         });
 
-        // 3) Timeouts recientes (<24h)
+        // 3) Timeouts registrados en el log
         const sessions = data.sessionLog?.content || '';
         const matches = sessions.match(/timeout|timed out/gi);
         if (matches && matches.length > 0) {
@@ -178,7 +178,6 @@ class DashboardAttention {
 
     static _ageHours(dateStr) {
         if (!dateStr) return 0;
-        // Acepta formatos: "2026-09-28 14:30" o ISO
         const d = new Date(dateStr.replace(' ', 'T') + 'Z');
         if (isNaN(d.getTime())) return 0;
         return (Date.now() - d.getTime()) / (1000 * 60 * 60);
