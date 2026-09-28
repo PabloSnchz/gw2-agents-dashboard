@@ -390,13 +390,24 @@ class DashboardParser {
 
     /** Extrae estado de agente de descripción */
     static _extractAgentStatus(desc) {
-        if (/⏱|timeout/i.test(desc)) return 'timeout';
-        if (!/✅/.test(desc) && /⏱|timed? ?out/i.test(desc)) return 'timeout';
-        if (/✅/.test(desc) && !/⏱|timeout/i.test(desc)) return 'ok';
-        if (/🔄/.test(desc)) return 'running';
+        if (!desc) return 'unknown';
+
+        // Timeout explícito: "TIMEOUT" o "timed out" o el emoji ⏱
+        if (/TIMEOUT|timed?\s*out|⏱/i.test(desc)) return 'timeout';
+
+        // Error explícito: ❌ o "error" con contexto
+        if (/❌|\(error\)|\berror:/i.test(desc)) return 'error';
+
+        // Completado con ✅
+        if (/✅/.test(desc)) return 'ok';
+
+        // En progreso
+        if (/🔄|en progreso/i.test(desc)) return 'running';
+
+        // Idle (⏳ o ⏸)
         if (/⏳|⏸/.test(desc)) return 'idle';
-        if (/❌|error/i.test(desc)) return 'error';
-        if (/CRÍTICO|🔴/.test(desc)) return 'error';
+
+        // Sin marcadores → desconocido (no asumir error por palabras sueltas)
         return 'unknown';
     }
 
