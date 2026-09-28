@@ -444,6 +444,58 @@ body {
     font-style: italic;
 }
 
+/* ===== Tabs Navigation ===== */
+.dashboard-tabs {
+    display: flex;
+    gap: 4px;
+    margin: 20px 0 24px;
+    border-bottom: 1px solid rgba(255,255,255,0.08);
+    padding-bottom: 0;
+    overflow-x: auto;
+    scrollbar-width: thin;
+}
+.dashboard-tab {
+    padding: 10px 20px;
+    background: none;
+    border: none;
+    border-bottom: 3px solid transparent;
+    color: #888;
+    font-size: 0.9rem;
+    font-weight: 600;
+    cursor: pointer;
+    transition: all 0.15s ease;
+    white-space: nowrap;
+    margin-bottom: -1px;
+}
+.dashboard-tab:hover {
+    color: #d0d0d0;
+    background: rgba(255,255,255,0.02);
+}
+.dashboard-tab.active {
+    color: #e0e0e0;
+    border-bottom-color: #6a1b9a;
+}
+
+/* ===== Tab Contents ===== */
+.dashboard-tab-content {
+    display: none;
+}
+.dashboard-tab-content.active {
+    display: block;
+}
+
+/* ===== Upcoming Section (placeholder) ===== */
+.upcoming-section { margin-top: 0; }
+.upcoming-section h2 { font-size: 1.1rem; margin-bottom: 16px; }
+.upcoming-container {
+    background: rgba(15, 15, 25, 0.8);
+    border: 1px solid rgba(255,255,255,0.08);
+    border-radius: 8px;
+    padding: 40px;
+    text-align: center;
+    color: #666;
+}
+
 /* Responsive */
 @media (max-width: 768px) {
     .dashboard-header { flex-direction: column; gap: 12px; }

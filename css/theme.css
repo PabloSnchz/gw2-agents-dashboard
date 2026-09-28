@@ -196,3 +196,9 @@
 .attention-group--low .attention-group-header { color: #4caf50; }
 .attention-group--low .attention-item-title { color: #a0ffc8; }
 .attention-group--low .attention-group-count { background: rgba(76, 175, 80, 0.2); color: #4caf50; }
+
+
+/* ===== Dashboard Tabs ===== */
+.dashboard-tab.active {
+    color: #d8b8ff;
+}
