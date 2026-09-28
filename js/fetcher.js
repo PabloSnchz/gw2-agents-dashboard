@@ -207,9 +207,22 @@ class MarkdownFetcher {
                 return expired ? expired.data : [];
             }
             const data = await response.json();
-            const result = Array.isArray(data) ? data : [];
-            this._writeLocalCache(CACHE_KEY, result);
-            return result;
+            // Guardar solo los campos necesarios para reducir tamaño
+            const slim = (Array.isArray(data) ? data : []).map(c => ({
+                sha: c.sha,
+                commit: {
+                    author: {
+                        name: c.commit?.author?.name || '',
+                        date: c.commit?.author?.date || ''
+                    },
+                    message: c.commit?.message || ''
+                },
+                author: {
+                    login: c.author?.login || ''
+                }
+            }));
+            this._writeLocalCache(CACHE_KEY, slim);
+            return slim;
 
         } catch (error) {
             console.warn('[fetcher] Commits fetch failed:', error.message);
