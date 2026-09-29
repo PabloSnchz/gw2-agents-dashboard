@@ -219,6 +219,14 @@
 .upcoming-group--ideas .upcoming-group-header { color: #e2ae43; }
 .upcoming-group--ideas .upcoming-group-count { background: rgba(226, 174, 67, 0.2); color: #e2ae43; }
 
+/* ===== Upcoming Group: En desarrollo ===== */
+.upcoming-group--inprogress-branches .upcoming-group-header { color: #7bc2ff; }
+.upcoming-group--inprogress-branches .upcoming-group-count { background: rgba(33, 150, 243, 0.2); color: #7bc2ff; }
+
+/* ===== Upcoming Group: Listo para promover ===== */
+.upcoming-group--ready-promote .upcoming-group-header { color: #a0ffc8; }
+.upcoming-group--ready-promote .upcoming-group-count { background: rgba(76, 175, 80, 0.2); color: #a0ffc8; }
+
 
 /* ===== Live Status Cards ===== */
 .live-card--active { border-left: 3px solid rgba(76, 175, 80, 0.6); }

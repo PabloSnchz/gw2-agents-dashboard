@@ -643,4 +643,72 @@ class DashboardParser {
             return true;
         });
     }
+
+    /**
+     * Parsea READY_FOR_PROMOTION.md → items listos para promover.
+     */
+    static parseReadyForPromotion(md) {
+        const data = {
+            parseable: true,
+            updatedAt: null,
+            items: []
+        };
+
+        if (!md || typeof md !== 'string') {
+            return { parseable: false, ...data };
+        }
+
+        const updatedMatch = md.match(/>\s*Actualizado:\s*(.+)/i);
+        if (updatedMatch) data.updatedAt = updatedMatch[1].trim();
+
+        const section = this._extractSection(md, 'Listos para promover');
+        if (section) {
+            const rows = this._parseTable(section);
+            rows.forEach(row => {
+                data.items.push({
+                    item: this._cleanCell(row[0]),
+                    branch: this._cleanCell(row[1]),
+                    commits: this._cleanCell(row[2]),
+                    date: this._cleanCell(row[3]),
+                    description: this._cleanCell(row[4])
+                });
+            });
+        }
+
+        return data;
+    }
+
+    /**
+     * Parsea IN_PROGRESS.md → ramas activas.
+     */
+    static parseInProgress(md) {
+        const data = {
+            parseable: true,
+            updatedAt: null,
+            branches: []
+        };
+
+        if (!md || typeof md !== 'string') {
+            return { parseable: false, ...data };
+        }
+
+        const updatedMatch = md.match(/>\s*Actualizado:\s*(.+)/i);
+        if (updatedMatch) data.updatedAt = updatedMatch[1].trim();
+
+        const section = this._extractSection(md, 'Ramas activas');
+        if (section) {
+            const rows = this._parseTable(section);
+            rows.forEach(row => {
+                data.branches.push({
+                    branch: this._cleanCell(row[0]),
+                    item: this._cleanCell(row[1]),
+                    started: this._cleanCell(row[2]),
+                    state: this._cleanCell(row[3]),
+                    notes: this._cleanCell(row[4])
+                });
+            });
+        }
+
+        return data;
+    }
 }

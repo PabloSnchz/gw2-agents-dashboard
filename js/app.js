@@ -222,6 +222,15 @@
             ? DashboardParser.parsePoIdeas(fileMap['DASHBOARD_PO_IDEAS.md'].content)
             : null;
 
+        // NUEVO: parsear READY_FOR_PROMOTION.md e IN_PROGRESS.md
+        const readyForPromotion = fileMap['READY_FOR_PROMOTION.md']?.success
+            ? DashboardParser.parseReadyForPromotion(fileMap['READY_FOR_PROMOTION.md'].content)
+            : null;
+
+        const inProgressFile = fileMap['IN_PROGRESS.md']?.success
+            ? DashboardParser.parseInProgress(fileMap['IN_PROGRESS.md'].content)
+            : null;
+
         // Render del Panel "Próximas horas"
         DashboardUpcoming.render({
             teamStatus: {
@@ -230,7 +239,9 @@
             },
             backlog: fileMap['BACKLOG.md']?.success ? { content: fileMap['BACKLOG.md'].content } : null,
             cronSchedule: cronSchedule,
-            poIdeas: poIdeas
+            poIdeas: poIdeas,
+            readyForPromotion: readyForPromotion,
+            inProgress: inProgressFile
         });
 
         // Render del Panel "Estado en vivo"

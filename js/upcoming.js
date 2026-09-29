@@ -29,7 +29,17 @@ class DashboardUpcoming {
             ? data.poIdeas.topPriorities
             : [];
 
-        const total = inProgress.length + scheduled.length + blocked.length + ideas.length;
+        // NUEVO: ramas en desarrollo
+        const branches = (data.inProgress && data.inProgress.parseable)
+            ? data.inProgress.branches
+            : [];
+
+        // NUEVO: items listos para promover
+        const readyToPromote = (data.readyForPromotion && data.readyForPromotion.parseable)
+            ? data.readyForPromotion.items
+            : [];
+
+        const total = inProgress.length + scheduled.length + blocked.length + ideas.length + branches.length + readyToPromote.length;
 
         if (total === 0) {
             container.innerHTML = `
@@ -47,6 +57,14 @@ class DashboardUpcoming {
         if (ideas.length > 0) html += this._sectionHTML('ideas', '💡 IDEAS DEL PO', ideas.map(i => ({
             title: `${i.rank || ''} ${i.idea || ''}`.trim(),
             detail: [i.difficulty, i.state, i.eta ? `ETA: ${i.eta}` : ''].filter(Boolean).join(' · ')
+        })));
+        if (branches.length > 0) html += this._sectionHTML('inprogress-branches', '🔨 EN DESARROLLO', branches.map(b => ({
+            title: b.item || b.branch,
+            detail: [b.branch, b.state, b.started ? `Iniciada: ${b.started}` : '', b.notes].filter(Boolean).join(' · ')
+        })));
+        if (readyToPromote.length > 0) html += this._sectionHTML('ready-promote', '📦 LISTO PARA PROMOVER', readyToPromote.map(r => ({
+            title: r.item,
+            detail: [r.branch, r.commits, r.date ? `Fecha: ${r.date}` : '', r.description].filter(Boolean).join(' · ')
         })));
 
         container.innerHTML = html;
