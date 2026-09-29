@@ -232,6 +232,8 @@ class DashboardParser {
             timeout: 0,
             resolved: 0,
             byImportance: { critical: 0, important: 0, routine: 0, unclassified: 0 },
+            avgResponseTimeMs: 0,
+            criticalPending: 0,
             details: []
         };
 
@@ -330,6 +332,21 @@ class DashboardParser {
                 }
             });
         }
+
+        // Tiempo promedio de respuesta (solo cerradas con duración válida)
+        const durations = data.details
+            .filter(d => d.duration && d.duration !== '' && d.duration !== '—')
+            .map(d => this._parseDurationMs(d.duration))
+            .filter(ms => ms > 0);
+        if (durations.length > 0) {
+            data.avgResponseTimeMs = Math.round(durations.reduce((a, b) => a + b, 0) / durations.length);
+        }
+
+        // Críticas pendientes
+        data.criticalPending = data.details.filter(d =>
+            d.importanceKey === 'critical' &&
+            ['pending', 'inProgress', 'timeout'].includes(d.status)
+        ).length;
 
         return data;
     }
@@ -753,6 +770,19 @@ class DashboardParser {
     /**
      * Parsea la importancia de una comm (emoji → key interno).
      */
+    /**
+     * Parsea "1h 15min" o "45min" o "2h" → milisegundos.
+     */
+    static _parseDurationMs(str) {
+        if (!str) return 0;
+        let ms = 0;
+        const hMatch = str.match(/(\d+)\s*h/i);
+        const mMatch = str.match(/(\d+)\s*m(?:in)?/i);
+        if (hMatch) ms += parseInt(hMatch[1], 10) * 3600000;
+        if (mMatch) ms += parseInt(mMatch[1], 10) * 60000;
+        return ms;
+    }
+
     static _parseImportance(text) {
         if (!text) return 'unclassified';
         const t = text.toLowerCase();

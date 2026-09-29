@@ -144,6 +144,19 @@ class DashboardRenderer {
         const pending = comms.pending || 0;
         const closed = comms.closed || 0;
         const timeouts = comms.timeout || 0;
+        const criticalPending = comms.criticalPending || 0;
+
+        // Formato del tiempo promedio
+        let avgLabel = '—';
+        if (comms.avgResponseTimeMs > 0) {
+            const min = Math.round(comms.avgResponseTimeMs / 60000);
+            if (min < 60) avgLabel = `${min} min`;
+            else {
+                const h = Math.floor(min / 60);
+                const m = min % 60;
+                avgLabel = m > 0 ? `${h}h ${m}min` : `${h}h`;
+            }
+        }
 
         container.innerHTML = `
             <div class="kpi-card kpi-comms-active">
@@ -176,7 +189,19 @@ class DashboardRenderer {
                     <span class="kpi-title">Timeouts</span>
                 </div>
                 <div class="kpi-value">${timeouts}</div>
-                <div class="kpi-sub">Reviewer bug</div>
+                <div class="kpi-sub">sin respuesta</div>
+            </div>
+            <div class="comms-summary-bar">
+                <div class="comms-summary-item">
+                    <span class="comms-summary-icon">⏱</span>
+                    <span class="comms-summary-label">Tiempo promedio</span>
+                    <span class="comms-summary-value">${avgLabel}</span>
+                </div>
+                <div class="comms-summary-item ${criticalPending > 0 ? 'comms-summary-item--alert' : ''}">
+                    <span class="comms-summary-icon">🔴</span>
+                    <span class="comms-summary-label">Críticas pendientes</span>
+                    <span class="comms-summary-value">${criticalPending}</span>
+                </div>
             </div>
         `;
     }
@@ -189,6 +214,16 @@ class DashboardRenderer {
         const toolbar = document.getElementById('comms-toolbar');
         if (!toolbar) return;
 
+        // Recolectar agentes únicos de los datos actuales
+        const agents = new Set();
+        if (window.commsData && window.commsData.details) {
+            window.commsData.details.forEach(d => {
+                if (d.from) agents.add(d.from);
+                if (d.to) agents.add(d.to);
+            });
+        }
+        const agentList = Array.from(agents).sort();
+
         toolbar.innerHTML = `
             <select id="comms-filter-status" class="comms-filter-select">
                 <option value="all">Todos los estados</option>
@@ -197,16 +232,36 @@ class DashboardRenderer {
                 <option value="resolved">✅ Resueltas</option>
                 <option value="inProgress">🔄 En progreso</option>
             </select>
+            <select id="comms-filter-importance" class="comms-filter-select">
+                <option value="all">Todas las importancias</option>
+                <option value="critical">🔴 Críticas</option>
+                <option value="important">🟡 Importantes</option>
+                <option value="routine">🟢 Rutinarias</option>
+                <option value="unclassified">❔ Sin clasificar</option>
+            </select>
+            <select id="comms-filter-agent" class="comms-filter-select">
+                <option value="all">Todos los agentes</option>
+                ${agentList.map(a => `<option value="${this._escape(a)}">${this._escape(a)}</option>`).join('')}
+            </select>
             <input type="text" id="comms-search" class="comms-search" placeholder="Buscar en pedidos...">
-            <button id="comms-sort-toggle" class="btn btn-secondary btn-sm">↕️ Ordenar</button>
         `;
 
-        // Restaurar filtro guardado
+        // Restaurar filtros guardados
         const savedStatus = localStorage.getItem('gn:dashboard:comms:filter:status') || 'all';
-        toolbar.querySelector('#comms-filter-status').value = savedStatus;
+        const statusSel = toolbar.querySelector('#comms-filter-status');
+        if (statusSel) statusSel.value = savedStatus;
+
+        const savedImportance = localStorage.getItem('gn:dashboard:comms:filter:importance') || 'all';
+        const impSel = toolbar.querySelector('#comms-filter-importance');
+        if (impSel) impSel.value = savedImportance;
+
+        const savedAgent = localStorage.getItem('gn:dashboard:comms:filter:agent') || 'all';
+        const agentSel = toolbar.querySelector('#comms-filter-agent');
+        if (agentSel) agentSel.value = savedAgent;
 
         const savedSearch = localStorage.getItem('gn:dashboard:comms:search') || '';
-        toolbar.querySelector('#comms-search').value = savedSearch;
+        const searchInput = toolbar.querySelector('#comms-search');
+        if (searchInput) searchInput.value = savedSearch;
     }
 
     /**
@@ -228,6 +283,9 @@ class DashboardRenderer {
             }
             if (filterState.importanceFilter && filterState.importanceFilter !== 'all') {
                 rows = rows.filter(r => r.importanceKey === filterState.importanceFilter);
+            }
+            if (filterState.agentFilter && filterState.agentFilter !== 'all') {
+                rows = rows.filter(r => r.from === filterState.agentFilter || r.to === filterState.agentFilter);
             }
             if (filterState.searchTerm) {
                 const term = filterState.searchTerm.toLowerCase();

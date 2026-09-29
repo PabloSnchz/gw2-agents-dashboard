@@ -261,3 +261,7 @@
 .comms-group--unclassified .comms-group__header { color: #888; }
 .comms-group--unclassified .comms-group__count { background: rgba(120, 120, 120, 0.2); color: #888; }
 .comms-group--unclassified .comm-card { border-left: 3px solid rgba(120, 120, 120, 0.3); }
+
+/* ===== Comms Summary Alert ===== */
+.comms-summary-item--alert .comms-summary-label { color: #ff9d9d; }
+.comms-summary-item--alert .comms-summary-value { color: #ff6b6b; }
