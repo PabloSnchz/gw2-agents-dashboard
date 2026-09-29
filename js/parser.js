@@ -231,6 +231,7 @@ class DashboardParser {
             inProgress: 0,
             timeout: 0,
             resolved: 0,
+            byImportance: { critical: 0, important: 0, routine: 0, unclassified: 0 },
             details: []
         };
 
@@ -248,6 +249,16 @@ class DashboardParser {
                     data.active++;
                     const state = row[4] || '';
                     const parsed = this._parseCommStatus(state);
+                    // Detectar formato nuevo (12+ cols) vs viejo (8 cols)
+                    const isNewFormat = row.length >= 12;
+                    const importance = isNewFormat ? this._cleanCell(row[5]) : '';
+                    const type = isNewFormat ? this._cleanCell(row[6]) : '';
+                    const attempt = isNewFormat ? this._cleanCell(row[7]) : '1';
+                    const taskId = isNewFormat ? this._cleanCell(row[8]) : this._cleanCell(row[5]);
+                    const created = isNewFormat ? this._cleanCell(row[9]) : this._cleanCell(row[5]);
+                    const updated = isNewFormat ? this._cleanCell(row[10]) : this._cleanCell(row[6]);
+                    const duration = isNewFormat ? this._cleanCell(row[11]) : '';
+
                     data.details.push({
                         id: 'comm-' + data.total,
                         from: this._cleanCell(row[1]),
@@ -255,13 +266,22 @@ class DashboardParser {
                         summary: this._cleanCell(row[3], true),
                         status: parsed.status,
                         statusLabel: parsed.label,
-                        created: this._cleanCell(row[5]),
-                        updated: this._cleanCell(row[6]),
+                        importance: importance,
+                        importanceKey: this._parseImportance(importance),
+                        type: type,
+                        attempt: attempt,
+                        taskId: taskId,
+                        created: created,
+                        updated: updated,
+                        duration: duration,
                         sourceSection: 'activas'
                     });
                     if (parsed.status === 'pending') data.pending++;
                     if (parsed.status === 'inProgress') data.inProgress++;
                     if (parsed.status === 'timeout') data.timeout++;
+
+                    const impKey = this._parseImportance(importance);
+                    if (data.byImportance[impKey] !== undefined) data.byImportance[impKey]++;
                 }
             });
         }
@@ -276,6 +296,15 @@ class DashboardParser {
                     data.closed++;
                     const result = row[4] || '';
                     const parsed = this._parseCommStatus(result);
+                    const isNewFormat = row.length >= 12;
+                    const importance = isNewFormat ? this._cleanCell(row[5]) : '';
+                    const type = isNewFormat ? this._cleanCell(row[6]) : '';
+                    const attempt = isNewFormat ? this._cleanCell(row[7]) : '1';
+                    const taskId = isNewFormat ? this._cleanCell(row[8]) : this._cleanCell(row[5]);
+                    const created = isNewFormat ? this._cleanCell(row[9]) : this._cleanCell(row[5]);
+                    const closed = isNewFormat ? this._cleanCell(row[10]) : this._cleanCell(row[6]);
+                    const duration = isNewFormat ? this._cleanCell(row[11]) : '';
+
                     data.details.push({
                         id: 'comm-' + data.total,
                         from: this._cleanCell(row[1]),
@@ -283,12 +312,21 @@ class DashboardParser {
                         summary: this._cleanCell(row[3], true),
                         status: parsed.status,
                         statusLabel: parsed.label,
-                        created: this._cleanCell(row[5]),
-                        closed: this._cleanCell(row[6]),
+                        importance: importance,
+                        importanceKey: this._parseImportance(importance),
+                        type: type,
+                        attempt: attempt,
+                        taskId: taskId,
+                        created: created,
+                        closed: closed,
+                        duration: duration,
                         sourceSection: 'cerradas'
                     });
                     if (parsed.status === 'resolved') data.resolved++;
                     if (parsed.status === 'timeout') data.timeout++;
+
+                    const impKey = this._parseImportance(importance);
+                    if (data.byImportance[impKey] !== undefined) data.byImportance[impKey]++;
                 }
             });
         }
@@ -707,6 +745,74 @@ class DashboardParser {
                     notes: this._cleanCell(row[4])
                 });
             });
+        }
+
+        return data;
+    }
+
+    /**
+     * Parsea la importancia de una comm (emoji → key interno).
+     */
+    static _parseImportance(text) {
+        if (!text) return 'unclassified';
+        const t = text.toLowerCase();
+        if (/🔴|crítica|critica|critical/.test(t)) return 'critical';
+        if (/🟡|importante|important/.test(t)) return 'important';
+        if (/🟢|rutinaria|routine/.test(t)) return 'routine';
+        return 'unclassified';
+    }
+
+    /**
+     * Parsea COMMS_DETAILS.md → conversación completa de cada comm.
+     * Estructura: ## comm-NNN + bloques (📤 PEDIDO / 📥 RESPUESTA / 🔄 REINTENTO / ✅ CONSUMO).
+     */
+    static parseCommsDetails(md) {
+        const data = {
+            parseable: true,
+            conversations: {}
+        };
+
+        if (!md || typeof md !== 'string') {
+            return { parseable: false, ...data };
+        }
+
+        // Dividir por "## comm-" (cada conversación)
+        const parts = md.split(/^## (comm-\d+)/gm);
+        // parts = ["...intro...", "comm-001", "...content...", "comm-002", "...content...", ...]
+
+        for (let i = 1; i < parts.length; i += 2) {
+            const commId = parts[i].trim();
+            const content = parts[i + 1] || '';
+
+            const conv = {
+                id: commId,
+                meta: {},
+                blocks: []
+            };
+
+            // Parsear metadata (líneas tipo "- Campo: valor")
+            const metaLines = content.match(/^-\s*([^:]+):\s*(.+)$/gm) || [];
+            metaLines.forEach(line => {
+                const m = line.match(/^-\s*([^:]+):\s*(.+)$/);
+                if (m) conv.meta[m[1].trim()] = m[2].trim();
+            });
+
+            // Parsear bloques (### título + cita)
+            const blockRegex = /^###\s+(.+?)(?:\s+\(([^)]+)\))?\s*\n+>\s*([\s\S]*?)(?=\n###|\n*$)/gm;
+            let bMatch;
+            while ((bMatch = blockRegex.exec(content)) !== null) {
+                const title = bMatch[1].trim();
+                const author = bMatch[2] ? bMatch[2].trim() : '';
+                const text = bMatch[3].trim().replace(/^>\s*/gm, '').trim();
+
+                conv.blocks.push({
+                    title: title,
+                    author: author,
+                    text: text
+                });
+            }
+
+            data.conversations[commId] = conv;
         }
 
         return data;

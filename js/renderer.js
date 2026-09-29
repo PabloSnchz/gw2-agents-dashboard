@@ -216,8 +216,8 @@ class DashboardRenderer {
      * @param {Object} filterState — { statusFilter, searchTerm }
      */
     static renderCommsTable(comms, sortState, filterState) {
-        const tbody = document.getElementById('comms-tbody');
-        if (!tbody) return;
+        const container = document.getElementById('comms-list-container');
+        if (!container) return;
 
         let rows = comms.details || [];
 
@@ -225,6 +225,9 @@ class DashboardRenderer {
         if (filterState) {
             if (filterState.statusFilter && filterState.statusFilter !== 'all') {
                 rows = rows.filter(r => r.status === filterState.statusFilter);
+            }
+            if (filterState.importanceFilter && filterState.importanceFilter !== 'all') {
+                rows = rows.filter(r => r.importanceKey === filterState.importanceFilter);
             }
             if (filterState.searchTerm) {
                 const term = filterState.searchTerm.toLowerCase();
@@ -236,54 +239,70 @@ class DashboardRenderer {
             }
         }
 
-        // Aplicar ordenamiento
-        if (sortState) {
-            rows = [...rows].sort((a, b) => {
-                const aVal = a[sortState.key] || '';
-                const bVal = b[sortState.key] || '';
-                let cmp = aVal.localeCompare(bVal);
-                if (sortState.direction === 'desc') cmp = -cmp;
-                return cmp;
-            });
-        }
-
-        // Marcar columna ordenada
-        const sortIndicators = { from: '', to: '', summary: '', status: '', created: '', updated: '' };
-        if (sortState) {
-            sortIndicators[sortState.key] = sortState.direction === 'asc' ? ' ↑' : ' ↓';
-        }
-
-        // Actualizar headers (indicadores de orden)
-        const headers = tbody.closest('table')?.querySelectorAll('th');
-        if (headers) {
-            const keys = ['from', 'to', 'summary', 'status', 'created', 'updated'];
-            headers.forEach((th, i) => {
-                if (i < keys.length) {
-                    const base = th.textContent.replace(/[↕↑↓]/g, '').trim();
-                    th.innerHTML = base + '↕<span class="sort-indicator">' + sortIndicators[keys[i]] + '</span>';
-                }
-            });
-        }
-
         if (rows.length === 0) {
-            tbody.innerHTML = '<tr><td colspan="6" class="loading">No hay comunicaciones con los filtros aplicados</td></tr>';
+            container.innerHTML = '<p class="loading">No hay comunicaciones con los filtros aplicados.</p>';
             return;
         }
 
-        tbody.innerHTML = rows.map(d => {
-            const badgeClass = this._commBadgeClass(d.status);
-            const dateCol = d.sourceSection === 'activas' ? d.updated : d.closed;
-            return `
-                <tr class="comm-row" onclick="openCommsModal('${d.id}')">
-                    <td>${this._escape(d.from)}</td>
-                    <td>${this._escape(d.to)}</td>
-                    <td class="comm-summary">${this._truncate(d.summary, 60)}</td>
-                    <td><span class="badge ${badgeClass}">${d.statusLabel}</span></td>
-                    <td>${this._escape(d.created)}</td>
-                    <td>${this._escape(dateCol || '')}</td>
-                </tr>
+        // Agrupar por importancia
+        const groups = {
+            critical: { label: '🔴 CRÍTICAS', items: [] },
+            important: { label: '🟡 IMPORTANTES', items: [] },
+            routine: { label: '🟢 RUTINARIAS', items: [] },
+            unclassified: { label: '❔ SIN CLASIFICAR', items: [] }
+        };
+
+        rows.forEach(r => {
+            const key = r.importanceKey || 'unclassified';
+            if (groups[key]) groups[key].items.push(r);
+        });
+
+        // Renderizar cada grupo
+        let html = '';
+        for (const [key, group] of Object.entries(groups)) {
+            if (group.items.length === 0) continue;
+            html += `
+                <div class="comms-group comms-group--${key}">
+                    <div class="comms-group__header">
+                        <span class="comms-group__label">${group.label}</span>
+                        <span class="comms-group__count">${group.items.length}</span>
+                    </div>
+                    <div class="comms-group__items">
+                        ${group.items.map(d => this._commCardHTML(d)).join('')}
+                    </div>
+                </div>
             `;
-        }).join('');
+        }
+
+        container.innerHTML = html;
+    }
+
+    /** Renderiza una card individual de comm. */
+    static _commCardHTML(d) {
+        const badgeClass = this._commBadgeClass(d.status);
+        const dateCol = d.sourceSection === 'activas' ? d.updated : d.closed;
+        const dateLabel = d.sourceSection === 'activas' ? 'Actualizado' : 'Cerrado';
+        const typeLabel = d.type ? `<span class="comm-card__type">${this._escape(d.type)}</span>` : '';
+        const attemptLabel = d.attempt && d.attempt !== '1' ? `<span class="comm-card__attempt">Intento ${this._escape(d.attempt)}</span>` : '';
+        const durationLabel = d.duration ? `<span class="comm-card__duration">⏱ ${this._escape(d.duration)}</span>` : '';
+
+        return `
+            <div class="comm-card" onclick="openCommsModal('${d.id}')">
+                <div class="comm-card__header">
+                    <span class="badge ${badgeClass}">${this._escape(d.statusLabel)}</span>
+                    ${typeLabel}
+                    ${attemptLabel}
+                </div>
+                <div class="comm-card__agents">
+                    <strong>${this._escape(d.from)}</strong> → <strong>${this._escape(d.to)}</strong>
+                </div>
+                <div class="comm-card__summary">${this._escape(this._truncate(d.summary, 120))}</div>
+                <div class="comm-card__meta">
+                    <span>📅 ${this._escape(d.created || '')}</span>
+                    ${durationLabel}
+                </div>
+            </div>
+        `;
     }
 
     /**
@@ -295,12 +314,38 @@ class DashboardRenderer {
         const bodyEl = document.getElementById('comms-modal-body');
         if (!titleEl || !bodyEl) return;
 
-        titleEl.textContent = comm.summary || 'Detalle de comunicación';
+        titleEl.textContent = comm.id ? `Detalle ${comm.id}` : 'Detalle de comunicación';
 
         const dateCol = comm.sourceSection === 'activas' ? comm.updated : comm.closed;
         const dateLabel = comm.sourceSection === 'activas' ? 'Última actualización' : 'Cerrado';
 
+        // Buscar conversación completa en COMMS_DETAILS
+        const conv = (window.commsDetails && window.commsDetails.conversations)
+            ? window.commsDetails.conversations[comm.id]
+            : null;
+
+        let blocksHTML = '';
+        if (conv && conv.blocks && conv.blocks.length > 0) {
+            blocksHTML = conv.blocks.map(b => `
+                <div class="comm-detail-block">
+                    <div class="comm-detail-block__title">
+                        ${this._escape(b.title)}
+                        ${b.author ? `<span class="comm-detail-block__author">${this._escape(b.author)}</span>` : ''}
+                    </div>
+                    <blockquote class="comm-detail-block__quote">${this._escape(b.text)}</blockquote>
+                </div>
+            `).join('');
+        } else {
+            blocksHTML = '<p class="loading">Sin conversación detallada. El COMMS_DETAILS.md no tiene entrada para esta comm.</p>';
+        }
+
+        const importanceEmoji = { critical: '🔴', important: '🟡', routine: '🟢', unclassified: '❔' }[comm.importanceKey] || '❔';
+
         bodyEl.innerHTML = `
+            <div class="comm-detail-header">
+                <span class="comm-detail-importance">${importanceEmoji}</span>
+                <span class="comm-detail-title">${this._escape(comm.summary || '')}</span>
+            </div>
             <div class="comm-detail-grid">
                 <div class="comm-detail-row">
                     <span class="comm-detail-label">De:</span>
@@ -316,22 +361,33 @@ class DashboardRenderer {
                         <span class="badge ${this._commBadgeClass(comm.status)}">${comm.statusLabel}</span>
                     </span>
                 </div>
+                ${comm.type ? `
                 <div class="comm-detail-row">
-                    <span class="comm-detail-label">Sección:</span>
-                    <span class="comm-detail-value">${comm.sourceSection === 'activas' ? 'Activas' : 'Cerradas'}</span>
-                </div>
+                    <span class="comm-detail-label">Tipo:</span>
+                    <span class="comm-detail-value">${this._escape(comm.type)}</span>
+                </div>` : ''}
+                ${comm.attempt && comm.attempt !== '1' ? `
+                <div class="comm-detail-row">
+                    <span class="comm-detail-label">Intentos:</span>
+                    <span class="comm-detail-value">${this._escape(comm.attempt)}</span>
+                </div>` : ''}
                 <div class="comm-detail-row">
                     <span class="comm-detail-label">Creado:</span>
                     <span class="comm-detail-value">${this._escape(comm.created)}</span>
                 </div>
                 <div class="comm-detail-row">
                     <span class="comm-detail-label">${dateLabel}:</span>
-                    <span class="comm-detail-value">${this._escape(dateCol || '')}</span>
+                    <span class="comm-detail-value">${this._escape(dateCol || '—')}</span>
                 </div>
+                ${comm.duration ? `
                 <div class="comm-detail-row">
-                    <span class="comm-detail-label">Pedido:</span>
-                    <span class="comm-detail-value comm-detail-pedido">${this._escape(comm.summary || '')}</span>
-                </div>
+                    <span class="comm-detail-label">Duración:</span>
+                    <span class="comm-detail-value">⏱ ${this._escape(comm.duration)}</span>
+                </div>` : ''}
+            </div>
+            <div class="comm-detail-conversation">
+                <h4>Conversación</h4>
+                ${blocksHTML}
             </div>
         `;
 

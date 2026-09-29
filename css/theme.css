@@ -243,3 +243,21 @@
 
 .live-card--unknown { border-left: 3px solid rgba(120, 120, 120, 0.3); }
 .live-card--unknown .live-card__status { color: #888; }
+
+
+/* ===== Comms Group Colors ===== */
+.comms-group--critical .comms-group__header { color: #ff6b6b; }
+.comms-group--critical .comms-group__count { background: rgba(244, 67, 54, 0.2); color: #ff6b6b; }
+.comms-group--critical .comm-card { border-left: 3px solid rgba(244, 67, 54, 0.5); }
+
+.comms-group--important .comms-group__header { color: #ffa726; }
+.comms-group--important .comms-group__count { background: rgba(255, 152, 0, 0.2); color: #ffa726; }
+.comms-group--important .comm-card { border-left: 3px solid rgba(255, 152, 0, 0.5); }
+
+.comms-group--routine .comms-group__header { color: #4caf50; }
+.comms-group--routine .comms-group__count { background: rgba(76, 175, 80, 0.2); color: #4caf50; }
+.comms-group--routine .comm-card { border-left: 3px solid rgba(76, 175, 80, 0.5); }
+
+.comms-group--unclassified .comms-group__header { color: #888; }
+.comms-group--unclassified .comms-group__count { background: rgba(120, 120, 120, 0.2); color: #888; }
+.comms-group--unclassified .comm-card { border-left: 3px solid rgba(120, 120, 120, 0.3); }

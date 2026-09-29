@@ -29,6 +29,7 @@ const DASHBOARD_CONFIG = {
         { name: 'DASHBOARD_PO_IDEAS.md', zone: 'recent', label: 'Ideas del PO' },
         { name: 'READY_FOR_PROMOTION.md', zone: 'recent', label: 'Listo para promover' },
         { name: 'IN_PROGRESS.md', zone: 'recent', label: 'En desarrollo' },
+        { name: 'COMMS_DETAILS.md', zone: 'recent', label: 'Detalle de Comunicaciones' },
         { name: 'PRE_BACKLOG.md', zone: 'history', label: 'Pre-Backlog' },
     ],
 

@@ -21,7 +21,7 @@
 
     // Estado de comunicaciones (sort + filtros, persistido con prefijo gn:)
     let commsSortState = null;
-    let commsFilterState = { statusFilter: 'all', searchTerm: '' };
+    let commsFilterState = { statusFilter: 'all', importanceFilter: 'all', searchTerm: '' };
 
     // Estado del tab activo
     const TAB_STORAGE_KEY = 'gn:dashboard:active-tab';
@@ -92,6 +92,10 @@
         const savedFilterStatus = localStorage.getItem('gn:dashboard:comms:filter:status');
         if (savedFilterStatus) {
             commsFilterState.statusFilter = savedFilterStatus;
+        }
+        const savedFilterImportance = localStorage.getItem('gn:dashboard:comms:filter:importance');
+        if (savedFilterImportance) {
+            commsFilterState.importanceFilter = savedFilterImportance;
         }
 
         // Cargar datos inmediatamente
@@ -222,6 +226,14 @@
             ? DashboardParser.parsePoIdeas(fileMap['DASHBOARD_PO_IDEAS.md'].content)
             : null;
 
+        // Parsear COMMS_DETAILS.md (conversaciones completas)
+        const commsDetails = fileMap['COMMS_DETAILS.md']?.success
+            ? DashboardParser.parseCommsDetails(fileMap['COMMS_DETAILS.md'].content)
+            : null;
+
+        // Exponer globalmente para que renderCommsDetail lo use
+        window.commsDetails = commsDetails;
+
         // NUEVO: parsear READY_FOR_PROMOTION.md e IN_PROGRESS.md
         const readyForPromotion = fileMap['READY_FOR_PROMOTION.md']?.success
             ? DashboardParser.parseReadyForPromotion(fileMap['READY_FOR_PROMOTION.md'].content)
@@ -280,12 +292,23 @@
     // ============ COMMS LISTENERS ============
     function attachCommsListeners() {
         const filterSelect = $('comms-filter-status');
+        const filterImportance = $('comms-filter-importance');
         const searchInput = $('comms-search');
 
         if (filterSelect) {
             filterSelect.addEventListener('change', (e) => {
                 commsFilterState.statusFilter = e.target.value;
                 localStorage.setItem('gn:dashboard:comms:filter:status', e.target.value);
+                if (window.commsData) {
+                    DashboardRenderer.renderCommsTable(window.commsData, commsSortState, commsFilterState);
+                }
+            });
+        }
+
+        if (filterImportance) {
+            filterImportance.addEventListener('change', (e) => {
+                commsFilterState.importanceFilter = e.target.value;
+                localStorage.setItem('gn:dashboard:comms:filter:importance', e.target.value);
                 if (window.commsData) {
                     DashboardRenderer.renderCommsTable(window.commsData, commsSortState, commsFilterState);
                 }

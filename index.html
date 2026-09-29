@@ -4,8 +4,8 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>GW2 Agents Dashboard</title>
-    <link rel="stylesheet" href="css/main.css?v=10">
-    <link rel="stylesheet" href="css/theme.css?v=11">
+    <link rel="stylesheet" href="css/main.css?v=11">
+    <link rel="stylesheet" href="css/theme.css?v=12">
 </head>
 <body>
     <div class="dashboard">
@@ -104,21 +104,7 @@
                 <h2>💬 Comunicaciones</h2>
                 <div id="comms-toolbar" class="comms-toolbar"></div>
                 <div id="comms-kpis" class="comms-kpi-grid"></div>
-                <div class="comms-table-wrapper">
-                    <table class="comms-table">
-                        <thead>
-                            <tr>
-                                <th onclick="sortComms('from')">De ↕</th>
-                                <th onclick="sortComms('to')">A ↕</th>
-                                <th onclick="sortComms('summary')">Pedido ↕</th>
-                                <th onclick="sortComms('status')">Estado ↕</th>
-                                <th onclick="sortComms('created')">Creado ↕</th>
-                                <th onclick="sortComms('updated')">Actualizado ↕</th>
-                            </tr>
-                        </thead>
-                        <tbody id="comms-tbody"></tbody>
-                    </table>
-                </div>
+                <div id="comms-list-container" class="comms-list-container"></div>
             </section>
 
             <section class="logs-section">
@@ -147,14 +133,14 @@
 
     <!-- marked.js v4 (CDN, no se commitea) -->
     <script src="https://cdn.jsdelivr.net/npm/marked/marked.min.js"></script>
-    <script src="js/config.js?v=9"></script>
+    <script src="js/config.js?v=10"></script>
     <script src="js/fetcher.js?v=10"></script>
-    <script src="js/parser.js?v=12"></script>
-    <script src="js/renderer.js?v=7"></script>
+    <script src="js/parser.js?v=13"></script>
+    <script src="js/renderer.js?v=8"></script>
     <script src="js/timeline.js?v=6"></script>
     <script src="js/attention.js?v=5"></script>
     <script src="js/upcoming.js?v=4"></script>
     <script src="js/live-status.js?v=1"></script>
-    <script src="js/app.js?v=14"></script>
+    <script src="js/app.js?v=15"></script>
 </body>
 </html>
