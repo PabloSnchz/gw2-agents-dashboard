@@ -55,9 +55,11 @@ const DASHBOARD_CONFIG = {
         return `https://raw.githubusercontent.com/${this.repoOwner}/${this.repoName}/${this.branch}/${filename}`;
     },
 
-    // Opción C' — GitHub Contents API (primary) para auto-detectar .md
+    // Auto-deteccion de .md: ahora lee la lista pre-calculada de git.json
+    // (archivos_md), no la contents API. Mismo dato, sin cuota.
+    // Antes-era: getApiUrl() -> .../contents?ref=main  (API REST, 60/h)
     getApiUrl() {
-        return `https://api.github.com/repos/${this.repoOwner}/${this.repoName}/contents?ref=${this.branch}`;
+        return this.getGitDataUrl();
     },
 
     // Fuente de verdad de la ESTRUCTURA del ecosistema. Vive en el repo del
@@ -83,9 +85,16 @@ const DASHBOARD_CONFIG = {
         return `https://raw.githubusercontent.com/${this.structureRepoOwner}/${this.structureRepoName}/${this.structureBranch}/data/salud.json`;
     },
 
-    // GitHub Commits API — para el timeline
-    getCommitsUrl(limit = 50) {
-        return `https://api.github.com/repos/${this.repoOwner}/${this.repoName}/commits?sha=${this.branch}&per_page=${limit}`;
+    // Estado de git de los 3 repos (sha, ultimo commit, proteccion de main).
+    // Lo escribe _eco\git_export.py cada 15 min y publica con el pulso.
+    // REEMPLAZA a las 3 llamadas branches/main que el navegador hacia contra
+    // api.github.com: la API anonima son 60/hora POR IP, asi que con la cuota
+    // en cero los 3 repos quedaban en 'unknown' y el guard no podia
+    // distinguir "rama abierta" de "no pude preguntar". El dato llega
+    // pre-calculado, y `protected` llega cacheado con TTL de 6 h porque es
+    // el unico campo que la API REST sola puede dar.
+    getGitDataUrl() {
+        return `https://raw.githubusercontent.com/${this.structureRepoOwner}/${this.structureRepoName}/${this.structureBranch}/data/git.json`;
     },
 
     // Heurística de zonas para archivos descubiertos dinámicamente via API

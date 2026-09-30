@@ -24,26 +24,41 @@ const REPOS_GUARD = [
 
 const ProductionGuard = {
     async check() {
-        return Promise.all(REPOS_GUARD.map(async r => {
-            const url = `https://api.github.com/repos/PabloSnchz/${r.repo}/branches/main`;
-            try {
-                const res = await fetch(url);
-                if (res.status === 403 || res.status === 429) {
-                    return Object.assign({}, r, { state: 'unknown', reason: 'rate limit de la API de GitHub' });
-                }
-                if (!res.ok) {
-                    return Object.assign({}, r, { state: 'unknown', reason: 'API ' + res.status });
-                }
-                const data = await res.json();
-                const commit = data.commit && data.commit.commit;
-                return Object.assign({}, r, {
-                    state: data.protected ? 'protected' : 'open',
-                    lastSha: data.commit && data.commit.sha ? data.commit.sha.substring(0, 7) : null,
-                    lastCommit: commit ? commit.message.split('\n')[0] : null
-                });
-            } catch (e) {
-                return Object.assign({}, r, { state: 'unknown', reason: e.message });
+        // Lee data/git.json, pre-calculado en _eco\git_export.py y publicado
+        // con el pulso cada 15 min. Antes eram 3 fetch a branches/main contra
+        // api.github.com; con la cuota anonima (60/h POR IP) agotada los 3
+        // daban 403 y las 3 tarjetas caian en "No verificable" sin poder
+        // distinguir "rama abierta" de "no pude preguntar".
+        const url = cfg.getGitDataUrl() + '?t=' + Date.now();
+        try {
+            const res = await fetch(url);
+            if (!res.ok) return this._todosUnknown('HTTP ' + res.status + ' al leer data/git.json');
+            const data = await res.json();
+            if (!data || !Array.isArray(data.repos)) {
+                return this._todosUnknown('data/git.json no tiene la forma esperada');
             }
+            return data.repos.map(r => ({
+                repo: r.repo,
+                label: r.label,
+                role: r.role,
+                state: r.estado,               // 'protected' | 'open' | 'unknown'
+                lastSha: r.short_sha,
+                lastCommit: r.commit,
+                // 'protected' llega cacheado con TTL de 6 h (es el unico
+                // campo que solo la API REST da). Si vino de cache y el
+                // estado es 'open', NO es igual de confiable que uno recien
+                // verificado: lo marcamos aparte para no mentir.
+                cached: r.protected_fresco === false,
+                checkedAt: r.protected_verificado_utc
+            }));
+        } catch (e) {
+            return this._todosUnknown(e.message);
+        }
+    },
+
+    _todosUnknown(reason) {
+        return REPOS_GUARD.map(r => Object.assign({}, r, {
+            state: 'unknown', reason, cached: false, lastSha: null, lastCommit: null
         }));
     },
 
@@ -51,7 +66,7 @@ const ProductionGuard = {
         const container = document.getElementById('guard-container');
         if (!container) return;
 
-        container.innerHTML = '<p class="guard-loading">Verificando protecci&oacute;n en GitHub&hellip;</p>';
+        container.innerHTML = '<p class="guard-loading">Leyendo el estado de git&hellip;</p>';
 
         const results = await this.check();
         const now = new Date().toLocaleTimeString();
@@ -70,11 +85,21 @@ const ProductionGuard = {
                 tone = 'neutral'; icon = '❓'; label = 'No verificable';
             }
 
-            const detail = r.state === 'unknown'
-                ? this._escape(r.reason)
-                : (r.lastCommit
+            let detail;
+            if (r.state === 'unknown') {
+                detail = this._escape(r.reason || 'Sin dato');
+            } else {
+                detail = r.lastCommit
                     ? 'Último <code>' + this._escape(r.lastSha) + '</code> — ' + this._escape(this._shorten(r.lastCommit, 70))
-                    : '');
+                    : 'Último <code>' + this._escape(r.lastSha || '—') + '</code>';
+                // La protección puede venir cacheada. Un "abierta" cacheado
+                // todavía dispara la alarma, pero se marca como leído viejo
+                // para que Pablo sepa cuánto pesa ese dato.
+                if (r.cached && r.state === 'open') {
+                    detail += ' <em>(protección cacheada: ' +
+                        this._escape(this._humanTs(r.checkedAt)) + ')</em>';
+                }
+            }
 
             return `
                 <div class="guard-card guard-card--${tone}">
@@ -100,10 +125,16 @@ const ProductionGuard = {
             ${alert}
             <div class="guard-grid">${cards}</div>
             <p class="guard-foot">
-                Verificado en vivo contra la API de GitHub a las ${this._escape(now)}.
+                Datos pre-calculados por el pulso del ecosistema (data/git.json) a las ${this._escape(now)}.
                 Que la rama esté <em>protegida</em> no implica que exija PR ni que seas el único que aprueba:
                 eso <strong>no se puede leer sin token</strong>. Confirmalo en Settings → Rules.
             </p>`;
+    },
+
+    _humanTs(compact) {
+        // '20260930T154500Z' -> 'hace X' es demasiado; lo dejo legible.
+        if (!compact) return 'hora desconocida';
+        return String(compact).replace('T', ' ').replace('Z', ' UTC');
     },
 
     _escape(s) {

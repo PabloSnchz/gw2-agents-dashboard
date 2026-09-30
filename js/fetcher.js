@@ -94,22 +94,28 @@ class MarkdownFetcher {
     }
 
     async fetchFileList() {
-        const url = this.config.getApiUrl();
+        // Lee la lista de .md desde data/git.json (campo archivos_md), que
+        // genera _eco\git_export.py con `git ls-files` del clon local.
+        // Antes: contents API de GitHub. Con la cuota anonima agotada, esta
+        // llamada devolvia 403 y el bloque se caia al catch y devolveia null
+        // en silencio (ver fetchFileList: catch -> return null), dejando el
+        // panel sin los .md auto-descubiertos y sin decir por que.
+        const url = this.config.getGitDataUrl();
         try {
             const response = await fetch(url);
-            if (!response.ok) throw new Error('API ' + response.status);
-            const items = await response.json();
-
-            const mdFiles = items
-                .filter(item => item.name && item.name.endsWith('.md'))
-                .map(item => ({
-                    name: item.name,
-                    zone: this.config.getZoneForFile(item.name),
-                    label: this.config.getLabelForFile(item.name)
+            if (!response.ok) throw new Error('HTTP ' + response.status + ' al leer data/git.json');
+            const data = await response.json();
+            const nombres = Array.isArray(data.archivos_md) ? data.archivos_md : [];
+            const mdFiles = nombres
+                .filter(n => n && n.endsWith('.md'))
+                .map(n => ({
+                    name: n,
+                    zone: this.config.getZoneForFile(n),
+                    label: this.config.getLabelForFile(n)
                 }));
-
             return mdFiles.length > 0 ? mdFiles : null;
         } catch (error) {
+            console.warn('[fetcher] lista de .md no disponible:', error.message);
             return null;
         }
     }
@@ -138,17 +144,25 @@ class MarkdownFetcher {
     }
 
     async fetchCommits(limit = 50) {
-        const url = this.config.getCommitsUrl(limit);
+        // Los commits salen de data/git.json (campo commits), que git_export.py
+        // arma con `git log` del clon local de gw2-dev. Antes: commits API con
+        // la cuota agotada devolvia [] y el timeline salia vacio sin aviso.
+        const url = this.config.getGitDataUrl();
         try {
             const response = await fetch(url);
-            if (!response.ok) {
-                console.warn('[fetcher] Commits API error:', response.status);
-                return [];
-            }
+            if (!response.ok) throw new Error('HTTP ' + response.status + ' al leer data/git.json');
             const data = await response.json();
-            return Array.isArray(data) ? data : [];
+            const commits = Array.isArray(data.commits) ? data.commits : [];
+            // mismo shape que devolvia la API, para no tocar el render
+            return commits.slice(0, limit).map(c => ({
+                sha: c.sha,
+                commit: {
+                    message: c.msg,
+                    author: { name: c.autor, date: c.fecha }
+                }
+            }));
         } catch (error) {
-            console.warn('[fetcher] Commits fetch failed:', error.message);
+            console.warn('[fetcher] commits no disponibles:', error.message);
             return [];
         }
     }
