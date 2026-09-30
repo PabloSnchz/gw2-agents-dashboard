@@ -1,8 +1,36 @@
 {
- "generado_utc": "20260930T222106Z",
- "generado_h": "2026-09-30 22:21 UTC",
+ "generado_utc": "20260930T223606Z",
+ "generado_h": "2026-09-30 22:36 UTC",
  "origen": "git local + ls-remote (sin cuota). protected cacheado TTL 6h.",
  "commits": [
+  {
+   "sha": "8e5a53292de0ccbcd1464efcd359b60aea216e33",
+   "short": "8e5a532",
+   "autor": "Pablo Sanchez",
+   "fecha": "2026-09-30T19:34:39-03:00",
+   "msg": "docs(logs): HB#69 - el FAIL que no era ruido, y las dos coms que esperaba"
+  },
+  {
+   "sha": "f8286b8bfc3a8095d953d29c9c522a2afd1efdd9",
+   "short": "f8286b8",
+   "autor": "Pablo Sanchez",
+   "fecha": "2026-09-30T19:33:06-03:00",
+   "msg": "docs(alerts): cierre de ALERT-85, y por que un FAIL de otro writer no se gita"
+  },
+  {
+   "sha": "46b2d7f5c9196f0f21cd8ed126c0ba40275e6650",
+   "short": "46b2d7f",
+   "autor": "Pablo Sanchez",
+   "fecha": "2026-09-30T19:32:34-03:00",
+   "msg": "fix(cache-boton): keptBytes, y el title vuelve a declarar que no se tocan cuentas ni pines"
+  },
+  {
+   "sha": "d64e688508d4b93568d52469114a392344248921",
+   "short": "d64e688",
+   "autor": "Pablo Sanchez",
+   "fecha": "2026-09-30T19:32:04-03:00",
+   "msg": "fix(leyenda): el esqueleto deja de decir Cargando para siempre (ALERT-84 T1)"
+  },
   {
    "sha": "f482cbcce3ae2f25352203cf72c7fbd94be0afec",
    "short": "f482cbc",
@@ -324,34 +352,6 @@
    "autor": "Pablo Sanchez",
    "fecha": "2026-09-30T07:13:20-03:00",
    "msg": "docs(hb55): corregir TEAM_STATUS y SESSION_LOG tras el commit paralelo de la Idea 57 Tramo 1"
-  },
-  {
-   "sha": "6059752b093d8c876959c1c8d8f06615dc396fe7",
-   "short": "6059752",
-   "autor": "Pablo Sanchez",
-   "fecha": "2026-09-30T07:11:41-03:00",
-   "msg": "docs(hb55): cierre del ciclo - Idea 56 APROBADA y mergeada con sus 3 follow-ups, ALERT-60 cerrada, ALERT-61 (5 FAIL mios eran regex del test, no del codigo)"
-  },
-  {
-   "sha": "44a012afd0cb6db25e87263a960e7a09290dc67f",
-   "short": "44a012a",
-   "autor": "Pablo Sanchez",
-   "fecha": "2026-09-30T07:11:37-03:00",
-   "msg": "merge(idea57): Tramo 1 - la regla que cuenta los 11 sitios que degradan por FORMA"
-  },
-  {
-   "sha": "3f6e59516c09f2c1a27c985acd63ba39e9a6fa71",
-   "short": "3f6e595",
-   "autor": "Pablo Sanchez",
-   "fecha": "2026-09-30T07:11:32-03:00",
-   "msg": "﻿feat(idea57): la regla del contrato de FORMA, no el fix del caso N (Tramo 1)"
-  },
-  {
-   "sha": "72cc8afc2f7e073ad4021c95d56e5b704259498f",
-   "short": "72cc8af",
-   "autor": "Pablo Sanchez",
-   "fecha": "2026-09-30T07:06:32-03:00",
-   "msg": "merge(idea56-f1): la pista de permiso no se muestra ante un fallo de FORMA"
   }
  ],
  "archivos_md": [
@@ -407,9 +407,9 @@
    "repo": "gw2-agents-dashboard",
    "label": "Dashboard",
    "role": "dashboard",
-   "sha": "63d948910404ec33e7457a18e08d72f6522ebc48",
-   "short_sha": "63d9489",
-   "commit": "chore(dashboard): pulso automatico 2026-09-30_22-06_UTC",
+   "sha": "c887677399a3b00469ea136f27dd7bc621c761da",
+   "short_sha": "c887677",
+   "commit": "chore(dashboard): pulso automatico 2026-09-30_22-21_UTC",
    "estado": "open",
    "protected": false,
    "protected_fresco": true,

@@ -3,7 +3,7 @@
     "schema": 2,
     "titulo": "Estructura real del ecosistema Bóveda del Gato Negro",
     "autoridad": "Arquitecto (agente `architect`) — director de la ESTRUCTURA por decisión de Pablo, 2026-09-30",
-    "verificado": "2026-09-30T22:21:02Z",
+    "verificado": "2026-09-30T22:36:02Z",
     "metodo": "GENERADO, no escrito a mano. Regenerar con _eco\\gen_estructura.py. Lee workspaces/<agente>/agent.json (heartbeat.enabled, .every) y workspaces/<agente>/jobs.json (crons: enabled, expr). Nada se supone: un cron deshabilitado se marca activo=false aunque conserve su cron_expr.",
     "nota_admin": "El chat 'Principal (Admin)' fue retirado el 2026-09-30: no era un agente, era una sesion manual dentro de `default`. Esa tarea la hace el Arquitecto."
   },
@@ -105,6 +105,49 @@
       "console"
     ],
     "enforcement": "real, lo impone la plataforma"
+  },
+  "invariantes": [
+    {
+      "id": 1,
+      "texto": "gw2-dev NUNCA tiene el remote de produccion.",
+      "estado": "vigente",
+      "verificado": "origin=gw2-wallet-agents.git",
+      "medido": true
+    },
+    {
+      "id": 2,
+      "texto": "gw2-prod NUNCA tiene el remote de desarrollo.",
+      "estado": "vigente",
+      "verificado": "origin=gw2-wallet-ligero.git",
+      "medido": true
+    },
+    {
+      "id": 3,
+      "texto": "El MCP de ningun agente incluye un clon de produccion.",
+      "estado": "vigente",
+      "verificado": "5 drivers leidos, ninguno con clon de produccion",
+      "medido": true
+    },
+    {
+      "id": 4,
+      "texto": "git remote -v es obligatorio antes de cada push.",
+      "estado": "escrita_no_verificable",
+      "verificado": "regla escrita en 5 AGENTS.md (default, Code-Reviewer, documenter, product-owner, architect)",
+      "medido": true
+    },
+    {
+      "id": 5,
+      "texto": "Produccion se modifica solo por PR con aprobacion de Pablo.",
+      "estado": "no_verificable",
+      "verificado": "GitHub Settings -> Rules -> main. El token del panel no lee branch protection",
+      "medido": true
+    }
+  ],
+  "invariantes_meta": {
+    "medidas": 3,
+    "total": 5,
+    "violadas": [],
+    "aviso": "Las que dicen 'vigente' se midieron en esta corrida. Las que dicen 'escrita' o 'no_verificable' no se pueden medir y declaran por que: un OK imaginario vale menos que un 'no se puede medir' con el motivo."
   },
   "discrepancias_vs_org_map": [
     {
@@ -322,38 +365,6 @@
       "head": "06675b0",
       "estado": "activo",
       "notas": "El único worktree que quedó. El _wt_main ya no existe. El commit 06675b0 NO está integrado en agents/main: son 2 tests que main no tiene (idea47-ceros-falsos.smoke.js, idea47-contrato-api.test.js). Queda preservado sin integrar, esperando decisión del equipo."
-    }
-  ],
-  "invariantes": [
-    {
-      "id": 1,
-      "texto": "gw2-dev NUNCA tiene el remote de producción.",
-      "estado": "OK",
-      "verificado": "git remote -v → origin = gw2-wallet-agents.git"
-    },
-    {
-      "id": 2,
-      "texto": "gw2-prod NUNCA tiene el remote de desarrollo.",
-      "estado": "OK",
-      "verificado": "git remote -v → origin = gw2-wallet-ligero.git"
-    },
-    {
-      "id": 3,
-      "texto": "El MCP de ningún agente incluye un clon de producción.",
-      "estado": "OK",
-      "verificado": "Los 5 drivers mi-repo-boveda.yaml y los 5 procesos vivos: ninguno contiene gw2-prod ni gw2-wallet-ligero"
-    },
-    {
-      "id": 4,
-      "texto": "git remote -v es obligatorio antes de cada push.",
-      "estado": "OK",
-      "verificado": "Regla escrita en los 5 AGENTS.md"
-    },
-    {
-      "id": 5,
-      "texto": "Producción se modifica solo por PR con aprobación de Pablo.",
-      "estado": "PARCIAL",
-      "verificado": "El equipo no tiene el path. Queda confirmar en GitHub Settings → Rules que main exija PR y quién aprueba: eso no se puede leer sin token"
     }
   ],
   "enforcement": {
