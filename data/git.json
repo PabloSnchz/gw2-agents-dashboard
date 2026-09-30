@@ -1,8 +1,15 @@
 {
- "generado_utc": "20260930T185804Z",
- "generado_h": "2026-09-30 18:58 UTC",
+ "generado_utc": "20260930T190605Z",
+ "generado_h": "2026-09-30 19:06 UTC",
  "origen": "git local + ls-remote (sin cuota). protected cacheado TTL 6h.",
  "commits": [
+  {
+   "sha": "8dd53a0a505df0ed18343640e0da423238eeb010",
+   "short": "8dd53a0",
+   "autor": "Pablo Sanchez",
+   "fecha": "2026-09-30T16:05:00-03:00",
+   "msg": "﻿fix(characters): \"Puntos de logros\" no puede mostrar NaN (Idea 78)"
+  },
   {
    "sha": "bcc1e36d72ed82dda1bfc3de38fb58c399e52e19",
    "short": "bcc1e36",
@@ -345,13 +352,6 @@
    "autor": "Pablo Sanchez",
    "fecha": "2026-09-30T04:41:11-03:00",
    "msg": "docs(logs): HB#49 - Idea 52 implementada (merge ab39823), ALERT-51/52/53"
-  },
-  {
-   "sha": "ab3982324486a4aa6b86faed82704368ef45adef",
-   "short": "ab39823",
-   "autor": "Pablo Sanchez",
-   "fecha": "2026-09-30T04:36:15-03:00",
-   "msg": "merge(raid): Idea 52 - 5 encuentros con id que la API no tiene  5 de los 30 encuentros de raid-tracker.js no se podian marcar nunca. Incluye 4 renombres de id, la correccion de ura_guardian (las recompensas y la ficha de Ura nunca se mostraban) y la limpieza de the_threshold."
   }
  ],
  "archivos_md": [
@@ -407,9 +407,9 @@
    "repo": "gw2-agents-dashboard",
    "label": "Dashboard",
    "role": "dashboard",
-   "sha": "96db96fcf3aaf0d64d5c2cf1b5b5977a80a98344",
-   "short_sha": "96db96f",
-   "commit": "chore(dashboard): pulso automatico 2026-09-30_18-51_UTC",
+   "sha": "cfc6cc249e232f6f5a49cd1ecafb926ba97baaa0",
+   "short_sha": "cfc6cc2",
+   "commit": "fix(Equipo): la columna \"cada cuán",
    "estado": "open",
    "protected": false,
    "protected_fresco": true,
