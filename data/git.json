@@ -1,8 +1,22 @@
 {
- "generado_utc": "20260930T190605Z",
- "generado_h": "2026-09-30 19:06 UTC",
+ "generado_utc": "20260930T192105Z",
+ "generado_h": "2026-09-30 19:21 UTC",
  "origen": "git local + ls-remote (sin cuota). protected cacheado TTL 6h.",
  "commits": [
+  {
+   "sha": "decdff2189f6a1571caab18b70a033ec22dde735",
+   "short": "decdff2",
+   "autor": "Pablo Sanchez",
+   "fecha": "2026-09-30T16:10:36-03:00",
+   "msg": "﻿docs(logs): el PO decidio donde va el badge del LM, y desmintio una propuesta mia"
+  },
+  {
+   "sha": "8316e6d4dcf89599d59f091332f90a4ac200fb9b",
+   "short": "8316e6d",
+   "autor": "Pablo Sanchez",
+   "fecha": "2026-09-30T16:08:05-03:00",
+   "msg": "﻿docs(logs): Heartbeat #63 - los 3 veredictos leidos, un bug corregido y un merge que no se hizo"
+  },
   {
    "sha": "8dd53a0a505df0ed18343640e0da423238eeb010",
    "short": "8dd53a0",
@@ -338,20 +352,6 @@
    "autor": "Pablo Sanchez",
    "fecha": "2026-09-30T05:03:56-03:00",
    "msg": "merge(raid): Idea 52 v1.10.1 - resolver la clave 'ura' duplicada (cambio 1 del Code-Reviewer)"
-  },
-  {
-   "sha": "07f40528c464fb3fc4c64be6b8ea09a565821ff8",
-   "short": "07f4052",
-   "autor": "Pablo Sanchez",
-   "fecha": "2026-09-30T05:03:52-03:00",
-   "msg": "﻿fix(raid-tracker): la clave \"ura\" quedo DUPLICADA en REWARDS_DATA y BOSS_DETAILS (Idea 52, v1.10.1)"
-  },
-  {
-   "sha": "6907d4379c06ddca7ef9c268baf649d8d0497bce",
-   "short": "6907d43",
-   "autor": "Pablo Sanchez",
-   "fecha": "2026-09-30T04:41:11-03:00",
-   "msg": "docs(logs): HB#49 - Idea 52 implementada (merge ab39823), ALERT-51/52/53"
   }
  ],
  "archivos_md": [
@@ -395,9 +395,9 @@
    "repo": "gw2-wallet-agents",
    "label": "Desarrollo",
    "role": "dev",
-   "sha": "bcc1e36d72ed82dda1bfc3de38fb58c399e52e19",
-   "short_sha": "bcc1e36",
-   "commit": "docs(org): el chat Admin se retira; la estructura pasa al",
+   "sha": "decdff2189f6a1571caab18b70a033ec22dde735",
+   "short_sha": "decdff2",
+   "commit": "﻿docs(logs): el PO decidio dond",
    "estado": "open",
    "protected": false,
    "protected_fresco": true,
@@ -407,9 +407,9 @@
    "repo": "gw2-agents-dashboard",
    "label": "Dashboard",
    "role": "dashboard",
-   "sha": "cfc6cc249e232f6f5a49cd1ecafb926ba97baaa0",
-   "short_sha": "cfc6cc2",
-   "commit": "fix(Equipo): la columna \"cada cuán",
+   "sha": "727276ac8c2163ab55978e6063d7d865de5b25cc",
+   "short_sha": "727276a",
+   "commit": "chore(dashboard): pulso automatico 2026-09-30_19-06_UTC",
    "estado": "open",
    "protected": false,
    "protected_fresco": true,
