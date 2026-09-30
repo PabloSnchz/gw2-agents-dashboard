@@ -1,8 +1,22 @@
 {
- "generado_utc": "20260930T205106Z",
- "generado_h": "2026-09-30 20:51 UTC",
+ "generado_utc": "20260930T210606Z",
+ "generado_h": "2026-09-30 21:06 UTC",
  "origen": "git local + ls-remote (sin cuota). protected cacheado TTL 6h.",
  "commits": [
+  {
+   "sha": "0d1d0aa544379b445fe78aac2f53e93bde31d9a0",
+   "short": "0d1d0aa",
+   "autor": "Pablo Sanchez",
+   "fecha": "2026-09-30T18:04:19-03:00",
+   "msg": "﻿fix(cache): los 4 cambios que pidio el Reviewer sobre P3 (registro global, red completa, hoist, runner)"
+  },
+  {
+   "sha": "6d50323db5570ef502ced6e278a90b06445649b1",
+   "short": "6d50323",
+   "autor": "Pablo Sanchez",
+   "fecha": "2026-09-30T18:01:01-03:00",
+   "msg": "fix(comentario): 'Revieweredia' -> 'Reviewer decia' en api-gw2.js:1730 (ALERT-79)"
+  },
   {
    "sha": "9adf6ddde44063586d1c44d9da71887e9a99ca87",
    "short": "9adf6dd",
@@ -338,20 +352,6 @@
    "autor": "Pablo Sanchez",
    "fecha": "2026-09-30T06:35:53-03:00",
    "msg": "﻿fix(api): v2.24.0 - getAccountRaids no degrada a [] ante una forma no soportada"
-  },
-  {
-   "sha": "004929d32d978448a44d01199ca417e6b8e8dec1",
-   "short": "004929d",
-   "autor": "Pablo Sanchez",
-   "fecha": "2026-09-30T06:20:30-03:00",
-   "msg": "﻿docs(hb53): logs del ciclo — ALERT-58 (regresion del 206) y ALERT-59 (clon con 2 escritores)"
-  },
-  {
-   "sha": "9e96986fdbe80ccd7bf01b6f719f975a9379e8b8",
-   "short": "9e96986",
-   "autor": "Pablo Sanchez",
-   "fecha": "2026-09-30T06:11:26-03:00",
-   "msg": "﻿fix(api): v2.23.1 - el 404 del reintento descartaba los ids validos que ya teniamos"
   }
  ],
  "archivos_md": [
@@ -407,9 +407,9 @@
    "repo": "gw2-agents-dashboard",
    "label": "Dashboard",
    "role": "dashboard",
-   "sha": "b7c92ae785db4edfb3f701d445776ac4ba8581d6",
-   "short_sha": "b7c92ae",
-   "commit": "chore(dashboard): pulso automatico 2026-09-30_20-36_UTC",
+   "sha": "8f54781a025d95680066003e49d431bea832e887",
+   "short_sha": "8f54781",
+   "commit": "feat(equipo): la disciplina del canal",
    "estado": "open",
    "protected": false,
    "protected_fresco": true,
