@@ -1,6 +1,6 @@
 {
- "generado_utc": "20260930T155700Z",
- "generado_h": "2026-09-30 15:57 UTC",
+ "generado_utc": "20260930T160604Z",
+ "generado_h": "2026-09-30 16:06 UTC",
  "origen": "git local + ls-remote (sin cuota). protected cacheado TTL 6h.",
  "commits": [
   {
@@ -384,10 +384,10 @@
    "sha": "7525f1f92b6bf8196229d8b001ce65dda2d5dc26",
    "short_sha": "7525f1f",
    "commit": "chore: sacar logs internos del repo de la app (viven en",
-   "estado": "unknown",
-   "protected": null,
-   "protected_fresco": false,
-   "protected_verificado_utc": null
+   "estado": "protected",
+   "protected": true,
+   "protected_fresco": true,
+   "protected_verificado_utc": "20260930T160606Z"
   },
   {
    "repo": "gw2-wallet-agents",
@@ -396,22 +396,22 @@
    "sha": "957cc2cf5e48e5f0b2cd88d4557bf64b157ed550",
    "short_sha": "957cc2c",
    "commit": "﻿feat(api): Idea 57 Tramo 2",
-   "estado": "unknown",
-   "protected": null,
-   "protected_fresco": false,
-   "protected_verificado_utc": null
+   "estado": "open",
+   "protected": false,
+   "protected_fresco": true,
+   "protected_verificado_utc": "20260930T160607Z"
   },
   {
    "repo": "gw2-agents-dashboard",
    "label": "Dashboard",
    "role": "dashboard",
-   "sha": "35b1d69702c1c646bcae3e1f153a6c88c23c28f7",
-   "short_sha": "35b1d69",
-   "commit": "chore(dashboard): pulso automatico 2026-09-30_15-51_UTC",
-   "estado": "unknown",
-   "protected": null,
-   "protected_fresco": false,
-   "protected_verificado_utc": null
+   "sha": "59fc5b5d11168b2f1fc83a8bc1707ccb800e3cdd",
+   "short_sha": "59fc5b5",
+   "commit": "fix(dashboard): 0 llamadas a la API de GitHub en el navegador",
+   "estado": "open",
+   "protected": false,
+   "protected_fresco": true,
+   "protected_verificado_utc": "20260930T160608Z"
   }
  ]
 }
