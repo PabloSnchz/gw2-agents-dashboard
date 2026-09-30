@@ -45,6 +45,12 @@ const EcoHealth = {
         return ok ? 'routine' : (raro ? 'important' : 'critical');
     },
 
+    // String.prototype.format es una extension de Firefox. En Chrome es
+    // undefined, y llamarla tira TypeError EN MEDIO del armado del HTML:
+    // el innerHTML nunca se asigna y el bloque queda vacio sin error
+    // visible. Por eso "Consumo de tokens" nunca se vio.
+    _num(n) { return Number(n || 0).toLocaleString('es-AR'); },
+
     render() {
         this._renderEstado();
         this._renderArchivos();
@@ -145,18 +151,18 @@ const EcoHealth = {
         c.innerHTML = t.slice().reverse().map(d => {
             const filas = (d.por_agente || []).map(a => '<tr>' +
                 '<td>' + this._esc(a.agente) + '</td>' +
-                '<td>' + '{:,}'.format(a.llamadas) + '</td>' +
-                '<td>' + '{:,}'.format(a.prompt) + '</td>' +
+                '<td>' + this._num(a.llamadas) + '</td>' +
+                '<td>' + this._num(a.prompt) + '</td>' +
                 '<td>' + a.cache_pct + '%</td></tr>').join('');
             return '<div class="comms-group comms-group--unclassified">' +
                 '<div class="comms-group__header">' +
                     '<span class="comms-group__label">' + this._esc(d.dia) + '</span>' +
                     '<span class="comms-group__count">' +
-                        '{:,}'.format(d.llamadas) + ' llamadas &middot; cache ' +
+                        this._num(d.llamadas) + ' llamadas &middot; cache ' +
                         d.cache_pct + '%</span>' +
                 '</div>' +
                 '<p class="org-source">Prompt promedio por llamada: <strong>' +
-                    '{:,}'.format(d.prompt_por_llamada) + '</strong> tokens. ' +
+                    this._num(d.prompt_por_llamada) + '</strong> tokens. ' +
                     'Si esto sube, las sesiones se estan alargando: ahi esta el gasto, ' +
                     'no en los archivos.</p>' +
                 '<table class="comms-table"><thead><tr><th>Agente</th>' +

@@ -149,12 +149,20 @@
 
                 <h3>Consumo de tokens</h3>
                 <div id="eco-tokens"></div>
+
+                <h3>Disciplina del canal</h3>
+                <p class="org-source">
+                    El <strong>paso 0</strong> de cada heartbeat dice que el agente
+                    lea su bandeja. Una instruccion escrita en un
+                    <code>HEARTBEAT.md</code> no es una garantia: lo que la hace
+                    garantia es que mirar deje la hora. Si un agente no mira,
+                    el reloj de aca lo delata sin que nadie lo reporte.
+                </p>
+                <div id="eco-salud-disciplina" class="comms-kpi-grid"></div>
             </section>
         </div>
 
         <!-- Tab: Promociones -->
-        <div id="eco-salud-disciplina" class="comms-kpi-grid"
-             style="margin-top:10px"></div>
 
         <div class="dashboard-tab-content" data-tab-content="promociones">
             <section class="promo-section-wrap">
@@ -231,7 +239,7 @@
     <script src="js/live-status.js?v=2"></script>
     <script src="js/production-guard.js?v=2"></script>
     <script src="js/comms-channel.js?v=3"></script>
-    <script src="js/eco-health.js?v=1"></script>
+    <script src="js/eco-health.js?v=2"></script>
     <script src="js/app.js?v=20"></script>
 </body>
 </html>
