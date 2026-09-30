@@ -1102,3 +1102,17 @@ body {
     .promo-kpis { grid-template-columns: repeat(2, 1fr); }
     .guard-grid { grid-template-columns: 1fr; }
 }
+
+/* ------------------------------------------- banner de errores del dashboard
+   main.css es la capa de LAYOUT, sin bordes decorativos: por regla del
+   proyecto eso vive en theme-polish.css. */
+.eco-err-head { font-weight: 600; }
+.eco-err-btn {
+    background: transparent; color: inherit; cursor: pointer;
+    border: 1px solid currentColor; border-radius: 4px;
+    font-size: 0.75rem; padding: 1px 7px; margin-left: 6px;
+}
+.eco-err-list { margin: 6px 0 0; padding-left: 20px; }
+.eco-err-list li { margin: 2px 0; }
+.eco-err-list code { background: rgba(0,0,0,0.25); padding: 1px 4px; border-radius: 3px; }
+.eco-err-where { opacity: 0.65; margin-left: 8px; font-size: 0.72rem; }

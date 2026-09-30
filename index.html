@@ -229,6 +229,9 @@
 
     <!-- marked.js v4 (CDN, no se commitea) -->
     <script src="https://cdn.jsdelivr.net/npm/marked/marked.min.js"></script>
+    <!-- Debe ser el PRIMERO: si otro script falla al arrancar,
+         este tiene que estar ya escuchando para contarlo. -->
+    <script src="js/guard.js?v=1"></script>
     <script src="js/config.js?v=14"></script>
     <script src="js/fetcher.js?v=11"></script>
     <script src="js/parser.js?v=16"></script>
