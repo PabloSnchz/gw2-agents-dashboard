@@ -1,8 +1,36 @@
 {
- "generado_utc": "20260930T195106Z",
- "generado_h": "2026-09-30 19:51 UTC",
+ "generado_utc": "20260930T200605Z",
+ "generado_h": "2026-09-30 20:06 UTC",
  "origen": "git local + ls-remote (sin cuota). protected cacheado TTL 6h.",
  "commits": [
+  {
+   "sha": "aed761c0ffac32795588caa1ed57bf7d9620e339",
+   "short": "aed761c",
+   "autor": "Pablo Sanchez",
+   "fecha": "2026-09-30T17:05:12-03:00",
+   "msg": "docs(logs): fila 070 en COMMS_LOG - la re-pregunta de P3 (task-a42d69c93c58), con el orden agujero-antes-que-registro"
+  },
+  {
+   "sha": "2a38c29979f334385464a5fcf55ee6acb0e59b37",
+   "short": "2a38c29",
+   "autor": "Pablo Sanchez",
+   "fecha": "2026-09-30T17:04:37-03:00",
+   "msg": "﻿docs(logs): Heartbeat #65 - un invariante redactado mas fuerte que el codigo que lo respalda, y un audit que vigilaba el conjunto equivocado"
+  },
+  {
+   "sha": "5c80ae5a7e3abec910206ba84f5795c846f3e5dc",
+   "short": "5c80ae5",
+   "autor": "Pablo Sanchez",
+   "fecha": "2026-09-30T17:02:50-03:00",
+   "msg": "merge(Idea 61 Tramo 3): el espejo se mide en comportamiento por los 4 pares, no con un regex sobre MIRROR_MAP"
+  },
+  {
+   "sha": "905dc7794f2fe83bd43658c9e91b6a99aca3290d",
+   "short": "905dc77",
+   "autor": "Pablo Sanchez",
+   "fecha": "2026-09-30T17:02:46-03:00",
+   "msg": "﻿test(storage): el espejo deja de medirse con un regex y se mide en comportamiento, por los 4 pares (Idea 61 Tramo 3 recambiado)"
+  },
   {
    "sha": "1890a83b81cbd695dd4b0afbe30031539ada7107",
    "short": "1890a83",
@@ -324,34 +352,6 @@
    "autor": "Pablo Sanchez",
    "fecha": "2026-09-30T05:19:50-03:00",
    "msg": "merge(wv-purchase-detail): Idea 55 Tramo 2 - 27 requests en serie pasan a paralelo, con progreso y ETA"
-  },
-  {
-   "sha": "7918ac77448a8a4aff4b72b75d51e2a794026808",
-   "short": "7918ac7",
-   "autor": "Pablo Sanchez",
-   "fecha": "2026-09-30T05:19:46-03:00",
-   "msg": "﻿fix(wv-purchase-detail): Idea 55 Tramo 2 - refreshAllOnlineStatus en paralelo + progreso con ETA"
-  },
-  {
-   "sha": "cab6ff705d2d005463ef0f66e704a1956cac23da",
-   "short": "cab6ff7",
-   "autor": "Pablo Sanchez",
-   "fecha": "2026-09-30T05:15:08-03:00",
-   "msg": "merge(characters): Idea 55 Tramo 1 - /v2/account/achievements por la capa GW2Api (1 descarga de 364 KB menos por cambio de cuenta)"
-  },
-  {
-   "sha": "7f39fceb3f3616ff4727aae59b03b632b8520c2d",
-   "short": "7f39fce",
-   "autor": "Pablo Sanchez",
-   "fecha": "2026-09-30T05:15:04-03:00",
-   "msg": "﻿fix(characters): Idea 55 Tramo 1 - /v2/account/achievements pasa por la capa GW2Api"
-  },
-  {
-   "sha": "54f97fe1f8c354d8d55751601eb8f84761aea82e",
-   "short": "54f97fe",
-   "autor": "Pablo Sanchez",
-   "fecha": "2026-09-30T05:11:48-03:00",
-   "msg": "merge(po): HB 08:15 - ALERT-41 decidible (14/15 strikes con clear) + Idea 55 (9 fetch account-scoped fuera de la capa)"
   }
  ],
  "archivos_md": [
@@ -395,9 +395,9 @@
    "repo": "gw2-wallet-agents",
    "label": "Desarrollo",
    "role": "dev",
-   "sha": "1890a83b81cbd695dd4b0afbe30031539ada7107",
-   "short_sha": "1890a83",
-   "commit": "﻿docs(logs): Heartbeat #64 - un",
+   "sha": "aed761c0ffac32795588caa1ed57bf7d9620e339",
+   "short_sha": "aed761c",
+   "commit": "docs(logs): fila 070 en COMMS_LOG - la re-pregunta de P3",
    "estado": "open",
    "protected": false,
    "protected_fresco": true,
@@ -407,9 +407,9 @@
    "repo": "gw2-agents-dashboard",
    "label": "Dashboard",
    "role": "dashboard",
-   "sha": "b9f6bf395749a1373fe5e055524099e57f19fd21",
-   "short_sha": "b9f6bf3",
-   "commit": "chore(dashboard): pulso automatico 2026-09-30_19-36_UTC",
+   "sha": "4b41ba1ab6ae87c327d377f055876ef2a7e06a23",
+   "short_sha": "4b41ba1",
+   "commit": "chore(dashboard): pulso automatico 2026-09-30_19-51_UTC",
    "estado": "open",
    "protected": false,
    "protected_fresco": true,
