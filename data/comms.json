@@ -1,6 +1,6 @@
 {
- "generado_utc": "20260930T092101Z",
- "generado_h": "2026-09-30 09:21Z",
+ "generado_utc": "20260930T093601Z",
+ "generado_h": "2026-09-30 09:36Z",
  "fuente": "C:/Users/psanc/.qwenpaw/_comms (canal durable, archivos)",
  "estados": [
   "waiting",
@@ -10,8 +10,8 @@
   "closed"
  ],
  "conteo": {
-  "asked": 2,
-  "overdue": 4
+  "overdue": 5,
+  "asked": 1
  },
  "total": 6,
  "mensajes": [
@@ -28,8 +28,8 @@
    "reply": null,
    "replied_by": null,
    "replied_utc": null,
-   "estado": "asked",
-   "estado_nota": "entregada, sin registrar como esperando",
+   "estado": "overdue",
+   "estado_nota": "plazo vencido sin respuesta",
    "from_label": "Principal",
    "to_label": "Product Owner",
    "created_h": "2026-09-30 09:00Z",
