@@ -1,8 +1,15 @@
 {
- "generado_utc": "20260930T193605Z",
- "generado_h": "2026-09-30 19:36 UTC",
+ "generado_utc": "20260930T195106Z",
+ "generado_h": "2026-09-30 19:51 UTC",
  "origen": "git local + ls-remote (sin cuota). protected cacheado TTL 6h.",
  "commits": [
+  {
+   "sha": "1890a83b81cbd695dd4b0afbe30031539ada7107",
+   "short": "1890a83",
+   "autor": "Pablo Sanchez",
+   "fecha": "2026-09-30T16:39:57-03:00",
+   "msg": "﻿docs(logs): Heartbeat #64 - un resumen contradice al veredicto que resume, y la 50F se mergea"
+  },
   {
    "sha": "86b351acfdd92cca39e41c17df129bc8a986fbbd",
    "short": "86b351a",
@@ -345,13 +352,6 @@
    "autor": "Pablo Sanchez",
    "fecha": "2026-09-30T05:11:48-03:00",
    "msg": "merge(po): HB 08:15 - ALERT-41 decidible (14/15 strikes con clear) + Idea 55 (9 fetch account-scoped fuera de la capa)"
-  },
-  {
-   "sha": "c1bfad8fa2461df1e986fd458fd6c6f3d50f3b76",
-   "short": "c1bfad8",
-   "autor": "Pablo Sanchez",
-   "fecha": "2026-09-30T05:10:40-03:00",
-   "msg": "﻿docs(logs): HB#50 - ALERT-55 (6 ramas huerfanas, 3 con trabajo real perdido) + 2 ramas absorbidas borradas"
   }
  ],
  "archivos_md": [
@@ -395,9 +395,9 @@
    "repo": "gw2-wallet-agents",
    "label": "Desarrollo",
    "role": "dev",
-   "sha": "decdff2189f6a1571caab18b70a033ec22dde735",
-   "short_sha": "decdff2",
-   "commit": "﻿docs(logs): el PO decidio dond",
+   "sha": "1890a83b81cbd695dd4b0afbe30031539ada7107",
+   "short_sha": "1890a83",
+   "commit": "﻿docs(logs): Heartbeat #64 - un",
    "estado": "open",
    "protected": false,
    "protected_fresco": true,
@@ -407,9 +407,9 @@
    "repo": "gw2-agents-dashboard",
    "label": "Dashboard",
    "role": "dashboard",
-   "sha": "343e1284e0f41e689a322dd29740f856d9a8bfe5",
-   "short_sha": "343e128",
-   "commit": "chore(dashboard): pulso automatico 2026-09-30_19-21_UTC",
+   "sha": "b9f6bf395749a1373fe5e055524099e57f19fd21",
+   "short_sha": "b9f6bf3",
+   "commit": "chore(dashboard): pulso automatico 2026-09-30_19-36_UTC",
    "estado": "open",
    "protected": false,
    "protected_fresco": true,
