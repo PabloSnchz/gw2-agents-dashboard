@@ -1,207 +1,111 @@
 {
   "meta": {
-    "schema": 1,
+    "schema": 2,
     "titulo": "Estructura real del ecosistema Bóveda del Gato Negro",
     "autoridad": "Arquitecto (agente `architect`) — director de la ESTRUCTURA por decisión de Pablo, 2026-09-30",
-    "verificado": "2026-09-30 (canales: releido de agent.json + jobs.json en vivo)",
-    "metodo": "Verificación directa contra agent.json de los 6 workspaces, drivers/mcp/mi-repo-boveda.yaml, procesos vivos de server-filesystem (Get-CimInstance Win32_Process), qwenpaw agents list, qwenpaw cron list, git remote -v y git worktree list de cada clon. NO se copió nada de ORG_MAP.md. | ACTIVO: campo anadido 2026-09-30. Antes un cron existente se leia como activo; se verifica `enabled` contra jobs.json y agent.json. La sonda del Arquitecto esta apagada.",
-    "nota": "Este archivo es la fuente de verdad. ORG_MAP.md es el documento del equipo y puede quedar viejo; el tab Estructura compara ambos y muestra las diferencias.",
-    "pendiente": "estructura.json es un SNAPSHOT manual. Nada lo regenera: se va a desactualizar de nuevo si cambia un cron. Falta un regenerador que lo lea de jobs.json + agent.json."
+    "verificado": "2026-09-30T18:58:01Z",
+    "metodo": "GENERADO, no escrito a mano. Regenerar con _eco\\gen_estructura.py. Lee workspaces/<agente>/agent.json (heartbeat.enabled, .every) y workspaces/<agente>/jobs.json (crons: enabled, expr). Nada se supone: un cron deshabilitado se marca activo=false aunque conserve su cron_expr.",
+    "nota_admin": "El chat 'Principal (Admin)' fue retirado el 2026-09-30: no era un agente, era una sesion manual dentro de `default`. Esa tarea la hace el Arquitecto."
   },
   "agentes": [
     {
       "id": "default",
-      "nombre": "Principal",
-      "nombre_qwenpaw": "Default",
-      "workspace": "default",
-      "rol": "Dev senior. Propone, implementa, mergea a agents/main, pushea. Único que mergea.",
-      "modelo": "kilo-auto/free",
-      "language": "es",
-      "approval_level": "AUTO",
-      "pinned": true,
-      "status_runtime": "running",
+      "equipo": true,
       "heartbeat": {
         "mecanismo": "cron",
+        "activo": true,
         "agent_json_enabled": false,
         "agent_json_every": "30m",
         "cron_id": "13dc22e6-2feb-4acd-9bea-ff1de7f86361",
         "cron_expr": "*/30 * * * *",
-        "timeout_s": 1800,
-        "activo": true
-      },
-      "mcp": {
-        "paths": [
-          "C:\\Mis Archivos\\GW2 online\\gw2-dev",
-          "C:\\Users\\psanc\\.qwenpaw\\workspaces\\default"
-        ],
-        "default_effect": "allow",
-        "tools_permitidos": 11,
-        "escritura": true,
-        "notas": "Tiene write_file, edit_file, move_file, create_directory. Es el único del equipo con escritura. Su workspace contiene los worktrees."
-      },
-      "clon": "gw2-dev"
+        "timeout_s": 300,
+        "session_id": "1790264876233-s66k3aw"
+      }
     },
     {
       "id": "Code-Reviewer",
-      "nombre": "Code Reviewer",
-      "nombre_qwenpaw": "Revisor de Código",
-      "workspace": "code-reviewer",
-      "rol": "Revisor crítico. NO escribe código, NO commitea. Valida propuestas antes de aplicarse.",
-      "modelo": "kilo-auto/free",
-      "language": "es",
-      "approval_level": "AUTO",
-      "pinned": true,
-      "status_runtime": "running",
+      "equipo": true,
       "heartbeat": {
         "mecanismo": "ninguno",
-        "agent_json_enabled": false,
-        "agent_json_every": "6h",
         "activo": false,
-        "texto_canal": "bajo demanda — sin heartbeat activo"
-      },
-      "mcp": {
-        "paths": [
-          "C:\\Mis Archivos\\GW2 online\\gw2-dev",
-          "C:\\Users\\psanc\\.qwenpaw\\workspaces\\code-reviewer"
-        ],
-        "default_effect": "deny",
-        "tools_permitidos": 8,
-        "escritura": false,
-        "notas": "Driver CREADO por el Arquitecto el 2026-09-30 (antes no existía y no podía leer el repo). deny por defecto + allow-list de 8 tools de lectura. Enforcement real: no puede escribir."
-      },
-      "id_nota": "El ID real registrado en QwenPaw es `Code-Reviewer` (con mayúscula y guion). El workspace es `code-reviewer` y los AGENTS.md lo llaman `code-reviewer`. Para submit_to_agent / chat_with_agent hay que usar `Code-Reviewer`.",
-      "clon": "gw2-dev"
-    },
-    {
-      "id": "documenter",
-      "nombre": "Documentador",
-      "nombre_qwenpaw": "Documentador",
-      "workspace": "documenter",
-      "rol": "Documenta CHANGELOG / README / ONBOARDING. Commit y push de docs.",
-      "modelo": "kilo-auto/free",
-      "language": "es",
-      "approval_level": "AUTO",
-      "pinned": true,
-      "status_runtime": "running",
-      "heartbeat": {
-        "mecanismo": "agent.json",
-        "agent_json_enabled": true,
-        "agent_json_every": "4h",
-        "timeout_s": 900,
-        "cron_id": null,
-        "activo": true
-      },
-      "mcp": {
-        "paths": [
-          "C:\\Mis Archivos\\GW2 online\\gw2-dev",
-          "C:\\Users\\psanc\\.qwenpaw\\workspaces\\documenter"
-        ],
-        "default_effect": "allow",
-        "tools_permitidos": null,
-        "escritura": true,
-        "notas": "default_effect allow con rules vacías: todo permitido sobre gw2-dev y su workspace."
-      },
-      "clon": "gw2-dev"
-    },
-    {
-      "id": "product-owner",
-      "nombre": "Product Owner",
-      "nombre_qwenpaw": "PO (Pablo)",
-      "workspace": "product-owner",
-      "rol": "Alterego de Pablo como usuario. Detecta fricciones, propone features, prioriza. NO escribe código de producción.",
-      "modelo": "kilo-auto/free",
-      "language": "es",
-      "approval_level": "AUTO",
-      "pinned": true,
-      "status_runtime": "running",
-      "heartbeat": {
-        "mecanismo": "agent.json + cron",
-        "agent_json_enabled": true,
-        "agent_json_every": "2h",
-        "timeout_s": 1200,
-        "cron_id": "c3f30dc2-ccdd-4fc0-aa6d-f890c482ac87",
-        "activo": true
-      },
-      "mcp": {
-        "paths": [
-          "C:\\Mis Archivos\\GW2 online\\gw2-dev",
-          "C:\\Users\\psanc\\.qwenpaw\\workspaces\\product-owner"
-        ],
-        "default_effect": "allow",
-        "tools_permitidos": null,
-        "escritura": true,
-        "notas": "default_effect allow con rules vacías. PRE_BACKLOG.md vive en su workspace, no en el repo."
-      },
-      "clon": "gw2-dev"
-    },
-    {
-      "id": "architect",
-      "nombre": "Arquitecto",
-      "nombre_qwenpaw": "Arquitecto",
-      "workspace": "architect",
-      "rol": "CTO externo de Pablo y director de la ESTRUCTURA del ecosistema. Topología de clones, paths, permisos, worktrees, crons, coherencia reglas-vs-realidad. Dueño del dashboard. NO habla con agentes salvo pedido explícito de Pablo. NO toca producción bajo ninguna circunstancia.",
-      "modelo": "kilo-auto/free",
-      "language": "es",
-      "approval_level": "AUTO",
-      "pinned": false,
-      "status_runtime": "running",
-      "heartbeat": {
-        "mecanismo": "ninguno",
         "agent_json_enabled": false,
         "agent_json_every": "6h",
         "cron_id": null,
         "cron_expr": null,
+        "timeout_s": 300,
+        "session_id": null,
+        "texto_canal": "bajo demanda"
+      }
+    },
+    {
+      "id": "documenter",
+      "equipo": true,
+      "heartbeat": {
+        "mecanismo": "agent.json",
+        "activo": true,
+        "agent_json_enabled": true,
+        "agent_json_every": "4h",
+        "cron_id": null,
+        "cron_expr": null,
         "timeout_s": 900,
-        "proposito": "Sonda de comunicación entre canales (channel-probe)",
+        "session_id": null
+      }
+    },
+    {
+      "id": "product-owner",
+      "equipo": true,
+      "heartbeat": {
+        "mecanismo": "cron",
+        "activo": true,
+        "agent_json_enabled": true,
+        "agent_json_every": "2h",
+        "cron_id": "c3f30dc2-ccdd-4fc0-aa6d-f890c482ac87",
+        "cron_expr": "0 */2 * * *",
+        "timeout_s": 1200,
+        "session_id": "1790264876233-s66k3aw"
+      }
+    },
+    {
+      "id": "architect",
+      "equipo": true,
+      "heartbeat": {
+        "mecanismo": "ninguno",
         "activo": false,
-        "nota": "La sonda de comunicacion (17e51119) esta APAGADA desde 2026-09-30. El mantenimiento del canal lo hace ahora la tarea programada GW2-Comms-Export (Windows, cada 15 min, sin LLM). Un cron deshabilitado no es un canal.",
-        "texto_canal": "apagado — la sonda se desactivó el 30/09"
-      },
-      "mcp": {
-        "paths": [
-          "C:\\Mis Archivos\\GW2 online\\gw2-dev",
-          "C:\\Mis Archivos\\GW2 online\\gw2-agents-dashboard",
-          "C:\\Users\\psanc\\.qwenpaw\\workspaces\\architect",
-          "C:\\Users\\psanc\\.qwenpaw\\workspaces\\default",
-          "C:\\Users\\psanc\\.qwenpaw\\workspaces\\code-reviewer",
-          "C:\\Users\\psanc\\.qwenpaw\\workspaces\\documenter",
-          "C:\\Users\\psanc\\.qwenpaw\\workspaces\\product-owner"
-        ],
-        "default_effect": "allow",
-        "tools_permitidos": null,
-        "escritura": true,
-        "notas": "Único agente cuyo MCP incluye el dashboard y los workspaces ajenos. Necesita eso por su función: corrige permisos y migra estructura. Sigue SIN acceso a gw2-prod ni a gw2-wallet-ligero."
-      },
-      "clon": "gw2-dev + gw2-agents-dashboard"
+        "agent_json_enabled": false,
+        "agent_json_every": "6h",
+        "cron_id": null,
+        "cron_expr": null,
+        "timeout_s": 300,
+        "session_id": null,
+        "cron_apagado_id": "17e51119-23d7-4465-b31a-51eaabe5f72d",
+        "cron_apagado_expr": "0,30 * * * *",
+        "cron_apagado_nombre": "Heartbeat Arquitecto - sonda de comunicacion",
+        "nota": "Cron 17e51119 presente pero DESHABILITADO: no es un canal.",
+        "texto_canal": "apagado por diseño — el mantenimiento lo hace GW2-Comms-Export"
+      }
     },
     {
       "id": "QwenPaw_QA_Agent_0.2",
-      "nombre": "QA Agent (builtin)",
-      "nombre_qwenpaw": "QA Agent",
-      "workspace": "QwenPaw_QA_Agent_0.2",
-      "rol": "Helper de preguntas y respuestas sobre QwenPaw, su configuración y su documentación. Builtin de QwenPaw, NO pertenece al ecosistema de la Bóveda.",
-      "modelo": null,
-      "language": "zh",
-      "approval_level": "AUTO",
-      "pinned": false,
-      "status_runtime": "running",
+      "equipo": false,
       "heartbeat": {
         "mecanismo": "ninguno",
+        "activo": false,
         "agent_json_enabled": false,
         "agent_json_every": "6h",
-        "activo": false,
+        "cron_id": null,
+        "cron_expr": null,
+        "timeout_s": 300,
+        "session_id": null,
         "texto_canal": "bajo demanda"
-      },
-      "mcp": {
-        "paths": [],
-        "default_effect": null,
-        "tools_permitidos": 0,
-        "escritura": false,
-        "notas": "Sin cliente mi-repo-boveda."
-      },
-      "observacion": "NO operativo: active_model es null, así que no puede inferir. No aparece en ningún AGENTS.md. No participa de ningún flujo."
+      }
     }
   ],
+  "canales": {
+    "habilitados": [
+      "console"
+    ],
+    "enforcement": "real, lo impone la plataforma"
+  },
   "repos": [
     {
       "nombre": "gw2-wallet-agents",
@@ -286,31 +190,6 @@
       "notas": "El único worktree que quedó. El _wt_main ya no existe. El commit 06675b0 NO está integrado en agents/main: son 2 tests que main no tiene (idea47-ceros-falsos.smoke.js, idea47-contrato-api.test.js). Queda preservado sin integrar, esperando decisión del equipo."
     }
   ],
-  "canales": {
-    "habilitados": [
-      "console"
-    ],
-    "deshabilitados": [
-      "imessage",
-      "discord",
-      "dingtalk",
-      "feishu",
-      "qq",
-      "telegram",
-      "mattermost",
-      "mqtt",
-      "matrix",
-      "voice",
-      "sip",
-      "wecom",
-      "xiaoyi",
-      "yuanbao",
-      "wechat",
-      "slack",
-      "onebot"
-    ],
-    "enforcement": "real, lo impone la plataforma"
-  },
   "invariantes": [
     {
       "id": 1,
