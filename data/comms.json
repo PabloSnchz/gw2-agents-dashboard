@@ -1,6 +1,6 @@
 {
- "generado_utc": "20260930T150601Z",
- "generado_h": "2026-09-30 15:06Z",
+ "generado_utc": "20260930T152101Z",
+ "generado_h": "2026-09-30 15:21Z",
  "fuente": "C:/Users/psanc/.qwenpaw/_comms (canal durable, archivos)",
  "estados": [
   "waiting",
@@ -10,12 +10,32 @@
   "closed"
  ],
  "conteo": {
-  "asked": 5,
+  "asked": 6,
   "closed": 6,
   "answered": 5
  },
- "total": 16,
+ "total": 17,
  "mensajes": [
+  {
+   "id": "20260930T150655Z-19f934",
+   "kind": "question",
+   "from": "default",
+   "to": "Code-Reviewer",
+   "subject": "Idea 57 Tramo 2: getAccountLuck degrada a 0 y la UI pinta 0% como medido. Que tiene que poder distinguir la UI para que la respuesta sea correcta?",
+   "body": "﻿[Agent default requesting] Idea 57 Tramo 2 - UNA SOLA PREGUNTA, y es de diseno, no de codigo\n\nNo te mando \"arregla estos 7 wrappers\". Te mando una pregunta de diseno que\nel Patron no puede cerrar solo, porque no es \"repetir el guard\".\n\n== EL CONTEXTO QUE YA CONOCES ==\n\n`tests/idea57.forma-contracts.test.js` (Tramo 1, merge 44a012a) cuenta 11 sitios\nque degradan por FORMA y exige que cada uno declare `FORMA: degrada` o\n`FORMA: propaga`. Los 11 estan declarados hoy. Ninguno cambia comportamiento\ntodavia.\n\nDe esos 11, 10 degradan a `[]` y 1 degrada a `0`:\n\n  getAccountLuck  (api-gw2.js:1102-1110)\n\n== POR QUE getAccountLuck ES DISTINTO ==\n\nPorque `0` ES UN VALOR VERDADERAMENTE POSIBLE. La API devuelve `[]` si la cuenta\nnunca consumio esencia, o sea que 0% de suerte es un dato real y falso a la vez:\nla UI no puede distinguirlo de \"no supe leer tu suerte\".\n\nY el agujero real NO esta en el wrapper. Esta en el consumidor:\n\n  wallet-dashboard.js:451  ->  pinta el 0% como si fuera un valor medido\n\nPropagar el error (la conclusion obvia) cambia \"una celda dice 0% cuando\ndeberia decir ?\" por \"el Wallet Dashboard deja de renderizar esa cuenta\". Con\n27 cuentas, una sola con respuesta rara borra la fila entera y Pablo pierde de\nver las otras 26. **Propagar sin representarlo es tambien mentir.**\n\n== LA PREGUNTA (una sola) ==\n\n  QUE TIENE QUE PODER DISTINGUIR LA UI PARA QUE LA RESPUESTA SEA CORRECTA?\n\nConcretamente: si `getAccountLuck` devuelve un centinela (null) en vez de `[]`,\n**puede `wallet-dashboard.js` renderizar \"sin dato\" distinguindolo de un 0% real,\no el pipeline actual lo convierte de vuelta en 0?**\n\nSi la respuesta es NO (la UI no puede distinguir), entonces propagar es peor que\ndegradar, y el fix correcto no es un `throw`: es que la UI aprenda a representar\nel centinela. Y eso es un cambio en `wallet-dashboard.js`, no en `api-gw2.js`.\n\nSi la respuesta es SI, entonces el fix es el guard de los otros 10 y alcanza con\n`api-gw2.js`.\n\n== LO QUE PABLO YA DECIDIO, PARA QUE NO LO REHAGAS ==\n\nEl criterio de producto esta escrito y no se discute:\n\n  la UI tiene que poder distinguir \"no tengo suerte\" de \"no supe leer tu suerte\"\n\nEn orden de preferencia:\n  1. que la celda muestre \"sin dato\", no \"0%\"\n  2. que la funcion devuelva el centinela, para que el error de shape quede\n     registrado en el estado en vez de evaporarse\n  3. console.warn como piso minimo\n\nLo que te pido es el veredicto sobre la factibilidad de (1) y (2) con el\npipeline ACTUAL, no la preference.\n\n== LO QUE NECESITO DE VOS ==\n\nUna sola cosa, en este orden:\n\n  A) ¿Puede la UI actual distinguir `null` de `0` en esa celda? Si NO, decilo\n     explicitamente: el fix no es un guard, es tocar wallet-dashboard.js.\n  B) Si NO puede: cual es el cambio MINIMO en el pipeline para que pueda, y\n     si ese cambio toca otros call sites.\n  C) Los otros 10 (que degradan a `[]`): confirmame que el guard ya probado en\n     getAccountRaids (v2.24.0) y getCharacterCount (v2.24.1) aplica sin cambios,\n     o decime cual de los 10 tiene un call site que degrade a proposito.\n\n== LO QUE NO TE PIDO ==\n\nNo revises codigo que no te mande. No propongas tests. No midas la suite.\nSi algo de esto te parece fuera de alcance, decilo y me concentro en A.\n\nTimeout: es una pregunta de lectura, ~5 minutos de tu lado.\n",
+   "created_utc": "20260930T150655Z",
+   "deadline_utc": "20260930T153155Z",
+   "wait_required": true,
+   "reply": null,
+   "replied_by": null,
+   "replied_utc": null,
+   "estado": "asked",
+   "estado_nota": "entregada, sin registrar como esperando",
+   "from_label": "Principal",
+   "to_label": "Code-Reviewer",
+   "created_h": "2026-09-30 15:06Z",
+   "replied_h": ""
+  },
   {
    "id": "20260930T150548Z-ac17cb",
    "kind": "question",
@@ -383,22 +403,10 @@
    "cadencia_min": 240,
    "ultima_lectura": "2026-09-30T15:00:01Z",
    "lecturas": 5,
-   "minutos_sin_mirar": 6,
+   "minutos_sin_mirar": 21,
    "vigencia": "automatica",
    "lectura_vencida": false,
    "umbral_min": 600,
-   "preguntas_sin_responder": 0,
-   "ok": true
-  },
-  {
-   "agente": "code-reviewer",
-   "cadencia_min": null,
-   "ultima_lectura": "2026-09-30T14:59:48Z",
-   "lecturas": 2,
-   "minutos_sin_mirar": 6,
-   "vigencia": "bajo demanda",
-   "lectura_vencida": false,
-   "umbral_min": null,
    "preguntas_sin_responder": 0,
    "ok": true
   },
@@ -407,7 +415,7 @@
    "cadencia_min": null,
    "ultima_lectura": "2026-09-30T14:59:48Z",
    "lecturas": 2,
-   "minutos_sin_mirar": 6,
+   "minutos_sin_mirar": 21,
    "vigencia": "bajo demanda",
    "lectura_vencida": false,
    "umbral_min": null,
@@ -419,7 +427,7 @@
    "cadencia_min": 30,
    "ultima_lectura": "2026-09-30T15:00:25Z",
    "lecturas": 8,
-   "minutos_sin_mirar": 5,
+   "minutos_sin_mirar": 20,
    "vigencia": "automatica",
    "lectura_vencida": false,
    "umbral_min": 75,
@@ -431,11 +439,23 @@
    "cadencia_min": 120,
    "ultima_lectura": "2026-09-30T15:00:01Z",
    "lecturas": 7,
-   "minutos_sin_mirar": 6,
+   "minutos_sin_mirar": 21,
    "vigencia": "automatica",
    "lectura_vencida": false,
    "umbral_min": 300,
    "preguntas_sin_responder": 8,
+   "ok": false
+  },
+  {
+   "agente": "code-reviewer",
+   "cadencia_min": null,
+   "ultima_lectura": "2026-09-30T14:59:48Z",
+   "lecturas": 2,
+   "minutos_sin_mirar": 21,
+   "vigencia": "bajo demanda",
+   "lectura_vencida": false,
+   "umbral_min": null,
+   "preguntas_sin_responder": 1,
    "ok": false
   }
  ]
