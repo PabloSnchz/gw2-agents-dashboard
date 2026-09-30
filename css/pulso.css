@@ -1,0 +1,202 @@
+
+/* =====================================================================
+   PULSO — tab Resumen (js/pulso.js)
+   =====================================================================
+   Agregado 2026-09-30. Reemplaza los KPI cards viejos.
+
+   Decisiones de estilo, y por que:
+
+   - Los 4 KPIs van en UNA fila (grid de 4), no en 2x2. El Resumen es
+     "de un vistazo": si tengo que juntar dos lineas para leer los numeros,
+     ya no es de un vistazo. En pantallas chicas bajan a 2x2, que es lo
+     unico que se puede hacer sin que el valor quede partido.
+
+   - El valor va GRANDE y el label arriba chico. El numero es lo que se
+     mira; el label es la referencia. Al reves, el ojo busca el numero
+     pequeno.
+
+   - El "sub" (el porque del numero) va pequeno y atenuado, siempre. Un
+     "4 bloqueados" sin el motivo al lado es un dato que genera
+     preocupacion sin informacion: la accion depende del porque.
+
+   - El color nunca es el unico portador del estado: cada tono va con
+     texto ("bloqueado", "con condicion"). El dashboard se lee en una
+     pantalla con contraste bajo y no todos distinguen el rojo del ambar.
+   ===================================================================== */
+
+.pulso-section {
+    margin-bottom: 18px;
+}
+
+.pulso-kpis {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 12px;
+    margin: 14px 0 22px;
+}
+
+/* Un KPI es un bloque plano, no una card con sombra: el tab ya tiene sus
+   bordes y estilos propios, y meter otra capa de "card" compite con el
+   contenido. El tono se marca con el borde izquierdo de 3px, que es la
+   convencion que ya usan los *-theme.js del proyecto. */
+.pulso-kpi {
+    display: flex;
+    flex-direction: column;
+    gap: 2px;
+    padding: 12px 14px;
+    background: var(--bg-card, rgba(255, 255, 255, 0.03));
+    border: 1px solid rgba(255, 255, 255, 0.08);
+    border-left: 3px solid rgba(90, 110, 154, 0.5);
+    border-radius: 6px;
+}
+
+.pulso-kpi--ok    { border-left-color: rgba(120, 200, 140, 0.7); }
+.pulso-kpi--info  { border-left-color: rgba(110, 160, 235, 0.7); }
+.pulso-kpi--warn  { border-left-color: rgba(235, 180, 90, 0.75); }
+.pulso-kpi--danger{ border-left-color: rgba(230, 110, 110, 0.75); }
+
+.pulso-kpi__label {
+    font-size: 0.72rem;
+    text-transform: uppercase;
+    letter-spacing: 0.06em;
+    color: var(--text-dim, rgba(220, 225, 235, 0.6));
+}
+
+.pulso-kpi__value {
+    font-size: 1.9rem;
+    font-weight: 600;
+    line-height: 1.15;
+    color: var(--text-main, #e8ecf4);
+}
+
+/* El "—" de un dato no leido tiene que verse distinto de un 0. Un 0 es
+   un numero: pesa. El guion es ausencia: se achica y se atenua. */
+.pulso-kpi__value:only-child { color: inherit; }
+.pulso-kpi__sub {
+    font-size: 0.76rem;
+    line-height: 1.35;
+    color: var(--text-dim, rgba(220, 225, 235, 0.6));
+}
+
+.pulso-kpi--warn .pulso-kpi__value  { color: #f0c98a; }
+.pulso-kpi--danger .pulso-kpi__value { color: #f0a0a0; }
+
+/* --- Incidencias: una linea cada una, detalle bajo demanda ---------- */
+.inc-list {
+    list-style: none;
+    margin: 0 0 8px;
+    padding: 0;
+}
+
+.inc {
+    border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+}
+
+.inc:last-child { border-bottom: none; }
+
+.inc > details > summary {
+    display: flex;
+    align-items: baseline;
+    gap: 10px;
+    padding: 8px 4px;
+    cursor: pointer;
+    list-style: none;
+}
+
+.inc > details > summary::-webkit-details-marker { display: none; }
+
+.inc__sev {
+    flex: 0 0 auto;
+    font-size: 0.66rem;
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+    padding: 2px 6px;
+    border-radius: 3px;
+    background: rgba(255, 255, 255, 0.06);
+    color: var(--text-dim, rgba(220, 225, 235, 0.7));
+}
+
+/* El severidad va en color Y en la palabra: "alta" escrita, no solo
+   pintada. */
+.inc--alta  .inc__sev { background: rgba(230, 110, 110, 0.16); color: #f0a0a0; }
+.inc--media .inc__sev { background: rgba(235, 180, 90, 0.16);  color: #f0c98a; }
+.inc--baja  .inc__sev { background: rgba(120, 200, 140, 0.14); color: #a8d8b8; }
+
+.inc__txt {
+    font-size: 0.88rem;
+    line-height: 1.4;
+    color: var(--text-main, #e8ecf4);
+}
+
+.inc__detail {
+    margin: 0 4px 10px;
+    padding: 8px 10px;
+    font-size: 0.8rem;
+    line-height: 1.5;
+    color: var(--text-dim, rgba(220, 225, 235, 0.7));
+    background: rgba(255, 255, 255, 0.03);
+    border-left: 2px solid rgba(255, 255, 255, 0.1);
+    border-radius: 0 4px 4px 0;
+}
+
+/* --- El trabajo, nombrado ------------------------------------------- */
+.trab-list {
+    list-style: none;
+    margin: 0 0 8px;
+    padding: 0;
+}
+
+.trab {
+    display: grid;
+    grid-template-columns: minmax(140px, 1.4fr) minmax(120px, 1.6fr) minmax(0, 2.2fr);
+    gap: 10px;
+    align-items: baseline;
+    padding: 8px 10px;
+    margin-bottom: 4px;
+    background: rgba(255, 255, 255, 0.025);
+    border-left: 3px solid rgba(90, 110, 154, 0.45);
+    border-radius: 0 5px 5px 0;
+}
+
+.trab__rama {
+    font-size: 0.78rem;
+    color: #a8bfe8;
+    word-break: break-all;
+}
+
+.trab__item {
+    font-size: 0.85rem;
+    color: var(--text-main, #e8ecf4);
+}
+
+.trab__estado {
+    font-size: 0.78rem;
+    line-height: 1.4;
+    color: var(--text-dim, rgba(220, 225, 235, 0.65));
+}
+
+/* El estado de la rama se marca con el borde: en_curso, pusheada,
+   descartable, condicion. El texto al lado ya dice cual es. */
+.trab--en_curso,
+.trab--sin_clasificar { border-left-color: rgba(110, 160, 235, 0.7); }
+.trab--aprobada,
+.trab--pusheada,
+.trab--abierta       { border-left-color: rgba(120, 200, 140, 0.6); }
+.trab--descartable   { border-left-color: rgba(235, 180, 90, 0.6); opacity: 0.72; }
+.trab--cerrada       { border-left-color: rgba(255, 255, 255, 0.12); opacity: 0.6; }
+.trab--condicion     { border-left-color: rgba(235, 180, 90, 0.7); }
+.trab--listo         { border-left-color: rgba(120, 200, 140, 0.55); }
+
+.trab__sha {
+    font-size: 0.72rem;
+    color: var(--text-dim, rgba(220, 225, 235, 0.6));
+}
+
+@media (max-width: 900px) {
+    .pulso-kpis { grid-template-columns: repeat(2, 1fr); }
+    .trab {
+        grid-template-columns: 1fr;
+        gap: 2px;
+    }
+    .pulso-kpi__value { font-size: 1.5rem; }
+}

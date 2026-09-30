@@ -189,12 +189,15 @@
         window._estructura = estructura.success ? estructura.data : null;
 
         // Render KPIs
-        DashboardRenderer.renderKPIs({
-            agents: kpiData.agents,
-            alerts: kpiData.alerts,
-            comms: kpiData.comms,
-            sessions: kpiData.sessions
-        });
+        //
+        // OJO: DashboardRenderer.renderKPIs() ya NO se llama. Escribia en
+        // #kpi-grid, que dejo de existir cuando el Resumen paso a ser
+        // Pulso (js/pulso.js, #pulso-kpis). Se laxo la llamada a proposito:
+        // si queda, alguien reintroduce el div un dia y los KPIs vuelven
+        // a pintar "AGENTES 0/0" y "COMMS 0", que son ceros falsos
+        // (venian de parsear TEAM_STATUS.md, que no tiene esos datos en un
+        // formato que el parser entendiera). El pulso los calcula desde
+        // agent.json reales. La funcion sigue en renderer.js, sin usar.
 
         DashboardRenderer.renderAgentCards(kpiData.agents);
 
@@ -340,6 +343,17 @@
         // health_check.py desde el scheduler de Windows. Tamien
         // independiente: si falla, el resto del dashboard sigue.
         if (window.EcoHealth) EcoHealth.load();
+
+        // El pulso del proyecto (js/pulso.js) lee el MISMO data/salud.json
+        // que la tab Salud, pero distinto: Salud es el detalle de como
+        // estan corriendo las cosas; el Resumen es donde esta el trabajo.
+        // Un solo fetch, dos lecturas del mismo dato.
+        //
+        // Sin esta llamada, js/pulso.js se carga y no dibuja nada: el mismo
+        // modo de falla que el tab 'salud' antes de que 'salud' estuviera
+        // en VALID_TABS. Un panel desplegado y vacio no se distingue de uno
+        // que no tiene nada.
+        if (window.Pulso) Pulso.load();
 
         showStatus(`Última actualización: ${new Date().toLocaleTimeString()}`, 'status-ok');
     }

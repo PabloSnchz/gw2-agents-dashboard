@@ -6,6 +6,7 @@
     <title>GW2 Agents Dashboard</title>
     <link rel="stylesheet" href="css/main.css?v=14">
     <link rel="stylesheet" href="css/theme.css?v=17">
+  <link rel="stylesheet" href="css/pulso.css?v=1">
 </head>
 <body>
     <div class="dashboard">
@@ -35,19 +36,35 @@
 
         <!-- Tab: Resumen -->
         <div class="dashboard-tab-content active" data-tab-content="resumen">
-            <section class="guard-section">
-                <h2>🛡️ Protección de producción</h2>
-                <div id="guard-container" class="guard-container"></div>
-            </section>
+            <section class="pulso-section">
+                <h2>&#128200; El pulso</h2>
+                <p class="org-source">
+                    Donde esta el trabajo ahora. Todo lo que hay abajo sale de
+                    <code>data/salud.json</code>, que escribe
+                    <code>health_check.py</code> cada 30 min sin gastar tokens.
+                    Un dato que no se pudo leer aparece como <strong>&mdash;</strong>
+                    con el motivo, nunca como <code>0</code>.
+                </p>
+                <div id="pulso-cabecera"></div>
+                <div id="pulso-kpis" class="pulso-kpis"></div>
 
-            <section class="kpi-section">
-                <h2>📊 KPIs del Sistema</h2>
-                <div id="kpi-grid" class="kpi-grid"></div>
-            </section>
+                <h3>Incidencias abiertas</h3>
+                <div id="pulso-incidencias"></div>
 
-            <section class="attention-section">
-                <h2>⚠️ Requiere tu atención</h2>
-                <div id="attention-container" class="attention-container"></div>
+                <h3>El trabajo, nombrado</h3>
+                <div id="pulso-trabajo"></div>
+
+                <details class="org-details" id="pulso-atencion-details">
+                    <summary>&#128269; Requiere tu atenci&oacute;n (escala&shy;dos y pendientes del equipo)</summary>
+                    <p class="org-source">
+                        Esto lo detect&oacute; <code>attention.js</code> leyendo
+                        <code>TEAM_STATUS.md</code> y <code>ALERTS_LOG.md</code>.
+                        No est&aacute; en <code>salud.json</code>, as&iacute; que no
+                        hay otro lugar de donde sacarlo. Va cerrado: el pulso
+                        de arriba es lo que se mira de entrada.
+                    </p>
+                    <div id="attention-container" class="attention-container"></div>
+                </details>
             </section>
         </div>
 
@@ -113,6 +130,16 @@
                     <code>agents/main</code>), que escribe el Principal. El panel de arriba marca
                     d&oacute;nde los dos no coinciden.
                 </p>
+
+                <section class="guard-section">
+                    <h3>&#128274; Frontera de producci&oacute;n</h3>
+                    <p class="org-source">
+                        Donde esta el limite entre desarrollo y produccion. Va aqui
+                        y no en el Resumen porque no es estado del trabajo: es un
+                        limite permanente.
+                    </p>
+                    <div id="guard-container" class="guard-container"></div>
+                </section>
 
                 <div id="estructura-real-container" class="org-container"></div>
 
@@ -248,6 +275,7 @@
     <script src="js/production-guard.js?v=4"></script>
     <script src="js/comms-channel.js?v=3"></script>
     <script src="js/eco-health.js?v=2"></script>
-    <script src="js/app.js?v=21"></script>
+    <script src="js/pulso.js?v=1"></script>
+<script src="js/app.js?v=22"></script>
 </body>
 </html>
