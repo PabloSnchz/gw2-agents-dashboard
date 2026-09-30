@@ -1,8 +1,22 @@
 {
- "generado_utc": "20260930T223606Z",
- "generado_h": "2026-09-30 22:36 UTC",
+ "generado_utc": "20260930T225106Z",
+ "generado_h": "2026-09-30 22:51 UTC",
  "origen": "git local + ls-remote (sin cuota). protected cacheado TTL 6h.",
  "commits": [
+  {
+   "sha": "3bdafca5109bfe452ed7636d3fd33182dd427ede",
+   "short": "3bdafca",
+   "autor": "Pablo Sanchez",
+   "fecha": "2026-09-30T19:37:11-03:00",
+   "msg": "﻿docs(alerts): ALERT-79 quinta vez, y la regla fallo en el hueco que ella misma senala"
+  },
+  {
+   "sha": "293aed60aea47c3b84e6402dbb03ce6bf590495b",
+   "short": "293aed6",
+   "autor": "Pablo Sanchez",
+   "fecha": "2026-09-30T19:36:20-03:00",
+   "msg": "docs(backlog): el onClear no estaba registrado, y yo lo escribi mal como bloqueante"
+  },
   {
    "sha": "8e5a53292de0ccbcd1464efcd359b60aea216e33",
    "short": "8e5a532",
@@ -338,20 +352,6 @@
    "autor": "Pablo Sanchez",
    "fecha": "2026-09-30T12:20:14-03:00",
    "msg": "merge(idea57t3): Tramo 3 - los @throws que mentian describen las dos capas (v2.26.0)"
-  },
-  {
-   "sha": "b662dcb93f9f9367da96042c371abfb1ed4a2605",
-   "short": "b662dcb",
-   "autor": "Pablo Sanchez",
-   "fecha": "2026-09-30T12:20:10-03:00",
-   "msg": "﻿feat(api): Idea 57 Tramo 3 - los 6 @throws que mentian ahora describen las dos capas"
-  },
-  {
-   "sha": "0f04a53c6e16298c1d096355d228f3b18cc9d049",
-   "short": "0f04a53",
-   "autor": "Pablo Sanchez",
-   "fecha": "2026-09-30T07:13:20-03:00",
-   "msg": "docs(hb55): corregir TEAM_STATUS y SESSION_LOG tras el commit paralelo de la Idea 57 Tramo 1"
   }
  ],
  "archivos_md": [
@@ -407,9 +407,9 @@
    "repo": "gw2-agents-dashboard",
    "label": "Dashboard",
    "role": "dashboard",
-   "sha": "c887677399a3b00469ea136f27dd7bc621c761da",
-   "short_sha": "c887677",
-   "commit": "chore(dashboard): pulso automatico 2026-09-30_22-21_UTC",
+   "sha": "c537833deab93d829a67a6a0a38fe8a26529b2af",
+   "short_sha": "c537833",
+   "commit": "Estructura: la tab responde \"que esta impone la plataforma\"",
    "estado": "open",
    "protected": false,
    "protected_fresco": true,
