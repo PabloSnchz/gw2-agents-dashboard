@@ -405,7 +405,384 @@ class DashboardParser {
         return data;
     }
 
+    /**
+     * Parsea ORG_MAP.md → mapa organizacional del ecosistema (tab Estructura).
+     * 7 secciones + pendientes de verificación.
+     * Si el formato del .md cambia, devuelve parseable:false y el renderer
+     * cae a marked.js (mismo contrato que el resto de los parsers).
+     */
+    static parseOrgMap(md) {
+        const data = {
+            parseable: true,
+            verifiedAt: null,
+            preamble: [],
+            agents: [],
+            agentNotes: [],
+            interactions: [],
+            reviewerBug: null,
+            filePerms: [],
+            filePermsRules: [],
+            repoPerms: [],
+            remotes: [],
+            refspec: null,
+            worktrees: null,
+            configPerms: [],
+            enforcement: { real: [], honor: [] },
+            chats: [],
+            notifications: [],
+            commsNotes: [],
+            rules: { promotion: [], autonomy: [], fallbacks: [], transversales: [] },
+            pending: []
+        };
+
+        if (!md || typeof md !== 'string') {
+            return { parseable: false, ...data };
+        }
+
+        // Fecha de verificación contra el código real
+        const tsMatch = md.match(/>\s*Verificado contra el código real el\s*(.+)/i);
+        if (tsMatch) data.verifiedAt = tsMatch[1].trim().replace(/\.$/, '');
+
+        // Blockquotes del header (contexto del documento)
+        const header = md.split(/^##\s/m)[0];
+        data.preamble = (header.match(/^>.*$/gm) || [])
+            .map(l => l.replace(/^>\s?/, '').trim())
+            .filter(l => l.length > 0);
+
+        // --- §1 Agentes y roles ---
+        const sec1 = this._extractSection(md, '1. Agentes y roles');
+        if (sec1) {
+            this._parseTable(sec1).forEach(row => {
+                if (row.length >= 5) {
+                    data.agents.push({
+                        name: this._cleanCell(row[0]),
+                        id: this._cleanCell(row[1]),
+                        role: this._cleanCell(row[2]),
+                        heartbeat: this._cleanCell(row[3]),
+                        status: this._cleanCell(row[4])
+                    });
+                }
+            });
+            sec1.split('\n').forEach(line => {
+                const m = line.match(/^Nota\s+(\d+):\s*(.+)/);
+                if (m) data.agentNotes.push({ number: m[1], text: m[2].trim() });
+            });
+        }
+
+        // --- §2 Interacciones entre agentes ---
+        const sec2 = this._extractSection(md, '2. Interacciones entre agentes');
+        if (sec2) {
+            this._parseTable(sec2).forEach(row => {
+                if (row.length >= 5) {
+                    data.interactions.push({
+                        from: this._cleanCell(row[0]),
+                        to: this._cleanCell(row[1]),
+                        channel: this._cleanCell(row[2]),
+                        purpose: this._cleanCell(row[3]),
+                        state: this._cleanCell(row[4])
+                    });
+                }
+            });
+
+            const bug = this._extractSubsection(sec2, 'Bug del Reviewer y workarounds');
+            if (bug) {
+                // Descripción = todo lo que no es un item numerado
+                const desc = bug.split('\n')
+                    .map(l => l.trim())
+                    .filter(l => l && !/^#/.test(l) && !/^\d+\.\s/.test(l))
+                    .join(' ');
+                data.reviewerBug = {
+                    description: desc,
+                    workarounds: this._numberedList(bug)
+                };
+            }
+        }
+
+        // --- §3 Permisos de escritura (archivos) ---
+        const sec3 = this._extractSection(md, '3. Permisos de escritura');
+        if (sec3) {
+            this._parseTable(this._primaryTable(sec3)).forEach(row => {
+                if (row.length >= 3) {
+                    data.filePerms.push({
+                        file: this._cleanCell(row[0]),
+                        writer: this._cleanCell(row[1]),
+                        reader: this._cleanCell(row[2])
+                    });
+                }
+            });
+            data.filePermsRules = this._bulletsAfter(sec3, 'Reglas transversales de escritura');
+        }
+
+        // --- §4 Permisos de escritura (repos) ---
+        const sec4 = this._extractSection(md, '4. Permisos de escritura');
+        if (sec4) {
+            this._parseTable(this._primaryTable(sec4)).forEach(row => {
+                if (row.length >= 3) {
+                    data.repoPerms.push({
+                        repo: this._cleanCell(row[0]),
+                        push: this._cleanCell(row[1]),
+                        reader: this._cleanCell(row[2]),
+                        excluded: this._cleanCell(row[3])
+                    });
+                }
+            });
+
+            const remotesSec = this._extractSubsection(sec4, 'Los 3 repos y sus remotes');
+            if (remotesSec) {
+                this._parseTable(remotesSec).forEach(row => {
+                    if (row.length >= 3) {
+                        data.remotes.push({
+                            path: this._cleanCell(row[0]),
+                            remotes: this._cleanCell(row[1]),
+                            note: this._cleanCell(row[2])
+                        });
+                    }
+                });
+            }
+
+            const refspecSec = this._extractSubsection(sec4, 'Refspec de push');
+            if (refspecSec) data.refspec = this._paragraph(refspecSec);
+
+            const wtSec = this._extractSubsection(sec4, 'Worktrees');
+            if (wtSec) data.worktrees = this._paragraph(wtSec);
+        }
+
+        // --- §5 Permisos de configuración ---
+        const sec5 = this._extractSection(md, '5. Permisos de configuración');
+        if (sec5) {
+            this._parseTable(sec5).forEach(row => {
+                if (row.length >= 3) {
+                    data.configPerms.push({
+                        resource: this._cleanCell(row[0]),
+                        who: this._cleanCell(row[1]),
+                        enforcement: this._cleanCell(row[2])
+                    });
+                }
+            });
+
+            const enf = this._extractSubsection(sec5, 'Enforcement real vs regla de honor');
+            if (enf) {
+                const realM = enf.match(/\*\*Enforcement real\*\*[^\n]*\n([\s\S]*?)(?=\*\*Regla de honor\*\*|$)/i);
+                const honorM = enf.match(/\*\*Regla de honor\*\*[^\n]*\n([\s\S]*?)$/i);
+                if (realM) data.enforcement.real = this._bullets(realM[1]);
+                if (honorM) data.enforcement.honor = this._bullets(honorM[1]);
+            }
+        }
+
+        // --- §6 Comunicación con Pablo ---
+        const sec6 = this._extractSection(md, '6. Comunicación con Pablo');
+        if (sec6) {
+            this._parseTables(sec6).forEach(table => {
+                if (!table.length) return;
+                if (table[0].length >= 4) {
+                    table.forEach(row => {
+                        data.chats.push({
+                            chat: this._cleanCell(row[0]),
+                            agent: this._cleanCell(row[1]),
+                            session: this._cleanCell(row[2]),
+                            purpose: this._cleanCell(row[3])
+                        });
+                    });
+                } else if (table[0].length === 3) {
+                    table.forEach(row => {
+                        data.notifications.push({
+                            sender: this._cleanCell(row[0]),
+                            how: this._cleanCell(row[1]),
+                            purpose: this._cleanCell(row[2])
+                        });
+                    });
+                }
+            });
+            // Notas de cierre: párrafos que no son tabla, lista ni heading.
+            // El párrafo del canal habilitado se excluye: el renderer ya lo muestra.
+            data.commsNotes = sec6.split(/\n\s*\n/)
+                .map(block => block.split('\n')
+                    .map(l => l.trim())
+                    .filter(l => l && !l.startsWith('|') && !l.startsWith('#')
+                                 && !/^[-*]\s/.test(l) && !/^-{3,}$/.test(l))
+                    .join(' '))
+                .map(p => p.trim())
+                .filter(p => p.length > 0 && !/^Único canal/i.test(p));
+        }
+
+        // --- §7 Excepciones y reglas de oro ---
+        const sec7 = this._extractSection(md, '7. Excepciones y reglas de oro');
+        if (sec7) {
+            const promo = this._extractSubsection(sec7, '7.1 Promoción a');
+            if (promo) data.rules.promotion = this._numberedList(promo);
+
+            const auto = this._extractSubsection(sec7, '7.2 Autonomía');
+            if (auto) data.rules.autonomy = this._bullets(auto);
+
+            const fb = this._extractSubsection(sec7, '7.3 Fallbacks');
+            if (fb) {
+                this._parseTable(fb).forEach(row => {
+                    if (row.length >= 2) {
+                        data.rules.fallbacks.push({
+                            situation: this._cleanCell(row[0]),
+                            rule: this._cleanCell(row[1])
+                        });
+                    }
+                });
+            }
+
+            const trans = this._extractSubsection(sec7, '7.4 Otras reglas de oro');
+            if (trans) data.rules.transversales = this._bullets(trans);
+        }
+
+        // --- Pendientes de verificación ---
+        // Items numerados con continuación indentada: se agrupan por item,
+        // no por línea (si no, el detail queda cortado en la primera coma).
+        const pend = this._extractSection(md, 'Pendientes de verificación');
+        if (pend) {
+            const items = [];
+            let current = null;
+            pend.split('\n').forEach(raw => {
+                const line = raw.trim();
+                if (!line) return;
+                const head = line.match(/^\d+\.\s+(.+)$/);
+                if (head) {
+                    if (current) items.push(current);
+                    current = head[1];
+                } else if (current) {
+                    current += ' ' + line;
+                }
+            });
+            if (current) items.push(current);
+
+            items.forEach(text => {
+                const bold = text.match(/^\*\*(.+?)\*\*\s*:?\s*([\s\S]*)$/);
+                data.pending.push({
+                    title: bold ? this._cleanCell(bold[1]) : this._shorten(text, 60),
+                    detail: bold ? bold[2].trim() : text
+                });
+            });
+        }
+
+        // Si no se encontró nada parseable → el renderer cae a marked.js
+        const found = data.agents.length > 0 || data.interactions.length > 0
+                   || data.repoPerms.length > 0 || data.configPerms.length > 0;
+        if (!found) data.parseable = false;
+
+        return data;
+    }
+
     // --- Util ---
+
+    /**
+     * Devuelve solo la parte de la sección anterior a su primera subsección
+     * (###). Necesario porque _parseTable() seguiría leyendo las tablas de las
+     * subsecciones y las mezclaría con la tabla principal.
+     */
+    static _primaryTable(sectionText) {
+        if (!sectionText) return '';
+        const cut = sectionText.search(/^###\s/m);
+        return cut === -1 ? sectionText : sectionText.substring(0, cut);
+    }
+
+    /**
+     * Extrae una subsección (### Heading) dentro de un texto ya acotado,
+     * hasta el próximo heading (## o ###).
+     */
+    static _extractSubsection(text, heading) {
+        if (!text || typeof text !== 'string') return null;
+        const startRegex = new RegExp(`^###\\s+${heading}[^\\n]*\\n`, 'im');
+        const startMatch = text.match(startRegex);
+        if (!startMatch) return null;
+
+        const rest = text.substring(startMatch.index + startMatch[0].length);
+        const endMatch = rest.match(/^#{2,3}\s/m);
+        return endMatch ? rest.substring(0, endMatch.index) : rest;
+    }
+
+    /**
+     * Parsea TODAS las tablas markdown de un texto → array de tablas,
+     * cada una = array de filas (array de celdas). A diferencia de
+     * _parseTable(), que solo devuelve la primera.
+     */
+    static _parseTables(text) {
+        const tables = [];
+        let current = null;
+
+        text.split('\n').forEach(raw => {
+            const line = raw.trim();
+            // Línea separadora '|---|---|' → arranca una tabla nueva
+            if (/^\|[-:| ]+\|$/.test(line)) {
+                current = [];
+                tables.push(current);
+                return;
+            }
+            if (current && line.startsWith('|') && line.length > 1) {
+                const cols = line.split('|').slice(1, -1).map(c => c.trim());
+                if (cols.length) current.push(cols);
+            } else if (current && line === '') {
+                current = null;
+            }
+        });
+
+        return tables;
+    }
+
+    /**
+     * Lista con guiones ('- ') → array de strings, sin el prefijo.
+     * Soporta envoltura suave: las líneas indentadas son continuación del bullet.
+     */
+    static _bullets(text) {
+        if (!text) return [];
+        const items = [];
+        text.split('\n').forEach(raw => {
+            const m = raw.match(/^\s*[-*]\s+(.+)$/);
+            if (m) {
+                items.push(m[1].trim());
+            } else if (items.length && raw.trim() && /^\s{2,}/.test(raw) && !raw.trim().startsWith('#')) {
+                items[items.length - 1] += ' ' + raw.trim();
+            }
+        });
+        return items.filter(l => l.length > 0);
+    }
+
+    /** Bullets que siguen a un label en línea (ej. 'Reglas transversales de escritura:') */
+    static _bulletsAfter(text, label) {
+        if (!text || !label) return [];
+        const escaped = label.replace(/[.*+?^${}()|[\]\\]/g, '\\$&');
+        const idx = text.search(new RegExp('^.*' + escaped, 'im'));
+        if (idx === -1) return [];
+        const lineEnd = text.indexOf('\n', idx);
+        return this._bullets(lineEnd === -1 ? '' : text.substring(lineEnd + 1));
+    }
+
+    /**
+     * Lista numerada ('1. ') → array de strings, sin el prefijo.
+     * Soporta envoltura suave igual que _bullets().
+     */
+    static _numberedList(text) {
+        if (!text) return [];
+        const items = [];
+        text.split('\n').forEach(raw => {
+            const m = raw.match(/^\s*\d+\.\s+(.+)$/);
+            if (m) {
+                items.push(m[1].trim());
+            } else if (items.length && raw.trim() && /^\s{2,}/.test(raw) && !raw.trim().startsWith('#')) {
+                items[items.length - 1] += ' ' + raw.trim();
+            }
+        });
+        return items.filter(l => l.length > 0);
+    }
+
+    /** Parrafo de texto plano: une líneas, quita viñetas y separadores '---' */
+    static _paragraph(text) {
+        if (!text) return '';
+        return text.split('\n')
+            .map(l => l.replace(/^\s*[-*]\s+/, '').trim())
+            .filter(l => l.length > 0 && !/^\\?-{3,}$/.test(l))
+            .join(' ');
+    }
+
+    /** Recorta un string a N caracteres con elipsis */
+    static _shorten(str, max) {
+        if (!str) return '';
+        return str.length > max ? str.substring(0, max) + '...' : str;
+    }
 
     /**
      * Extrae el contenido de una sección (## Heading) hasta el siguiente ##.

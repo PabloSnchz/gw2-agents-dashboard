@@ -476,6 +476,248 @@ class DashboardRenderer {
     }
 
     /**
+     * Renderiza el mapa organizacional del ecosistema (tab Estructura).
+     * @param {Object} org — parsed ORG_MAP data
+     * @param {string} rawMd — markdown crudo (fallback si el parseo falla)
+     */
+    static renderOrgMap(org, rawMd) {
+        const container = document.getElementById('org-map-container');
+        if (!container) return;
+
+        // Fallback: si el parseo no encuentra secciones, mostrar el .md crudo
+        if (!org || !org.parseable) {
+            try {
+                container.innerHTML = `
+                    <div class="org-fallback">
+                        <p class="org-callout org-callout--warn">
+                            No se pudo parsear la estructura. Se muestra el documento original.
+                        </p>
+                        <div class="markdown-body">${marked.parse(rawMd || '')}</div>
+                    </div>`;
+            } catch (e) {
+                container.innerHTML = `<div class="card-error">⚠️ ${this._escape(e.message)}</div>`;
+            }
+            return;
+        }
+
+        const parts = [];
+
+        // --- Cabecera ---
+        parts.push(`
+            <div class="org-header">
+                <h2>🗺️ Mapa organizacional del ecosistema</h2>
+                ${org.verifiedAt ? `<p class="org-verified">Verificado contra el código real el ${this._escape(org.verifiedAt)}</p>` : ''}
+                ${org.preamble.length ? `
+                    <ul class="org-preamble">
+                        ${org.preamble.map(p => `<li>${this._escape(p)}</li>`).join('')}
+                    </ul>` : ''}
+            </div>
+        `);
+
+        // --- §1 Agentes y roles ---
+        if (org.agents.length) {
+            parts.push(this._orgSection('👥 1. Agentes y roles', `
+                ${this._orgTable(
+                    ['Agente', 'ID', 'Rol', 'Heartbeat', 'Estado actual'],
+                    org.agents.map(a => [a.name, a.id, a.role, a.heartbeat, a.status])
+                )}
+                ${org.agentNotes.map(n => `
+                    <p class="org-note"><strong>Nota ${this._escape(n.number)}:</strong> ${this._escape(n.text)}</p>
+                `).join('')}
+            `));
+        }
+
+        // --- §2 Interacciones entre agentes ---
+        if (org.interactions.length) {
+            parts.push(this._orgSection('🔄 2. Interacciones entre agentes', `
+                <p class="org-rule">
+                    <strong>Regla global:</strong> nunca <code>chat_with_agent</code> (foreground) entre agentes.
+                    Siempre <code>submit_to_agent</code> (background).
+                </p>
+                ${this._orgTable(
+                    ['Emisor', 'Receptor', 'Canal', 'Para qué', 'Estado'],
+                    org.interactions.map(i => [i.from, i.to, i.channel, i.purpose, i.state])
+                )}
+            `));
+
+            if (org.reviewerBug) {
+                parts.push(`
+                    <div class="org-callout org-callout--danger">
+                        <h4>🐛 Bug del Reviewer</h4>
+                        <p>${this._escape(org.reviewerBug.description)}</p>
+                        ${org.reviewerBug.workarounds.length ? `
+                            <h5>Workarounds documentados</h5>
+                            <ol class="org-workarounds">
+                                ${org.reviewerBug.workarounds.map(w => `<li>${this._escape(w)}</li>`).join('')}
+                            </ol>` : ''}
+                    </div>
+                `);
+            }
+        }
+
+        // --- §3 Permisos de escritura (archivos) ---
+        if (org.filePerms.length) {
+            parts.push(this._orgSection('📝 3. Permisos de escritura — archivos del repo agents', `
+                ${this._orgTable(
+                    ['Archivo', 'Quién escribe', 'Quién solo lee'],
+                    org.filePerms.map(f => [f.file, f.writer, f.reader])
+                )}
+                ${this._orgRuleList('Reglas transversales de escritura', org.filePermsRules)}
+            `));
+        }
+
+        // --- §4 Permisos de escritura (repos) ---
+        if (org.repoPerms.length) {
+            parts.push(this._orgSection('🗄️ 4. Permisos de escritura — repos', `
+                ${this._orgTable(
+                    ['Repo', 'Quién pushea', 'Quién solo lee', 'Quién no toca'],
+                    org.repoPerms.map(r => [r.repo, r.push, r.reader, r.excluded])
+                )}
+                ${org.remotes.length ? `
+                    <h4>Los 3 repos y sus remotes</h4>
+                    ${this._orgTable(
+                        ['Path local', 'Remotes', 'Aclaración crítica'],
+                        org.remotes.map(r => [r.path, r.remotes, r.note])
+                    )}` : ''}
+                ${org.refspec ? `
+                    <h4>Refspec de push</h4>
+                    <p class="org-rule">${this._escape(org.refspec)}</p>` : ''}
+                ${org.worktrees ? `
+                    <h4>Worktrees</h4>
+                    <p class="org-rule">${this._escape(org.worktrees)}</p>` : ''}
+            `));
+        }
+
+        // --- §5 Permisos de configuración ---
+        if (org.configPerms.length) {
+            parts.push(this._orgSection('🔑 5. Permisos de configuración', `
+                ${this._orgTable(
+                    ['Recurso', 'Quién puede tocarlo', 'Tipo de enforcement'],
+                    org.configPerms.map(c => [c.resource, c.who, c.enforcement])
+                )}
+                ${org.enforcement.real.length || org.enforcement.honor.length ? `
+                    <h4>Enforcement real vs regla de honor</h4>
+                    <div class="org-enforcement">
+                        <div class="org-enforcement__col org-enforcement__col--real">
+                            <h5>🔒 Enforcement real</h5>
+                            <p class="org-enforcement__hint">Lo impone la plataforma, no el equipo.</p>
+                            ${this._orgList(org.enforcement.real)}
+                        </div>
+                        <div class="org-enforcement__col org-enforcement__col--honor">
+                            <h5>🤝 Regla de honor</h5>
+                            <p class="org-enforcement__hint">Nada lo impide técnicamente, solo la regla escrita.</p>
+                            ${this._orgList(org.enforcement.honor)}
+                        </div>
+                    </div>` : ''}
+            `));
+        }
+
+        // --- §6 Comunicación con Pablo ---
+        if (org.chats.length || org.notifications.length) {
+            parts.push(this._orgSection('💬 6. Comunicación con Pablo', `
+                <p class="org-rule">Único canal habilitado: <code>console</code>. Los demás están <code>disabled</code>.</p>
+                ${org.chats.length ? `
+                    <h4>Chats</h4>
+                    ${this._orgTable(
+                        ['Chat', 'Agente', 'Session id', 'Para qué'],
+                        org.chats.map(c => [c.chat, c.agent, c.session, c.purpose])
+                    )}` : ''}
+                ${org.notifications.length ? `
+                    <h4>Notificaciones</h4>
+                    ${this._orgTable(
+                        ['Emisor', 'Cómo notifica a Pablo', 'Para qué'],
+                        org.notifications.map(n => [n.sender, n.how, n.purpose])
+                    )}` : ''}
+                ${org.commsNotes.map(n => `<p class="org-note">${this._escape(n)}</p>`).join('')}
+            `));
+        }
+
+        // --- §7 Excepciones y reglas de oro ---
+        if (org.rules.promotion.length || org.rules.autonomy.length
+            || org.rules.fallbacks.length || org.rules.transversales.length) {
+            parts.push(this._orgSection('⚖️ 7. Excepciones y reglas de oro', `
+                ${org.rules.promotion.length ? `
+                    <h4>7.1 Promoción a origin (producción)</h4>
+                    <ol class="org-list">${org.rules.promotion.map(r => `<li>${this._escape(r)}</li>`).join('')}</ol>` : ''}
+                ${org.rules.autonomy.length ? `
+                    <h4>7.2 Autonomía</h4>
+                    ${this._orgList(org.rules.autonomy)}` : ''}
+                ${org.rules.fallbacks.length ? `
+                    <h4>7.3 Fallbacks</h4>
+                    ${this._orgTable(
+                        ['Situación', 'Regla'],
+                        org.rules.fallbacks.map(f => [f.situation, f.rule])
+                    )}` : ''}
+                ${org.rules.transversales.length ? `
+                    <h4>7.4 Otras reglas de oro</h4>
+                    ${this._orgList(org.rules.transversales)}` : ''}
+            `));
+        }
+
+        // --- Pendientes de verificación ---
+        if (org.pending.length) {
+            parts.push(this._orgSection('❓ Pendientes de verificación', `
+                <p class="org-callout org-callout--warn">
+                    Datos que no se pudieron confirmar contra una fuente. Requieren decisión.
+                </p>
+                <ol class="org-pending">
+                    ${org.pending.map(p => `
+                        <li class="org-pending__item">
+                            <span class="org-pending__title">${this._escape(p.title)}</span>
+                            <span class="org-pending__detail">${this._escape(p.detail)}</span>
+                        </li>`).join('')}
+                </ol>
+            `));
+        }
+
+        container.innerHTML = parts.join('');
+    }
+
+    /** Envuelve contenido en un bloque de sección del tab Estructura */
+    static _orgSection(title, inner) {
+        return `
+            <section class="org-section">
+                <h3>${title}</h3>
+                ${inner}
+            </section>
+        `;
+    }
+
+    /** Tabla genérica del tab Estructura (reutiliza estilos de comms-table) */
+    static _orgTable(headers, rows) {
+        if (!rows || rows.length === 0) return '';
+        return `
+            <div class="comms-table-wrapper org-table">
+                <table class="comms-table">
+                    <thead>
+                        <tr>${headers.map(h => `<th>${this._escape(h)}</th>`).join('')}</tr>
+                    </thead>
+                    <tbody>
+                        ${rows.map(row => `
+                            <tr>${row.map(cell => `<td>${this._escape(cell)}</td>`).join('')}</tr>
+                        `).join('')}
+                    </tbody>
+                </table>
+            </div>
+        `;
+    }
+
+    /** Lista con viñetas del tab Estructura */
+    static _orgList(items) {
+        if (!items || items.length === 0) return '';
+        return `<ul class="org-list">${items.map(i => `<li>${this._escape(i)}</li>`).join('')}</ul>`;
+    }
+
+    /** Lista de reglas con título + viñetas del tab Estructura */
+    static _orgRuleList(title, items) {
+        if (!items || items.length === 0) return '';
+        return `
+            <h4>${this._escape(title)}</h4>
+            ${this._orgList(items)}
+        `;
+    }
+
+    /**
      * Renderiza los acordeones de logs (7 archivos)
      * @param {Array} files — [{ name, label, success, content, error }]
      */

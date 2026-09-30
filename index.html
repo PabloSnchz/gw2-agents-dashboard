@@ -4,8 +4,8 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>GW2 Agents Dashboard</title>
-    <link rel="stylesheet" href="css/main.css?v=12">
-    <link rel="stylesheet" href="css/theme.css?v=13">
+    <link rel="stylesheet" href="css/main.css?v=13">
+    <link rel="stylesheet" href="css/theme.css?v=14">
 </head>
 <body>
     <div class="dashboard">
@@ -27,6 +27,7 @@
             <button class="dashboard-tab" data-tab="equipo" onclick="setDashboardTab('equipo')">👥 Equipo</button>
             <button class="dashboard-tab" data-tab="historial" onclick="setDashboardTab('historial')">📅 Historial</button>
             <button class="dashboard-tab" data-tab="proximas" onclick="setDashboardTab('proximas')">⏰ Próximas</button>
+            <button class="dashboard-tab" data-tab="estructura" onclick="setDashboardTab('estructura')">🗺️ Estructura</button>
             <button class="dashboard-tab" data-tab="logs" onclick="setDashboardTab('logs')">📋 Logs</button>
         </nav>
 
@@ -93,6 +94,17 @@
             </section>
         </div>
 
+        <!-- Tab: Estructura -->
+        <div class="dashboard-tab-content" data-tab-content="estructura">
+            <section class="org-section-wrap">
+                <h2>🗺️ Estructura del ecosistema</h2>
+                <p class="org-source">
+                    Fuente: <code>ORG_MAP.md</code> en <code>agents/main</code> (documento canónico, lo mantiene el Principal).
+                </p>
+                <div id="org-map-container" class="org-container"></div>
+            </section>
+        </div>
+
         <!-- Tab: Logs -->
         <div class="dashboard-tab-content" data-tab-content="logs">
             <section class="alerts-section">
@@ -133,14 +145,14 @@
 
     <!-- marked.js v4 (CDN, no se commitea) -->
     <script src="https://cdn.jsdelivr.net/npm/marked/marked.min.js"></script>
-    <script src="js/config.js?v=10"></script>
+    <script src="js/config.js?v=11"></script>
     <script src="js/fetcher.js?v=10"></script>
-    <script src="js/parser.js?v=14"></script>
-    <script src="js/renderer.js?v=9"></script>
+    <script src="js/parser.js?v=15"></script>
+    <script src="js/renderer.js?v=10"></script>
     <script src="js/timeline.js?v=6"></script>
     <script src="js/attention.js?v=5"></script>
     <script src="js/upcoming.js?v=4"></script>
     <script src="js/live-status.js?v=1"></script>
-    <script src="js/app.js?v=16"></script>
+    <script src="js/app.js?v=17"></script>
 </body>
 </html>

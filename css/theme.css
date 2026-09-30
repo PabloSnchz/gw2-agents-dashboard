@@ -265,3 +265,37 @@
 /* ===== Comms Summary Alert ===== */
 .comms-summary-item--alert .comms-summary-label { color: #ff9d9d; }
 .comms-summary-item--alert .comms-summary-value { color: #ff6b6b; }
+
+/* ===== Tab Estructura (ORG_MAP.md) — skin ===== */
+.org-source { color: #888; }
+.org-verified { color: #7b7b9a; }
+.org-preamble { color: #8a8aa0; }
+.org-section { border-left: 3px solid rgba(106, 27, 185, 0.5); }
+.org-section:hover { border-left-color: rgba(106, 27, 185, 0.8); }
+.org-section h4 { color: #b0b0c0; }
+.org-section h5 { color: #a0a0b4; }
+.org-note,
+.org-rule { color: #9a9aae; }
+.org-list li,
+.org-workarounds li { color: #b8b8c8; }
+.org-callout {
+    background: rgba(20, 20, 35, 0.85);
+    border: 1px solid rgba(255, 255, 255, 0.08);
+    border-radius: 8px;
+    color: #b0b0c0;
+}
+.org-callout--warn   { border-left: 3px solid rgba(255, 152, 0, 0.6); color: #ffb85c; }
+.org-callout--danger { border-left: 3px solid rgba(244, 67, 54, 0.6); color: #ff9d9d; }
+.org-enforcement__col {
+    background: rgba(15, 15, 25, 0.8);
+    border: 1px solid rgba(255, 255, 255, 0.06);
+    border-radius: 8px;
+}
+.org-enforcement__col--real  { border-left: 3px solid rgba(76, 175, 80, 0.5); }
+.org-enforcement__col--honor { border-left: 3px solid rgba(255, 152, 0, 0.5); }
+.org-enforcement__col--real h5  { color: #66bb6a; }
+.org-enforcement__col--honor h5 { color: #ffa726; }
+.org-enforcement__hint { color: #7b7b9a; }
+.org-pending__item { color: #c0c0d0; }
+.org-pending__title { color: #d0d0e0; }
+.org-pending__detail { color: #8a8aa0; }

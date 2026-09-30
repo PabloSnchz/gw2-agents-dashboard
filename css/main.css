@@ -217,6 +217,42 @@ body {
 .comm-summary { max-width: 250px; }
 .sort-indicator { color: #6a1b9a; font-size: 0.75rem; }
 
+/* ===== Tab Estructura (ORG_MAP.md) ===== */
+.org-section-wrap { margin-bottom: 16px; }
+.org-source { font-size: 0.8rem; margin-bottom: 16px; }
+.org-container { display: flex; flex-direction: column; gap: 18px; }
+.org-header h2 { margin-bottom: 4px; }
+.org-verified { font-size: 0.78rem; margin-bottom: 8px; }
+.org-preamble { font-size: 0.8rem; padding-left: 20px; margin: 0 0 8px; }
+.org-section { padding: 14px 16px; }
+.org-section h3 { margin-top: 0; margin-bottom: 10px; }
+.org-section h4 { margin: 16px 0 8px; font-size: 0.9rem; }
+.org-section h5 { margin: 10px 0 6px; font-size: 0.82rem; }
+.org-table { margin-bottom: 8px; }
+.org-table th { cursor: default; }
+.org-list,
+.org-workarounds,
+.org-pending { margin: 6px 0; padding-left: 22px; }
+.org-list li,
+.org-workarounds li,
+.org-pending__item { margin-bottom: 6px; font-size: 0.85rem; }
+.org-note,
+.org-rule { font-size: 0.83rem; margin: 8px 0; }
+.org-callout { padding: 12px 14px; margin: 10px 0; }
+.org-callout h4 { margin: 0 0 6px; }
+.org-callout h5 { margin: 10px 0 6px; }
+.org-callout p { margin: 6px 0; font-size: 0.83rem; }
+.org-enforcement { display: grid; grid-template-columns: 1fr 1fr; gap: 14px; }
+.org-enforcement__col { padding: 12px 14px; }
+.org-enforcement__hint { font-size: 0.78rem; margin: 4px 0 8px; }
+.org-pending__title { display: block; font-weight: 600; }
+.org-pending__detail { display: block; font-size: 0.8rem; }
+.org-fallback { padding: 4px 0; }
+
+@media (max-width: 768px) {
+    .org-enforcement { grid-template-columns: 1fr; }
+}
+
 /* Modal de detalle */
 .modal-overlay {
     position: fixed;

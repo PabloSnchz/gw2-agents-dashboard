@@ -15,9 +15,10 @@ const DASHBOARD_CONFIG = {
     autoRefreshKey: 'gn:dashboard:auto-refresh', // prefijo gn: según convención
 
     // Archivos a monitorear → zona de render
-    // Zone 'current' = Estado actual (top)
-    // Zone 'recent'  = Últimas 24h (medio)
-    // Zone 'history' = Histórico (abajo)
+    // Zone 'current'   = Estado actual (top)
+    // Zone 'recent'    = Últimas 24h (medio)
+    // Zone 'history'   = Histórico (abajo)
+    // Zone 'structure' = Mapa organizacional (tab Estructura)
     files: [
         { name: 'TEAM_STATUS.md', zone: 'current', label: 'Estado del Equipo' },
         { name: 'ALERTS_LOG.md',   zone: 'current', label: 'Alertas' },
@@ -31,6 +32,7 @@ const DASHBOARD_CONFIG = {
         { name: 'IN_PROGRESS.md', zone: 'recent', label: 'En desarrollo' },
         { name: 'COMMS_DETAILS.md', zone: 'recent', label: 'Detalle de Comunicaciones' },
         { name: 'PRE_BACKLOG.md', zone: 'history', label: 'Pre-Backlog' },
+        { name: 'ORG_MAP.md', zone: 'structure', label: 'Mapa Organizacional' },
     ],
 
     // Genera URL raw de GitHub para un archivo
@@ -53,6 +55,7 @@ const DASHBOARD_CONFIG = {
         const f = filename.toUpperCase();
         if (f.startsWith('TEAM_') || f.startsWith('ALERTS') || f.startsWith('COMMS')) return 'current';
         if (f.startsWith('PRE_')) return 'history';
+        if (f.startsWith('ORG_')) return 'structure';
         return 'recent'; // default: SESSION, BACKLOG, DECISIONS, y nuevos archivos
     },
 

@@ -1,7 +1,7 @@
 /**
  * js/app.js
  * Orquestación del dashboard: fetch paralelo → parser KPIs → renderer estructurado.
- * Tabs: Resumen / Equipo / Historial / Próximas / Logs.
+ * Tabs: Resumen / Equipo / Historial / Próximas / Estructura / Logs.
  */
 
 (() => {
@@ -25,7 +25,7 @@
 
     // Estado del tab activo
     const TAB_STORAGE_KEY = 'gn:dashboard:active-tab';
-    const VALID_TABS = ['resumen', 'equipo', 'historial', 'proximas', 'logs'];
+    const VALID_TABS = ['resumen', 'equipo', 'historial', 'proximas', 'estructura', 'logs'];
 
     // ============ TABS (definido PRIMERO, antes de init) ============
     window.setDashboardTab = function(tabName, silent) {
@@ -262,6 +262,25 @@
             sessionLog: fileMap['SESSION_LOG.md']?.success ? fileMap['SESSION_LOG.md'].content : '',
             alerts: kpiData.alerts
         });
+
+        // Render del tab "Estructura" (ORG_MAP.md)
+        if (fileMap['ORG_MAP.md'] && fileMap['ORG_MAP.md'].success) {
+            const orgParsed = DashboardParser.parseOrgMap(fileMap['ORG_MAP.md'].content);
+            DashboardRenderer.renderOrgMap(orgParsed, fileMap['ORG_MAP.md'].content);
+        } else {
+            // El .md no llegó (404 o red): el tab muestra el motivo, no queda vacío en silencio
+            const orgError = fileMap['ORG_MAP.md'] ? fileMap['ORG_MAP.md'].error : 'no encontrado';
+            const orgContainer = document.getElementById('org-map-container');
+            if (orgContainer) {
+                orgContainer.innerHTML = `
+                    <div class="org-fallback">
+                        <p class="org-callout org-callout--danger">
+                            No se pudo cargar <code>ORG_MAP.md</code>: ${DashboardRenderer._escape(orgError)}
+                        </p>
+                        <button class="btn btn-secondary btn-sm" onclick="retryLoad()">Reintentar</button>
+                    </div>`;
+            }
+        }
 
         showStatus(`Última actualización: ${new Date().toLocaleTimeString()}`, 'status-ok');
     }
