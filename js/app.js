@@ -25,7 +25,14 @@
 
     // Estado del tab activo
     const TAB_STORAGE_KEY = 'gn:dashboard:active-tab';
-    const VALID_TABS = ['resumen', 'equipo', 'historial', 'proximas', 'estructura', 'promociones', 'logs'];
+    // OJO: esta lista decide que tabs funcionan. setDashboardTab hace
+    // `if (!VALID_TABS.includes(tabName)) return;`, asi que un tab que no este
+    // aca NO cambia: el click no hace nada y no hay error en consola. Cuando se
+    // agrega un tab hay que agregarlo ACA tambien (el boton en index.html y el
+    // div .dashboard-tab-content no alcanzan). Por eso 'salud' falto durante
+    // tiempo: el boton existia, eco-health renderizaba perfecto, y el tab no se
+    // abria nunca.
+    const VALID_TABS = ['resumen', 'equipo', 'historial', 'proximas', 'estructura', 'salud', 'promociones', 'logs'];
 
     // ============ TABS (definido PRIMERO, antes de init) ============
     window.setDashboardTab = function(tabName, silent) {
