@@ -140,24 +140,38 @@ class DashboardParser {
             return { parseable: false, ...data };
         }
 
-        // Alertas activas
+        // Alertas activas.
+        //
+        // FIX: se lee por NOMBRE de columna, no por posición. ALERTS_LOG.md
+        // mezcla una tabla de 6 columnas y otra de 8. Con índices fijos la
+        // descripción caía en el campo `agent`, y live-status usaba ese campo
+        // para decidir que un agente estaba CAÍDO: bastaba con que su nombre
+        // apareciera en el texto de cualquier alerta para marcarlo rojo.
         const activeSection = this._extractSection(md, 'Alertas activas');
         if (activeSection) {
-            const rows = this._parseTable(activeSection);
-            rows.forEach(row => {
-                if (row.length >= 2) {
+            this._alertTables(activeSection).forEach(t => {
+                t.rows.forEach(row => {
+                    if (row.length < 2) return;
                     data.active++;
                     data.total++;
-                    const severity = row[1] || '';
+                    const severity = this._cell(row, t.cols.severity);
                     const level = this._parseSeverity(severity);
                     if (level) data.bySeverity[level]++;
                     data.details.push({
-                        severity: severity.replace(/[`]/g, ''),
-                        description: row[2]?.replace(/[`]/g, '') || '',
-                        agent: row[3]?.replace(/[`]/g, '') || '',
-                        state: row[4]?.replace(/[`]/g, '') || ''
+                        id: this._cell(row, t.cols.id),
+                        severity: this._cleanCell(severity),
+                        type: this._cleanCell(this._cell(row, t.cols.type)),
+                        description: this._cleanCell(this._cell(row, t.cols.description)),
+                        state: this._cleanCell(this._cell(row, t.cols.state)),
+                        resolution: this._cleanCell(this._cell(row, t.cols.resolution)),
+                        detected: this._cell(row, t.cols.detectado),
+                        // ALERTS_LOG.md no tiene columna de agente: el nombre
+                        // aparece dentro del texto de la descripción. Se deja
+                        // vacío a propósito. Antes iba la descripción entera
+                        // acá, y eso era indistinguible de "este agente falló".
+                        agent: ''
                     });
-                }
+                });
             });
         }
 
@@ -803,6 +817,72 @@ class DashboardParser {
         const sectionContent = endMatch ? rest.substring(0, endMatch.index) : rest;
 
         return sectionContent;
+    }
+
+    /**
+     * Igual que _parseTables(), pero conserva el header de cada tabla.
+     * Es lo que hace falta en ALERTS_LOG.md, que mezcla dos formatos:
+     * Una tabla de 6 columnas (# | Severidad | Tipo | Descripción | Estado |
+     * Resolución) y otra de 8 (... | Detectado | Última actualización).
+     */
+    static _parseTablesWithHeader(text) {
+        const tables = [];
+        let pending = null;
+        let current = null;
+
+        String(text).split('\n').forEach(raw => {
+            const line = raw.trim();
+            if (/^\|[-:| ]+\|$/.test(line)) {
+                current = { header: pending || [], rows: [] };
+                tables.push(current);
+                pending = null;
+                return;
+            }
+            if (line.startsWith('|') && line.length > 1) {
+                const cols = line.split('|').slice(1, -1).map(c => c.trim());
+                if (current) current.rows.push(cols);
+                else pending = cols;
+            } else if (line === '') {
+                current = null;
+                pending = null;
+            }
+        });
+
+        return tables;
+    }
+
+    /**
+     * Tablas de alertas de un texto, con las columnas YA resueltas por nombre.
+     * Devuelve [{ cols: {severity: 1, ...}, rows: [[...]] }]. Descarta toda
+     * tabla que no tenga 'Severidad' y 'Descripción': antes no hacía falta
+     * distinguir, porque se leían posiciones fijas.
+     */
+    static _alertTables(text) {
+        return this._parseTablesWithHeader(text)
+            .map(t => {
+                const cols = t.header.map(h =>
+                    h.toLowerCase().replace(/[`*]/g, '').replace(/\s+/g, ' ').trim()
+                );
+                const idx = re => cols.findIndex(c => re.test(c));
+                return {
+                    cols: {
+                        id:          idx(/^(#|id)$/),
+                        severity:    idx(/^severidad$/),
+                        type:        idx(/^tipo$/),
+                        description: idx(/^descripci/),
+                        state:       idx(/^estado$/),
+                        resolution:  idx(/^resoluci/),
+                        detectado:   idx(/^(detectado|fecha)/)
+                    },
+                    rows: t.rows
+                };
+            })
+            .filter(t => t.cols.severity !== -1 && t.cols.description !== -1);
+    }
+
+    /** Celda por índice de columna mapeada. Columna ausente (-1) → '' */
+    static _cell(row, idx) {
+        return (idx >= 0 && idx < row.length) ? (row[idx] || '') : '';
     }
 
     /** Parsea una tabla markdown → array de arrays (sin header ni separador) */

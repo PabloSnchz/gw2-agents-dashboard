@@ -858,6 +858,17 @@ class DashboardRenderer {
         const all = promo.pending.concat(promo.decisions);
         const n = st => all.filter(i => i.state === st).length;
 
+        // FIX: "Esperando tu decisión" se arma por ESTADO, no por la sección
+        // del markdown de la que salió la fila. Antes el KPI contaba
+        // pending + ready sobre el total, pero la lista de abajo renderizaba
+        // solo `promo.pending`: un item con estado 'ready' que venía de la
+        // sección de decisiones subía el KPI a 1 con la lista vacía, que es
+        // lo que se veía. KPI y lista salen ahora del mismo array, así que no
+        // pueden discrepar ni por un cambio de formato en PROMOTIONS.md.
+        const AWAITING = ['pending', 'ready'];
+        const awaiting = all.filter(i => AWAITING.indexOf(i.state) !== -1);
+        const resolved = all.filter(i => AWAITING.indexOf(i.state) === -1);
+
         const parts = [];
 
         parts.push(`
@@ -873,18 +884,18 @@ class DashboardRenderer {
 
         parts.push(`
             <div class="promo-kpis">
-                ${this._promoKpi('Esperando tu decisión', n('pending') + n('ready'), 'attention')}
+                ${this._promoKpi('Esperando tu decisión', awaiting.length, 'attention')}
                 ${this._promoKpi('Autorizadas', n('authorized'), 'ok')}
                 ${this._promoKpi('Probadas', n('tested'), 'ok')}
                 ${this._promoKpi('Revertidas / rechazadas', n('reverted') + n('rejected'), 'danger')}
             </div>
         `);
 
-        if (promo.pending.length) {
+        if (awaiting.length) {
             parts.push(this._orgSection('⏳ Esperando tu decisión', `
                 <p class="promo-hint">Nada entra a producción sin tu aprobación explícita.</p>
                 <div class="promo-list">
-                    ${promo.pending.map(p => `
+                    ${awaiting.map(p => `
                         <article class="promo-card promo-card--${p.state}">
                             <div class="promo-card-head">
                                 ${p.commit ? `<code class="promo-sha">${this._escape(p.commit)}</code>` : ''}
@@ -905,11 +916,11 @@ class DashboardRenderer {
             `);
         }
 
-        if (promo.decisions.length) {
+        if (resolved.length) {
             parts.push(this._orgSection('📜 Decisiones tomadas', `
                 ${this._orgTable(
                     ['Fecha', 'Commit', 'Qué es', 'Decisión'],
-                    promo.decisions.map(d => [
+                    resolved.map(d => [
                         d.date || '—',
                         d.commit || '—',
                         d.feat,

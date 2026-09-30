@@ -74,21 +74,44 @@ class DashboardLiveStatus {
         // 3) Canal real del agente (viene verificado, no estimado)
         const canal = this._canalDe(agent, data.structure);
 
-        // 4) Estado de actividad (estimado por actividad, como antes)
+        // 4) Estado de actividad.
+        //
+        // FIX: una alerta ya NO decide que un agente está CAÍDO. Antes sí:
+        // bastaba con que el nombre del agente apareciera en el texto de una
+        // alerta (el parser metía la descripción entera en el campo `agent`),
+        // así que PO, Reviewer y Documentador salían en rojo teniendo
+        // actividad de hace menos de una hora. Una alerta es un problema
+        // registrado; un heartbeat vencido es otra cosa. Se confundían.
+        //
+        // CAÍDO pasa a significar lo único que significa: tiene un heartbeat
+        // configurado, pasó más del doble de su ventana, y no hubo actividad.
+        // Un agente bajo demanda (sin heartbeat) no puede estar CAÍDO nunca:
+        // no tiene nada que vencerse.
         let status = 'unknown';
-        const hasRecentAlert = (data.alerts?.details || []).some(a =>
-            new RegExp(agent.nombre, 'i').test(a.agent || '')
-        );
-        if (hasRecentAlert) {
-            status = 'error';
-        } else if (ageMin === Infinity) {
+        let statusMotivo = '';
+
+        // El umbral es el INTERVALO (cada cuánto debería correr), no el
+        // timeout de una corrida. Piso de 180 min por una razón concreta: el
+        // Principal corre cada 30 min pero no commitea en cada heartbeat, así
+        // que con un umbral puro de 45 min aparecería CAÍDO por ser
+        // productivo de otra forma. El silencio no es prueba de caída: es la
+        // ausencia de un dato. A los 3h sin actividad, sí lo es.
+        const umbralMin = Math.max((canal.intervaloMin || canal.ventanaMin) * 1.5, 180);
+        const umbralTxt = canal.intervaloMin
+            ? 'debería correr cada ' + this._formatAge(canal.intervaloMin).replace('hace ', '')
+            : 'ventana ' + Math.round(canal.ventanaMin) + ' min';
+
+        if (ageMin === Infinity) {
             status = 'unknown';
+            statusMotivo = 'Sin actividad registrada en commits ni SESSION_LOG';
+        } else if (canal.activo && ageMin > umbralMin) {
+            status = 'error';
+            statusMotivo = 'Heartbeat vencido: ' + this._formatAge(ageMin)
+                + ' sin actividad, y ' + umbralTxt;
         } else if (canal.activo && ageMin < 10) {
             status = 'active';
         } else if (canal.activo && ageMin < canal.ventanaMin) {
             status = 'heartbeat';
-        } else if (ageMin < 360) {
-            status = 'idle';
         } else {
             status = 'idle';
         }
@@ -105,6 +128,7 @@ class DashboardLiveStatus {
         return {
             agent,
             status,
+            statusMotivo,
             canal,
             lastActivity,
             ageMin,
@@ -114,27 +138,61 @@ class DashboardLiveStatus {
     }
 
     /**
+     * Cada cuántos MINUTOS debería correr este agente.
+     *
+     * Distinto de timeout_s, que es cuánto se le permite tardar UNA corrida.
+     * Confundir las dos dos cosas es lo que producía los CAÍDO falsos: el
+     * Documentador corre cada 240 min con un timeout de 15, así que usar el
+     * timeout como ventana lo daba por muerto a los 31 minutos de inactividad.
+     */
+    static _intervaloMin(hb) {
+        // Cron: "*/30 * * * *" o "0,30 * * * *"
+        if (hb.cron_expr) {
+            const paso = String(hb.cron_expr).match(/^\*\/(\d+)/);
+            if (paso) return parseInt(paso[1], 10);
+            const cada = String(hb.cron_expr).match(/^\d+\s*,\s*(\d+)/);
+            if (cada) return Math.max(1, 60 - parseInt(cada[1], 10));
+        }
+        // agent.json: "30m", "2h", "6h". El flag enabled se mira a propósito:
+        // el Code Reviewer declara every=6h con agent_json_enabled=false, y
+        // un intervalo que no está configurado no es un intervalo.
+        if (hb.agent_json_enabled && hb.agent_json_every) {
+            const m = String(hb.agent_json_every).trim().match(/^(\d+)\s*(m|h|d)?$/i);
+            if (m) {
+                const n = parseInt(m[1], 10);
+                const u = (m[2] || 'm').toLowerCase();
+                return u === 'h' ? n * 60 : (u === 'd' ? n * 1440 : n);
+            }
+        }
+        return null;
+    }
+
+    /**
      * Canal real del agente, leido de data/estructura.json (verificado por el
      * Arquitecto contra agent.json + qwenpaw cron list + procesos vivos).
      *
      * No inventa: si el JSON no llego, dice "sin dato" en vez de asumir.
-     * La ventana es cuanto aguantamos sin ver actividad antes de suponer
-     * que algo se rompio: sale del timeout real configurado, no de un numero redondo.
+     * `intervaloMin` es cada cuánto debería correr; `ventanaMin` queda como
+     * el timeout de la corrida y se usa solo de respaldo.
      */
     static _canalDe(agent, structure) {
         const filas = (structure && structure.agentes) || [];
         const fila = filas.find(a => a.id === agent.refAgente);
         if (!fila) {
-            return { activo: false, ventanaMin: 360, texto: 'Canal: sin dato (estructura no cargada)', tono: 'neutro' };
+            return { activo: false, intervaloMin: null, ventanaMin: 360, texto: 'Canal: sin dato (estructura no cargada)', tono: 'neutro' };
         }
 
         const hb = fila.heartbeat || {};
         const esEcosistema = !fila.id.startsWith('QwenPaw_');
+        const intervaloMin = this._intervaloMin(hb);
+        const timeoutMin = hb.timeout_s ? hb.timeout_s / 60 : null;
+        const ventanaMin = intervaloMin || timeoutMin || 360;
 
         if (hb.mecanismo === 'cron' && hb.cron_expr) {
             return {
                 activo: esEcosistema,
-                ventanaMin: hb.timeout_s ? hb.timeout_s / 60 : 60,
+                intervaloMin,
+                ventanaMin,
                 texto: 'Canal: cron ' + hb.cron_expr + ' UTC' + (hb.proposito ? ' (' + hb.proposito + ')' : ''),
                 tono: 'ok'
             };
@@ -142,7 +200,8 @@ class DashboardLiveStatus {
         if (hb.agent_json_enabled) {
             return {
                 activo: true,
-                ventanaMin: hb.timeout_s ? hb.timeout_s / 60 : 120,
+                intervaloMin,
+                ventanaMin,
                 texto: 'Canal: heartbeat ' + hb.agent_json_every + ' (agent.json)',
                 tono: 'ok'
             };
@@ -150,6 +209,7 @@ class DashboardLiveStatus {
         if (hb.mecanismo === 'ninguno') {
             return {
                 activo: false,
+                intervaloMin: null,
                 ventanaMin: 360,
                 texto: 'Canal: sin heartbeat, bajo demanda',
                 tono: 'neutro'
@@ -157,6 +217,7 @@ class DashboardLiveStatus {
         }
         return {
             activo: false,
+            intervaloMin: null,
             ventanaMin: 360,
             texto: 'Canal: ' + (hb.mecanismo || 'desconocido'),
             tono: 'neutro'
@@ -183,6 +244,9 @@ class DashboardLiveStatus {
                     <span class="live-card__status-label">${statusLabel}</span>
                 </div>
                 <div class="live-card__activity">${this._escape(s.currentActivity)}</div>
+                ${s.status === 'error' && s.statusMotivo
+                    ? `<div class="live-card__motivo">${this._escape(s.statusMotivo)}</div>`
+                    : ''}
                 <div class="live-card__meta">
                     <span class="live-card__canal live-card__canal--${canal.tono}">${this._escape(canal.texto)}</span>
                     <span>Última actividad: ${ageText}</span>

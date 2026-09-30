@@ -678,6 +678,17 @@ body {
     min-height: 34px;
 }
 
+/* Por qué un agente está CAÍDO. Sin esto la tarjeta decía solo "CAÍDO",
+   que es un diagnóstico sin causa: no había nada sobre lo que actuar. */
+.live-card__motivo {
+    font-size: 0.78rem;
+    line-height: 1.4;
+    color: #ff8a8a;
+    margin: -4px 0 8px;
+    padding-left: 8px;
+    border-left: 2px solid rgba(255, 138, 138, 0.45);
+}
+
 .live-card__meta {
     display: flex;
     flex-direction: column;
