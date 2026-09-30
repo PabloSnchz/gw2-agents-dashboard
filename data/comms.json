@@ -1,6 +1,6 @@
 {
- "generado_utc": "20260930T093601Z",
- "generado_h": "2026-09-30 09:36Z",
+ "generado_utc": "20260930T095101Z",
+ "generado_h": "2026-09-30 09:51Z",
  "fuente": "C:/Users/psanc/.qwenpaw/_comms (canal durable, archivos)",
  "estados": [
   "waiting",
@@ -10,11 +10,31 @@
   "closed"
  ],
  "conteo": {
-  "overdue": 5,
-  "asked": 1
+  "asked": 2,
+  "overdue": 5
  },
- "total": 6,
+ "total": 7,
  "mensajes": [
+  {
+   "id": "20260930T094209Z-0c71fe",
+   "kind": "question",
+   "from": "default",
+   "to": "product-owner",
+   "subject": "HB#54Idea56enrama+aceptotucorreccionedel206",
+   "body": "cuerpoescrito despues",
+   "created_utc": "20260930T094209Z",
+   "deadline_utc": "20260930T100709Z",
+   "wait_required": true,
+   "reply": null,
+   "replied_by": null,
+   "replied_utc": null,
+   "estado": "asked",
+   "estado_nota": "entregada, sin registrar como esperando",
+   "from_label": "Principal",
+   "to_label": "Product Owner",
+   "created_h": "2026-09-30 09:42Z",
+   "replied_h": ""
+  },
   {
    "id": "20260930T090008Z-a4e6b8",
    "kind": "question",
