@@ -25,7 +25,7 @@
 
     // Estado del tab activo
     const TAB_STORAGE_KEY = 'gn:dashboard:active-tab';
-    const VALID_TABS = ['resumen', 'equipo', 'historial', 'proximas', 'estructura', 'logs'];
+    const VALID_TABS = ['resumen', 'equipo', 'historial', 'proximas', 'estructura', 'promociones', 'logs'];
 
     // ============ TABS (definido PRIMERO, antes de init) ============
     window.setDashboardTab = function(tabName, silent) {
@@ -276,6 +276,24 @@
                     <div class="org-fallback">
                         <p class="org-callout org-callout--danger">
                             No se pudo cargar <code>ORG_MAP.md</code>: ${DashboardRenderer._escape(orgError)}
+                        </p>
+                        <button class="btn btn-secondary btn-sm" onclick="retryLoad()">Reintentar</button>
+                    </div>`;
+            }
+        }
+
+        // Render del tab "Promociones" (PROMOTIONS.md)
+        if (fileMap['PROMOTIONS.md'] && fileMap['PROMOTIONS.md'].success) {
+            const promoParsed = DashboardParser.parsePromotions(fileMap['PROMOTIONS.md'].content);
+            DashboardRenderer.renderPromotions(promoParsed, fileMap['PROMOTIONS.md'].content);
+        } else {
+            const promoError = fileMap['PROMOTIONS.md'] ? fileMap['PROMOTIONS.md'].error : 'no encontrado';
+            const promoContainer = document.getElementById('promotions-container');
+            if (promoContainer) {
+                promoContainer.innerHTML = `
+                    <div class="promo-fallback">
+                        <p class="promo-callout promo-callout--danger">
+                            No se pudo cargar <code>PROMOTIONS.md</code>: ${DashboardRenderer._escape(promoError)}
                         </p>
                         <button class="btn btn-secondary btn-sm" onclick="retryLoad()">Reintentar</button>
                     </div>`;

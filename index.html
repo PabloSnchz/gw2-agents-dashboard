@@ -28,6 +28,7 @@
             <button class="dashboard-tab" data-tab="historial" onclick="setDashboardTab('historial')">📅 Historial</button>
             <button class="dashboard-tab" data-tab="proximas" onclick="setDashboardTab('proximas')">⏰ Próximas</button>
             <button class="dashboard-tab" data-tab="estructura" onclick="setDashboardTab('estructura')">🗺️ Estructura</button>
+            <button class="dashboard-tab" data-tab="promociones" onclick="setDashboardTab('promociones')">🚀 Promociones</button>
             <button class="dashboard-tab" data-tab="logs" onclick="setDashboardTab('logs')">📋 Logs</button>
         </nav>
 
@@ -102,6 +103,13 @@
                     Fuente: <code>ORG_MAP.md</code> en <code>agents/main</code> (documento canónico, lo mantiene el Principal).
                 </p>
                 <div id="org-map-container" class="org-container"></div>
+            </section>
+        </div>
+
+        <!-- Tab: Promociones -->
+        <div class="dashboard-tab-content" data-tab-content="promociones">
+            <section class="promo-section-wrap">
+                <div id="promotions-container" class="promo-container"></div>
             </section>
         </div>
 

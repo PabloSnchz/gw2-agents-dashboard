@@ -825,6 +825,127 @@ class DashboardRenderer {
         if (/🟢|baja|low/i.test(normalized)) return '🟢';
         return '⚠️';
     }
+
+    /**
+     * Renderiza el inventario de promociones (tab Promociones).
+     *
+     * Reusa _orgSection()/_orgTable() a propósito: comparten clases
+     * (org-section, comms-table) ya estiladas, así el tab se ve idéntico
+     * al resto del dashboard sin duplicar CSS.
+     *
+     * @param {Object} promo — parsed PROMOTIONS data
+     * @param {string} rawMd — markdown crudo (fallback si el parseo falla)
+     */
+    static renderPromotions(promo, rawMd) {
+        const container = document.getElementById('promotions-container');
+        if (!container) return;
+
+        if (!promo || !promo.parseable) {
+            try {
+                container.innerHTML = `
+                    <div class="promo-fallback">
+                        <p class="promo-callout promo-callout--warn">
+                            No se pudo parsear el inventario. Se muestra el documento original.
+                        </p>
+                        <div class="markdown-body">${marked.parse(rawMd || '')}</div>
+                    </div>`;
+            } catch (e) {
+                container.innerHTML = `<div class="card-error">⚠️ ${this._escape(e.message)}</div>`;
+            }
+            return;
+        }
+
+        const all = promo.pending.concat(promo.decisions);
+        const n = st => all.filter(i => i.state === st).length;
+
+        const parts = [];
+
+        parts.push(`
+            <div class="promo-header">
+                <h2>🚀 Promociones a producción</h2>
+                ${promo.updatedAt ? `<p class="promo-updated">Inventario al ${this._escape(promo.updatedAt)}</p>` : ''}
+                <p class="promo-rule">
+                    Producción está <strong>congelada</strong>. El equipo anota acá lo que terminó;
+                    <strong>vos decidís</strong> qué entra. Ningún agente promueve por iniciativa propia.
+                </p>
+            </div>
+        `);
+
+        parts.push(`
+            <div class="promo-kpis">
+                ${this._promoKpi('Esperando tu decisión', n('pending') + n('ready'), 'attention')}
+                ${this._promoKpi('Autorizadas', n('authorized'), 'ok')}
+                ${this._promoKpi('Probadas', n('tested'), 'ok')}
+                ${this._promoKpi('Revertidas / rechazadas', n('reverted') + n('rejected'), 'danger')}
+            </div>
+        `);
+
+        if (promo.pending.length) {
+            parts.push(this._orgSection('⏳ Esperando tu decisión', `
+                <p class="promo-hint">Nada entra a producción sin tu aprobación explícita.</p>
+                <div class="promo-list">
+                    ${promo.pending.map(p => `
+                        <article class="promo-card promo-card--${p.state}">
+                            <div class="promo-card-head">
+                                ${p.commit ? `<code class="promo-sha">${this._escape(p.commit)}</code>` : ''}
+                                ${this._promoBadge(p.state)}
+                            </div>
+                            <p class="promo-card-feat">${this._escape(p.feat)}</p>
+                            ${p.date ? `<p class="promo-card-date">${this._escape(p.date)}</p>` : ''}
+                        </article>
+                    `).join('')}
+                </div>
+            `));
+        } else {
+            parts.push(`
+                <section class="org-section">
+                    <h3>⏳ Esperando tu decisión</h3>
+                    <p class="promo-empty">✅ Nada esperando tu decisión. Producción está al día con lo que autorizaste.</p>
+                </section>
+            `);
+        }
+
+        if (promo.decisions.length) {
+            parts.push(this._orgSection('📜 Decisiones tomadas', `
+                ${this._orgTable(
+                    ['Fecha', 'Commit', 'Qué es', 'Decisión'],
+                    promo.decisions.map(d => [
+                        d.date || '—',
+                        d.commit || '—',
+                        d.feat,
+                        this._promoBadge(d.state)
+                    ])
+                )}
+            `));
+        }
+
+        container.innerHTML = parts.join('');
+    }
+
+    /** KPI del tab Promociones */
+    static _promoKpi(label, value, tone) {
+        return `
+            <div class="promo-kpi promo-kpi--${tone}">
+                <span class="promo-kpi-value">${value}</span>
+                <span class="promo-kpi-label">${this._escape(label)}</span>
+            </div>
+        `;
+    }
+
+    /** Badge de estado de una promoción */
+    static _promoBadge(state) {
+        const map = {
+            pending:    { cls: 'pending', icon: '⏸',  label: 'Pendiente' },
+            ready:      { cls: 'ready',   icon: '🧪', label: 'Listo para probar' },
+            tested:     { cls: 'ok',      icon: '✅', label: 'Probado' },
+            authorized: { cls: 'ok',      icon: '🚀', label: 'Autorizado' },
+            rejected:   { cls: 'danger',  icon: '❌', label: 'Rechazado' },
+            reverted:   { cls: 'danger',  icon: '↩️', label: 'Revertido' },
+            unknown:    { cls: 'neutral', icon: '•',   label: 'Sin estado' }
+        };
+        const s = map[state] || map.unknown;
+        return `<span class="promo-badge promo-badge--${s.cls}">${s.icon} ${s.label}</span>`;
+    }
 }
 
 /* Acordeón toggle (global para onclick inline) */

@@ -19,6 +19,7 @@ const DASHBOARD_CONFIG = {
     // Zone 'recent'    = Últimas 24h (medio)
     // Zone 'history'   = Histórico (abajo)
     // Zone 'structure' = Mapa organizacional (tab Estructura)
+    // Zone 'promotions'= Promociones a producción (tab Promociones)
     files: [
         { name: 'TEAM_STATUS.md', zone: 'current', label: 'Estado del Equipo' },
         { name: 'ALERTS_LOG.md',   zone: 'current', label: 'Alertas' },
@@ -33,6 +34,7 @@ const DASHBOARD_CONFIG = {
         { name: 'COMMS_DETAILS.md', zone: 'recent', label: 'Detalle de Comunicaciones' },
         { name: 'PRE_BACKLOG.md', zone: 'history', label: 'Pre-Backlog' },
         { name: 'ORG_MAP.md', zone: 'structure', label: 'Mapa Organizacional' },
+        { name: 'PROMOTIONS.md', zone: 'promotions', label: 'Promociones' },
     ],
 
     // Genera URL raw de GitHub para un archivo
@@ -56,6 +58,7 @@ const DASHBOARD_CONFIG = {
         if (f.startsWith('TEAM_') || f.startsWith('ALERTS') || f.startsWith('COMMS')) return 'current';
         if (f.startsWith('PRE_')) return 'history';
         if (f.startsWith('ORG_')) return 'structure';
+        if (f.startsWith('PROMOTIONS')) return 'promotions';
         return 'recent'; // default: SESSION, BACKLOG, DECISIONS, y nuevos archivos
     },
 

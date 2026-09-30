@@ -1224,4 +1224,121 @@ class DashboardParser {
 
         return data;
     }
+
+    /**
+     * Parsea PROMOTIONS.md → feats pendientes de decisión de Pablo +
+     * decisiones ya tomadas (tab "Promociones").
+     *
+     * Robusto a cambios de formato: NO asume nombres de columna ni de
+     * sección, y NO busca el estado en toda la fila (eso produce falsos
+     * positivos con frases como "No revertir ni modificar"). El estado se
+     * lee del primer término en negrita de la fila —que es la convención
+     * del archivo— y solo si falta se busca en el texto con límites de
+     * palabra.
+     */
+    static parsePromotions(md) {
+        const data = {
+            parseable: true,
+            updatedAt: null,
+            pending: [],
+            decisions: []
+        };
+
+        if (!md || typeof md !== 'string') {
+            return { parseable: false, ...data };
+        }
+
+        // Primera fecha ISO del documento como "actualizado"
+        const d = md.match(/\d{4}-\d{2}-\d{2}/);
+        if (d) data.updatedAt = d[0];
+
+        // Partir por "## " en vez de usar _extractSection() con un nombre
+        // fijo: así sigue funcionando si el Principal renombra la sección.
+        const sections = md.split(/^##\s+/m).slice(1);
+        let foundSections = false;
+
+        sections.forEach(section => {
+            const nl = section.indexOf('\n');
+            const title = (nl === -1 ? section : section.substring(0, nl)).trim();
+            const body = nl === -1 ? '' : section.substring(nl + 1);
+
+            const isPending = /pendient|esperando|por decidir|revisar/i.test(title);
+            const isDecision = /decision|tomadas|historial|aprobad/i.test(title);
+            if (!isPending && !isDecision) return;
+
+            foundSections = true;
+            const target = isPending ? data.pending : data.decisions;
+            const rows = this._parseTable(body);
+
+            if (rows.length) {
+                rows.forEach(row => {
+                    const item = this._promoRow(row);
+                    if (item) target.push(item);
+                });
+            } else {
+                // Sin tabla: bullets ('- `1234567` — feat: PENDIENTE')
+                this._bullets(body).forEach(b => {
+                    const item = this._promoRow([b]);
+                    if (item) target.push(item);
+                });
+            }
+        });
+
+        // Si no se reconoce ninguna sección → el renderer cae a marked.js
+        if (!foundSections) data.parseable = false;
+
+        return data;
+    }
+
+    /**
+     * Convierte una fila de PROMOTIONS.md → { date, commit, feat, state, raw }.
+     * Acepta un array de celdas (tabla) o un string suelto (bullet).
+     */
+    static _promoRow(cells) {
+        const raw = (Array.isArray(cells) ? cells.join(' — ') : String(cells)).trim();
+        if (!raw) return null;
+
+        // SHA de 7-40 hex entre backticks
+        const sha = raw.match(/`([0-9a-f]{7,40})`/i);
+        const commit = sha ? sha[1].substring(0, 7) : null;
+
+        // Fecha ISO
+        const dm = raw.match(/\d{4}-\d{2}-\d{2}/);
+        const date = dm ? dm[0] : null;
+
+        // Estado: primero el término en negrita (convención del archivo)
+        const bold = raw.match(/\*\*([^*]+)\*\*/);
+        const probe = bold ? bold[1] : raw;
+        let state = 'unknown';
+
+        if (/pendient|esperando|por decidir/i.test(probe)) state = 'pending';
+        else if (/revertid|rechazad|descartad|sacad/i.test(probe)) state = 'reverted';
+        else if (/autorizad|aprobad|promovid/i.test(probe)) state = 'authorized';
+        else if (/listo para probar/i.test(probe)) state = 'ready';
+        else if (/probado|testeado/i.test(probe)) state = 'tested';
+        else {
+            // Fallback con límites de palabra: 'revertir' (verbo) NO cuenta
+            // como revertido, 'revertido' (participio) sí.
+            const t = raw.toLowerCase();
+            if (/\bpendientes?\b/.test(t)) state = 'pending';
+            else if (/\brevertid[oa]s?\b|\brechazad[oa]s?\b/.test(t)) state = 'reverted';
+            else if (/\bautorizad[oa]s?\b/.test(t)) state = 'authorized';
+            else if (/\blisto para probar\b/.test(t)) state = 'ready';
+            else if (/\bprobad[oa]s?\b/.test(t)) state = 'tested';
+        }
+
+        // Feat: la fila sin SHA, sin fecha, sin markdown ni separadores
+        const feat = this._cleanCell(
+            raw
+                .replace(/`[0-9a-f]{7,40}`/gi, '')
+                .replace(/\d{4}-\d{2}-\d{2}/g, '')
+                .replace(/\*+/g, '')
+                .replace(/[|—–]/g, ' ')
+                .replace(/\s{2,}/g, ' ')
+                .trim()
+        );
+
+        if (!feat && !commit) return null;
+        return { date, commit, feat: feat || '(sin descripción)', state, raw };
+    }
 }

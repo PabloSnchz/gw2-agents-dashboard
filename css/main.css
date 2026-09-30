@@ -889,6 +889,122 @@ body {
     font-family: 'Consolas', 'Monaco', monospace;
 }
 
+/* ===== Tab: Promociones (PROMOTIONS.md) ===== */
+.promo-section-wrap { margin-top: 24px; }
+.promo-container { display: flex; flex-direction: column; gap: 20px; }
+
+.promo-header h2 { font-size: 1.1rem; margin-bottom: 4px; }
+.promo-updated { color: #7a8fa8; font-size: 0.8rem; margin-bottom: 8px; }
+.promo-rule {
+    color: #b8c4d0;
+    font-size: 0.88rem;
+    line-height: 1.5;
+    padding: 12px 14px;
+    background: rgba(15, 15, 25, 0.8);
+    border: 1px solid rgba(255,255,255,0.08);
+    border-left: 3px solid rgba(106, 169, 224, 0.5);
+    border-radius: 6px;
+}
+.promo-rule strong { color: #e0e0e0; }
+.promo-hint { color: #7a8fa8; font-size: 0.82rem; margin-bottom: 12px; }
+
+.promo-kpis {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 16px;
+}
+.promo-kpi {
+    background: rgba(15, 15, 25, 0.8);
+    border: 1px solid rgba(255,255,255,0.08);
+    border-left: 3px solid #7a8fa8;
+    border-radius: 6px;
+    padding: 14px 16px;
+    display: flex;
+    flex-direction: column;
+    gap: 4px;
+}
+.promo-kpi--attention { border-left-color: #e0b04a; }
+.promo-kpi--ok        { border-left-color: #6fcf8f; }
+.promo-kpi--danger    { border-left-color: #e07070; }
+.promo-kpi-value {
+    font-size: 1.8rem;
+    font-weight: 700;
+    font-family: 'Consolas', 'Monaco', monospace;
+    color: #d0d0d0;
+}
+.promo-kpi-label { color: #7a8fa8; font-size: 0.78rem; font-weight: 500; }
+
+.promo-list { display: flex; flex-direction: column; gap: 12px; }
+.promo-card {
+    background: rgba(15, 15, 25, 0.8);
+    border: 1px solid rgba(255,255,255,0.08);
+    border-left: 3px solid #7a8fa8;
+    border-radius: 6px;
+    padding: 14px 16px;
+    transition: transform 0.15s ease, box-shadow 0.15s ease;
+}
+.promo-card:hover {
+    transform: translateY(-3px);
+    box-shadow: 0 4px 14px rgba(0, 0, 0, 0.35);
+}
+.promo-card--pending    { border-left-color: #e0b04a; }
+.promo-card--ready      { border-left-color: #6aa9e0; }
+.promo-card--authorized { border-left-color: #6fcf8f; }
+.promo-card--reverted,
+.promo-card--rejected   { border-left-color: #e07070; }
+
+.promo-card-head {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    margin-bottom: 8px;
+    flex-wrap: wrap;
+}
+.promo-sha {
+    font-family: 'Consolas', 'Monaco', monospace;
+    font-size: 0.78rem;
+    color: #6aa9e0;
+    background: rgba(106, 169, 224, 0.10);
+    border: 1px solid rgba(106, 169, 224, 0.25);
+    border-radius: 4px;
+    padding: 2px 7px;
+}
+.promo-card-feat { color: #e0e0e0; font-size: 0.9rem; line-height: 1.45; }
+.promo-card-date { color: #7a8fa8; font-size: 0.75rem; margin-top: 6px; }
+
+.promo-badge {
+    display: inline-block;
+    font-size: 0.72rem;
+    font-weight: 600;
+    padding: 2px 9px;
+    border-radius: 10px;
+    white-space: nowrap;
+}
+.promo-badge--pending { color: #e0b04a; background: rgba(224, 176, 74, 0.12);  border: 1px solid rgba(224, 176, 74, 0.35); }
+.promo-badge--ready   { color: #6aa9e0; background: rgba(106, 169, 224, 0.12); border: 1px solid rgba(106, 169, 224, 0.35); }
+.promo-badge--ok      { color: #6fcf8f; background: rgba(111, 207, 143, 0.12); border: 1px solid rgba(111, 207, 143, 0.35); }
+.promo-badge--danger  { color: #e07070; background: rgba(224, 112, 112, 0.12); border: 1px solid rgba(224, 112, 112, 0.35); }
+.promo-badge--neutral { color: #7a8fa8; background: rgba(122, 143, 168, 0.12); border: 1px solid rgba(122, 143, 168, 0.30); }
+
+.promo-empty {
+    color: #6fcf8f;
+    font-size: 0.88rem;
+    padding: 16px;
+    background: rgba(111, 207, 143, 0.06);
+    border: 1px solid rgba(111, 207, 143, 0.22);
+    border-radius: 6px;
+}
+.promo-fallback { display: flex; flex-direction: column; gap: 12px; }
+.promo-callout {
+    padding: 12px 14px;
+    border-radius: 6px;
+    font-size: 0.85rem;
+    background: rgba(15, 15, 25, 0.8);
+    border: 1px solid rgba(255,255,255,0.08);
+}
+.promo-callout--warn   { color: #e0b04a; border-left: 3px solid #e0b04a; }
+.promo-callout--danger { color: #e07070; border-left: 3px solid #e07070; }
+
 /* Responsive */
 @media (max-width: 768px) {
     .dashboard-header { flex-direction: column; gap: 12px; }
@@ -898,4 +1014,5 @@ body {
     .comms-kpi-grid { grid-template-columns: repeat(2, 1fr); }
     .comms-table { font-size: 0.78rem; }
     .comms-table th, .comms-table td { padding: 6px 8px; }
+    .promo-kpis { grid-template-columns: repeat(2, 1fr); }
 }
