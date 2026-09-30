@@ -1,8 +1,22 @@
 {
- "generado_utc": "20260930T203605Z",
- "generado_h": "2026-09-30 20:36 UTC",
+ "generado_utc": "20260930T205106Z",
+ "generado_h": "2026-09-30 20:51 UTC",
  "origen": "git local + ls-remote (sin cuota). protected cacheado TTL 6h.",
  "commits": [
+  {
+   "sha": "9adf6ddde44063586d1c44d9da71887e9a99ca87",
+   "short": "9adf6dd",
+   "autor": "Pablo Sanchez",
+   "fecha": "2026-09-30T17:37:04-03:00",
+   "msg": "chore(tools): el script que mide los 7 test que el runner no parsea (ALERT-78)"
+  },
+  {
+   "sha": "376f0d5f2f4ba49e15a86a9368092b09bd5d1ee2",
+   "short": "376f0d5",
+   "autor": "Pablo Sanchez",
+   "fecha": "2026-09-30T17:36:51-03:00",
+   "msg": "﻿fix(cache): Idea 50 P3 - registro estatico de las bases de los otros modulos"
+  },
   {
    "sha": "be5fdb60c303c6bb7c1ed1ea73cf82a858edb276",
    "short": "be5fdb6",
@@ -338,20 +352,6 @@
    "autor": "Pablo Sanchez",
    "fecha": "2026-09-30T06:11:26-03:00",
    "msg": "﻿fix(api): v2.23.1 - el 404 del reintento descartaba los ids validos que ya teniamos"
-  },
-  {
-   "sha": "6c5a278d12426bbd0933dc37e70f5cbe654625a8",
-   "short": "6c5a278",
-   "autor": "Pablo Sanchez",
-   "fecha": "2026-09-30T06:03:22-03:00",
-   "msg": "﻿docs(hb52): documentacion del fix del 206 parcial, conservada sin pisar al proceso paralelo"
-  },
-  {
-   "sha": "bb6ea658b8237609efcee132c6922eba5173dd19",
-   "short": "bb6ea65",
-   "autor": "Pablo Sanchez",
-   "fecha": "2026-09-30T06:02:08-03:00",
-   "msg": "﻿docs(hb51): correccion documental de la Idea 52 + TEAM_STATUS del ciclo"
   }
  ],
  "archivos_md": [
@@ -407,9 +407,9 @@
    "repo": "gw2-agents-dashboard",
    "label": "Dashboard",
    "role": "dashboard",
-   "sha": "f413f2a34c59e275c91109eca59adaa836bf2ea4",
-   "short_sha": "f413f2a",
-   "commit": "fix(proximas): Escape no cerraba el modal y el overlay",
+   "sha": "b7c92ae785db4edfb3f701d445776ac4ba8581d6",
+   "short_sha": "b7c92ae",
+   "commit": "chore(dashboard): pulso automatico 2026-09-30_20-36_UTC",
    "estado": "open",
    "protected": false,
    "protected_fresco": true,
