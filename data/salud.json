@@ -1,0 +1,284 @@
+{
+ "generado_utc": "20260930T071459Z",
+ "generado_h": "2026-09-30 07:14 UTC",
+ "archivos_estado": [
+  {
+   "archivo": "TEAM_STATUS.md",
+   "quien": "Principal /30min",
+   "estado": "ok",
+   "edad_h": 0.0,
+   "kb": 120.1,
+   "crecimiento": "EXCEDE 80 KB (120 KB)"
+  },
+  {
+   "archivo": "SESSION_LOG.md",
+   "quien": "Documentador /4h",
+   "estado": "ok",
+   "edad_h": 0.0,
+   "kb": 87.0,
+   "crecimiento": "EXCEDE 60 KB (87 KB)"
+  },
+  {
+   "archivo": "COMMS_LOG.md",
+   "quien": "Principal /30min",
+   "estado": "ok",
+   "edad_h": 0.1,
+   "kb": 34.0
+  },
+  {
+   "archivo": "PRE_BACKLOG.md",
+   "quien": "PO /2h",
+   "estado": "ok",
+   "edad_h": 0.2,
+   "kb": 234.9,
+   "crecimiento": "EXCEDE 120 KB (235 KB)"
+  },
+  {
+   "archivo": "ALERTS_LOG.md",
+   "quien": "Principal /30min",
+   "estado": "ok",
+   "edad_h": 0.0,
+   "kb": 37.8
+  },
+  {
+   "archivo": "DECISIONS_LOG.md",
+   "quien": "Principal",
+   "estado": "ok",
+   "edad_h": 5.2,
+   "kb": 10.2
+  }
+ ],
+ "crons": [
+  {
+   "workspace": "default",
+   "id": "13dc22e6",
+   "nombre": "Heartbeat Principal",
+   "cron": "*/30 * * * *",
+   "enabled": true,
+   "timeout": null
+  },
+  {
+   "workspace": "default",
+   "id": "17e51119",
+   "nombre": "Heartbeat Arquitecto - sonda de comunicacion",
+   "cron": "0,30 * * * *",
+   "enabled": false,
+   "timeout": null
+  },
+  {
+   "workspace": "product-owner",
+   "id": "c3f30dc2",
+   "nombre": "Heartbeat PO",
+   "cron": "0 */2 * * *",
+   "enabled": true,
+   "timeout": null
+  }
+ ],
+ "crons_activos": 2,
+ "worktrees": [
+  {
+   "path": "default\\_wt_47",
+   "rama": "rescue-idea47-parallel-wip",
+   "ancla": "C:\\Mis Archivos\\GW2 online\\gw2-dev\\.git",
+   "ok": true
+  }
+ ],
+ "ramas_sin_integrar": [
+  {
+   "rama": "legacy/fix-concurrency-pool-phase2",
+   "commits": 2,
+   "fecha": "2026-09-29"
+  },
+  {
+   "rama": "docs-estructura-20260930",
+   "commits": 1,
+   "fecha": "2026-09-30"
+  },
+  {
+   "rama": "legacy/fix-idea47-ceros-falsos",
+   "commits": 1,
+   "fecha": "2026-09-29"
+  },
+  {
+   "rama": "legacy/fix-idea47-commerce-callsite",
+   "commits": 1,
+   "fecha": "2026-09-30"
+  },
+  {
+   "rama": "legacy/rescue-idea47-parallel-wip",
+   "commits": 1,
+   "fecha": "2026-09-29"
+  },
+  {
+   "rama": "po/idea49g-achacc",
+   "commits": 1,
+   "fecha": "2026-09-30"
+  },
+  {
+   "rama": "po/idea50-dashboard",
+   "commits": 1,
+   "fecha": "2026-09-30"
+  },
+  {
+   "rama": "rescue-idea47-parallel-wip",
+   "commits": 1,
+   "fecha": "2026-09-29"
+  }
+ ],
+ "tokens": [
+  {
+   "dia": "2026-09-28",
+   "llamadas": 3788,
+   "prompt": 334940200,
+   "cache_read": 296003808,
+   "cache_pct": 88.4,
+   "prompt_por_llamada": 88421,
+   "por_agente": [
+    {
+     "agente": "default",
+     "llamadas": 2756,
+     "prompt": 248987949,
+     "cache_pct": 89.5
+    },
+    {
+     "agente": "product-owner",
+     "llamadas": 571,
+     "prompt": 54993218,
+     "cache_pct": 88.3
+    },
+    {
+     "agente": "documenter",
+     "llamadas": 201,
+     "prompt": 17122087,
+     "cache_pct": 87.3
+    },
+    {
+     "agente": "Code-Reviewer",
+     "llamadas": 129,
+     "prompt": 8077838,
+     "cache_pct": 80.0
+    },
+    {
+     "agente": "architect",
+     "llamadas": 87,
+     "prompt": 3730442,
+     "cache_pct": 44.7
+    },
+    {
+     "agente": "?",
+     "llamadas": 44,
+     "prompt": 2028666,
+     "cache_pct": 72.8
+    }
+   ]
+  },
+  {
+   "dia": "2026-09-29",
+   "llamadas": 4641,
+   "prompt": 364957845,
+   "cache_read": 340680576,
+   "cache_pct": 93.3,
+   "prompt_por_llamada": 78637,
+   "por_agente": [
+    {
+     "agente": "default",
+     "llamadas": 3112,
+     "prompt": 269638747,
+     "cache_pct": 93.9
+    },
+    {
+     "agente": "product-owner",
+     "llamadas": 837,
+     "prompt": 63157537,
+     "cache_pct": 91.4
+    },
+    {
+     "agente": "architect",
+     "llamadas": 218,
+     "prompt": 16500293,
+     "cache_pct": 94.8
+    },
+    {
+     "agente": "documenter",
+     "llamadas": 128,
+     "prompt": 6956811,
+     "cache_pct": 92.7
+    },
+    {
+     "agente": "Code-Reviewer",
+     "llamadas": 197,
+     "prompt": 5929081,
+     "cache_pct": 87.1
+    },
+    {
+     "agente": "?",
+     "llamadas": 149,
+     "prompt": 2775376,
+     "cache_pct": 87.6
+    }
+   ]
+  },
+  {
+   "dia": "2026-09-30",
+   "llamadas": 2222,
+   "prompt": 184760114,
+   "cache_read": 178350601,
+   "cache_pct": 96.5,
+   "prompt_por_llamada": 83150,
+   "por_agente": [
+    {
+     "agente": "architect",
+     "llamadas": 1000,
+     "prompt": 82650717,
+     "cache_pct": 95.7
+    },
+    {
+     "agente": "default",
+     "llamadas": 764,
+     "prompt": 70272417,
+     "cache_pct": 97.6
+    },
+    {
+     "agente": "product-owner",
+     "llamadas": 352,
+     "prompt": 27163228,
+     "cache_pct": 97.1
+    },
+    {
+     "agente": "Code-Reviewer",
+     "llamadas": 73,
+     "prompt": 2509800,
+     "cache_pct": 89.1
+    },
+    {
+     "agente": "documenter",
+     "llamadas": 33,
+     "prompt": 2163952,
+     "cache_pct": 96.8
+    }
+   ]
+  }
+ ],
+ "dashboard": [
+  {
+   "archivo": "comms.json",
+   "edad_min": 6.0,
+   "estado": "ok"
+  },
+  {
+   "archivo": "salud.json",
+   "estado": "FALTA"
+  },
+  {
+   "archivo": "estructura.json",
+   "edad_min": 41.5,
+   "estado": "ok"
+  }
+ ],
+ "canal": {
+  "phase": "DISABLED",
+  "streak": 3,
+  "ciclo": 6,
+  "probado": true
+ }
+}

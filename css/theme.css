@@ -93,6 +93,11 @@
 .kpi-card--unclassified { border-left: 3px solid rgba(120, 120, 120, 0.3); }
 
 .cc-subject { font-weight: 600; color: var(--text-primary, #e8e8f0); }
+.cc-card { margin-bottom: 8px; }
+.cc-kpi { cursor: default; }
+/* El header de grupo ya existia sin label: se veia el contador pegado al
+ * borde. Esto le da el peso que corresponde al nombre del estado. */
+.comms-group__label { font-weight: 600; }
 .cc-reply {
     margin-top: 6px; padding: 6px 10px; font-size: 0.82rem;
     background: rgba(76, 175, 80, 0.08);

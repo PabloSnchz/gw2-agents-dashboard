@@ -5,7 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>GW2 Agents Dashboard</title>
     <link rel="stylesheet" href="css/main.css?v=14">
-    <link rel="stylesheet" href="css/theme.css?v=16">
+    <link rel="stylesheet" href="css/theme.css?v=17">
 </head>
 <body>
     <div class="dashboard">
@@ -28,6 +28,7 @@
             <button class="dashboard-tab" data-tab="historial" onclick="setDashboardTab('historial')">📅 Historial</button>
             <button class="dashboard-tab" data-tab="proximas" onclick="setDashboardTab('proximas')">⏰ Próximas</button>
             <button class="dashboard-tab" data-tab="estructura" onclick="setDashboardTab('estructura')">🗺️ Estructura</button>
+            <button class="dashboard-tab" data-tab="salud" onclick="setDashboardTab('salud')">🩺 Salud</button>
             <button class="dashboard-tab" data-tab="promociones" onclick="setDashboardTab('promociones')">🚀 Promociones</button>
             <button class="dashboard-tab" data-tab="logs" onclick="setDashboardTab('logs')">📋 Logs</button>
         </nav>
@@ -122,6 +123,35 @@
             </section>
         </div>
 
+        <!-- Tab: Salud -->
+        <div class="dashboard-tab-content" data-tab-content="salud">
+            <section class="org-section-wrap">
+                <h2>🩺 Salud del ecosistema</h2>
+                <div id="eco-salud-estado"></div>
+
+                <h3>Archivos de estado</h3>
+                <p class="org-source">
+                    El equipo deberia refrescarlos con cada heartbeat. Si uno envejece,
+                    ese heartbeat <em>no esta corriendo</em> &mdash; y eso no se ve en ningun
+                    otro lado del dashboard.
+                </p>
+                <table class="comms-table">
+                    <thead><tr><th>Archivo</th><th>Quien lo escribe</th>
+                        <th>Antig&uuml;edad</th><th>Tama&ntilde;o</th></tr></thead>
+                    <tbody id="eco-archivos"></tbody>
+                </table>
+
+                <h3>Ramas sin integrar</h3>
+                <div id="eco-ramas"></div>
+
+                <h3>Automatizaci&oacute;n</h3>
+                <div id="eco-crons"></div>
+
+                <h3>Consumo de tokens</h3>
+                <div id="eco-tokens"></div>
+            </section>
+        </div>
+
         <!-- Tab: Promociones -->
         <div class="dashboard-tab-content" data-tab-content="promociones">
             <section class="promo-section-wrap">
@@ -198,6 +228,7 @@
     <script src="js/live-status.js?v=2"></script>
     <script src="js/production-guard.js?v=2"></script>
     <script src="js/comms-channel.js?v=1"></script>
-    <script src="js/app.js?v=19"></script>
+    <script src="js/eco-health.js?v=1"></script>
+    <script src="js/app.js?v=20"></script>
 </body>
 </html>

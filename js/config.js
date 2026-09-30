@@ -76,6 +76,13 @@ const DASHBOARD_CONFIG = {
         return `https://raw.githubusercontent.com/${this.structureRepoOwner}/${this.structureRepoName}/${this.structureBranch}/data/comms.json`;
     },
 
+    // Salud del ecosistema. La escribe _eco\health_check.py cada 30 min
+    // desde el scheduler de Windows (sin LLM). Mide frescura de los
+    // archivos de estado, ramas sin integrar, crons y tokens.
+    getHealthUrl() {
+        return `https://raw.githubusercontent.com/${this.structureRepoOwner}/${this.structureRepoName}/${this.structureBranch}/data/salud.json`;
+    },
+
     // GitHub Commits API — para el timeline
     getCommitsUrl(limit = 50) {
         return `https://api.github.com/repos/${this.repoOwner}/${this.repoName}/commits?sha=${this.branch}&per_page=${limit}`;

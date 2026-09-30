@@ -329,6 +329,11 @@
         // panel lo dice y el resto del dashboard sigue funcionando.
         if (window.CommsChannel) CommsChannel.load();
 
+        // Salud del ecosistema (data/salud.json), escrita por
+        // health_check.py desde el scheduler de Windows. Tamien
+        // independiente: si falla, el resto del dashboard sigue.
+        if (window.EcoHealth) EcoHealth.load();
+
         showStatus(`Última actualización: ${new Date().toLocaleTimeString()}`, 'status-ok');
     }
 
