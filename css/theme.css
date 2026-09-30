@@ -331,14 +331,10 @@
 }
 .org-callout--warn   { border-left: 3px solid rgba(255, 152, 0, 0.6); color: #ffb85c; }
 .org-callout--danger { border-left: 3px solid rgba(244, 67, 54, 0.6); color: #ff9d9d; }
-/* --- Piel de la estructura real --- */
-.est-firma {
-    background: rgba(20, 20, 35, 0.85);
-    border: 1px solid rgba(255, 255, 255, 0.08);
-    border-left: 3px solid rgba(106, 27, 185, 0.5);
-    border-radius: 4px;
-}
-.est-firma__metodo { color: #9a9aae; }
+/* --- Piel de la estructura real ---
+   .est-firma paso de tarjeta con borde a una linea de nota: era metadato de
+   archivo y competia por la atencion con el bloque que responde la pregunta. */
+.est-firma { font-size: 0.85em; margin-bottom: 10px; }
 .est-section { border-left-color: rgba(106, 27, 185, 0.35); }
 .est-section:hover { border-left-color: rgba(106, 27, 185, 0.6); }
 .est-badge--ok      { background: rgba(76, 175, 80, 0.15);  color: #81c784; border: 1px solid rgba(76, 175, 80, 0.35); }
@@ -351,6 +347,49 @@
 .est-notas__item strong { color: #c8c8d8; }
 .disc-dice { color: #ff9d9d; }
 .disc-real { color: #81c784; }
+
+  /* --- Invariantes medidas: cada estado se ve distinto ---
+     Antes el estado era la palabra "OK" escrita en el JSON, painted con el
+     mismo estilo que "PARCIAL", y 3 de 5 invariantes no se podían medir.
+     Ahora vigente/violada/escrita/no_verificable son cuatro cosas distintas y
+     se leen de un vistazo. */
+  .est-inv-list { list-style: none; padding-left: 0; }
+  .est-inv {
+      padding: 7px 10px; margin-bottom: 6px;
+      background: rgba(20, 20, 35, 0.6);
+      border-left: 3px solid rgba(255, 255, 255, 0.12);
+      border-radius: 3px; color: #b8b8c8; line-height: 1.45;
+  }
+  .est-inv--vigente    { border-left-color: rgba(76, 175, 80, 0.6); }
+  .est-inv--violada    { border-left-color: rgba(244, 67, 54, 0.7);
+                         background: rgba(244, 67, 54, 0.07); color: #ff9d9d; }
+  .est-inv--escrita_no_verificable,
+  .est-inv--no_verificable { border-left-color: rgba(255, 152, 0, 0.4); color: #9a9aae; }
+
+  /* --- Checklist del documento del equipo: sin semaforo --- */
+  .doc-check__list { list-style: none; padding-left: 0; }
+  .doc-check {
+      padding: 9px 12px; margin-bottom: 8px;
+      background: rgba(20, 20, 35, 0.6);
+      border-left: 3px solid rgba(255, 255, 255, 0.1);
+      border-radius: 3px;
+  }
+  .doc-check__head { display: flex; align-items: center; gap: 8px; flex-wrap: wrap; }
+  .doc-check__head strong { color: #c8c8d8; }
+  .doc-check__body { margin-top: 5px; display: flex; flex-direction: column; gap: 3px; line-height: 1.45; }
+  .doc-check__done { margin-top: 10px; color: #9a9aae; }
+  .doc-check__done summary { cursor: pointer; }
+
+  /* Plegado generico: la referencia no compite con lo que responde. */
+  .est-fold {
+      background: rgba(20, 20, 35, 0.6);
+      border: 1px solid rgba(255, 255, 255, 0.08);
+      border-left: 3px solid rgba(106, 27, 185, 0.35);
+      border-radius: 4px; padding: 10px 14px; margin-bottom: 12px;
+  }
+  .est-fold summary { cursor: pointer; color: #c8c8d8; font-weight: 600; }
+  .est-fold > *:not(summary) { margin-top: 10px; }
+
 .org-details {
     background: rgba(15, 15, 25, 0.6);
     border: 1px solid rgba(255, 255, 255, 0.08);

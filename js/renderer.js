@@ -984,150 +984,50 @@ class DashboardRenderer {
             return;
         }
 
-        const disc = est.discrepancias_vs_org_map || [];
-        const graves = disc.filter(d => d.severidad === 'grave').length;
-        const medias  = disc.filter(d => d.severidad === 'media').length;
-        const bajas   = disc.filter(d => d.severidad === 'baja').length;
+        // Orden por ARGUMENTO, no por inventario. La pregunta de la tab es
+        // "que pasa si alguien hace algo mal por error", asi que arriba va lo
+        // que se mide solo, en medio lo que separa candado de regla de honor, y
+        // abajo lo que es referencia o trabajo abierto.
+        //
+        // Lo que se SACO y por que (2026-09-30):
+        //   - crons y heartbeats  -> Salud. Es estado, y Salud ya lo muestra
+        //     con el mismo dato. Aqui era el segundo lugar del mismo numero.
+        //   - worktrees           -> Salud, por la misma razon.
+        //   - tabla de agentes    -> Equipo. Es estado, no limite, y Equipo ya
+        //     tiene su matriz.
+        //   - pendientes (5)      -> no son informacion. Dos esperan una
+        //     decision tuya (van a Proximas) y tres son commits que no se
+        //     resuelven mirando. Ninguno va aqui.
+        //   - contador de discrepancias arriba. Un numero suelto hace que todo
+        //     parezca igual de urgente, y era la mitad del problema.
+        const disc  = est.discrepancias_vs_org_map || [];
+        const inv   = est.invariantes || [];
+        const imeta = est.invariantes_meta || {};
+        const dmeta = est.discrepancias_meta || {};
 
         container.innerHTML = [
             this._estFirma(est),
-            this._estCalloutDiscrepancias(disc, graves, medias, bajas),
-            this._estAgentes(est.agentes),
-            this._estCrons(est.agentes),
-            this._estClones(est.clones),
-            this._estWorktrees(est.worktrees),
+            this._estInvariantes(inv, imeta),
             this._estEnforcement(est.enforcement),
-            this._estInvariantes(est.invariantes),
-            this._estDiscrepancias(disc),
-            this._estPendientes(est.pendientes_estructura)
+            this._estClones(est.clones),
+            this._estChecklistDoc(disc, dmeta)
         ].join('');
     }
 
-    /** Firma: quién verificó, cuándo y con qué método */
+    /**
+     * Firma. Antes eran 6 líneas de metadatos arriba de todo; ahora es UNA.
+     * "Quién verificó y cuándo" es contexto de archivo, no información del
+     * sistema, y compite por la atención con el bloque que sí importa.
+     */
     static _estFirma(est) {
         const m = est.meta || {};
         return `
-            <div class="est-firma">
-                <div class="est-firma__row">
-                    ${this._estBadge('ok', 'Fuente de verdad')}
-                    <span class="est-firma__autoridad">${this._escape(m.autoridad || '')}</span>
-                </div>
-                <div class="est-firma__row">
-                    ${this._estBadge('neutral', 'Verificado el ' + (m.verificado || '?'))}
-                </div>
-                <details class="est-firma__metodo">
-                    <summary>Cómo se verificó</summary>
-                    <p>${this._escape(m.metodo || '')}</p>
-                    <p class="org-note">${this._escape(m.nota || '')}</p>
-                </details>
-            </div>`;
+            <p class="org-note est-firma">
+                Fuente de verdad: <strong>${this._escape(m.autoridad || '—')}</strong>.
+                Generado el ${this._escape(m.verificado || '?')}, cada 15 min.
+            </p>`;
     }
 
-    /** Callout de cabecera: cuántas discrepancias hay contra ORG_MAP.md */
-    static _estCalloutDiscrepancias(disc, graves, medias, bajas) {
-        if (disc.length === 0) {
-            return `<p class="org-callout org-callout--warn">Sin datos de discrepancias.</p>`;
-        }
-        const tono = graves > 0 ? 'danger' : (medias > 0 ? 'warn' : 'ok');
-        const icono = graves > 0 ? '🚨' : (medias > 0 ? '⚠️' : '✅');
-        return `
-            <div class="org-callout org-callout--${tono}">
-                <strong>${icono} ${disc.length} discrepancia${disc.length === 1 ? '' : 's'}</strong>
-                entre el documento del equipo (<code>ORG_MAP.md</code>) y la realidad verificada
-                ${graves ? `<strong>${graves} grave${graves === 1 ? '' : 's'}</strong>` : ''}
-                ${medias ? `, ${medias} media${medias === 1 ? '' : 's'}` : ''}
-                ${bajas ? `, ${bajas} baja${bajas === 1 ? '' : 's'}` : ''}.
-                <br>
-                Las más graves dicen que producción y el dashboard se protegen solo con reglas escritas.
-                No es así: están fuera del alcance de todo agente, y eso no se puede deshacer desde un
-                <code>AGENTS.md</code>.
-            </div>`;
-    }
-
-    /** Tabla de agentes con su alcance real */
-    static _estAgentes(agentes) {
-        const rows = agentes.map(a => {
-            const hb = a.heartbeat || {};
-            const mcp = a.mcp || {};
-
-            let canal;
-            if (hb.mecanismo === 'cron' && hb.cron_expr) {
-                canal = 'cron ' + hb.cron_expr + ' UTC';
-                if (hb.proposito) canal += ' · ' + hb.proposito;
-            } else if (hb.agent_json_enabled) {
-                canal = 'heartbeat ' + hb.agent_json_every;
-            } else if (hb.mecanismo === 'ninguno') {
-                canal = 'sin heartbeat · bajo demanda';
-            } else {
-                canal = hb.mecanismo || '—';
-            }
-
-            const paths = (mcp.paths || []).map(p => {
-                const corto = p.replace('C:\\Users\\psanc\\.qwenpaw\\workspaces\\', 'ws/')
-                                .replace('C:\\Mis Archivos\\GW2 online\\', '');
-                return this._escape(corto);
-            }).join('<br>');
-
-            return [
-                '<strong>' + this._escape(a.nombre) + '</strong>',
-                '<code>' + this._escape(a.id) + '</code>',
-                this._escape(a.workspace),
-                this._escape(canal),
-                (a.observacion ? this._estBadge('warn', 'inoperativo')
-                              : (mcp.escritura ? this._estBadge('ok', 'escribe') : this._estBadge('neutral', 'solo lectura'))),
-                paths || '<span class="org-note">sin MCP</span>'
-            ];
-        });
-
-        return this._estSection(
-            '👥 Agentes registrados y su alcance real',
-            this._estTable(
-                ['Agente', 'ID en QwenPaw', 'Workspace', 'Canal', 'Permiso', 'Rutas del MCP'],
-                rows
-            ) + this._estListaRol(agentes)
-        );
-    }
-
-    /** El rol de cada agente, debajo de la tabla */
-    static _estListaRol(agentes) {
-        const items = agentes.map(a => '<strong>' + this._escape(a.nombre) + '</strong> (' + this._escape(a.id) + '): ' + this._escape(a.rol));
-        return '<ul class="org-list">' + items.map(i => '<li>' + i + '</li>').join('') + '</ul>';
-    }
-
-    /** Crons y heartbeats, con el mecanismo real de cada uno */
-    static _estCrons(agentes) {
-        const filas = [];
-        for (const a of agentes) {
-            const hb = a.heartbeat || {};
-            if (!hb.mecanismo || hb.mecanismo === 'ninguno') {
-                filas.push([this._escape(a.nombre), '—', 'ninguno', hb.agent_json_every || '—', hb.timeout_s ? hb.timeout_s + 's' : '—', 'sin heartbeat, se activa a demanda']);
-                continue;
-            }
-            filas.push([
-                this._escape(a.nombre),
-                hb.mecanismo,
-                hb.cron_expr || hb.agent_json_every || '—',
-                hb.timeout_s ? hb.timeout_s + 's' : '—',
-                hb.cron_id ? hb.cron_id.substring(0, 8) : '—',
-                hb.proposito || (hb.agent_json_enabled ? 'heartbeat nativo de QwenPaw' : '—')
-            ]);
-        }
-        return this._estSection(
-            '⏰ Crons y heartbeats',
-            this._estTable(
-                ['Agente', 'Mecanismo', 'Expresión / frecuencia', 'Timeout', 'Cron ID', 'Nota'],
-                filas
-            ) + `<p class="org-note">
-                Ojo con esto: hay <strong>dos mecanismos distintos</strong> y se confunden todo el tiempo.
-                El Principal y el Arquitecto corren por <strong>cron</strong> (jobs.json), y su
-                <code>agent.json</code> dice <code>heartbeat.enabled: false</code>.
-                El Documentador y el PO usan el <strong>heartbeat nativo</strong> de <code>agent.json</code>.
-                Leer solo el <code>agent.json</code> da la respuesta contraria a la real.
-            </p>`
-        );
-    }
-
-    /** Topología de clones: la parte que más cambió con la migración */
     static _estClones(clones) {
         const rows = (clones || []).map(c => [
             '<code>' + this._escape(c.path.replace('C:\\Mis Archivos\\GW2 online\\', '')) + '</code>',
@@ -1139,36 +1039,21 @@ class DashboardRenderer {
                                       : this._estBadge(c.rol === 'PRODUCCIÓN' ? 'warn' : 'ok', c.estado)
         ]);
 
-        return this._estSection(
-            '🗄️ Clones y repos',
-            this._estTable(['Path local', 'Repo', 'Rol', 'Remote', 'HEAD', 'Estado'], rows)
-            + this._estNotas((clones || []).map(c => ({
+        // Plegado: la topologia es referencia, no interpretacion. La tabla
+        // estaba siempre abierta y empujaba hacia abajo los dos bloques que
+        // si responden la pregunta de la tab.
+        return `<details class="est-fold">
+            <summary>🗄️ Clones y repos — referencia</summary>
+            <p class="org-note">Dónde vive cada clon y a qué repo apunta. La dirección de cada puerta.</p>
+            ${this._estTable(['Path local', 'Repo', 'Rol', 'Remote', 'HEAD', 'Estado'], rows)}
+            ${this._estNotas((clones || []).map(c => ({
                 titulo: c.path.replace('C:\\Mis Archivos\\GW2 online\\', ''),
                 nota: c.notas,
                 tono: c.estado === 'ELIMINADO' ? 'danger' : (c.rol === 'PRODUCCIÓN' ? 'warn' : 'ok')
-            })))
-        );
+            })))}
+        </details>`;
     }
 
-    static _estWorktrees(wts) {
-        if (!wts || wts.length === 0) {
-            return this._estSection('🧩 Worktrees', '<p class="org-note">No hay worktrees registrados.</p>');
-        }
-        const rows = wts.map(w => [
-            '<code>' + this._escape(w.path) + '</code>',
-            this._escape(w.rama),
-            '<code>' + this._escape(w.head) + '</code>',
-            this._escape(w.estado)
-        ]);
-        return this._estSection(
-            '🧩 Worktrees',
-            this._estTable(['Path', 'Rama', 'HEAD', 'Estado'], rows) + this._estNotas(wts.map(w => ({
-                titulo: w.rama, nota: w.notas, tono: 'warn'
-            })))
-        );
-    }
-
-    /** Lo que la plataforma impone vs lo que solo está escrito */
     static _estEnforcement(enc) {
         if (!enc) return '';
         const col = (titulo, items, clase) => `
@@ -1191,54 +1076,146 @@ class DashboardRenderer {
         );
     }
 
-    /** Las 5 invariantes de la topología, con su estado verificado */
-    static _estInvariantes(inv) {
-        if (!inv || inv.length === 0) return '';
+    /**
+     * Invariantes: el bloque que responde la pregunta de la tab.
+     *
+     * Esto antes NO era un monitor. Los estados eran las palabras "OK" y
+     * "PARCIAL" escritas a mano en el JSON, con un campo "verificado" en
+     * prosa. Pablo lo objected de forma exacta: "no es un indicador dinamico,
+     * podria serlo?", porque un OK que no se apaga nunca no dice nada.
+     *
+     * Ahora cada invariante trae un estado MEDIDO en la ultima corrida del
+     * generador, y hay cuatro, no dos:
+     *   vigente                 -> se cumplio, y recien se comprobo
+     *   violada                 -> se incumplio AHORA. Alarma real.
+     *   escrita_no_verificable  -> es una convencion; se puede comprobar que
+     *                               la regla exista, no que se cumpla
+     *   no_verificable          -> vive fuera del disco (GitHub Settings)
+     *
+     * Los dos ultimos importan tanto como los primeros: una invariante que no
+     * se puede medir tiene que DECIR que no se puede medir. Antes las cinco
+     * parecian medidas y solo tres lo estaban.
+     */
+    static _estInvariantes(inv, meta) {
+        if (!inv || inv.length === 0) {
+            return this._estSection('📐 Invariantes',
+                '<p class="org-note">Sin datos de invariantes.</p>');
+        }
+        meta = meta || {};
+        const T = {
+            'vigente':                { tono: 'ok',      ico: '✓' },
+            'violada':                { tono: 'danger',  ico: '✕' },
+            'escrita_no_verificable': { tono: 'neutral', ico: '✎' },
+            'no_verificable':         { tono: 'neutral', ico: '?' }
+        };
+        const t = e => T[e] || { tono: 'neutral', ico: '?' };
+
         const items = inv.map(i => {
-            const ok = i.estado === 'OK';
-            const badge = ok ? this._estBadge('ok', 'OK') : this._estBadge('warn', i.estado);
-            return '<li>' + badge + ' ' + this._escape(i.texto) +
-                   '<br><span class="org-note">Verificado: ' + this._escape(i.verificado || '') + '</span></li>';
-        });
-        const parciales = inv.filter(i => i.estado !== 'OK').length;
+            const s = t(i.estado);
+            return '<li class="est-inv est-inv--' + this._escape(i.estado) + '">' +
+                   s.ico + ' ' + this._escape(i.texto) +
+                   '<br><span class="org-note">' +
+                   (i.estado === 'vigente' ? 'Comprobado: ' : 'Por qué: ') +
+                   this._escape(i.verificado || '—') + '</span></li>';
+        }).join('');
+
+        // El numero de violadas se cuenta DESDE LAS FILAS, no desde
+        // meta.violadas. Razon: si el metadato llega en otra forma (un numero
+        // en vez de una lista) un `(meta.violadas || []).length` da undefined,
+        // que es falsy, y el callout rojo desaparece calladito. El peor
+        // fallo posible en un bloque de alarma es noShownarla. Y si el
+        // metadato y las filas no coinciden, eso se dice, no se elige una.
+        const violadasRows = inv.filter(i => i.estado === 'violada');
+        const metaRaw = meta.violadas;
+        const metaN = Array.isArray(metaRaw) ? metaRaw.length
+                     : (typeof metaRaw === 'number' ? metaRaw : null);
+        const desacuerdo = metaN !== null && metaN !== violadasRows.length
+            ? `<p class="org-note">⚠ El contador del generador dice ${metaN} y las filas dicen ${violadasRows.length}. No se elige una: se muestran las filas, que son lo que se está pintando.</p>`
+            : '';
+
+        const cab = violadasRows.length
+            ? `<div class="org-callout org-callout--danger">
+                   <strong>${violadasRows.length} invariante${violadasRows.length === 1 ? '' : 's'} violada${violadasRows.length === 1 ? '' : 's'}.</strong>
+                   Algo que tenía que ser imposible pasó a ser posible. Esto se midió en la última
+                   corrida, no viene de una lista escrita a mano.
+               </div>` + desacuerdo
+            : (metaN ? desacuerdo : '');
+
         return this._estSection(
-            '📐 Invariantes de la topología',
-            '<ul class="org-list">' + items.join('') + '</ul>' +
-            (parciales
-                ? `<p class="org-callout org-callout--warn">${parciales} invariante${parciales === 1 ? '' : 's'} sin confirmar del todo. Lo marcado como PARCIAL necesita un click humano en GitHub: la API pública no deja leer las reglas de protección sin token.</p>`
-                : '')
+            '📐 Invariantes — qué se midió en la última corrida',
+            cab +
+            '<ul class="org-list est-inv-list">' + items + '</ul>' +
+            `<p class="org-note">
+                ${meta.medidas || 0} de ${meta.total || inv.length} se miden solas en cada ciclo
+                (cada 15 min). Las otras declaran por qué no se pueden medir: un
+                <em>no verificado</em> con el motivo vale más que un <em>OK</em> imaginario.
+            </p>`
         );
     }
 
-    /** Detalle de cada discrepancia contra el documento del equipo */
-    static _estDiscrepancias(disc) {
+    /**
+     * El documento del equipo vs la realidad. Checklist, NO semáforo.
+     *
+     * Por qué no es un semáforo: comparar ORG_MAP.md con la realidad es leer
+     * prosa, no leer un schema. No hay predicado que lo automátice, y no tiene
+     * que haberlo: este bloque no es un indicador, es una lista de cosas para
+     * ir a arreglar. Lo que se cambió:
+     *
+     *   - sin contador grande arriba. Un número suelto hace que todo parezca
+     *     igual de urgente, y era la mitad del problema.
+     *   - cada fila dice si está ABIERTA o RESUELTA, y desde cuándo se
+     *     revisó. Antes el generador copiaba esta lista de sí misma para
+     *     siempre: tres filas seguían gritando horas después de corregidas.
+     *   - las resueltas van aparte y se pueden ignorar.
+     */
+    static _estChecklistDoc(disc, meta) {
         if (!disc || disc.length === 0) return '';
+        meta = meta || {};
+        const abiertas  = disc.filter(d => d.estado === 'abierta');
+        const resueltas = disc.filter(d => d.estado === 'resuelta');
         const orden = { grave: 0, media: 1, baja: 2 };
-        const filas = disc.slice().sort((a, b) => (orden[a.severidad] || 9) - (orden[b.severidad] || 9))
-            .map(d => [
-                this._estBadge(d.severidad, d.severidad),
-                '<strong>' + this._escape(d.tema) + '</strong>',
-                '<span class="disc-dice">Dice ORG_MAP.md: ' + this._escape(d.dice_org_map) + '</span>' +
-                '<br><span class="disc-real">Realidad: ' + this._escape(d.realidad) + '</span>'
-            ]);
+        const sev = s => ({ grave: 'danger', media: 'warn', baja: 'neutral' }[s] || 'neutral');
+
+        const filas = abiertas.slice()
+            .sort((a, b) => (orden[a.severidad] || 9) - (orden[b.severidad] || 9))
+            .map(d => `
+                <li class="doc-check">
+                    <div class="doc-check__head">
+                        ${this._estBadge(sev(d.severidad), d.severidad)}
+                        <strong>${this._escape(d.tema)}</strong>
+                        <span class="org-note">revisado ${this._escape(d.verificada || '?')}</span>
+                    </div>
+                    <div class="doc-check__body">
+                        <span class="disc-dice">Dice <code>ORG_MAP.md</code>: ${this._escape(d.dice_org_map)}</span>
+                        <span class="disc-real">Es: ${this._escape(d.realidad)}</span>
+                        ${d.nota ? `<span class="org-note">${this._escape(d.nota)}</span>` : ''}
+                    </div>
+                </li>`).join('');
+
+        const hechas = resueltas.length
+            ? `<details class="doc-check__done">
+                   <summary>${resueltas.length} ya resuelta${resueltas.length === 1 ? '' : 's'}</summary>
+                   <ul class="org-list">
+                       ${resueltas.map(d => `<li>${this._estBadge('ok', '✓')} ${this._escape(d.tema)}
+                           <span class="org-note">· ${this._escape(d.resuelta_el || d.verificada || '')}</span></li>`).join('')}
+                   </ul>
+               </details>`
+            : '';
+
+        const commit = meta.org_map_commit
+            ? String(meta.org_map_commit).slice(0, 8) : '?';
 
         return this._estSection(
-            '🔍 Dónde el documento del equipo se contradice con la realidad',
-            this._estTable(['', 'Tema', 'Qué dice vs qué es'], filas)
-        );
-    }
-
-    /** Pendientes estructurales abiertos */
-    static _estPendientes(p) {
-        if (!p || p.length === 0) return '';
-        const items = p.map(x =>
-            '<li><strong>' + this._escape(x.texto) + '</strong><br>' +
-            '<span class="org-note">Estado: ' + this._escape(x.estado || '') +
-            (x.donde ? ' · ' + this._escape(x.donde) : '') + '</span></li>'
-        );
-        return this._estSection(
-            '🧷 Pendientes de estructura',
-            '<ul class="org-list">' + items.join('') + '</ul>'
+            '🧷 El mapa del equipo vs la realidad — cosas por arreglar',
+            `<p class="org-note">
+                El equipo describe su propia estructura en <code>ORG_MAP.md</code>. Esto no se mide
+                solo: es un checklist, revisado a mano contra el commit <code>${this._escape(commit)}</code>
+                el ${this._escape(meta.org_map_leido || '?')}.
+            </p>` +
+            (abiertas.length
+                ? `<ul class="doc-check__list">${filas}</ul>`
+                : `<p class="org-callout org-callout--ok">Sin discrepancias abiertas. El documento del equipo coincide con lo medido.</p>`) +
+            hechas
         );
     }
 
