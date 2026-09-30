@@ -1,6 +1,6 @@
 {
- "generado_utc": "20260930T161408Z",
- "generado_h": "2026-09-30 16:14 UTC",
+ "generado_utc": "20260930T162104Z",
+ "generado_h": "2026-09-30 16:21 UTC",
  "origen": "git local + ls-remote (sin cuota). protected cacheado TTL 6h.",
  "commits": [
   {
@@ -405,9 +405,9 @@
    "repo": "gw2-agents-dashboard",
    "label": "Dashboard",
    "role": "dashboard",
-   "sha": "69dfedf6b4bac4716faf5e0cafdb48d21f809326",
-   "short_sha": "69dfedf",
-   "commit": "fix(dashboard): production-guard usaba cfg sin definirlo y",
+   "sha": "dfd71b4522cc82afb04eed3da7be8935245d2937",
+   "short_sha": "dfd71b4",
+   "commit": "chore(dashboard): pulso automatico 2026-09-30_16-14_UTC",
    "estado": "open",
    "protected": false,
    "protected_fresco": true,
