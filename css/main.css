@@ -689,6 +689,120 @@ body {
     border-left: 2px solid rgba(255, 138, 138, 0.45);
 }
 
+/* ------------------------------------------------------------------
+   Tab Equipo — rediseño 2026-09-30
+   Tres bloques: quién hace qué / ahora / a quién esperar.
+   El orden es de lectura: primero identidad (fijo), después presente,
+   después futuro. Antes era un solo grid de tarjetas donde todo pesaba
+   igual y no había forma de saber cuándo esperar a cada agente.
+   ------------------------------------------------------------------ */
+
+.eq-block {
+    margin-bottom: 28px;
+}
+
+.eq-block__title {
+    font-size: 1rem;
+    font-weight: 600;
+    color: #e8e8e8;
+    margin: 0 0 2px;
+    letter-spacing: 0.01em;
+}
+
+.eq-block__hint {
+    font-size: 0.82rem;
+    color: #8b93a7;
+    margin: 0 0 12px;
+    line-height: 1.5;
+    max-width: 78ch;
+}
+
+.eq-block__hint strong {
+    color: #c8cede;
+    font-weight: 600;
+}
+
+.eq-block__hint--vacio {
+    font-size: 0.78rem;
+    color: #6d7386;
+    margin: 10px 0 0;
+}
+
+.eq-table-wrap {
+    overflow-x: auto;
+    margin-bottom: 4px;
+}
+
+.eq-table {
+    width: 100%;
+    border-collapse: collapse;
+    font-size: 0.85rem;
+}
+
+.eq-table th {
+    text-align: left;
+    font-weight: 600;
+    font-size: 0.72rem;
+    text-transform: uppercase;
+    letter-spacing: 0.06em;
+    color: #7c8396;
+    padding: 0 14px 8px 0;
+    border-bottom: 1px solid rgba(255, 255, 255, 0.08);
+    white-space: nowrap;
+}
+
+.eq-table td {
+    padding: 9px 14px 9px 0;
+    border-bottom: 1px solid rgba(255, 255, 255, 0.045);
+    vertical-align: top;
+    color: #c3c8d6;
+}
+
+.eq-table tbody tr:last-child td {
+    border-bottom: none;
+}
+
+.eq-who__agente {
+    white-space: nowrap;
+    font-weight: 600;
+    color: #dfe3ee;
+    width: 1%;
+}
+
+.eq-who__que {
+    color: #a8aec0;
+    line-height: 1.5;
+}
+
+.eq-who__cada {
+    white-space: nowrap;
+    color: #8b93a7;
+    font-size: 0.8rem;
+    text-align: right;
+    width: 1%;
+}
+
+/* "Vuelve en 24m" es la celda más accionable de la tab: se lee de un
+   vistazo. Verde si acaba de pasar, ámbar si viene, rojo si se pasó. */
+.eq-espera__cuando {
+    white-space: nowrap;
+    font-weight: 600;
+    color: #8fe0b0;
+    width: 1%;
+}
+
+.eq-espera__cuando--atrasado {
+    color: #ffc46b;
+}
+
+.eq-espera__nota {
+    color: #7c8396;
+    font-size: 0.8rem;
+    text-align: right;
+    white-space: nowrap;
+    width: 1%;
+}
+
 .live-card__meta {
     display: flex;
     flex-direction: column;

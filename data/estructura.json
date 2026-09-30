@@ -56,7 +56,8 @@
         "mecanismo": "ninguno",
         "agent_json_enabled": false,
         "agent_json_every": "6h",
-        "activo": false
+        "activo": false,
+        "texto_canal": "bajo demanda — sin heartbeat activo"
       },
       "mcp": {
         "paths": [
@@ -153,7 +154,8 @@
         "timeout_s": 900,
         "proposito": "Sonda de comunicación entre canales (channel-probe)",
         "activo": false,
-        "nota": "La sonda de comunicacion (17e51119) esta APAGADA desde 2026-09-30. El mantenimiento del canal lo hace ahora la tarea programada GW2-Comms-Export (Windows, cada 15 min, sin LLM). Un cron deshabilitado no es un canal."
+        "nota": "La sonda de comunicacion (17e51119) esta APAGADA desde 2026-09-30. El mantenimiento del canal lo hace ahora la tarea programada GW2-Comms-Export (Windows, cada 15 min, sin LLM). Un cron deshabilitado no es un canal.",
+        "texto_canal": "apagado — la sonda se desactivó el 30/09"
       },
       "mcp": {
         "paths": [
@@ -187,7 +189,8 @@
         "mecanismo": "ninguno",
         "agent_json_enabled": false,
         "agent_json_every": "6h",
-        "activo": false
+        "activo": false,
+        "texto_canal": "bajo demanda"
       },
       "mcp": {
         "paths": [],

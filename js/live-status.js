@@ -13,13 +13,28 @@
 
 class DashboardLiveStatus {
 
+    // `queDecide` viene del AGENTS.md de cada agente, no de una opinion mia.
+    // Es la columna "quién hace qué": para qué existe cada uno, no qué hizo
+    // últimamente. Lo último cambia cada media hora; esto no.
     static AGENTS = [
-        { id: 'principal-desarrollo', nombre: 'Principal (Desarrollo)', refAgente: 'default', icon: '🚀', scopes: ['legendary', 'feature', 'feat', 'commit'] },
-        { id: 'principal-admin',      nombre: 'Principal (Admin)',      refAgente: 'default', icon: '⚙️', scopes: ['comms', 'admin', 'session', 'chore'] },
-        { id: 'po',          nombre: 'PO',          refAgente: 'product-owner', icon: '📝', scopes: ['po', 'backlog'] },
-        { id: 'reviewer',    nombre: 'Code Reviewer', refAgente: 'Code-Reviewer',  icon: '🔍', scopes: ['reviewer', 'review'] },
-        { id: 'documenter',  nombre: 'Documentador',  refAgente: 'documenter',  icon: '📚', scopes: ['docs', 'doc'] },
-        { id: 'architect',   nombre: 'Arquitecto',   refAgente: 'architect',   icon: '🏗️', scopes: ['estructura', 'org', 'dashboard', 'mcp', 'permiso'] }
+        { id: 'principal-desarrollo', nombre: 'Principal (Desarrollo)', refAgente: 'default', icon: '🚀',
+          queDecide: 'Implementa features y fixes en gw2-dev. Es el único que escribe código del producto.',
+          scopes: ['legendary', 'feature', 'feat', 'commit'] },
+        { id: 'principal-admin',      nombre: 'Principal (Admin)',      refAgente: 'default', icon: '⚙️',
+          queDecide: 'Configuración del ecosistema: crons, permisos, agentes. A pedido tuyo, no por reloj.',
+          scopes: ['comms', 'admin', 'session', 'chore'] },
+        { id: 'po',          nombre: 'Product Owner', refAgente: 'product-owner', icon: '📝',
+          queDecide: 'Investiga afuera (Reddit, Wiki, gw2treasures) y decide qué merece la pena. Propone, no implementa.',
+          scopes: ['po', 'backlog'] },
+        { id: 'reviewer',    nombre: 'Code Reviewer', refAgente: 'Code-Reviewer',  icon: '🔍',
+          queDecide: 'Audita lo que el Principal propone y lo veta si no se sostiene. No aprueba por aprobar.',
+          scopes: ['reviewer', 'review'] },
+        { id: 'documenter',  nombre: 'Documentador',  refAgente: 'documenter',  icon: '📚',
+          queDecide: 'Escribe los logs, commitea y pushea a agents. Nunca toca gw2-prod.',
+          scopes: ['docs', 'doc'] },
+        { id: 'architect',   nombre: 'Arquitecto',   refAgente: 'architect',   icon: '🏗️',
+          queDecide: 'Topología de clones, permisos y crons. Habla solo con vos. Este dashboard es suyo.',
+          scopes: ['estructura', 'org', 'dashboard', 'mcp', 'permiso'] }
     ];
 
     static render(data) {
@@ -28,7 +43,115 @@ class DashboardLiveStatus {
 
         const statuses = this.AGENTS.map(agent => this._computeStatus(agent, data));
 
-        container.innerHTML = statuses.map(s => this._cardHTML(s)).join('');
+        // 3 secciones en el orden en que se leen: QUIÉN ES (fijo, para saber a
+        // qué le toca y qué esperar), AHORA (cambia cada media hora) y
+        // CUÁNDE VUELVE (lo único accionable de la tab).
+        container.innerHTML = [
+            this._seccionQuienHaceQue(statuses),
+            this._seccionAhora(statuses),
+            this._seccionAQuienEsperar(statuses)
+        ].join('');
+    }
+
+    /** "Quién hace qué": identidad y propósito. No cambia de un día a otro. */
+    static _seccionQuienHaceQue(statuses) {
+        const filas = statuses.map(s => `
+            <tr>
+                <td class="eq-who__agente">${s.icon} ${this._escape(s.nombre)}</td>
+                <td class="eq-who__que">${this._escape(s.queDecide)}</td>
+                <td class="eq-who__cada">${this._cadaCuando(s)}</td>
+            </tr>`).join('');
+
+        return `
+        <section class="eq-block">
+            <h3 class="eq-block__title">🧭 Quién hace qué</h3>
+            <p class="eq-block__hint">Para qué existe cada uno. No es el estado: es el reparto.</p>
+            <div class="eq-table-wrap">
+                <table class="eq-table">
+                    <thead><tr><th>Agente</th><th>Qué decide</th><th>Cada cuánto</th></tr></thead>
+                    <tbody>${filas}</tbody>
+                </table>
+            </div>
+        </section>`;
+    }
+
+    /** "Ahora": el estado, con su causa cuando hay una. */
+    static _seccionAhora(statuses) {
+        const conReloj = statuses.filter(s => s.canal.activo).length;
+        const porDemanda = statuses.length - conReloj;
+
+        return `
+        <section class="eq-block">
+            <h3 class="eq-block__title">⚡ Ahora</h3>
+            <p class="eq-block__hint">
+                <strong>${conReloj}</strong> con reloj propio ·
+                <strong>${porDemanda}</strong> solo cuando vos los llamás.
+                Un agente sin reloj nunca puede estar CAÍDO: no tiene nada que vencerse.
+            </p>
+            <div class="live-grid">${statuses.map(s => this._cardHTML(s)).join('')}</div>
+        </section>`;
+    }
+
+    /**
+     * "A quién esperar": la sección que faltaba y la única accionable.
+     * Cada agente con reloj tiene una próxima corrida predictable; sayla es
+     * la diferencia entre "el equipo está roto" y "todavía no le tocaba".
+     */
+    static _seccionAQuienEsperar(statuses) {
+        const conReloj = statuses.filter(s => s.canal.activo)
+                                 .sort((a, b) => (a.canal.intervaloMin || 0) - (b.canal.intervaloMin || 0));
+
+        if (!conReloj.length) {
+            return `
+            <section class="eq-block">
+                <h3 class="eq-block__title">⏳ A quién esperar</h3>
+                <p class="eq-block__hint eq-block__hint--vacio">Ningun agente tiene un heartbeat configurado.</p>
+            </section>`;
+        }
+
+        const filas = conReloj.map(s => {
+            const falta = (s.canal.intervaloMin || 0) - s.ageMin;
+            const clase = falta <= 0 ? 'eq-espera__cuando--atrasado' : 'eq-espera__cuando';
+            const cuando = s.ageMin === Infinity
+                ? 'sin registro'
+                : (falta <= 0
+                    ? `se pasó hace ${this._formatAge(-falta)}`
+                    : `en ${this._formatAge(falta)}`);
+            return `
+            <tr>
+                <td class="eq-who__agente">${s.icon} ${this._escape(s.nombre)}</td>
+                <td class="eq-espera__cuando ${clase}">${cuando}</td>
+                <td class="eq-espera__nota">${s.ageMin === Infinity ? 'sin registro' : this._escape(this._formatAge(s.ageMin))}</td>
+            </tr>`;
+        }).join('');
+
+        const porDemanda = statuses.filter(s => !s.canal.activo)
+            .map(s => `${s.nombre}, cuando lo llames`).join(' · ');
+
+        return `
+        <section class="eq-block">
+            <h3 class="eq-block__title">⏳ A quién esperar</h3>
+            <p class="eq-block__hint">
+                Si algo no avanza, esto es lo primero que hay que mirar: casi siempre es que
+                todavía no le tocaba.
+            </p>
+            <div class="eq-table-wrap">
+                <table class="eq-table eq-table--espera">
+                    <thead><tr><th>Agente</th><th>Vuelve</th><th>Última actividad</th></tr></thead>
+                    <tbody>${filas}</tbody>
+                </table>
+            </div>
+            <p class="eq-block__hint eq-block__hint--vacio">
+                <strong>Sin reloj:</strong> ${this._escape(porDemanda)}
+            </p>
+        </section>`;
+    }
+
+    /** "cada 30 min" / "bajo demanda" / "sin dato". */
+    static _cadaCuando(s) {
+        if (!s.canal.activo) return 'bajo demanda';
+        if (!s.canal.intervaloMin) return 'sin dato';
+        return `cada ${this._formatAge(s.canal.intervaloMin).replace('hace ', '')}`;
     }
 
     /**
@@ -116,10 +239,13 @@ class DashboardLiveStatus {
             status = 'idle';
         }
 
-        // 5) Texto de "qué está haciendo"
+        // 5) Texto de "qué está haciendo".
+        // El BOM se quita: 5 de los últimos 6 commits del repo lo traen
+        // escrito al principio del mensaje, y sale como un caracter invisible
+        // pegado al texto. No es culpa del render, es del que escribe.
         let currentActivity = 'Sin actividad reciente';
         if (lastCommitTs === lastActivity && lastCommit) {
-            const msg = (lastCommit.commit?.message || '').split('\n')[0];
+            const msg = (lastCommit.commit?.message || '').replace(/^\uFEFF/, '').split('\n')[0];
             currentActivity = `Último commit: ${this._truncate(msg, 80)}`;
         } else if (lastMentionTs === lastActivity) {
             currentActivity = 'Mencionado en SESSION_LOG';
@@ -127,6 +253,9 @@ class DashboardLiveStatus {
 
         return {
             agent,
+            nombre: agent.nombre,
+            icon: agent.icon,
+            queDecide: agent.queDecide,
             status,
             statusMotivo,
             canal,
@@ -188,6 +317,21 @@ class DashboardLiveStatus {
         const timeoutMin = hb.timeout_s ? hb.timeout_s / 60 : null;
         const ventanaMin = intervaloMin || timeoutMin || 360;
 
+        // Guarda explícita. `mecanismo` y `cron_expr` describen lo que EXISTE,
+        // no lo que CORRE: un cron deshabilitado sigue teniendo id y expr. El
+        // Arquitecto tuvo la sonda apagada horas y el dashboard la anunciaba
+        // como "corre cada 30 min" porque nadie miró `enabled`. Este chequeo
+        // es la defensa por si alguien reactiva un cron sin refrescar el JSON.
+        if (hb.activo === false) {
+            return {
+                activo: false,
+                intervaloMin: null,
+                ventanaMin: 360,
+                texto: 'Canal: ' + (hb.texto_canal || 'sin heartbeat activo'),
+                tono: 'neutro'
+            };
+        }
+
         if (hb.mecanismo === 'cron' && hb.cron_expr) {
             return {
                 activo: esEcosistema,
@@ -229,9 +373,10 @@ class DashboardLiveStatus {
         const canal = s.canal;
         const statusEmoji = this._statusEmoji(s.status);
         const ageText = s.ageMin === Infinity ? 'sin data' : this._formatAge(s.ageMin);
-        const commitText = s.lastCommit
-            ? `Último commit: ${this._formatAge((Date.now() - new Date(s.lastCommit.commit.author.date).getTime()) / 60000)}`
-            : '';
+        // FIX: "Último commit: hace 2h" salía dos veces en la tarjeta (aquí y en
+        // la línea de actividad, que ya trae el mensaje del commit). El dato
+        // no era repetido por descuido: la tarjeta mostraba la EDAD del commit
+        // arriba y el MENSAJE abajo, dos vistas del mismo hecho.
 
         return `
             <div class="live-card live-card--${s.status}">
@@ -250,7 +395,6 @@ class DashboardLiveStatus {
                 <div class="live-card__meta">
                     <span class="live-card__canal live-card__canal--${canal.tono}">${this._escape(canal.texto)}</span>
                     <span>Última actividad: ${ageText}</span>
-                    ${commitText ? `<span>${this._escape(commitText)}</span>` : ''}
                 </div>
             </div>
         `;
