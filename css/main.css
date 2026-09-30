@@ -765,6 +765,13 @@ body {
 .live-section { margin-top: 0; }
 .live-section h2 { font-size: 1.1rem; margin-bottom: 16px; }
 
+/* Comunicacion entre agentes: primera seccion de la tab Equipo.
+   margin-top: 0 porque ahora abre la tab (antes lo tenia .live-section).
+   El separador vertical con la seccion siguiente lo aporta .live-section. */
+.team-section { margin-top: 0; }
+.team-section h2 { font-size: 1.1rem; margin-bottom: 8px; }
+.team-section .org-source { margin-bottom: 14px; }
+
 .live-grid {
     display: grid;
     grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));

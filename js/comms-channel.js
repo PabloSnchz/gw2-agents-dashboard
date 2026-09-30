@@ -136,38 +136,42 @@ const CommsChannel = {
     // rastro. Si un agente no mira, el reloj de aca lo delata, sin que
     // nadie tenga que acordarse de reportarlo.
     _renderDisciplina() {
-      // Se dibuja en DOS lugares: en la tab Logs, al lado del canal, y
-      // en la tab Salud. Logs es la ultima tab que uno mira, y la
-      // disciplina no es un log: es como esta de vivo el equipo.
+      // Vive en UNA sola tab: Equipo, arriba de todo.
+      //
+      // Antes se dibujaba en Salud y en Logs, y las dos copias mostraban lo
+      // mismo. Tres lugares para un dato son tres lugares donde puede quedar
+      // viejo o desincronizado, y una señal repetida en tres tabs termina
+      // pesando igual que una repetida en dos: deja de ser señal. Ademas la
+      // tab Logs es la ultima que uno mira, y la disciplina no es un log: es
+      // como esta de vivo el equipo. En Equipo responde la pregunta que uno
+      // se hace al abrirla — "como estan" — y ahi conviven el heartbeat vivo
+      // y la bandeja: un agente puede tener el proceso encendido y no estar
+      // hablando con nadie, y eso solo se ve en estos dos juntos.
       const targets = [];
-      let salud = document.getElementById('eco-salud-disciplina');
-      if (!salud) {
-        // Si el index.html que tiene el navegador es el viejo (cacheado
-        // antes del commit), el contenedor no existe. Crearlo aca evita
-        // depender de que el HTML llegue fresco: el dato es lo unico que
-        // tiene que estar al dia, no el esqueleto.
-        const caja = document.querySelector('[data-tab-content="salud"]');
+      let equipo = document.getElementById('equipo-disciplina');
+      if (!equipo) {
+        // Si el navegador tiene el index.html viejo cacheado, el contenedor
+        // no existe. Crearlo aca evita depender de que el HTML llegue
+        // fresco: el dato es lo que tiene que estar al dia, no el esqueleto.
+        const caja = document.querySelector('[data-tab-content="equipo"]');
         if (caja) {
-          salud = document.createElement('div');
-          salud.id = 'eco-salud-disciplina';
-          salud.className = 'comms-kpi-grid';
-          salud.style.marginTop = '10px';
-          caja.appendChild(salud);
+          equipo = document.createElement('div');
+          equipo.id = 'equipo-disciplina';
+          equipo.className = 'comms-kpi-grid';
+          caja.insertBefore(equipo, caja.firstChild);
         }
       }
-      if (salud) targets.push(salud);
-      const kpis = document.getElementById('comms-channel-kpis');
-      if (kpis) {
-        let box = document.getElementById('cc-disciplina');
-        if (!box) {
-          box = document.createElement('div');
-          box.id = 'cc-disciplina';
-          box.className = 'comms-kpi-grid';
-          box.style.marginTop = '8px';
-          kpis.parentNode.insertBefore(box, kpis.nextSibling);
-        }
-        targets.push(box);
-      }
+      if (equipo) targets.push(equipo);
+
+      // Las copias viejas (Salud y Logs) se limpian siempre. Con un
+      // index.html cacheado siguen en el DOM y quedarian con el ultimo
+      // render — es decir, mostrando un dato viejo con toda la apariencia
+      // de estar al dia.
+      ['eco-salud-disciplina', 'cc-disciplina'].forEach(id => {
+        const viejo = document.getElementById(id);
+        if (viejo && viejo.parentNode) viejo.parentNode.removeChild(viejo);
+      });
+
       if (!targets.length) return;
       if (!this.data) { targets.forEach(b => b.innerHTML = ''); return; }
       const d = this.data.disciplina || [];

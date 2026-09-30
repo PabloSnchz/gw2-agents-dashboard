@@ -4,7 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>GW2 Agents Dashboard</title>
-    <link rel="stylesheet" href="css/main.css?v=18">
+    <link rel="stylesheet" href="css/main.css?v=19">
     <link rel="stylesheet" href="css/theme.css?v=17">
   <link rel="stylesheet" href="css/pulso.css?v=1">
 </head>
@@ -70,6 +70,17 @@
 
         <!-- Tab: Equipo -->
         <div class="dashboard-tab-content" data-tab-content="equipo">
+            <section class="team-section">
+                <h2>💬 Comunicación entre agentes</h2>
+                <p class="org-source">
+                    El <strong>paso 0</strong> de cada heartbeat dice que el agente lea su
+                    bandeja. Una instruccion escrita en un <code>HEARTBEAT.md</code> no es
+                    una garantia: lo que la hace garantia es que mirar deje la hora. Si un
+                    agente no mira, el reloj de aca lo delata sin que nadie lo reporte.
+                </p>
+                <div id="equipo-disciplina" class="comms-kpi-grid"></div>
+            </section>
+
             <section class="live-section">
                 <h2>🔴 Estado en vivo</h2>
                 <div id="live-status-container" class="live-grid"></div>
@@ -176,16 +187,6 @@
 
                 <h3>Consumo de tokens</h3>
                 <div id="eco-tokens"></div>
-
-                <h3>Disciplina del canal</h3>
-                <p class="org-source">
-                    El <strong>paso 0</strong> de cada heartbeat dice que el agente
-                    lea su bandeja. Una instruccion escrita en un
-                    <code>HEARTBEAT.md</code> no es una garantia: lo que la hace
-                    garantia es que mirar deje la hora. Si un agente no mira,
-                    el reloj de aca lo delata sin que nadie lo reporte.
-                </p>
-                <div id="eco-salud-disciplina" class="comms-kpi-grid"></div>
             </section>
         </div>
 
@@ -286,7 +287,7 @@
     <script src="js/upcoming.js?v=7"></script>
     <script src="js/live-status.js?v=7"></script>
     <script src="js/production-guard.js?v=4"></script>
-    <script src="js/comms-channel.js?v=3"></script>
+    <script src="js/comms-channel.js?v=4"></script>
     <script src="js/eco-health.js?v=2"></script>
     <script src="js/pulso.js?v=3"></script>
 <script src="js/app.js?v=22"></script>
