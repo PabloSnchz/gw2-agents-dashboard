@@ -41,130 +41,129 @@ class DashboardLiveStatus {
           scopes: ['estructura', 'org', 'dashboard', 'mcp', 'permiso'] }
     ];
 
+    /**
+     * Estado en vivo, en la misma lectura que las tarjetas de arriba:
+     * un AGENTE es una COLUMNA y las tres dimensiones son FILAS.
+     *
+     * Antes eran tres bloques -- dos tablas y una grilla de tarjetas -- y
+     * para responder "el Reviewer, ahora que?" habia que buscarlo en tres
+     * lugares distintos y cruzarlos mentalmente. Peor: las tablas
+     * ordenaban por intervalo, no por el reparto, asi que la fila del
+     * Reviewer no estaba debajo de su tarjeta de arriba.
+     *
+     * Ahora el bloque de "Disciplina del canal" y esta matriz comparten el
+     * MISMO template de columnas (`--eq-rail` + 5 columnas) y el mismo
+     * orden. Leer una columna de arriba abajo es leer un agente.
+     *
+     * El canal NO se fusiona con esto a proposito: la fila de arriba se
+     * lee de a una tarjeta, y estas se leen de a una fila. Meterlas en el
+     * mismo bloque obligaria a elegir una de las dos formas de leer y se
+     * romperia la otra.
+     */
     static render(data) {
         const container = document.getElementById('live-status-container');
         if (!container) return;
 
-        const statuses = this.AGENTS.map(agent => this._computeStatus(agent, data));
+        // El orden es el de AGENTS, que es el mismo que usa
+        // comms-channel.js para las tarjetas del canal. NO se sorts: casi
+        // cualquier criterio de orden rompe la alineacion con la fila de
+        // arriba, y esa alineacion es la razon de existir de la matriz.
+        const status = this.AGENTS.map(a => this._computeStatus(a, data));
+        const conReloj = status.filter(s => s.canal.activo).length;
+        const porDemanda = status.length - conReloj;
+        const sin = status.filter(s => !s.canal.activo).map(s => s.nombre);
 
-        // 3 secciones en el orden en que se leen: QUIÉN ES (fijo, para saber a
-        // qué le toca y qué esperar), AHORA (cambia cada media hora) y
-        // CUÁNDE VUELVE (lo único accionable de la tab).
         container.innerHTML = [
-            this._seccionQuienHaceQue(statuses),
-            this._seccionAhora(statuses),
-            this._seccionAQuienEsperar(statuses)
+            '<p class="eq-matrix__leyenda"><strong>' + conReloj + '</strong> con reloj propio' +
+                ' &middot; <strong>' + porDemanda + '</strong> bajo demanda (' +
+                this._escape(sin.join(', ')) + ')' +
+                '. El orden de las columnas es el mismo que las tarjetas del canal de arriba.</p>',
+            '<div class="eq-matrix">',
+                this._fila('\uD83E\uDDEF', 'Que decide', status.map(s => this._celdaQuien(s)).join('')),
+                this._fila('\u26A1', 'Ahora', status.map(s => this._celdaAhora(s)).join('')),
+                this._fila('\u23F1\uFE0F', 'Vuelve', status.map(s => this._celdaVuelve(s)).join('')),
+            '</div>',
+            '<p class="eq-block__nota">El reloj corre sobre la ultima senal <em>registrada</em>' +
+                ' &mdash; un commit o una mencion en SESSION_LOG &mdash;, no sobre la ultima' +
+                ' ejecucion: un heartbeat que corre sin registrar nada es indistinguible de uno' +
+                ' que no corrio. Por eso la celda dice "ultima senal" y no "se paso". Un agente' +
+                ' sin reloj no puede estar CAIDO: no tiene nada que vencerse.</p>'
         ].join('');
     }
 
-    /** "Quién hace qué": identidad y propósito. No cambia de un día a otro. */
-    static _seccionQuienHaceQue(statuses) {
-        const filas = statuses.map(s => `
-            <tr>
-                <td class="eq-who__agente">${s.icon} ${this._escape(s.nombre)}</td>
-                <td class="eq-who__que">${this._escape(s.queDecide)}</td>
-                <td class="eq-who__cada">${this._cadaCuando(s)}</td>
-            </tr>`).join('');
-
-        return `
-        <section class="eq-block">
-            <h3 class="eq-block__title">🧭 Quién hace qué</h3>
-            <p class="eq-block__hint">Para qué existe cada uno. No es el estado: es el reparto.</p>
-            <div class="eq-table-wrap">
-                <table class="eq-table">
-                    <thead><tr><th>Agente</th><th>Qué decide</th><th>Cada cuánto</th></tr></thead>
-                    <tbody>${filas}</tbody>
-                </table>
-            </div>
-        </section>`;
-    }
-
-    /** "Ahora": el estado, con su causa cuando hay una. */
-    static _seccionAhora(statuses) {
-        const conReloj = statuses.filter(s => s.canal.activo).length;
-        const porDemanda = statuses.length - conReloj;
-
-        return `
-        <section class="eq-block">
-            <h3 class="eq-block__title">⚡ Ahora</h3>
-            <p class="eq-block__hint">
-                <strong>${conReloj}</strong> con reloj propio ·
-                <strong>${porDemanda}</strong> solo cuando vos los llamás.
-                Un agente sin reloj nunca puede estar CAÍDO: no tiene nada que vencerse.
-            </p>
-            <div class="live-grid">${statuses.map(s => this._cardHTML(s)).join('')}</div>
-        </section>`;
+    /** Una fila de la matriz: el riel con la etiqueta, y las 5 celdas. */
+    static _fila(emoji, label, celdas) {
+        return '<div class="eq-rail">' +
+                   '<span class="eq-rail__emoji">' + emoji + '</span>' +
+                   '<span class="eq-rail__label">' + this._escape(label) + '</span>' +
+               '</div>' + celdas;
     }
 
     /**
-     * "A quién esperar": la sección que faltaba y la única accionable.
-     * Cada agente con reloj tiene una próxima corrida predictable; sayla es
-     * la diferencia entre "el equipo está roto" y "todavía no le tocaba".
+     * "Que decide": para que existe cada uno. No cambia de un dia a otro, y
+     * por eso va arriba: es la fila que orienta antes de leer las otras dos.
+     * Viene del AGENTS.md de cada agente, no de una opinion.
      */
-    static _seccionAQuienEsperar(statuses) {
-        const conReloj = statuses.filter(s => s.canal.activo)
-                                 .sort((a, b) => (a.canal.intervaloMin || 0) - (b.canal.intervaloMin || 0));
+    static _celdaQuien(s) {
+        return '<div class="eq-cell eq-cell--que">' +
+                 '<p class="eq-cell__texto">' + this._escape(s.queDecide) + '</p>' +
+                 '<p class="eq-cell__pie">' + this._escape(this._cadaCuando(s)) + '</p>' +
+               '</div>';
+    }
 
-        if (!conReloj.length) {
-            return `
-            <section class="eq-block">
-                <h3 class="eq-block__title">⏳ A quién esperar</h3>
-                <p class="eq-block__hint eq-block__hint--vacio">Ningun agente tiene un heartbeat configurado.</p>
-            </section>`;
+    /** "Ahora": el estado, con su causa cuando hay una. */
+    static _celdaAhora(s) {
+        const motivo = (s.status === 'error' && s.statusMotivo)
+            ? '<p class="eq-cell__pie eq-cell__pie--alerta">' + this._escape(s.statusMotivo) + '</p>'
+            : '';
+        return '<div class="eq-cell eq-cell--' + s.status + '">' +
+                 '<div class="eq-cell__estado">' +
+                   '<span class="eq-cell__emoji">' + this._statusEmoji(s.status) + '</span>' +
+                   '<span class="eq-cell__estado-txt">' + this._statusLabel(s.status) + '</span>' +
+                 '</div>' +
+                 '<p class="eq-cell__texto">' + this._escape(s.currentActivity) + '</p>' +
+                 motivo +
+               '</div>';
+    }
+
+    /**
+     * "Vuelve": lo unico accionable de la tab. Un agente con reloj tiene
+     * proxima corrida predecible; esa es la diferencia entre "el equipo
+     * esta roto" y "todavia no le tocaba".
+     */
+    static _celdaVuelve(s) {
+        if (!s.canal.activo) {
+            return '<div class="eq-cell eq-cell--ondemand">' +
+                     '<div class="eq-cell__estado">' +
+                       '<span class="eq-cell__emoji">&#9851;</span>' +
+                       '<span class="eq-cell__estado-txt">' +
+                         this._escape(this._cadaCuando(s)) + '</span>' +
+                     '</div>' +
+                     '<p class="eq-cell__pie">Sin reloj. Cuando lo llames.</p>' +
+                   '</div>';
         }
 
-        const filas = conReloj.map(s => {
-            const falta = (s.canal.intervaloMin || 0) - s.ageMin;
-            const atrasado = s.ageMin !== Infinity && falta <= 0;
-            const clase = atrasado ? 'eq-espera__cuando--atrasado' : 'eq-espera__cuando';
-
-            // Por qué dice "última señal" y no "última corrida": el reloj corre
-            // sobre la última señal REGISTRADA (un commit o una mención en
-            // SESSION_LOG). Un heartbeat que corre y no registra nada es
-            // indistinguible de uno que no corrió, y la API de crons no expone
-            // last_run. Afirmar "se pasó" sería inventar la causa; se muestra
-            // el dato y la aritmética, que es lo que se puede saber.
-            const senal = s.ageMin === Infinity ? 'sin señal' : `hace ${this._formatAge(s.ageMin).replace('hace ', '')}`;
-            const nota = s.ageMin === Infinity
-                ? 'sin registro en commits ni SESSION_LOG'
+        const int = s.canal.intervaloMin;
+        const falta = int ? int - s.ageMin : null;
+        const atrasado = falta !== null && s.ageMin !== Infinity && falta <= 0;
+        const senal = s.ageMin === Infinity ? 'sin senal' : this._formatAge(s.ageMin);
+        const nota = s.ageMin === Infinity
+            ? 'sin registro en commits ni SESSION_LOG'
+            : (falta === null
+                ? 'sin intervalo configurado'
                 : (atrasado
-                    ? `tocaba hace ${this._formatAge(-falta).replace('hace ', '')}`
-                    : `vuelve en ${this._formatAge(falta).replace('hace ', '')}`);
+                    ? 'tocaba ' + this._formatAge(-falta)
+                    : 'vuelve ' + this._formatAge(falta)));
 
-            return `
-            <tr>
-                <td class="eq-who__agente">${s.icon} ${this._escape(s.nombre)}</td>
-                <td class="eq-espera__cuando ${clase}">${senal}<span class="eq-espera__sub">${nota}</span></td>
-                <td class="eq-espera__nota">${s.canal.activo ? 'cada ' + this._formatAge(s.canal.intervaloMin).replace('hace ', '') : ''}</td>
-            </tr>`;
-        }).join('');
-
-        const porDemanda = statuses.filter(s => !s.canal.activo)
-            .map(s => `${s.nombre}, cuando lo llames`).join(' · ');
-
-        return `
-        <section class="eq-block">
-            <h3 class="eq-block__title">⏳ A quién esperar</h3>
-            <p class="eq-block__hint">
-                Si algo no avanza, esto es lo primero que hay que mirar: casi siempre es que
-                todavía no le tocaba.
-            </p>
-            <div class="eq-table-wrap">
-                <table class="eq-table eq-table--espera">
-                    <thead><tr><th>Agente</th><th>Última señal</th><th>Cada cuánto</th></tr></thead>
-                    <tbody>${filas}</tbody>
-                </table>
-            </div>
-            <p class="eq-block__hint eq-block__hint--vacio">
-                <strong>Sin reloj:</strong> ${this._escape(porDemanda)}
-            </p>
-            <p class="eq-block__nota">
-                El reloj corre sobre la última señal <em>registrada</em> (un commit o una mención
-                en SESSION_LOG), no sobre la última ejecución: un heartbeat que corre sin
-                registrar nada hoy es indistinguible de uno que no corrió. Por eso la columna
-                dice "última señal" y no "se pasó".
-            </p>
-        </section>`;
+        return '<div class="eq-cell eq-cell--' + (atrasado ? 'atrasado' : 'espera') + '">' +
+                 '<div class="eq-cell__estado">' +
+                   '<span class="eq-cell__emoji">' + (atrasado ? '&#9200;' : '&#9201;') + '</span>' +
+                   '<span class="eq-cell__estado-txt">' +
+                     this._escape(this._cadaCuando(s)) + '</span>' +
+                 '</div>' +
+                 '<p class="eq-cell__texto">' + this._escape(senal) + '</p>' +
+                 '<p class="eq-cell__pie">' + this._escape(nota) + '</p>' +
+               '</div>';
     }
 
     /** "cada 30 min" / "bajo demanda" / "sin dato". */
@@ -397,38 +396,6 @@ class DashboardLiveStatus {
             texto: 'Canal: ' + (hb.mecanismo || 'desconocido'),
             tono: 'neutro'
         };
-    }
-
-    static _cardHTML(s) {
-        const statusLabel = this._statusLabel(s.status);
-        const canal = s.canal;
-        const statusEmoji = this._statusEmoji(s.status);
-        const ageText = s.ageMin === Infinity ? 'sin data' : this._formatAge(s.ageMin);
-        // FIX: "Último commit: hace 2h" salía dos veces en la tarjeta (aquí y en
-        // la línea de actividad, que ya trae el mensaje del commit). El dato
-        // no era repetido por descuido: la tarjeta mostraba la EDAD del commit
-        // arriba y el MENSAJE abajo, dos vistas del mismo hecho.
-
-        return `
-            <div class="live-card live-card--${s.status}">
-                <div class="live-card__header">
-                    <span class="live-card__icon">${s.agent.icon}</span>
-                    <span class="live-card__name">${this._escape(s.agent.nombre)}</span>
-                </div>
-                <div class="live-card__status">
-                    <span class="live-card__status-emoji">${statusEmoji}</span>
-                    <span class="live-card__status-label">${statusLabel}</span>
-                </div>
-                <div class="live-card__activity">${this._escape(s.currentActivity)}</div>
-                ${s.status === 'error' && s.statusMotivo
-                    ? `<div class="live-card__motivo">${this._escape(s.statusMotivo)}</div>`
-                    : ''}
-                <div class="live-card__meta">
-                    <span class="live-card__canal live-card__canal--${canal.tono}">${this._escape(canal.texto)}</span>
-                    <span>Última actividad: ${ageText}</span>
-                </div>
-            </div>
-        `;
     }
 
     static _statusLabel(status) {

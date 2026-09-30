@@ -253,21 +253,41 @@
 .upcoming-group--ready-promote .upcoming-group-count { background: rgba(76, 175, 80, 0.2); color: #a0ffc8; }
 
 
-/* ===== Live Status Cards ===== */
-.live-card--active { border-left: 3px solid rgba(76, 175, 80, 0.6); }
-.live-card--active .live-card__status { color: #a0ffc8; }
+/* ===== Estado en vivo: celdas de la matriz =====
+   La piel va acá y no en main.css: main.css reparte el layout, theme.css
+   decide el color. Los modificadores son los status de _computeStatus
+   (active/heartbeat/idle/error/unknown) más los tres de la fila "Vuelve"
+   (que no son status: un agente puede estar sano y aun así tener la
+   corrida vencida, y esas dos cosas no pueden ser el mismo color). */
+.eq-cell--active { border-left-color: rgba(76, 175, 80, 0.6); }
+.eq-cell--active .eq-cell__estado { color: #a0ffc8; }
 
-.live-card--heartbeat { border-left: 3px solid rgba(255, 152, 0, 0.6); }
-.live-card--heartbeat .live-card__status { color: #ffd36b; }
+.eq-cell--heartbeat { border-left-color: rgba(255, 152, 0, 0.6); }
+.eq-cell--heartbeat .eq-cell__estado { color: #ffd36b; }
 
-.live-card--idle { border-left: 3px solid rgba(158, 158, 158, 0.4); }
-.live-card--idle .live-card__status { color: #aaa; }
+.eq-cell--idle { border-left-color: rgba(158, 158, 158, 0.4); }
+.eq-cell--idle .eq-cell__estado { color: #aaa; }
 
-.live-card--error { border-left: 3px solid rgba(244, 67, 54, 0.6); }
-.live-card--error .live-card__status { color: #ff9d9d; }
+.eq-cell--error { border-left-color: rgba(244, 67, 54, 0.6); }
+.eq-cell--error .eq-cell__estado { color: #ff9d9d; }
 
-.live-card--unknown { border-left: 3px solid rgba(120, 120, 120, 0.3); }
-.live-card--unknown .live-card__status { color: #888; }
+.eq-cell--unknown { border-left-color: rgba(120, 120, 120, 0.3); }
+.eq-cell--unknown .eq-cell__estado { color: #888; }
+
+.eq-cell--que { border-left-color: rgba(90, 110, 154, 0.45); }
+.eq-cell--que .eq-cell__texto { color: #b9c0d2; }
+
+/* Verde si la próxima corrida está en plazo, ámbar si la señal ya pasó el
+   ciclo. Es el color de la fila "Vuelve", no del estado del agente: estar
+   al día y estar vencido son preguntas distintas. */
+.eq-cell--espera { border-left-color: rgba(90, 110, 154, 0.4); }
+.eq-cell--espera .eq-cell__estado { color: #9fb6e0; }
+
+.eq-cell--atrasado { border-left-color: rgba(226, 174, 67, 0.6); }
+.eq-cell--atrasado .eq-cell__estado { color: #e2ae43; }
+
+.eq-cell--ondemand { border-left-color: rgba(150, 160, 185, 0.4); }
+.eq-cell--ondemand .eq-cell__estado { color: #a8aec2; }
 
 
 /* ===== Comms Group Colors ===== */
@@ -338,8 +358,8 @@
 }
 .org-details > summary { color: #b0b0c0; }
 .org-details > summary:hover { color: #d0d0e0; }
-.live-card__canal--ok     { color: #81c784; }
-.live-card__canal--neutro { color: #8a8aa0; }
+/* (los tonos .live-card__canal--* se fueron con las tarjetas: el canal
+   de cada agente ahora se lee en la fila "Vuelve" de la matriz) */
 
 .org-enforcement__col {
     background: rgba(15, 15, 25, 0.8);

@@ -234,7 +234,22 @@ const CommsChannel = {
                  '</div>' +
                '</div>';
       }).join('');
-      targets.forEach(b => b.innerHTML = html);
+
+      // El riel de la izquierda no es decoracion: comparte el template de
+      // columnas con la matriz de "Estado en vivo" que esta debajo
+      // (--eq-rail + 5 columnas, mismo orden). Gracias a el, la tarjeta del
+      // Reviewer de esta fila y su columna en la matriz quedan una encima
+      // de la otra. Sin el, cada bloque define su propio grid y se
+      // desalinean en cuanto cambia uno de los dos.
+      //
+      // Tambien le pone titulo a la fila, que hasta ahora era un bloque sin
+      // nombre arriba de todo de la tab.
+      const rail = '<div class="eq-rail">' +
+                     '<span class="eq-rail__emoji">&#128172;</span>' +
+                     '<span class="eq-rail__label">Disciplina del canal</span>' +
+                   '</div>';
+
+      targets.forEach(b => b.innerHTML = rail + html);
     },
 
     _renderGrupos() {

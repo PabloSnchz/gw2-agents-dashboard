@@ -268,7 +268,6 @@ body {
 .org-details { padding: 12px 14px; margin-top: 6px; }
 .org-details > summary { cursor: pointer; font-weight: 600; font-size: 0.9rem; }
 .org-details[open] > summary { margin-bottom: 12px; }
-.live-card__canal { display: block; }
 
 
 @media (max-width: 768px) {
@@ -772,28 +771,109 @@ body {
 .team-section h2 { font-size: 1.1rem; margin-bottom: 8px; }
 .team-section .org-source { margin-bottom: 14px; }
 
-.live-grid {
+.cc-agents-grid,
+.eq-matrix {
     display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+    grid-template-columns: var(--eq-rail, 132px) repeat(5, minmax(0, 1fr));
     gap: 12px;
+    align-items: stretch;
 }
 
-/* Disciplina del canal: una fila de 5 columnas, una por agente.
-   repeat(5,...) en vez de auto-fit como .live-grid porque aca el numero de
-   columnas es el dato — son 5 agentes y se ven los 5 juntos, que es la
-   mitad del valor. En pantallas angostas cae a menos columnas para que la
-   tarjeta no se apelmice. */
-.cc-agents-grid {
-    display: grid;
-    grid-template-columns: repeat(5, minmax(0, 1fr));
-    gap: 12px;
-}
+/* Abajo de 1100px la alineacion vertical entre las tarjetas del canal y
+   las celdas de la matriz se pierde: entra mas de una fila de agentes y
+   una columna deja de ser "un agente". Se degrada a riel + 2 columnas,
+   que sigue siendo legible, en vez de intentar mantener 5 columnas
+   imposibles. */
 @media (max-width: 1100px) {
-    .cc-agents-grid { grid-template-columns: repeat(3, minmax(0, 1fr)); }
+    .cc-agents-grid,
+    .eq-matrix { grid-template-columns: var(--eq-rail, 132px) repeat(2, minmax(0, 1fr)); }
 }
 @media (max-width: 700px) {
-    .cc-agents-grid { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+    .cc-agents-grid,
+    .eq-matrix { grid-template-columns: 1fr; }
+    .eq-rail {
+        align-items: flex-start;
+        text-align: left;
+        padding: 0;
+    }
 }
+
+/* El contenedor de la matriz: leyenda arriba, matriz en el medio, nota al
+   pie. Antes llevaba class="live-grid" (display:grid + auto-fit) y las
+   tarjetas se acomodaban solas; ahora el contenedor es flujo normal y el
+   grid es .eq-matrix adentro. */
+.live-container { margin-top: 14px; }
+
+/* El riel: la etiqueta de la fila, a la izquierda de las 5 columnas. */
+.eq-rail {
+    grid-column: 1;
+    display: flex;
+    flex-direction: column;
+    align-items: flex-end;
+    justify-content: flex-start;
+    gap: 3px;
+    text-align: right;
+    padding: 10px 2px 0 0;
+}
+.eq-rail__emoji { font-size: 1.1rem; line-height: 1; }
+.eq-rail__label {
+    font-size: 0.72rem;
+    font-weight: 700;
+    letter-spacing: 0.05em;
+    text-transform: uppercase;
+    color: #aab2c8;
+    line-height: 1.25;
+}
+
+.eq-matrix__leyenda {
+    font-size: 0.78rem;
+    line-height: 1.5;
+    color: #8b93a7;
+    margin: 0 0 12px;
+    max-width: 82ch;
+}
+.eq-matrix__leyenda strong { color: #c8cede; font-weight: 600; }
+
+.eq-cell {
+    background: rgba(15, 15, 25, 0.8);
+    border: 1px solid rgba(255, 255, 255, 0.08);
+    border-left: 3px solid rgba(255, 255, 255, 0.12);
+    border-radius: 8px;
+    padding: 10px 12px;
+    display: flex;
+    flex-direction: column;
+    gap: 5px;
+    /* Sin min-width:0, el mensaje de un commit largo estira su track y las
+       otras 4 columnas dejan de caber: la alineacion se rompe justo en el
+       caso que la hace util. */
+    min-width: 0;
+}
+.eq-cell__estado {
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    font-size: 0.78rem;
+    font-weight: 700;
+    letter-spacing: 0.04em;
+    line-height: 1.2;
+}
+.eq-cell__emoji { font-size: 0.95rem; }
+.eq-cell__estado-txt { min-width: 0; }
+.eq-cell__texto {
+    margin: 0;
+    font-size: 0.78rem;
+    line-height: 1.42;
+    color: #d2d6e2;
+    overflow-wrap: break-word;
+}
+.eq-cell__pie {
+    margin: 0;
+    font-size: 0.71rem;
+    line-height: 1.35;
+    color: #8d95a8;
+    overflow-wrap: break-word;
+}
+.eq-cell__pie--alerta { color: #ff9d9d; }
 
 .cc-card-agent {
     background: rgba(15, 15, 25, 0.8);
@@ -834,62 +914,9 @@ body {
     color: #8d95a8;
 }
 
-.live-card {
-    background: rgba(15, 15, 25, 0.8);
-    border: 1px solid rgba(255,255,255,0.08);
-    border-radius: 8px;
-    padding: 14px 16px;
-    transition: transform 0.15s ease;
-}
-.live-card:hover {
-    transform: translateY(-2px);
-}
-
-.live-card__header {
-    display: flex;
-    align-items: center;
-    gap: 8px;
-    margin-bottom: 8px;
-}
-.live-card__icon { font-size: 1.2rem; }
-.live-card__name { font-weight: 600; font-size: 0.9rem; }
-
-.live-card__status {
-    display: flex;
-    align-items: center;
-    gap: 6px;
-    margin-bottom: 8px;
-    font-size: 0.75rem;
-    font-weight: 700;
-    text-transform: uppercase;
-    letter-spacing: 0.5px;
-}
-
-.live-card__activity {
-    font-size: 0.82rem;
-    color: #c0c0c0;
-    line-height: 1.4;
-    margin-bottom: 8px;
-    min-height: 34px;
-}
-
-/* Por qué un agente está CAÍDO. Sin esto la tarjeta decía solo "CAÍDO",
-   que es un diagnóstico sin causa: no había nada sobre lo que actuar. */
-.live-card__motivo {
-    font-size: 0.78rem;
-    line-height: 1.4;
-    color: #ff8a8a;
-    margin: -4px 0 8px;
-    padding-left: 8px;
-    border-left: 2px solid rgba(255, 138, 138, 0.45);
-}
-
 /* ------------------------------------------------------------------
-   Tab Equipo — rediseño 2026-09-30
-   Tres bloques: quién hace qué / ahora / a quién esperar.
-   El orden es de lectura: primero identidad (fijo), después presente,
-   después futuro. Antes era un solo grid de tarjetas donde todo pesaba
-   igual y no había forma de saber cuándo esperar a cada agente.
+   Tab Equipo —-identity es el reparto, el resto vive en la matriz
+   de más abajo (columna = agente).
    ------------------------------------------------------------------ */
 
 .eq-block {
@@ -923,81 +950,6 @@ body {
     margin: 10px 0 0;
 }
 
-.eq-table-wrap {
-    overflow-x: auto;
-    margin-bottom: 4px;
-}
-
-.eq-table {
-    width: 100%;
-    border-collapse: collapse;
-    font-size: 0.85rem;
-}
-
-.eq-table th {
-    text-align: left;
-    font-weight: 600;
-    font-size: 0.72rem;
-    text-transform: uppercase;
-    letter-spacing: 0.06em;
-    color: #7c8396;
-    padding: 0 14px 8px 0;
-    border-bottom: 1px solid rgba(255, 255, 255, 0.08);
-    white-space: nowrap;
-}
-
-.eq-table td {
-    padding: 9px 14px 9px 0;
-    border-bottom: 1px solid rgba(255, 255, 255, 0.045);
-    vertical-align: top;
-    color: #c3c8d6;
-}
-
-.eq-table tbody tr:last-child td {
-    border-bottom: none;
-}
-
-.eq-who__agente {
-    white-space: nowrap;
-    font-weight: 600;
-    color: #dfe3ee;
-    width: 1%;
-}
-
-.eq-who__que {
-    color: #a8aec0;
-    line-height: 1.5;
-}
-
-.eq-who__cada {
-    white-space: nowrap;
-    color: #8b93a7;
-    font-size: 0.8rem;
-    text-align: right;
-    width: 1%;
-}
-
-/* "Última señal: hace 2h / tocaba hace 1h 30m" es la celda más accionable de
-   la tab. Verde si viene la próxima, ámbar si la señal ya se pasó del ciclo. */
-.eq-espera__cuando {
-    white-space: nowrap;
-    font-weight: 600;
-    color: #8fe0b0;
-    width: 1%;
-}
-
-.eq-espera__cuando--atrasado {
-    color: #ffc46b;
-}
-
-.eq-espera__sub {
-    display: block;
-    font-weight: 400;
-    font-size: 0.74rem;
-    color: #7c8396;
-    margin-top: 1px;
-}
-
 /* La advertencia que separa "lo que sabemos" de "lo que suponemos". */
 .eq-block__nota {
     font-size: 0.75rem;
@@ -1013,23 +965,6 @@ body {
 
 .eq-block__nota strong {
     color: #b8a06a;
-}
-
-.eq-espera__nota {
-    color: #7c8396;
-    font-size: 0.8rem;
-    text-align: right;
-    white-space: nowrap;
-    width: 1%;
-}
-
-.live-card__meta {
-    display: flex;
-    flex-direction: column;
-    gap: 2px;
-    font-size: 0.72rem;
-    color: #7a8fa8;
-    font-family: 'Consolas', 'Monaco', monospace;
 }
 
 /* ===== Comms List (cards agrupadas) ===== */
