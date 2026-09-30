@@ -1,14 +1,14 @@
 {
- "generado_utc": "20260930T172105Z",
- "generado_h": "2026-09-30 17:21 UTC",
+ "generado_utc": "20260930T173605Z",
+ "generado_h": "2026-09-30 17:36 UTC",
  "origen": "git local + ls-remote (sin cuota). protected cacheado TTL 6h.",
  "commits": [
   {
-   "sha": "c04496eb58a0066ca1ecee4e564e7249b6341f33",
-   "short": "c04496e",
+   "sha": "54267b9148bba8e836fa3505461a3b1598bf0ac9",
+   "short": "54267b9",
    "autor": "Pablo Sanchez",
-   "fecha": "2026-09-30T14:08:14-03:00",
-   "msg": "﻿fix(api-gw2): Idea 50 Tramo F — cacheClear() borra de verdad, no solo la sesion"
+   "fecha": "2026-09-30T14:32:56-03:00",
+   "msg": "﻿docs(logs): Heartbeat #60 - Idea 50 Tramo F en rama, allowlist exacta de 18 claves, ALERT-66"
   },
   {
    "sha": "77be9e56ac4e1240c4760bf8432d02fd0535cf14",
@@ -405,9 +405,9 @@
    "repo": "gw2-agents-dashboard",
    "label": "Dashboard",
    "role": "dashboard",
-   "sha": "b543b5a0655a9fdbc18a936fc7ca9a4c83598a56",
-   "short_sha": "b543b5a",
-   "commit": "Resumen: el pulso del proyecto en lugar de KPIs de estructura",
+   "sha": "5b9ba64e339dc9837aadf30a0f99a7d20e7af33d",
+   "short_sha": "5b9ba64",
+   "commit": "pulso: el desglose del KPI tiene que sumar el numero de",
    "estado": "open",
    "protected": false,
    "protected_fresco": true,
