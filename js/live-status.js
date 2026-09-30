@@ -46,19 +46,19 @@ class DashboardLiveStatus {
      * un AGENTE es una COLUMNA y las tres dimensiones son FILAS.
      *
      * Antes eran tres bloques -- dos tablas y una grilla de tarjetas -- y
-     * para responder "el Reviewer, ahora que?" habia que buscarlo en tres
+     * para responder "el Reviewer, ahora qué?" había que buscarlo en tres
      * lugares distintos y cruzarlos mentalmente. Peor: las tablas
-     * ordenaban por intervalo, no por el reparto, asi que la fila del
+     * ordenaban por intervalo, no por el reparto, así que la fila del
      * Reviewer no estaba debajo de su tarjeta de arriba.
      *
      * Ahora el bloque de "Disciplina del canal" y esta matriz comparten el
      * MISMO template de columnas (`--eq-rail` + 5 columnas) y el mismo
      * orden. Leer una columna de arriba abajo es leer un agente.
      *
-     * El canal NO se fusiona con esto a proposito: la fila de arriba se
+     * El canal NO se fusiona con esto a propósito: la fila de arriba se
      * lee de a una tarjeta, y estas se leen de a una fila. Meterlas en el
-     * mismo bloque obligaria a elegir una de las dos formas de leer y se
-     * romperia la otra.
+     * mismo bloque obligaría a elegir una de las dos formas de leer y se
+     * rompería la otra.
      */
     static render(data) {
         const container = document.getElementById('live-status-container');
@@ -66,8 +66,8 @@ class DashboardLiveStatus {
 
         // El orden es el de AGENTS, que es el mismo que usa
         // comms-channel.js para las tarjetas del canal. NO se sorts: casi
-        // cualquier criterio de orden rompe la alineacion con la fila de
-        // arriba, y esa alineacion es la razon de existir de la matriz.
+        // cualquier criterio de orden rompe la alineación con la fila de
+        // arriba, y esa alineación es la razón de existir de la matriz.
         const status = this.AGENTS.map(a => this._computeStatus(a, data));
         const conReloj = status.filter(s => s.canal.activo).length;
         const porDemanda = status.length - conReloj;
@@ -79,15 +79,15 @@ class DashboardLiveStatus {
                 this._escape(sin.join(', ')) + ')' +
                 '. El orden de las columnas es el mismo que las tarjetas del canal de arriba.</p>',
             '<div class="eq-matrix">',
-                this._fila('\uD83E\uDDEF', 'Que decide', status.map(s => this._celdaQuien(s)).join('')),
+                this._fila('\uD83E\uDDED', 'Qué decide', status.map(s => this._celdaQuien(s)).join('')),
                 this._fila('\u26A1', 'Ahora', status.map(s => this._celdaAhora(s)).join('')),
                 this._fila('\u23F1\uFE0F', 'Vuelve', status.map(s => this._celdaVuelve(s)).join('')),
             '</div>',
-            '<p class="eq-block__nota">El reloj corre sobre la ultima senal <em>registrada</em>' +
-                ' &mdash; un commit o una mencion en SESSION_LOG &mdash;, no sobre la ultima' +
-                ' ejecucion: un heartbeat que corre sin registrar nada es indistinguible de uno' +
-                ' que no corrio. Por eso la celda dice "ultima senal" y no "se paso". Un agente' +
-                ' sin reloj no puede estar CAIDO: no tiene nada que vencerse.</p>'
+            '<p class="eq-block__nota">El reloj corre sobre la última señal <em>registrada</em>' +
+                ' &mdash; un commit o una mención en SESSION_LOG &mdash;, no sobre la última' +
+                ' ejecución: un heartbeat que corre sin registrar nada es indistinguible de uno' +
+                ' que no corrió. Por eso la celda dice "última señal" y no "se pasó". Un agente' +
+                ' sin reloj no puede estar CAÍDO: no tiene nada que vencerse.</p>'
         ].join('');
     }
 
@@ -100,7 +100,7 @@ class DashboardLiveStatus {
     }
 
     /**
-     * "Que decide": para que existe cada uno. No cambia de un dia a otro, y
+     * "Qué decide": para qué existe cada uno. No cambia de un día a otro, y
      * por eso va arriba: es la fila que orienta antes de leer las otras dos.
      * Viene del AGENTS.md de cada agente, no de una opinion.
      */
@@ -127,9 +127,9 @@ class DashboardLiveStatus {
     }
 
     /**
-     * "Vuelve": lo unico accionable de la tab. Un agente con reloj tiene
-     * proxima corrida predecible; esa es la diferencia entre "el equipo
-     * esta roto" y "todavia no le tocaba".
+     * "Vuelve": lo único accionable de la tab. Un agente con reloj tiene
+     * próxima corrida predecible; esa es la diferencia entre "el equipo
+     * está roto" y "todavía no le tocaba".
      */
     static _celdaVuelve(s) {
         if (!s.canal.activo) {
@@ -146,7 +146,7 @@ class DashboardLiveStatus {
         const int = s.canal.intervaloMin;
         const falta = int ? int - s.ageMin : null;
         const atrasado = falta !== null && s.ageMin !== Infinity && falta <= 0;
-        const senal = s.ageMin === Infinity ? 'sin senal' : this._formatAge(s.ageMin);
+        const senal = s.ageMin === Infinity ? 'sin señal' : this._formatAge(s.ageMin);
         const nota = s.ageMin === Infinity
             ? 'sin registro en commits ni SESSION_LOG'
             : (falta === null
@@ -157,7 +157,7 @@ class DashboardLiveStatus {
 
         return '<div class="eq-cell eq-cell--' + (atrasado ? 'atrasado' : 'espera') + '">' +
                  '<div class="eq-cell__estado">' +
-                   '<span class="eq-cell__emoji">' + (atrasado ? '&#9200;' : '&#9201;') + '</span>' +
+                   '<span class="eq-cell__emoji">' + (atrasado ? '&#9200;' : '&#9201;&#65039;') + '</span>' +
                    '<span class="eq-cell__estado-txt">' +
                      this._escape(this._cadaCuando(s)) + '</span>' +
                  '</div>' +
