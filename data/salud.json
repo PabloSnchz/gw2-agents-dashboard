@@ -1,12 +1,12 @@
 {
- "generado_utc": "20260930T071459Z",
- "generado_h": "2026-09-30 07:14 UTC",
+ "generado_utc": "20260930T072007Z",
+ "generado_h": "2026-09-30 07:20 UTC",
  "archivos_estado": [
   {
    "archivo": "TEAM_STATUS.md",
    "quien": "Principal /30min",
    "estado": "ok",
-   "edad_h": 0.0,
+   "edad_h": 0.1,
    "kb": 120.1,
    "crecimiento": "EXCEDE 80 KB (120 KB)"
   },
@@ -14,7 +14,7 @@
    "archivo": "SESSION_LOG.md",
    "quien": "Documentador /4h",
    "estado": "ok",
-   "edad_h": 0.0,
+   "edad_h": 0.1,
    "kb": 87.0,
    "crecimiento": "EXCEDE 60 KB (87 KB)"
   },
@@ -37,14 +37,14 @@
    "archivo": "ALERTS_LOG.md",
    "quien": "Principal /30min",
    "estado": "ok",
-   "edad_h": 0.0,
+   "edad_h": 0.1,
    "kb": 37.8
   },
   {
    "archivo": "DECISIONS_LOG.md",
    "quien": "Principal",
    "estado": "ok",
-   "edad_h": 5.2,
+   "edad_h": 5.3,
    "kb": 10.2
   }
  ],
@@ -108,16 +108,6 @@
    "rama": "legacy/rescue-idea47-parallel-wip",
    "commits": 1,
    "fecha": "2026-09-29"
-  },
-  {
-   "rama": "po/idea49g-achacc",
-   "commits": 1,
-   "fecha": "2026-09-30"
-  },
-  {
-   "rama": "po/idea50-dashboard",
-   "commits": 1,
-   "fecha": "2026-09-30"
   },
   {
    "rama": "rescue-idea47-parallel-wip",
@@ -220,22 +210,22 @@
   },
   {
    "dia": "2026-09-30",
-   "llamadas": 2222,
-   "prompt": 184760114,
-   "cache_read": 178350601,
+   "llamadas": 2308,
+   "prompt": 193584884,
+   "cache_read": 186859449,
    "cache_pct": 96.5,
-   "prompt_por_llamada": 83150,
+   "prompt_por_llamada": 83875,
    "por_agente": [
     {
      "agente": "architect",
-     "llamadas": 1000,
-     "prompt": 82650717,
+     "llamadas": 1038,
+     "prompt": 86479205,
      "cache_pct": 95.7
     },
     {
      "agente": "default",
-     "llamadas": 764,
-     "prompt": 70272417,
+     "llamadas": 798,
+     "prompt": 74788942,
      "cache_pct": 97.6
     },
     {
@@ -246,9 +236,9 @@
     },
     {
      "agente": "Code-Reviewer",
-     "llamadas": 73,
-     "prompt": 2509800,
-     "cache_pct": 89.1
+     "llamadas": 87,
+     "prompt": 2989557,
+     "cache_pct": 88.8
     },
     {
      "agente": "documenter",
@@ -262,16 +252,17 @@
  "dashboard": [
   {
    "archivo": "comms.json",
-   "edad_min": 6.0,
+   "edad_min": 0.0,
    "estado": "ok"
   },
   {
    "archivo": "salud.json",
-   "estado": "FALTA"
+   "edad_min": 1.5,
+   "estado": "ok"
   },
   {
    "archivo": "estructura.json",
-   "edad_min": 41.5,
+   "edad_min": 46.6,
    "estado": "ok"
   }
  ],
