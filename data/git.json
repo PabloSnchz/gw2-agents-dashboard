@@ -1,8 +1,36 @@
 {
- "generado_utc": "20260930T160604Z",
- "generado_h": "2026-09-30 16:06 UTC",
+ "generado_utc": "20260930T161408Z",
+ "generado_h": "2026-09-30 16:14 UTC",
  "origen": "git local + ls-remote (sin cuota). protected cacheado TTL 6h.",
  "commits": [
+  {
+   "sha": "8ec30d34ce6a18fbd62a7398ba1e4ea686fa03ec",
+   "short": "8ec30d3",
+   "autor": "Pablo Sanchez",
+   "fecha": "2026-09-30T13:11:34-03:00",
+   "msg": "merge: Idea 57 Tramo 4 (el idioma del throw de FORMA es parte del contrato)  Veredicto del Reviewer (task-d2924a5c48db): APROBADO CON CAMBIOS, 1 bloqueante (P3) + 2 observaciones de test (P4).  P3 era mio y ya venia corregido: el mensaje del guard de getAccountLuck no contenia 'forma no soportada', que es la cadena por la queraid-tracker.js:1749 y strike-tracker.js:1121 filtran para NO mostrar la pista de permiso. El Reviewer lo confirmo como bug, no como convencion implicita: lo documenta docs/ONBOARDING.md:243. Fixed en v2.28.0 (fa252c3).  P1 (propagar) y P2 ([] -> 0) APROBADOS. El Reviewer verifico :1024, :509 y :472, y Course un argumento que no plantee: las otras 3 columnas ya hacian exactamente esto, o sea que el fix homogeneiza en vez de agregar un patron. P2 tiene precedente: getCommerceListings ya esta declarado 'FORMA: degrada'  legitimamente; el criterio no es 'todo [] es forma', es 'todo [] esta declarado y con la razon escrita'.  P4 eran dos aserciones mias sin dientes (bc605c4), y una de ellas es la que habria detectado P3. La seccion 4 del cache era vacua: dos sandboxes distintos nunca comparten cache, asi que pasaba con o sin el fix.  MERGE CONTRA ALERT-48: este si lleva veredicto del Reviewer. El Tramo 2 (957cc2c) NO lo lleva y sigue mergeado con la excepcion anotada."
+  },
+  {
+   "sha": "bc605c412cd282eb84081a6311f9093f070dde05",
+   "short": "bc605c4",
+   "autor": "Pablo Sanchez",
+   "fecha": "2026-09-30T13:11:23-03:00",
+   "msg": "﻿test(idea57t2): las dos aserciones que el Code-Reviewer encontro sin dientes"
+  },
+  {
+   "sha": "a3d0b5be7f00557427f5490959b5df4d2f2a7984",
+   "short": "a3d0b5b",
+   "autor": "Pablo Sanchez",
+   "fecha": "2026-09-30T13:08:48-03:00",
+   "msg": "﻿chore(api): buster 2.28.0 + cabecera, mismo commit que el fix del idioma"
+  },
+  {
+   "sha": "fa252c3fdd95a238314b36daee5168dab454a0b4",
+   "short": "fa252c3",
+   "autor": "Pablo Sanchez",
+   "fecha": "2026-09-30T13:07:50-03:00",
+   "msg": "﻿fix(api): el idioma del throw de FORMA es parte del contrato (Idea 57 T4)"
+  },
   {
    "sha": "957cc2cf5e48e5f0b2cd88d4557bf64b157ed550",
    "short": "957cc2c",
@@ -324,34 +352,6 @@
    "autor": "Pablo Sanchez",
    "fecha": "2026-09-30T04:07:00-03:00",
    "msg": "docs(dashboard): PO 08:00 - Idea 49G (ach_acc no entra en la cuota), Idea 52 (5/30 raids rotos), Tramo C mergeado"
-  },
-  {
-   "sha": "6b1fd02701ccd1f173ac6a6ee2278b20d813eeb0",
-   "short": "6b1fd02",
-   "autor": "Pablo Sanchez",
-   "fecha": "2026-09-30T04:06:56-03:00",
-   "msg": "﻿fix(api-gw2): 2 defectos del sharding de ach_meta (concurrencia y nocache)"
-  },
-  {
-   "sha": "0e3cb470beac7b52b766635a0a9d2e8934c01e13",
-   "short": "0e3cb47",
-   "autor": "Pablo Sanchez",
-   "fecha": "2026-09-30T03:36:14-03:00",
-   "msg": "docs(comms): HB#47 - la 029 al Reviewer fallo con provider vacio, se procede por merito"
-  },
-  {
-   "sha": "d07e7aedb4f1a7da1e83bf0e50475704111fb44e",
-   "short": "d07e7ae",
-   "autor": "Pablo Sanchez",
-   "fecha": "2026-09-30T03:35:56-03:00",
-   "msg": "﻿docs(logs): HB#47 - fix de abort mergeado, ALERT-46/47, y cierre de 4 tasks como perdidas"
-  },
-  {
-   "sha": "a4d31acbc72edfad0e0685f6c3e70e62c99bb999",
-   "short": "a4d31ac",
-   "autor": "Pablo Sanchez",
-   "fecha": "2026-09-30T03:33:41-03:00",
-   "msg": "merge: fix de fuga de AbortController en inventory-dashboard a agents/main"
   }
  ],
  "archivos_md": [
@@ -405,9 +405,9 @@
    "repo": "gw2-agents-dashboard",
    "label": "Dashboard",
    "role": "dashboard",
-   "sha": "59fc5b5d11168b2f1fc83a8bc1707ccb800e3cdd",
-   "short_sha": "59fc5b5",
-   "commit": "fix(dashboard): 0 llamadas a la API de GitHub en el navegador",
+   "sha": "69dfedf6b4bac4716faf5e0cafdb48d21f809326",
+   "short_sha": "69dfedf",
+   "commit": "fix(dashboard): production-guard usaba cfg sin definirlo y",
    "estado": "open",
    "protected": false,
    "protected_fresco": true,
