@@ -140,7 +140,21 @@ const CommsChannel = {
       // en la tab Salud. Logs es la ultima tab que uno mira, y la
       // disciplina no es un log: es como esta de vivo el equipo.
       const targets = [];
-      const salud = document.getElementById('eco-salud-disciplina');
+      let salud = document.getElementById('eco-salud-disciplina');
+      if (!salud) {
+        // Si el index.html que tiene el navegador es el viejo (cacheado
+        // antes del commit), el contenedor no existe. Crearlo aca evita
+        // depender de que el HTML llegue fresco: el dato es lo unico que
+        // tiene que estar al dia, no el esqueleto.
+        const caja = document.querySelector('[data-tab-content="salud"]');
+        if (caja) {
+          salud = document.createElement('div');
+          salud.id = 'eco-salud-disciplina';
+          salud.className = 'comms-kpi-grid';
+          salud.style.marginTop = '10px';
+          caja.appendChild(salud);
+        }
+      }
       if (salud) targets.push(salud);
       const kpis = document.getElementById('comms-channel-kpis');
       if (kpis) {
