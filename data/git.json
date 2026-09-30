@@ -1,8 +1,29 @@
 {
- "generado_utc": "20260930T212106Z",
- "generado_h": "2026-09-30 21:21 UTC",
+ "generado_utc": "20260930T213605Z",
+ "generado_h": "2026-09-30 21:36 UTC",
  "origen": "git local + ls-remote (sin cuota). protected cacheado TTL 6h.",
  "commits": [
+  {
+   "sha": "b43743b1b98c7785d4f678eeb8ce4bcdcda7a68d",
+   "short": "b43743b",
+   "autor": "Pablo Sanchez",
+   "fecha": "2026-09-30T18:35:50-03:00",
+   "msg": "﻿feat(cache): el boton de liberar la cache de la API, con dryRun -> confirm -> borrado"
+  },
+  {
+   "sha": "d3289690f321822204384ce64bcec19290173174",
+   "short": "d328969",
+   "autor": "Pablo Sanchez",
+   "fecha": "2026-09-30T18:24:33-03:00",
+   "msg": "﻿docs(changelog): el Idea 50 Tramo F, que estaba mergeado y sin entrada"
+  },
+  {
+   "sha": "c7d4ec0da89e5da246e46a56f3f3b53825a8b988",
+   "short": "c7d4ec0",
+   "autor": "Pablo Sanchez",
+   "fecha": "2026-09-30T18:21:22-03:00",
+   "msg": "docs(cache): Idea 50 P3 mergeada - el registro de bases, la red de preservacion y los 4 cambios del Reviewer"
+  },
   {
    "sha": "cfff5482e5f05894e9e3b70f159f21d40ba879a2",
    "short": "cfff548",
@@ -331,27 +352,6 @@
    "autor": "Pablo Sanchez",
    "fecha": "2026-09-30T07:02:34-03:00",
    "msg": "merge(idea60b): guard de FORMA en getCharacterCount - F2 del Reviewer sobre la v2.24.0"
-  },
-  {
-   "sha": "979bfa6d2677249673af97abc40c546ed7d7328c",
-   "short": "979bfa6",
-   "autor": "Pablo Sanchez",
-   "fecha": "2026-09-30T07:02:15-03:00",
-   "msg": "fix(api): guard de FORMA en getCharacterCount (v2.24.1) - F2 del Reviewer sobre la v2.24.0"
-  },
-  {
-   "sha": "1ad70f8ef6b79f2c6f6976722f1f7b5c7907b2da",
-   "short": "1ad70f8",
-   "autor": "Pablo Sanchez",
-   "fecha": "2026-09-30T06:47:23-03:00",
-   "msg": "merge(idea56): guard de FORMA en getAccountRaids - APROBADO por el Reviewer (task-b20623f46caa)"
-  },
-  {
-   "sha": "19e88914a67bf1d18a616b6d0b7f7ea7fc228bbc",
-   "short": "19e8891",
-   "autor": "Pablo Sanchez",
-   "fecha": "2026-09-30T06:46:21-03:00",
-   "msg": "docs(hb54): Idea 56 en rama sin mergear, y se acepta la autocorreccion del PO sobre el 206"
   }
  ],
  "archivos_md": [
@@ -407,9 +407,9 @@
    "repo": "gw2-agents-dashboard",
    "label": "Dashboard",
    "role": "dashboard",
-   "sha": "20a8d9293913f8a94458317ba7e22bc338453e13",
-   "short_sha": "20a8d92",
-   "commit": "fix(equipo): bumpear comms-channel a v",
+   "sha": "cbafc09ff241d2c160c7df1d0fc7a1dc453a5e89",
+   "short_sha": "cbafc09",
+   "commit": "Equipo: Estado en vivo pasa a matriz (agente = columna)  Los",
    "estado": "open",
    "protected": false,
    "protected_fresco": true,
