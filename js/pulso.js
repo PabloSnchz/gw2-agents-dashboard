@@ -246,12 +246,21 @@ const Pulso = {
         const out = [];
 
         if (r) {
-            const vivas = (r.ramas || []).filter(x => x.estado !== 'cerrada');
+            // Solo trabajo VIVO. La version anterior listaba tambien las
+            // descartables, y eso son dos males: el encabezado decia
+            // "Ramas activas (7)" mientras el KPI de arriba decia 6 (el
+            // KPI no cuenta las descartables), y la misma rama aparecia
+            // dos veces en pantalla, como incidencia y como trabajo. Un
+            // numero que contradice a otro cercano es peor que no
+            // mostrar ninguno: entrena al ojo a desconfiar de los dos.
+            // La descartable ya sale en "Incidencias abiertas".
+            const vivas = (r.ramas || []).filter(x => x.estado !== 'cerrada'
+                                                    && x.estado !== 'descartable');
             if (vivas.length) {
                 out.push('<h4>Ramas activas (' + vivas.length + ')</h4>' +
-                    '<p class="org-source">Lo que el equipo tiene en manos ahora. ' +
-                    'Las marcadas <em>descartable</em> el equipo ya las dio por ' +
-                    'sobrantes: no son trabajo pendiente.</p>' +
+                    '<p class="org-source">Lo que el equipo tiene en manos ahora, ' +
+                    'sacando lo cerrado y lo que el equipo ya dio por sobrante ' +
+                    '(eso sale arriba, en incidencias).</p>' +
                     '<ul class="trab-list">' + vivas.map(x =>
                         '<li class="trab trab--' + (x.estado || 'sin_clasificar') + '">' +
                         '<code class="trab__rama">' + this._esc(x.rama) + '</code>' +
