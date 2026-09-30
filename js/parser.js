@@ -1340,7 +1340,12 @@ class DashboardParser {
         ];
         for (const re of fuertes) {
             const m = t.match(re);
-            if (m) return { motivo: m[0].trim(), pregunta: this._oracionCon(t, m[0]) };
+            // El motivo se muestra en el panel, la pegable en el boton: los
+            // dos van como texto plano, asi que los dos se limpian. El
+            // motivo sin limpiar dejaba "** El boton de cacheClear NO esta
+            // aca: **P3**" — el ** de apertura caia antes de la palabra y
+            // el de cierre despues, dejando asteriscos colgados.
+            if (m) return { motivo: this._limpiaMarkdown(m[0]), pregunta: this._oracionCon(t, m[0]) };
         }
 
         // Marcadores MEDIOS: falta algo que solo Pablo puede dar (un icono, un
@@ -1349,15 +1354,15 @@ class DashboardParser {
         // sea un asset/decision, no tecnica.
         if (/falta (?:el |la )?icono\b/i.test(t) || /falta (?:el |la )?asset\b/i.test(t)) {
             const m = t.match(/falta (?:el |la )?(?:icono|asset)[^.;|]*/i);
-            if (m) return { motivo: m[0].trim(), pregunta: this._oracionCon(t, m[0]) };
+            if (m) return { motivo: this._limpiaMarkdown(m[0]), pregunta: this._oracionCon(t, m[0]) };
         }
         if (/\blo (?:que )?bloquea\b/i.test(t)) {
             const m = t.match(/[^.;|]*\blo (?:que )?bloquea\b[^.;|]*/i);
-            if (m) return { motivo: m[0].trim(), pregunta: this._oracionCon(t, m[0]) };
+            if (m) return { motivo: this._limpiaMarkdown(m[0]), pregunta: this._oracionCon(t, m[0]) };
         }
         if (/\bsi (?:queremos|queres|quiere|queres|podemos)\b/i.test(t)) {
             const m = t.match(/[^.;|]*\bsi (?:queremos|queres|quiere|podemos)\b[^.;|]*/i);
-            if (m) return { motivo: m[0].trim(), pregunta: this._oracionCon(t, m[0]) };
+            if (m) return { motivo: this._limpiaMarkdown(m[0]), pregunta: this._oracionCon(t, m[0]) };
         }
 
         return null;
