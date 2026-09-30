@@ -1,6 +1,6 @@
 {
- "generado_utc": "20260930T173605Z",
- "generado_h": "2026-09-30 17:36 UTC",
+ "generado_utc": "20260930T175106Z",
+ "generado_h": "2026-09-30 17:51 UTC",
  "origen": "git local + ls-remote (sin cuota). protected cacheado TTL 6h.",
  "commits": [
   {
@@ -405,9 +405,9 @@
    "repo": "gw2-agents-dashboard",
    "label": "Dashboard",
    "role": "dashboard",
-   "sha": "5b9ba64e339dc9837aadf30a0f99a7d20e7af33d",
-   "short_sha": "5b9ba64",
-   "commit": "pulso: el desglose del KPI tiene que sumar el numero de",
+   "sha": "257995119d392160e189a992da67f5e54a4dea69",
+   "short_sha": "2579951",
+   "commit": "chore(dashboard): pulso automatico 2026-09-30_17-36_UTC",
    "estado": "open",
    "protected": false,
    "protected_fresco": true,
