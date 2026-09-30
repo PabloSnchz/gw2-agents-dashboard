@@ -782,8 +782,8 @@ body {
     width: 1%;
 }
 
-/* "Vuelve en 24m" es la celda más accionable de la tab: se lee de un
-   vistazo. Verde si acaba de pasar, ámbar si viene, rojo si se pasó. */
+/* "Última señal: hace 2h / tocaba hace 1h 30m" es la celda más accionable de
+   la tab. Verde si viene la próxima, ámbar si la señal ya se pasó del ciclo. */
 .eq-espera__cuando {
     white-space: nowrap;
     font-weight: 600;
@@ -793,6 +793,31 @@ body {
 
 .eq-espera__cuando--atrasado {
     color: #ffc46b;
+}
+
+.eq-espera__sub {
+    display: block;
+    font-weight: 400;
+    font-size: 0.74rem;
+    color: #7c8396;
+    margin-top: 1px;
+}
+
+/* La advertencia que separa "lo que sabemos" de "lo que suponemos". */
+.eq-block__nota {
+    font-size: 0.75rem;
+    line-height: 1.5;
+    color: #6d7386;
+    margin: 12px 0 0;
+    padding: 8px 11px;
+    border-left: 2px solid rgba(255, 196, 107, 0.3);
+    background: rgba(255, 196, 107, 0.04);
+    border-radius: 0 4px 4px 0;
+    max-width: 82ch;
+}
+
+.eq-block__nota strong {
+    color: #b8a06a;
 }
 
 .eq-espera__nota {

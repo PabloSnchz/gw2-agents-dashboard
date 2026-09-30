@@ -111,17 +111,27 @@ class DashboardLiveStatus {
 
         const filas = conReloj.map(s => {
             const falta = (s.canal.intervaloMin || 0) - s.ageMin;
-            const clase = falta <= 0 ? 'eq-espera__cuando--atrasado' : 'eq-espera__cuando';
-            const cuando = s.ageMin === Infinity
-                ? 'sin registro'
-                : (falta <= 0
-                    ? `se pasó hace ${this._formatAge(-falta)}`
-                    : `en ${this._formatAge(falta)}`);
+            const atrasado = s.ageMin !== Infinity && falta <= 0;
+            const clase = atrasado ? 'eq-espera__cuando--atrasado' : 'eq-espera__cuando';
+
+            // Por qué dice "última señal" y no "última corrida": el reloj corre
+            // sobre la última señal REGISTRADA (un commit o una mención en
+            // SESSION_LOG). Un heartbeat que corre y no registra nada es
+            // indistinguible de uno que no corrió, y la API de crons no expone
+            // last_run. Afirmar "se pasó" sería inventar la causa; se muestra
+            // el dato y la aritmética, que es lo que se puede saber.
+            const senal = s.ageMin === Infinity ? 'sin señal' : `hace ${this._formatAge(s.ageMin).replace('hace ', '')}`;
+            const nota = s.ageMin === Infinity
+                ? 'sin registro en commits ni SESSION_LOG'
+                : (atrasado
+                    ? `tocaba hace ${this._formatAge(-falta).replace('hace ', '')}`
+                    : `vuelve en ${this._formatAge(falta).replace('hace ', '')}`);
+
             return `
             <tr>
                 <td class="eq-who__agente">${s.icon} ${this._escape(s.nombre)}</td>
-                <td class="eq-espera__cuando ${clase}">${cuando}</td>
-                <td class="eq-espera__nota">${s.ageMin === Infinity ? 'sin registro' : this._escape(this._formatAge(s.ageMin))}</td>
+                <td class="eq-espera__cuando ${clase}">${senal}<span class="eq-espera__sub">${nota}</span></td>
+                <td class="eq-espera__nota">${s.canal.activo ? 'cada ' + this._formatAge(s.canal.intervaloMin).replace('hace ', '') : ''}</td>
             </tr>`;
         }).join('');
 
@@ -137,12 +147,18 @@ class DashboardLiveStatus {
             </p>
             <div class="eq-table-wrap">
                 <table class="eq-table eq-table--espera">
-                    <thead><tr><th>Agente</th><th>Vuelve</th><th>Última actividad</th></tr></thead>
+                    <thead><tr><th>Agente</th><th>Última señal</th><th>Cada cuánto</th></tr></thead>
                     <tbody>${filas}</tbody>
                 </table>
             </div>
             <p class="eq-block__hint eq-block__hint--vacio">
                 <strong>Sin reloj:</strong> ${this._escape(porDemanda)}
+            </p>
+            <p class="eq-block__nota">
+                El reloj corre sobre la última señal <em>registrada</em> (un commit o una mención
+                en SESSION_LOG), no sobre la última ejecución: un heartbeat que corre sin
+                registrar nada hoy es indistinguible de uno que no corrió. Por eso la columna
+                dice "última señal" y no "se pasó".
             </p>
         </section>`;
     }
