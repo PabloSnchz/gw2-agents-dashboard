@@ -1,7 +1,8 @@
 /**
  * js/upcoming.js
  * Panel "Próximas horas" — Qué está en curso, programado y bloqueado + ideas del PO.
- * Fuentes: CRON_SCHEDULE.md (nuevo) con fallback a TEAM_STATUS.md + BACKLOG.md.
+ * Fuentes: CRON_SCHEDULE.md (nuevo) con fallback a TEAM_STATUS.md + BACKLOG.md, y
+ * data/estructura.json para contrastar la agenda real contra la que declara el equipo.
  */
 
 class DashboardUpcoming {
@@ -39,9 +40,12 @@ class DashboardUpcoming {
             ? data.readyForPromotion.items
             : [];
 
+        // Programacion real vs la que declara el equipo
+        const cronReality = this._cronReality(data.structure, data.cronSchedule);
+
         const total = inProgress.length + scheduled.length + blocked.length + ideas.length + branches.length + readyToPromote.length;
 
-        if (total === 0) {
+        if (total === 0 && !cronReality) {
             container.innerHTML = `
                 <div class="upcoming-empty">
                     ✅ Sin tareas en curso, programadas ni bloqueadas.
@@ -50,7 +54,7 @@ class DashboardUpcoming {
             return;
         }
 
-        let html = '';
+        let html = this._cronRealityHTML(cronReality);
         if (inProgress.length > 0) html += this._sectionHTML('progress', '🚀 EN CURSO', inProgress);
         if (scheduled.length > 0) html += this._sectionHTML('scheduled', '⏰ PROGRAMADO', scheduled);
         if (blocked.length > 0) html += this._sectionHTML('blocked', '🛑 BLOQUEADO', blocked);
@@ -70,6 +74,116 @@ class DashboardUpcoming {
         container.innerHTML = html;
     }
 
+
+
+    /**
+     * Cruza la programación REAL (data/estructura.json, verificada por el
+     * Arquitecto contra agent.json + qwenpaw cron list) contra lo que declara
+     * CRON_SCHEDULE.md, que escribe el Principal en cada heartbeat.
+     *
+     * No reemplaza al archivo del equipo: lo ordena y avisa. El problema
+     * concreto es que CRON_SCHEDULE.md declara 2 crons cuando hay 4 mecanismos
+     * vivos, y los timeouts que figuran ya no son los configurados. Un panel
+     * que muestra eso sin contexto hace planning sobre una agenda vieja.
+     */
+    static _cronReality(est, schedule) {
+        if (!est || !Array.isArray(est.agentes)) return null;
+
+        const declarados = (schedule && Array.isArray(schedule.crons)) ? schedule.crons : [];
+        const filas = [];
+
+        for (const a of est.agentes) {
+            const hb = a.heartbeat || {};
+            if (!hb.mecanismo || hb.mecanismo === 'ninguno') continue;
+
+            const ritmo = hb.mecanismo === 'cron' ? hb.cron_expr : hb.agent_json_every;
+            const d = declarados.find(x => String(x.agent || '').trim() === a.id);
+
+            if (!d) {
+                filas.push({
+                    agente: a.nombre,
+                    id: a.id,
+                    realidad: `${hb.mecanismo === 'cron' ? 'cron' : 'heartbeat'} ${ritmo} · timeout ${hb.timeout_s || '?'}s`,
+                    declarado: '—',
+                    veredicto: 'falta',
+                    detalle: 'El equipo no lo declara en CRON_SCHEDULE.md.'
+                });
+                continue;
+            }
+
+            const difs = [];
+            const timeoutDeclarado = parseInt(String(d.timeout || '').replace(/\D/g, ''), 10);
+            if (hb.timeout_s && timeoutDeclarado && timeoutDeclarado !== hb.timeout_s) {
+                difs.push(`timeout ${timeoutDeclarado}s en el archivo vs ${hb.timeout_s}s real`);
+            }
+            // Mecanismo: el archivo dice "agent.json" o escribe una expresion cron.
+            // "*/30 * * * *" es una expresion cron aunque no contenga la palabra cron.
+            const ds = String(d.schedule || '');
+            const declaradoEsAgentJson = /agent\.json/i.test(ds);
+            const declaradoEsCron = !declaradoEsAgentJson && /[*\/]/.test(ds);
+            if (hb.mecanismo === 'cron' && declaradoEsAgentJson) {
+                difs.push('dice que corre por agent.json, pero hay un cron real');
+            }
+            if (hb.mecanismo === 'agent.json' && declaradoEsCron) {
+                difs.push('declara una expresión cron, pero el real corre por agent.json');
+            }
+            if (hb.cron_id && d.id && d.id !== '—' && !String(d.id).startsWith(String(hb.cron_id).substring(0, 8))) {
+                difs.push(`cron id ${String(d.id).slice(0, 8)} vs ${String(hb.cron_id).slice(0, 8)}`);
+            }
+
+            filas.push({
+                agente: a.nombre,
+                id: a.id,
+                realidad: `${hb.mecanismo === 'cron' ? 'cron' : 'heartbeat'} ${ritmo} · timeout ${hb.timeout_s || '?'}s`,
+                declarado: `${String(d.schedule || '').replace(/`/g, '')} · timeout ${d.timeout || '?'}`,
+                veredicto: difs.length ? 'difiere' : 'ok',
+                detalle: difs.join('; ')
+            });
+        }
+
+        const ocultos = declarados.filter(d =>
+            !filas.some(f => f.id === String(d.agent || '').trim())
+        );
+
+        return { filas, ocultos, total: filas.length };
+    }
+
+    static _cronRealityHTML(real) {
+        if (!real) return '';
+        const problemas = real.filas.filter(f => f.veredicto !== 'ok');
+        if (problemas.length === 0 && real.ocultos.length === 0) return '';
+
+        const badge = (v) => v === 'ok'
+            ? '<span class="est-badge est-badge--ok">al día</span>'
+            : (v === 'falta'
+                ? '<span class="est-badge est-badge--warn">no declarado</span>'
+                : '<span class="est-badge est-badge--danger">difiere</span>');
+
+        const filas = real.filas.map(f => `
+            <tr>
+                <td><strong>${f.agente}</strong><br><code>${f.id}</code></td>
+                <td>${f.realidad}</td>
+                <td>${f.declarado}</td>
+                <td>${badge(f.veredicto)}${f.detalle ? `<br><span class="org-note">${f.detalle}</span>` : ''}</td>
+            </tr>`).join('');
+
+        return `
+            <section class="upcoming-section upcoming-section--scheduled">
+                <h3>🧭 PROGRAMACIÓN REAL <span class="est-badge est-badge--warn">${problemas.length + real.ocultos.length} desalineado${problemas.length + real.ocultos.length === 1 ? '' : 's'}</span></h3>
+                <p class="org-note">
+                    Verificado por el Arquitecto contra <code>agent.json</code> de los 6 workspaces y
+                    <code>qwenpaw cron list</code>. No viene de CRON_SCHEDULE.md: ese archivo lo escribe
+                    el Principal en cada heartbeat, y el equipo no tiene visibilidad de los procesos
+                    ni de los <code>agent.json</code> de los otros.
+                </p>
+                <div class="comms-table-wrapper org-table">
+                    <table class="comms-table est-table">
+                        <thead><tr><th>Agente</th><th>Realidad</th><th>CRON_SCHEDULE.md dice</th><th>Veredicto</th></tr></thead>
+                        <tbody>${filas}</tbody>
+                    </table>
+                </div>
+            </section>`;
+    }
     // --- NUEVO: extraer de CRON_SCHEDULE.md ---
 
     static _inProgressFromSchedule(schedule) {

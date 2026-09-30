@@ -1,18 +1,25 @@
 /**
  * js/live-status.js
  * Panel "Estado en vivo" — Vista rápida del estado de cada agente.
- * Fuentes: commits + SESSION_LOG + TEAM_STATUS.
- * Nota: sin QwenPaw local, el estado es estimado.
+ * Fuentes: commits + SESSION_LOG + el canal REAL de cada agente, que viene
+ * de data/estructura.json (crons y heartbeats verificados por el Arquitecto).
+ *
+ * El estado de actividad sigue siendo estimado a partir de commits y menciones:
+ * el dashboard no habla con QwenPaw. Lo que NO es estimado es el canal: antes
+ * Reviewer y Documentador venian marcados como "caidos por timeout" de forma
+ * fija, sin mirar nada. Eso era falso. Ahora cada tarjeta dice si el agente
+ * tiene un heartbeat o no.
  */
 
 class DashboardLiveStatus {
 
     static AGENTS = [
-        { id: 'principal-desarrollo', name: 'Principal (Desarrollo)', icon: '🚀', chatType: 'dev', scopes: ['legendary', 'feature', 'feat', 'commit'] },
-        { id: 'principal-admin', name: 'Principal (Admin)', icon: '⚙️', chatType: 'admin', scopes: ['comms', 'admin', 'session', 'chore'] },
-        { id: 'po', name: 'PO', icon: '📝', chatType: 'heartbeat', scopes: ['po', 'backlog'] },
-        { id: 'reviewer', name: 'Code Reviewer', icon: '🔍', chatType: 'timeout', scopes: ['reviewer', 'review'] },
-        { id: 'documenter', name: 'Documentador', icon: '📚', chatType: 'timeout', scopes: ['docs', 'doc'] }
+        { id: 'principal-desarrollo', nombre: 'Principal (Desarrollo)', refAgente: 'default', icon: '🚀', scopes: ['legendary', 'feature', 'feat', 'commit'] },
+        { id: 'principal-admin',      nombre: 'Principal (Admin)',      refAgente: 'default', icon: '⚙️', scopes: ['comms', 'admin', 'session', 'chore'] },
+        { id: 'po',          nombre: 'PO',          refAgente: 'product-owner', icon: '📝', scopes: ['po', 'backlog'] },
+        { id: 'reviewer',    nombre: 'Code Reviewer', refAgente: 'Code-Reviewer',  icon: '🔍', scopes: ['reviewer', 'review'] },
+        { id: 'documenter',  nombre: 'Documentador',  refAgente: 'documenter',  icon: '📚', scopes: ['docs', 'doc'] },
+        { id: 'architect',   nombre: 'Arquitecto',   refAgente: 'architect',   icon: '🏗️', scopes: ['estructura', 'org', 'dashboard', 'mcp', 'permiso'] }
     ];
 
     static render(data) {
@@ -50,7 +57,7 @@ class DashboardLiveStatus {
         // 2) Última mención en SESSION_LOG
         let lastMentionTs = 0;
         const sessionLog = data.sessionLog || '';
-        const agentName = agent.name.toLowerCase().split(' ')[0];
+        const agentName = (agent.nombre || '').toLowerCase().split(' ')[0];
         const logLines = sessionLog.split('\n');
         logLines.forEach(line => {
             const tsMatch = line.match(/\[(\d{4}-\d{2}-\d{2}T\d{2}:\d{2}Z)\]/);
@@ -64,27 +71,29 @@ class DashboardLiveStatus {
         const ageMs = lastActivity ? now - lastActivity : Infinity;
         const ageMin = ageMs / 60000;
 
-        // 3) Estado
+        // 3) Canal real del agente (viene verificado, no estimado)
+        const canal = this._canalDe(agent, data.structure);
+
+        // 4) Estado de actividad (estimado por actividad, como antes)
         let status = 'unknown';
-        if (agent.chatType === 'timeout') {
-            // Reviewer y Documentador: considerar caídos por timeout
-            const hasRecentAlert = (data.alerts?.details || []).some(a =>
-                new RegExp(agent.name, 'i').test(a.agent || '')
-            );
-            status = hasRecentAlert ? 'error' : (ageMin < 60 ? 'idle' : 'idle');
-        } else if (ageMin < 10) {
+        const hasRecentAlert = (data.alerts?.details || []).some(a =>
+            new RegExp(agent.nombre, 'i').test(a.agent || '')
+        );
+        if (hasRecentAlert) {
+            status = 'error';
+        } else if (ageMin === Infinity) {
+            status = 'unknown';
+        } else if (canal.activo && ageMin < 10) {
             status = 'active';
-        } else if (agent.chatType === 'heartbeat' && ageMin < 180) {
+        } else if (canal.activo && ageMin < canal.ventanaMin) {
             status = 'heartbeat';
-        } else if (ageMin < 120) {
-            status = 'idle';
         } else if (ageMin < 360) {
             status = 'idle';
         } else {
             status = 'idle';
         }
 
-        // 4) Texto de "qué está haciendo"
+        // 5) Texto de "qué está haciendo"
         let currentActivity = 'Sin actividad reciente';
         if (lastCommitTs === lastActivity && lastCommit) {
             const msg = (lastCommit.commit?.message || '').split('\n')[0];
@@ -96,6 +105,7 @@ class DashboardLiveStatus {
         return {
             agent,
             status,
+            canal,
             lastActivity,
             ageMin,
             currentActivity,
@@ -103,8 +113,59 @@ class DashboardLiveStatus {
         };
     }
 
+    /**
+     * Canal real del agente, leido de data/estructura.json (verificado por el
+     * Arquitecto contra agent.json + qwenpaw cron list + procesos vivos).
+     *
+     * No inventa: si el JSON no llego, dice "sin dato" en vez de asumir.
+     * La ventana es cuanto aguantamos sin ver actividad antes de suponer
+     * que algo se rompio: sale del timeout real configurado, no de un numero redondo.
+     */
+    static _canalDe(agent, structure) {
+        const filas = (structure && structure.agentes) || [];
+        const fila = filas.find(a => a.id === agent.refAgente);
+        if (!fila) {
+            return { activo: false, ventanaMin: 360, texto: 'Canal: sin dato (estructura no cargada)', tono: 'neutro' };
+        }
+
+        const hb = fila.heartbeat || {};
+        const esEcosistema = !fila.id.startsWith('QwenPaw_');
+
+        if (hb.mecanismo === 'cron' && hb.cron_expr) {
+            return {
+                activo: esEcosistema,
+                ventanaMin: hb.timeout_s ? hb.timeout_s / 60 : 60,
+                texto: 'Canal: cron ' + hb.cron_expr + ' UTC' + (hb.proposito ? ' (' + hb.proposito + ')' : ''),
+                tono: 'ok'
+            };
+        }
+        if (hb.agent_json_enabled) {
+            return {
+                activo: true,
+                ventanaMin: hb.timeout_s ? hb.timeout_s / 60 : 120,
+                texto: 'Canal: heartbeat ' + hb.agent_json_every + ' (agent.json)',
+                tono: 'ok'
+            };
+        }
+        if (hb.mecanismo === 'ninguno') {
+            return {
+                activo: false,
+                ventanaMin: 360,
+                texto: 'Canal: sin heartbeat, bajo demanda',
+                tono: 'neutro'
+            };
+        }
+        return {
+            activo: false,
+            ventanaMin: 360,
+            texto: 'Canal: ' + (hb.mecanismo || 'desconocido'),
+            tono: 'neutro'
+        };
+    }
+
     static _cardHTML(s) {
         const statusLabel = this._statusLabel(s.status);
+        const canal = s.canal;
         const statusEmoji = this._statusEmoji(s.status);
         const ageText = s.ageMin === Infinity ? 'sin data' : this._formatAge(s.ageMin);
         const commitText = s.lastCommit
@@ -115,7 +176,7 @@ class DashboardLiveStatus {
             <div class="live-card live-card--${s.status}">
                 <div class="live-card__header">
                     <span class="live-card__icon">${s.agent.icon}</span>
-                    <span class="live-card__name">${this._escape(s.agent.name)}</span>
+                    <span class="live-card__name">${this._escape(s.agent.nombre)}</span>
                 </div>
                 <div class="live-card__status">
                     <span class="live-card__status-emoji">${statusEmoji}</span>
@@ -123,6 +184,7 @@ class DashboardLiveStatus {
                 </div>
                 <div class="live-card__activity">${this._escape(s.currentActivity)}</div>
                 <div class="live-card__meta">
+                    <span class="live-card__canal live-card__canal--${canal.tono}">${this._escape(canal.texto)}</span>
                     <span>Última actividad: ${ageText}</span>
                     ${commitText ? `<span>${this._escape(commitText)}</span>` : ''}
                 </div>

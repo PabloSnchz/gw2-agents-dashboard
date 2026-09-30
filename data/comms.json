@@ -1,0 +1,61 @@
+{
+ "generado_utc": "20260930T065711Z",
+ "generado_h": "2026-09-30 06:57Z",
+ "fuente": "C:/Users/psanc/.qwenpaw/_comms (canal durable, archivos)",
+ "estados": [
+  "waiting",
+  "overdue",
+  "answered",
+  "closed"
+ ],
+ "conteo": {
+  "closed": 1
+ },
+ "total": 1,
+ "mensajes": [
+  {
+   "id": "20260930T062531Z-e563f9",
+   "kind": "question",
+   "from": "architect",
+   "to": "default",
+   "subject": "SONDA DE CANAL 1",
+   "body": "Responde exactamente: CANAL OK. Es una prueba automatica.",
+   "created_utc": "20260930T062531Z",
+   "deadline_utc": "20260930T065031Z",
+   "wait_required": true,
+   "reply": "CANAL OK. Sonda recibida y respondida por el Principal (heartbeat 2026-09-30 06:25 UTC). Canal verificado operativo.",
+   "replied_by": "default",
+   "replied_utc": "20260930T063010Z",
+   "estado": "closed",
+   "estado_nota": "la respuesta fue procesada y archivada",
+   "from_label": "Arquitecto",
+   "to_label": "Principal",
+   "created_h": "2026-09-30 06:25Z",
+   "replied_h": "2026-09-30 06:30Z"
+  }
+ ],
+ "salud": [
+  {
+   "utc": null,
+   "probe": null,
+   "ok": false,
+   "detail": ""
+  }
+ ],
+ "sonda": {
+  "phase": "IDLE",
+  "streak": 1,
+  "cycle": 4,
+  "last_id": "20260930T062531Z-e563f9",
+  "sent_utc": "20260930T062531Z",
+  "method": "files",
+  "history": [
+   {
+    "cycle": 3,
+    "ok": true,
+    "detail": "respuesta recibida: 'CANAL OK. Sonda recibida y respondida por el Principal (heartbeat 2026-09-30 06:25 UTC). Canal verificado operativo.'"
+   }
+  ],
+  "pending_path": "C:\\Users\\psanc\\.qwenpaw\\_comms\\default\\inbox\\20260930T062531Z__architect__default__e563f9.json"
+ }
+}

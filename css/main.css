@@ -248,6 +248,28 @@ body {
 .org-pending__title { display: block; font-weight: 600; }
 .org-pending__detail { display: block; font-size: 0.8rem; }
 .org-fallback { padding: 4px 0; }
+/* --- Estructura real: data/estructura.json (fuente de verdad del Arquitecto) --- */
+.est-section { margin-bottom: 0; }
+.est-firma { display: flex; flex-direction: column; gap: 6px; padding: 12px 14px; margin-bottom: 10px; }
+.est-firma__row { display: flex; align-items: center; gap: 8px; flex-wrap: wrap; }
+.est-firma__autoridad { font-size: 0.82rem; }
+.est-firma__metodo { font-size: 0.8rem; }
+.est-firma__metodo > summary { cursor: pointer; }
+.est-firma__metodo p { margin: 6px 0; }
+.est-table td { vertical-align: top; font-size: 0.82rem; }
+.est-table td code { font-size: 0.78rem; word-break: break-all; }
+.est-badge { display: inline-block; padding: 1px 7px; border-radius: 3px; font-size: 0.72rem; font-weight: 600; white-space: nowrap; }
+.est-notas { list-style: none; margin: 10px 0 0; padding: 0; display: flex; flex-direction: column; gap: 8px; }
+.est-notas__item { display: flex; flex-direction: column; padding: 8px 10px; }
+.est-notas__item strong { font-size: 0.82rem; }
+.est-notas__item span { font-size: 0.8rem; }
+.disc-dice,
+.disc-real { display: inline-block; font-size: 0.8rem; }
+.org-details { padding: 12px 14px; margin-top: 6px; }
+.org-details > summary { cursor: pointer; font-weight: 600; font-size: 0.9rem; }
+.org-details[open] > summary { margin-bottom: 12px; }
+.live-card__canal { display: block; }
+
 
 @media (max-width: 768px) {
     .org-enforcement { grid-template-columns: 1fr; }

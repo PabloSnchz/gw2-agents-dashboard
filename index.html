@@ -4,8 +4,8 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>GW2 Agents Dashboard</title>
-    <link rel="stylesheet" href="css/main.css?v=13">
-    <link rel="stylesheet" href="css/theme.css?v=14">
+    <link rel="stylesheet" href="css/main.css?v=14">
+    <link rel="stylesheet" href="css/theme.css?v=16">
 </head>
 <body>
     <div class="dashboard">
@@ -105,9 +105,20 @@
             <section class="org-section-wrap">
                 <h2>🗺️ Estructura del ecosistema</h2>
                 <p class="org-source">
-                    Fuente: <code>ORG_MAP.md</code> en <code>agents/main</code> (documento canónico, lo mantiene el Principal).
+                    Dos fuentes, y el orden importa. Arriba va la <strong>realidad verificada</strong>
+                    (<code>data/estructura.json</code>), que mantiene el Arquitecto contrast&aacute;ndola
+                    contra los permisos reales, los procesos vivos y la topolog&iacute;a de clones.
+                    Abajo va el <strong>documento del equipo</strong> (<code>ORG_MAP.md</code> en
+                    <code>agents/main</code>), que escribe el Principal. El panel de arriba marca
+                    d&oacute;nde los dos no coinciden.
                 </p>
-                <div id="org-map-container" class="org-container"></div>
+
+                <div id="estructura-real-container" class="org-container"></div>
+
+                <details class="org-details" id="org-doc-details">
+                    <summary>📄 Documento del equipo &mdash; <code>ORG_MAP.md</code></summary>
+                    <div id="org-map-container" class="org-container"></div>
+                </details>
             </section>
         </div>
 
@@ -127,9 +138,28 @@
 
             <section class="comms-section">
                 <h2>💬 Comunicaciones</h2>
+                <p class="org-source">
+                    Log <strong>manual</strong> del equipo (<code>COMMS_LOG.md</code> en
+                    <code>agents/main</code>): lo que los agentes anotan a mano.
+                </p>
                 <div id="comms-toolbar" class="comms-toolbar"></div>
                 <div id="comms-kpis" class="comms-kpi-grid"></div>
                 <div id="comms-list-container" class="comms-list-container"></div>
+            </section>
+
+            <section class="comms-section">
+                <h2>📬 Canal de agentes (automático)</h2>
+                <p class="org-source">
+                    Canal <strong>durable</strong> entre agentes, agrupado por estado.
+                    No es el log de arriba: este lo genera el sistema de mensajes en
+                    disco, que guarda un <strong>recibo</strong> de cada respuesta para
+                    que nadie lose nada por un timeout. Un mensaje en <em>Vencidas</em>
+                    es uno que se pas&oacute; de plazo sin respuesta: eso es lo que
+                    quer&eacute;s ver cuando est&aacute;s dormido.
+                </p>
+                <div id="comms-channel-estado"></div>
+                <div id="comms-channel-kpis" class="comms-kpi-grid"></div>
+                <div id="comms-channel-lista" class="comms-list-container"></div>
             </section>
 
             <section class="logs-section">
@@ -158,15 +188,16 @@
 
     <!-- marked.js v4 (CDN, no se commitea) -->
     <script src="https://cdn.jsdelivr.net/npm/marked/marked.min.js"></script>
-    <script src="js/config.js?v=12"></script>
-    <script src="js/fetcher.js?v=10"></script>
+    <script src="js/config.js?v=13"></script>
+    <script src="js/fetcher.js?v=11"></script>
     <script src="js/parser.js?v=16"></script>
-    <script src="js/renderer.js?v=11"></script>
+    <script src="js/renderer.js?v=12"></script>
     <script src="js/timeline.js?v=6"></script>
     <script src="js/attention.js?v=5"></script>
     <script src="js/upcoming.js?v=4"></script>
-    <script src="js/live-status.js?v=1"></script>
-    <script src="js/production-guard.js?v=1"></script>
-    <script src="js/app.js?v=18"></script>
+    <script src="js/live-status.js?v=2"></script>
+    <script src="js/production-guard.js?v=2"></script>
+    <script src="js/comms-channel.js?v=1"></script>
+    <script src="js/app.js?v=19"></script>
 </body>
 </html>

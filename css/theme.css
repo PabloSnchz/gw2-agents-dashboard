@@ -83,6 +83,26 @@
 .kpi-comms-closed  { border-left: 3px solid rgba(33, 150, 89, 0.5); }
 .kpi-comms-timeout { border-left: 3px solid rgba(244, 67, 54, 0.5); }
 
+/* ===== Canal de agentes (automatizado) =====
+ * Variantes por estado. Mismos colores que las de comms-group para que el
+ * panel se lea con el mismo idioma visual que el log manual de arriba:
+ * rojo = vencido, ambar = esperando, verde = respondida, gris = cerrada. */
+.kpi-card--critical     { border-left: 3px solid rgba(244, 67, 54, 0.5); }
+.kpi-card--important    { border-left: 3px solid rgba(255, 152, 0, 0.5); }
+.kpi-card--routine      { border-left: 3px solid rgba(76, 175, 80, 0.5); }
+.kpi-card--unclassified { border-left: 3px solid rgba(120, 120, 120, 0.3); }
+
+.cc-subject { font-weight: 600; color: var(--text-primary, #e8e8f0); }
+.cc-reply {
+    margin-top: 6px; padding: 6px 10px; font-size: 0.82rem;
+    background: rgba(76, 175, 80, 0.08);
+    border-left: 2px solid rgba(76, 175, 80, 0.4);
+    border-radius: 3px; color: var(--text-secondary, #a0a0b0);
+}
+.cc-meta { font-size: 0.78rem; color: var(--text-secondary, #a0a0b0); margin: 6px 0 2px; }
+.cc-meta--warn { color: #ffa726; }
+.cc-empty { padding: 14px; color: var(--text-secondary, #a0a0b0); font-style: italic; }
+
 /* ===== Comms Status Badges ===== */
 .badge-pending    { background: rgba(255, 152, 0, 0.2); color: #ffa726; border: 1px solid rgba(255, 152, 0, 0.4); }
 .badge-timeout    { background: rgba(244, 67, 54, 0.2); color: #ff6b6b; border: 1px solid rgba(244, 67, 54, 0.4); }
@@ -286,6 +306,36 @@
 }
 .org-callout--warn   { border-left: 3px solid rgba(255, 152, 0, 0.6); color: #ffb85c; }
 .org-callout--danger { border-left: 3px solid rgba(244, 67, 54, 0.6); color: #ff9d9d; }
+/* --- Piel de la estructura real --- */
+.est-firma {
+    background: rgba(20, 20, 35, 0.85);
+    border: 1px solid rgba(255, 255, 255, 0.08);
+    border-left: 3px solid rgba(106, 27, 185, 0.5);
+    border-radius: 4px;
+}
+.est-firma__metodo { color: #9a9aae; }
+.est-section { border-left-color: rgba(106, 27, 185, 0.35); }
+.est-section:hover { border-left-color: rgba(106, 27, 185, 0.6); }
+.est-badge--ok      { background: rgba(76, 175, 80, 0.15);  color: #81c784; border: 1px solid rgba(76, 175, 80, 0.35); }
+.est-badge--warn    { background: rgba(255, 152, 0, 0.15);  color: #ffb85c; border: 1px solid rgba(255, 152, 0, 0.35); }
+.est-badge--danger  { background: rgba(244, 67, 54, 0.15);  color: #ff9d9d; border: 1px solid rgba(244, 67, 54, 0.35); }
+.est-badge--neutral { background: rgba(255, 255, 255, 0.05); color: #9a9aae; border: 1px solid rgba(255, 255, 255, 0.1); }
+.est-notas__item--ok     { background: rgba(20, 20, 35, 0.6);  border-left: 3px solid rgba(76, 175, 80, 0.5);  border-radius: 3px; color: #b8b8c8; }
+.est-notas__item--warn   { background: rgba(20, 20, 35, 0.6);  border-left: 3px solid rgba(255, 152, 0, 0.5);  border-radius: 3px; color: #b8b8c8; }
+.est-notas__item--danger { background: rgba(20, 20, 35, 0.6);  border-left: 3px solid rgba(244, 67, 54, 0.5);  border-radius: 3px; color: #b8b8c8; }
+.est-notas__item strong { color: #c8c8d8; }
+.disc-dice { color: #ff9d9d; }
+.disc-real { color: #81c784; }
+.org-details {
+    background: rgba(15, 15, 25, 0.6);
+    border: 1px solid rgba(255, 255, 255, 0.08);
+    border-radius: 4px;
+}
+.org-details > summary { color: #b0b0c0; }
+.org-details > summary:hover { color: #d0d0e0; }
+.live-card__canal--ok     { color: #81c784; }
+.live-card__canal--neutro { color: #8a8aa0; }
+
 .org-enforcement__col {
     background: rgba(15, 15, 25, 0.8);
     border: 1px solid rgba(255, 255, 255, 0.06);

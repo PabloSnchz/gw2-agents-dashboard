@@ -1,0 +1,279 @@
+{
+  "meta": {
+    "schema": 1,
+    "titulo": "Estructura real del ecosistema Bóveda del Gato Negro",
+    "autoridad": "Arquitecto (agente `architect`) — director de la ESTRUCTURA por decisión de Pablo, 2026-09-30",
+    "verificado": "2026-09-30",
+    "metodo": "Verificación directa contra agent.json de los 6 workspaces, drivers/mcp/mi-repo-boveda.yaml, procesos vivos de server-filesystem (Get-CimInstance Win32_Process), qwenpaw agents list, qwenpaw cron list, git remote -v y git worktree list de cada clon. NO se copió nada de ORG_MAP.md.",
+    "nota": "Este archivo es la fuente de verdad. ORG_MAP.md es el documento del equipo y puede quedar viejo; el tab Estructura compara ambos y muestra las diferencias."
+  },
+
+  "agentes": [
+    {
+      "id": "default",
+      "nombre": "Principal",
+      "nombre_qwenpaw": "Default",
+      "workspace": "default",
+      "rol": "Dev senior. Propone, implementa, mergea a agents/main, pushea. Único que mergea.",
+      "modelo": "kilo-auto/free",
+      "language": "es",
+      "approval_level": "AUTO",
+      "pinned": true,
+      "status_runtime": "running",
+      "heartbeat": { "mecanismo": "cron", "agent_json_enabled": false, "agent_json_every": "30m", "cron_id": "13dc22e6-2feb-4acd-9bea-ff1de7f86361", "cron_expr": "*/30 * * * *", "timeout_s": 1800 },
+      "mcp": {
+        "paths": ["C:\\Mis Archivos\\GW2 online\\gw2-dev", "C:\\Users\\psanc\\.qwenpaw\\workspaces\\default"],
+        "default_effect": "allow",
+        "tools_permitidos": 11,
+        "escritura": true,
+        "notas": "Tiene write_file, edit_file, move_file, create_directory. Es el único del equipo con escritura. Su workspace contiene los worktrees."
+      },
+      "clon": "gw2-dev"
+    },
+    {
+      "id": "Code-Reviewer",
+      "nombre": "Code Reviewer",
+      "nombre_qwenpaw": "Revisor de Código",
+      "workspace": "code-reviewer",
+      "rol": "Revisor crítico. NO escribe código, NO commitea. Valida propuestas antes de aplicarse.",
+      "modelo": "kilo-auto/free",
+      "language": "es",
+      "approval_level": "AUTO",
+      "pinned": true,
+      "status_runtime": "running",
+      "heartbeat": { "mecanismo": "ninguno", "agent_json_enabled": false, "agent_json_every": "6h" },
+      "mcp": {
+        "paths": ["C:\\Mis Archivos\\GW2 online\\gw2-dev", "C:\\Users\\psanc\\.qwenpaw\\workspaces\\code-reviewer"],
+        "default_effect": "deny",
+        "tools_permitidos": 8,
+        "escritura": false,
+        "notas": "Driver CREADO por el Arquitecto el 2026-09-30 (antes no existía y no podía leer el repo). deny por defecto + allow-list de 8 tools de lectura. Enforcement real: no puede escribir."
+      },
+      "id_nota": "El ID real registrado en QwenPaw es `Code-Reviewer` (con mayúscula y guion). El workspace es `code-reviewer` y los AGENTS.md lo llaman `code-reviewer`. Para submit_to_agent / chat_with_agent hay que usar `Code-Reviewer`.",
+      "clon": "gw2-dev"
+    },
+    {
+      "id": "documenter",
+      "nombre": "Documentador",
+      "nombre_qwenpaw": "Documentador",
+      "workspace": "documenter",
+      "rol": "Documenta CHANGELOG / README / ONBOARDING. Commit y push de docs.",
+      "modelo": "kilo-auto/free",
+      "language": "es",
+      "approval_level": "AUTO",
+      "pinned": true,
+      "status_runtime": "running",
+      "heartbeat": { "mecanismo": "agent.json", "agent_json_enabled": true, "agent_json_every": "4h", "timeout_s": 900, "cron_id": null },
+      "mcp": {
+        "paths": ["C:\\Mis Archivos\\GW2 online\\gw2-dev", "C:\\Users\\psanc\\.qwenpaw\\workspaces\\documenter"],
+        "default_effect": "allow",
+        "tools_permitidos": null,
+        "escritura": true,
+        "notas": "default_effect allow con rules vacías: todo permitido sobre gw2-dev y su workspace."
+      },
+      "clon": "gw2-dev"
+    },
+    {
+      "id": "product-owner",
+      "nombre": "Product Owner",
+      "nombre_qwenpaw": "PO (Pablo)",
+      "workspace": "product-owner",
+      "rol": "Alterego de Pablo como usuario. Detecta fricciones, propone features, prioriza. NO escribe código de producción.",
+      "modelo": "kilo-auto/free",
+      "language": "es",
+      "approval_level": "AUTO",
+      "pinned": true,
+      "status_runtime": "running",
+      "heartbeat": { "mecanismo": "agent.json + cron", "agent_json_enabled": true, "agent_json_every": "2h", "timeout_s": 1200, "cron_id": "c3f30dc2-ccdd-4fc0-aa6d-f890c482ac87" },
+      "mcp": {
+        "paths": ["C:\\Mis Archivos\\GW2 online\\gw2-dev", "C:\\Users\\psanc\\.qwenpaw\\workspaces\\product-owner"],
+        "default_effect": "allow",
+        "tools_permitidos": null,
+        "escritura": true,
+        "notas": "default_effect allow con rules vacías. PRE_BACKLOG.md vive en su workspace, no en el repo."
+      },
+      "clon": "gw2-dev"
+    },
+    {
+      "id": "architect",
+      "nombre": "Arquitecto",
+      "nombre_qwenpaw": "Arquitecto",
+      "workspace": "architect",
+      "rol": "CTO externo de Pablo y director de la ESTRUCTURA del ecosistema. Topología de clones, paths, permisos, worktrees, crons, coherencia reglas-vs-realidad. Dueño del dashboard. NO habla con agentes salvo pedido explícito de Pablo. NO toca producción bajo ninguna circunstancia.",
+      "modelo": "kilo-auto/free",
+      "language": "es",
+      "approval_level": "AUTO",
+      "pinned": false,
+      "status_runtime": "running",
+      "heartbeat": { "mecanismo": "cron", "agent_json_enabled": false, "agent_json_every": "6h", "cron_id": "17e51119-23d7-4465-b31a-51eaabe5f72d", "cron_expr": "0,30 * * * *", "timeout_s": 900, "proposito": "Sonda de comunicación entre canales (channel-probe)" },
+      "mcp": {
+        "paths": [
+          "C:\\Mis Archivos\\GW2 online\\gw2-dev",
+          "C:\\Mis Archivos\\GW2 online\\gw2-agents-dashboard",
+          "C:\\Users\\psanc\\.qwenpaw\\workspaces\\architect",
+          "C:\\Users\\psanc\\.qwenpaw\\workspaces\\default",
+          "C:\\Users\\psanc\\.qwenpaw\\workspaces\\code-reviewer",
+          "C:\\Users\\psanc\\.qwenpaw\\workspaces\\documenter",
+          "C:\\Users\\psanc\\.qwenpaw\\workspaces\\product-owner"
+        ],
+        "default_effect": "allow",
+        "tools_permitidos": null,
+        "escritura": true,
+        "notas": "Único agente cuyo MCP incluye el dashboard y los workspaces ajenos. Necesita eso por su función: corrige permisos y migra estructura. Sigue SIN acceso a gw2-prod ni a gw2-wallet-ligero."
+      },
+      "clon": "gw2-dev + gw2-agents-dashboard"
+    },
+    {
+      "id": "QwenPaw_QA_Agent_0.2",
+      "nombre": "QA Agent (builtin)",
+      "nombre_qwenpaw": "QA Agent",
+      "workspace": "QwenPaw_QA_Agent_0.2",
+      "rol": "Helper de preguntas y respuestas sobre QwenPaw, su configuración y su documentación. Builtin de QwenPaw, NO pertenece al ecosistema de la Bóveda.",
+      "modelo": null,
+      "language": "zh",
+      "approval_level": "AUTO",
+      "pinned": false,
+      "status_runtime": "running",
+      "heartbeat": { "mecanismo": "ninguno", "agent_json_enabled": false, "agent_json_every": "6h" },
+      "mcp": { "paths": [], "default_effect": null, "tools_permitidos": 0, "escritura": false, "notas": "Sin cliente mi-repo-boveda." },
+      "observacion": "NO operativo: active_model es null, así que no puede inferir. No aparece en ningún AGENTS.md. No participa de ningún flujo."
+    }
+  ],
+
+  "repos": [
+    {
+      "nombre": "gw2-wallet-agents",
+      "rol": "DESARROLLO",
+      "quien_pushea": "Principal a main. Documentador y PO a su rama, avisan al Principal para el merge.",
+      "autonomia": "Total",
+      "produccion": false
+    },
+    {
+      "nombre": "gw2-wallet-ligero",
+      "rol": "PRODUCCIÓN",
+      "quien_pushea": "Solo Pablo. El equipo hace cherry-pick solo cuando Pablo lo pide explícitamente.",
+      "autonomia": "Cero",
+      "produccion": true
+    },
+    {
+      "nombre": "gw2-agents-dashboard",
+      "rol": "DASHBOARD (producto del Arquitecto)",
+      "quien_pushea": "Arquitecto",
+      "autonomia": "Arquitecto. Los agentes operativos NO lo tocan: no tienen el path en su MCP.",
+      "produccion": false
+    }
+  ],
+
+  "clones": [
+    {
+      "path": "C:\\Mis Archivos\\GW2 online\\gw2-dev",
+      "repo": "gw2-wallet-agents",
+      "rol": "DESARROLLO",
+      "remote": "https://github.com/PabloSnchz/gw2-wallet-agents.git",
+      "rama": "main",
+      "head": "f98da49",
+      "estado": "activo",
+      "notas": "El equipo trabaja acá. Contiene los worktrees."
+    },
+    {
+      "path": "C:\\Mis Archivos\\GW2 online\\gw2-prod",
+      "repo": "gw2-wallet-ligero",
+      "rol": "PRODUCCIÓN",
+      "remote": "https://github.com/PabloSnchz/gw2-wallet-ligero.git",
+      "rama": "main",
+      "head": "7525f1f",
+      "estado": "activo",
+      "notas": "NO está en el MCP de ningún agente, ni siquiera el del Arquitecto. La promoción es manual y la hace Pablo."
+    },
+    {
+      "path": "C:\\Mis Archivos\\GW2 online\\gw2-agents-dashboard",
+      "repo": "gw2-agents-dashboard",
+      "rol": "DASHBOARD",
+      "remote": "https://github.com/PabloSnchz/gw2-agents-dashboard.git",
+      "rama": "main",
+      "head": "416f695",
+      "estado": "activo",
+      "notas": "Producto del Arquitecto. Deploy por GitHub Pages."
+    },
+    {
+      "path": "C:\\Mis Archivos\\GW2 online\\gw2-wallet-agents",
+      "repo": "gw2-wallet-agents",
+      "rol": "LEGACY (retirado)",
+      "remote": null,
+      "rama": null,
+      "head": null,
+      "estado": "ELIMINADO",
+      "notas": "Retirado en la migración del 2026-09-30. Era la ruta peligrosa: quedaba a un `git remote -v` de distancia de producción. Sus ramas están preservadas con prefijo legacy/ en gw2-dev y sus stashes exportados a parches."
+    },
+    {
+      "path": "C:\\Mis Archivos\\GW2 online\\gw2-wallet-ligero",
+      "repo": "gw2-wallet-ligero",
+      "rol": "LEGACY (vetado)",
+      "remote": null,
+      "rama": null,
+      "head": null,
+      "estado": "ELIMINADO",
+      "notas": "El clon vetado, eliminado. Tenía 17 ramas locales huérfanas cuyo contenido no existía en ningún otro clon: el cambio de caché de theme-selector, el fix de wallet-dashboard v2.8.0, la rotación de fractales, el normalizador de glyphs, los fixes de borderLeft, y el WIP de Homestead Decorator Tracker. Esos 17 commits están exportados como parches en el workspace del Arquitecto (_rescate_clon_produccion, 17 archivos .patch). Nada se perdió, pero tampoco se integró: siguen huérfanos."
+    }
+  ],
+
+  "worktrees": [
+    {
+      "path": "C:\\Users\\psanc\\.qwenpaw\\workspaces\\default\\_wt_47",
+      "rama": "rescue-idea47-parallel-wip",
+      "head": "06675b0",
+      "estado": "activo",
+      "notas": "El único worktree que quedó. El _wt_main ya no existe. El commit 06675b0 NO está integrado en agents/main: son 2 tests que main no tiene (idea47-ceros-falsos.smoke.js, idea47-contrato-api.test.js). Queda preservado sin integrar, esperando decisión del equipo."
+    }
+  ],
+
+  "canales": {
+    "habilitados": ["console"],
+    "deshabilitados": ["imessage", "discord", "dingtalk", "feishu", "qq", "telegram", "mattermost", "mqtt", "matrix", "voice", "sip", "wecom", "xiaoyi", "yuanbao", "wechat", "slack", "onebot"],
+    "enforcement": "real, lo impone la plataforma"
+  },
+
+  "invariantes": [
+    { "id": 1, "texto": "gw2-dev NUNCA tiene el remote de producción.", "estado": "OK", "verificado": "git remote -v → origin = gw2-wallet-agents.git" },
+    { "id": 2, "texto": "gw2-prod NUNCA tiene el remote de desarrollo.", "estado": "OK", "verificado": "git remote -v → origin = gw2-wallet-ligero.git" },
+    { "id": 3, "texto": "El MCP de ningún agente incluye un clon de producción.", "estado": "OK", "verificado": "Los 5 drivers mi-repo-boveda.yaml y los 5 procesos vivos: ninguno contiene gw2-prod ni gw2-wallet-ligero" },
+    { "id": 4, "texto": "git remote -v es obligatorio antes de cada push.", "estado": "OK", "verificado": "Regla escrita en los 5 AGENTS.md" },
+    { "id": 5, "texto": "Producción se modifica solo por PR con aprobación de Pablo.", "estado": "PARCIAL", "verificado": "El equipo no tiene el path. Queda confirmar en GitHub Settings → Rules que main exija PR y quién aprueba: eso no se puede leer sin token" }
+  ],
+
+  "enforcement": {
+    "real": [
+      "Producción y dashboard NO están en el MCP de nadie. Es la defensa de verdad, no una regla escrita.",
+      "Code Reviewer: default_effect deny + 8 tools de lectura. No puede escribir, punto.",
+      "Solo console está habilitado como canal.",
+      "tool_guard activo: deniega SAFETY_CHECKS_DESTRUCTIVE_COMMAND."
+    ],
+    "regla_de_honor": [
+      "Las reglas de workflow del equipo (nada directo a main, solo el Principal mergea, el equipo nunca propone promover a producción) están escritas en los AGENTS.md, nada las impone.",
+      "Las prohibiciones sobre PRE_BACKLOG.md, MEMORY.md y KNOWLEDGE.md son de convención: el MCP no distingue lectura de escritura por path."
+    ]
+  },
+
+  "discrepancias_vs_org_map": [
+    { "id": "d1", "severidad": "grave", "tema": "Producción como regla de honor", "dice_org_map": "«La prohibición de escribir en gw2-wallet-ligero es regla de honor... los 5 agentes pueden escribir en el repo agents» y «los 4 agentes operativos tienen el path del dashboard en su MCP»", "realidad": "Ningún agente tiene gw2-prod ni gw2-wallet-ligero en su MCP. Ninguno tiene el dashboard. Son las dos defensas que separan al ecosistema de un incidente." },
+    { "id": "d2", "severidad": "grave", "tema": "Ruta del clon de desarrollo", "dice_org_map": "C:\\Mis Archivos\\GW2 online\\gw2-wallet-agents", "realidad": "gw2-dev. El clon gw2-wallet-agents fue eliminado." },
+    { "id": "d3", "severidad": "grave", "tema": "Ruta del clon de producción", "dice_org_map": "C:\\Mis Archivos\\GW2 online\\gw2-wallet-ligero con 2 remotes (agents y origin)", "realidad": "gw2-prod, con un solo remote (origin = producción). El clon gw2-wallet-ligero fue eliminado." },
+    { "id": "d4", "severidad": "grave", "tema": "El dashboard", "dice_org_map": "«los 4 agentes operativos tienen el path del dashboard en su MCP»", "realidad": "Solo el Arquitecto lo tiene. Enforcement real." },
+    { "id": "d5", "severidad": "media", "tema": "Code Reviewer sin acceso al repo", "dice_org_map": "No documenta que tenga driver MCP propio", "realidad": "Tiene driver propio: deny por defecto + 8 tools de lectura. Antes no existía y no podía leer el repo." },
+    { "id": "d6", "severidad": "media", "tema": "Heartbeat del Principal", "dice_org_map": "«agent.json: every 30m, enabled: true»", "realidad": "agent.json dice enabled: false. El heartbeat corre por el cron 13dc22e6 (*/30 * * * *), que vive en jobs.json, no en agent.json." },
+    { "id": "d7", "severidad": "media", "tema": "Heartbeat del PO", "dice_org_map": "«NO es un cron de QwenPaw... timeout 300s»", "realidad": "Tiene las dos cosas: agent.json con every 2h y timeout 1200s, Y un cron c3f30dc2 en su jobs.json." },
+    { "id": "d8", "severidad": "media", "tema": "Heartbeat del Arquitecto", "dice_org_map": "«Desactivado por diseño. Se activa cuando Pablo abre QwenPaw»", "realidad": "Tiene un cron propio: 17e51119, 0,30 * * * * UTC, timeout 900s, para la sonda de comunicación entre canales." },
+    { "id": "d9", "severidad": "media", "tema": "Worktrees", "dice_org_map": "«_wt_main es el worktree de main»", "realidad": "_wt_main ya no existe. Queda solo _wt_47 con la rama rescue-idea47-parallel-wip sin integrar." },
+    { "id": "d10", "severidad": "baja", "tema": "Heartbeat del Documentador", "dice_org_map": "«A CONFIRMAR»", "realidad": "Confirmado: agent.json con enabled true, every 4h, timeout 900s. No hay cron para él. El pendiente #2 de ORG_MAP.md ya se puede cerrar." },
+    { "id": "d11", "severidad": "baja", "tema": "Nivel de aprobación", "dice_org_map": "No lo menciona", "realidad": "Los 6 agentes tienen approval_level AUTO." },
+    { "id": "d12", "severidad": "baja", "tema": "El Arquitecto no estaba en el mapa de heartbeats", "dice_org_map": "Lo lista como desactivado", "realidad": "Además del cron de sonda, es el único agente con los 5 workspaces ajenos en su MCP, por necesidad de su función." }
+  ],
+
+  "pendientes_estructura": [
+    { "texto": "17 commits huérfanos del clon gw2-wallet-ligero siguen sin integrar", "estado": "rescatados en parches, sin integrar", "donde": "_rescate_clon_produccion\\*.patch" },
+    { "texto": "06675b0 (2 tests de Idea 47) sin integrar en agents/main", "estado": "preservado en la rama rescue-idea47-parallel-wip", "donde": "worktree _wt_47" },
+    { "texto": "Confirmar en GitHub Settings → Rules que main de gw2-wallet-ligero exige PR y quién aprueba", "estado": "no verificable sin token", "donde": "repositorio" },
+    { "texto": "Rama po/idea50-dashboard y docs-estructura-20260930 sin mergear en agents/main", "estado": "abiertas", "donde": "gw2-dev" },
+    { "texto": "El QA Agent (builtin) figura como agente registrado pero no tiene modelo", "estado": "inoperativo, fuera del ecosistema", "donde": "QwenPaw" }
+  ]
+}

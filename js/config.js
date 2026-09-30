@@ -5,10 +5,20 @@
  */
 
 const DASHBOARD_CONFIG = {
-    // Repo de donde se fetchuean los archivos
+    // Repo de donde se fetchuean los .md del equipo (DESARROLLO)
     repoOwner: 'PabloSnchz',
     repoName: 'gw2-wallet-agents',
     branch: 'main',
+
+    // Repo propio del dashboard, donde vive la fuente de verdad estructural.
+    // OJO: este es un repo DISTINTO al de los .md. La estructura del ecosistema
+    // no se fetchea de gw2-wallet-agents porque ORG_MAP.md lo mantiene el equipo
+    // y puede quedar viejo. La mantiene el Arquitecto, que es director de la
+    // estructura por decisión de Pablo (2026-09-30).
+    structureRepoOwner: 'PabloSnchz',
+    structureRepoName: 'gw2-agents-dashboard',
+    structureBranch: 'main',
+    structureFile: 'data/estructura.json',
 
     // Config de auto-refresh
     autoRefreshInterval: 10 * 60 * 1000, // 10 minutos
@@ -20,6 +30,11 @@ const DASHBOARD_CONFIG = {
     // Zone 'history'   = Histórico (abajo)
     // Zone 'structure' = Mapa organizacional (tab Estructura)
     // Zone 'promotions'= Promociones a producción (tab Promociones)
+    //
+    // PRE_BACKLOG.md y COMMS_DETAILS.md NO estan en agents/main: viven en el
+    // workspace del Product Owner. No los listamos aca para no generar un 404 en
+    // cada carga. Si alguna vez se versionan, el auto-descubrimiento por API los
+    // trae solo.
     files: [
         { name: 'TEAM_STATUS.md', zone: 'current', label: 'Estado del Equipo' },
         { name: 'ALERTS_LOG.md',   zone: 'current', label: 'Alertas' },
@@ -31,8 +46,6 @@ const DASHBOARD_CONFIG = {
         { name: 'DASHBOARD_PO_IDEAS.md', zone: 'recent', label: 'Ideas del PO' },
         { name: 'READY_FOR_PROMOTION.md', zone: 'recent', label: 'Listo para promover' },
         { name: 'IN_PROGRESS.md', zone: 'recent', label: 'En desarrollo' },
-        { name: 'COMMS_DETAILS.md', zone: 'recent', label: 'Detalle de Comunicaciones' },
-        { name: 'PRE_BACKLOG.md', zone: 'history', label: 'Pre-Backlog' },
         { name: 'ORG_MAP.md', zone: 'structure', label: 'Mapa Organizacional' },
         { name: 'PROMOTIONS.md', zone: 'promotions', label: 'Promociones' },
     ],
@@ -45,6 +58,22 @@ const DASHBOARD_CONFIG = {
     // Opción C' — GitHub Contents API (primary) para auto-detectar .md
     getApiUrl() {
         return `https://api.github.com/repos/${this.repoOwner}/${this.repoName}/contents?ref=${this.branch}`;
+    },
+
+    // Fuente de verdad de la ESTRUCTURA del ecosistema. Vive en el repo del
+    // dashboard, NO en gw2-wallet-agents: la estructura es responsabilidad del
+    // Arquitecto y el equipo no tiene visibilidad de los permisos reales.
+    getStructureUrl() {
+        return `https://raw.githubusercontent.com/${this.structureRepoOwner}/${this.structureRepoName}/${this.structureBranch}/${this.structureFile}`;
+    },
+
+    // Canal durable entre agentes. Vive en disco local
+    // (C:\Users\psanc\.qwenpaw\_comms) y lo vuelca a este repo el
+    // exportador _comms\export_dashboard.py, que corre junto a la sonda
+    // cada 30 min. Por eso vive acá y no en agents: es dato del
+    // Arquitecto, igual que estructura.json.
+    getCommsChannelUrl() {
+        return `https://raw.githubusercontent.com/${this.structureRepoOwner}/${this.structureRepoName}/${this.structureBranch}/data/comms.json`;
     },
 
     // GitHub Commits API — para el timeline

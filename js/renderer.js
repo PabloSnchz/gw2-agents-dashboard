@@ -946,6 +946,329 @@ class DashboardRenderer {
         const s = map[state] || map.unknown;
         return `<span class="promo-badge promo-badge--${s.cls}">${s.icon} ${s.label}</span>`;
     }
+
+    // ======================================================================
+    // ESTRUCTURA REAL — fuente de verdad del Arquitecto
+    // ======================================================================
+    // A diferencia de renderOrgMap(), que muestra ORG_MAP.md (documento del
+    // equipo), esto muestra data/estructura.json: un archivo verificado contra
+    // agent.json, los drivers MCP, los procesos vivos, qwenpaw agents list,
+    // qwenpaw cron list y git remote -v. La diferencia entre ambos no es
+    // estética: el equipo no tiene visibilidad de los permisos reales.
+
+    /**
+     * @param {Object|null} est — contenido de data/estructura.json
+     */
+    static renderEstructura(est) {
+        const container = document.getElementById('estructura-real-container');
+        if (!container) return;
+
+        if (!est || !est.agentes) {
+            container.innerHTML = `
+                <p class="org-callout org-callout--warn">
+                    No se pudo cargar <code>data/estructura.json</code>, que es la fuente de verdad de la
+                    estructura. Abajo se muestra igual el documento del equipo
+                    (<code>ORG_MAP.md</code>), pero puede no reflejar los permisos reales.
+                </p>`;
+            return;
+        }
+
+        const disc = est.discrepancias_vs_org_map || [];
+        const graves = disc.filter(d => d.severidad === 'grave').length;
+        const medias  = disc.filter(d => d.severidad === 'media').length;
+        const bajas   = disc.filter(d => d.severidad === 'baja').length;
+
+        container.innerHTML = [
+            this._estFirma(est),
+            this._estCalloutDiscrepancias(disc, graves, medias, bajas),
+            this._estAgentes(est.agentes),
+            this._estCrons(est.agentes),
+            this._estClones(est.clones),
+            this._estWorktrees(est.worktrees),
+            this._estEnforcement(est.enforcement),
+            this._estInvariantes(est.invariantes),
+            this._estDiscrepancias(disc),
+            this._estPendientes(est.pendientes_estructura)
+        ].join('');
+    }
+
+    /** Firma: quién verificó, cuándo y con qué método */
+    static _estFirma(est) {
+        const m = est.meta || {};
+        return `
+            <div class="est-firma">
+                <div class="est-firma__row">
+                    ${this._estBadge('ok', 'Fuente de verdad')}
+                    <span class="est-firma__autoridad">${this._escape(m.autoridad || '')}</span>
+                </div>
+                <div class="est-firma__row">
+                    ${this._estBadge('neutral', 'Verificado el ' + (m.verificado || '?'))}
+                </div>
+                <details class="est-firma__metodo">
+                    <summary>Cómo se verificó</summary>
+                    <p>${this._escape(m.metodo || '')}</p>
+                    <p class="org-note">${this._escape(m.nota || '')}</p>
+                </details>
+            </div>`;
+    }
+
+    /** Callout de cabecera: cuántas discrepancias hay contra ORG_MAP.md */
+    static _estCalloutDiscrepancias(disc, graves, medias, bajas) {
+        if (disc.length === 0) {
+            return `<p class="org-callout org-callout--warn">Sin datos de discrepancias.</p>`;
+        }
+        const tono = graves > 0 ? 'danger' : (medias > 0 ? 'warn' : 'ok');
+        const icono = graves > 0 ? '🚨' : (medias > 0 ? '⚠️' : '✅');
+        return `
+            <div class="org-callout org-callout--${tono}">
+                <strong>${icono} ${disc.length} discrepancia${disc.length === 1 ? '' : 's'}</strong>
+                entre el documento del equipo (<code>ORG_MAP.md</code>) y la realidad verificada
+                ${graves ? `<strong>${graves} grave${graves === 1 ? '' : 's'}</strong>` : ''}
+                ${medias ? `, ${medias} media${medias === 1 ? '' : 's'}` : ''}
+                ${bajas ? `, ${bajas} baja${bajas === 1 ? '' : 's'}` : ''}.
+                <br>
+                Las más graves dicen que producción y el dashboard se protegen solo con reglas escritas.
+                No es así: están fuera del alcance de todo agente, y eso no se puede deshacer desde un
+                <code>AGENTS.md</code>.
+            </div>`;
+    }
+
+    /** Tabla de agentes con su alcance real */
+    static _estAgentes(agentes) {
+        const rows = agentes.map(a => {
+            const hb = a.heartbeat || {};
+            const mcp = a.mcp || {};
+
+            let canal;
+            if (hb.mecanismo === 'cron' && hb.cron_expr) {
+                canal = 'cron ' + hb.cron_expr + ' UTC';
+                if (hb.proposito) canal += ' · ' + hb.proposito;
+            } else if (hb.agent_json_enabled) {
+                canal = 'heartbeat ' + hb.agent_json_every;
+            } else if (hb.mecanismo === 'ninguno') {
+                canal = 'sin heartbeat · bajo demanda';
+            } else {
+                canal = hb.mecanismo || '—';
+            }
+
+            const paths = (mcp.paths || []).map(p => {
+                const corto = p.replace('C:\\Users\\psanc\\.qwenpaw\\workspaces\\', 'ws/')
+                                .replace('C:\\Mis Archivos\\GW2 online\\', '');
+                return this._escape(corto);
+            }).join('<br>');
+
+            return [
+                '<strong>' + this._escape(a.nombre) + '</strong>',
+                '<code>' + this._escape(a.id) + '</code>',
+                this._escape(a.workspace),
+                this._escape(canal),
+                (a.observacion ? this._estBadge('warn', 'inoperativo')
+                              : (mcp.escritura ? this._estBadge('ok', 'escribe') : this._estBadge('neutral', 'solo lectura'))),
+                paths || '<span class="org-note">sin MCP</span>'
+            ];
+        });
+
+        return this._estSection(
+            '👥 Agentes registrados y su alcance real',
+            this._estTable(
+                ['Agente', 'ID en QwenPaw', 'Workspace', 'Canal', 'Permiso', 'Rutas del MCP'],
+                rows
+            ) + this._estListaRol(agentes)
+        );
+    }
+
+    /** El rol de cada agente, debajo de la tabla */
+    static _estListaRol(agentes) {
+        const items = agentes.map(a => '<strong>' + this._escape(a.nombre) + '</strong> (' + this._escape(a.id) + '): ' + this._escape(a.rol));
+        return '<ul class="org-list">' + items.map(i => '<li>' + i + '</li>').join('') + '</ul>';
+    }
+
+    /** Crons y heartbeats, con el mecanismo real de cada uno */
+    static _estCrons(agentes) {
+        const filas = [];
+        for (const a of agentes) {
+            const hb = a.heartbeat || {};
+            if (!hb.mecanismo || hb.mecanismo === 'ninguno') {
+                filas.push([this._escape(a.nombre), '—', 'ninguno', hb.agent_json_every || '—', hb.timeout_s ? hb.timeout_s + 's' : '—', 'sin heartbeat, se activa a demanda']);
+                continue;
+            }
+            filas.push([
+                this._escape(a.nombre),
+                hb.mecanismo,
+                hb.cron_expr || hb.agent_json_every || '—',
+                hb.timeout_s ? hb.timeout_s + 's' : '—',
+                hb.cron_id ? hb.cron_id.substring(0, 8) : '—',
+                hb.proposito || (hb.agent_json_enabled ? 'heartbeat nativo de QwenPaw' : '—')
+            ]);
+        }
+        return this._estSection(
+            '⏰ Crons y heartbeats',
+            this._estTable(
+                ['Agente', 'Mecanismo', 'Expresión / frecuencia', 'Timeout', 'Cron ID', 'Nota'],
+                filas
+            ) + `<p class="org-note">
+                Ojo con esto: hay <strong>dos mecanismos distintos</strong> y se confunden todo el tiempo.
+                El Principal y el Arquitecto corren por <strong>cron</strong> (jobs.json), y su
+                <code>agent.json</code> dice <code>heartbeat.enabled: false</code>.
+                El Documentador y el PO usan el <strong>heartbeat nativo</strong> de <code>agent.json</code>.
+                Leer solo el <code>agent.json</code> da la respuesta contraria a la real.
+            </p>`
+        );
+    }
+
+    /** Topología de clones: la parte que más cambió con la migración */
+    static _estClones(clones) {
+        const rows = (clones || []).map(c => [
+            '<code>' + this._escape(c.path.replace('C:\\Mis Archivos\\GW2 online\\', '')) + '</code>',
+            this._escape(c.repo || '—'),
+            this._escape(c.rol),
+            c.remote ? '<code>' + this._escape(c.remote.replace('https://github.com/PabloSnchz/', '').replace('.git', '')) + '</code>' : '<span class="org-note">sin remote</span>',
+            c.head ? '<code>' + this._escape(c.head) + '</code>' : '—',
+            c.estado === 'ELIMINADO' ? this._estBadge('danger', 'eliminado')
+                                      : this._estBadge(c.rol === 'PRODUCCIÓN' ? 'warn' : 'ok', c.estado)
+        ]);
+
+        return this._estSection(
+            '🗄️ Clones y repos',
+            this._estTable(['Path local', 'Repo', 'Rol', 'Remote', 'HEAD', 'Estado'], rows)
+            + this._estNotas((clones || []).map(c => ({
+                titulo: c.path.replace('C:\\Mis Archivos\\GW2 online\\', ''),
+                nota: c.notas,
+                tono: c.estado === 'ELIMINADO' ? 'danger' : (c.rol === 'PRODUCCIÓN' ? 'warn' : 'ok')
+            })))
+        );
+    }
+
+    static _estWorktrees(wts) {
+        if (!wts || wts.length === 0) {
+            return this._estSection('🧩 Worktrees', '<p class="org-note">No hay worktrees registrados.</p>');
+        }
+        const rows = wts.map(w => [
+            '<code>' + this._escape(w.path) + '</code>',
+            this._escape(w.rama),
+            '<code>' + this._escape(w.head) + '</code>',
+            this._escape(w.estado)
+        ]);
+        return this._estSection(
+            '🧩 Worktrees',
+            this._estTable(['Path', 'Rama', 'HEAD', 'Estado'], rows) + this._estNotas(wts.map(w => ({
+                titulo: w.rama, nota: w.notas, tono: 'warn'
+            })))
+        );
+    }
+
+    /** Lo que la plataforma impone vs lo que solo está escrito */
+    static _estEnforcement(enc) {
+        if (!enc) return '';
+        const col = (titulo, items, clase) => `
+            <div class="org-enforcement__col ${clase}">
+                <h4>${titulo}</h4>
+                <ul class="org-list">
+                    ${(items || []).map(i => '<li>' + this._escape(i) + '</li>').join('')}
+                </ul>
+            </div>`;
+        return this._estSection(
+            '🔒 Enforcement real vs regla de honor',
+            `<div class="org-enforcement">
+                ${col('Lo que la plataforma impone', enc.real, 'org-enforcement__col--real')}
+                ${col('Lo que solo está escrito', enc.regla_de_honor, 'org-enforcement__col--honor')}
+            </div>
+            <p class="org-note">
+                Un <code>AGENTS.md</code> sin enforcement es una declaración de intenciones, no un candado.
+                La diferencia entre las dos columnas es toda la diferencia entre un incidente y un susto.
+            </p>`
+        );
+    }
+
+    /** Las 5 invariantes de la topología, con su estado verificado */
+    static _estInvariantes(inv) {
+        if (!inv || inv.length === 0) return '';
+        const items = inv.map(i => {
+            const ok = i.estado === 'OK';
+            const badge = ok ? this._estBadge('ok', 'OK') : this._estBadge('warn', i.estado);
+            return '<li>' + badge + ' ' + this._escape(i.texto) +
+                   '<br><span class="org-note">Verificado: ' + this._escape(i.verificado || '') + '</span></li>';
+        });
+        const parciales = inv.filter(i => i.estado !== 'OK').length;
+        return this._estSection(
+            '📐 Invariantes de la topología',
+            '<ul class="org-list">' + items.join('') + '</ul>' +
+            (parciales
+                ? `<p class="org-callout org-callout--warn">${parciales} invariante${parciales === 1 ? '' : 's'} sin confirmar del todo. Lo marcado como PARCIAL necesita un click humano en GitHub: la API pública no deja leer las reglas de protección sin token.</p>`
+                : '')
+        );
+    }
+
+    /** Detalle de cada discrepancia contra el documento del equipo */
+    static _estDiscrepancias(disc) {
+        if (!disc || disc.length === 0) return '';
+        const orden = { grave: 0, media: 1, baja: 2 };
+        const filas = disc.slice().sort((a, b) => (orden[a.severidad] || 9) - (orden[b.severidad] || 9))
+            .map(d => [
+                this._estBadge(d.severidad, d.severidad),
+                '<strong>' + this._escape(d.tema) + '</strong>',
+                '<span class="disc-dice">Dice ORG_MAP.md: ' + this._escape(d.dice_org_map) + '</span>' +
+                '<br><span class="disc-real">Realidad: ' + this._escape(d.realidad) + '</span>'
+            ]);
+
+        return this._estSection(
+            '🔍 Dónde el documento del equipo se contradice con la realidad',
+            this._estTable(['', 'Tema', 'Qué dice vs qué es'], filas)
+        );
+    }
+
+    /** Pendientes estructurales abiertos */
+    static _estPendientes(p) {
+        if (!p || p.length === 0) return '';
+        const items = p.map(x =>
+            '<li><strong>' + this._escape(x.texto) + '</strong><br>' +
+            '<span class="org-note">Estado: ' + this._escape(x.estado || '') +
+            (x.donde ? ' · ' + this._escape(x.donde) : '') + '</span></li>'
+        );
+        return this._estSection(
+            '🧷 Pendientes de estructura',
+            '<ul class="org-list">' + items.join('') + '</ul>'
+        );
+    }
+
+    // ---------------- helpers ----------------
+
+    static _estSection(title, inner) {
+        return `
+            <section class="org-section est-section">
+                <h3>${title}</h3>
+                ${inner}
+            </section>`;
+    }
+
+    static _estTable(headers, rows) {
+        if (!rows || rows.length === 0) return '';
+        return `
+            <div class="comms-table-wrapper org-table">
+                <table class="comms-table est-table">
+                    <thead>
+                        <tr>${headers.map(h => `<th>${this._escape(h)}</th>`).join('')}</tr>
+                    </thead>
+                    <tbody>
+                        ${rows.map(row => `<tr>${row.map(c => `<td>${c}</td>`).join('')}</tr>`).join('')}
+                    </tbody>
+                </table>
+            </div>`;
+    }
+
+    static _estBadge(tono, texto) {
+        return `<span class="est-badge est-badge--${tono}">${this._escape(texto)}</span>`;
+    }
+
+    static _estNotas(items) {
+        const conNota = items.filter(i => i && i.nota);
+        if (conNota.length === 0) return '';
+        return `<ul class="est-notas">${conNota.map(i =>
+            `<li class="est-notas__item est-notas__item--${i.tono || 'ok'}">
+                <strong>${this._escape(i.titulo)}</strong>
+                <span>${this._escape(i.nota)}</span>
+            </li>`).join('')}</ul>`;
+    }
 }
 
 /* Acordeón toggle (global para onclick inline) */

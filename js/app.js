@@ -1,7 +1,7 @@
 /**
  * js/app.js
  * Orquestación del dashboard: fetch paralelo → parser KPIs → renderer estructurado.
- * Tabs: Resumen / Equipo / Historial / Próximas / Estructura / Logs.
+ * Tabs: Resumen / Equipo / Historial / Proximas / Estructura / Promociones / Logs.
  */
 
 (() => {
@@ -126,6 +126,18 @@
     async function loadAll(force = true) {
         showStatus('Cargando...', 'status-loading');
 
+        // La estructura se carga por separado y sin bloquear: si falla, el resto del
+
+
+        // dashboard funciona igual y el tab Estructura lo dice.
+
+
+        const estructuraPromise = fetcher.fetchEstructura().catch(e => ({ success: false, data: null, error: e.message }));
+
+
+        
+
+
         const detectedFiles = await fetcher.fetchFileList();
         const fetchResults = detectedFiles
             ? await fetcher.fetchAll(force, detectedFiles)
@@ -166,6 +178,8 @@
         }
 
         const commits = await fetcher.fetchCommits(50).catch(() => []);
+        const estructura = await estructuraPromise;
+        window._estructura = estructura.success ? estructura.data : null;
 
         // Render KPIs
         DashboardRenderer.renderKPIs({
@@ -251,6 +265,7 @@
             },
             backlog: fileMap['BACKLOG.md']?.success ? { content: fileMap['BACKLOG.md'].content } : null,
             cronSchedule: cronSchedule,
+            structure: window._estructura,
             poIdeas: poIdeas,
             readyForPromotion: readyForPromotion,
             inProgress: inProgressFile
@@ -260,8 +275,14 @@
         DashboardLiveStatus.render({
             commits: commits,
             sessionLog: fileMap['SESSION_LOG.md']?.success ? fileMap['SESSION_LOG.md'].content : '',
-            alerts: kpiData.alerts
+            alerts: kpiData.alerts,
+            structure: window._estructura
         });
+
+        // Tab Estructura: primero la realidad verificada, despues el documento del equipo.
+        // El orden importa: ORG_MAP.md se mantiene a mano y describe permisos que ya
+        // no existen, asi que va debajo y colapsado, no como fuente.
+        DashboardRenderer.renderEstructura(window._estructura);
 
         // Render del tab "Estructura" (ORG_MAP.md)
         if (fileMap['ORG_MAP.md'] && fileMap['ORG_MAP.md'].success) {
@@ -302,6 +323,11 @@
 
         // Watchdog de protección de producción (API pública de GitHub, sin token)
         if (window.ProductionGuard) ProductionGuard.render();
+
+        // Canal durable entre agentes (data/comms.json). Es un fetch
+        // independiente del resto: si comms.json todavia no existe, el
+        // panel lo dice y el resto del dashboard sigue funcionando.
+        if (window.CommsChannel) CommsChannel.load();
 
         showStatus(`Última actualización: ${new Date().toLocaleTimeString()}`, 'status-ok');
     }

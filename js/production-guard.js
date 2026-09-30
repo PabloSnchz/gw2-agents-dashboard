@@ -3,7 +3,7 @@
  * Watchdog de protección de producción.
  *
  * Consulta la API pública de GitHub (sin token) y lee el campo `protected`
- * de la rama main de los repos clave. Es un dato real, no una constante:
+ * de la rama main de los repos clave: producción, desarrollo y el dashboard. Es un dato real, no una constante:
  * si alguien desactiva la protección de gw2-wallet-ligero, el dashboard
  * se pone rojo en la próxima carga.
  *
@@ -12,13 +12,14 @@
  * mano en Settings → Rules. El panel lo dice explícitamente para no
  * dar una falsa sensación de cobertura.
  *
- * Rate limit: 60 req/h por IP sin token. Cada carga del dashboard usa 2
+ * Rate limit: 60 req/h por IP sin token. Cada carga del dashboard usa 3
  * de esos requests, así que el margen es holgado.
  */
 
 const REPOS_GUARD = [
     { repo: 'gw2-wallet-ligero', label: 'Producción', role: 'production' },
-    { repo: 'gw2-wallet-agents', label: 'Desarrollo', role: 'dev' }
+    { repo: 'gw2-wallet-agents', label: 'Desarrollo', role: 'dev' },
+    { repo: 'gw2-agents-dashboard', label: 'Dashboard', role: 'dashboard' }
 ];
 
 const ProductionGuard = {
@@ -61,9 +62,10 @@ const ProductionGuard = {
             if (r.state === 'protected') {
                 tone = 'ok'; icon = '🛡️'; label = 'Protegida';
             } else if (r.state === 'open') {
-                tone = r.role === 'production' ? 'danger' : 'neutral';
-                icon = r.role === 'production' ? '🚨' : '🔓';
-                label = r.role === 'production' ? 'SIN PROTECCIÓN' : 'Abierta (esperado)';
+                const critico = (r.role === 'production' || r.role === 'dashboard');
+                tone = critico ? 'danger' : 'neutral';
+                icon = critico ? '🚨' : '🔓';
+                label = critico ? 'SIN PROTECCIÓN' : 'Abierta (esperado)';
             } else {
                 tone = 'neutral'; icon = '❓'; label = 'No verificable';
             }

@@ -114,6 +114,29 @@ class MarkdownFetcher {
         }
     }
 
+    /**
+     * Carga la fuente de verdad de la ESTRUCTURA del ecosistema.
+     * Vive en el repo del dashboard (data/estructura.json), NO en
+     * gw2-wallet-agents: la estructura es responsabilidad del Arquitecto y el
+     * equipo no tiene visibilidad de los permisos reales ni de la topologia de
+     * clones. Si falla, el dashboard sigue igual: el tab Estructura lo avisa.
+     */
+    async fetchEstructura() {
+        const url = this.config.getStructureUrl();
+        try {
+            const response = await fetch(url);
+            if (!response.ok) throw new Error('HTTP ' + response.status);
+            const json = await response.json();
+            if (!json || !Array.isArray(json.agentes)) {
+                throw new Error('el JSON no tiene la forma esperada');
+            }
+            return { success: true, data: json, error: null };
+        } catch (error) {
+            console.warn('[fetcher] estructura no disponible:', error.message);
+            return { success: false, data: null, error: error.message };
+        }
+    }
+
     async fetchCommits(limit = 50) {
         const url = this.config.getCommitsUrl(limit);
         try {
