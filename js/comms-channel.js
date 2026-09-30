@@ -190,7 +190,12 @@ const CommsChannel = {
       // hace, esa tarjeta queda con el id crudo y sin emoji, que es
       // exactamente la mitad de las tarjetas. Y una segunda lista de
       // agentes es dos fuentes de verdad para el mismo reparto.
-      const fichas = (window.DashboardLiveStatus && DashboardLiveStatus.AGENTS) || [];
+      // OJO: `class DashboardLiveStatus` en un script clasico crea un binding
+      // LEXICO, no una propiedad de window. window.DashboardLiveStatus es
+      // undefined y la comprobacion caia siempre al fallback 🤖 con el
+      // agent_id crudo. Hay que leer el identificador desnudo, protegido con
+      // typeof por si el script no llego a cargarse.
+      const fichas = (typeof DashboardLiveStatus !== 'undefined' && DashboardLiveStatus.AGENTS) || [];
       const ficha = (agente) => {
         const ref = String(agente || '').toLowerCase();
         const a = fichas.find(x => String(x.refAgente || '').toLowerCase() === ref);
