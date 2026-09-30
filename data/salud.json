@@ -1,19 +1,19 @@
 {
- "generado_utc": "20260930T110601Z",
- "generado_h": "2026-09-30 11:06 UTC",
+ "generado_utc": "20260930T112101Z",
+ "generado_h": "2026-09-30 11:21 UTC",
  "archivos_estado": [
   {
    "archivo": "TEAM_STATUS.md",
    "quien": "Principal /30min",
    "estado": "ok",
-   "edad_h": 0.9,
+   "edad_h": 1.1,
    "kb": 9.3
   },
   {
    "archivo": "SESSION_LOG.md",
    "quien": "Documentador /4h",
    "estado": "ok",
-   "edad_h": 0.9,
+   "edad_h": 1.1,
    "kb": 110.8,
    "crecimiento": "EXCEDE 60 KB (111 KB)"
   },
@@ -21,14 +21,14 @@
    "archivo": "COMMS_LOG.md",
    "quien": "Principal /30min",
    "estado": "ok",
-   "edad_h": 0.9,
+   "edad_h": 1.2,
    "kb": 44.3
   },
   {
    "archivo": "PRE_BACKLOG.md",
    "quien": "PO /2h",
    "estado": "ok",
-   "edad_h": 3.5,
+   "edad_h": 3.7,
    "kb": 238.3,
    "crecimiento": "EXCEDE 120 KB (238 KB)"
   },
@@ -36,14 +36,14 @@
    "archivo": "ALERTS_LOG.md",
    "quien": "Principal /30min",
    "estado": "ok",
-   "edad_h": 0.8,
+   "edad_h": 1.1,
    "kb": 59.8
   },
   {
    "archivo": "DECISIONS_LOG.md",
    "quien": "Principal",
    "estado": "ok",
-   "edad_h": 9.1,
+   "edad_h": 9.3,
    "kb": 10.2
   }
  ],
@@ -266,7 +266,7 @@
   },
   {
    "archivo": "estructura.json",
-   "edad_min": 272.5,
+   "edad_min": 287.5,
    "estado": "ok"
   }
  ],
