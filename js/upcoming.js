@@ -558,15 +558,30 @@ window.closeDetailModal = function() {
     if (modal) modal.style.display = 'none';
 };
 
-// Cerrar con click en el overlay o Escape. Delegado: se registra una sola vez.
+// Cerrar el modal. Delegado en document, NO en el elemento modal.
+//
+// Con el listener en el modal, Escape solo funciona si el modal tiene el
+// foco. Pero el modal se abre con click, asi que el foco sigue en el boton
+// que lo abrio (o en el body): keydown nunca llega al modal, Escape no
+// cierra, el overlay queda en display:flex y ademas intercepta los clicks
+// de todo lo que hay debajo. Verificado en navegador real: tras Escape el
+// display seguia en "flex" y el click en el boton de copiar rebotaba con
+// "modal-overlay intercepts pointer events".
 if (!window.__detailModalWired) {
     window.__detailModalWired = true;
     document.addEventListener('DOMContentLoaded', () => {
         const modal = document.getElementById('detail-modal');
         if (modal) {
             modal.addEventListener('click', e => { if (e.target === modal) window.closeDetailModal(); });
-            modal.addEventListener('keydown', e => { if (e.key === 'Escape') window.closeDetailModal(); });
         }
+    });
+    // Escape a nivel documento: cierra este modal y el de comms, sin
+    // depender de donde este el foco.
+    document.addEventListener('keydown', e => {
+        if (e.key !== 'Escape') return;
+        const m = document.getElementById('detail-modal');
+        if (m && m.style.display !== 'none') { window.closeDetailModal(); return; }
+        if (typeof window.closeCommsModal === 'function') window.closeCommsModal();
     });
 }
 
