@@ -1,8 +1,36 @@
 {
- "generado_utc": "20260930T233606Z",
- "generado_h": "2026-09-30 23:36 UTC",
+ "generado_utc": "20260930T235108Z",
+ "generado_h": "2026-09-30 23:51 UTC",
  "origen": "git local + ls-remote (sin cuota). protected cacheado TTL 6h.",
  "commits": [
+  {
+   "sha": "32de3261ab95f610a34d7814ece098b7e477de19",
+   "short": "32de326",
+   "autor": "Pablo Sanchez",
+   "fecha": "2026-09-30T20:44:30-03:00",
+   "msg": "docs(logs): el veredicto de T3+T4 llego antes del cierre - (a) reducido al minimo, y una cifra mia que estaba mal  El Reviewer elige (a) por una razon estructural: es la unica que crea un segundo punto de observabilidad (catalogo cargado / registro listo se asertan por separado y pueden fallar por separado). (b) se descarta porque no hay evento al cual engancharse: gn:tokenchange se escucha, no se despacha.  LO UNICO BLOQUEANTE: hacer (a) sin fijar las 3 firmas. Y NO implementar getState() entero.  Me corrigio una cifra que yo repeti sin medir: getState tiene 0 invocaciones (no 1); esta en un bloque de comentario de la cabecera. registerRender son 5 menciones y 4 en codigo, no 5. Un conteo que viene de otro agente y entra en mi pregunta como si lo hubiera medido es el mismo modo de falla que el 634 del Reviewer y que el count-suite-totals.py fantasma.  Sin cambios de codigo: esto es solo registro. T3+T4 queda con diseno aprobado y para el proximo ciclo, en rama propia."
+  },
+  {
+   "sha": "975eaa446ea691262a175bdac4ffe9dfc8ea8682",
+   "short": "975eaa4",
+   "autor": "Pablo Sanchez",
+   "fecha": "2026-09-30T20:42:48-03:00",
+   "msg": "merge(alert89): el invariante de encounters vigilado en las dos direcciones + logs del HB#71"
+  },
+  {
+   "sha": "df4844029f8601b043150849b15e6c7e1b850f49",
+   "short": "df48440",
+   "autor": "Pablo Sanchez",
+   "fecha": "2026-09-30T20:42:42-03:00",
+   "msg": "﻿docs(logs): HB#71 - ALERT-89 (el invariante en una sola direccion), ALERT-90 y la adenda a ALERT-79"
+  },
+  {
+   "sha": "1176be6035301e30f253b0fa0f2f972e5a36717b",
+   "short": "1176be6",
+   "autor": "Pablo Sanchez",
+   "fecha": "2026-09-30T20:37:16-03:00",
+   "msg": "﻿test(raids): ALERT-89 - el invariante de encounters se vigilaba en UNA sola direccion"
+  },
   {
    "sha": "addfc9f3cfb82dbb2e6cc2b76ff46025ffc495d4",
    "short": "addfc9f",
@@ -324,34 +352,6 @@
    "autor": "Pablo Sanchez",
    "fecha": "2026-09-30T13:40:27-03:00",
    "msg": "﻿fix(storage): la gn: congelada era una foto del primer arranque (Idea 61 Tramos 1-2)"
-  },
-  {
-   "sha": "8ec30d34ce6a18fbd62a7398ba1e4ea686fa03ec",
-   "short": "8ec30d3",
-   "autor": "Pablo Sanchez",
-   "fecha": "2026-09-30T13:11:34-03:00",
-   "msg": "merge: Idea 57 Tramo 4 (el idioma del throw de FORMA es parte del contrato)  Veredicto del Reviewer (task-d2924a5c48db): APROBADO CON CAMBIOS, 1 bloqueante (P3) + 2 observaciones de test (P4).  P3 era mio y ya venia corregido: el mensaje del guard de getAccountLuck no contenia 'forma no soportada', que es la cadena por la queraid-tracker.js:1749 y strike-tracker.js:1121 filtran para NO mostrar la pista de permiso. El Reviewer lo confirmo como bug, no como convencion implicita: lo documenta docs/ONBOARDING.md:243. Fixed en v2.28.0 (fa252c3).  P1 (propagar) y P2 ([] -> 0) APROBADOS. El Reviewer verifico :1024, :509 y :472, y Course un argumento que no plantee: las otras 3 columnas ya hacian exactamente esto, o sea que el fix homogeneiza en vez de agregar un patron. P2 tiene precedente: getCommerceListings ya esta declarado 'FORMA: degrada'  legitimamente; el criterio no es 'todo [] es forma', es 'todo [] esta declarado y con la razon escrita'.  P4 eran dos aserciones mias sin dientes (bc605c4), y una de ellas es la que habria detectado P3. La seccion 4 del cache era vacua: dos sandboxes distintos nunca comparten cache, asi que pasaba con o sin el fix.  MERGE CONTRA ALERT-48: este si lleva veredicto del Reviewer. El Tramo 2 (957cc2c) NO lo lleva y sigue mergeado con la excepcion anotada."
-  },
-  {
-   "sha": "bc605c412cd282eb84081a6311f9093f070dde05",
-   "short": "bc605c4",
-   "autor": "Pablo Sanchez",
-   "fecha": "2026-09-30T13:11:23-03:00",
-   "msg": "﻿test(idea57t2): las dos aserciones que el Code-Reviewer encontro sin dientes"
-  },
-  {
-   "sha": "a3d0b5be7f00557427f5490959b5df4d2f2a7984",
-   "short": "a3d0b5b",
-   "autor": "Pablo Sanchez",
-   "fecha": "2026-09-30T13:08:48-03:00",
-   "msg": "﻿chore(api): buster 2.28.0 + cabecera, mismo commit que el fix del idioma"
-  },
-  {
-   "sha": "fa252c3fdd95a238314b36daee5168dab454a0b4",
-   "short": "fa252c3",
-   "autor": "Pablo Sanchez",
-   "fecha": "2026-09-30T13:07:50-03:00",
-   "msg": "﻿fix(api): el idioma del throw de FORMA es parte del contrato (Idea 57 T4)"
   }
  ],
  "archivos_md": [
@@ -395,9 +395,9 @@
    "repo": "gw2-wallet-agents",
    "label": "Desarrollo",
    "role": "dev",
-   "sha": "addfc9f3cfb82dbb2e6cc2b76ff46025ffc495d4",
-   "short_sha": "addfc9f",
-   "commit": "docs(alerts): ALERT-88 - un veredicto que nombra lineas de un",
+   "sha": "32de3261ab95f610a34d7814ece098b7e477de19",
+   "short_sha": "32de326",
+   "commit": "docs(logs): el veredicto de T3+T4 llego antes del cierre -",
    "estado": "open",
    "protected": false,
    "protected_fresco": true,
@@ -407,9 +407,9 @@
    "repo": "gw2-agents-dashboard",
    "label": "Dashboard",
    "role": "dashboard",
-   "sha": "84d725a845a477bf6a3d4cc6f3b1c1458e4edbe7",
-   "short_sha": "84d725a",
-   "commit": "chore(dashboard): pulso automatico 2026-09-30_23-21_UTC",
+   "sha": "7d109e66c1808d57f6157f08560f4dc8be4cad7e",
+   "short_sha": "7d109e6",
+   "commit": "chore(dashboard): pulso automatico 2026-09-30_23-36_UTC",
    "estado": "open",
    "protected": false,
    "protected_fresco": true,

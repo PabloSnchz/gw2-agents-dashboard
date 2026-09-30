@@ -1,0 +1,83 @@
+{
+  "generado_utc": "2026-09-30T23:40:39Z",
+  "base_url": "https://pablosnchz.github.io/gw2-wallet-agents/",
+  "origen_config": "PabloSnchz/gw2-wallet-agents@main",
+  "fuente": "gw2-dev/index.html (menu lateral) + js/router.js (sub-vistas)",
+  "fuente_sha": "1176be6",
+  "total": 10,
+  "rutas": [
+    {
+      "ruta": "/welcome",
+      "pantalla": "Inicio",
+      "en_menu": true
+    },
+    {
+      "ruta": "/cards",
+      "pantalla": "Cartera",
+      "en_menu": true
+    },
+    {
+      "ruta": "/meta",
+      "pantalla": "Meta & Eventos",
+      "en_menu": true
+    },
+    {
+      "ruta": "/account/achievements",
+      "pantalla": "Logros",
+      "en_menu": true
+    },
+    {
+      "ruta": "/account/wizards-vault",
+      "pantalla": "Cámara del Brujo",
+      "en_menu": true
+    },
+    {
+      "ruta": "/activities",
+      "pantalla": "Actividades",
+      "en_menu": true
+    },
+    {
+      "ruta": "/account/raids",
+      "pantalla": "Raids",
+      "en_menu": true
+    },
+    {
+      "ruta": "/account/characters",
+      "pantalla": "Personajes",
+      "en_menu": true
+    },
+    {
+      "ruta": "/account/legendary-armory",
+      "pantalla": "Armería Legendaria",
+      "en_menu": true
+    },
+    {
+      "ruta": "/account/accounts",
+      "pantalla": "Cuentas",
+      "en_menu": true
+    }
+  ],
+  "sub_vistas": [
+    {
+      "ruta": "/wallet/dashboard",
+      "pantalla": "/wallet/dashboard",
+      "en_menu": false
+    },
+    {
+      "ruta": "/inventory/dashboard",
+      "pantalla": "/inventory/dashboard",
+      "en_menu": false
+    },
+    {
+      "ruta": "/account/strikes",
+      "pantalla": "/account/strikes",
+      "en_menu": false
+    },
+    {
+      "ruta": "/account/wizards-vault/objectives-dashboard",
+      "pantalla": "/account/wizards-vault/objectives-dashboard",
+      "en_menu": false
+    }
+  ],
+  "total_sub_vistas": 4
+}
