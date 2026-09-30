@@ -1,8 +1,22 @@
 {
- "generado_utc": "20260930T210606Z",
- "generado_h": "2026-09-30 21:06 UTC",
+ "generado_utc": "20260930T212106Z",
+ "generado_h": "2026-09-30 21:21 UTC",
  "origen": "git local + ls-remote (sin cuota). protected cacheado TTL 6h.",
  "commits": [
+  {
+   "sha": "cfff5482e5f05894e9e3b70f159f21d40ba879a2",
+   "short": "cfff548",
+   "autor": "Pablo Sanchez",
+   "fecha": "2026-09-30T18:09:34-03:00",
+   "msg": "﻿docs(alerts): ALERT-79 adenda - los 6 escapes Documentados, 4 de ellos en .md y no en .js"
+  },
+  {
+   "sha": "c23f1ced73caa99c94a16ef1f409f473ea2743c5",
+   "short": "c23f1ce",
+   "autor": "Pablo Sanchez",
+   "fecha": "2026-09-30T18:07:16-03:00",
+   "msg": "﻿docs(logs): HB#67 - P3 mergeado con los 4 cambios del Reviewer, ALERT-81, y 4 escapes de ALERT-79"
+  },
   {
    "sha": "0d1d0aa544379b445fe78aac2f53e93bde31d9a0",
    "short": "0d1d0aa",
@@ -338,20 +352,6 @@
    "autor": "Pablo Sanchez",
    "fecha": "2026-09-30T06:46:21-03:00",
    "msg": "docs(hb54): Idea 56 en rama sin mergear, y se acepta la autocorreccion del PO sobre el 206"
-  },
-  {
-   "sha": "6cfbf2c15a6ffb424c8a5385cee217478211ba77",
-   "short": "6cfbf2c",
-   "autor": "Pablo Sanchez",
-   "fecha": "2026-09-30T06:46:21-03:00",
-   "msg": "docs(hb54): Idea 56 en rama sin mergear, y se acepta la autocorreccion del PO sobre el 206"
-  },
-  {
-   "sha": "6178a8f06638a45cb716c93d481d589c728b3d37",
-   "short": "6178a8f",
-   "autor": "Pablo Sanchez",
-   "fecha": "2026-09-30T06:35:53-03:00",
-   "msg": "﻿fix(api): v2.24.0 - getAccountRaids no degrada a [] ante una forma no soportada"
   }
  ],
  "archivos_md": [
@@ -395,9 +395,9 @@
    "repo": "gw2-wallet-agents",
    "label": "Desarrollo",
    "role": "dev",
-   "sha": "be5fdb60c303c6bb7c1ed1ea73cf82a858edb276",
-   "short_sha": "be5fdb6",
-   "commit": "﻿docs(logs): HB#65 - IDEA 63 ",
+   "sha": "cfff5482e5f05894e9e3b70f159f21d40ba879a2",
+   "short_sha": "cfff548",
+   "commit": "﻿docs(alerts): ALERT-79 adenda -",
    "estado": "open",
    "protected": false,
    "protected_fresco": true,
@@ -407,9 +407,9 @@
    "repo": "gw2-agents-dashboard",
    "label": "Dashboard",
    "role": "dashboard",
-   "sha": "8f54781a025d95680066003e49d431bea832e887",
-   "short_sha": "8f54781",
-   "commit": "feat(equipo): la disciplina del canal",
+   "sha": "20a8d9293913f8a94458317ba7e22bc338453e13",
+   "short_sha": "20a8d92",
+   "commit": "fix(equipo): bumpear comms-channel a v",
    "estado": "open",
    "protected": false,
    "protected_fresco": true,
