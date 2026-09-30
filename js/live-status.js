@@ -169,7 +169,14 @@ class DashboardLiveStatus {
 
     /** "cada 30 min" / "bajo demanda" / "sin dato". */
     static _cadaCuando(s) {
-        if (!s.canal.activo) return 'bajo demanda';
+        // El generador (_eco/gen_estructura.py) escribe texto_canal cuando un
+        // agente esta apagado por DISEÑO y no por incidente. "bajo demanda"
+        // a secas es correcto pero incompleto: no dice quién mantiene ese
+        // canal ni por qué esta apagado. Si el dato existe, se muestra.
+        if (!s.canal.activo) {
+            const propio = s.canal.texto_canal || s.canal.textoCanal;
+            return propio ? String(propio).replace(/\s*—\s*el mantenimiento.*$/, '') : 'bajo demanda';
+        }
         if (!s.canal.intervaloMin) return 'sin dato';
         return `cada ${this._formatAge(s.canal.intervaloMin).replace('hace ', '')}`;
     }
@@ -347,6 +354,10 @@ class DashboardLiveStatus {
                 activo: false,
                 intervaloMin: null,
                 ventanaMin: 360,
+                // texto_canal se propaga como campo propio: _cadaCuando() lo
+                // necesita para la columna "cada cuánto", que antes caia
+                // siempre en la genérica "bajo demanda".
+                texto_canal: hb.texto_canal || null,
                 texto: 'Canal: ' + (hb.texto_canal || 'sin heartbeat activo'),
                 tono: 'neutro'
             };
