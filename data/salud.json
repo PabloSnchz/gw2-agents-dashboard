@@ -1,19 +1,19 @@
 {
- "generado_utc": "20260930T163602Z",
- "generado_h": "2026-09-30 16:36 UTC",
+ "generado_utc": "20260930T165101Z",
+ "generado_h": "2026-09-30 16:51 UTC",
  "archivos_estado": [
   {
    "archivo": "TEAM_STATUS.md",
    "quien": "Principal /30min",
    "estado": "ok",
-   "edad_h": 0.9,
-   "kb": 18.6
+   "edad_h": 0.1,
+   "kb": 6.2
   },
   {
    "archivo": "SESSION_LOG.md",
    "quien": "Documentador /4h",
    "estado": "ok",
-   "edad_h": 0.9,
+   "edad_h": 1.2,
    "kb": 117.9,
    "crecimiento": "EXCEDE 60 KB (118 KB)"
   },
@@ -21,14 +21,14 @@
    "archivo": "COMMS_LOG.md",
    "quien": "Principal /30min",
    "estado": "ok",
-   "edad_h": 0.9,
-   "kb": 47.5
+   "edad_h": 0.1,
+   "kb": 48.6
   },
   {
    "archivo": "PRE_BACKLOG.md",
    "quien": "PO /2h",
    "estado": "ROTO",
-   "edad_h": 9.0,
+   "edad_h": 9.2,
    "kb": 238.3,
    "crecimiento": "EXCEDE 120 KB (238 KB)"
   },
@@ -36,14 +36,14 @@
    "archivo": "ALERTS_LOG.md",
    "quien": "Principal /30min",
    "estado": "ok",
-   "edad_h": 0.9,
-   "kb": 66.2
+   "edad_h": 0.1,
+   "kb": 67.6
   },
   {
    "archivo": "DECISIONS_LOG.md",
    "quien": "Principal",
    "estado": "ok",
-   "edad_h": 14.6,
+   "edad_h": 14.8,
    "kb": 10.2
   }
  ],
@@ -214,29 +214,29 @@
   },
   {
    "dia": "2026-09-30",
-   "llamadas": 4394,
-   "prompt": 377775488,
-   "cache_read": 366289755,
-   "cache_pct": 97.0,
-   "prompt_por_llamada": 85975,
+   "llamadas": 4524,
+   "prompt": 391339340,
+   "cache_read": 379190276,
+   "cache_pct": 96.9,
+   "prompt_por_llamada": 86502,
    "por_agente": [
     {
      "agente": "default",
-     "llamadas": 2054,
-     "prompt": 197481554,
-     "cache_pct": 98.0
+     "llamadas": 2130,
+     "prompt": 206788145,
+     "cache_pct": 98.1
     },
     {
      "agente": "architect",
-     "llamadas": 1486,
-     "prompt": 122768888,
+     "llamadas": 1497,
+     "prompt": 123460894,
      "cache_pct": 95.8
     },
     {
      "agente": "product-owner",
-     "llamadas": 589,
-     "prompt": 44840423,
-     "cache_pct": 96.5
+     "llamadas": 632,
+     "prompt": 48405678,
+     "cache_pct": 95.6
     },
     {
      "agente": "Code-Reviewer",
@@ -256,7 +256,7 @@
  "dashboard": [
   {
    "archivo": "comms.json",
-   "edad_min": 0.1,
+   "edad_min": 0.0,
    "estado": "ok"
   },
   {
@@ -266,7 +266,7 @@
   },
   {
    "archivo": "estructura.json",
-   "edad_min": 602.5,
+   "edad_min": 617.5,
    "estado": "ok"
   }
  ],

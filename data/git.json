@@ -1,8 +1,36 @@
 {
- "generado_utc": "20260930T163605Z",
- "generado_h": "2026-09-30 16:36 UTC",
+ "generado_utc": "20260930T165104Z",
+ "generado_h": "2026-09-30 16:51 UTC",
  "origen": "git local + ls-remote (sin cuota). protected cacheado TTL 6h.",
  "commits": [
+  {
+   "sha": "77be9e56ac4e1240c4760bf8432d02fd0535cf14",
+   "short": "77be9e5",
+   "autor": "Pablo Sanchez",
+   "fecha": "2026-09-30T13:44:17-03:00",
+   "msg": "﻿docs(promocion): la Idea 61 T1-2 queda en la lista, marcada NO promover hasta el veredicto"
+  },
+  {
+   "sha": "35a2425eaa0b6cee43536ee3bd779b2bc309013f",
+   "short": "35a2425",
+   "autor": "Pablo Sanchez",
+   "fecha": "2026-09-30T13:43:18-03:00",
+   "msg": "merge: Idea 61 Tramos 1-2 (la gn: congelada) + logs del HB#59  La gn: no estaba desactualizada, estaba CONGELADA: _migrateOne arranca con 'if (hasRaw(newKey)) return' y migrate() corre en cada arranque, asi que la gn: se creo una vez y jamas se refresco mientras un modulo seguia escribiendo la legacy a pelo. Y la gn: es la que sube el Gist.  Merge SIN veredicto del Reviewer a proposito y por una razon que no es 'por merito': el codigo esta en la rama fix-idea61-claves-congeladas (85140bf) y el pedido esta entregado y verificado en el inbox del Reviewer (20260930T164148Z-4b2624). ALERT-48 prohibe mergear cambios de capa de datos sin veredicto, asi que esto se mergea como PENDIENTE y se marca en el TEAM_STATUS. Si el Reviewer dice que el fix correcto es otro, se aplica el suyo y se revierte este.  Es la primera vez que se mergea algo con la excepcion escrita de antemano en vez de descubrirla despues. La Idea 57 Tramo 2 (957cc2c) sigue siendo la unica mergeada sin veredicto y sin aviso previo."
+  },
+  {
+   "sha": "bbac12bc0143d651372616725b1821ff4064baae",
+   "short": "bbac12b",
+   "autor": "Pablo Sanchez",
+   "fecha": "2026-09-30T13:43:10-03:00",
+   "msg": "﻿docs(logs): Heartbeat #59 — Idea 61 en rama, ALERT-66 y el estado del ciclo"
+  },
+  {
+   "sha": "85140bf6fe4bae9b76eb322d0e7ad6aa76309001",
+   "short": "85140bf",
+   "autor": "Pablo Sanchez",
+   "fecha": "2026-09-30T13:40:27-03:00",
+   "msg": "﻿fix(storage): la gn: congelada era una foto del primer arranque (Idea 61 Tramos 1-2)"
+  },
   {
    "sha": "8ec30d34ce6a18fbd62a7398ba1e4ea686fa03ec",
    "short": "8ec30d3",
@@ -324,34 +352,6 @@
    "autor": "Pablo Sanchez",
    "fecha": "2026-09-30T04:13:03-03:00",
    "msg": "﻿docs(logs): HB#48 - fix de 2 bugs del sharding, y cierre del ciclo"
-  },
-  {
-   "sha": "f09eb7cf4cfe0d1189b9b392bc591cfdb11b038d",
-   "short": "f09eb7c",
-   "autor": "Pablo Sanchez",
-   "fecha": "2026-09-30T04:08:50-03:00",
-   "msg": "merge: fix de concurrencia y nocache en el sharding de ach_meta (HB#48)"
-  },
-  {
-   "sha": "86939b8c811c7494fad464dcf83f8b02f571a8af",
-   "short": "86939b8",
-   "autor": "Pablo Sanchez",
-   "fecha": "2026-09-30T04:08:35-03:00",
-   "msg": "﻿chore(cache): buster + header de api-gw2.js a v2.22.0 (ALERT-24)"
-  },
-  {
-   "sha": "b2d78e39dbaffb0a3334eeceffdd2d8eae2ee63f",
-   "short": "b2d78e3",
-   "autor": "Pablo Sanchez",
-   "fecha": "2026-09-30T04:08:20-03:00",
-   "msg": "﻿fix(tests): actualizar el predicado textual del sharding tras el fix de nocache"
-  },
-  {
-   "sha": "0b9721d0ec8086a045712a1ff7887dd7af00f3ce",
-   "short": "0b9721d",
-   "autor": "Pablo Sanchez",
-   "fecha": "2026-09-30T04:07:00-03:00",
-   "msg": "docs(dashboard): PO 08:00 - Idea 49G (ach_acc no entra en la cuota), Idea 52 (5/30 raids rotos), Tramo C mergeado"
   }
  ],
  "archivos_md": [
@@ -393,9 +393,9 @@
    "repo": "gw2-wallet-agents",
    "label": "Desarrollo",
    "role": "dev",
-   "sha": "957cc2cf5e48e5f0b2cd88d4557bf64b157ed550",
-   "short_sha": "957cc2c",
-   "commit": "﻿feat(api): Idea 57 Tramo 2",
+   "sha": "77be9e56ac4e1240c4760bf8432d02fd0535cf14",
+   "short_sha": "77be9e5",
+   "commit": "﻿docs(promocion): la Idea 61 T1",
    "estado": "open",
    "protected": false,
    "protected_fresco": true,
@@ -405,9 +405,9 @@
    "repo": "gw2-agents-dashboard",
    "label": "Dashboard",
    "role": "dashboard",
-   "sha": "7b08fbe4e04c7cc75f5665dac4c242ae19e2d2f0",
-   "short_sha": "7b08fbe",
-   "commit": "fix(dashboard): el tab Salud no abria porque faltaba en",
+   "sha": "0cbfaf12511ff5990e8d481969c757d26a80406e",
+   "short_sha": "0cbfaf1",
+   "commit": "chore(dashboard): pulso automatico 2026-09-30_16-36_UTC",
    "estado": "open",
    "protected": false,
    "protected_fresco": true,
