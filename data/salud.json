@@ -1,19 +1,19 @@
 {
- "generado_utc": "20260930T080601Z",
- "generado_h": "2026-09-30 08:06 UTC",
+ "generado_utc": "20260930T082101Z",
+ "generado_h": "2026-09-30 08:21 UTC",
  "archivos_estado": [
   {
    "archivo": "TEAM_STATUS.md",
    "quien": "Principal /30min",
    "estado": "ok",
-   "edad_h": 0.0,
-   "kb": 11.7
+   "edad_h": 0.2,
+   "kb": 13.0
   },
   {
    "archivo": "SESSION_LOG.md",
    "quien": "Documentador /4h",
    "estado": "ok",
-   "edad_h": 0.0,
+   "edad_h": 0.3,
    "kb": 98.8,
    "crecimiento": "EXCEDE 60 KB (99 KB)"
   },
@@ -21,14 +21,14 @@
    "archivo": "COMMS_LOG.md",
    "quien": "Principal /30min",
    "estado": "ok",
-   "edad_h": 0.0,
+   "edad_h": 0.2,
    "kb": 38.2
   },
   {
    "archivo": "PRE_BACKLOG.md",
    "quien": "PO /2h",
    "estado": "ok",
-   "edad_h": 0.5,
+   "edad_h": 0.7,
    "kb": 238.3,
    "crecimiento": "EXCEDE 120 KB (238 KB)"
   },
@@ -36,14 +36,14 @@
    "archivo": "ALERTS_LOG.md",
    "quien": "Principal /30min",
    "estado": "ok",
-   "edad_h": 0.0,
-   "kb": 42.0
+   "edad_h": 0.2,
+   "kb": 47.4
   },
   {
    "archivo": "DECISIONS_LOG.md",
    "quien": "Principal",
    "estado": "ok",
-   "edad_h": 6.1,
+   "edad_h": 6.3,
    "kb": 10.2
   }
  ],
@@ -209,12 +209,18 @@
   },
   {
    "dia": "2026-09-30",
-   "llamadas": 2579,
-   "prompt": 216861963,
-   "cache_read": 209764636,
-   "cache_pct": 96.7,
-   "prompt_por_llamada": 84087,
+   "llamadas": 2760,
+   "prompt": 234282246,
+   "cache_read": 226830851,
+   "cache_pct": 96.8,
+   "prompt_por_llamada": 84884,
    "por_agente": [
+    {
+     "agente": "default",
+     "llamadas": 1093,
+     "prompt": 103737812,
+     "cache_pct": 97.8
+    },
     {
      "agente": "architect",
      "llamadas": 1086,
@@ -222,22 +228,16 @@
      "cache_pct": 95.9
     },
     {
-     "agente": "default",
-     "llamadas": 947,
-     "prompt": 88782593,
-     "cache_pct": 97.7
-    },
-    {
      "agente": "product-owner",
-     "llamadas": 388,
-     "prompt": 29960565,
-     "cache_pct": 97.1
+     "llamadas": 401,
+     "prompt": 31345199,
+     "cache_pct": 97.2
     },
     {
      "agente": "Code-Reviewer",
-     "llamadas": 125,
-     "prompt": 4850597,
-     "cache_pct": 92.1
+     "llamadas": 147,
+     "prompt": 5931027,
+     "cache_pct": 91.6
     },
     {
      "agente": "documenter",
@@ -261,7 +261,7 @@
   },
   {
    "archivo": "estructura.json",
-   "edad_min": 92.5,
+   "edad_min": 107.5,
    "estado": "ok"
   }
  ],

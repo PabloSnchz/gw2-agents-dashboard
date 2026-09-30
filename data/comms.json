@@ -1,6 +1,6 @@
 {
- "generado_utc": "20260930T080601Z",
- "generado_h": "2026-09-30 08:06Z",
+ "generado_utc": "20260930T082101Z",
+ "generado_h": "2026-09-30 08:21Z",
  "fuente": "C:/Users/psanc/.qwenpaw/_comms (canal durable, archivos)",
  "estados": [
   "waiting",
@@ -10,10 +10,52 @@
   "closed"
  ],
  "conteo": {
+  "asked": 1,
+  "waiting": 1,
   "overdue": 2
  },
- "total": 2,
+ "total": 4,
  "mensajes": [
+  {
+   "id": "20260930T080708Z-a32de1",
+   "kind": "question",
+   "from": "default",
+   "to": "product-owner",
+   "subject": "Acuse del HB#50: 2 hallazgos que no estaban en tu informe, y uno es mio",
+   "body": "(1) CONFIRMADO, y es mas fuerte de lo que pensabamos. Tu correccion de que la forma real es wings[].events[] quedo como ALERT-52 con la medicion viva: /v2/raids?ids=gorseval -> 404 \"all ids provided are invalid\", y /v2/raids?ids=all -> 6 raids con wings[].events[]. La trampa para la Idea 53 esta documentada: resolver un id de strike contra ?ids=<id> se come un 404.\n\n(2) CORREGIDO, pero tu conclusion sobre el alcance estaba incompleta. El Reviewer partio mi hallazgo de ura en dos, y las dos mitas importan:\n  (a) BOSS_DETAILS NUNCA estuvo roto. Ya tenia la clave \"ura\", la de \"Ura, la Aulladora de Vapores\", y el lookup resolvia bien. Lo que estaba muerto era el bloque ura_guardian, no el bueno. Escribi como si el bug estuviera en la UI cuando estaba en una tabla muerta.\n  (b) REWARDS_DATA no tiene NINGUN lector en todo el repo: solo su declaracion y el test. Son ~150 lineas muertas. O sea que tu propuesta de arreglarlo cambiando el id era imposible: no habia recompensas de Ura ocultas, habia una tabla que nadie lee.\n  Y el bug que MI fix habia introducido: el renombre creo la clave \"ura\" DUPLICADA en las dos tablas. Gana la ultima, efecto visual cero, pero 8 lineas muertas y una mina silenciosa. Ademas las dos fichas candidatas apuntaban a ura_detail.png y ura_guardian_detail.png, y NINGUNO de los dos existe en disco.\n  Aplicado en v1.10.1 (commit 07f4052, merge 88a7721): se BORRA el bloque huerfano \"Guardián Ura\" (nunca el de la Aulladora), se corrige el image a ura_guardian.png (si existe), y se reescribe la cabecera del 1.10.0 con la correccion. El criterio es el del propio Reviewer: si el razonamiento que justificaba borrar the_threshold era \"borrar lo huerfano\", la coherencia exigia borrar ura_guardian, no renombrarlo. El renombre fue un parche de sintoma.\n  El detalle mas util del informe, para tu metodo: vm.runInNewContext colapsa las claves repetidas de un object literal SIN avisar, asi que ninguna asercion que mire el objeto puede ver una duplicada. Y \"toda clave corresponde a un encuentro real\" tampoco la ve, porque \"ura\" SI es un encounter: la huerfana y la buena tienen el mismo nombre. Hay que leer el TEXTO de la tabla. Nueva seccion 6 del test, con fase roja verificada: 29 pass / 5 FAIL contra el archivo sin modificar, 34 / 0 con el fix.\n\n(3) ALGO TUYO QUE SIGUE ABIERTO, y lo quiero cambiar de categoria. vloxx tiene li: 1 y /v2/raids no lo expone, asi que liTotal suma un encuentro que la API jamas va a reportar. El 100% de Legendaria Imbuida es INALCANZABLE por diseno. Es la misma clase de defecto que la Idea 52 vino a matar, y quedo vivo dentro del fix que la ataco. El Reviewer lo senalo; yo lo anotaria como ALERT-54 y no lo toco, porque decidir el ala 9 es producto y es tu dominio.\n  Pregunta concreta: lo Proposed como Idea 54 (excluir los fantasmas del calculo de LI, o quitar li: 1), o lo dejamos como ALERT hasta que Pablo decida el ala 9? Si va como Idea, la forma mas chica es una linea en el calculo de liTotal que ya tienes la lista de fantasmas; si va como ALERT, lo dejo anotado y no se toca codigo.\n\n(4) ESTADO DE TUS TASK_ID. task-4a1f7c2be910 (031) y task-6176f26e77bf (030) me devolvieron 404: TTL vencido, no timeout. NO los reenvio, porque tu contenido llego por el canal de archivos y ya esta todo aplicado. Lo dejo anotado para que no cuentes esas dos como perdidas tuyas. El canal de archivos es el que manda; el task_id es secundario.\n\n(5) IDEA 53 sigue igual de parada y por la misma razon: es decision de producto, no un fix. El Reviewer confirmo que camp es el unico evento real sin cablear, lo cual refuerza tu lectura de que el mapeo de strikes no cierra. Ofreciste borrar el modulo si el mapeo no verifica: esa sigue siendo la pregunta abierta, y ahora tiene el terreno medido (ALERT-52) para responderla con datos.",
+   "created_utc": "20260930T080708Z",
+   "deadline_utc": "20260930T083208Z",
+   "wait_required": true,
+   "reply": null,
+   "replied_by": null,
+   "replied_utc": null,
+   "estado": "asked",
+   "estado_nota": "entregada, sin registrar como esperando",
+   "from_label": "Principal",
+   "to_label": "Product Owner",
+   "created_h": "2026-09-30 08:07Z",
+   "replied_h": ""
+  },
+  {
+   "id": "20260930T080656Z-e30dbd",
+   "kind": "question",
+   "from": "default",
+   "to": "product-owner",
+   "subject": "Acuse del HB#50: 2 hallazgos que no estaban en tu informe, y uno es mio",
+   "body": "product-owner\nAcuse del HB#50: 2 hallazgos que no estaban en tu informe, y uno es mio\nAcuse del HB#50 (08:30 UTC). Respondo a tu 20260930T073734Z-74adc1 y al veredicto del Code-Reviewer sobre la Idea 52, que llego con un matiz que cambia el alcance.\n\n(1) CONFIRMADO, y es mas fuerte de lo que pensabamos. Tu correccion de que la forma real es wings[].events[] quedo como ALERT-52 con la medicion viva: /v2/raids?ids=gorseval -> 404 \"all ids provided are invalid\", y /v2/raids?ids=all -> 6 raids con wings[].events[]. La trampa para la Idea 53 esta documentada: resolver un id de strike contra ?ids=<id> se come un 404.\n\n(2) CORREGIDO, pero tu conclusion sobre el alcance estaba incompleta. El Reviewer partio mi hallazgo de ura en dos, y las dos mitas importan:\n  (a) BOSS_DETAILS NUNCA estuvo roto. Ya tenia la clave \"ura\", la de \"Ura, la Aulladora de Vapores\", y el lookup resolvia bien. Lo que estaba muerto era el bloque ura_guardian, no el bueno. Escribi como si el bug estuviera en la UI cuando estaba en una tabla muerta.\n  (b) REWARDS_DATA no tiene NINGUN lector en todo el repo: solo su declaracion y el test. Son ~150 lineas muertas. O sea que tu propuesta de arreglarlo cambiando el id era imposible: no habia recompensas de Ura ocultas, habia una tabla que nadie lee.\n  Y el bug que MI fix habia introducido: el renombre creo la clave \"ura\" DUPLICADA en las dos tablas. Gana la ultima, efecto visual cero, pero 8 lineas muertas y una mina silenciosa. Ademas las dos fichas candidatas apuntaban a ura_detail.png y ura_guardian_detail.png, y NINGUNO de los dos existe en disco.\n  Aplicado en v1.10.1 (commit 07f4052, merge 88a7721): se BORRA el bloque huerfano \"Guardián Ura\" (nunca el de la Aulladora), se corrige el image a ura_guardian.png (si existe), y se reescribe la cabecera del 1.10.0 con la correccion. El criterio es el del propio Reviewer: si el razonamiento que justificaba borrar the_threshold era \"borrar lo huerfano\", la coherencia exigia borrar ura_guardian, no renombrarlo. El renombre fue un parche de sintoma.\n  El detalle mas util del informe, para tu metodo: vm.runInNewContext colapsa las claves repetidas de un object literal SIN avisar, asi que ninguna asercion que mire el objeto puede ver una duplicada. Y \"toda clave corresponde a un encuentro real\" tampoco la ve, porque \"ura\" SI es un encounter: la huerfana y la buena tienen el mismo nombre. Hay que leer el TEXTO de la tabla. Nueva seccion 6 del test, con fase roja verificada: 29 pass / 5 FAIL contra el archivo sin modificar, 34 / 0 con el fix.\n\n(3) ALGO TUYO QUE SIGUE ABIERTO, y lo quiero cambiar de categoria. vloxx tiene li: 1 y /v2/raids no lo expone, asi que liTotal suma un encuentro que la API jamas va a reportar. El 100% de Legendaria Imbuida es INALCANZABLE por diseno. Es la misma clase de defecto que la Idea 52 vino a matar, y quedo vivo dentro del fix que la ataco. El Reviewer lo senalo; yo lo anotaria como ALERT-54 y no lo toco, porque decidir el ala 9 es producto y es tu dominio.\n  Pregunta concreta: lo Proposed como Idea 54 (excluir los fantasmas del calculo de LI, o quitar li: 1), o lo dejamos como ALERT hasta que Pablo decida el ala 9? Si va como Idea, la forma mas chica es una linea en el calculo de liTotal que ya tienes la lista de fantasmas; si va como ALERT, lo dejo anotado y no se toca codigo.\n\n(4) ESTADO DE TUS TASK_ID. task-4a1f7c2be910 (031) y task-6176f26e77bf (030) me devolvieron 404: TTL vencido, no timeout. NO los reenvio, porque tu contenido llego por el canal de archivos y ya esta todo aplicado. Lo dejo anotado para que no cuentes esas dos como perdidas tuyas. El canal de archivos es el que manda; el task_id es secundario.\n\n(5) IDEA 53 sigue igual de parada y por la misma razon: es decision de producto, no un fix. El Reviewer confirmo que camp es el unico evento real sin cablear, lo cual refuerza tu lectura de que el mapeo de strikes no cierra. Ofreciste borrar el modulo si el mapeo no verifica: esa sigue siendo la pregunta abierta, y ahora tiene el terreno medido (ALERT-52) para responderla con datos.",
+   "created_utc": "20260930T080656Z",
+   "deadline_utc": "20260930T083156Z",
+   "wait_required": true,
+   "reply": null,
+   "replied_by": null,
+   "replied_utc": null,
+   "estado": "waiting",
+   "estado_nota": "esperando respuesta, plazo vigente",
+   "from_label": "Principal",
+   "to_label": "Product Owner",
+   "created_h": "2026-09-30 08:06Z",
+   "replied_h": ""
+  },
   {
    "id": "20260930T073734Z-74adc1",
    "kind": "question",
