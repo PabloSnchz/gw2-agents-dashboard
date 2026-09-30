@@ -314,9 +314,24 @@
         }
 
         // Render del tab "Promociones" (PROMOTIONS.md)
+        //
+        // NO se dibuja acá: el render necesita también la lista de pantallas
+        // reales de la app de dev (data/rutas-dev.json) para poder armar los
+        // links y marcar como inválidas las rutas que no existen. Se deja el
+        // datoParsed a mano y lo dibuja js/rutas-dev.js cuando su fetch
+        // termina, pase o falle. Dibujar dos veces haría parpadear la tab,
+        // y dibujar antes de tener las rutas mostraría links sin validar.
         if (fileMap['PROMOTIONS.md'] && fileMap['PROMOTIONS.md'].success) {
-            const promoParsed = DashboardParser.parsePromotions(fileMap['PROMOTIONS.md'].content);
-            DashboardRenderer.renderPromotions(promoParsed, fileMap['PROMOTIONS.md'].content);
+            window.__promoParsed = DashboardParser.parsePromotions(fileMap['PROMOTIONS.md'].content);
+            window.__promoMd = fileMap['PROMOTIONS.md'].content;
+            if (window.RutasDev) {
+                window.RutasDev.load();
+            } else {
+                // Sin el módulo, la tab no queda en blanco: se dibuja sin links
+                // profundos y el render avisa que no pudo validar rutas.
+                DashboardRenderer.renderPromotions(window.__promoParsed, window.__promoMd,
+                    null, 'no se cargó js/rutas-dev.js');
+            }
         } else {
             const promoError = fileMap['PROMOTIONS.md'] ? fileMap['PROMOTIONS.md'].error : 'no encontrado';
             const promoContainer = document.getElementById('promotions-container');

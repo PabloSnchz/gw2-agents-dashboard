@@ -85,6 +85,19 @@ const DASHBOARD_CONFIG = {
         return `https://raw.githubusercontent.com/${this.structureRepoOwner}/${this.structureRepoName}/${this.structureBranch}/data/salud.json`;
     },
 
+    // Pantallas reales de la app de DESARROLLO, medidas sobre el menu lateral
+    // de gw2-dev/index.html por _eco\gen_rutas.py.
+    //
+    // Por que un .json generado y no el router.js leido en el navegador:
+    // router.js pesa 89 KB y traerlo en cada carga para sacar 14 strings es
+    // un desperdicio. Ademas la base_url sale de leer repoOwner/repoName/
+    // branch de ESTE archivo, asi que si el destino del dashboard cambia, el
+    // link cambia con el. Lo unico que se trae de la app son rutas REALES: si
+    // el equipo no declara una ruta para un feat, el panel no inventa una.
+    getRutasUrl() {
+        return `https://raw.githubusercontent.com/${this.structureRepoOwner}/${this.structureRepoName}/${this.structureBranch}/data/rutas-dev.json`;
+    },
+
     // Estado de git de los 3 repos (sha, ultimo commit, proteccion de main).
     // Lo escribe _eco\git_export.py cada 15 min y publica con el pulso.
     // REEMPLAZA a las 3 llamadas branches/main que el navegador hacia contra

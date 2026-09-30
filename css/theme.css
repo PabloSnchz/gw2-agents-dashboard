@@ -413,3 +413,340 @@
 .org-pending__item { color: #c0c0d0; }
 .org-pending__title { color: #d0d0e0; }
 .org-pending__detail { color: #8a8aa0; }
+
+/* =====================================================================
+   PROMOCIONES — "¿hay algo esperando tu decisión?"
+   =====================================================================
+   Escrito como capa aparte y no dentro del bloque general porque estas
+   clases no existían: la tab anterior usaba una grilla genérica donde
+   "congelado" y "esperando decisión" se veían igual de accionables. La
+   diferencia visual entre "hacé esto" y "no toques esto" es el motivo de
+   que el bug fuera peligroso, no un detalle de estilo.
+
+   No se usa !important ni se tocan bordes de otros módulos: el prefijo
+   promo- no colisiona con nada.
+   ===================================================================== */
+
+/* ── Encabezado: la respuesta, arriba de todo ─────────────────────── */
+.promo-head { margin-bottom: 18px; }
+
+.promo-respuesta {
+    margin: 0 0 6px;
+    padding: 12px 14px;
+    border-left: 3px solid rgba(90, 110, 154, 0.5);
+    background: rgba(90, 110, 154, 0.08);
+    border-radius: 4px;
+    color: var(--text-primary, #dfe3ee);
+    font-size: 1rem;
+    line-height: 1.45;
+}
+.promo-respuesta--hay   { border-left-color: #d8a657; background: rgba(216, 166, 87, 0.10); }
+.promo-respuesta--vacio { border-left-color: #5aa9a0; background: rgba(90, 169, 160, 0.08); }
+
+.promo-head__meta {
+    margin: 0;
+    font-size: 0.8rem;
+    color: var(--text-muted, #8b93a7);
+}
+.promo-head__meta code { font-size: 0.78rem; }
+
+/* ── Bloques ───────────────────────────────────────────────────────── */
+.promo-bloque { margin: 0 0 22px; }
+
+.promo-bloque__t {
+    margin: 0 0 4px;
+    font-size: 0.82rem;
+    font-weight: 600;
+    letter-spacing: 0.06em;
+    text-transform: uppercase;
+    color: var(--text-muted, #8b93a7);
+    display: flex;
+    align-items: center;
+    gap: 8px;
+}
+.promo-bloque__lock { font-size: 0.9rem; }
+
+.promo-bloque__n {
+    font-size: 0.72rem;
+    padding: 1px 7px;
+    border-radius: 10px;
+    background: rgba(255, 255, 255, 0.06);
+    color: var(--text-muted, #8b93a7);
+    letter-spacing: 0;
+}
+
+.promo-bloque__sub {
+    margin: 0 0 10px;
+    font-size: 0.85rem;
+    color: var(--text-secondary, #b3bacb);
+    line-height: 1.45;
+}
+
+.promo-bloque--gris .promo-bloque__t { color: #6f768a; }
+
+/* ── Tarjeta de lo que espera decisión ─────────────────────────────── */
+.promo-card {
+    padding: 14px 16px;
+    margin-bottom: 12px;
+    border: 1px solid rgba(255, 255, 255, 0.08);
+    border-radius: 6px;
+    background: rgba(255, 255, 255, 0.02);
+}
+.promo-card--esperando { border-left: 3px solid #d8a657; }
+.promo-card--congelado { border-left: 3px solid #c0646f; background: rgba(192, 100, 111, 0.05); }
+
+.promo-card__head {
+    display: flex;
+    align-items: flex-start;
+    justify-content: space-between;
+    gap: 12px;
+    flex-wrap: wrap;
+}
+
+.promo-card__title {
+    margin: 0;
+    font-size: 1rem;
+    font-weight: 600;
+    color: var(--text-primary, #dfe3ee);
+    line-height: 1.3;
+}
+
+.promo-card__body {
+    margin: 8px 0 0;
+    font-size: 0.88rem;
+    line-height: 1.5;
+    color: var(--text-secondary, #b3bacb);
+}
+
+.promo-card__cola {
+    margin: 6px 0 0;
+    font-size: 0.8rem;
+    line-height: 1.45;
+    color: var(--text-muted, #8b93a7);
+}
+
+.promo-card__meta,
+.promo-meta {
+    display: grid;
+    grid-template-columns: auto 1fr;
+    gap: 2px 10px;
+    margin: 10px 0 0;
+    font-size: 0.78rem;
+}
+.promo-meta dt { color: var(--text-muted, #8b93a7); }
+.promo-meta dd { margin: 0; }
+
+.promo-card__links {
+    display: flex;
+    gap: 8px;
+    flex-wrap: wrap;
+    margin-top: 12px;
+}
+
+.promo-card__inertial {
+    margin: 12px 0 0;
+    padding-top: 10px;
+    border-top: 1px dashed rgba(255, 255, 255, 0.07);
+    font-size: 0.8rem;
+    line-height: 1.45;
+    color: var(--text-muted, #8b93a7);
+}
+.promo-card__inertial strong { color: var(--text-secondary, #b3bacb); }
+
+/* ── Badges ────────────────────────────────────────────────────────── */
+.promo-badge {
+    font-size: 0.7rem;
+    font-weight: 600;
+    letter-spacing: 0.04em;
+    text-transform: uppercase;
+    padding: 3px 9px;
+    border-radius: 3px;
+    white-space: nowrap;
+}
+.promo-badge--ready    { background: rgba(216, 166, 87, 0.16); color: #e0b96f; }
+.promo-badge--congelado { background: rgba(192, 100, 111, 0.18); color: #d38690; }
+
+/* ── Botones ───────────────────────────────────────────────────────── */
+.promo-btn {
+    display: inline-flex;
+    align-items: baseline;
+    gap: 7px;
+    padding: 6px 12px;
+    border-radius: 4px;
+    font-size: 0.82rem;
+    font-weight: 500;
+    text-decoration: none;
+    border: 1px solid rgba(255, 255, 255, 0.10);
+    color: var(--text-primary, #dfe3ee);
+    background: rgba(255, 255, 255, 0.03);
+}
+.promo-btn:hover { background: rgba(255, 255, 255, 0.07); }
+
+.promo-btn--go    { border-color: rgba(216, 166, 87, 0.45); color: #e0b96f; }
+.promo-btn--weak  { color: var(--text-secondary, #b3bacb); }
+
+/* Una ruta que el equipo declaró pero que no existe en la app NO se
+   enlaza: abriría la portada sin error. Se muestra como dato roto. */
+.promo-btn--roto {
+    border-color: rgba(192, 100, 111, 0.40);
+    color: #d38690;
+    background: rgba(192, 100, 111, 0.06);
+    cursor: default;
+}
+
+.promo-btn__hint {
+    font-size: 0.72rem;
+    font-weight: 400;
+    opacity: 0.72;
+    font-family: ui-monospace, SFMono-Regular, Menlo, monospace;
+}
+
+/* ── Shas ──────────────────────────────────────────────────────────── */
+.promo-sha {
+    font-family: ui-monospace, SFMono-Regular, Menlo, monospace;
+    font-size: 0.74rem;
+    color: #8fa8c8;
+    text-decoration: none;
+    margin-right: 6px;
+}
+.promo-sha:hover { text-decoration: underline; }
+
+/* ── Historial ─────────────────────────────────────────────────────── */
+.promo-hist { list-style: none; margin: 0; padding: 0; }
+
+.promo-hist__item {
+    display: grid;
+    grid-template-columns: 92px minmax(0, 1.1fr) minmax(0, 2fr) auto;
+    gap: 12px;
+    align-items: baseline;
+    padding: 7px 10px;
+    border-left: 2px solid rgba(255, 255, 255, 0.08);
+    font-size: 0.83rem;
+    line-height: 1.4;
+}
+.promo-hist__item + .promo-hist__item { margin-top: 2px; }
+.promo-hist__item.is-autorizado { border-left-color: #5aa9a0; }
+.promo-hist__item.is-revertido  { border-left-color: #6f768a; }
+
+.promo-hist__fecha {
+    font-size: 0.74rem;
+    color: var(--text-muted, #8b93a7);
+    font-family: ui-monospace, SFMono-Regular, Menlo, monospace;
+}
+.promo-hist__nombre { color: var(--text-primary, #dfe3ee); font-weight: 500; }
+.promo-hist__detalle { color: var(--text-muted, #8b93a7); font-size: 0.79rem; }
+
+/* ── No candidatos / ilegibles ─────────────────────────────────────── */
+.promo-fuera { list-style: none; margin: 0; padding: 0; }
+
+.promo-fuera__item {
+    display: grid;
+    grid-template-columns: minmax(0, 1fr) minmax(0, 1.6fr) auto;
+    gap: 12px;
+    align-items: baseline;
+    padding: 7px 10px;
+    font-size: 0.83rem;
+    line-height: 1.4;
+    border-left: 2px solid rgba(255, 255, 255, 0.05);
+}
+.promo-fuera__item + .promo-fuera__item { margin-top: 2px; }
+
+.promo-fuera__nombre { color: var(--text-secondary, #b3bacb); }
+.promo-fuera__motivo { color: var(--text-muted, #8b93a7); font-size: 0.79rem; }
+
+/* ── Avisos ────────────────────────────────────────────────────────── */
+.promo-aviso {
+    margin: 12px 0;
+    padding: 10px 13px;
+    border-radius: 4px;
+    font-size: 0.82rem;
+    line-height: 1.5;
+    border-left: 3px solid;
+}
+.promo-aviso--warn {
+    border-left-color: #d8a657;
+    background: rgba(216, 166, 87, 0.08);
+    color: #d9c09a;
+}
+.promo-aviso--info {
+    border-left-color: #5f7fa8;
+    background: rgba(95, 127, 168, 0.08);
+    color: var(--text-secondary, #b3bacb);
+}
+.promo-aviso code { font-size: 0.78rem; }
+
+/* ── Referencia de rutas ───────────────────────────────────────────── */
+.promo-ref {
+    margin-top: 18px;
+    border: 1px solid rgba(255, 255, 255, 0.08);
+    border-radius: 6px;
+    background: rgba(255, 255, 255, 0.015);
+}
+.promo-ref__sum {
+    display: flex;
+    align-items: baseline;
+    justify-content: space-between;
+    gap: 12px;
+    padding: 11px 14px;
+    cursor: pointer;
+    font-size: 0.86rem;
+    color: var(--text-secondary, #b3bacb);
+    list-style: none;
+}
+.promo-ref__sum::-webkit-details-marker { display: none; }
+.promo-ref__sum::after { content: '▾'; opacity: 0.5; }
+.promo-ref[open] .promo-ref__sum::after { content: '▴'; }
+.promo-ref__q { font-weight: 500; }
+.promo-ref__n { font-size: 0.76rem; color: var(--text-muted, #8b93a7); }
+
+.promo-ref__body { padding: 0 14px 14px; }
+
+.promo-ref__nota {
+    margin: 0 0 10px;
+    font-size: 0.78rem;
+    line-height: 1.5;
+    color: var(--text-muted, #8b93a7);
+}
+
+.promo-ref__label {
+    margin: 12px 0 6px;
+    font-size: 0.76rem;
+    color: var(--text-muted, #8b93a7);
+}
+
+.promo-ref__lista {
+    list-style: none;
+    margin: 0;
+    padding: 0;
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(230px, 1fr));
+    gap: 4px 14px;
+}
+.promo-ref__lista li {
+    display: flex;
+    align-items: baseline;
+    justify-content: space-between;
+    gap: 8px;
+    font-size: 0.8rem;
+    padding: 2px 0;
+}
+.promo-ref__lista a { color: #8fa8c8; text-decoration: none; }
+.promo-ref__lista a:hover { text-decoration: underline; }
+.promo-ref__lista code {
+    font-size: 0.72rem;
+    color: var(--text-muted, #8b93a7);
+    opacity: 0.8;
+}
+
+/* ── Responsive ────────────────────────────────────────────────────── */
+@media (max-width: 860px) {
+    .promo-hist__item {
+        grid-template-columns: 1fr;
+        gap: 2px;
+    }
+    .promo-fuera__item {
+        grid-template-columns: 1fr;
+        gap: 2px;
+    }
+    .promo-ref__lista { grid-template-columns: 1fr; }
+}

@@ -836,7 +836,34 @@ class DashboardRenderer {
      * @param {Object} promo — parsed PROMOTIONS data
      * @param {string} rawMd — markdown crudo (fallback si el parseo falla)
      */
-    static renderPromotions(promo, rawMd) {
+// ======================================================================
+    // PROMOCIONES — "¿hay algo esperando tu decisión?"
+    // ======================================================================
+    //
+    // QUÉ PREGUNTA CONTESTA ESTA TAB
+    //
+    // Antes mezclaba en un solo bloque cuatro cosas que no son lo mismo: lo que
+    // espera tu decisión, lo que el equipo ya descartó, lo que está congelado y
+    // el historial. Mezcladas, se leía como una lista de cinco tareas. En
+    // realidad solo había UNA: el botón de liberar caché.
+    //
+    // El error de fondo eran dos, y los dos de truthful-ness:
+    //
+    //   1. 392c3b9 ("**PENDIENTE**. No revertir ni modificar hasta instrucción
+    //      de Pablo") aparecía con un badge de PENDIENTE en "Esperando tu
+    //      decisión". Eso convierte un "no toques esto" en un "decidí esto".
+    //   2. Dos feats que el equipo marcó como NO candidatos aparecían bajo
+    //      "Decisiones tomadas", que se lee como "esto ya está resuelto".
+    //
+    // Los dos están arreglados en el parser; acá los bloques son distintos y
+    // no se mezclan, y un item que no se puede leer NO se disfraza de
+    // resuelto: sale en su propio bloque, con el motivo escrito.
+    //
+    // @param {Object|null} promo       — resultado de parsePromotions()
+    // @param {string}      rawMd       — PROMOTIONS.md original, para el fallback
+    // @param {Object|null} rutas       — data/rutas-dev.json (pantallas reales)
+    // @param {string|null} rutasError  — por qué no hay rutas, si no hay
+    static renderPromotions(promo, rawMd, rutas, rutasError) {
         const container = document.getElementById('promotions-container');
         if (!container) return;
 
@@ -855,121 +882,293 @@ class DashboardRenderer {
             return;
         }
 
-        const all = promo.pending.concat(promo.decisions);
-        const n = st => all.filter(i => i.state === st).length;
+        const esperando = promo.esperando || [];
+        const congelado = promo.congelado || [];
+        const noCandidato = promo.noCandidato || [];
+        const indeterminado = promo.indeterminado || [];
+        const decidido = promo.decidido || [];
 
-        // FIX: "Esperando tu decisión" se arma por ESTADO, no por la sección
-        // del markdown de la que salió la fila. Antes el KPI contaba
-        // pending + ready sobre el total, pero la lista de abajo renderizaba
-        // solo `promo.pending`: un item con estado 'ready' que venía de la
-        // sección de decisiones subía el KPI a 1 con la lista vacía, que es
-        // lo que se veía. KPI y lista salen ahora del mismo array, así que no
-        // pueden discrepar ni por un cambio de formato en PROMOTIONS.md.
-        const AWAITING = ['pending', 'ready'];
-        const awaiting = all.filter(i => AWAITING.indexOf(i.state) !== -1);
-        const resolved = all.filter(i => AWAITING.indexOf(i.state) === -1);
+        const cfg = window.DASHBOARD_CONFIG || {};
+        const repoOwner = cfg.repoOwner || 'PabloSnchz';
+        const repoName = cfg.repoName || 'gw2-wallet-agents';
+        const baseDev = (rutas && rutas.base_url) ? rutas.base_url
+            : 'https://pablosnchz.github.io/gw2-wallet-agents/';
 
-        const parts = [];
+        const self = this;
+        const esc = s => self._escape(s == null ? '' : String(s));
 
-        parts.push(`
-            <div class="promo-header">
-                <h2>🚀 Promociones a producción</h2>
-                ${promo.updatedAt ? `<p class="promo-updated">Inventario al ${this._escape(promo.updatedAt)}</p>` : ''}
-                <p class="promo-rule">
-                    Producción está <strong>congelada</strong>. El equipo anota acá lo que terminó;
-                    <strong>vos decidís</strong> qué entra. Ningún agente promueve por iniciativa propia.
-                </p>
-            </div>
-        `);
+        // Un link al commit es un dato, no una interpretación: el sha viene de
+        // la tabla. Es la forma de que "esto cambia lo que vos ves" se pueda
+        // verificar sin instalar nada.
+        const linkCommit = sha => `https://github.com/${repoOwner}/${repoName}/commit/${sha}`;
 
-        parts.push(`
-            <div class="promo-kpis">
-                ${this._promoKpi('Esperando tu decisión', awaiting.length, 'attention')}
-                ${this._promoKpi('Autorizadas', n('authorized'), 'ok')}
-                ${this._promoKpi('Probadas', n('tested'), 'ok')}
-                ${this._promoKpi('Revertidas / rechazadas', n('reverted') + n('rejected'), 'danger')}
-            </div>
-        `);
+        // Valida una ruta contra las pantallas reales. Una ruta que no está en
+        // la lista NO se enlaza: abriría la portada sin error y el que
+        // pierde el tiempo es Pablo.
+        const rutaValida = r => {
+            if (!r || !rutas) return false;
+            return rutas.rutas.some(x => x.ruta === r) ||
+                   (rutas.sub_vistas || []).some(x => x.ruta === r);
+        };
 
-        if (awaiting.length) {
-            parts.push(this._orgSection('⏳ Esperando tu decisión', `
-                <p class="promo-hint">Nada entra a producción sin tu aprobación explícita.</p>
-                <div class="promo-list">
-                    ${awaiting.map(p => `
-                        <article class="promo-card promo-card--${p.state}">
-                            <div class="promo-card-head">
-                                ${p.commit ? `<code class="promo-sha">${this._escape(p.commit)}</code>` : ''}
-                                ${this._promoBadge(p.state)}
-                            </div>
-                            <p class="promo-card-feat">${this._escape(p.feat)}</p>
-                            ${p.date ? `<p class="promo-card-date">${this._escape(p.date)}</p>` : ''}
-                        </article>
-                    `).join('')}
+        // ── Link de prueba en dev ──────────────────────────────────────────
+        // Tres casos, y se distinguen a propósito:
+        //   ruta declarada y válida  → link directo a esa pantalla
+        //   ruta declarada e inválida → NO se enlaza, se dice por qué
+        //   sin ruta declarada        → link a la raíz, y se dice que falta
+        const bloqueDev = item => {
+            if (item.ruta && rutaValida(item.ruta)) {
+                return `<a class="promo-btn promo-btn--go"
+                           href="${esc(baseDev + '#' + item.ruta)}"
+                           target="_blank" rel="noopener">
+                            Probar en dev
+                            <span class="promo-btn__hint">${esc(item.ruta)}</span>
+                        </a>`;
+            }
+            if (item.ruta) {
+                return `<span class="promo-btn promo-btn--roto"
+                              title="La ruta que declaró el equipo no existe en la app de desarrollo">
+                            <strong>Ruta inválida:</strong> ${esc(item.ruta)}
+                            <span class="promo-btn__hint">no existe en dev</span>
+                        </span>`;
+            }
+            return `<a class="promo-btn promo-btn--weak"
+                       href="${esc(baseDev)}" target="_blank" rel="noopener">
+                        Abrir dev
+                        <span class="promo-btn__hint">sin ruta declarada</span>
+                    </a>`;
+        };
+
+        // ── Tarjeta de lo que espera decisión ─────────────────────────────
+        const cardEspera = item => {
+            const cuerpo = item.detalle || item.cola || null;
+            const cola = item.detalle ? item.cola : null;
+            const shas = (item.commits || []).map(
+                s => `<a class="promo-sha" href="${esc(linkCommit(s))}"
+                        target="_blank" rel="noopener">${esc(s)}</a>`).join(' ');
+            return `
+            <article class="promo-card promo-card--esperando">
+                <header class="promo-card__head">
+                    <h4 class="promo-card__title">${esc(item.nombre)}</h4>
+                    <span class="promo-badge promo-badge--ready">listo para probar</span>
+                </header>
+
+                ${cuerpo ? `<p class="promo-card__body">${esc(cuerpo)}</p>` : ''}
+                ${cola ? `<p class="promo-card__cola">${esc(cola)}</p>` : ''}
+
+                <dl class="promo-meta">
+                    ${item.rama ? `<dt>rama</dt><dd><code>${esc(item.rama)}</code></dd>` : ''}
+                    ${shas ? `<dt>commits</dt><dd>${shas}</dd>` : ''}
+                </dl>
+
+                <div class="promo-card__links">
+                    ${bloqueDev(item)}
+                    ${item.commit ? `<a class="promo-btn promo-btn--weak"
+                        href="${esc(linkCommit(item.commit))}"
+                        target="_blank" rel="noopener">
+                        Ver el diff<span class="promo-btn__hint">${esc(item.commit)}</span>
+                    </a>` : ''}
                 </div>
-            `));
-        } else {
-            parts.push(`
-                <section class="org-section">
-                    <h3>⏳ Esperando tu decisión</h3>
-                    <p class="promo-empty">✅ Nada esperando tu decisión. Producción está al día con lo que autorizaste.</p>
-                </section>
-            `);
-        }
 
-        if (resolved.length) {
-            parts.push(this._orgSection('📜 Decisiones tomadas', `
-                ${this._orgTable(
-                    ['Fecha', 'Commit', 'Qué es', 'Decisión'],
-                    resolved.map(d => [
-                        d.date || '—',
-                        d.commit || '—',
-                        d.feat,
-                        this._promoBadge(d.state)
-                    ])
-                )}
-            `));
-        }
+                <p class="promo-card__inertial">
+                    <strong>Si no decidís nada:</strong> se queda en
+                    <code>agents/main</code>. No pasa a producción y tampoco se
+                    pierde ni se rompe nada.
+                </p>
+            </article>`;
+        };
 
-        container.innerHTML = parts.join('');
-    }
+        // ── Tarjeta de congelado ───────────────────────────────────────────
+        // Esto NO es una tarea. Es un aviso de que hay algo que no hay que
+        // tocar. Por eso va con su propio bloque y no mezclado con lo que
+        // espera decisión: confundirlos fue el bug más caro de esta tab.
+        const cardCongelado = item => `
+            <article class="promo-card promo-card--congelado">
+                <header class="promo-card__head">
+                    <h4 class="promo-card__title">${esc(item.nombre)}</h4>
+                    <span class="promo-badge promo-badge--congelado">congelado</span>
+                </header>
+                ${item.detalle ? `<p class="promo-card__body">${esc(item.detalle)}</p>` : ''}
+                <p class="promo-card__inertial">
+                    <strong>No espera ninguna decisión tuya.</strong> Está marcado
+                    para no tocarlo; solo se mueve si vos lo decís.
+                </p>
+            </article>`;
 
-    /** KPI del tab Promociones */
-    static _promoKpi(label, value, tone) {
-        return `
-            <div class="promo-kpi promo-kpi--${tone}">
-                <span class="promo-kpi-value">${value}</span>
-                <span class="promo-kpi-label">${this._escape(label)}</span>
+        // ── Fila de historial ──────────────────────────────────────────────
+        const filaDecidido = item => {
+            const detalle = item.detalle || '';
+            const clase = /revertid|rechazad/i.test(detalle) ? ' es-revertido'
+                        : (/autorizad|aprobad|promovid/i.test(detalle) ? ' es-autorizado' : '');
+            return `
+            <li class="promo-hist__item${clase}">
+                <span class="promo-hist__fecha">${esc(item.fecha || '—')}</span>
+                <span class="promo-hist__nombre">${esc(item.nombre)}</span>
+                <span class="promo-hist__detalle">${esc(detalle)}</span>
+                ${item.commit ? `<a class="promo-sha" href="${esc(linkCommit(item.commit))}"
+                    target="_blank" rel="noopener">${esc(item.commit)}</a>` : ''}
+            </li>`;
+        };
+
+        // ── Fila de no candidato ───────────────────────────────────────────
+        // El motivo del equipo es el contenido de esta fila. Es la razón por la
+        // que la columna existe, y antes se descartaba: el item desaparecía
+        // sin dejar rastro.
+        const filaNoCandidato = item => `
+            <li class="promo-fuera__item">
+                <span class="promo-fuera__nombre">${esc(item.nombre)}</span>
+                ${item.motivo ? `<span class="promo-fuera__motivo">${esc(item.motivo)}</span>` : ''}
+                ${item.commit ? `<a class="promo-sha" href="${esc(linkCommit(item.commit))}"
+                    target="_blank" rel="noopener">${esc(item.commit)}</a>` : ''}
+            </li>`;
+
+        // ── Aviso de rutas ─────────────────────────────────────────────────
+        const avisoRutas = !rutas
+            ? `<p class="promo-aviso promo-aviso--warn">
+                   No pude cargar la lista de pantallas de dev
+                   (${esc(rutasError || 'motivo desconocido')}), así que no hay
+                   forma de validar los links profundos. Por eso no se muestra
+                   ningún link directo a una pantalla.
+               </p>`
+            : '';
+
+        // ── Referencia de rutas ────────────────────────────────────────────
+        const referenciaRutas = rutas ? `
+            <details class="promo-ref">
+                <summary class="promo-ref__sum">
+                    <span class="promo-ref__q">¿Qué pantallas tiene la app de desarrollo?</span>
+                    <span class="promo-ref__n">${rutas.total} del menú
+                        + ${rutas.total_sub_vistas || 0} sub-vistas</span>
+                </summary>
+                <div class="promo-ref__body">
+                    <p class="promo-ref__nota">
+                        Medido sobre <code>${esc(rutas.fuente || 'gw2-dev')}</code>
+                        ${rutas.fuente_sha ? `(<code>${esc(rutas.fuente_sha)}</code>)` : ''}
+                        el ${esc((rutas.generado_utc || '').slice(0, 10))}.
+                        No es una lista escrita a mano: se genera del menú de la
+                        app, así que si aparece una pantalla nueva, aparece acá.
+                    </p>
+                    <ul class="promo-ref__lista">
+                        ${rutas.rutas.map(x => `<li>
+                            <a href="${esc(baseDev + '#' + x.ruta)}"
+                               target="_blank" rel="noopener">${esc(x.pantalla)}</a>
+                            <code>${esc(x.ruta)}</code>
+                        </li>`).join('')}
+                    </ul>
+                    ${(rutas.sub_vistas || []).length ? `
+                    <p class="promo-ref__label">Sub-vistas (no están en el menú, pero son pantallas reales):</p>
+                    <ul class="promo-ref__lista">
+                        ${rutas.sub_vistas.map(x => `<li>
+                            <a href="${esc(baseDev + '#' + x.ruta)}"
+                               target="_blank" rel="noopener">${esc(x.ruta)}</a>
+                        </li>`).join('')}
+                    </ul>` : ''}
+                </div>
+            </details>` : '';
+
+        // ── Encabezado: la respuesta primero ───────────────────────────────
+        const respuesta = esperando.length === 0
+            ? `<p class="promo-respuesta promo-respuesta--vacio">
+                   <strong>Nada esperando tu decisión.</strong>
+                   ${congelado.length ? `Hay ${congelado.length} cosa${congelado.length > 1 ? 's' : ''} congelada${congelado.length > 1 ? 's' : ''} que pedía no tocar.` : ''}
+               </p>`
+            : `<p class="promo-respuesta promo-respuesta--hay">
+                   <strong>${esperando.length} ${esperando.length > 1 ? 'cosas esperan' : 'cosa espera'} tu decisión.</strong>
+                   Solo lo que ya está en desarrollo y funciona. Nada de esto va a
+                   producción por su cuenta.
+               </p>`;
+
+        // ── Ensamblado ─────────────────────────────────────────────────────
+        const bExpecta = esperando.length ? `
+            <section class="promo-bloque">
+                <h3 class="promo-bloque__t">Esperando tu decisión</h3>
+                ${esperando.map(cardEspera).join('')}
+            </section>` : '';
+
+        const bCongelado = congelado.length ? `
+            <section class="promo-bloque promo-bloque--congelado">
+                <h3 class="promo-bloque__t">
+                    <span class="promo-bloque__lock" aria-hidden="true">🔒</span>
+                    Congelado — no tocar
+                </h3>
+                <p class="promo-bloque__sub">
+                    Esto no está esperando tu decisión: está marcado para que
+                    nadie lo mueva.
+                </p>
+                ${congelado.map(cardCongelado).join('')}
+            </section>` : '';
+
+        const bDecidido = decidido.length ? `
+            <section class="promo-bloque">
+                <h3 class="promo-bloque__t">Ya decidido</h3>
+                <ul class="promo-hist">${decidido.map(filaDecidido).join('')}</ul>
+            </section>` : '';
+
+        const bFuera = noCandidato.length ? `
+            <section class="promo-bloque promo-bloque--gris">
+                <h3 class="promo-bloque__t">
+                    No es candidato
+                    <span class="promo-bloque__n">${noCandidato.length}</span>
+                </h3>
+                <p class="promo-bloque__sub">
+                    El equipo los anotó para que sepas que existen, no como
+                    pedido. No hay nada que hacer con estos.
+                </p>
+                <ul class="promo-fuera">${noCandidato.map(filaNoCandidato).join('')}</ul>
+            </section>` : '';
+
+        const bIndet = indeterminado.length ? `
+            <section class="promo-bloque promo-bloque--gris">
+                <h3 class="promo-bloque__t">
+                    No se pudo leer
+                    <span class="promo-bloque__n">${indeterminado.length}</span>
+                </h3>
+                <p class="promo-bloque__sub">
+                    Hay filas en el archivo cuyo estado no se puede leer. Se
+                    muestran tal cual en vez de contarlas como resueltas: si
+                    alguna de estas fuera tuya, no te la quiero mostrar como si
+                    no existiera.
+                </p>
+                <ul class="promo-fuera">
+                    ${indeterminado.map(i => `<li class="promo-fuera__item">
+                        <span class="promo-fuera__nombre">${esc(i.nombre)}</span>
+                        <span class="promo-fuera__motivo"><code>${esc((i.raw || '').slice(0, 240))}</code></span>
+                    </li>`).join('')}
+                </ul>
+            </section>` : '';
+
+        const notaStorage = `
+            <p class="promo-aviso promo-aviso--info">
+                <strong>Ojo al probar en dev.</strong> Desarrollo y producción se
+                sirven del mismo origen (<code>pablosnchz.github.io</code>) y
+                <code>storage.js</code> usa el prefijo <code>gn:</code> sin
+                separar por entorno: si abrís dev y jugás, estás escribiendo
+                sobre los mismos datos que lee producción. No lo cambié — es
+                del equipo y no es parte de esta tab — pero conviene saberlo
+                antes de clickear.
+            </p>`;
+
+        container.innerHTML = `
+            <div class="promo-head">
+                ${respuesta}
+                <p class="promo-head__meta">
+                    Fuente: <code>PROMOTIONS.md</code> en
+                    <code>${esc(repoName)}</code>
+                    ${promo.updatedAt ? `· última fecha del archivo: ${esc(promo.updatedAt)}` : ''}
+                </p>
+                ${avisoRutas}
             </div>
+
+            ${bExpecta}
+            ${bCongelado}
+            ${bIndet}
+            ${bFuera}
+            ${bDecidido}
+            ${notaStorage}
+            ${referenciaRutas}
         `;
     }
 
-    /** Badge de estado de una promoción */
-    static _promoBadge(state) {
-        const map = {
-            pending:    { cls: 'pending', icon: '⏸',  label: 'Pendiente' },
-            ready:      { cls: 'ready',   icon: '🧪', label: 'Listo para probar' },
-            tested:     { cls: 'ok',      icon: '✅', label: 'Probado' },
-            authorized: { cls: 'ok',      icon: '🚀', label: 'Autorizado' },
-            rejected:   { cls: 'danger',  icon: '❌', label: 'Rechazado' },
-            reverted:   { cls: 'danger',  icon: '↩️', label: 'Revertido' },
-            unknown:    { cls: 'neutral', icon: '•',   label: 'Sin estado' }
-        };
-        const s = map[state] || map.unknown;
-        return `<span class="promo-badge promo-badge--${s.cls}">${s.icon} ${s.label}</span>`;
-    }
-
-    // ======================================================================
-    // ESTRUCTURA REAL — fuente de verdad del Arquitecto
-    // ======================================================================
-    // A diferencia de renderOrgMap(), que muestra ORG_MAP.md (documento del
-    // equipo), esto muestra data/estructura.json: un archivo verificado contra
-    // agent.json, los drivers MCP, los procesos vivos, qwenpaw agents list,
-    // qwenpaw cron list y git remote -v. La diferencia entre ambos no es
-    // estética: el equipo no tiene visibilidad de los permisos reales.
-
-    /**
-     * @param {Object|null} est — contenido de data/estructura.json
-     */
     static renderEstructura(est) {
         const container = document.getElementById('estructura-real-container');
         if (!container) return;

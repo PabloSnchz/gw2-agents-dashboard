@@ -1558,24 +1558,51 @@ class DashboardParser {
      * del archivo— y solo si falta se busca en el texto con límites de
      * palabra.
      */
+    /**
+     * Parsea PROMOTIONS.md → lo que espera tu decisión, lo que está
+     * explícitamente fuera, lo congelado, y el historial.
+     *
+     * POR QUÉ ESTE PARSER FUE REESCRITO (2026-09-30)
+     *
+     * Antes las filas se aplastaban en un solo string con " — " y el estado
+     * se sacaba del PRIMER texto en negrita. Con la tabla real de
+     * PROMOTIONS.md eso daba tres mentiras:
+     *
+     *   1. La tabla se titula "Por qué NO es candidato". El primer **...** de
+     *      cada fila es "**0 callers.**" o "**Es código de test.**", que no es
+     *      un estado. Resultado: state "unknown".
+     *   2. Con state "unknown" los items caían en la sección de "Decisiones
+     *      tomadas" por descarte, NO porque estuvieran decididos. Se mostraban
+     *      como decisiones tomadas cosas que nadie decidió.
+     *   3. El peor: 392c3b9 dice "**PENDIENTE**. No revertir ni modificar hasta
+     *      instrucción de Pablo". El primer **...** es PENDIENTE, así que
+     *      entraba en "Esperando tu decisión" con un badge de pendiente, que
+     *      se lee como "dale que sí". La tab convertía un "no toques esto" en
+     *      un "decidí esto".
+     *
+     * Arreglo de fondo: las columnas se identifican por NOMBRE de encabezado,
+     * nunca por posición. Si el equipo agrega, saca o reordena columnas, el
+     * parser sigue leyéndolas bien. Y hay un estado nuevo, "congelado", que
+     * es el más importante de la tab y no existía.
+     */
     static parsePromotions(md) {
         const data = {
             parseable: true,
             updatedAt: null,
-            pending: [],
-            decisions: []
+            esperando: [],      // espera una decisión de Pablo
+            congelado: [],      // "no revertir ni modificar" → NO es decisión
+            noCandidato: [],    // explícitamente no es candidato a promoción
+            indeterminado: [],  // no se pudo leer el estado; se dice, no se supone
+            decidido: []        // historial de decisiones tomadas
         };
 
         if (!md || typeof md !== 'string') {
             return { parseable: false, ...data };
         }
 
-        // Primera fecha ISO del documento como "actualizado"
         const d = md.match(/\d{4}-\d{2}-\d{2}/);
         if (d) data.updatedAt = d[0];
 
-        // Partir por "## " en vez de usar _extractSection() con un nombre
-        // fijo: así sigue funcionando si el Principal renombra la sección.
         const sections = md.split(/^##\s+/m).slice(1);
         let foundSections = false;
 
@@ -1584,83 +1611,352 @@ class DashboardParser {
             const title = (nl === -1 ? section : section.substring(0, nl)).trim();
             const body = nl === -1 ? '' : section.substring(nl + 1);
 
-            const isPending = /pendient|esperando|por decidir|revisar/i.test(title);
-            const isDecision = /decision|tomadas|historial|aprobad/i.test(title);
+            // "decididas" tiene que ir antes que "decisión": /decisi/ matchea
+            // "Decisiones tomadas" y las dos reglas se pisan.
+            const isDecision = /decidid|tomadas|historial|aprobad/i.test(title);
+            const isPending = !isDecision &&
+                /pendient|esperando|por decidir|candidato|revisar/i.test(title);
             if (!isPending && !isDecision) return;
 
             foundSections = true;
-            const target = isPending ? data.pending : data.decisions;
-            const rows = this._parseTable(body);
+            const tablas = this._parseTablesConHeader(body);
 
-            if (rows.length) {
-                rows.forEach(row => {
-                    const item = this._promoRow(row);
-                    if (item) target.push(item);
+            if (tablas.length) {
+                tablas.forEach(tabla => {
+                    tabla.rows.forEach(row => {
+                        const item = this._promoRowFila(tabla.header, row,
+                                                        isDecision);
+                        if (item) this._clasificarPromo(data, item, isDecision);
+                    });
                 });
             } else {
-                // Sin tabla: bullets ('- `1234567` — feat: PENDIENTE')
                 this._bullets(body).forEach(b => {
-                    const item = this._promoRow([b]);
-                    if (item) target.push(item);
+                    const item = this._promoRowFila([], b, isDecision);
+                    if (item) this._clasificarPromo(data, item, isDecision);
                 });
             }
         });
 
-        // Si no se reconoce ninguna sección → el renderer cae a marked.js
         if (!foundSections) data.parseable = false;
-
         return data;
     }
 
     /**
-     * Convierte una fila de PROMOTIONS.md → { date, commit, feat, state, raw }.
-     * Acepta un array de celdas (tabla) o un string suelto (bullet).
+     * Mete el item en su bucket. El orden importa: "congelado" se prueba
+     * PRIMERO porque su texto suele decir también "pendiente" y ganaría el
+     * primer partido si se probara después.
      */
-    static _promoRow(cells) {
-        const raw = (Array.isArray(cells) ? cells.join(' — ') : String(cells)).trim();
-        if (!raw) return null;
-
-        // SHA de 7-40 hex entre backticks
-        const sha = raw.match(/`([0-9a-f]{7,40})`/i);
-        const commit = sha ? sha[1].substring(0, 7) : null;
-
-        // Fecha ISO
-        const dm = raw.match(/\d{4}-\d{2}-\d{2}/);
-        const date = dm ? dm[0] : null;
-
-        // Estado: primero el término en negrita (convención del archivo)
-        const bold = raw.match(/\*\*([^*]+)\*\*/);
-        const probe = bold ? bold[1] : raw;
-        let state = 'unknown';
-
-        if (/pendient|esperando|por decidir/i.test(probe)) state = 'pending';
-        else if (/revertid|rechazad|descartad|sacad/i.test(probe)) state = 'reverted';
-        else if (/autorizad|aprobad|promovid/i.test(probe)) state = 'authorized';
-        else if (/listo para probar/i.test(probe)) state = 'ready';
-        else if (/probado|testeado/i.test(probe)) state = 'tested';
-        else {
-            // Fallback con límites de palabra: 'revertir' (verbo) NO cuenta
-            // como revertido, 'revertido' (participio) sí.
-            const t = raw.toLowerCase();
-            if (/\bpendientes?\b/.test(t)) state = 'pending';
-            else if (/\brevertid[oa]s?\b|\brechazad[oa]s?\b/.test(t)) state = 'reverted';
-            else if (/\bautorizad[oa]s?\b/.test(t)) state = 'authorized';
-            else if (/\blisto para probar\b/.test(t)) state = 'ready';
-            else if (/\bprobad[oa]s?\b/.test(t)) state = 'tested';
+    static _clasificarPromo(data, item, isDecision) {
+        if (isDecision) {
+            // En el historial "PENDIENTE" no significa "esperando tu
+            // decisión": significa "así quedó, sin resolver". 392c3b9 dice
+            // "PENDIENTE. No revertir ni modificar hasta instrucción de Pablo":
+            // eso NO es una tarea para vos, es un aviso de que hay que
+            // dejarlo quieto. Va a su propio bucket con su propio cartel.
+            //
+            // En cambio 57008ae dice "AUTORIZADO en producción. No tocar.":
+            // también dice "no tocar", pero la decisión YA está tomada, así
+            // que va al historial con la nota de "no tocar" al lado. Meterlo
+            // en "congelado" lo haría parecer que falta algo por decidir.
+            if (item.congelado && !item.decidido) {
+                data.congelado.push(item);
+            } else {
+                data.decidido.push(item);
+            }
+            return;
         }
 
-        // Feat: la fila sin SHA, sin fecha, sin markdown ni separadores
-        const feat = this._cleanCell(
-            raw
-                .replace(/`[0-9a-f]{7,40}`/gi, '')
-                .replace(/\d{4}-\d{2}-\d{2}/g, '')
-                .replace(/\*+/g, '')
-                .replace(/[|—–]/g, ' ')
-                .replace(/\s{2,}/g, ' ')
-                .trim()
+        if (item.congelado) { data.congelado.push(item); return; }
+        if (item.noCandidato) { data.noCandidato.push(item); return; }
+        if (item.state === 'pending' || item.state === 'ready') {
+            data.esperando.push(item);
+            return;
+        }
+        // Sin estado legible NO se inventa uno. Va a su propio bucket para que
+        // la tab lo muestre como "no se pudo leer", no como si estuviera
+        // resuelto. Antes caía en "decisiones tomadas" por descarte.
+        data.indeterminado.push(item);
+    }
+
+    /**
+     * Tabla con encabezado. A diferencia de _parseTable(), NO tira la fila
+     * de encabezados: sin ella las columnas son anónimas y no hay forma de
+     * saber cuál es cuál salvo por posición, que es exactamente el
+     * supuesto que rompió todo lo anterior.
+     */
+    // Todas las tablas de un texto, con su encabezado.
+    //
+    // Antes esta función devolvía SÓLO la primera y cortaba al terminar.
+    // Eso está bien para las tablas de una sola, pero la sección "Pendientes
+    // de decisión" de PROMOTIONS.md tiene dos tablas separadas por prosa: la
+    // primera con el único feat que sí espera tu decisión, y la segunda —
+    // "Por qué NO es candidato" — con el resto. Con una sola tabla, el
+    // segundo grupo no se leía NADA y sus filas desaparecían sin dejar rastro,
+    // que es peor que mostrarlas mal: un item que no aparece no se puede
+    // auditar.
+    static _parseTablesConHeader(text) {
+        const lines = text.split('\n');
+        const split = l => l.trim().split('|').slice(1, -1).map(c => c.trim());
+        const tablas = [];
+
+        for (let i = 0; i < lines.length; i++) {
+            const l = lines[i].trim();
+            if (!(l.startsWith('|') && /\|[-:| ]+\|/.test(l))) continue;
+
+            let headerIdx = i - 1;
+            while (headerIdx >= 0 && !lines[headerIdx].trim().startsWith('|')) headerIdx--;
+            if (headerIdx < 0) continue;
+
+            const header = split(lines[headerIdx]);
+            if (!header.length || !header.some(h => h && h.length)) continue;
+
+            const rows = [];
+            let j = i + 1;
+            for (; j < lines.length; j++) {
+                const r = lines[j].trim();
+                if (!r || !r.startsWith('|')) break;
+                if (/^\|[-:| ]+\|$/.test(r)) continue;
+                rows.push(split(r));
+            }
+            tablas.push({ header, rows });
+            i = j - 1;
+        }
+        return tablas;
+    }
+
+    /**
+     * Convierte una fila con encabezado conocido → item. Busca cada campo por
+     * el NOMBRE de su columna, con un orden de preferencia, así que agregar o
+     * reordenar columnas no rompe nada. Las columnas que no aparecen valen
+     * null y la tab lo dice: nunca inventa un valor.
+     */
+    static _promoRowFila(header, row, isDecision) {
+        const celda = (re) => {
+            if (!header || !header.length) return null;
+            for (let i = 0; i < header.length; i++) {
+                if (re.test(header[i] || '')) return (row[i] || '').trim();
+            }
+            return null;
+        };
+
+        const cFeat   = celda(/^feat|funcionalidad|^item|caracter/i);
+        const cRama   = celda(/rama|branch/i);
+        const cComm   = celda(/commit|sha|merge/i);
+        const cFecha  = celda(/fecha|date/i);
+        const cDec    = celda(/decisi|estado|autoriz/i);
+        // La columna que antes se perdía. Es la razón por la que un item NO es
+        // candidato, que es justo lo que hace falta para no molestarlo.
+        const cMotivo = celda(/por qu|criterio|motivo|raz[oó]n|porque|nota/i);
+        // La columna nueva, opcional: dónde probar el cambio en dev.
+        const cRuta   = celda(/d[oó]nde verlo|ruta|ver en dev|pantalla|screen|deep.?link/i);
+
+        // Que la columna se llame "Por qué NO es candidato" ES la señal de no
+        // candidato, y estaba en el encabezado, que se descartaba. Sin esto el
+        // motivo ("Es código de test") llegaba como texto suelto y el item
+        // caía en "no se pudo leer". Con esto se lee lo que el equipo escribió
+        // como título de la columna.
+        let motivoHdr = null;
+        if (header && header.length) {
+            for (let i = 0; i < header.length; i++) {
+                if (/por qu|criterio|motivo|raz[oó]n|porque|nota/i.test(header[i] || '')) {
+                    motivoHdr = (header[i] || '').trim();
+                    break;
+                }
+            }
+        }
+        const noCandidatoPorColumna =
+            !!motivoHdr && /no es candid|no son candid|no candidata/i.test(motivoHdr);
+
+        // Sin encabezado reconocible (o bullet suelto): cae al parseo viejo,
+        // que al menos no rompe.
+        if (!cFeat && !cRama && !cComm) return this._promoRow(row, isDecision);
+
+        const todo = [cFeat, cRama, cComm, cDec, cMotivo, cRuta].filter(Boolean).join(' — ');
+        const shas = (cComm || '').match(/[0-9a-f]{7,40}/gi) || [];
+
+        return this._armarPromo({
+            texto: cFeat || cRama || (shas[0] || ''),
+            fecha: cFecha,
+            commits: shas.map(s => s.substring(0, 7)),
+            rama: cRama ? this._cleanCell(cRama) : null,
+            detalle: cDec ? this._cleanCell(cDec) : null,
+            motivo: cMotivo ? this._cleanCell(cMotivo) : null,
+            ruta: cRuta ? this._promoRuta(cRuta) : null,
+            noCandidatoPorColumna,
+            raw: todo
+        }, isDecision);
+    }
+
+    /**
+     * Saca de una celda de ruta lo que de verdad es una ruta de la app.
+     *
+     * Se devuelve SIN el "#" inicial, que es el mismo formato que usa
+     * data/rutas-dev.json ("/account/raids", no "#/account/raids"). Con los
+     * dos formatos distintos, validar una ruta contra la lista real exige
+     * normalizar en el render, y ahí es donde se cuelan los links rotos.
+     * El "#" lo pone el render al armar la URL.
+     */
+    static _promoRuta(celda) {
+        const txt = String(celda);
+        const m = txt.match(/#?(\/[a-zA-Z0-9\-_/]*)/);
+        if (!m) return null;
+        const ruta = m[1].replace(/\/+$/, '');
+        return ruta && ruta.length > 1 ? ruta : null;
+    }
+
+    /**
+     * Parseo por texto sin encabezado (bullets, o tabla con formato
+     * desconocido). Mantiene el comportamiento anterior como respaldo.
+     */
+    static _promoRow(cells, isDecision) {
+        const raw = (Array.isArray(cells) ? cells.join(' — ') : String(cells)).trim();
+        if (!raw) return null;
+        return this._armarPromo({ texto: raw, raw: raw }, isDecision);
+    }
+
+    /**
+     * Armado común: acá se decide el estado, el nombre del feature y la
+     * separación nombre/detalle.
+     */
+    static _armarPromo(entrada, isDecision) {
+        const raw = entrada.raw || entrada.texto || '';
+        const texto = entrada.texto || raw;
+
+        const shas = entrada.commits && entrada.commits.length
+            ? entrada.commits
+            : (raw.match(/[0-9a-f]{7,40}/gi) || []).map(s => s.substring(0, 7));
+        const commit = shas[0] || null;
+
+        const fecha = entrada.fecha
+            || (raw.match(/\d{4}-\d{2}-\d{2}/) || [])[0] || null;
+
+        // "congelado" se evalúa sobre TODO el texto de la fila, no sobre el
+        // primer **...**. La razón: en 392c3b9 el primer término en negrita
+        // es PENDIENTE, pero la frase que define el estado real es "No
+        // revertir ni modificar hasta instrucción de Pablo", y está más
+        // abajo. Mirar solo el primer bold es lo que produjo el bug.
+        const congelado = !!(
+            /no revertir|sin revertir|no modificar|sin modificar|no tocar|intocable|congelad|hasta instrucci|hasta que Pablo|no revertir ni/i.test(raw)
         );
 
-        if (!feat && !commit) return null;
-        return { date, commit, feat: feat || '(sin descripción)', state, raw };
+        const noCandidato = !!entrada.noCandidatoPorColumna || !!(
+            /no es candid|no son candidat|no candidata|excluido|excluida|descartad|0 callers|no aplica a promoci/i.test(raw)
+        );
+
+        // Estado: sale de la columna "Estado" si la tabla la tiene, y recien
+        // si no del primer **...** de la fila.
+        //
+        // Por qué el orden importa y por qué esto estaba roto: el primer
+        // negrita de la fila del botón de caché es el NOMBRE del feature
+        // ("**Idea 50 completa — el botón de liberar caché**"), porque la
+        // columna Feat viene antes que la columna Estado y la celda viene en
+        // negrita. El estado real ("**LISTO.**") era el segundo. Con el
+        // "primer negrita" el único item accionable de la tab caía en
+        // "no se pudo leer" y nadie podía verlo.
+        const primerBold = s => {
+            const m = String(s || '').match(/\*\*([^*]+)\*\*/);
+            return m ? m[1] : null;
+        };
+        const probe = primerBold(entrada.detalle) || primerBold(raw) || raw;
+        let state = 'unknown';
+        if (congelado) state = 'congelado';
+        else if (noCandidato) state = 'no_candidato';
+        // "LISTO." a secas es el estado real del botón de cacheClear. Las dos
+        // reglas anteriores pedían "listo para probar" y caían en unknown, que
+        // mandaba el único item accionable de la tab al bucket "no se pudo
+        // leer". Se prueba el probe como palabra suelta, no la fila entera:
+        // "listo" en la letra chica de otro texto no debe convertirlo en
+        // candidato.
+        else if (/^\W*listo\W*$/i.test(probe)) state = 'ready';
+        else if (/pendient|esperando|por decidir/i.test(probe)) state = 'pending';
+        else if (/listo para probar|probar|para tu prueba/i.test(probe)) state = 'ready';
+        else if (/revertid|rechazad|descartad|sacad/i.test(probe)) state = 'reverted';
+        else if (/autorizad|aprobad|promovid/i.test(probe)) state = 'authorized';
+        else if (/probado|testeado/i.test(probe)) state = 'tested';
+
+        // "¿Está esto ya decidido?" va aparte del estado, porque "congelado" y
+        // "decidido" no se excluyen: 57008ae está autorizado Y dice "no
+        // tocar", y 392c3b9 está pendiente Y dice "no revertir". Los dos
+        // mentions "no tocar"; solo uno falta que se decida. Sin este campo,
+        // el bucket "congelado" se llevaba también el que ya estaba resuelto.
+        const decidido = /autorizad|aprobad|promovid|revertid|rechazad|descartad|sacad/i.test(probe);
+
+        // Nombre del feature y detalle: NO se parte por el primer ":".
+        //
+        // El nombre real del botón es "Idea 50 completa — el botón de liberar
+        // caché" y después viene un paréntesis largo que empieza con un ":"
+        // ("(Tramos A-F: cacheClear con dryRun, ...)"). Partir por el primer
+        // dos puntos cortaba el nombre a mitad de palabra y dejaba
+        // "Idea 50 completa — el botón de liberar caché (Tramos A-F" como
+        // título. Los dos puntos solo separan un detalle cuando están
+        // FUERA del paréntesis.
+        const { nombre, detalle: det, cola } = this._nombreYDetalle(texto);
+        const detalle = entrada.detalle || det || null;
+
+        if (!nombre && !commit) return null;
+
+        return {
+            fecha,
+            commit,
+            commits: shas,
+            nombre: nombre || '(sin descripción)',
+            detalle,
+            cola,
+            rama: entrada.rama || null,
+            motivo: entrada.motivo || null,
+            ruta: entrada.ruta || null,
+            state,
+            congelado,
+            decidido,
+            noCandidato,
+            raw
+        };
+    }
+
+    /**
+     * Separa nombre / detalle / cola sin cortar palabras.
+     *
+     *   "Idea 50 completa — el botón (Tramos A-F: cacheClear …)"
+     *       → nombre "Idea 50 completa — el botón"
+     *         cola   "Tramos A-F: cacheClear …"
+     *
+     *   "(Solitary Throne CM daily tracker): PENDIENTE. No revertir…"
+     *       → nombre "Solitary Throne CM daily tracker"
+     *         detalle "PENDIENTE. No revertir…"
+     *
+     * Los shas SOLO se quitan del principio. Si se limpian de todo el texto,
+     * "revertido con `a1a53c4`" queda como "revertido con ." y el dashboard
+     * muestra una frase rota. El sha va en su propio campo de todas formas.
+     */
+    static _nombreYDetalle(textoCrudo) {
+        let txt = String(textoCrudo)
+            .replace(/^(?:[`\s,]*[0-9a-f]{7,40}[`\s,–-]*)+/i, '')  // shas al inicio
+            .replace(/^[-—–:.\s]+/, '')
+            .trim();
+        if (!txt) return { nombre: '', detalle: null, cola: null };
+
+        // "(nombre): detalle"
+        const abre = txt.match(/^\(([^)]*)\)\s*[:—–]\s*(.+)$/);
+        if (abre && abre[1].trim().length >= 3) {
+            return { nombre: abre[1].trim(), detalle: abre[2].trim(), cola: null };
+        }
+
+        // "nombre (cola larga)"  → la cola no es el detalle de una decisión,
+        // es la letra chica del feature.
+        const colaLarga = txt.match(/^([^(]{3,90}?)\s*\(([^)]{25,})\)\s*$/);
+        if (colaLarga) {
+            return { nombre: colaLarga[1].trim(), detalle: null,
+                     cola: colaLarga[2].trim() };
+        }
+
+        // "(nombre)" solo
+        const solo = txt.match(/^\(([^)]{3,90})\)\s*$/);
+        if (solo) return { nombre: solo[1].trim(), detalle: null, cola: null };
+
+        // "nombre: detalle" (dos puntos fuera de paréntesis)
+        const punto = txt.match(/^([^:]{3,90}):\s*(.+)$/);
+        if (punto) return { nombre: punto[1].trim(), detalle: punto[2].trim(), cola: null };
+
+        return { nombre: txt, detalle: null, cola: null };
     }
 }
