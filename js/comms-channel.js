@@ -16,6 +16,9 @@
  * verdad cuando estas dormido: hay algo que se quedo esperando ahi?
  *
  *   overdue  - se veto el plazo y nadie respondio       (ROJO,Priority)
+ *   asked    - entregada pero NO registrada como        (NARANJA)
+ *               esperando: alguien mando una pregunta y
+ *               no espero la respuesta
  *   waiting  - esperando respuesta, plazo todavia vive  (AMARILLO)
  *   answered - respondida, falta que el emisor la cierre (VERDE)
  *   closed   - cerrada y archivada                      (GRIS, es historia)
@@ -24,6 +27,9 @@
 const CHANNEL_ESTADOS = [
     { key: 'overdue',  label: 'Vencidas',     variant: 'critical',     icon: '🔴',
       help: 'Se paso el plazo y nadie respondio. Requieren tu atencion.' },
+    { key: 'asked',    label: 'Sin registrar', variant: 'important',   icon: '🟠',
+      help: 'Pregunta entregada, pero el emisor no la registro como esperando. ' +
+            'Se respondio igual o quedo flotando.' },
     { key: 'waiting',  label: 'Esperando',    variant: 'important',    icon: '🟡',
       help: 'Pregunta entregada, esperando respuesta, plazo vigente.' },
     { key: 'answered', label: 'Respondidas',  variant: 'routine',      icon: '🟢',
