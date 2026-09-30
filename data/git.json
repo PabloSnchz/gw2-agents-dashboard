@@ -1,8 +1,22 @@
 {
- "generado_utc": "20260930T215106Z",
- "generado_h": "2026-09-30 21:51 UTC",
+ "generado_utc": "20260930T220606Z",
+ "generado_h": "2026-09-30 22:06 UTC",
  "origen": "git local + ls-remote (sin cuota). protected cacheado TTL 6h.",
  "commits": [
+  {
+   "sha": "f482cbcce3ae2f25352203cf72c7fbd94be0afec",
+   "short": "f482cbc",
+   "autor": "Pablo Sanchez",
+   "fecha": "2026-09-30T19:05:10-03:00",
+   "msg": "docs(logs): HB#68 - el copy del boton, ALERT-82, y las 2 coms esperando"
+  },
+  {
+   "sha": "70414d2900fabbf84194df598c77c005eb2c4952",
+   "short": "70414d2",
+   "autor": "Pablo Sanchez",
+   "fecha": "2026-09-30T19:01:18-03:00",
+   "msg": "fix(cache-boton): el copy no promete una recarga que no pasa"
+  },
   {
    "sha": "b43743b1b98c7785d4f678eeb8ce4bcdcda7a68d",
    "short": "b43743b",
@@ -338,20 +352,6 @@
    "autor": "Pablo Sanchez",
    "fecha": "2026-09-30T07:06:32-03:00",
    "msg": "merge(idea56-f1): la pista de permiso no se muestra ante un fallo de FORMA"
-  },
-  {
-   "sha": "4c95774357a20d4be1a10ea47ab355d6208e5828",
-   "short": "4c95774",
-   "autor": "Pablo Sanchez",
-   "fecha": "2026-09-30T07:06:15-03:00",
-   "msg": "fix(ui): F1 del Reviewer - la pista de permiso no se muestra ante un fallo de FORMA"
-  },
-  {
-   "sha": "23b1565a6d1d2add29396b3471055564f5f0dbfd",
-   "short": "23b1565",
-   "autor": "Pablo Sanchez",
-   "fecha": "2026-09-30T07:02:34-03:00",
-   "msg": "merge(idea60b): guard de FORMA en getCharacterCount - F2 del Reviewer sobre la v2.24.0"
   }
  ],
  "archivos_md": [
@@ -389,7 +389,7 @@
    "estado": "protected",
    "protected": true,
    "protected_fresco": true,
-   "protected_verificado_utc": "20260930T160606Z"
+   "protected_verificado_utc": "20260930T220608Z"
   },
   {
    "repo": "gw2-wallet-agents",
@@ -401,19 +401,19 @@
    "estado": "open",
    "protected": false,
    "protected_fresco": true,
-   "protected_verificado_utc": "20260930T160607Z"
+   "protected_verificado_utc": "20260930T220609Z"
   },
   {
    "repo": "gw2-agents-dashboard",
    "label": "Dashboard",
    "role": "dashboard",
-   "sha": "2175c2dabb45e3194d15a9c7252f526eeceda09c",
-   "short_sha": "2175c2d",
-   "commit": "fix(Equipo): el riel de la fila 1",
+   "sha": "88cb94d5f63f1439739330eb425fcf2d6f041034",
+   "short_sha": "88cb94d",
+   "commit": "chore(dashboard): pulso automatico 2026-09-30_21-51_UTC",
    "estado": "open",
    "protected": false,
    "protected_fresco": true,
-   "protected_verificado_utc": "20260930T160608Z"
+   "protected_verificado_utc": "20260930T220611Z"
   }
  ]
 }

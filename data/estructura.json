@@ -3,7 +3,7 @@
     "schema": 2,
     "titulo": "Estructura real del ecosistema Bóveda del Gato Negro",
     "autoridad": "Arquitecto (agente `architect`) — director de la ESTRUCTURA por decisión de Pablo, 2026-09-30",
-    "verificado": "2026-09-30T21:51:01Z",
+    "verificado": "2026-09-30T22:06:02Z",
     "metodo": "GENERADO, no escrito a mano. Regenerar con _eco\\gen_estructura.py. Lee workspaces/<agente>/agent.json (heartbeat.enabled, .every) y workspaces/<agente>/jobs.json (crons: enabled, expr). Nada se supone: un cron deshabilitado se marca activo=false aunque conserve su cron_expr.",
     "nota_admin": "El chat 'Principal (Admin)' fue retirado el 2026-09-30: no era un agente, era una sesion manual dentro de `default`. Esa tarea la hace el Arquitecto."
   },
@@ -105,6 +105,140 @@
       "console"
     ],
     "enforcement": "real, lo impone la plataforma"
+  },
+  "discrepancias_vs_org_map": [
+    {
+      "id": "d1",
+      "severidad": "grave",
+      "tema": "Produccion como regla de honor",
+      "dice_org_map": "«la prohibicion de escribir en gw2-wallet-ligero es regla de honor»",
+      "realidad": "Produccion esta FUERA del alcance del MCP de los 5 agentes. No hay ni lectura ni escritura. Es enforcement real, no una regla escrita.",
+      "estado": "abierta",
+      "verificada": "2026-09-30",
+      "nota": "Sigue textual en ORG_MAP.md. Es la mas peligrosa: describe como regla de honor algo que hoy es un candado."
+    },
+    {
+      "id": "d2",
+      "severidad": "grave",
+      "tema": "Ruta del clon de desarrollo",
+      "dice_org_map": "C:\\Mis Archivos\\GW2 online\\gw2-wallet-agents (clon de desarrollo)",
+      "realidad": "El clon de desarrollo es gw2-dev. gw2-wallet-agents quedo RETIRADO: quedaba a un `git remote -v` de distancia de produccion.",
+      "estado": "abierta",
+      "verificada": "2026-09-30",
+      "nota": "La tabla de remotes de ORG_MAP.md sigue nombrando el clon retirado."
+    },
+    {
+      "id": "d3",
+      "severidad": "grave",
+      "tema": "Ruta del clon de produccion",
+      "dice_org_map": "C:\\Mis Archivos\\GW2 online\\gw2-wallet-ligero (clon de produccion)",
+      "realidad": "El clon de produccion es gw2-prod, y esta reservado para la promocion controlada. gw2-wallet-ligero esta vetado por tener trabajo unico sin integrar (17 ramas huerfanas).",
+      "estado": "abierta",
+      "verificada": "2026-09-30",
+      "nota": "El documento sigue apuntando al clon que nadie debe usar."
+    },
+    {
+      "id": "d4",
+      "severidad": "grave",
+      "tema": "El dashboard",
+      "dice_org_map": "«los 4 agentes operativos tienen el path del dashboard en su MCP»",
+      "realidad": "Correcto, y es al reves de lo que dice la regla: el dashboard NO esta protegido por nada escrito. Es regla de honor para todos, incluido el Arquitecto.",
+      "estado": "abierta",
+      "verificada": "2026-09-30",
+      "nota": "El dato es cierto y por eso mismo es el hallazgo: el unico producto que se puede tocar es el que nadie tiene protegido."
+    },
+    {
+      "id": "d5",
+      "severidad": "media",
+      "tema": "Code Reviewer sin acceso al repo",
+      "dice_org_map": "No lo menciona: no hay seccion de paths del MCP por agente.",
+      "realidad": "Se le CREO el driver (no existia) con default_effect deny + allow-list de 8 tools de lectura, sobre gw2-dev + su workspace.",
+      "estado": "abierta",
+      "verificada": "2026-09-30",
+      "nota": "El dato esta bien, la omision es la que molesta: el equipo no sabe que el Reviewer ahora puede leer."
+    },
+    {
+      "id": "d6",
+      "severidad": "media",
+      "tema": "Heartbeat del Principal",
+      "dice_org_map": "«agent.json: every 30m pero enabled: false — el agent.json NO lo corre; el mecanismo vivo es el cron»",
+      "realidad": "Coincide. Verificado contra jobs.json y agent.json el 2026-09-30.",
+      "estado": "resuelta",
+      "verificada": "2026-09-30",
+      "resuelta_el": "2026-09-30",
+      "nota": "ORG_MAP.md ya dice exactamente esto. Se corrigio el 30/09 y el panel seguia gritandola."
+    },
+    {
+      "id": "d7",
+      "severidad": "media",
+      "tema": "Heartbeat del PO",
+      "dice_org_map": "«NO es un cron de QwenPaw: agent.json con every 2h, enabled: true, timeout 300s»",
+      "realidad": "Coincide con agent.json del workspace product-owner.",
+      "estado": "resuelta",
+      "verificada": "2026-09-30",
+      "resuelta_el": "2026-09-30",
+      "nota": "Igual que d6: el documento ya estaba corregido."
+    },
+    {
+      "id": "d8",
+      "severidad": "media",
+      "tema": "Heartbeat del Arquitecto",
+      "dice_org_map": "«Desactivado por diseño. agent.json: enabled: false, every 6h»",
+      "realidad": "Coincide. El cron 17e51119 que lo corria esta pausado (enabled:false) y fue sustituido por la tarea de Windows GW2-Ecosystem-Pulse, que no gasta tokens.",
+      "estado": "abierta",
+      "verificada": "2026-09-30",
+      "nota": "El dato es cierto pero incompleto: no dice que hay un sustituto sin LLM. Un cron apagado sin sustituto registrado parece una falla."
+    },
+    {
+      "id": "d9",
+      "severidad": "media",
+      "tema": "Worktrees",
+      "dice_org_map": "«_wt_main es el worktree de main de gw2-wallet-agents»",
+      "realidad": "Los worktrees se recrearon desde gw2-dev. Verificado con git rev-parse --git-common-dir: ambos apuntan a gw2-dev/.git.",
+      "estado": "abierta",
+      "verificada": "2026-09-30",
+      "nota": "El documento sigue apuntando al clon retirado. Si el equipo lo toma al pie de la letra, trabaja en el clon peligroso."
+    },
+    {
+      "id": "d10",
+      "severidad": "baja",
+      "tema": "Heartbeat del Documentador",
+      "dice_org_map": "«A CONFIRMAR. agent.json dice enabled: true, every 4h, timeout 900s. CRON_SCHEDULE.md solo lista 2 heartbeats»",
+      "realidad": "El agent.json del Documentador SI dice enabled:true every 4h, y su heartbeat esta verificado activo. El que miente es CRON_SCHEDULE.md, que omite ese heartbeat.",
+      "estado": "abierta",
+      "verificada": "2026-09-30",
+      "nota": "ORG_MAP.md achica la culpa al equipo cuando el que esta desactualizado es el archivo del equipo. El problema real es CRON_SCHEDULE.md."
+    },
+    {
+      "id": "d11",
+      "severidad": "baja",
+      "tema": "Nivel de aprobacion",
+      "dice_org_map": "No lo menciona con precision: mezcla «solo Pablo» con «el equipo hace cherry-pick».",
+      "realidad": "La regla es: produccion es frontera de Pablo, y cada cambio va por PR con su aprobacion. El equipo nunca propone promover.",
+      "estado": "abierta",
+      "verificada": "2026-09-30",
+      "nota": "Menor. La regla esta en AGENTS.md de los 5 y es consistente; el documento del equipo es el que queda corto."
+    },
+    {
+      "id": "d12",
+      "severidad": "baja",
+      "tema": "El Arquitecto no estaba en el mapa de heartbeats",
+      "dice_org_map": "El Arquitecto aparece en la tabla de agentes, con «Desactivado por diseño. agent.json: enabled false, every 6h».",
+      "realidad": "Coincide. Esta en el mapa, con su ID, su workspace y su mecanismo.",
+      "estado": "resuelta",
+      "verificada": "2026-09-30",
+      "resuelta_el": "2026-09-30",
+      "nota": "Se agrego el 30/09 cuando ORG_MAP.md se reescribio con el Arquitecto como director de estructura."
+    }
+  ],
+  "discrepancias_meta": {
+    "org_map_commit": "cfff5482e5f05894e9e3b70f159f21d40ba879a2",
+    "org_map_leido": "2026-09-30T22:05:00Z",
+    "revisado_por": "Arquitecto, leyendo ORG_MAP.md crudo desde agents/main",
+    "registro": "discrepancias_verificacion.json",
+    "abiertas": 9,
+    "resueltas": 3,
+    "aviso": "Este bloque se edita a mano en _eco\\discrepancias_verificacion.json. No se deriva de ningun archivo de configuracion porque comparar ORG_MAP.md con la realidad es leer prosa, no leer un schema. Lo que el generador garantiza es que cada fila declare estado y fecha."
   },
   "repos": [
     {
@@ -234,92 +368,6 @@
       "Las prohibiciones sobre PRE_BACKLOG.md, MEMORY.md y KNOWLEDGE.md son de convención: el MCP no distingue lectura de escritura por path."
     ]
   },
-  "discrepancias_vs_org_map": [
-    {
-      "id": "d1",
-      "severidad": "grave",
-      "tema": "Producción como regla de honor",
-      "dice_org_map": "«La prohibición de escribir en gw2-wallet-ligero es regla de honor... los 5 agentes pueden escribir en el repo agents» y «los 4 agentes operativos tienen el path del dashboard en su MCP»",
-      "realidad": "Ningún agente tiene gw2-prod ni gw2-wallet-ligero en su MCP. Ninguno tiene el dashboard. Son las dos defensas que separan al ecosistema de un incidente."
-    },
-    {
-      "id": "d2",
-      "severidad": "grave",
-      "tema": "Ruta del clon de desarrollo",
-      "dice_org_map": "C:\\Mis Archivos\\GW2 online\\gw2-wallet-agents",
-      "realidad": "gw2-dev. El clon gw2-wallet-agents fue eliminado."
-    },
-    {
-      "id": "d3",
-      "severidad": "grave",
-      "tema": "Ruta del clon de producción",
-      "dice_org_map": "C:\\Mis Archivos\\GW2 online\\gw2-wallet-ligero con 2 remotes (agents y origin)",
-      "realidad": "gw2-prod, con un solo remote (origin = producción). El clon gw2-wallet-ligero fue eliminado."
-    },
-    {
-      "id": "d4",
-      "severidad": "grave",
-      "tema": "El dashboard",
-      "dice_org_map": "«los 4 agentes operativos tienen el path del dashboard en su MCP»",
-      "realidad": "Solo el Arquitecto lo tiene. Enforcement real."
-    },
-    {
-      "id": "d5",
-      "severidad": "media",
-      "tema": "Code Reviewer sin acceso al repo",
-      "dice_org_map": "No documenta que tenga driver MCP propio",
-      "realidad": "Tiene driver propio: deny por defecto + 8 tools de lectura. Antes no existía y no podía leer el repo."
-    },
-    {
-      "id": "d6",
-      "severidad": "media",
-      "tema": "Heartbeat del Principal",
-      "dice_org_map": "«agent.json: every 30m, enabled: true»",
-      "realidad": "agent.json dice enabled: false. El heartbeat corre por el cron 13dc22e6 (*/30 * * * *), que vive en jobs.json, no en agent.json."
-    },
-    {
-      "id": "d7",
-      "severidad": "media",
-      "tema": "Heartbeat del PO",
-      "dice_org_map": "«NO es un cron de QwenPaw... timeout 300s»",
-      "realidad": "Tiene las dos cosas: agent.json con every 2h y timeout 1200s, Y un cron c3f30dc2 en su jobs.json."
-    },
-    {
-      "id": "d8",
-      "severidad": "media",
-      "tema": "Heartbeat del Arquitecto",
-      "dice_org_map": "«Desactivado por diseño. Se activa cuando Pablo abre QwenPaw»",
-      "realidad": "Tiene un cron propio: 17e51119, 0,30 * * * * UTC, timeout 900s, para la sonda de comunicación entre canales."
-    },
-    {
-      "id": "d9",
-      "severidad": "media",
-      "tema": "Worktrees",
-      "dice_org_map": "«_wt_main es el worktree de main»",
-      "realidad": "_wt_main ya no existe. Queda solo _wt_47 con la rama rescue-idea47-parallel-wip sin integrar."
-    },
-    {
-      "id": "d10",
-      "severidad": "baja",
-      "tema": "Heartbeat del Documentador",
-      "dice_org_map": "«A CONFIRMAR»",
-      "realidad": "Confirmado: agent.json con enabled true, every 4h, timeout 900s. No hay cron para él. El pendiente #2 de ORG_MAP.md ya se puede cerrar."
-    },
-    {
-      "id": "d11",
-      "severidad": "baja",
-      "tema": "Nivel de aprobación",
-      "dice_org_map": "No lo menciona",
-      "realidad": "Los 6 agentes tienen approval_level AUTO."
-    },
-    {
-      "id": "d12",
-      "severidad": "baja",
-      "tema": "El Arquitecto no estaba en el mapa de heartbeats",
-      "dice_org_map": "Lo lista como desactivado",
-      "realidad": "Además del cron de sonda, es el único agente con los 5 workspaces ajenos en su MCP, por necesidad de su función."
-    }
-  ],
   "pendientes_estructura": [
     {
       "texto": "17 commits huérfanos del clon gw2-wallet-ligero siguen sin integrar",
