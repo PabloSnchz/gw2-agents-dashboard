@@ -1,0 +1,417 @@
+{
+ "generado_utc": "20260930T155700Z",
+ "generado_h": "2026-09-30 15:57 UTC",
+ "origen": "git local + ls-remote (sin cuota). protected cacheado TTL 6h.",
+ "commits": [
+  {
+   "sha": "957cc2cf5e48e5f0b2cd88d4557bf64b157ed550",
+   "short": "957cc2c",
+   "autor": "Pablo Sanchez",
+   "fecha": "2026-09-30T12:39:34-03:00",
+   "msg": "merge: Idea 57 Tramo 2 (getAccountLuck no degrada la FORMA a 0)"
+  },
+  {
+   "sha": "fc76b411c290f188ef58cdd1962da1b7157eebb8",
+   "short": "fc76b41",
+   "autor": "Pablo Sanchez",
+   "fecha": "2026-09-30T12:39:29-03:00",
+   "msg": "﻿docs(logs): HB#57 - Tramo 2 mergeado, ALERT-64/65 abiertas, canal verificado"
+  },
+  {
+   "sha": "db0dacc88c8a2049831b59af895f4d2fc79d5ead",
+   "short": "db0dacc",
+   "autor": "Pablo Sanchez",
+   "fecha": "2026-09-30T12:36:57-03:00",
+   "msg": "﻿feat(api): Idea 57 Tramo 2 - getAccountLuck ya no degrada la FORMA a 0 (v2.27.0)"
+  },
+  {
+   "sha": "ad328b3878f8907eaf0df73a27a95de19cf1b871",
+   "short": "ad328b3",
+   "autor": "Pablo Sanchez",
+   "fecha": "2026-09-30T12:20:14-03:00",
+   "msg": "merge(idea57t3): Tramo 3 - los @throws que mentian describen las dos capas (v2.26.0)"
+  },
+  {
+   "sha": "b662dcb93f9f9367da96042c371abfb1ed4a2605",
+   "short": "b662dcb",
+   "autor": "Pablo Sanchez",
+   "fecha": "2026-09-30T12:20:10-03:00",
+   "msg": "﻿feat(api): Idea 57 Tramo 3 - los 6 @throws que mentian ahora describen las dos capas"
+  },
+  {
+   "sha": "0f04a53c6e16298c1d096355d228f3b18cc9d049",
+   "short": "0f04a53",
+   "autor": "Pablo Sanchez",
+   "fecha": "2026-09-30T07:13:20-03:00",
+   "msg": "docs(hb55): corregir TEAM_STATUS y SESSION_LOG tras el commit paralelo de la Idea 57 Tramo 1"
+  },
+  {
+   "sha": "6059752b093d8c876959c1c8d8f06615dc396fe7",
+   "short": "6059752",
+   "autor": "Pablo Sanchez",
+   "fecha": "2026-09-30T07:11:41-03:00",
+   "msg": "docs(hb55): cierre del ciclo - Idea 56 APROBADA y mergeada con sus 3 follow-ups, ALERT-60 cerrada, ALERT-61 (5 FAIL mios eran regex del test, no del codigo)"
+  },
+  {
+   "sha": "44a012afd0cb6db25e87263a960e7a09290dc67f",
+   "short": "44a012a",
+   "autor": "Pablo Sanchez",
+   "fecha": "2026-09-30T07:11:37-03:00",
+   "msg": "merge(idea57): Tramo 1 - la regla que cuenta los 11 sitios que degradan por FORMA"
+  },
+  {
+   "sha": "3f6e59516c09f2c1a27c985acd63ba39e9a6fa71",
+   "short": "3f6e595",
+   "autor": "Pablo Sanchez",
+   "fecha": "2026-09-30T07:11:32-03:00",
+   "msg": "﻿feat(idea57): la regla del contrato de FORMA, no el fix del caso N (Tramo 1)"
+  },
+  {
+   "sha": "72cc8afc2f7e073ad4021c95d56e5b704259498f",
+   "short": "72cc8af",
+   "autor": "Pablo Sanchez",
+   "fecha": "2026-09-30T07:06:32-03:00",
+   "msg": "merge(idea56-f1): la pista de permiso no se muestra ante un fallo de FORMA"
+  },
+  {
+   "sha": "4c95774357a20d4be1a10ea47ab355d6208e5828",
+   "short": "4c95774",
+   "autor": "Pablo Sanchez",
+   "fecha": "2026-09-30T07:06:15-03:00",
+   "msg": "fix(ui): F1 del Reviewer - la pista de permiso no se muestra ante un fallo de FORMA"
+  },
+  {
+   "sha": "23b1565a6d1d2add29396b3471055564f5f0dbfd",
+   "short": "23b1565",
+   "autor": "Pablo Sanchez",
+   "fecha": "2026-09-30T07:02:34-03:00",
+   "msg": "merge(idea60b): guard de FORMA en getCharacterCount - F2 del Reviewer sobre la v2.24.0"
+  },
+  {
+   "sha": "979bfa6d2677249673af97abc40c546ed7d7328c",
+   "short": "979bfa6",
+   "autor": "Pablo Sanchez",
+   "fecha": "2026-09-30T07:02:15-03:00",
+   "msg": "fix(api): guard de FORMA en getCharacterCount (v2.24.1) - F2 del Reviewer sobre la v2.24.0"
+  },
+  {
+   "sha": "1ad70f8ef6b79f2c6f6976722f1f7b5c7907b2da",
+   "short": "1ad70f8",
+   "autor": "Pablo Sanchez",
+   "fecha": "2026-09-30T06:47:23-03:00",
+   "msg": "merge(idea56): guard de FORMA en getAccountRaids - APROBADO por el Reviewer (task-b20623f46caa)"
+  },
+  {
+   "sha": "19e88914a67bf1d18a616b6d0b7f7ea7fc228bbc",
+   "short": "19e8891",
+   "autor": "Pablo Sanchez",
+   "fecha": "2026-09-30T06:46:21-03:00",
+   "msg": "docs(hb54): Idea 56 en rama sin mergear, y se acepta la autocorreccion del PO sobre el 206"
+  },
+  {
+   "sha": "6cfbf2c15a6ffb424c8a5385cee217478211ba77",
+   "short": "6cfbf2c",
+   "autor": "Pablo Sanchez",
+   "fecha": "2026-09-30T06:46:21-03:00",
+   "msg": "docs(hb54): Idea 56 en rama sin mergear, y se acepta la autocorreccion del PO sobre el 206"
+  },
+  {
+   "sha": "6178a8f06638a45cb716c93d481d589c728b3d37",
+   "short": "6178a8f",
+   "autor": "Pablo Sanchez",
+   "fecha": "2026-09-30T06:35:53-03:00",
+   "msg": "﻿fix(api): v2.24.0 - getAccountRaids no degrada a [] ante una forma no soportada"
+  },
+  {
+   "sha": "004929d32d978448a44d01199ca417e6b8e8dec1",
+   "short": "004929d",
+   "autor": "Pablo Sanchez",
+   "fecha": "2026-09-30T06:20:30-03:00",
+   "msg": "﻿docs(hb53): logs del ciclo — ALERT-58 (regresion del 206) y ALERT-59 (clon con 2 escritores)"
+  },
+  {
+   "sha": "9e96986fdbe80ccd7bf01b6f719f975a9379e8b8",
+   "short": "9e96986",
+   "autor": "Pablo Sanchez",
+   "fecha": "2026-09-30T06:11:26-03:00",
+   "msg": "﻿fix(api): v2.23.1 - el 404 del reintento descartaba los ids validos que ya teniamos"
+  },
+  {
+   "sha": "6c5a278d12426bbd0933dc37e70f5cbe654625a8",
+   "short": "6c5a278",
+   "autor": "Pablo Sanchez",
+   "fecha": "2026-09-30T06:03:22-03:00",
+   "msg": "﻿docs(hb52): documentacion del fix del 206 parcial, conservada sin pisar al proceso paralelo"
+  },
+  {
+   "sha": "bb6ea658b8237609efcee132c6922eba5173dd19",
+   "short": "bb6ea65",
+   "autor": "Pablo Sanchez",
+   "fecha": "2026-09-30T06:02:08-03:00",
+   "msg": "﻿docs(hb51): correccion documental de la Idea 52 + TEAM_STATUS del ciclo"
+  },
+  {
+   "sha": "381fe9d87fca13a56856e22730ed7c0d19e59b06",
+   "short": "381fe9d",
+   "autor": "Pablo Sanchez",
+   "fecha": "2026-09-30T05:59:27-03:00",
+   "msg": "merge(api): v2.23.0 - lotes parciales 206 y carrera de inflight en getItemsMany"
+  },
+  {
+   "sha": "c4b226aeff6a336a5486c313282921a4fe7dac90",
+   "short": "c4b226a",
+   "autor": "Pablo Sanchez",
+   "fecha": "2026-09-30T05:59:26-03:00",
+   "msg": "﻿fix(api): v2.23.0 - la API devuelve 206 parcial y el codigo lo tomaba por exito"
+  },
+  {
+   "sha": "605b822ef062fb64ec20abc6b5dd78e20c36f5fc",
+   "short": "605b822",
+   "autor": "Pablo Sanchez",
+   "fecha": "2026-09-30T05:55:52-03:00",
+   "msg": "merge(idea55): Tramo 3a - /v2/account por la capa GW2Api en characters, achievements y accounts-panel"
+  },
+  {
+   "sha": "94aec9ef8aa9952b46eb16def1030bcff5854737",
+   "short": "94aec9e",
+   "autor": "Pablo Sanchez",
+   "fecha": "2026-09-30T05:55:49-03:00",
+   "msg": "﻿feat(idea55): Tramo 3a - /v2/account pasa por la capa GW2Api en los 3 modulos"
+  },
+  {
+   "sha": "af899c9a3bc02d56f4ea67a7e2e563ffe7422343",
+   "short": "af899c9",
+   "autor": "Pablo Sanchez",
+   "fecha": "2026-09-30T05:19:50-03:00",
+   "msg": "merge(wv-purchase-detail): Idea 55 Tramo 2 - 27 requests en serie pasan a paralelo, con progreso y ETA"
+  },
+  {
+   "sha": "7918ac77448a8a4aff4b72b75d51e2a794026808",
+   "short": "7918ac7",
+   "autor": "Pablo Sanchez",
+   "fecha": "2026-09-30T05:19:46-03:00",
+   "msg": "﻿fix(wv-purchase-detail): Idea 55 Tramo 2 - refreshAllOnlineStatus en paralelo + progreso con ETA"
+  },
+  {
+   "sha": "cab6ff705d2d005463ef0f66e704a1956cac23da",
+   "short": "cab6ff7",
+   "autor": "Pablo Sanchez",
+   "fecha": "2026-09-30T05:15:08-03:00",
+   "msg": "merge(characters): Idea 55 Tramo 1 - /v2/account/achievements por la capa GW2Api (1 descarga de 364 KB menos por cambio de cuenta)"
+  },
+  {
+   "sha": "7f39fceb3f3616ff4727aae59b03b632b8520c2d",
+   "short": "7f39fce",
+   "autor": "Pablo Sanchez",
+   "fecha": "2026-09-30T05:15:04-03:00",
+   "msg": "﻿fix(characters): Idea 55 Tramo 1 - /v2/account/achievements pasa por la capa GW2Api"
+  },
+  {
+   "sha": "54f97fe1f8c354d8d55751601eb8f84761aea82e",
+   "short": "54f97fe",
+   "autor": "Pablo Sanchez",
+   "fecha": "2026-09-30T05:11:48-03:00",
+   "msg": "merge(po): HB 08:15 - ALERT-41 decidible (14/15 strikes con clear) + Idea 55 (9 fetch account-scoped fuera de la capa)"
+  },
+  {
+   "sha": "c1bfad8fa2461df1e986fd458fd6c6f3d50f3b76",
+   "short": "c1bfad8",
+   "autor": "Pablo Sanchez",
+   "fecha": "2026-09-30T05:10:40-03:00",
+   "msg": "﻿docs(logs): HB#50 - ALERT-55 (6 ramas huerfanas, 3 con trabajo real perdido) + 2 ramas absorbidas borradas"
+  },
+  {
+   "sha": "cb03a4c53389604a09b6c994ba920f050727bf35",
+   "short": "cb03a4c",
+   "autor": "Pablo Sanchez",
+   "fecha": "2026-09-30T05:09:24-03:00",
+   "msg": "docs(po): HB 08:15 - ALERT-41 decidible (14/15 strikes con clear verificado) + Idea 55 (9 sitios se evaden de GW2Api)"
+  },
+  {
+   "sha": "0a978d43b23c9160df11186dd1fe300017d0450b",
+   "short": "0a978d4",
+   "autor": "Pablo Sanchez",
+   "fecha": "2026-09-30T05:07:23-03:00",
+   "msg": "﻿docs(logs): HB#50 - Idea 52 v1.10.1 (clave \"ura\" duplicada), ALERT-54, veredicto del Code-Reviewer"
+  },
+  {
+   "sha": "88a7721dcbb7a5ba2545c4f9df2c8a98adec5a7d",
+   "short": "88a7721",
+   "autor": "Pablo Sanchez",
+   "fecha": "2026-09-30T05:03:56-03:00",
+   "msg": "merge(raid): Idea 52 v1.10.1 - resolver la clave 'ura' duplicada (cambio 1 del Code-Reviewer)"
+  },
+  {
+   "sha": "07f40528c464fb3fc4c64be6b8ea09a565821ff8",
+   "short": "07f4052",
+   "autor": "Pablo Sanchez",
+   "fecha": "2026-09-30T05:03:52-03:00",
+   "msg": "﻿fix(raid-tracker): la clave \"ura\" quedo DUPLICADA en REWARDS_DATA y BOSS_DETAILS (Idea 52, v1.10.1)"
+  },
+  {
+   "sha": "6907d4379c06ddca7ef9c268baf649d8d0497bce",
+   "short": "6907d43",
+   "autor": "Pablo Sanchez",
+   "fecha": "2026-09-30T04:41:11-03:00",
+   "msg": "docs(logs): HB#49 - Idea 52 implementada (merge ab39823), ALERT-51/52/53"
+  },
+  {
+   "sha": "ab3982324486a4aa6b86faed82704368ef45adef",
+   "short": "ab39823",
+   "autor": "Pablo Sanchez",
+   "fecha": "2026-09-30T04:36:15-03:00",
+   "msg": "merge(raid): Idea 52 - 5 encuentros con id que la API no tiene  5 de los 30 encuentros de raid-tracker.js no se podian marcar nunca. Incluye 4 renombres de id, la correccion de ura_guardian (las recompensas y la ficha de Ura nunca se mostraban) y la limpieza de the_threshold."
+  },
+  {
+   "sha": "2de8f35ba478bb391912c16d690bec77b2d42a3e",
+   "short": "2de8f35",
+   "autor": "Pablo Sanchez",
+   "fecha": "2026-09-30T04:36:11-03:00",
+   "msg": "﻿fix(raid-tracker): 5 de 30 encuentros no se podian marcar nunca (Idea 52)"
+  },
+  {
+   "sha": "62a8b0ff1dd2852bb1ce3f936c5c1cfac98a0307",
+   "short": "62a8b0f",
+   "autor": "Pablo Sanchez",
+   "fecha": "2026-09-30T04:16:56-03:00",
+   "msg": "chore(tools): script de relleno del cuerpo del mensaje al PO  El CLI de _comms crea el ask con un cuerpo de una linea y no tiene forma de editarlo despues. El script escribe el cuerpo completo en el JSON del inbox del destinatario. Se commit para que el procedimento sea reproducible y no para que se repita."
+  },
+  {
+   "sha": "9a94be2bc0c58a1c08c3ef3614a6e8bee2a55f03",
+   "short": "9a94be2",
+   "autor": "Pablo Sanchez",
+   "fecha": "2026-09-30T04:15:31-03:00",
+   "msg": "chore(tools): conservar el medidor de la Idea 49G del PO  _ hb54_achacc.js estaba commiteado en la raiz de po/idea49g-achacc, nombre con guion bajo, y se perdia al borrar la rama. Va a tools/ con nombre consistente.  Una correccion al usar el script: la ultima tabla del PO suma contra 1.71 MB de ach_meta, que era la cifra ANTES del drop de los 5 campos muertos. Con la medida real (0.81 MB, mergeada en f09eb7c) el punto de quiebre se corre:    0.81 + 4.10 (3.000 logros x 27) = 4.91 MB   entra raspando, sin margen   0.81 + 0.36 (forma compacta)     = 1.17 MB   con 3.8 MB de aire  La conclusion del PO no cambia y la 49G sigue siendo la que cierra la cuota."
+  },
+  {
+   "sha": "00433fd48cf3b06e6dfda88d5686db35d7d30f6b",
+   "short": "00433fd",
+   "autor": "Pablo Sanchez",
+   "fecha": "2026-09-30T04:14:47-03:00",
+   "msg": "﻿docs(logs): reconciliar ALERTS_LOG, BACKLOG y TEAM_STATUS del HB#48"
+  },
+  {
+   "sha": "cdddbd41d9a53edbfa1b5a8737d82ce918724579",
+   "short": "cdddbd4",
+   "autor": "Pablo Sanchez",
+   "fecha": "2026-09-30T04:13:03-03:00",
+   "msg": "﻿docs(logs): HB#48 - fix de 2 bugs del sharding, y cierre del ciclo"
+  },
+  {
+   "sha": "f09eb7cf4cfe0d1189b9b392bc591cfdb11b038d",
+   "short": "f09eb7c",
+   "autor": "Pablo Sanchez",
+   "fecha": "2026-09-30T04:08:50-03:00",
+   "msg": "merge: fix de concurrencia y nocache en el sharding de ach_meta (HB#48)"
+  },
+  {
+   "sha": "86939b8c811c7494fad464dcf83f8b02f571a8af",
+   "short": "86939b8",
+   "autor": "Pablo Sanchez",
+   "fecha": "2026-09-30T04:08:35-03:00",
+   "msg": "﻿chore(cache): buster + header de api-gw2.js a v2.22.0 (ALERT-24)"
+  },
+  {
+   "sha": "b2d78e39dbaffb0a3334eeceffdd2d8eae2ee63f",
+   "short": "b2d78e3",
+   "autor": "Pablo Sanchez",
+   "fecha": "2026-09-30T04:08:20-03:00",
+   "msg": "﻿fix(tests): actualizar el predicado textual del sharding tras el fix de nocache"
+  },
+  {
+   "sha": "0b9721d0ec8086a045712a1ff7887dd7af00f3ce",
+   "short": "0b9721d",
+   "autor": "Pablo Sanchez",
+   "fecha": "2026-09-30T04:07:00-03:00",
+   "msg": "docs(dashboard): PO 08:00 - Idea 49G (ach_acc no entra en la cuota), Idea 52 (5/30 raids rotos), Tramo C mergeado"
+  },
+  {
+   "sha": "6b1fd02701ccd1f173ac6a6ee2278b20d813eeb0",
+   "short": "6b1fd02",
+   "autor": "Pablo Sanchez",
+   "fecha": "2026-09-30T04:06:56-03:00",
+   "msg": "﻿fix(api-gw2): 2 defectos del sharding de ach_meta (concurrencia y nocache)"
+  },
+  {
+   "sha": "0e3cb470beac7b52b766635a0a9d2e8934c01e13",
+   "short": "0e3cb47",
+   "autor": "Pablo Sanchez",
+   "fecha": "2026-09-30T03:36:14-03:00",
+   "msg": "docs(comms): HB#47 - la 029 al Reviewer fallo con provider vacio, se procede por merito"
+  },
+  {
+   "sha": "d07e7aedb4f1a7da1e83bf0e50475704111fb44e",
+   "short": "d07e7ae",
+   "autor": "Pablo Sanchez",
+   "fecha": "2026-09-30T03:35:56-03:00",
+   "msg": "﻿docs(logs): HB#47 - fix de abort mergeado, ALERT-46/47, y cierre de 4 tasks como perdidas"
+  },
+  {
+   "sha": "a4d31acbc72edfad0e0685f6c3e70e62c99bb999",
+   "short": "a4d31ac",
+   "autor": "Pablo Sanchez",
+   "fecha": "2026-09-30T03:33:41-03:00",
+   "msg": "merge: fix de fuga de AbortController en inventory-dashboard a agents/main"
+  }
+ ],
+ "archivos_md": [
+  "AGENTS.md",
+  "AGENTS_SYNC.md",
+  "ALERTS_LOG.md",
+  "BACKLOG.md",
+  "CHANGELOG.md",
+  "COMMS_LOG.md",
+  "CRON_SCHEDULE.md",
+  "DASHBOARD_PO_IDEAS.md",
+  "DECISIONS_LOG.md",
+  "HEARTBEAT.md",
+  "IN_PROGRESS.md",
+  "MEMORY.md",
+  "ORG_MAP.md",
+  "PRE_BACKLOG.md",
+  "PROMOTIONS.md",
+  "README.md",
+  "READY_FOR_PROMOTION.md",
+  "RESOLUCION_TIMEOUTS_20260930.md",
+  "SESSION_LOG.md",
+  "TEAM_STATUS.md"
+ ],
+ "repos": [
+  {
+   "repo": "gw2-wallet-ligero",
+   "label": "Producción",
+   "role": "production",
+   "sha": "7525f1f92b6bf8196229d8b001ce65dda2d5dc26",
+   "short_sha": "7525f1f",
+   "commit": "chore: sacar logs internos del repo de la app (viven en",
+   "estado": "unknown",
+   "protected": null,
+   "protected_fresco": false,
+   "protected_verificado_utc": null
+  },
+  {
+   "repo": "gw2-wallet-agents",
+   "label": "Desarrollo",
+   "role": "dev",
+   "sha": "957cc2cf5e48e5f0b2cd88d4557bf64b157ed550",
+   "short_sha": "957cc2c",
+   "commit": "﻿feat(api): Idea 57 Tramo 2",
+   "estado": "unknown",
+   "protected": null,
+   "protected_fresco": false,
+   "protected_verificado_utc": null
+  },
+  {
+   "repo": "gw2-agents-dashboard",
+   "label": "Dashboard",
+   "role": "dashboard",
+   "sha": "35b1d69702c1c646bcae3e1f153a6c88c23c28f7",
+   "short_sha": "35b1d69",
+   "commit": "chore(dashboard): pulso automatico 2026-09-30_15-51_UTC",
+   "estado": "unknown",
+   "protected": null,
+   "protected_fresco": false,
+   "protected_verificado_utc": null
+  }
+ ]
+}
