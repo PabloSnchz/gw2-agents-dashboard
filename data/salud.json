@@ -1,34 +1,34 @@
 {
- "generado_utc": "20260930T100601Z",
- "generado_h": "2026-09-30 10:06 UTC",
+ "generado_utc": "20260930T102101Z",
+ "generado_h": "2026-09-30 10:21 UTC",
  "archivos_estado": [
   {
    "archivo": "TEAM_STATUS.md",
    "quien": "Principal /30min",
    "estado": "ok",
-   "edad_h": 0.3,
-   "kb": 6.6
+   "edad_h": 0.1,
+   "kb": 9.3
   },
   {
    "archivo": "SESSION_LOG.md",
    "quien": "Documentador /4h",
    "estado": "ok",
-   "edad_h": 0.3,
-   "kb": 104.1,
-   "crecimiento": "EXCEDE 60 KB (104 KB)"
+   "edad_h": 0.1,
+   "kb": 110.8,
+   "crecimiento": "EXCEDE 60 KB (111 KB)"
   },
   {
    "archivo": "COMMS_LOG.md",
    "quien": "Principal /30min",
    "estado": "ok",
-   "edad_h": 0.3,
-   "kb": 42.6
+   "edad_h": 0.2,
+   "kb": 44.3
   },
   {
    "archivo": "PRE_BACKLOG.md",
    "quien": "PO /2h",
    "estado": "ok",
-   "edad_h": 2.5,
+   "edad_h": 2.7,
    "kb": 238.3,
    "crecimiento": "EXCEDE 120 KB (238 KB)"
   },
@@ -36,14 +36,14 @@
    "archivo": "ALERTS_LOG.md",
    "quien": "Principal /30min",
    "estado": "ok",
-   "edad_h": 0.3,
-   "kb": 54.5
+   "edad_h": 0.1,
+   "kb": 59.8
   },
   {
    "archivo": "DECISIONS_LOG.md",
    "quien": "Principal",
    "estado": "ok",
-   "edad_h": 8.1,
+   "edad_h": 8.3,
    "kb": 10.2
   }
  ],
@@ -214,35 +214,35 @@
   },
   {
    "dia": "2026-09-30",
-   "llamadas": 3349,
-   "prompt": 283795870,
-   "cache_read": 275082844,
-   "cache_pct": 96.9,
-   "prompt_por_llamada": 84740,
+   "llamadas": 3552,
+   "prompt": 303093425,
+   "cache_read": 294173586,
+   "cache_pct": 97.1,
+   "prompt_por_llamada": 85330,
    "por_agente": [
     {
      "agente": "default",
-     "llamadas": 1532,
-     "prompt": 144584242,
-     "cache_pct": 98.0
+     "llamadas": 1674,
+     "prompt": 159606532,
+     "cache_pct": 98.1
     },
     {
      "agente": "architect",
-     "llamadas": 1118,
-     "prompt": 93038536,
-     "cache_pct": 95.7
+     "llamadas": 1158,
+     "prompt": 96283867,
+     "cache_pct": 95.9
     },
     {
      "agente": "product-owner",
-     "llamadas": 470,
-     "prompt": 35290634,
+     "llamadas": 477,
+     "prompt": 35814572,
      "cache_pct": 96.9
     },
     {
      "agente": "Code-Reviewer",
-     "llamadas": 196,
-     "prompt": 8718506,
-     "cache_pct": 92.9
+     "llamadas": 210,
+     "prompt": 9224502,
+     "cache_pct": 92.8
     },
     {
      "agente": "documenter",
@@ -266,7 +266,7 @@
   },
   {
    "archivo": "estructura.json",
-   "edad_min": 212.5,
+   "edad_min": 227.5,
    "estado": "ok"
   }
  ],
