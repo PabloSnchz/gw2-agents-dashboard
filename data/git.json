@@ -1,8 +1,43 @@
 {
- "generado_utc": "20260930T200605Z",
- "generado_h": "2026-09-30 20:06 UTC",
+ "generado_utc": "20260930T202106Z",
+ "generado_h": "2026-09-30 20:21 UTC",
  "origen": "git local + ls-remote (sin cuota). protected cacheado TTL 6h.",
  "commits": [
+  {
+   "sha": "be5fdb60c303c6bb7c1ed1ea73cf82a858edb276",
+   "short": "be5fdb6",
+   "autor": "Pablo Sanchez",
+   "fecha": "2026-09-30T17:19:49-03:00",
+   "msg": "﻿docs(logs): HB#65 - IDEA 63 T1+T2 mergeada (eb69fb3), y 2 alertas de proceso"
+  },
+  {
+   "sha": "eb69fb37c1c791322d06c5af0aac84e3f145d5c2",
+   "short": "eb69fb3",
+   "autor": "Pablo Sanchez",
+   "fecha": "2026-09-30T17:18:17-03:00",
+   "msg": "merge(idea63): T1+T2 - reset de filtros y pagina al cambiar de cuenta, y estado vacio con texto"
+  },
+  {
+   "sha": "daf3e6f497a7c6cd927dda51cfd01d799252731d",
+   "short": "daf3e6f",
+   "autor": "Pablo Sanchez",
+   "fecha": "2026-09-30T17:18:16-03:00",
+   "msg": "docs(po): ronda 16 (IDEA 63) al mirror - cambiar de cuenta deja Personajes vacio y sin texto"
+  },
+  {
+   "sha": "30263654ea341e251be119b5f3867545d94ea470",
+   "short": "3026365",
+   "autor": "Pablo Sanchez",
+   "fecha": "2026-09-30T17:17:47-03:00",
+   "msg": "﻿fix(characters,app): cambiar de cuenta ya no deja Personajes en blanco (Idea 63 T1+T2)"
+  },
+  {
+   "sha": "da4518718bd1595db53eff0aa95d16904488c26d",
+   "short": "da45187",
+   "autor": "Pablo Sanchez",
+   "fecha": "2026-09-30T17:10:45-03:00",
+   "msg": "docs(po): Heartbeat PO ronda 16 - IDEA 63: cambiar de cuenta deja Personajes vacio y sin texto (194 dias)"
+  },
   {
    "sha": "aed761c0ffac32795588caa1ed57bf7d9620e339",
    "short": "aed761c",
@@ -317,41 +352,6 @@
    "autor": "Pablo Sanchez",
    "fecha": "2026-09-30T06:02:08-03:00",
    "msg": "﻿docs(hb51): correccion documental de la Idea 52 + TEAM_STATUS del ciclo"
-  },
-  {
-   "sha": "381fe9d87fca13a56856e22730ed7c0d19e59b06",
-   "short": "381fe9d",
-   "autor": "Pablo Sanchez",
-   "fecha": "2026-09-30T05:59:27-03:00",
-   "msg": "merge(api): v2.23.0 - lotes parciales 206 y carrera de inflight en getItemsMany"
-  },
-  {
-   "sha": "c4b226aeff6a336a5486c313282921a4fe7dac90",
-   "short": "c4b226a",
-   "autor": "Pablo Sanchez",
-   "fecha": "2026-09-30T05:59:26-03:00",
-   "msg": "﻿fix(api): v2.23.0 - la API devuelve 206 parcial y el codigo lo tomaba por exito"
-  },
-  {
-   "sha": "605b822ef062fb64ec20abc6b5dd78e20c36f5fc",
-   "short": "605b822",
-   "autor": "Pablo Sanchez",
-   "fecha": "2026-09-30T05:55:52-03:00",
-   "msg": "merge(idea55): Tramo 3a - /v2/account por la capa GW2Api en characters, achievements y accounts-panel"
-  },
-  {
-   "sha": "94aec9ef8aa9952b46eb16def1030bcff5854737",
-   "short": "94aec9e",
-   "autor": "Pablo Sanchez",
-   "fecha": "2026-09-30T05:55:49-03:00",
-   "msg": "﻿feat(idea55): Tramo 3a - /v2/account pasa por la capa GW2Api en los 3 modulos"
-  },
-  {
-   "sha": "af899c9a3bc02d56f4ea67a7e2e563ffe7422343",
-   "short": "af899c9",
-   "autor": "Pablo Sanchez",
-   "fecha": "2026-09-30T05:19:50-03:00",
-   "msg": "merge(wv-purchase-detail): Idea 55 Tramo 2 - 27 requests en serie pasan a paralelo, con progreso y ETA"
   }
  ],
  "archivos_md": [
@@ -395,9 +395,9 @@
    "repo": "gw2-wallet-agents",
    "label": "Desarrollo",
    "role": "dev",
-   "sha": "aed761c0ffac32795588caa1ed57bf7d9620e339",
-   "short_sha": "aed761c",
-   "commit": "docs(logs): fila 070 en COMMS_LOG - la re-pregunta de P3",
+   "sha": "be5fdb60c303c6bb7c1ed1ea73cf82a858edb276",
+   "short_sha": "be5fdb6",
+   "commit": "﻿docs(logs): HB#65 - IDEA 63 ",
    "estado": "open",
    "protected": false,
    "protected_fresco": true,
@@ -407,9 +407,9 @@
    "repo": "gw2-agents-dashboard",
    "label": "Dashboard",
    "role": "dashboard",
-   "sha": "4b41ba1ab6ae87c327d377f055876ef2a7e06a23",
-   "short_sha": "4b41ba1",
-   "commit": "chore(dashboard): pulso automatico 2026-09-30_19-51_UTC",
+   "sha": "5525022926d0da324c0eb797b64d5903c5e22592",
+   "short_sha": "5525022",
+   "commit": "chore(dashboard): pulso automatico 2026-09-30_20-06_UTC",
    "estado": "open",
    "protected": false,
    "protected_fresco": true,
