@@ -519,11 +519,16 @@ window.openRamasCerradas = function() {
 
     const filas = muertas.map(b => {
         const et = etiquetas[b.vivo.motivo] || { txt: b.vivo.motivo || '—', cls: '' };
+        // DashboardUpcoming._escape, NO this._escape: dentro de una funcion
+        // asignada a window, `this` es window y no tiene _escape. Con
+        // this._escape tira TypeError justo despues de setear el titulo —
+        // el titulo cambia pero el modal nunca llega a display:flex, y el
+        // unico sintoma es "no abre".
         return `
             <div class="rama-card">
                 <div class="rama-card__head">
                     <code>${DashboardUpcoming._escape(b.branch)}</code>
-                    <span class="est-badge ${et.cls}">${this._escape(et.txt)}</span>
+                    <span class="est-badge ${et.cls}">${DashboardUpcoming._escape(et.txt)}</span>
                 </div>
                 <div class="rama-card__item">${DashboardUpcoming._escape(b.item || '—')}</div>
                 ${b.state ? `<div class="rama-card__state">${DashboardUpcoming._escape(DashboardParser._limpiaMarkdown(b.state))}</div>` : ''}
