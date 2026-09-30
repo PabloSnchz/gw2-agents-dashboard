@@ -1,8 +1,22 @@
 {
- "generado_utc": "20260930T180606Z",
- "generado_h": "2026-09-30 18:06 UTC",
+ "generado_utc": "20260930T182106Z",
+ "generado_h": "2026-09-30 18:21 UTC",
  "origen": "git local + ls-remote (sin cuota). protected cacheado TTL 6h.",
  "commits": [
+  {
+   "sha": "942bf1b98ca0d5e8d9e11de42cca8e2fca91d08c",
+   "short": "942bf1b",
+   "autor": "Pablo Sanchez",
+   "fecha": "2026-09-30T15:18:44-03:00",
+   "msg": "﻿fix(logs): TEAM_STATUS.md se sobreescribia y por eso los diffs de logs eran de 468 lineas"
+  },
+  {
+   "sha": "893ec23eddd551c32fe9c2343986e45396befc96",
+   "short": "893ec23",
+   "autor": "Pablo Sanchez",
+   "fecha": "2026-09-30T15:17:09-03:00",
+   "msg": "﻿docs(logs): Heartbeat #61 - Idea 49G en rama, y la medicion del BACKLOG era 26% alta"
+  },
   {
    "sha": "54267b9148bba8e836fa3505461a3b1598bf0ac9",
    "short": "54267b9",
@@ -338,20 +352,6 @@
    "autor": "Pablo Sanchez",
    "fecha": "2026-09-30T04:16:56-03:00",
    "msg": "chore(tools): script de relleno del cuerpo del mensaje al PO  El CLI de _comms crea el ask con un cuerpo de una linea y no tiene forma de editarlo despues. El script escribe el cuerpo completo en el JSON del inbox del destinatario. Se commit para que el procedimento sea reproducible y no para que se repita."
-  },
-  {
-   "sha": "9a94be2bc0c58a1c08c3ef3614a6e8bee2a55f03",
-   "short": "9a94be2",
-   "autor": "Pablo Sanchez",
-   "fecha": "2026-09-30T04:15:31-03:00",
-   "msg": "chore(tools): conservar el medidor de la Idea 49G del PO  _ hb54_achacc.js estaba commiteado en la raiz de po/idea49g-achacc, nombre con guion bajo, y se perdia al borrar la rama. Va a tools/ con nombre consistente.  Una correccion al usar el script: la ultima tabla del PO suma contra 1.71 MB de ach_meta, que era la cifra ANTES del drop de los 5 campos muertos. Con la medida real (0.81 MB, mergeada en f09eb7c) el punto de quiebre se corre:    0.81 + 4.10 (3.000 logros x 27) = 4.91 MB   entra raspando, sin margen   0.81 + 0.36 (forma compacta)     = 1.17 MB   con 3.8 MB de aire  La conclusion del PO no cambia y la 49G sigue siendo la que cierra la cuota."
-  },
-  {
-   "sha": "00433fd48cf3b06e6dfda88d5686db35d7d30f6b",
-   "short": "00433fd",
-   "autor": "Pablo Sanchez",
-   "fecha": "2026-09-30T04:14:47-03:00",
-   "msg": "﻿docs(logs): reconciliar ALERTS_LOG, BACKLOG y TEAM_STATUS del HB#48"
   }
  ],
  "archivos_md": [
@@ -374,7 +374,8 @@
   "READY_FOR_PROMOTION.md",
   "RESOLUCION_TIMEOUTS_20260930.md",
   "SESSION_LOG.md",
-  "TEAM_STATUS.md"
+  "TEAM_STATUS.md",
+  "TEAM_STATUS_HB60.md"
  ],
  "repos": [
   {
@@ -393,9 +394,9 @@
    "repo": "gw2-wallet-agents",
    "label": "Desarrollo",
    "role": "dev",
-   "sha": "77be9e56ac4e1240c4760bf8432d02fd0535cf14",
-   "short_sha": "77be9e5",
-   "commit": "﻿docs(promocion): la Idea 61 T1",
+   "sha": "942bf1b98ca0d5e8d9e11de42cca8e2fca91d08c",
+   "short_sha": "942bf1b",
+   "commit": "﻿fix(logs): TEAM_STATUS.md se s",
    "estado": "open",
    "protected": false,
    "protected_fresco": true,
@@ -405,9 +406,9 @@
    "repo": "gw2-agents-dashboard",
    "label": "Dashboard",
    "role": "dashboard",
-   "sha": "fbeef051c538f746ffc6b6e6b4a2fc77c34c555d",
-   "short_sha": "fbeef05",
-   "commit": "fix(dashboard): tres bugs de datos, una causa mal leida y una",
+   "sha": "c6006767dcfad6f17fd8c01c946d41d1b43c7db1",
+   "short_sha": "c600676",
+   "commit": "fix(dashboard): no mostrar el \"??\" que 1 fila de 27 trae",
    "estado": "open",
    "protected": false,
    "protected_fresco": true,
