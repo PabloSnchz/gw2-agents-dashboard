@@ -581,6 +581,138 @@ body {
     border-radius: 10px;
     font-size: 0.72rem;
 }
+
+/* ---- Bloque "necesita tu decisión" ---- */
+.upcoming-section--decision {
+    border-left: 3px solid #e2ae43;
+    padding-left: 14px;
+    margin-bottom: 22px;
+}
+.upcoming-section--decision h3 {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    margin: 0 0 6px;
+    font-size: 0.85rem;
+    letter-spacing: 0.5px;
+    color: #e2ae43;
+}
+.decision-list {
+    list-style: none;
+    padding: 0;
+    margin: 10px 0 0;
+}
+.decision-item {
+    background: rgba(226,174,67,0.06);
+    border: 1px solid rgba(226,174,67,0.18);
+    border-radius: 6px;
+    padding: 10px 12px;
+    margin-bottom: 8px;
+}
+.decision-item__head {
+    display: flex;
+    align-items: baseline;
+    gap: 8px;
+    flex-wrap: wrap;
+    margin-bottom: 5px;
+}
+.decision-item__rama {
+    font-weight: 700;
+    font-size: 0.88rem;
+    color: #e8e8e8;
+}
+.decision-item__code {
+    font-size: 0.72rem;
+    color: #9aa4b8;
+    background: rgba(255,255,255,0.05);
+    padding: 1px 6px;
+    border-radius: 4px;
+}
+.decision-item__motivo {
+    font-size: 0.82rem;
+    color: #c8cede;
+    margin-bottom: 8px;
+}
+.decision-item__copy {
+    background: rgba(226,174,67,0.15);
+    color: #e2ae43;
+    border: 1px solid rgba(226,174,67,0.35);
+    border-radius: 5px;
+    padding: 5px 11px;
+    font-size: 0.75rem;
+    font-weight: 600;
+    cursor: pointer;
+    transition: background 0.15s, transform 0.1s;
+}
+.decision-item__copy:hover {
+    background: rgba(226,174,67,0.28);
+    transform: translateY(-1px);
+}
+
+/* ---- Contador de ramas cerradas sin limpiar ---- */
+.upcoming-group--stale {
+    margin-top: 22px;
+    padding-top: 16px;
+    border-top: 1px dashed rgba(255,255,255,0.10);
+}
+.upcoming-stale-btn {
+    width: 100%;
+    text-align: left;
+    background: rgba(255,255,255,0.03);
+    border: 1px dashed rgba(255,255,255,0.16);
+    border-radius: 6px;
+    padding: 10px 13px;
+    color: #c8cede;
+    font-size: 0.85rem;
+    font-family: inherit;
+    cursor: pointer;
+    transition: background 0.15s, border-color 0.15s, transform 0.1s;
+}
+.upcoming-stale-btn:hover {
+    background: rgba(255,255,255,0.07);
+    border-color: rgba(255,255,255,0.3);
+    transform: translateY(-1px);
+}
+.upcoming-stale-hint {
+    color: #7d8598;
+    font-size: 0.76rem;
+}
+
+/* ---- Cards de rama dentro del modal ---- */
+.rama-card {
+    border: 1px solid rgba(255,255,255,0.08);
+    border-radius: 6px;
+    padding: 11px 13px;
+    margin-bottom: 10px;
+    background: rgba(255,255,255,0.02);
+}
+.rama-card__head {
+    display: flex;
+    align-items: center;
+    gap: 9px;
+    flex-wrap: wrap;
+    margin-bottom: 6px;
+}
+.rama-card__head code {
+    font-size: 0.8rem;
+    color: #9aa4b8;
+}
+.rama-card__item {
+    font-weight: 600;
+    font-size: 0.88rem;
+    color: #e8e8e8;
+    margin-bottom: 5px;
+}
+.rama-card__state {
+    font-size: 0.8rem;
+    color: #c8cede;
+    margin-bottom: 4px;
+}
+.rama-card__notes {
+    font-size: 0.78rem;
+    color: #8d95a8;
+    line-height: 1.45;
+}
 .upcoming-list {
     list-style: none;
     padding: 0;

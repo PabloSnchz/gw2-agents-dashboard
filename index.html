@@ -4,7 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>GW2 Agents Dashboard</title>
-    <link rel="stylesheet" href="css/main.css?v=17">
+    <link rel="stylesheet" href="css/main.css?v=18">
     <link rel="stylesheet" href="css/theme.css?v=17">
   <link rel="stylesheet" href="css/pulso.css?v=1">
 </head>
@@ -247,6 +247,19 @@
             </div>
         </div>
 
+        <!-- Modal generico (ramas cerradas, detalle de decisiones, etc).
+             Mismo patron que el de comms: overlay + .modal, se abre por
+             display:flex y se cierra con el overlay, Escape o el boton. -->
+        <div id="detail-modal" class="modal-overlay" style="display:none;">
+            <div class="modal" tabindex="0">
+                <div class="modal-header">
+                    <h3 id="detail-modal-title">Detalle</h3>
+                    <button class="modal-close" onclick="window.closeDetailModal()">✕</button>
+                </div>
+                <div class="modal-body" id="detail-modal-body"></div>
+            </div>
+        </div>
+
         <!-- Footer -->
         <footer class="dashboard-footer">
             <p>Monitor de agentes — datos de <a href="https://github.com/PabloSnchz/gw2-wallet-agents" target="_blank">gw2-wallet-agents</a></p>
@@ -266,11 +279,11 @@
      ejecutando la version vieja y el fix "no funciona" sin error visible. -->
     <script src="js/config.js?v=15"></script>
     <script src="js/fetcher.js?v=12"></script>
-    <script src="js/parser.js?v=18"></script>
+    <script src="js/parser.js?v=19"></script>
     <script src="js/renderer.js?v=13"></script>
     <script src="js/timeline.js?v=6"></script>
     <script src="js/attention.js?v=5"></script>
-    <script src="js/upcoming.js?v=4"></script>
+    <script src="js/upcoming.js?v=5"></script>
     <script src="js/live-status.js?v=7"></script>
     <script src="js/production-guard.js?v=4"></script>
     <script src="js/comms-channel.js?v=3"></script>

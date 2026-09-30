@@ -30,10 +30,24 @@ class DashboardUpcoming {
             ? data.poIdeas.topPriorities
             : [];
 
-        // NUEVO: ramas en desarrollo
-        const branches = (data.inProgress && data.inProgress.parseable)
+        // NUEVO: ramas en desarrollo — separadas por VIDA, no por fila.
+        const allBranches = (data.inProgress && data.inProgress.parseable)
             ? data.inProgress.branches
             : [];
+        const branchesVivas = allBranches.filter(b => b.vivo && b.vivo.viva);
+        const branchesMuertas = allBranches.filter(b => b.vivo && !b.vivo.viva);
+        window.__branchesVivas = branchesVivas;
+        window.__branchesMuertas = branchesMuertas;
+
+        // Items que esperan una DECISIÓN DE PABLO (pregunta pegable). Vienen
+        // de las ramas vivas + las cerradas en este ciclo del mismo archivo.
+        const decisiones = [];
+        allBranches.forEach(b => { if (b.decision) decisiones.push(Object.assign({ rama: b.branch, item: b.item }, b.decision)); });
+        if (data.inProgress && Array.isArray(data.inProgress.closedThisCycle)) {
+            data.inProgress.closedThisCycle.forEach(b => {
+                if (b.decision) decisiones.push(Object.assign({ rama: b.branch, item: b.item }, b.decision));
+            });
+        }
 
         // NUEVO: items listos para promover
         const readyToPromote = (data.readyForPromotion && data.readyForPromotion.parseable)
@@ -43,7 +57,8 @@ class DashboardUpcoming {
         // Programacion real vs la que declara el equipo
         const cronReality = this._cronReality(data.structure, data.cronSchedule);
 
-        const total = inProgress.length + scheduled.length + blocked.length + ideas.length + branches.length + readyToPromote.length;
+        const total = inProgress.length + scheduled.length + blocked.length + ideas.length
+            + branchesVivas.length + readyToPromote.length + decisiones.length;
 
         if (total === 0 && !cronReality) {
             container.innerHTML = `
@@ -55,6 +70,7 @@ class DashboardUpcoming {
         }
 
         let html = this._cronRealityHTML(cronReality);
+        if (decisiones.length > 0) html += this._decisionesHTML(decisiones);
         if (inProgress.length > 0) html += this._sectionHTML('progress', '🚀 EN CURSO', inProgress);
         if (scheduled.length > 0) html += this._sectionHTML('scheduled', '⏰ PROGRAMADO', scheduled);
         if (blocked.length > 0) html += this._sectionHTML('blocked', '🛑 BLOQUEADO', blocked);
@@ -62,7 +78,7 @@ class DashboardUpcoming {
             title: `${i.rank || ''} ${i.idea || ''}`.trim(),
             detail: [i.difficulty, i.state, i.eta ? `ETA: ${i.eta}` : ''].filter(Boolean).join(' · ')
         })));
-        if (branches.length > 0) html += this._sectionHTML('inprogress-branches', '🔨 EN DESARROLLO', branches.map(b => ({
+        if (branchesVivas.length > 0) html += this._sectionHTML('inprogress-branches', '🔨 EN DESARROLLO', branchesVivas.map(b => ({
             title: b.item || b.branch,
             detail: [b.branch, b.state, b.started ? `Iniciada: ${b.started}` : '', b.notes].filter(Boolean).join(' · ')
         })));
@@ -71,7 +87,52 @@ class DashboardUpcoming {
             detail: [r.branch, r.commits, r.date ? `Fecha: ${r.date}` : '', r.description].filter(Boolean).join(' · ')
         })));
 
+        // Contador de ramas cerradas sin limpiar. Va al final, con la
+        // explicación de por qué NO se muestran como "en desarrollo".
+        if (branchesMuertas.length > 0) {
+            html += `
+                <div class="upcoming-group upcoming-group--stale">
+                    <button class="upcoming-stale-btn" onclick="window.openRamasCerradas()">
+                        🧹 <strong>${branchesMuertas.length}</strong> rama${branchesMuertas.length === 1 ? '' : 's'} cerrada${branchesMuertas.length === 1 ? '' : 's'} sin limpiar
+                        <span class="upcoming-stale-hint">— click para ver el detalle</span>
+                    </button>
+                </div>`;
+        }
+
         container.innerHTML = html;
+    }
+
+    /**
+     * Bloque "necesita tu decisión" — lo primero que se ve, antes de EN CURSO.
+     *
+     * Cada item trae la pregunta tal cual la escribió el equipo, lista para
+     * pegar en el chat de Desarrollo. La pregunta se arma en el parser
+     * (_detectaDecision) para que sea siempre la frase del equipo y no una
+     * paráfrasis mía que se desincroniza del archivo.
+     */
+    static _decisionesHTML(decisiones) {
+        const items = decisiones.map(d => `
+            <li class="decision-item">
+                <div class="decision-item__head">
+                    <span class="decision-item__rama">${this._escape(d.item || d.rama)}</span>
+                    ${d.rama ? `<code class="decision-item__code">${this._escape(d.rama)}</code>` : ''}
+                </div>
+                <div class="decision-item__motivo">${this._escape(d.motivo)}</div>
+                <button class="decision-item__copy" data-decision="${this._escape(d.pregunta)}">
+                    📋 Copiar pregunta
+                </button>
+            </li>`).join('');
+
+        return `
+            <section class="upcoming-section upcoming-section--decision">
+                <h3>❓ NECESITA TU DECISIÓN <span class="est-badge est-badge--warn">${decisiones.length}</span></h3>
+                <p class="org-note">
+                    Ítems donde el equipo <strong>no puede avanzar sin una decisión tuya.</strong> La pregunta
+                    es la que escribió el equipo en <code>IN_PROGRESS.md</code> — copiala y pegala en
+                    el chat de <strong>Desarrollo</strong>.
+                </p>
+                <ul class="decision-list">${items}</ul>
+            </section>`;
     }
 
 
@@ -428,3 +489,120 @@ class DashboardUpcoming {
         });
     }
 }
+
+// ============================================================
+// MODAL GENERICO + CONTADOR DE RAMAS SIN LIMPIAR
+// Globales porque los onclick inline los necesitan en window.
+// Mismo patron que el modal de comms en renderer.js.
+// ============================================================
+
+window.__branchesVivas = [];
+window.__branchesMuertas = [];
+
+/** Abre el modal de ramas cerradas sin limpiar. */
+window.openRamasCerradas = function() {
+    const modal = document.getElementById('detail-modal');
+    const title = document.getElementById('detail-modal-title');
+    const body = document.getElementById('detail-modal-body');
+    if (!modal || !title || !body) return;
+
+    const muertas = window.__branchesMuertas || [];
+    if (!muertas.length) return;
+
+    title.textContent = `Ramas cerradas sin limpiar (${muertas.length})`;
+
+    const etiquetas = {
+        terminada:   { txt: 'Terminada — ya está en main', cls: 'est-badge--ok' },
+        redundante:  { txt: 'Redundante — se puede borrar', cls: 'est-badge--danger' },
+        no_iniciada: { txt: 'Aprobada pero no iniciada', cls: 'est-badge--warn' }
+    };
+
+    const filas = muertas.map(b => {
+        const et = etiquetas[b.vivo.motivo] || { txt: b.vivo.motivo || '—', cls: '' };
+        return `
+            <div class="rama-card">
+                <div class="rama-card__head">
+                    <code>${DashboardUpcoming._escape(b.branch)}</code>
+                    <span class="est-badge ${et.cls}">${this._escape(et.txt)}</span>
+                </div>
+                <div class="rama-card__item">${DashboardUpcoming._escape(b.item || '—')}</div>
+                ${b.state ? `<div class="rama-card__state">${DashboardUpcoming._escape(DashboardParser._limpiaMarkdown(b.state))}</div>` : ''}
+                ${b.notes ? `<div class="rama-card__notes">${DashboardUpcoming._escape(DashboardParser._limpiaMarkdown(b.notes))}</div>` : ''}
+            </div>`;
+    }).join('');
+
+    body.innerHTML = `
+        <p class="org-note" style="margin-bottom:12px">
+            <strong>${muertas.length}</strong> de ${(window.__branchesVivas || []).length + muertas.length}
+            filas de <code>IN_PROGRESS.md</code> ya no son trabajo en curso: el equipo las cerró,
+            las marcó redundantes, o las aprobó sin empezarlas. La propia regla 3 del archivo dice
+            que una rama descartada se elimina de la lista — no se está cumpliendo. Son
+            <strong>items fantasma</strong> inflando el conteo de “en desarrollo”.
+        </p>
+        ${filas}
+        <p class="org-note" style="margin-top:14px">
+            Para limpiar: el Principal las borra de <code>IN_PROGRESS.md</code> (las terminadas ya
+            están en <code>READY_FOR_PROMOTION.md</code> si corresponde).
+        </p>`;
+
+    modal.style.display = 'flex';
+};
+
+window.closeDetailModal = function() {
+    const modal = document.getElementById('detail-modal');
+    if (modal) modal.style.display = 'none';
+};
+
+// Cerrar con click en el overlay o Escape. Delegado: se registra una sola vez.
+if (!window.__detailModalWired) {
+    window.__detailModalWired = true;
+    document.addEventListener('DOMContentLoaded', () => {
+        const modal = document.getElementById('detail-modal');
+        if (modal) {
+            modal.addEventListener('click', e => { if (e.target === modal) window.closeDetailModal(); });
+            modal.addEventListener('keydown', e => { if (e.key === 'Escape') window.closeDetailModal(); });
+        }
+    });
+}
+
+/**
+ * Copia la pregunta de decisión al portapapeles.
+ *
+ * Delegación en vez de onclick inline en cada botón: el texto de la pregunta
+ * viene del .md del equipo y puede traer comillas, que romperían el atributo
+ * del onclick. Con data-attribute + un solo listener no hay escaping que
+ * pueda fallar.
+ */
+document.addEventListener('click', function (e) {
+    const btn = e.target.closest ? e.target.closest('.decision-item__copy') : null;
+    if (!btn) return;
+    const texto = btn.getAttribute('data-decision') || '';
+    const original = btn.innerHTML;
+    const ok = () => {
+        btn.innerHTML = '✅ Copiada — pegala en el chat de Desarrollo';
+        setTimeout(() => { btn.innerHTML = original; }, 2200);
+    };
+    const fallback = () => {
+        // navigator.clipboard falla en http:// (Pages sin TLS) y en algunos
+        // navegadores con permiso denegado. Sin fallback, el botón no hace
+        // NADA y el usuario no sabe por qué.
+        const ta = document.createElement('textarea');
+        ta.value = texto;
+        ta.style.position = 'fixed';
+        ta.style.opacity = '0';
+        document.body.appendChild(ta);
+        ta.select();
+        try {
+            document.execCommand('copy');
+            ok();
+        } catch (err) {
+            btn.innerHTML = '⚠️ No se pudo copiar — seleccioná el texto a mano';
+        }
+        document.body.removeChild(ta);
+    };
+    if (navigator.clipboard && navigator.clipboard.writeText) {
+        navigator.clipboard.writeText(texto).then(ok).catch(fallback);
+    } else {
+        fallback();
+    }
+});

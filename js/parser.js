@@ -1208,7 +1208,8 @@ class DashboardParser {
         const data = {
             parseable: true,
             updatedAt: null,
-            branches: []
+            branches: [],
+            closedThisCycle: []
         };
 
         if (!md || typeof md !== 'string') {
@@ -1222,17 +1223,242 @@ class DashboardParser {
         if (section) {
             const rows = this._parseTable(section);
             rows.forEach(row => {
+                const branch = this._cleanCell(row[0]);
+                const item = this._cleanCell(row[1]);
+                const started = this._cleanCell(row[2]);
+                const state = this._cleanCell(row[3]);
+                const notes = this._cleanCell(row[4]);
+
+                // La fila de encabezado se cuela como dato si la tabla trae
+                // titulo con negrita o el parser no descarta el separador.
+                const esEncabezado = /^(rama|item|estado|notas|iniciada)$/i.test(branch)
+                    || /^Rama\s*\(/i.test(branch)
+                    || (branch === 'Item' && /Estado/i.test(state || ''));
+
                 data.branches.push({
-                    branch: this._cleanCell(row[0]),
-                    item: this._cleanCell(row[1]),
-                    started: this._cleanCell(row[2]),
-                    state: this._cleanCell(row[3]),
-                    notes: this._cleanCell(row[4])
+                    branch: branch,
+                    item: item,
+                    started: started,
+                    state: state,
+                    notes: notes,
+                    // Clasificacion de VIDA, deducida del texto que escribe el
+                    // equipo. IN_PROGRESS.md dice en su propia regla 3 que
+                    // "cuando una rama se descarta, se elimina de esta lista",
+                    // y no se cumple: de 9 filas solo 4 estan vivas. Mostrar
+                    // una rama mergeada como "en curso" es un item fantasma.
+                    vivo: esEncabezado ? false : this._ramaViva(state, notes, started),
+                    esFilaEncabezado: esEncabezado,
+                    // ¿Esperando una decision de Pablo? La pregunta se extrae
+                    // con las palabras del equipo, no redactedada por mi.
+                    decision: esEncabezado ? null : this._detectaDecision(`${state} ${notes}`),
+                    fila: data.branches.length + 1
+                });
+            });
+        }
+
+        // La tabla "Cerradas en este ciclo" tambien trae items que esperan a
+        // Pablo (el P3/cacheClear vive ahi). Sin esto, el bloque "necesita tu
+        // decision" perderia la mitad de lo que hay que decidir.
+        //
+        // OJO: NO usar _extractSection() aca. Esa pide "^##\s+", y esta
+        // seccion del archivo real es "### Cerradas en este ciclo" — tras los
+        // dos "#" viene un "#", no un espacio, asi que no matchea y la tabla
+        // entera pasaba inadvertida. Se extrae con su propio patron porque
+        // _extractSection distingue a proposito ## de ### y otros callers
+        // dependen de esa diferencia.
+        const cerradas = this._extractHeadingAny(md, 'Cerradas en este ciclo');
+        if (cerradas) {
+            const rows = this._parseTable(cerradas);
+            rows.forEach(row => {
+                const branch = this._cleanCell(row[0]);
+                const item = this._cleanCell(row[1]);
+                const commits = this._cleanCell(row[2]);
+                const state = this._cleanCell(row[3]);
+                const esEncabezado = /^(rama|item|commits|estado)$/i.test(branch)
+                    || (branch === 'Item' && /Estado/i.test(state || ''));
+                if (esEncabezado) return;
+                data.closedThisCycle.push({
+                    branch: branch,
+                    item: item,
+                    commits: commits,
+                    state: state,
+                    decision: this._detectaDecision(`${state}`),
+                    vivo: { viva: false, motivo: 'terminada' }
                 });
             });
         }
 
         return data;
+    }
+
+    /**
+     * Extrae una seccion por heading aceptando ## o ###.
+     *
+     * A diferencia de _extractSection (que distingue a proposito), esta
+     * matchea cualquiera de los dos niveles. Existe porque "Cerradas en este
+     * ciclo" esta en ### en IN_PROGRESS.md real, y con _extractSection la
+     * tabla — y el item de cacheClear que espera a Pablo — no se veian.
+     */
+    static _extractHeadingAny(md, heading) {
+        if (!md) return null;
+        // ########## heading ... hasta el proximo heading de nivel <= al que hallamos
+        const start = new RegExp(`^(#{2,3})\\s+${heading}[^\\n]*\\n`, 'im').exec(md);
+        if (!start) return null;
+        const nivel = start[1].length;
+        const from = start.index + start[0].length;
+        const rest = md.slice(from);
+        const end = new RegExp(`^#{2,${nivel}}\\s`, 'im').exec(rest);
+        return end ? rest.slice(0, end.index) : rest;
+    }
+
+    /**
+     * Detecta si un item espera una DECISION DE PABLO y devuelve la frase
+     * exacta para pegarle en el chat.
+     *
+     * Solo marca si el texto del equipo nombra la espera. No invento la
+     * pregunta: si la encuentra, devuelve la oracion tal cual, porque la
+     * pegable tiene que ser la del equipo, no una mia.
+     *
+     * Marcadores observados en los archivos reales (IN_PROGRESS.md,
+     * ALERTS_LOG.md, DECISIONS_LOG.md). Se evita "bloquead" a secas: casi
+     * todo esta bloqueado por algo tecnico y eso NO es decision de Pablo.
+     */
+    static _detectaDecision(texto) {
+        if (!texto) return null;
+        // El Markdown del equipo viene con **, ` y pipes. La pegable se
+        // muestra en un modal como texto plano, no se re-renderiza: sin
+        // limpiar, el usuario lee "** El boton de cacheClear NO esta aca: **P3**".
+        const t = String(texto).replace(/\s+/g, ' ');
+
+        // Marcadores FUERTES: la decision es de Pablo por dicho explicito.
+        const fuertes = [
+            /queda la decisi[oó]n de ([^.;|]+)/i,
+            /decisi[oó]n de (Pablo|ALERT-\d+|ALERTA-\d+)/i,
+            /esperando (?:a |tu )?Pablo/i,
+            /requiere (?:tu |la )?decisi[oó]n (?:de Pablo )?/i,
+            /falta (?:tu |la )?decisi[oó]n/i
+        ];
+        for (const re of fuertes) {
+            const m = t.match(re);
+            if (m) return { motivo: m[0].trim(), pregunta: this._oracionCon(t, m[0]) };
+        }
+
+        // Marcadores MEDIOS: falta algo que solo Pablo puede dar (un icono, un
+        // si/no sobre una feature). "falta el icono X" es decision de Pablo;
+        // "falta el endpoint" no lo es, asi que exigimos que el objeto falte
+        // sea un asset/decision, no tecnica.
+        if (/falta (?:el |la )?icono\b/i.test(t) || /falta (?:el |la )?asset\b/i.test(t)) {
+            const m = t.match(/falta (?:el |la )?(?:icono|asset)[^.;|]*/i);
+            if (m) return { motivo: m[0].trim(), pregunta: this._oracionCon(t, m[0]) };
+        }
+        if (/\blo (?:que )?bloquea\b/i.test(t)) {
+            const m = t.match(/[^.;|]*\blo (?:que )?bloquea\b[^.;|]*/i);
+            if (m) return { motivo: m[0].trim(), pregunta: this._oracionCon(t, m[0]) };
+        }
+        if (/\bsi (?:queremos|queres|quiere|queres|podemos)\b/i.test(t)) {
+            const m = t.match(/[^.;|]*\bsi (?:queremos|queres|quiere|podemos)\b[^.;|]*/i);
+            if (m) return { motivo: m[0].trim(), pregunta: this._oracionCon(t, m[0]) };
+        }
+
+        return null;
+    }
+
+    /** Devuelve la oracion completa que contiene una frase, para que la
+     *  pegable tenga contexto y no un fragmento sin sujeto. */    static _oracionCon(texto, fragmento) {
+        const t = String(texto);
+        const i = t.toLowerCase().indexOf(String(fragmento).toLowerCase());
+        if (i === -1) return this._limpiaMarkdown(fragmento);
+        // Corte en el punto/coma/semicolon/barra previo mas cercano.
+        const previo = t.lastIndexOf('. ', i);
+        const previo2 = t.lastIndexOf('; ', i);
+        const previo3 = t.lastIndexOf('| ', i);
+        const corte = Math.max(previo, previo2, previo3);
+        const ini = corte === -1 ? 0 : corte + 2;
+        // Buscar el cierre hacia adelante para no comerse la oracion siguiente.
+        const fin1 = t.indexOf('. ', i);
+        const fin2 = t.indexOf('; ', i);
+        const fin3 = t.indexOf('| ', i);
+        const fins = [fin1, fin2, fin3].filter(x => x !== -1);
+        const fin = fins.length ? Math.min(...fins) : t.length;
+        return this._limpiaMarkdown(t.slice(ini, fin).trim());
+    }
+
+    /** Quita el Markdown del equipo para mostrarlo como texto plano. */
+    static _limpiaMarkdown(s) {
+        return String(s == null ? '' : s)
+            .replace(/\*\*/g, '')
+            .replace(/`/g, '')
+            .replace(/\s+/g, ' ')
+            .trim();
+    }
+
+    /**
+     * ¿Esta rama realmente en curso?
+     *
+     * No pregunta "¿tiene texto?" sino "¿el texto dice que terminó?".
+     * Un item que dice MERGEADO y borrada no es un item en curso, por muy
+     * completo que parezca su fila.
+     *
+     * ⚠️ LA NEGACION ES EL TRAMPA. El archivo dice literalmente
+     * "NO mergeada a `agents/main`" y "NO esta en main". Un match de
+     * /mergead/ sin mirar la negacion clasifica como TERMINADA una rama que
+     * sigue viva, y deja el panel en "0 en curso" con el ecosistema lleno de
+     * trabajo. La primera version de esta funcion hizo exactamente eso: 9 de 9
+     * filas muertas. Antes de buscar una palabra de "terminado", se anulan las
+     * negaciones.
+     *
+     * Diferencia que NO se puede ignorar: "Commiteada y pusheada a
+     * `agents/main`" = terminada. "Pusheada (316311d)" + "NO mergeada a
+     * `agents/main`" = sigue viva, esperando Reviewer. Mismo verbo, opuesto
+     * significado; los separa el destino.
+     *
+     * @returns {{viva: boolean, motivo: string|null}}
+     */
+    static _ramaViva(state, notes, started) {
+        const crudo = `${state || ''} ${notes || ''}`;
+
+        // 1) Anular negaciones ANTES de buscar palabras de "terminado".
+        //    Cada patron se COME el destino opcional ("a `agents/main`"): si
+        //    dejara el destino suelto, el check de "pusheada a agents/main" de
+        //    abajo leeria "NO mergeada a `agents/main`" como si la rama HUBIERA
+        //    ido a main, y mataria una rama que sigue viva. La negacion y su
+        //    destino son una sola frase.
+        const NEG_DESTINO = '(?:\\s+a\\s+`?agents/main`?)?';
+        const t = crudo
+            .replace(new RegExp('\\bno\\s+est[aa]\\s+en\\s+main' + NEG_DESTINO, 'gi'), '__NEG__')
+            .replace(new RegExp('\\bno\\s+mergead[oa]s?' + NEG_DESTINO, 'gi'), '__NEG__')
+            .replace(new RegExp('\\bno\\s+est[aa]\\s+referenciad[oa]s?' + NEG_DESTINO, 'gi'), '__NEG__')
+            .replace(new RegExp('\\bno\\s+iniciad[oa]s?' + NEG_DESTINO, 'gi'), '__NEG__')
+            .replace(/\bnunca\s+mergear\b/gi, '__NEG__');
+
+        // 2) Encabezado de tabla colado como fila.
+        if (/^Rama\s*\(/i.test(state || '')) return { viva: false, motivo: 'encabezado' };
+
+        // 3) Redundante: el propio archivo dice que se puede borrar.
+        if (/REDUNDANTE|se puede borrar/i.test(crudo)) {
+            return { viva: false, motivo: 'redundante' };
+        }
+
+        // 4) Terminada con destino explicito. El destino es lo que separa
+        //    "cerrada" de "esperando que la revisen".
+        if (/\bCERRAD[OA]\b/i.test(t)) return { viva: false, motivo: 'terminada' };
+        if (/\bMERGEAD[OA]\b/i.test(t) && !/__NEG__/.test(t)) {
+            return { viva: false, motivo: 'terminada' };
+        }
+        // Pusheada A agents/main = terminada. Pusheada a su rama = viva.
+        if (/\bpushead[oa]\b/i.test(t) && /a\s+`?agents\/main`?/i.test(t)) {
+            return { viva: false, motivo: 'terminada' };
+        }
+        if (/\bcommitead[oa]\b/i.test(t) && /a\s+`?agents\/main`?/i.test(t)) {
+            return { viva: false, motivo: 'terminada' };
+        }
+
+        // 5) Aprobada pero nunca empezada. "a crear" lo delata.
+        if (/\(a crear\)|todav[ií]a\s+NO\s+iniciad/i.test(crudo)) {
+            return { viva: false, motivo: 'no_iniciada' };
+        }
+
+        return { viva: true, motivo: null };
     }
 
     /**
