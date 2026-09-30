@@ -300,6 +300,9 @@
             }
         }
 
+        // Watchdog de protección de producción (API pública de GitHub, sin token)
+        if (window.ProductionGuard) ProductionGuard.render();
+
         showStatus(`Última actualización: ${new Date().toLocaleTimeString()}`, 'status-ok');
     }
 

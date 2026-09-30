@@ -34,6 +34,11 @@
 
         <!-- Tab: Resumen -->
         <div class="dashboard-tab-content active" data-tab-content="resumen">
+            <section class="guard-section">
+                <h2>🛡️ Protección de producción</h2>
+                <div id="guard-container" class="guard-container"></div>
+            </section>
+
             <section class="kpi-section">
                 <h2>📊 KPIs del Sistema</h2>
                 <div id="kpi-grid" class="kpi-grid"></div>
@@ -153,14 +158,15 @@
 
     <!-- marked.js v4 (CDN, no se commitea) -->
     <script src="https://cdn.jsdelivr.net/npm/marked/marked.min.js"></script>
-    <script src="js/config.js?v=11"></script>
+    <script src="js/config.js?v=12"></script>
     <script src="js/fetcher.js?v=10"></script>
-    <script src="js/parser.js?v=15"></script>
-    <script src="js/renderer.js?v=10"></script>
+    <script src="js/parser.js?v=16"></script>
+    <script src="js/renderer.js?v=11"></script>
     <script src="js/timeline.js?v=6"></script>
     <script src="js/attention.js?v=5"></script>
     <script src="js/upcoming.js?v=4"></script>
     <script src="js/live-status.js?v=1"></script>
-    <script src="js/app.js?v=17"></script>
+    <script src="js/production-guard.js?v=1"></script>
+    <script src="js/app.js?v=18"></script>
 </body>
 </html>
