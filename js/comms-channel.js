@@ -136,19 +136,28 @@ const CommsChannel = {
     // rastro. Si un agente no mira, el reloj de aca lo delata, sin que
     // nadie tenga que acordarse de reportarlo.
     _renderDisciplina() {
+      // Se dibuja en DOS lugares: en la tab Logs, al lado del canal, y
+      // en la tab Salud. Logs es la ultima tab que uno mira, y la
+      // disciplina no es un log: es como esta de vivo el equipo.
+      const targets = [];
+      const salud = document.getElementById('eco-salud-disciplina');
+      if (salud) targets.push(salud);
       const kpis = document.getElementById('comms-channel-kpis');
-      if (!kpis) return;
-      let box = document.getElementById('cc-disciplina');
-      if (!box) {
-        box = document.createElement('div');
-        box.id = 'cc-disciplina';
-        box.className = 'comms-kpi-grid';
-        box.style.marginTop = '8px';
-        kpis.parentNode.insertBefore(box, kpis.nextSibling);
+      if (kpis) {
+        let box = document.getElementById('cc-disciplina');
+        if (!box) {
+          box = document.createElement('div');
+          box.id = 'cc-disciplina';
+          box.className = 'comms-kpi-grid';
+          box.style.marginTop = '8px';
+          kpis.parentNode.insertBefore(box, kpis.nextSibling);
+        }
+        targets.push(box);
       }
-      if (!this.data) { box.innerHTML = ''; return; }
+      if (!targets.length) return;
+      if (!this.data) { targets.forEach(b => b.innerHTML = ''); return; }
       const d = this.data.disciplina || [];
-      if (!d.length) { box.innerHTML = ''; return; }
+      if (!d.length) { targets.forEach(b => b.innerHTML = ''); return; }
 
       const variante = { ok: 'routine', vencido: 'critical', demanda: 'unclassified' };
       const html = d.map(r => {
@@ -177,7 +186,7 @@ const CommsChannel = {
                  '</div>' +
                '</div>';
       }).join('');
-      box.innerHTML = html;
+      targets.forEach(b => b.innerHTML = html);
     },
 
     _renderGrupos() {
