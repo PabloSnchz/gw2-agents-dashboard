@@ -16,13 +16,17 @@ class DashboardLiveStatus {
     // `queDecide` viene del AGENTS.md de cada agente, no de una opinion mia.
     // Es la columna "quién hace qué": para qué existe cada uno, no qué hizo
     // últimamente. Lo último cambia cada media hora; esto no.
+    //
+    // NO VA "Principal (Admin)". Nunca fue un agente: era un chat manual de
+    // Pablo dentro de `default`, y hacia la tarea que despues asumio el
+    // Arquitecto (estructura, permisos, crons). Contarlo como miembro del
+    // equipo hacia que el dashboard anunciara una segunda unidad con el mismo
+    // agent_id, el mismo cron y la misma sesion que la de arriba. Una fila
+    // menos, y el reparto real.
     static AGENTS = [
-        { id: 'principal-desarrollo', nombre: 'Principal (Desarrollo)', refAgente: 'default', icon: '🚀',
-          queDecide: 'Implementa features y fixes en gw2-dev. Es el único que escribe código del producto.',
+        { id: 'principal-desarrollo', nombre: 'Principal', refAgente: 'default', icon: '🚀',
+          queDecide: 'Implementa features y fixes en gw2-dev, y reparte el trabajo al resto del equipo. Es el único que escribe código del producto.',
           scopes: ['legendary', 'feature', 'feat', 'commit'] },
-        { id: 'principal-admin',      nombre: 'Principal (Admin)',      refAgente: 'default', icon: '⚙️',
-          queDecide: 'Configuración del ecosistema: crons, permisos, agentes. A pedido tuyo, no por reloj.',
-          scopes: ['comms', 'admin', 'session', 'chore'] },
         { id: 'po',          nombre: 'Product Owner', refAgente: 'product-owner', icon: '📝',
           queDecide: 'Investiga afuera (Reddit, Wiki, gw2treasures) y decide qué merece la pena. Propone, no implementa.',
           scopes: ['po', 'backlog'] },
