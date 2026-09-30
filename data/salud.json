@@ -1,19 +1,19 @@
 {
- "generado_utc": "20260930T230602Z",
- "generado_h": "2026-09-30 23:06 UTC",
+ "generado_utc": "20260930T232103Z",
+ "generado_h": "2026-09-30 23:21 UTC",
  "archivos_estado": [
   {
    "archivo": "TEAM_STATUS.md",
    "quien": "Principal /30min",
    "estado": "ok",
-   "edad_h": 0.0,
+   "edad_h": 0.3,
    "kb": 61.6
   },
   {
    "archivo": "SESSION_LOG.md",
    "quien": "Documentador /4h",
    "estado": "ok",
-   "edad_h": 0.0,
+   "edad_h": 0.3,
    "kb": 141.0,
    "crecimiento": "EXCEDE 60 KB (141 KB)"
   },
@@ -21,14 +21,14 @@
    "archivo": "COMMS_LOG.md",
    "quien": "Principal /30min",
    "estado": "ok",
-   "edad_h": 0.0,
+   "edad_h": 0.3,
    "kb": 81.5
   },
   {
    "archivo": "PRE_BACKLOG.md",
    "quien": "PO /2h",
    "estado": "ROTO",
-   "edad_h": 15.5,
+   "edad_h": 15.7,
    "kb": 238.3,
    "crecimiento": "EXCEDE 120 KB (238 KB)"
   },
@@ -36,14 +36,14 @@
    "archivo": "ALERTS_LOG.md",
    "quien": "Principal /30min",
    "estado": "ok",
-   "edad_h": 0.0,
-   "kb": 105.6
+   "edad_h": 0.2,
+   "kb": 109.4
   },
   {
    "archivo": "DECISIONS_LOG.md",
    "quien": "Principal",
    "estado": "ok",
-   "edad_h": 21.1,
+   "edad_h": 21.3,
    "kb": 10.2
   }
  ],
@@ -224,22 +224,22 @@
   },
   {
    "dia": "2026-09-30",
-   "llamadas": 7907,
-   "prompt": 692095515,
-   "cache_read": 671698594,
+   "llamadas": 8000,
+   "prompt": 699661705,
+   "cache_read": 679124673,
    "cache_pct": 97.1,
-   "prompt_por_llamada": 87529,
+   "prompt_por_llamada": 87457,
    "por_agente": [
     {
      "agente": "default",
-     "llamadas": 3570,
-     "prompt": 353544119,
+     "llamadas": 3598,
+     "prompt": 357222397,
      "cache_pct": 98.3
     },
     {
      "agente": "architect",
-     "llamadas": 2549,
-     "prompt": 210764598,
+     "llamadas": 2575,
+     "prompt": 212578208,
      "cache_pct": 95.9
     },
     {
@@ -250,9 +250,9 @@
     },
     {
      "agente": "Code-Reviewer",
-     "llamadas": 699,
-     "prompt": 43980898,
-     "cache_pct": 94.9
+     "llamadas": 738,
+     "prompt": 46055200,
+     "cache_pct": 95.0
     },
     {
      "agente": "documenter",

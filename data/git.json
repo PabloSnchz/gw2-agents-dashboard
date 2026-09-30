@@ -1,8 +1,15 @@
 {
- "generado_utc": "20260930T230605Z",
- "generado_h": "2026-09-30 23:06 UTC",
+ "generado_utc": "20260930T232107Z",
+ "generado_h": "2026-09-30 23:21 UTC",
  "origen": "git local + ls-remote (sin cuota). protected cacheado TTL 6h.",
  "commits": [
+  {
+   "sha": "addfc9f3cfb82dbb2e6cc2b76ff46025ffc495d4",
+   "short": "addfc9f",
+   "autor": "Pablo Sanchez",
+   "fecha": "2026-09-30T20:09:50-03:00",
+   "msg": "docs(alerts): ALERT-88 - un veredicto que nombra lineas de un arbol que ya no existia"
+  },
   {
    "sha": "0152434e55c51841ba7658097d564fccfe82974d",
    "short": "0152434",
@@ -345,13 +352,6 @@
    "autor": "Pablo Sanchez",
    "fecha": "2026-09-30T13:07:50-03:00",
    "msg": "﻿fix(api): el idioma del throw de FORMA es parte del contrato (Idea 57 T4)"
-  },
-  {
-   "sha": "957cc2cf5e48e5f0b2cd88d4557bf64b157ed550",
-   "short": "957cc2c",
-   "autor": "Pablo Sanchez",
-   "fecha": "2026-09-30T12:39:34-03:00",
-   "msg": "merge: Idea 57 Tramo 2 (getAccountLuck no degrada la FORMA a 0)"
   }
  ],
  "archivos_md": [
@@ -395,9 +395,9 @@
    "repo": "gw2-wallet-agents",
    "label": "Desarrollo",
    "role": "dev",
-   "sha": "0152434e55c51841ba7658097d564fccfe82974d",
-   "short_sha": "0152434",
-   "commit": "﻿docs(logs): HB#70 - el boton",
+   "sha": "addfc9f3cfb82dbb2e6cc2b76ff46025ffc495d4",
+   "short_sha": "addfc9f",
+   "commit": "docs(alerts): ALERT-88 - un veredicto que nombra lineas de un",
    "estado": "open",
    "protected": false,
    "protected_fresco": true,
@@ -407,9 +407,9 @@
    "repo": "gw2-agents-dashboard",
    "label": "Dashboard",
    "role": "dashboard",
-   "sha": "1b145a9294c735b2731c01e9172013de254b270c",
-   "short_sha": "1b145a9",
-   "commit": "Reordena las tabs: Promociones sube, Estructura baja",
+   "sha": "61f720ee73ed463ef85b597320bb51a05a774aae",
+   "short_sha": "61f720e",
+   "commit": "chore(dashboard): pulso automatico 2026-09-30_23-06_UTC",
    "estado": "open",
    "protected": false,
    "protected_fresco": true,
