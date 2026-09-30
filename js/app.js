@@ -32,7 +32,7 @@
     // div .dashboard-tab-content no alcanzan). Por eso 'salud' falto durante
     // tiempo: el boton existia, eco-health renderizaba perfecto, y el tab no se
     // abria nunca.
-    const VALID_TABS = ['resumen', 'equipo', 'historial', 'proximas', 'estructura', 'salud', 'promociones', 'logs'];
+    const VALID_TABS = ['resumen', 'equipo', 'historial', 'proximas', 'promociones', 'salud', 'estructura', 'logs'];
 
     // ============ TABS (definido PRIMERO, antes de init) ============
     window.setDashboardTab = function(tabName, silent) {
