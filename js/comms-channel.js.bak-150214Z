@@ -65,7 +65,6 @@ const CommsChannel = {
         this._renderEstado();
         this._renderKpis();
         this._renderGrupos();
-        this._renderDisciplina();
     },
 
     _renderEstado() {
@@ -122,62 +121,6 @@ const CommsChannel = {
                 ' &middot; ' + this._esc(m.estado_nota || '') + '</div>' +
             replied +
         '</div>';
-    },
-
-    // Cuando miraron el canal por ultima vez.
-    //
-    // Esto NO es decorativo. El paso 0 esta escrito en el HEARTBEAT.md
-    // de cada agente, y una instruccion escrita en un .md no es una
-    // garantia: el PO ya se autocorrijo por reportar como propio un
-    // hallazgo que otro ya habia subido. Ese es exactamente el costo
-    // que mide esto.
-    //
-    // Lo que convierte la instruccion en garantia es que mirar deje
-    // rastro. Si un agente no mira, el reloj de aca lo delata, sin que
-    // nadie tenga que acordarse de reportarlo.
-    _renderDisciplina() {
-      const kpis = document.getElementById('comms-channel-kpis');
-      if (!kpis) return;
-      let box = document.getElementById('cc-disciplina');
-      if (!box) {
-        box = document.createElement('div');
-        box.id = 'cc-disciplina';
-        box.className = 'comms-kpi-grid';
-        box.style.marginTop = '8px';
-        kpis.parentNode.insertBefore(box, kpis.nextSibling);
-      }
-      if (!this.data) { box.innerHTML = ''; return; }
-      const d = this.data.disciplina || [];
-      if (!d.length) { box.innerHTML = ''; return; }
-
-      const variante = { ok: 'routine', vencido: 'critical', demanda: 'unclassified' };
-      const html = d.map(r => {
-        let v, titulo;
-        if (r.vigencia === 'bajo demanda') {
-          v = 'demanda';
-          titulo = 'bajo demanda';
-        } else if (r.lectura_vencida) {
-          v = 'vencido';
-          titulo = r.minutos_sin_mirar === null ? 'nunca miro'
-                   : 'hace ' + r.minutos_sin_mirar + ' min';
-        } else {
-          v = 'ok';
-          titulo = r.minutos_sin_mirar === null ? 'sin registro'
-                   : 'hace ' + r.minutos_sin_mirar + ' min';
-        }
-        const pend = r.preguntas_sin_responder || 0;
-        return '<div class="kpi-card kpi-card--' + variante[v] + ' cc-kpi">' +
-                 '<div class="kpi-value" style="font-size:1.05rem">' +
-                   this._esc(r.agente) + '</div>' +
-                 '<div class="cc-meta">' + this._esc(titulo) +
-                   (r.umbral_min ? ' &middot; umbral ' + r.umbral_min + 'm' : '') +
-                 '</div>' +
-                 '<div class="cc-meta' + (pend ? ' cc-meta--warn' : '') + '">' +
-                   this._esc(pend > 0 ? pend + ' sin responder' : 'todo contestado') +
-                 '</div>' +
-               '</div>';
-      }).join('');
-      box.innerHTML = html;
     },
 
     _renderGrupos() {
