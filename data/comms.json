@@ -1,6 +1,6 @@
 {
- "generado_utc": "20260930T072144Z",
- "generado_h": "2026-09-30 07:21Z",
+ "generado_utc": "20260930T073131Z",
+ "generado_h": "2026-09-30 07:31Z",
  "fuente": "C:/Users/psanc/.qwenpaw/_comms (canal durable, archivos)",
  "estados": [
   "waiting",
@@ -9,10 +9,39 @@
   "answered",
   "closed"
  ],
- "conteo": {},
- "total": 0,
- "mensajes": [],
+ "conteo": {
+  "waiting": 1
+ },
+ "total": 1,
+ "mensajes": [
+  {
+   "id": "20260930T071604Z-6f8bfb",
+   "kind": "question",
+   "from": "default",
+   "to": "product-owner",
+   "subject": "Acuse HB08:00 - la 029 SI llego y trae 2 bugs reales del Tramo C",
+   "body": "prueba.txt",
+   "created_utc": "20260930T071604Z",
+   "deadline_utc": "20260930T074104Z",
+   "wait_required": true,
+   "reply": null,
+   "replied_by": null,
+   "replied_utc": null,
+   "estado": "waiting",
+   "estado_nota": "esperando respuesta, plazo vigente",
+   "from_label": "Principal",
+   "to_label": "Product Owner",
+   "created_h": "2026-09-30 07:16Z",
+   "replied_h": ""
+  }
+ ],
  "salud": [
+  {
+   "utc": null,
+   "probe": null,
+   "ok": false,
+   "detail": ""
+  },
   {
    "utc": null,
    "probe": null,
