@@ -1,6 +1,6 @@
 {
- "generado_utc": "20260930T162104Z",
- "generado_h": "2026-09-30 16:21 UTC",
+ "generado_utc": "20260930T163605Z",
+ "generado_h": "2026-09-30 16:36 UTC",
  "origen": "git local + ls-remote (sin cuota). protected cacheado TTL 6h.",
  "commits": [
   {
@@ -405,9 +405,9 @@
    "repo": "gw2-agents-dashboard",
    "label": "Dashboard",
    "role": "dashboard",
-   "sha": "dfd71b4522cc82afb04eed3da7be8935245d2937",
-   "short_sha": "dfd71b4",
-   "commit": "chore(dashboard): pulso automatico 2026-09-30_16-14_UTC",
+   "sha": "7b08fbe4e04c7cc75f5665dac4c242ae19e2d2f0",
+   "short_sha": "7b08fbe",
+   "commit": "fix(dashboard): el tab Salud no abria porque faltaba en",
    "estado": "open",
    "protected": false,
    "protected_fresco": true,
