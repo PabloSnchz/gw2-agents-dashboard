@@ -103,3 +103,18 @@ const DASHBOARD_CONFIG = {
         return filename.replace(/_/g, ' ').replace(/\.md$/i, '');
     }
 };
+
+// --------------------------------------------------- BUG QUE ESTABA OCULTO
+// Los scripts clasicos (no son modulos) comparten el scope LEXICO, no el
+// objeto window: un `const` de nivel superior NO queda en
+// window.DASHBOARD_CONFIG.
+//
+// comms-channel.js:45 y eco-health.js:24 lo buscan por ahi, y ambos hacen
+// `if (!cfg || !cfg.getX()) return;` SIN dibujar nada. Como el return es
+// silencioso, el panel del canal de agentes llevaba dias desplegado y
+// vacio: ni mensaje, ni error, ni kpis. Solo el heading del HTML.
+//
+// Sin esta linea, todo lo que dependa de DASHBOARD_CONFIG dibuja en
+// silencio. Un panel que no avisa que fallo se lee igual que un panel
+// que no tiene nada.
+window.DASHBOARD_CONFIG = DASHBOARD_CONFIG;
