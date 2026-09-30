@@ -3,7 +3,7 @@
     "schema": 2,
     "titulo": "Estructura real del ecosistema Bóveda del Gato Negro",
     "autoridad": "Arquitecto (agente `architect`) — director de la ESTRUCTURA por decisión de Pablo, 2026-09-30",
-    "verificado": "2026-09-30T22:06:02Z",
+    "verificado": "2026-09-30T22:21:02Z",
     "metodo": "GENERADO, no escrito a mano. Regenerar con _eco\\gen_estructura.py. Lee workspaces/<agente>/agent.json (heartbeat.enabled, .every) y workspaces/<agente>/jobs.json (crons: enabled, expr). Nada se supone: un cron deshabilitado se marca activo=false aunque conserve su cron_expr.",
     "nota_admin": "El chat 'Principal (Admin)' fue retirado el 2026-09-30: no era un agente, era una sesion manual dentro de `default`. Esa tarea la hace el Arquitecto."
   },
@@ -57,7 +57,7 @@
       "heartbeat": {
         "mecanismo": "cron",
         "activo": true,
-        "agent_json_enabled": true,
+        "agent_json_enabled": false,
         "agent_json_every": "2h",
         "cron_id": "c3f30dc2-ccdd-4fc0-aa6d-f890c482ac87",
         "cron_expr": "0 */2 * * *",
@@ -170,14 +170,14 @@
     },
     {
       "id": "d7",
-      "severidad": "media",
-      "tema": "Heartbeat del PO",
+      "severidad": "grave",
+      "tema": "El PO tiene DOS mecanismos de heartbeat activos a la vez",
       "dice_org_map": "«NO es un cron de QwenPaw: agent.json con every 2h, enabled: true, timeout 300s»",
-      "realidad": "Coincide con agent.json del workspace product-owner.",
+      "realidad": "Es ALGO PEOR que lo que dice el documento: estaban los dos. agent.json decia enabled:true every:2h, Y existia el cron c3f30dc2 «Heartbeat PO» con 0 */2 * * * y enabled:true. Los dos timers de 2h, o sea que el PO podia disparar dos veces por ciclo.",
       "estado": "resuelta",
       "verificada": "2026-09-30",
       "resuelta_el": "2026-09-30",
-      "nota": "Igual que d6: el documento ya estaba corregido."
+      "nota": "RESUELTO el 30/09: apagado heartbeat.enabled del agent.json del PO, conservado el cron c3f30dc2. Antes de tocarlo se verifico en el codigo que eran dos mecanismos independientes y no una materializacion: app/crons/manager.py agenda el heartbeat como job EN MEMORIA con id _heartbeat, y INTERNAL_JOB_IDS excluye ese id de los jobs de usuario, mientras que el cron vive en jobs.json en disco. El PO era el unico de los seis agentes con los dos activos. AGENTS.md del PO y PROFILE.md del Arquitecto decian que el PO corre por heartbeat nativo: corregidos."
     },
     {
       "id": "d8",
@@ -187,7 +187,7 @@
       "realidad": "Coincide. El cron 17e51119 que lo corria esta pausado (enabled:false) y fue sustituido por la tarea de Windows GW2-Ecosystem-Pulse, que no gasta tokens.",
       "estado": "abierta",
       "verificada": "2026-09-30",
-      "nota": "El dato es cierto pero incompleto: no dice que hay un sustituto sin LLM. Un cron apagado sin sustituto registrado parece una falla."
+      "nota": "El dato es cierto pero incompleto: no dice que hay un sustituto sin LLM. Un cron apagado sin sustituto registrado parece una falla. El equipo lo lee y cree que el Arquitecto esta caido."
     },
     {
       "id": "d9",

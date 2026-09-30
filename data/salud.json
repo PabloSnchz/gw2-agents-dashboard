@@ -1,19 +1,19 @@
 {
- "generado_utc": "20260930T220602Z",
- "generado_h": "2026-09-30 22:06 UTC",
+ "generado_utc": "20260930T222102Z",
+ "generado_h": "2026-09-30 22:21 UTC",
  "archivos_estado": [
   {
    "archivo": "TEAM_STATUS.md",
    "quien": "Principal /30min",
    "estado": "ok",
-   "edad_h": 0.0,
+   "edad_h": 0.3,
    "kb": 53.6
   },
   {
    "archivo": "SESSION_LOG.md",
    "quien": "Documentador /4h",
    "estado": "ok",
-   "edad_h": 0.0,
+   "edad_h": 0.3,
    "kb": 133.4,
    "crecimiento": "EXCEDE 60 KB (133 KB)"
   },
@@ -21,14 +21,14 @@
    "archivo": "COMMS_LOG.md",
    "quien": "Principal /30min",
    "estado": "ok",
-   "edad_h": 0.0,
+   "edad_h": 0.3,
    "kb": 77.4
   },
   {
    "archivo": "PRE_BACKLOG.md",
    "quien": "PO /2h",
    "estado": "ROTO",
-   "edad_h": 14.5,
+   "edad_h": 14.7,
    "kb": 238.3,
    "crecimiento": "EXCEDE 120 KB (238 KB)"
   },
@@ -36,14 +36,14 @@
    "archivo": "ALERTS_LOG.md",
    "quien": "Principal /30min",
    "estado": "ok",
-   "edad_h": 0.0,
+   "edad_h": 0.3,
    "kb": 95.0
   },
   {
    "archivo": "DECISIONS_LOG.md",
    "quien": "Principal",
    "estado": "ok",
-   "edad_h": 20.1,
+   "edad_h": 20.3,
    "kb": 10.2
   }
  ],
@@ -224,35 +224,35 @@
   },
   {
    "dia": "2026-09-30",
-   "llamadas": 7100,
-   "prompt": 619290478,
-   "cache_read": 600725056,
+   "llamadas": 7349,
+   "prompt": 641271298,
+   "cache_read": 622121461,
    "cache_pct": 97.0,
-   "prompt_por_llamada": 87224,
+   "prompt_por_llamada": 87259,
    "por_agente": [
     {
      "agente": "default",
-     "llamadas": 3144,
-     "prompt": 309923521,
-     "cache_pct": 98.3
+     "llamadas": 3249,
+     "prompt": 320160416,
+     "cache_pct": 98.2
     },
     {
      "agente": "architect",
-     "llamadas": 2343,
-     "prompt": 195040770,
+     "llamadas": 2390,
+     "prompt": 198656059,
      "cache_pct": 96.0
     },
     {
      "agente": "product-owner",
-     "llamadas": 858,
-     "prompt": 65748461,
-     "cache_pct": 95.3
+     "llamadas": 935,
+     "prompt": 72463095,
+     "cache_pct": 95.6
     },
     {
      "agente": "Code-Reviewer",
-     "llamadas": 657,
-     "prompt": 41738380,
-     "cache_pct": 95.2
+     "llamadas": 677,
+     "prompt": 43152382,
+     "cache_pct": 95.1
     },
     {
      "agente": "documenter",
