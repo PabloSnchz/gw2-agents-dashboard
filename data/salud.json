@@ -1,34 +1,34 @@
 {
- "generado_utc": "20260930T225102Z",
- "generado_h": "2026-09-30 22:51 UTC",
+ "generado_utc": "20260930T230602Z",
+ "generado_h": "2026-09-30 23:06 UTC",
  "archivos_estado": [
   {
    "archivo": "TEAM_STATUS.md",
    "quien": "Principal /30min",
    "estado": "ok",
-   "edad_h": 0.3,
-   "kb": 57.2
+   "edad_h": 0.0,
+   "kb": 61.6
   },
   {
    "archivo": "SESSION_LOG.md",
    "quien": "Documentador /4h",
    "estado": "ok",
-   "edad_h": 0.2,
-   "kb": 135.9,
-   "crecimiento": "EXCEDE 60 KB (136 KB)"
+   "edad_h": 0.0,
+   "kb": 141.0,
+   "crecimiento": "EXCEDE 60 KB (141 KB)"
   },
   {
    "archivo": "COMMS_LOG.md",
    "quien": "Principal /30min",
    "estado": "ok",
-   "edad_h": 0.3,
-   "kb": 78.0
+   "edad_h": 0.0,
+   "kb": 81.5
   },
   {
    "archivo": "PRE_BACKLOG.md",
    "quien": "PO /2h",
    "estado": "ROTO",
-   "edad_h": 15.2,
+   "edad_h": 15.5,
    "kb": 238.3,
    "crecimiento": "EXCEDE 120 KB (238 KB)"
   },
@@ -36,14 +36,14 @@
    "archivo": "ALERTS_LOG.md",
    "quien": "Principal /30min",
    "estado": "ok",
-   "edad_h": 0.2,
-   "kb": 102.5
+   "edad_h": 0.0,
+   "kb": 105.6
   },
   {
    "archivo": "DECISIONS_LOG.md",
    "quien": "Principal",
    "estado": "ok",
-   "edad_h": 20.8,
+   "edad_h": 21.1,
    "kb": 10.2
   }
  ],
@@ -83,11 +83,6 @@
   }
  ],
  "ramas_sin_integrar": [
-  {
-   "rama": "feat-idea50-boton-cache",
-   "commits": 9,
-   "fecha": "2026-09-30"
-  },
   {
    "rama": "legacy/fix-concurrency-pool-phase2",
    "commits": 2,
@@ -229,41 +224,47 @@
   },
   {
    "dia": "2026-09-30",
-   "llamadas": 7706,
-   "prompt": 675384788,
-   "cache_read": 655339349,
-   "cache_pct": 97.0,
-   "prompt_por_llamada": 87644,
+   "llamadas": 7907,
+   "prompt": 692095515,
+   "cache_read": 671698594,
+   "cache_pct": 97.1,
+   "prompt_por_llamada": 87529,
    "por_agente": [
     {
      "agente": "default",
-     "llamadas": 3435,
-     "prompt": 340943782,
-     "cache_pct": 98.2
+     "llamadas": 3570,
+     "prompt": 353544119,
+     "cache_pct": 98.3
     },
     {
      "agente": "architect",
-     "llamadas": 2494,
-     "prompt": 207304520,
-     "cache_pct": 96.0
+     "llamadas": 2549,
+     "prompt": 210764598,
+     "cache_pct": 95.9
     },
     {
      "agente": "product-owner",
-     "llamadas": 985,
-     "prompt": 76499372,
+     "llamadas": 989,
+     "prompt": 76944530,
      "cache_pct": 95.7
     },
     {
      "agente": "Code-Reviewer",
-     "llamadas": 694,
-     "prompt": 43797768,
-     "cache_pct": 95.0
+     "llamadas": 699,
+     "prompt": 43980898,
+     "cache_pct": 94.9
     },
     {
      "agente": "documenter",
      "llamadas": 98,
      "prompt": 6839346,
      "cache_pct": 97.0
+    },
+    {
+     "agente": "?",
+     "llamadas": 2,
+     "prompt": 22024,
+     "cache_pct": 1.2
     }
    ]
   }

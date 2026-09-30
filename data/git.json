@@ -1,8 +1,29 @@
 {
- "generado_utc": "20260930T225106Z",
- "generado_h": "2026-09-30 22:51 UTC",
+ "generado_utc": "20260930T230605Z",
+ "generado_h": "2026-09-30 23:06 UTC",
  "origen": "git local + ls-remote (sin cuota). protected cacheado TTL 6h.",
  "commits": [
+  {
+   "sha": "0152434e55c51841ba7658097d564fccfe82974d",
+   "short": "0152434",
+   "autor": "Pablo Sanchez",
+   "fecha": "2026-09-30T20:04:49-03:00",
+   "msg": "﻿docs(logs): HB#70 - el boton mergeado, y ALERT-87 (el assert que pasaba sobre la lectura equivocada)"
+  },
+  {
+   "sha": "950ea64b8b791e473173e278b3ff987ada772a60",
+   "short": "950ea64",
+   "autor": "Pablo Sanchez",
+   "fecha": "2026-09-30T20:01:44-03:00",
+   "msg": "merge(idea50): el boton de liberar cache, con su alcance cierto  Tramos A-F de la Idea 50 mas el censo (ALERT-86) y las correcciones de citas de linea (ALERT-84). Veredicto del Reviewer: APROBADO CON CAMBIOS, y los 2 bloqueantes (H1 titulo, H2 enumeracion de kept) estan aplicados en 46b2d7f con un enfoque SUPERIOR al pedido: la linea de conservadas ya no enumera categorias, dice los bytes que quedan, que es lo que sigue siendo cierto cuando el registro cambie.  Suite: 793 aserciones / 0 FAIL, 29 de 29 archivos."
+  },
+  {
+   "sha": "30d85a88df6b7a6b4bf844ad4eb9fd30180a8fc1",
+   "short": "30d85a8",
+   "autor": "Pablo Sanchez",
+   "fecha": "2026-09-30T20:01:09-03:00",
+   "msg": "﻿fix(censo): ALERT-86 - 3 familias de cache que solo el NOMBRE no reconoce"
+  },
   {
    "sha": "3bdafca5109bfe452ed7636d3fd33182dd427ede",
    "short": "3bdafca",
@@ -331,27 +352,6 @@
    "autor": "Pablo Sanchez",
    "fecha": "2026-09-30T12:39:34-03:00",
    "msg": "merge: Idea 57 Tramo 2 (getAccountLuck no degrada la FORMA a 0)"
-  },
-  {
-   "sha": "fc76b411c290f188ef58cdd1962da1b7157eebb8",
-   "short": "fc76b41",
-   "autor": "Pablo Sanchez",
-   "fecha": "2026-09-30T12:39:29-03:00",
-   "msg": "﻿docs(logs): HB#57 - Tramo 2 mergeado, ALERT-64/65 abiertas, canal verificado"
-  },
-  {
-   "sha": "db0dacc88c8a2049831b59af895f4d2fc79d5ead",
-   "short": "db0dacc",
-   "autor": "Pablo Sanchez",
-   "fecha": "2026-09-30T12:36:57-03:00",
-   "msg": "﻿feat(api): Idea 57 Tramo 2 - getAccountLuck ya no degrada la FORMA a 0 (v2.27.0)"
-  },
-  {
-   "sha": "ad328b3878f8907eaf0df73a27a95de19cf1b871",
-   "short": "ad328b3",
-   "autor": "Pablo Sanchez",
-   "fecha": "2026-09-30T12:20:14-03:00",
-   "msg": "merge(idea57t3): Tramo 3 - los @throws que mentian describen las dos capas (v2.26.0)"
   }
  ],
  "archivos_md": [
@@ -395,9 +395,9 @@
    "repo": "gw2-wallet-agents",
    "label": "Desarrollo",
    "role": "dev",
-   "sha": "cfff5482e5f05894e9e3b70f159f21d40ba879a2",
-   "short_sha": "cfff548",
-   "commit": "﻿docs(alerts): ALERT-79 adenda -",
+   "sha": "0152434e55c51841ba7658097d564fccfe82974d",
+   "short_sha": "0152434",
+   "commit": "﻿docs(logs): HB#70 - el boton",
    "estado": "open",
    "protected": false,
    "protected_fresco": true,
@@ -407,9 +407,9 @@
    "repo": "gw2-agents-dashboard",
    "label": "Dashboard",
    "role": "dashboard",
-   "sha": "c537833deab93d829a67a6a0a38fe8a26529b2af",
-   "short_sha": "c537833",
-   "commit": "Estructura: la tab responde \"que esta impone la plataforma\"",
+   "sha": "1b145a9294c735b2731c01e9172013de254b270c",
+   "short_sha": "1b145a9",
+   "commit": "Reordena las tabs: Promociones sube, Estructura baja",
    "estado": "open",
    "protected": false,
    "protected_fresco": true,
