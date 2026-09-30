@@ -1,8 +1,15 @@
 {
- "generado_utc": "20260930T170605Z",
- "generado_h": "2026-09-30 17:06 UTC",
+ "generado_utc": "20260930T172105Z",
+ "generado_h": "2026-09-30 17:21 UTC",
  "origen": "git local + ls-remote (sin cuota). protected cacheado TTL 6h.",
  "commits": [
+  {
+   "sha": "c04496eb58a0066ca1ecee4e564e7249b6341f33",
+   "short": "c04496e",
+   "autor": "Pablo Sanchez",
+   "fecha": "2026-09-30T14:08:14-03:00",
+   "msg": "﻿fix(api-gw2): Idea 50 Tramo F — cacheClear() borra de verdad, no solo la sesion"
+  },
   {
    "sha": "77be9e56ac4e1240c4760bf8432d02fd0535cf14",
    "short": "77be9e5",
@@ -345,13 +352,6 @@
    "autor": "Pablo Sanchez",
    "fecha": "2026-09-30T04:14:47-03:00",
    "msg": "﻿docs(logs): reconciliar ALERTS_LOG, BACKLOG y TEAM_STATUS del HB#48"
-  },
-  {
-   "sha": "cdddbd41d9a53edbfa1b5a8737d82ce918724579",
-   "short": "cdddbd4",
-   "autor": "Pablo Sanchez",
-   "fecha": "2026-09-30T04:13:03-03:00",
-   "msg": "﻿docs(logs): HB#48 - fix de 2 bugs del sharding, y cierre del ciclo"
   }
  ],
  "archivos_md": [
@@ -405,9 +405,9 @@
    "repo": "gw2-agents-dashboard",
    "label": "Dashboard",
    "role": "dashboard",
-   "sha": "0c611ed6f674e0a8f94d110f3ff1227cd31faa3f",
-   "short_sha": "0c611ed",
-   "commit": "chore(dashboard): pulso automatico 2026-09-30_16-51_UTC",
+   "sha": "b543b5a0655a9fdbc18a936fc7ca9a4c83598a56",
+   "short_sha": "b543b5a",
+   "commit": "Resumen: el pulso del proyecto en lugar de KPIs de estructura",
    "estado": "open",
    "protected": false,
    "protected_fresco": true,
