@@ -778,6 +778,62 @@ body {
     gap: 12px;
 }
 
+/* Disciplina del canal: una fila de 5 columnas, una por agente.
+   repeat(5,...) en vez de auto-fit como .live-grid porque aca el numero de
+   columnas es el dato — son 5 agentes y se ven los 5 juntos, que es la
+   mitad del valor. En pantallas angostas cae a menos columnas para que la
+   tarjeta no se apelmice. */
+.cc-agents-grid {
+    display: grid;
+    grid-template-columns: repeat(5, minmax(0, 1fr));
+    gap: 12px;
+}
+@media (max-width: 1100px) {
+    .cc-agents-grid { grid-template-columns: repeat(3, minmax(0, 1fr)); }
+}
+@media (max-width: 700px) {
+    .cc-agents-grid { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+}
+
+.cc-card-agent {
+    background: rgba(15, 15, 25, 0.8);
+    border: 1px solid rgba(255,255,255,0.08);
+    border-left: 3px solid rgba(255,255,255,0.12);
+    border-radius: 8px;
+    padding: 13px 14px;
+    transition: transform 0.15s ease, border-left-color 0.15s ease;
+}
+.cc-card-agent:hover { transform: translateY(-2px); }
+.cc-card-agent--routine     { border-left-color: rgba(90, 200, 130, 0.55); }
+.cc-card-agent--critical    { border-left-color: rgba(220, 90, 90, 0.65); }
+.cc-card-agent--unclassified{ border-left-color: rgba(150, 160, 185, 0.4); }
+
+.cc-card-agent__head {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    margin-bottom: 9px;
+}
+.cc-card-agent__icon { font-size: 1.25rem; }
+.cc-card-agent__name {
+    font-weight: 600;
+    font-size: 0.9rem;
+    color: #e8e8e8;
+}
+.cc-card-agent__state {
+    font-size: 0.8rem;
+    color: #c8cede;
+    margin-bottom: 4px;
+}
+.cc-card-agent__state--warn {
+    color: #e2ae43;
+    font-weight: 600;
+}
+.cc-card-agent__meta {
+    font-size: 0.73rem;
+    color: #8d95a8;
+}
+
 .live-card {
     background: rgba(15, 15, 25, 0.8);
     border: 1px solid rgba(255,255,255,0.08);

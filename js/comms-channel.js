@@ -157,7 +157,7 @@ const CommsChannel = {
         if (caja) {
           equipo = document.createElement('div');
           equipo.id = 'equipo-disciplina';
-          equipo.className = 'comms-kpi-grid';
+          equipo.className = 'cc-agents-grid';
           caja.insertBefore(equipo, caja.firstChild);
         }
       }
@@ -178,7 +178,28 @@ const CommsChannel = {
       if (!d.length) { targets.forEach(b => b.innerHTML = ''); return; }
 
       const variante = { ok: 'routine', vencido: 'critical', demanda: 'unclassified' };
+
+      // Los nombres y los emoji NO se inventan aca: salen de
+      // DashboardLiveStatus.AGENTS, la misma tabla que usa la seccion "Ahora"
+      // mas abajo de esta tab.
+      //
+      // No es un detalle de prolijidad. La disciplina trae los agent_id en
+      // minuscula ("code-reviewer") y live-status los trae como refAgente
+      // ("Code-Reviewer"). Con dos listas de agentes en dos archivos, el
+      // matching se hace sin distinguir mayusculas o no se hace: si no se
+      // hace, esa tarjeta queda con el id crudo y sin emoji, que es
+      // exactamente la mitad de las tarjetas. Y una segunda lista de
+      // agentes es dos fuentes de verdad para el mismo reparto.
+      const fichas = (window.DashboardLiveStatus && DashboardLiveStatus.AGENTS) || [];
+      const ficha = (agente) => {
+        const ref = String(agente || '').toLowerCase();
+        const a = fichas.find(x => String(x.refAgente || '').toLowerCase() === ref);
+        return a ? { icon: a.icon, nombre: a.nombre }
+                 : { icon: '🤖', nombre: agente || '—' };
+      };
+
       const html = d.map(r => {
+        const f = ficha(r.agente);
         let v, titulo;
         if (r.vigencia === 'bajo demanda') {
           v = 'demanda';
@@ -193,14 +214,18 @@ const CommsChannel = {
                    : 'hace ' + r.minutos_sin_mirar + ' min';
         }
         const pend = r.preguntas_sin_responder || 0;
-        return '<div class="kpi-card kpi-card--' + variante[v] + ' cc-kpi">' +
-                 '<div class="kpi-value" style="font-size:1.05rem">' +
-                   this._esc(r.agente) + '</div>' +
-                 '<div class="cc-meta">' + this._esc(titulo) +
-                   (r.umbral_min ? ' &middot; umbral ' + r.umbral_min + 'm' : '') +
+        return '<div class="cc-card-agent cc-card-agent--' + variante[v] + '">' +
+                 '<div class="cc-card-agent__head">' +
+                   '<span class="cc-card-agent__icon">' + f.icon + '</span>' +
+                   '<span class="cc-card-agent__name">' + this._esc(f.nombre) + '</span>' +
                  '</div>' +
-                 '<div class="cc-meta' + (pend ? ' cc-meta--warn' : '') + '">' +
-                   this._esc(pend > 0 ? pend + ' sin responder' : 'todo contestado') +
+                 '<div class="cc-card-agent__state' + (pend ? ' cc-card-agent__state--warn' : '') + '">' +
+                   (pend > 0
+                     ? '⚠️ ' + this._esc(pend + ' sin responder')
+                     : '✅ ' + this._esc('todo contestado')) +
+                 '</div>' +
+                 '<div class="cc-card-agent__meta">' + this._esc(titulo) +
+                   (r.umbral_min ? ' · umbral ' + r.umbral_min + 'm' : '') +
                  '</div>' +
                '</div>';
       }).join('');
