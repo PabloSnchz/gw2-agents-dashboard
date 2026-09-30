@@ -1,19 +1,19 @@
 {
- "generado_utc": "20260930T095101Z",
- "generado_h": "2026-09-30 09:51 UTC",
+ "generado_utc": "20260930T100601Z",
+ "generado_h": "2026-09-30 10:06 UTC",
  "archivos_estado": [
   {
    "archivo": "TEAM_STATUS.md",
    "quien": "Principal /30min",
    "estado": "ok",
-   "edad_h": 0.1,
+   "edad_h": 0.3,
    "kb": 6.6
   },
   {
    "archivo": "SESSION_LOG.md",
    "quien": "Documentador /4h",
    "estado": "ok",
-   "edad_h": 0.1,
+   "edad_h": 0.3,
    "kb": 104.1,
    "crecimiento": "EXCEDE 60 KB (104 KB)"
   },
@@ -21,14 +21,14 @@
    "archivo": "COMMS_LOG.md",
    "quien": "Principal /30min",
    "estado": "ok",
-   "edad_h": 0.1,
+   "edad_h": 0.3,
    "kb": 42.6
   },
   {
    "archivo": "PRE_BACKLOG.md",
    "quien": "PO /2h",
    "estado": "ok",
-   "edad_h": 2.2,
+   "edad_h": 2.5,
    "kb": 238.3,
    "crecimiento": "EXCEDE 120 KB (238 KB)"
   },
@@ -36,14 +36,14 @@
    "archivo": "ALERTS_LOG.md",
    "quien": "Principal /30min",
    "estado": "ok",
-   "edad_h": 0.1,
+   "edad_h": 0.3,
    "kb": 54.5
   },
   {
    "archivo": "DECISIONS_LOG.md",
    "quien": "Principal",
    "estado": "ok",
-   "edad_h": 7.8,
+   "edad_h": 8.1,
    "kb": 10.2
   }
  ],
@@ -214,29 +214,29 @@
   },
   {
    "dia": "2026-09-30",
-   "llamadas": 3233,
-   "prompt": 277010546,
-   "cache_read": 268711140,
-   "cache_pct": 97.0,
-   "prompt_por_llamada": 85682,
+   "llamadas": 3349,
+   "prompt": 283795870,
+   "cache_read": 275082844,
+   "cache_pct": 96.9,
+   "prompt_por_llamada": 84740,
    "por_agente": [
     {
      "agente": "default",
-     "llamadas": 1474,
-     "prompt": 141138021,
+     "llamadas": 1532,
+     "prompt": 144584242,
      "cache_pct": 98.0
     },
     {
      "agente": "architect",
-     "llamadas": 1086,
-     "prompt": 91104256,
-     "cache_pct": 95.9
+     "llamadas": 1118,
+     "prompt": 93038536,
+     "cache_pct": 95.7
     },
     {
      "agente": "product-owner",
-     "llamadas": 444,
-     "prompt": 33885811,
-     "cache_pct": 97.0
+     "llamadas": 470,
+     "prompt": 35290634,
+     "cache_pct": 96.9
     },
     {
      "agente": "Code-Reviewer",
@@ -266,7 +266,7 @@
   },
   {
    "archivo": "estructura.json",
-   "edad_min": 197.5,
+   "edad_min": 212.5,
    "estado": "ok"
   }
  ],
