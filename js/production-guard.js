@@ -29,8 +29,18 @@ const ProductionGuard = {
         // api.github.com; con la cuota anonima (60/h POR IP) agotada los 3
         // daban 403 y las 3 tarjetas caian en "No verificable" sin poder
         // distinguir "rama abierta" de "no pude preguntar".
-        const url = cfg.getGitDataUrl() + '?t=' + Date.now();
+        // TODO (incluido obtener la URL) va DENTRO del try: si getGitDataUrl()
+        // falla, el catch devuelve tarjetas visibles en vez de rechazar. Si
+        // el throw escapa, render() nunca resuelve y el panel queda colgado
+        // en "Leyendo el estado de git..." para siempre. Un panel que se
+        // queda cargando sin error es el peor estado posible: ni dice que
+        // fallo, ni admiten que fallo.
         try {
+            const cfg = window.DASHBOARD_CONFIG;
+            if (!cfg || !cfg.getGitDataUrl) {
+                return this._todosUnknown('DASHBOARD_CONFIG no cargó');
+            }
+            const url = cfg.getGitDataUrl() + '?t=' + Date.now();
             const res = await fetch(url);
             if (!res.ok) return this._todosUnknown('HTTP ' + res.status + ' al leer data/git.json');
             const data = await res.json();
