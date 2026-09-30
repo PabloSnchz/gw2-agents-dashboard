@@ -1,6 +1,6 @@
 {
- "generado_utc": "20260930T213601Z",
- "generado_h": "2026-09-30 21:36Z",
+ "generado_utc": "20260930T215101Z",
+ "generado_h": "2026-09-30 21:51Z",
  "fuente": "C:/Users/psanc/.qwenpaw/_comms (canal durable, archivos)",
  "estados": [
   "waiting",
@@ -10,12 +10,32 @@
   "closed"
  ],
  "conteo": {
+  "asked": 3,
   "answered": 9,
-  "closed": 21,
-  "asked": 2
+  "closed": 21
  },
- "total": 32,
+ "total": 33,
  "mensajes": [
+  {
+   "id": "20260930T213637Z-868974",
+   "kind": "question",
+   "from": "default",
+   "to": "Code-Reviewer",
+   "subject": "Idea 50 boton cache",
+   "body": "placeholder - se reescribe con el cuerpo largo",
+   "created_utc": "20260930T213637Z",
+   "deadline_utc": "20260930T220137Z",
+   "wait_required": true,
+   "reply": null,
+   "replied_by": null,
+   "replied_utc": null,
+   "estado": "asked",
+   "estado_nota": "entregada, sin registrar como esperando",
+   "from_label": "Principal",
+   "to_label": "Code-Reviewer",
+   "created_h": "2026-09-30 21:36Z",
+   "replied_h": ""
+  },
   {
    "id": "20260930T185533Z-ddc4d4",
    "kind": "question",
@@ -703,7 +723,7 @@
    "cadencia_min": 30,
    "ultima_lectura": "2026-09-30T21:30:14Z",
    "lecturas": 56,
-   "minutos_sin_mirar": 5,
+   "minutos_sin_mirar": 20,
    "vigencia": "automatica",
    "lectura_vencida": false,
    "umbral_min": 75,
@@ -715,22 +735,10 @@
    "cadencia_min": 120,
    "ultima_lectura": "2026-09-30T20:44:34Z",
    "lecturas": 22,
-   "minutos_sin_mirar": 51,
+   "minutos_sin_mirar": 66,
    "vigencia": "automatica",
    "lectura_vencida": false,
    "umbral_min": 300,
-   "preguntas_sin_responder": 0,
-   "ok": true
-  },
-  {
-   "agente": "code-reviewer",
-   "cadencia_min": null,
-   "ultima_lectura": "2026-09-30T18:55:15Z",
-   "lecturas": 5,
-   "minutos_sin_mirar": 160,
-   "vigencia": "bajo demanda",
-   "lectura_vencida": false,
-   "umbral_min": null,
    "preguntas_sin_responder": 0,
    "ok": true
   },
@@ -739,7 +747,7 @@
    "cadencia_min": 240,
    "ultima_lectura": "2026-09-30T15:00:01Z",
    "lecturas": 5,
-   "minutos_sin_mirar": 396,
+   "minutos_sin_mirar": 411,
    "vigencia": "automatica",
    "lectura_vencida": false,
    "umbral_min": 600,
@@ -751,12 +759,24 @@
    "cadencia_min": null,
    "ultima_lectura": "2026-09-30T14:59:48Z",
    "lecturas": 2,
-   "minutos_sin_mirar": 396,
+   "minutos_sin_mirar": 411,
    "vigencia": "bajo demanda",
    "lectura_vencida": false,
    "umbral_min": null,
    "preguntas_sin_responder": 0,
    "ok": true
+  },
+  {
+   "agente": "code-reviewer",
+   "cadencia_min": null,
+   "ultima_lectura": "2026-09-30T18:55:15Z",
+   "lecturas": 5,
+   "minutos_sin_mirar": 175,
+   "vigencia": "bajo demanda",
+   "lectura_vencida": false,
+   "umbral_min": null,
+   "preguntas_sin_responder": 1,
+   "ok": false
   }
  ]
 }
