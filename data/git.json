@@ -1,8 +1,22 @@
 {
- "generado_utc": "20260930T183605Z",
- "generado_h": "2026-09-30 18:36 UTC",
+ "generado_utc": "20260930T185105Z",
+ "generado_h": "2026-09-30 18:51 UTC",
  "origen": "git local + ls-remote (sin cuota). protected cacheado TTL 6h.",
  "commits": [
+  {
+   "sha": "bcc1e36d72ed82dda1bfc3de38fb58c399e52e19",
+   "short": "bcc1e36",
+   "autor": "Pablo Sanchez",
+   "fecha": "2026-09-30T15:44:00-03:00",
+   "msg": "docs(org): el chat Admin se retira; la estructura pasa al Arquitecto"
+  },
+  {
+   "sha": "bf5961dca8ad6d85d32cd4d64118ff5c5ad11b5e",
+   "short": "bf5961d",
+   "autor": "Pablo Sanchez",
+   "fecha": "2026-09-30T15:39:15-03:00",
+   "msg": "﻿docs(logs): Heartbeat #62 - el Reviewer no estaba lento, nadie lo despertaba (ALERT-72)"
+  },
   {
    "sha": "942bf1b98ca0d5e8d9e11de42cca8e2fca91d08c",
    "short": "942bf1b",
@@ -338,20 +352,6 @@
    "autor": "Pablo Sanchez",
    "fecha": "2026-09-30T04:36:15-03:00",
    "msg": "merge(raid): Idea 52 - 5 encuentros con id que la API no tiene  5 de los 30 encuentros de raid-tracker.js no se podian marcar nunca. Incluye 4 renombres de id, la correccion de ura_guardian (las recompensas y la ficha de Ura nunca se mostraban) y la limpieza de the_threshold."
-  },
-  {
-   "sha": "2de8f35ba478bb391912c16d690bec77b2d42a3e",
-   "short": "2de8f35",
-   "autor": "Pablo Sanchez",
-   "fecha": "2026-09-30T04:36:11-03:00",
-   "msg": "﻿fix(raid-tracker): 5 de 30 encuentros no se podian marcar nunca (Idea 52)"
-  },
-  {
-   "sha": "62a8b0ff1dd2852bb1ce3f936c5c1cfac98a0307",
-   "short": "62a8b0f",
-   "autor": "Pablo Sanchez",
-   "fecha": "2026-09-30T04:16:56-03:00",
-   "msg": "chore(tools): script de relleno del cuerpo del mensaje al PO  El CLI de _comms crea el ask con un cuerpo de una linea y no tiene forma de editarlo despues. El script escribe el cuerpo completo en el JSON del inbox del destinatario. Se commit para que el procedimento sea reproducible y no para que se repita."
   }
  ],
  "archivos_md": [
@@ -375,7 +375,8 @@
   "RESOLUCION_TIMEOUTS_20260930.md",
   "SESSION_LOG.md",
   "TEAM_STATUS.md",
-  "TEAM_STATUS_HB60.md"
+  "TEAM_STATUS_HB60.md",
+  "TEAM_STATUS_HB61.md"
  ],
  "repos": [
   {
@@ -394,9 +395,9 @@
    "repo": "gw2-wallet-agents",
    "label": "Desarrollo",
    "role": "dev",
-   "sha": "942bf1b98ca0d5e8d9e11de42cca8e2fca91d08c",
-   "short_sha": "942bf1b",
-   "commit": "﻿fix(logs): TEAM_STATUS.md se s",
+   "sha": "bcc1e36d72ed82dda1bfc3de38fb58c399e52e19",
+   "short_sha": "bcc1e36",
+   "commit": "docs(org): el chat Admin se retira; la estructura pasa al",
    "estado": "open",
    "protected": false,
    "protected_fresco": true,
@@ -406,9 +407,9 @@
    "repo": "gw2-agents-dashboard",
    "label": "Dashboard",
    "role": "dashboard",
-   "sha": "5794d6c4705bc6fea23c6fe0b423735928aa0d94",
-   "short_sha": "5794d6c",
-   "commit": "fix(dashboard): 'A quién esperar' ",
+   "sha": "37be383b3dfc14f4c29bd1f855c329f94c7672b6",
+   "short_sha": "37be383",
+   "commit": "fix(dashboard): 'Principal (Admin)' no era un agente, era un",
    "estado": "open",
    "protected": false,
    "protected_fresco": true,
