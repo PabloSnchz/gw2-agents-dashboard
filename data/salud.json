@@ -1,19 +1,19 @@
 {
- "generado_utc": "20260930T085101Z",
- "generado_h": "2026-09-30 08:51 UTC",
+ "generado_utc": "20260930T090601Z",
+ "generado_h": "2026-09-30 09:06 UTC",
  "archivos_estado": [
   {
    "archivo": "TEAM_STATUS.md",
    "quien": "Principal /30min",
    "estado": "ok",
-   "edad_h": 0.2,
-   "kb": 20.7
+   "edad_h": 0.1,
+   "kb": 25.5
   },
   {
    "archivo": "SESSION_LOG.md",
    "quien": "Documentador /4h",
    "estado": "ok",
-   "edad_h": 0.8,
+   "edad_h": 1.0,
    "kb": 98.8,
    "crecimiento": "EXCEDE 60 KB (99 KB)"
   },
@@ -21,14 +21,14 @@
    "archivo": "COMMS_LOG.md",
    "quien": "Principal /30min",
    "estado": "ok",
-   "edad_h": 0.7,
+   "edad_h": 0.9,
    "kb": 38.2
   },
   {
    "archivo": "PRE_BACKLOG.md",
    "quien": "PO /2h",
    "estado": "ok",
-   "edad_h": 1.2,
+   "edad_h": 1.5,
    "kb": 238.3,
    "crecimiento": "EXCEDE 120 KB (238 KB)"
   },
@@ -36,14 +36,14 @@
    "archivo": "ALERTS_LOG.md",
    "quien": "Principal /30min",
    "estado": "ok",
-   "edad_h": 0.2,
-   "kb": 48.3
+   "edad_h": 0.1,
+   "kb": 49.7
   },
   {
    "archivo": "DECISIONS_LOG.md",
    "quien": "Principal",
    "estado": "ok",
-   "edad_h": 6.8,
+   "edad_h": 7.1,
    "kb": 10.2
   }
  ],
@@ -107,6 +107,11 @@
    "rama": "legacy/rescue-idea47-parallel-wip",
    "commits": 1,
    "fecha": "2026-09-29"
+  },
+  {
+   "rama": "po/hb56-forma-raids",
+   "commits": 1,
+   "fecha": "2026-09-30"
   },
   {
    "rama": "rescue-idea47-parallel-wip",
@@ -209,16 +214,16 @@
   },
   {
    "dia": "2026-09-30",
-   "llamadas": 2876,
-   "prompt": 246385964,
-   "cache_read": 238736173,
+   "llamadas": 3063,
+   "prompt": 260447139,
+   "cache_read": 252452007,
    "cache_pct": 96.9,
-   "prompt_por_llamada": 85669,
+   "prompt_por_llamada": 85030,
    "por_agente": [
     {
      "agente": "default",
-     "llamadas": 1193,
-     "prompt": 114496210,
+     "llamadas": 1320,
+     "prompt": 125227226,
      "cache_pct": 97.9
     },
     {
@@ -229,15 +234,15 @@
     },
     {
      "agente": "product-owner",
-     "llamadas": 401,
-     "prompt": 31345199,
-     "cache_pct": 97.2
+     "llamadas": 444,
+     "prompt": 33885811,
+     "cache_pct": 97.0
     },
     {
      "agente": "Code-Reviewer",
-     "llamadas": 163,
-     "prompt": 7276347,
-     "cache_pct": 92.6
+     "llamadas": 180,
+     "prompt": 8065894,
+     "cache_pct": 92.9
     },
     {
      "agente": "documenter",
@@ -261,7 +266,7 @@
   },
   {
    "archivo": "estructura.json",
-   "edad_min": 137.5,
+   "edad_min": 152.5,
    "estado": "ok"
   }
  ],

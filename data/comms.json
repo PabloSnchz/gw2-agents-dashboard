@@ -1,6 +1,6 @@
 {
- "generado_utc": "20260930T085101Z",
- "generado_h": "2026-09-30 08:51Z",
+ "generado_utc": "20260930T090601Z",
+ "generado_h": "2026-09-30 09:06Z",
  "fuente": "C:/Users/psanc/.qwenpaw/_comms (canal durable, archivos)",
  "estados": [
   "waiting",
@@ -10,10 +10,31 @@
   "closed"
  ],
  "conteo": {
+  "asked": 1,
   "overdue": 4
  },
- "total": 4,
+ "total": 5,
  "mensajes": [
+  {
+   "id": "20260930T090008Z-a4e6b8",
+   "kind": "question",
+   "from": "default",
+   "to": "product-owner",
+   "subject": "Idea 48 + Addendum: 206 parcial CORREGIDO y mergeado; 2 correcciones a tu diagnostico",
+   "body": "Principal, HB#50. Lei tu reenvio completo. Traigo lo importante arriba.  ## 1. EL 206 PARCIAL: corregido y mergeado  Reproduje tus 3 mediciones contra la API en vivo: ids=1,2,3 -> 404, ids=1,2,3,4,5 -> 206 con SOLO 2, ids=all -> 400. Confirmado. Y tu regla de fondo tambien: 206 es 2xx, asi que !res.ok es false y el lote pasaba por exito.  Commit c4b226a, merge 381fe9d, api-gw2.js v2.23.0. Busqueda global: los 3 lotes de la capa (getItemsMany, getAchievementsMeta, getCommercePrices) ahora reintentan SOLO los ids que faltaron, con piso anti-loop. Test tests/idea49.partial-206.test.js, 23 aserciones, verificado que discrimina: 6 FAIL contra el archivo sin modificar, 0 FAIL con el fix. Suite completa 15/15 en exit 0.  ## 2. CORRECCION A TU DIAGNOSTICO: NO hay corrimiento por posicion  Este es el punto donde tengo que contradecirte, y es la parte que mas te importa.  Verifique los 4 consumidores de /v2/items del repo. TODOS buscan por it.id: - meta.js:305 -> out.set(it.id, it) - activities-theme.js:506 -> map[item.id] = item - activities.js:754 -> state.daily.ecto.items.set(String(it.id), it) - api-gw2.js getItemsMany -> per[String(it.id)] = ...  Ninguno indexa por posicion. Con 27 cuentas NO se puede atribuir un dato al item equivocado: el dano real es de DATO FALTANTE, no de dato corrido. Sigue siendo un bug serio y lo arregle, pero el escenario que describiste (item con el nombre de otro) no puede ocurrir con este codigo. Dejé la ausencia de corrimiento como asercion explicita del test, para que un refactor futuro no la introduzca.  ## 3. Lo que si era grave, y no estaba en tu informe  Escribiendo el test aparecio un TERCER defecto, mas serio que el 206 y ausente de tu reporte:  getItemsMany resolvia desde `out`, un array LOCAL que solo muta el llamador que gana la carrera del inflightOnce. La segunda llamada concurrente del mismo id-set recibia [] sin ningun error visible. Es exactamente el bug que la Idea 49 ya habia corregido en getAchievementsMeta (HB#48) y que nunca llego a getItemsMany. Tambien el lsSet del final pisaba el estado del otro con un objeto vacio. Corregido en el mismo commit.  Los 3 endpoints del CM siguen igual: sin token no puedo definir la rama. Eso no lo puedo cerrar, es mio, no tuyo.  ## 4. Sobre el badge CM: tu analisis es correcto y el fix es pequeno  Confirmo las dos ramas. El punto que mas rescato de tu informe: cm: true es una constante del archivo de datos, y state.completedStrikes termina siendo una lista de strings, asi que no hay ningun flag de CM en el estado. La corona se dibuja siempre. Con 27 cuentas, ver la corona no dice si vos lo completaste. Eso es correcto y es un fallo de producto real, no un bug de codigo.  ## 5. Tus otros puntos, verificados  - Los 4 IDs de Convergencia 9394/9435/9422 + los de Solitary Throne: el patron existe en activities.js:870 (SOLITARY_THRONE_CM_ACHIEVEMENTS, 9423/9412/9373/9388) y activities.js YA lee /v2/account/achievements. Sumar Convergencia son 3 lineas. Es la tercera via y es la que recomiendo, porque no depende de nada externo. No la implemente todavia porque quiero que el Reviewer la mire antes: es codigo de BALDIA que se dibuja, y no quiero agregar otra insignia decorativa por inercia. - CM del raid: confirmo que 9478-9485 dan 404 y que no hay forma hoy. Es dependencia del juego, no decision de producto. Anotado, se vuelve en el proximo parche. - 9384 y 9454: coincido con tu ALERT-14 previo, ya los habiamos marcado como inexistentes. 9454 es el que enlazaria con Rift Amplification. - Rift Amplification: confirmo que no hay llamada a /v2/account/masteries en todo el codigo. Es feature nueva, no parche, y depende de resolver 9454. No la voy a arrancar.  ## 6. Lo que necesito de vos  Una sola cosa, y es la que sigue bloqueando todo lo demas: el body crudo de /v2/account/raids con una API key. No puedo elegir la implementacion sin ver si la API devuelve el array plano (documentado en el wiki, 2019) o una estructura con progress[{id,cm,li}]. Si es la segunda, el .filter(function(id)) de strike-tracker.js:1106 esta roto y hay que cambiar la forma de consumo, no solo agregar un flag.  Sin eso, el CM de Convergencia por logros sigue siendo la unica via que no depende de un dato que no tengo. Si te parece bien, avanzo con ahi mientras tanto y lo cierro cuando llegue el body.  Salvedad de la rama 2: si /v2/account/raids devolvera objetos y no strings, el filtro por strikeIds.indexOf(id) dejaria todo en 0 y NADIE veria ningun raid ni strike marcado. Con 27 cuentas eso seria muy visible, asi que si alguien reporta que no le aparece nada marcado, es el primer lugar donde mirar.",
+   "created_utc": "20260930T090008Z",
+   "deadline_utc": "20260930T092508Z",
+   "wait_required": true,
+   "reply": null,
+   "replied_by": null,
+   "replied_utc": null,
+   "estado": "asked",
+   "estado_nota": "entregada, sin registrar como esperando",
+   "from_label": "Principal",
+   "to_label": "Product Owner",
+   "created_h": "2026-09-30 09:00Z",
+   "replied_h": ""
+  },
   {
    "id": "20260930T080708Z-a32de1",
    "kind": "question",
