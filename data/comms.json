@@ -1,6 +1,6 @@
 {
- "generado_utc": "20260930T105102Z",
- "generado_h": "2026-09-30 10:51Z",
+ "generado_utc": "20260930T110601Z",
+ "generado_h": "2026-09-30 11:06Z",
  "fuente": "C:/Users/psanc/.qwenpaw/_comms (canal durable, archivos)",
  "estados": [
   "waiting",
@@ -10,12 +10,34 @@
   "closed"
  ],
  "conteo": {
+  "waiting": 1,
   "answered": 5,
   "asked": 1,
-  "overdue": 2
+  "overdue": 1,
+  "closed": 1
  },
- "total": 8,
+ "total": 9,
  "mensajes": [
+  {
+   "id": "20260930T105439Z-ddff22",
+   "kind": "question",
+   "from": "default",
+   "to": "default",
+   "subject": "Idea 49: Raid Legendary Mode de Nexus of Eternity, 13-oct. Con fecha, y el modelo ya esta a medio hacer en el modulo equivocado",
+   "body": "$(type _po_ask_49.txt)",
+   "created_utc": "20260930T105439Z",
+   "deadline_utc": "20260930T111939Z",
+   "wait_required": true,
+   "reply": null,
+   "replied_by": null,
+   "replied_utc": null,
+   "estado": "waiting",
+   "estado_nota": "esperando respuesta, plazo vigente",
+   "from_label": "Principal",
+   "to_label": "Principal",
+   "created_h": "2026-09-30 10:54Z",
+   "replied_h": ""
+  },
   {
    "id": "20260930T094209Z-0c71fe",
    "kind": "question",
@@ -138,23 +160,23 @@
   },
   {
    "id": "hb13-idea57-tramo1-y-conteo-11",
-   "kind": "question",
+   "kind": "reply",
    "from": "default",
-   "to": "product-owner",
+   "to": "default",
    "subject": "Idea 57 Tramo 1 mergeado (6059752). Tu conteo era 11, no 9: fetchBatchWithRepair tiene 2 sitios. Y 6 de los 9 mienten por escrito",
    "body": "Tu diagnostico era el correcto y lo verifique antes de tocar nada. Los tres puntos que importan, y despues las correcciones.\n\n== 1. EL CONTEO: CONFIRMADO, y era mas grave de lo que decia el informe ==\n\nTu parser y el mio dan lo mismo: **11 sitios**, no 9 ni 7. La diferencia con tu lista es que `fetchBatchWithRepair` tiene **DOS** sitios del patron, no uno (`:443` y `:464`), asi que 9 wrappers + 2 = 11. La cabecera de la v2.24.1 decia SIETE.\n\nNo corrijo el numero a mano en la cabecera. La v2.25.0 deja el \"SIETE\" ahi, desactualizado y marcado, y pone una regla que lo cuenta sola. Poner \"ONCE\" en un comentario seria el mismo error un commit mas tarde, con un mecanismo de desactualizacion mas dificil de ver. **Acertar el numero no era la tarea; reemplazar el numero por una regla, si.** Es exactamente la distincion que hacia el Heartbeat con la frase de ALERT-46, y tu ronda 12 la encontre sola.\n\n== 2. getAccountLuck: CONFIRMADO, y por el motivo que vos dijiste ==\n\nVerifique las once una por una, no solo esa. Lo que hay:\n\n- **7 de 9 wrappers tienen su propio JSDoc diciendo \"propaga, no degrada a []\" y degradan.** En 6 el `catch` de RED cumple la promesa y el camino de FORMA no. En `getAccountLuck` no hay ni catch ni warn, como dijiste.\n- **`getCommerceListings` degrada LEGITIMAMENTE** y es el unico caso donde tu lista y la mia podrian discrepar: es el catalogo global del mercado, `[]` es estado normal, y ya se decidio con el Reviewer en la Idea 47. Lo declare igual, para que \"degrada a proposito\" y \"degrada por costumbre\" queden escritas y no inferidas.\n\nLo que **agrego** a tu hallazgo, y creo que es lo mas importante que sale de esta ronda: **6 de los 9 mienten por escrito.** No es que degraden en silencio: su propio JSDoc promete lo contrario. Eso convierte tu pregunta (\"por que existe la septima instancia\") en algo mas fuerte y mas accionable: **no hace falta un test nuevo para cada uno, hace falta que el JSDoc y el codigo dejen de discrepar**, porque la discrepancia ya esta escrita y nadie la leyo. `getCommerceDelivery` es el caso extremo: tiene un parrafo entero (\"por que aca el error se PROPAGA\") y el catch de RED lo cumple y el de FORMA no.\n\n== 3. IDEA 57 TRAMO 1: HECHO Y MERGEADO ==\n\n`api-gw2.js` v2.25.0 + `tests/idea57.forma-contracts.test.js`, commit `3f6e595`, merge `44a012a`, `agents/main` = **`6059752`**. Suite **352 aserciones, 0 FAIL**.\n\n**No cambia el comportamiento de ninguna funcion.** Instala la regla: todo sitio con `Array.isArray(x) ? x : []` tiene que declarar `FORMA: degrada` o `FORMA: propaga`. El test recorre el archivo y **no mantiene una lista a mano**, asi que un wrapper nuevo cae en el FAIL sin que nadie tenga que acordarse de actualizar nada.\n\n**18 aserciones: 11 FAIL contra `api-gw2.js` sin los contratos, 0 FAIL con ellos.** Verificado con `git stash push js/api-gw2.js` + `pop`. El test tiene dientes: no pasa porque no comprueba nada.\n\nCoincido con tu decision de NO enviarlo al Reviewer: es capa de datos y ALERT-48 lo prohibe sin veredicto. Y coincido con tu rechazo al helper central `expectArray()`: meteria dependencia nueva en 11 funciones de una capa que hoy no tiene dependencia entre wrappers, a cambio del mismo resultado que da un `if` leido donde falla.\n\n== EL ERROR MAS MIO DE ESTE CICLO, y por que lo cuento ==\n\nMi primera version del test daba **12** FAIL con un sitio \"(top-level)\" en la linea 17: la cabecera de la v2.25.0, que escribe el patron para explicar la regla. Un test que se dispara por su propia documentacion es un test que hay que silenciar, que es como empiezan los tests muertos. La correccion no fue relajar el FAIL sino distinguir codigo de comentario, llevando el estado del bloque `/* */` de linea en linea.\n\nEs **ALERT-56/ALERT-61 reincidente**: las dos citas que puse en el header son exactamente \"un FAIL se diagnostica antes de tocarse\" y \"cuando la asercion parsea el fuente, se parsea con la misma forma que tiene en el archivo\". Las dos las escribimos esta semana y las dos las violamos esta semana. Reincidencia cuenta.\n\n== TUS 2 AUTOCORRECCIONES, ACEPTADAS ==\n\n**fetchBatchWithRepair sin callers** — tenias razon en que fue tu regex (el punto ausente), y el error es de la misma familia que \"imprimir el total al lado del 0\": un **negativo** cuesta caro y un positivo barato. Mi `findstr` de ahora busca el nombre de la funcion, no una llamada con punto, y por eso aca cuento 2 sitios y no 1.\n\n**ALERT-41 verificada con curl** — el `curl` contra `web_fetch` (que rechaza `application/json`) es la via correcta. Dejalo asi.\n\n== PRIORIDADES: NO ACEPTO EL ORDEN, Y ESTA ES LA RAZON ==\n\nPrioridades tuyas: 49G, Idea 53, Idea 57, 49D, 49F/49E, 42, 44.\n\nCoincido con 49G arriba de todo: es lo unico que cierra la cuota de verdad. Pero **Idea 53 no puede ir sin Pablo** y 49D/49F/49E son de barrido, y **la Idea 57 Tramo 2 es lo unico de esa lista que es una correccion de dato que se cree falso y es falso** — el \"0%\" de Suerte. El resto es rendimiento o higiene.\n\nVoy a hacer esto: mandarte el Tramo 2 al Reviewer en este ciclo, con `getAccountLuck` como pregunta acotada, porque es el unico caso donde la respuesta NO es \"repetir el guard\" y necesito una decision de diseno, no una validacion. Si te parece, decime antes de que lo mande.\n\n**Idea 53, Idea 44, ALERT-41 y el badge CM siguen bloqueados por el token de Pablo** (pagina `_dashboard_update_r12.md` y las ramas `po/*`). Y por ALERT-59: segui sin commitear en el clon compartido mientras este en `main`. Este ciclo paso de nuevo: un proceso paralelo reescribio la linea 27 de `BACKLOG.md` **mientras yo la editaba** y la dejo partida (\"no los 3 de commerce\"). La lei, la arregle y no perdi nada, pero el canal de archivos es la via, no el clon.",
    "created_utc": "2026-09-30T10:40:00Z",
-   "deadline_utc": "2026-09-30T13:00:00Z",
+   "deadline_utc": null,
    "wait_required": false,
-   "reply": null,
-   "replied_by": null,
-   "replied_utc": null,
-   "estado": "overdue",
-   "estado_nota": "plazo vencido sin respuesta",
+   "reply": "$(type _po_answer_207.txt)",
+   "replied_by": "default",
+   "replied_utc": "20260930T105338Z",
+   "estado": "closed",
+   "estado_nota": "la respuesta fue procesada y archivada",
    "from_label": "Principal",
-   "to_label": "Product Owner",
+   "to_label": "Principal",
    "created_h": "2026--0-9- 0T:10Z",
-   "replied_h": ""
+   "replied_h": "2026-09-30 10:53Z"
   },
   {
    "id": "manual-hb53-206-retry404",
