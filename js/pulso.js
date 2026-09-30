@@ -118,13 +118,21 @@ const Pulso = {
         let ramasSub = '';
         if (r) {
             const e = r.por_estado || {};
+            // Solo las que SUMAN el numero de arriba. La version anterior
+            // metia tambien "2 cerradas · 1 descartable" al lado de un 6,
+            // y un lector que suma las partes y obtiene 9 no sabe cual de
+            // los dos numeros es el bueno. Las cerradas y la descartable
+            // se dicen aparte, con la palabra que aclara que NO cuentan.
             const partes = [];
             if (e.en_curso) partes.push(e.en_curso + ' en curso');
             if (e.aprobada) partes.push(e.aprobada + ' aprobada');
             if (e.pusheada) partes.push(e.pusheada + ' pusheada');
-            if (e.cerrada) partes.push(e.cerrada + ' cerradas');
-            if (e.descartable) partes.push(e.descartable + ' descartable');
-            ramasSub = partes.join(' · ') || 'sin detalle';
+            if (e.abierta)   partes.push(e.abierta + ' por abrir');
+            const fuera = [];
+            if (e.cerrada)     fuera.push(e.cerrada + ' cerradas');
+            if (e.descartable) fuera.push(e.descartable + ' descartable');
+            ramasSub = (partes.join(' · ') || 'sin detalle') +
+                       (fuera.length ? ' (+' + fuera.join(', ') + ', sin contar)' : '');
         } else {
             ramasSub = this._motivo(r, p.ramas_error);
         }
