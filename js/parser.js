@@ -154,12 +154,23 @@ class DashboardParser {
                     if (row.length < 2) return;
                     data.active++;
                     data.total++;
-                    const severity = this._cell(row, t.cols.severity);
+
+                    // "??" no es información: 1 fila de 27 (ALERT-60) tiene el
+                    // emoji escrito como "??" en el archivo. Verificado a nivel
+                    // de bytes (3f 3f), o sea es basura de escritura, no un
+                    // problema de decodificación. Se quita para que no se vea
+                    // "🟢 ?? Baja". Si al quitarlo no queda nada, se deja la
+                    // celda como estaba: convertir un dato roto en un vacío
+                    // sería peor que mostrarlo.
+                    const sevRaw = this._cell(row, t.cols.severity);
+                    let severity = this._cleanCell(sevRaw).replace(/[?¿]+/g, '').replace(/\s+/g, ' ').trim();
+                    if (!severity) severity = this._cleanCell(sevRaw);
+
                     const level = this._parseSeverity(severity);
                     if (level) data.bySeverity[level]++;
                     data.details.push({
                         id: this._cell(row, t.cols.id),
-                        severity: this._cleanCell(severity),
+                        severity,
                         type: this._cleanCell(this._cell(row, t.cols.type)),
                         description: this._cleanCell(this._cell(row, t.cols.description)),
                         state: this._cleanCell(this._cell(row, t.cols.state)),
