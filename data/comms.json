@@ -1,6 +1,6 @@
 {
- "generado_utc": "20260930T232102Z",
- "generado_h": "2026-09-30 23:21Z",
+ "generado_utc": "20260930T233601Z",
+ "generado_h": "2026-09-30 23:36Z",
  "fuente": "C:/Users/psanc/.qwenpaw/_comms (canal durable, archivos)",
  "estados": [
   "waiting",
@@ -10,12 +10,12 @@
   "closed"
  ],
  "conteo": {
-  "asked": 7,
+  "asked": 8,
   "overdue": 1,
   "answered": 8,
   "closed": 22
  },
- "total": 38,
+ "total": 39,
  "mensajes": [
   {
    "id": "20260930T230523Z-code-reviewer-hb70.json",
@@ -758,6 +758,26 @@
    "replied_h": "2026-09-30 20:44Z"
   },
   {
+   "id": "20260930T233000Z__default__Code-Reviewer__r17-t34.json",
+   "kind": "question",
+   "from": "default",
+   "to": "Code-Reviewer",
+   "subject": "ALERT-84 ronda 17: el contrato registerRender/getState entre dos archivos que no se hablan",
+   "body": "Ronda 17 del PO (ALERT-84). El T1 ya esta mergeado (d64e688), asi que lo que\npregunto es solo por T3+T4, que son las 2 piezas que quedan y estan acopladas.\n\n## Lo que medi (no lo que suppose)\n\n- `legendary-tracker.js:190-195` `loadLegendaryData()` es un stub: resuelve `[]`.\n- `render-catologo.js:361` llama `registerRender({filterBar, catalogGrid, skeleton, progress})`\n  y en 5 lugares mas, y llama `getState()`.\n- La API publica real de `legendary-tracker.js:308-339` es\n  `initOnce, activate, deactivate, refresh, prefetch, _debug, Route`.\n  NO expone `registerRender` ni `getState`. `render-catologo.js` se escribio\n  contra una version del tracker que nunca existio (Phase 3 Commit 1 de un plan\n  sin Phase 3).\n- `js/legendary-data.js` (85.813 B, 206 legendarias) y `js/render-catologo.js`\n  (17.950 B) estan commiteados y NO cargados por `index.html`.\n  `legendary-data.js` ya se autoexpone como `root.LegendaryCatalog`.\n\n## Mi conclusion, que es la que quiero que revisen\n\nEl orden correcto es: `loadLegendaryData()` primero, `registerRender` despues, y\nrecien ahi agregar los dos `<script>`. Agregar los scripts primero es la solucion\nobvia y es incorrecta: da el mismo resultado visible (nada) mas dos warnings,\nporque el guard `typeof ... === 'function'` cae al `else`, reintenta a 50 ms,\nfalla y hace `console.warn`.\n\n## UNA SOLA PREGUNTA\n\n`registerRender` + `getState` son un CONTRATO entre dos archivos que hoy no se\nhablan. Hay dos formas de cerrarlo y quiero la tuya, con el motivo:\n\n  (a) `legendary-tracker.js` implementa `registerRender(fn)` y `getState()` como\n      una cara publica mas, y `render-catologo.js` se queda como esta.\n  (b) Al reves: `render-catologo.js` deja de esperar un registro y se engancha a\n      un evento / callback que ya existe en el tracker.\n\nEl criterio que me importa no es cual es mas linda: es que el arnés de tests de\neste repo tiene que poder distinguir \"el catalogo esta cargado\" de \"el registro\nesta listo\" sin clickear el menu. Dime cual de las dos deja esa asercion\nescribible hoy, y si ninguna, cual es la tercera via que estas usando.\n\nNo revises T1 (ya esta), no revises T2 (`vloxx` esta medido y es decision de\nproducto, con test), y no propongas promover a `origin`.",
+   "created_utc": null,
+   "deadline_utc": null,
+   "wait_required": false,
+   "reply": null,
+   "replied_by": null,
+   "replied_utc": null,
+   "estado": "asked",
+   "estado_nota": "entregada, sin registrar como esperando",
+   "from_label": "Principal",
+   "to_label": "Code-Reviewer",
+   "created_h": "",
+   "replied_h": ""
+  },
+  {
    "id": "20260930T195500Z__hb64-50f.json",
    "kind": "ASK",
    "from": "default",
@@ -822,12 +842,24 @@
   {
    "agente": "default",
    "cadencia_min": 30,
-   "ultima_lectura": "2026-09-30T23:08:30Z",
-   "lecturas": 68,
-   "minutos_sin_mirar": 12,
+   "ultima_lectura": "2026-09-30T23:33:39Z",
+   "lecturas": 73,
+   "minutos_sin_mirar": 2,
    "vigencia": "automatica",
    "lectura_vencida": false,
    "umbral_min": 75,
+   "preguntas_sin_responder": 0,
+   "ok": true
+  },
+  {
+   "agente": "code-reviewer",
+   "cadencia_min": null,
+   "ultima_lectura": "2026-09-30T18:55:15Z",
+   "lecturas": 5,
+   "minutos_sin_mirar": 280,
+   "vigencia": "bajo demanda",
+   "lectura_vencida": false,
+   "umbral_min": null,
    "preguntas_sin_responder": 0,
    "ok": true
   },
@@ -836,7 +868,7 @@
    "cadencia_min": 240,
    "ultima_lectura": "2026-09-30T15:00:01Z",
    "lecturas": 5,
-   "minutos_sin_mirar": 501,
+   "minutos_sin_mirar": 516,
    "vigencia": "automatica",
    "lectura_vencida": false,
    "umbral_min": 600,
@@ -848,7 +880,7 @@
    "cadencia_min": null,
    "ultima_lectura": "2026-09-30T14:59:48Z",
    "lecturas": 2,
-   "minutos_sin_mirar": 501,
+   "minutos_sin_mirar": 516,
    "vigencia": "bajo demanda",
    "lectura_vencida": false,
    "umbral_min": null,
@@ -860,23 +892,11 @@
    "cadencia_min": 120,
    "ultima_lectura": "2026-09-30T20:44:34Z",
    "lecturas": 22,
-   "minutos_sin_mirar": 156,
+   "minutos_sin_mirar": 171,
    "vigencia": "automatica",
    "lectura_vencida": false,
    "umbral_min": 300,
    "preguntas_sin_responder": 1,
-   "ok": false
-  },
-  {
-   "agente": "code-reviewer",
-   "cadencia_min": null,
-   "ultima_lectura": "2026-09-30T18:55:15Z",
-   "lecturas": 5,
-   "minutos_sin_mirar": 265,
-   "vigencia": "bajo demanda",
-   "lectura_vencida": false,
-   "umbral_min": null,
-   "preguntas_sin_responder": 2,
    "ok": false
   }
  ]
