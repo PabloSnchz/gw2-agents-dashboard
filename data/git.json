@@ -1,6 +1,6 @@
 {
- "generado_utc": "20260930T202106Z",
- "generado_h": "2026-09-30 20:21 UTC",
+ "generado_utc": "20260930T203605Z",
+ "generado_h": "2026-09-30 20:36 UTC",
  "origen": "git local + ls-remote (sin cuota). protected cacheado TTL 6h.",
  "commits": [
   {
@@ -407,9 +407,9 @@
    "repo": "gw2-agents-dashboard",
    "label": "Dashboard",
    "role": "dashboard",
-   "sha": "5525022926d0da324c0eb797b64d5903c5e22592",
-   "short_sha": "5525022",
-   "commit": "chore(dashboard): pulso automatico 2026-09-30_20-06_UTC",
+   "sha": "f413f2a34c59e275c91109eca59adaa836bf2ea4",
+   "short_sha": "f413f2a",
+   "commit": "fix(proximas): Escape no cerraba el modal y el overlay",
    "estado": "open",
    "protected": false,
    "protected_fresco": true,
