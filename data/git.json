@@ -1,8 +1,22 @@
 {
- "generado_utc": "20261001T042107Z",
- "generado_h": "2026-10-01 04:21 UTC",
+ "generado_utc": "20261001T043609Z",
+ "generado_h": "2026-10-01 04:36 UTC",
  "origen": "git local + ls-remote (sin cuota). protected cacheado TTL 6h.",
  "commits": [
+  {
+   "sha": "11285a00bb17c708bf4e08f01266f70406151673",
+   "short": "11285a0",
+   "autor": "Pablo Sanchez",
+   "fecha": "2026-10-01T01:22:12-03:00",
+   "msg": "docs(hb77): fila 081 resuelta, 082 enviada, y la basura de ALERT-100 quitada  Fila 081 (viewPref, task-f191daf882b7): APROBADO CON CAMBIOS. El Reviewer corrigio mi premisa de las 2 filas: las 3 claves YA estan en STORAGE_KEYS (:78/:89/:90) -- el contrato que nadie implementa no es de nombres, es de call-sites. Y abrio un riesgo que no estaba: converter-modal.js:38 usa gw2_conv_cache_v3 con CONV_TTL de 30 min, asi que la tab NO puede vivir ahi -- compartira clave con un cache que expira y la preferencia se perderia sola. 2 claves separadas o nada.  Fila 082 (task-0aa1d0284655): mi hallazgo del ciclo, el mensaje de la puerta de permisos nunca llegaba a Pablo.  Y una correccion de un ALERT que quedo a medias: ALERT-100 (del ciclo concurrente) DOCUMENTO que un script de andamiaje escribio la RUTA de un archivo en vez de su contenido, pero no la habia quitado. TEAM_STATUS.md tenia la linea `tools/hb77-team-status-bloque.md` entre dos bloques (linea 247 en el worktree, 205 en origin/main). Quitada a mano, con la prosa de ALERT-100 intacta: la mencion de la ruta dentro del texto del ALERT se conserva, lo que se borra es la linea que ES la ruta.  git diff --stat da '1 deletion' para lo de TEAM_STATUS y '3 insertions, 1 deletion' para lo de COMMS_LOG: los numeros cuadran con lo que se cambio, que es el control que ALERT-100 pide.  Mergeada la ronda 22 del PO (po/hb77-dashboard, bfc0302): DASHBOARD_PO_IDEAS.md. Suite: 940 pass, 0 FAIL."
+  },
+  {
+   "sha": "cd28cd923fc95932ca4c8eb4cc9d34eaf3b95511",
+   "short": "cd28cd9",
+   "autor": "Pablo Sanchez",
+   "fecha": "2026-10-01T01:21:49-03:00",
+   "msg": "Merge remote-tracking branch 'origin/po/hb77-dashboard' into fix-hb77-puerta-llega"
+  },
   {
    "sha": "9fa39863524b6302cec30e970cd08da5335a09b7",
    "short": "9fa3986",
@@ -16,6 +30,13 @@
    "autor": "Pablo Sanchez",
    "fecha": "2026-10-01T01:15:50-03:00",
    "msg": "docs(hb77): \"+N commits\" no dice si hay que mergear, y una premisa mia era FALSA"
+  },
+  {
+   "sha": "bfc030250a67030b18c5ec50d0d1a1c32c7a9c54",
+   "short": "bfc0302",
+   "autor": "Pablo Sanchez",
+   "fecha": "2026-10-01T01:12:01-03:00",
+   "msg": "﻿docs(po): ronda 22 - la puerta de permisos es correcta y es UNA cerradura de TRES puertas"
   },
   {
    "sha": "2e36237f5d589fae055d36ae5c37ed54d879ddd3",
@@ -331,27 +352,6 @@
    "autor": "Pablo Sanchez",
    "fecha": "2026-09-30T17:37:04-03:00",
    "msg": "chore(tools): el script que mide los 7 test que el runner no parsea (ALERT-78)"
-  },
-  {
-   "sha": "376f0d5f2f4ba49e15a86a9368092b09bd5d1ee2",
-   "short": "376f0d5",
-   "autor": "Pablo Sanchez",
-   "fecha": "2026-09-30T17:36:51-03:00",
-   "msg": "﻿fix(cache): Idea 50 P3 - registro estatico de las bases de los otros modulos"
-  },
-  {
-   "sha": "be5fdb60c303c6bb7c1ed1ea73cf82a858edb276",
-   "short": "be5fdb6",
-   "autor": "Pablo Sanchez",
-   "fecha": "2026-09-30T17:19:49-03:00",
-   "msg": "﻿docs(logs): HB#65 - IDEA 63 T1+T2 mergeada (eb69fb3), y 2 alertas de proceso"
-  },
-  {
-   "sha": "eb69fb37c1c791322d06c5af0aac84e3f145d5c2",
-   "short": "eb69fb3",
-   "autor": "Pablo Sanchez",
-   "fecha": "2026-09-30T17:18:17-03:00",
-   "msg": "merge(idea63): T1+T2 - reset de filtros y pagina al cambiar de cuenta, y estado vacio con texto"
   }
  ],
  "archivos_md": [
@@ -407,9 +407,9 @@
    "repo": "gw2-agents-dashboard",
    "label": "Dashboard",
    "role": "dashboard",
-   "sha": "6d8480007f52be33e5b89b0c773f467507d7cc42",
-   "short_sha": "6d84800",
-   "commit": "chore(dashboard): pulso automatico 2026-10-01_04-06_UTC",
+   "sha": "07bf6bc1be2fd3423d1aa1b47c4e757b3d0c9bb4",
+   "short_sha": "07bf6bc",
+   "commit": "chore(dashboard): pulso automatico 2026-10-01_04-21_UTC",
    "estado": "open",
    "protected": false,
    "protected_fresco": true,
