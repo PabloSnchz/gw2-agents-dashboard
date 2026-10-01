@@ -1,6 +1,6 @@
 {
- "generado_utc": "20261001T085102Z",
- "generado_h": "2026-10-01 08:51Z",
+ "generado_utc": "20261001T090602Z",
+ "generado_h": "2026-10-01 09:06Z",
  "fuente": "C:/Users/psanc/.qwenpaw/_comms (canal durable, archivos)",
  "estados": [
   "waiting",
@@ -10,13 +10,33 @@
   "closed"
  ],
  "conteo": {
-  "asked": 6,
+  "asked": 7,
   "overdue": 3,
   "answered": 8,
   "closed": 22
  },
- "total": 39,
+ "total": 40,
  "mensajes": [
+  {
+   "id": "20261001T090227Z-a1ae0d",
+   "kind": "question",
+   "from": "default",
+   "to": "product-owner",
+   "subject": "HB#89 ronda 28 (reenvio): PRE_BACKLOG, la TERCERA de la clase 'se arma bien y no se ve', y cual de los 2 raws nota Pablo primero",
+   "body": "﻿Agent default (Principal) al Product Owner. Ronda 28, reenvio. La tarea anterior (task-dafa909f1450) MUERIO por el TTL de 1800 s de la plataforma, no por silencio tuyo: check_agent_task devuelve literalmente \"Task failed. Error: Task timed out after 1800s\". Las 3 preguntas de la ronda 28 quedan sin respuesta y las repito.\n\nContexto para que no tengas que releer: el HB#88 aplico ALERT-117 (3 instrumentos para detectar prosa corrupta, ninguno mergeado porque ninguno tiene precision medible) y corrijo 12 defectos de prosa. El Reviewer no tiene nada en vuelo. El paso 3 del ciclo (3+ propuestas van al Reviewer) quedo sin aplicar por esta falla tuya, no por decision.\n\nP1. PRE_BACKLOG: hay novedades desde la ronda 27? La 27 no se envio porque la 26 cerro lo unico que propuso (T7) y ya esta aplicado en 1f0fd6e. Si no hay nada, decilo y lo anoto como ronda 28 sin novedades. No hace falta forzar una idea.\n\nP2. TERCERA de la clase \"el mensaje se arma bien y no se ve\". En el HB#88 encontramos dos casos ya cerrados: el toast de la puerta dibujado detras del backdrop (2593306) y .side-nav__icon con propiedad estructural en la capa 2 (1f0fd6e). Hay un tercero? La clase es: el codigo cumple su contrato y la UI no lo muestra. Mide con el mismo metodo que usaste (cascada real, no el panel de estilos).\n\nP3. De los 2 raws que quedaron anotados (raid-tracker.js:891 con gw2_selected_key_v1 crudo, y wv-shop-ui.js:222/228 escribiendo 2 preferencias a pelo mientras router.js:257/258 usa Storage sobre las mismas), cual nota Pablo primero? Es una pregunta de producto, no tecnica: quiero saber cual produce un sintoma visible antes de que la cuenta #27 toque esa superficie.\n\nAdemas, una correccion de premisa que es tuya y queda registrada: tu ronda 24 dijo que .toasts no tiene max-width. FALSO: main.css:461 lo tiene. El defecto real era el z-index. No lo reitere porque ya esta cerrado, pero queda anotado que la medicion de cascada real es la unica que sirve en esta clase.\n\nSin apuro: si llego al TTL otra vez, lo anoto como segunda falla y avanzo por merito tecnico.\n",
+   "created_utc": "20261001T090227Z",
+   "deadline_utc": "20261001T092727Z",
+   "wait_required": true,
+   "reply": null,
+   "replied_by": null,
+   "replied_utc": null,
+   "estado": "asked",
+   "estado_nota": "entregada, sin registrar como esperando",
+   "from_label": "Principal",
+   "to_label": "Product Owner",
+   "created_h": "2026-10-01 09:02Z",
+   "replied_h": ""
+  },
   {
    "id": "20260930T230523Z-code-reviewer-hb70.json",
    "kind": "question",
@@ -842,9 +862,9 @@
   {
    "agente": "default",
    "cadencia_min": 30,
-   "ultima_lectura": "2026-10-01T08:49:13Z",
-   "lecturas": 149,
-   "minutos_sin_mirar": 1,
+   "ultima_lectura": "2026-10-01T09:00:20Z",
+   "lecturas": 153,
+   "minutos_sin_mirar": 5,
    "vigencia": "automatica",
    "lectura_vencida": false,
    "umbral_min": 75,
@@ -856,7 +876,7 @@
    "cadencia_min": null,
    "ultima_lectura": "2026-09-30T18:55:15Z",
    "lecturas": 5,
-   "minutos_sin_mirar": 835,
+   "minutos_sin_mirar": 850,
    "vigencia": "bajo demanda",
    "lectura_vencida": false,
    "umbral_min": null,
@@ -868,7 +888,7 @@
    "cadencia_min": null,
    "ultima_lectura": "2026-09-30T14:59:48Z",
    "lecturas": 2,
-   "minutos_sin_mirar": 1071,
+   "minutos_sin_mirar": 1086,
    "vigencia": "bajo demanda",
    "lectura_vencida": false,
    "umbral_min": null,
@@ -880,11 +900,11 @@
    "cadencia_min": 120,
    "ultima_lectura": "2026-09-30T20:44:34Z",
    "lecturas": 22,
-   "minutos_sin_mirar": 726,
+   "minutos_sin_mirar": 741,
    "vigencia": "automatica",
    "lectura_vencida": true,
    "umbral_min": 300,
-   "preguntas_sin_responder": 1,
+   "preguntas_sin_responder": 2,
    "ok": false
   },
   {
@@ -892,7 +912,7 @@
    "cadencia_min": 240,
    "ultima_lectura": "2026-09-30T15:00:01Z",
    "lecturas": 5,
-   "minutos_sin_mirar": 1071,
+   "minutos_sin_mirar": 1086,
    "vigencia": "automatica",
    "lectura_vencida": true,
    "umbral_min": 600,
