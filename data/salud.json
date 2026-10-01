@@ -1,12 +1,12 @@
 {
- "generado_utc": "20261001T200604Z",
- "generado_h": "2026-10-01 20:06 UTC",
+ "generado_utc": "20261001T202102Z",
+ "generado_h": "2026-10-01 20:21 UTC",
  "archivos_estado": [
   {
    "archivo": "TEAM_STATUS.md",
    "quien": "Principal /30min",
    "estado": "ok",
-   "edad_h": 1.2,
+   "edad_h": 1.5,
    "kb": 215.1,
    "crecimiento": "EXCEDE 80 KB (215 KB)"
   },
@@ -14,7 +14,7 @@
    "archivo": "SESSION_LOG.md",
    "quien": "Documentador /4h",
    "estado": "ok",
-   "edad_h": 1.2,
+   "edad_h": 1.5,
    "kb": 211.0,
    "crecimiento": "EXCEDE 60 KB (211 KB)"
   },
@@ -22,14 +22,14 @@
    "archivo": "COMMS_LOG.md",
    "quien": "Principal /30min",
    "estado": "ok",
-   "edad_h": 1.2,
+   "edad_h": 1.5,
    "kb": 167.3
   },
   {
    "archivo": "PRE_BACKLOG.md",
    "quien": "PO /2h",
    "estado": "ROTO",
-   "edad_h": 36.5,
+   "edad_h": 36.7,
    "kb": 238.3,
    "crecimiento": "EXCEDE 120 KB (238 KB)"
   },
@@ -37,14 +37,14 @@
    "archivo": "ALERTS_LOG.md",
    "quien": "Principal /30min",
    "estado": "ok",
-   "edad_h": 1.2,
+   "edad_h": 1.5,
    "kb": 257.2
   },
   {
    "archivo": "DECISIONS_LOG.md",
    "quien": "Principal",
    "estado": "ok",
-   "edad_h": 42.1,
+   "edad_h": 42.3,
    "kb": 10.2
   }
  ],
@@ -85,13 +85,13 @@
  ],
  "ramas_sin_integrar": [
   {
-   "rama": "po/hb110-dashboard",
-   "commits": 29,
+   "rama": "docs-features-md",
+   "commits": 26,
    "fecha": "2026-10-01"
   },
   {
-   "rama": "docs-features-md",
-   "commits": 26,
+   "rama": "po/hb110-dashboard",
+   "commits": 18,
    "fecha": "2026-10-01"
   },
   {
@@ -285,34 +285,34 @@
   },
   {
    "dia": "2026-10-01",
-   "llamadas": 5670,
-   "prompt": 508647584,
-   "cache_read": 496433483,
+   "llamadas": 5907,
+   "prompt": 530306458,
+   "cache_read": 517776411,
    "cache_pct": 97.6,
-   "prompt_por_llamada": 89708,
+   "prompt_por_llamada": 89775,
    "por_agente": [
     {
      "agente": "default",
-     "llamadas": 3427,
-     "prompt": 326216688,
+     "llamadas": 3552,
+     "prompt": 340493195,
      "cache_pct": 98.1
     },
     {
      "agente": "product-owner",
-     "llamadas": 1127,
-     "prompt": 98350194,
-     "cache_pct": 97.7
+     "llamadas": 1152,
+     "prompt": 101012467,
+     "cache_pct": 97.8
     },
     {
      "agente": "Code-Reviewer",
-     "llamadas": 693,
-     "prompt": 49209654,
-     "cache_pct": 96.0
+     "llamadas": 778,
+     "prompt": 53725042,
+     "cache_pct": 96.1
     },
     {
      "agente": "architect",
-     "llamadas": 423,
-     "prompt": 34871048,
+     "llamadas": 425,
+     "prompt": 35075754,
      "cache_pct": 95.3
     }
    ]
@@ -321,7 +321,7 @@
  "dashboard": [
   {
    "archivo": "comms.json",
-   "edad_min": 0.2,
+   "edad_min": 0.1,
    "estado": "ok"
   },
   {
@@ -331,7 +331,7 @@
   },
   {
    "archivo": "estructura.json",
-   "edad_min": 0.2,
+   "edad_min": 0.1,
    "estado": "ok"
   }
  ],
