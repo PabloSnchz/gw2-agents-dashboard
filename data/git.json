@@ -1,49 +1,154 @@
 {
- "generado_utc": "20261001T100609Z",
- "generado_h": "2026-10-01 10:06 UTC",
+ "generado_utc": "20261001T102109Z",
+ "generado_h": "2026-10-01 10:21 UTC",
  "origen": "git local + ls-remote (sin cuota). protected cacheado TTL 6h.",
  "commits": [
   {
-   "sha": "37155ae7026741e48d5f58fab2a1f6c3de845823",
-   "short": "37155ae",
+   "sha": "4573f309a5c012760ba6d51c000bc9a7be5e2c22",
+   "short": "4573f30",
    "autor": "Pablo Sanchez",
-   "fecha": "2026-10-01T07:03:40-03:00",
-   "msg": "fix(ui): el mensaje de la puerta de permisos LLEGABA pisado a la pantalla (HB#77)  parseKeyError reescribia cualquier mensaje que matcheara /permisos/i con 'Faltan permisos: account + wallet' -- los 2 permisos de antes de que la puerta (T1, ea10e9b) exigiera 7. La puerta construye el mensaje correcto y el catch del modal lo destruia: T1/T3 eran correctos y su efecto observable en la UI era ninguno.  Hallazgo propio, no del PO. Mismo patron que el copy de app.js:683 que reporta el PO: el codigo honesto, el texto que lo acompana no.  POR QUE hb75 NO LO VIO: sus asserts afirmaban la CONSTRUCCION del mensaje, no lo que Pablo LEE. Mutacion medida: hb75 da 46/0 aunque la puerta tire 'Permisos Insuficientes' sin lista.  Test propio (19 asserts) que extiende el clasificador del fuente y lo evalua con el mensaje que la puerta REALMENTE tira. Verificacion: 6 FAIL en rojo contra el archivo sin el fix, 19/0 con el fix, suite 940/0.  Division de alcance: hb77 = 'el mensaje LLEGA', hb75 = 'el mensaje es correcto'.  Sigue el veredicto del Reviewer en f9ea031: saca la rama muerta de err.kind."
+   "fecha": "2026-10-01T06:08:56-03:00",
+   "msg": "﻿docs(backlog): la premisa de la fila 079 era falsa, medida antes de tocar"
   },
   {
-   "sha": "11285a00bb17c708bf4e08f01266f70406151673",
-   "short": "11285a0",
+   "sha": "6ca0858b7fc2887cee0f942a9dd66712e06058a6",
+   "short": "6ca0858",
    "autor": "Pablo Sanchez",
-   "fecha": "2026-10-01T01:22:12-03:00",
-   "msg": "docs(hb77): fila 081 resuelta, 082 enviada, y la basura de ALERT-100 quitada  Fila 081 (viewPref, task-f191daf882b7): APROBADO CON CAMBIOS. El Reviewer corrigio mi premisa de las 2 filas: las 3 claves YA estan en STORAGE_KEYS (:78/:89/:90) -- el contrato que nadie implementa no es de nombres, es de call-sites. Y abrio un riesgo que no estaba: converter-modal.js:38 usa gw2_conv_cache_v3 con CONV_TTL de 30 min, asi que la tab NO puede vivir ahi -- compartira clave con un cache que expira y la preferencia se perderia sola. 2 claves separadas o nada.  Fila 082 (task-0aa1d0284655): mi hallazgo del ciclo, el mensaje de la puerta de permisos nunca llegaba a Pablo.  Y una correccion de un ALERT que quedo a medias: ALERT-100 (del ciclo concurrente) DOCUMENTO que un script de andamiaje escribio la RUTA de un archivo en vez de su contenido, pero no la habia quitado. TEAM_STATUS.md tenia la linea `tools/hb77-team-status-bloque.md` entre dos bloques (linea 247 en el worktree, 205 en origin/main). Quitada a mano, con la prosa de ALERT-100 intacta: la mencion de la ruta dentro del texto del ALERT se conserva, lo que se borra es la linea que ES la ruta.  git diff --stat da '1 deletion' para lo de TEAM_STATUS y '3 insertions, 1 deletion' para lo de COMMS_LOG: los numeros cuadran con lo que se cambio, que es el control que ALERT-100 pide.  Mergeada la ronda 22 del PO (po/hb77-dashboard, bfc0302): DASHBOARD_PO_IDEAS.md. Suite: 940 pass, 0 FAIL."
+   "fecha": "2026-10-01T05:47:17-03:00",
+   "msg": "﻿docs(alertas): el canario dio \"limpio\" sobre un archivo corrupto, y la clase no es instrumentable"
   },
   {
-   "sha": "cd28cd923fc95932ca4c8eb4cc9d34eaf3b95511",
-   "short": "cd28cd9",
+   "sha": "47e4819cf9e0f0e2c13e3f8eed5767147305170e",
+   "short": "47e4819",
    "autor": "Pablo Sanchez",
-   "fecha": "2026-10-01T01:21:49-03:00",
-   "msg": "Merge remote-tracking branch 'origin/po/hb77-dashboard' into fix-hb77-puerta-llega"
+   "fecha": "2026-10-01T05:18:25-03:00",
+   "msg": "﻿fix(app): dos cargas concurrentes y la VIEJA gana, con datos de otra cuenta"
   },
   {
-   "sha": "9fa39863524b6302cec30e970cd08da5335a09b7",
-   "short": "9fa3986",
+   "sha": "e1262b0142437eb6bede6d3799478a083ce608b0",
+   "short": "e1262b0",
+   "autor": "Pablo Sanchez",
+   "fecha": "2026-10-01T05:16:45-03:00",
+   "msg": "﻿docs(alertas): \"nunca existio\" era 3 de 4, y el verbo del script era el error"
+  },
+  {
+   "sha": "950753d86decc78a32d76c491ab2d931cfe16e18",
+   "short": "950753d",
+   "autor": "Pablo Sanchez",
+   "fecha": "2026-10-01T04:41:23-03:00",
+   "msg": "﻿docs(alertas): 5 ALERTs estavam citadas desde 4 archivos committed y no existian nunca"
+  },
+  {
+   "sha": "a5ec94f689240b630dfd80054fa7b50c77b3358d",
+   "short": "a5ec94f",
+   "autor": "Pablo Sanchez",
+   "fecha": "2026-10-01T04:19:21-03:00",
+   "msg": "﻿fix(tests): el assert del ttl defendia el defecto Y leia el comentario que lo describe"
+  },
+  {
+   "sha": "1f0fd6e9498e36cc85f45b377616d338cf331de1",
+   "short": "1f0fd6e",
+   "autor": "Pablo Sanchez",
+   "fecha": "2026-10-01T04:17:13-03:00",
+   "msg": "﻿fix(app): `ttl:0` era persistente de mentira, y su `close` solo corria en el camino feliz"
+  },
+  {
+   "sha": "97b56b4e886c4f5c1b02d98f49dd874d9e457689",
+   "short": "97b56b4",
+   "autor": "Pablo Sanchez",
+   "fecha": "2026-10-01T03:37:49-03:00",
+   "msg": "﻿fix(tests): el guard de la Idea 61 leia prosa y por eso contaba un sitio muerto"
+  },
+  {
+   "sha": "262488f39683a0a40c526a82c1c31149b3669fc5",
+   "short": "262488f",
+   "autor": "Pablo Sanchez",
+   "fecha": "2026-10-01T03:21:15-03:00",
+   "msg": "docs(hb83): los 6 sin explicar eran dos errores del runner que se anulaban"
+  },
+  {
+   "sha": "386a022b89120fab00c3f588fde02f39cc6a6c83",
+   "short": "386a022",
+   "autor": "Pablo Sanchez",
+   "fecha": "2026-10-01T03:10:12-03:00",
+   "msg": "fix(tests): el runner contaba la linea de RESUMEN como si fuera una asercion"
+  },
+  {
+   "sha": "2593306393de0e015dfe2b71c644be3e4449ad28",
+   "short": "2593306",
+   "autor": "Pablo Sanchez",
+   "fecha": "2026-10-01T02:42:40-03:00",
+   "msg": "fix(app): el toast de la puerta no se iba antes de leerse -- estaba DETRAS del modal"
+  },
+  {
+   "sha": "22062178321f0098701a3bf62af5653991d3c0e3",
+   "short": "2206217",
+   "autor": "Pablo Sanchez",
+   "fecha": "2026-10-01T03:05:12-03:00",
+   "msg": "fix(tests): el runner de suite se comia 77 aserciones en silencio"
+  },
+  {
+   "sha": "d970995abfebbf42e6b4fcca8ff7fbfe5eda55cb",
+   "short": "d970995",
+   "autor": "Pablo Sanchez",
+   "fecha": "2026-10-01T02:25:32-03:00",
+   "msg": "docs(hb80): la premisa del PO era falsa, y mi primera medicion tambien"
+  },
+  {
+   "sha": "585367d6ee2badc1779e9bae4c25c0c86de2e3d9",
+   "short": "585367d",
+   "autor": "Pablo Sanchez",
+   "fecha": "2026-10-01T02:23:11-03:00",
+   "msg": "fix(app): el mensaje de la puerta de permisos se borra antes de que se pueda leer"
+  },
+  {
+   "sha": "9ab5733edba38fc18e28f9c1e051d7d0938195c6",
+   "short": "9ab5733",
+   "autor": "Pablo Sanchez",
+   "fecha": "2026-10-01T02:23:11-03:00",
+   "msg": "fix(accounts): hacer clic en el nombre de una cuenta ya no te saca de la vista"
+  },
+  {
+   "sha": "6af57fffdee26f7815839d5d19c2d48be35c3da5",
+   "short": "6af57ff",
+   "autor": "Pablo Sanchez",
+   "fecha": "2026-10-01T02:08:20-03:00",
+   "msg": "docs(hb79): el codigo muerto ya no esta, y 2 ALERT sobre probes que dan numeros con aire"
+  },
+  {
+   "sha": "87bab2330a38de4ff626a6b0057e9e770d8238a3",
+   "short": "87bab23",
+   "autor": "Pablo Sanchez",
+   "fecha": "2026-10-01T02:05:10-03:00",
+   "msg": "fix(app): se saca el codigo muerto que el Reviewer measuro en app.js:1067"
+  },
+  {
+   "sha": "fdf29ace89e5504860dc04c77d6a2e4963293537",
+   "short": "fdf29ac",
    "autor": "Pablo Sanchez",
    "fecha": "2026-10-01T01:19:49-03:00",
    "msg": "fix(app): el mensaje de la puerta de permisos llegaba reescrito (y decia 2 de 7)  La puerta de T1 (ea10e9b) construye el mensaje correcto: nombra los 7 permisos que exige y el motivo de cada uno. Pero el catch del modal lo pasa por parseKeyError, y esa funcion reescribia cualquier mensaje que matcheara /permisos/i con 'Faltan permisos: account + wallet' — los 2 permisos de antes de T1. El detalle se construia bien y no se mostraba nunca: la app le decia a Pablo que le faltaban 2 permisos y le decia CUALES, y las dos cosas eran falsas.  El fix conserva el mensaje en vez de reemplazarlo, y respeta un error que ya venga clasificado con 'kind'. El clasificador sigue clasificando 401/403/429/ red: no se desarmo, se le saco el pisoton.  tests/hb75-permisos.test.js afirmaba que la puerta nombra el permiso que falta y el motivo. Es cierto, y sigue siendolo — pero es una asercion sobre la CONSTRUCCION del mensaje, no sobre lo que Pablo lee. tests/hb77-puerta-llega extiende parseKeyError del fuente y lo evalua con el mensaje que la puerta realmente tira, asi que falla si el mensaje vuelve cambiado.  Verificacion: 6 FAIL en fase roja por la razon correcta; con el fix 19 pass. Mutaciones (cada una debe romperlo): volver el pisoton -> 6 FAIL; volver a decir 'glifos' -> 1 FAIL; quitar 5 permisos de REQUIRED_PERMISSIONS -> 2 FAIL. Las 2 mutaciones de contenido de la puerta (exigir 2, no nombrar el motivo) NO las ve este test y las ve hb75 (1 FAIL cada una) — la division de trabajo es deliberada: hb77 es 'el mensaje LLEGA', hb75 es 'el mensaje es correcto'. Suite completa: 940 pass, 0 FAIL.  Ademas, el copy de app.js:683 que reporta el PO en la ronda 22: 'glifos' prometia una funcionalidad que homestead-tracker.js (su unico consumidor) no expone en ningun .html. El permiso unlocks SIGUE siendo necesario (lo piden /v2/account/luck y /v2/account/home/nodes, que si corren)."
   },
   {
-   "sha": "f739e21c8eba71e5bda2d22e4fcd7d8817186616",
-   "short": "f739e21",
+   "sha": "1fb0e32b365bdf281222bac26c43719e38444cd0",
+   "short": "1fb0e32",
+   "autor": "Pablo Sanchez",
+   "fecha": "2026-10-01T01:47:57-03:00",
+   "msg": "docs(hb78): la gn: de la pestana Raids/Strikes ya tiene escritor, y 2 ALERT nuevas sobre mapas y sobre premisas"
+  },
+  {
+   "sha": "f9239d7648ae9ab218e35df3774b995c69e749f1",
+   "short": "f9239d7",
+   "autor": "Pablo Sanchez",
+   "fecha": "2026-10-01T01:44:00-03:00",
+   "msg": "fix(raid-tracker): la pestana Raids/Strikes se escribe en la gn: que storage.js declara, y un valor invalido ya no abre Strikes solo"
+  },
+  {
+   "sha": "529113864381f236e786dc5a2cc95533ce712229",
+   "short": "5291138",
    "autor": "Pablo Sanchez",
    "fecha": "2026-10-01T01:15:50-03:00",
    "msg": "docs(hb77): \"+N commits\" no dice si hay que mergear, y una premisa mia era FALSA"
-  },
-  {
-   "sha": "bfc030250a67030b18c5ec50d0d1a1c32c7a9c54",
-   "short": "bfc0302",
-   "autor": "Pablo Sanchez",
-   "fecha": "2026-10-01T01:12:01-03:00",
-   "msg": "﻿docs(po): ronda 22 - la puerta de permisos es correcta y es UNA cerradura de TRES puertas"
   },
   {
    "sha": "2e36237f5d589fae055d36ae5c37ed54d879ddd3",
@@ -247,111 +352,6 @@
    "autor": "Pablo Sanchez",
    "fecha": "2026-09-30T20:01:09-03:00",
    "msg": "﻿fix(censo): ALERT-86 - 3 familias de cache que solo el NOMBRE no reconoce"
-  },
-  {
-   "sha": "3bdafca5109bfe452ed7636d3fd33182dd427ede",
-   "short": "3bdafca",
-   "autor": "Pablo Sanchez",
-   "fecha": "2026-09-30T19:37:11-03:00",
-   "msg": "﻿docs(alerts): ALERT-79 quinta vez, y la regla fallo en el hueco que ella misma senala"
-  },
-  {
-   "sha": "293aed60aea47c3b84e6402dbb03ce6bf590495b",
-   "short": "293aed6",
-   "autor": "Pablo Sanchez",
-   "fecha": "2026-09-30T19:36:20-03:00",
-   "msg": "docs(backlog): el onClear no estaba registrado, y yo lo escribi mal como bloqueante"
-  },
-  {
-   "sha": "8e5a53292de0ccbcd1464efcd359b60aea216e33",
-   "short": "8e5a532",
-   "autor": "Pablo Sanchez",
-   "fecha": "2026-09-30T19:34:39-03:00",
-   "msg": "docs(logs): HB#69 - el FAIL que no era ruido, y las dos coms que esperaba"
-  },
-  {
-   "sha": "f8286b8bfc3a8095d953d29c9c522a2afd1efdd9",
-   "short": "f8286b8",
-   "autor": "Pablo Sanchez",
-   "fecha": "2026-09-30T19:33:06-03:00",
-   "msg": "docs(alerts): cierre de ALERT-85, y por que un FAIL de otro writer no se gita"
-  },
-  {
-   "sha": "46b2d7f5c9196f0f21cd8ed126c0ba40275e6650",
-   "short": "46b2d7f",
-   "autor": "Pablo Sanchez",
-   "fecha": "2026-09-30T19:32:34-03:00",
-   "msg": "fix(cache-boton): keptBytes, y el title vuelve a declarar que no se tocan cuentas ni pines"
-  },
-  {
-   "sha": "d64e688508d4b93568d52469114a392344248921",
-   "short": "d64e688",
-   "autor": "Pablo Sanchez",
-   "fecha": "2026-09-30T19:32:04-03:00",
-   "msg": "fix(leyenda): el esqueleto deja de decir Cargando para siempre (ALERT-84 T1)"
-  },
-  {
-   "sha": "f482cbcce3ae2f25352203cf72c7fbd94be0afec",
-   "short": "f482cbc",
-   "autor": "Pablo Sanchez",
-   "fecha": "2026-09-30T19:05:10-03:00",
-   "msg": "docs(logs): HB#68 - el copy del boton, ALERT-82, y las 2 coms esperando"
-  },
-  {
-   "sha": "70414d2900fabbf84194df598c77c005eb2c4952",
-   "short": "70414d2",
-   "autor": "Pablo Sanchez",
-   "fecha": "2026-09-30T19:01:18-03:00",
-   "msg": "fix(cache-boton): el copy no promete una recarga que no pasa"
-  },
-  {
-   "sha": "b43743b1b98c7785d4f678eeb8ce4bcdcda7a68d",
-   "short": "b43743b",
-   "autor": "Pablo Sanchez",
-   "fecha": "2026-09-30T18:35:50-03:00",
-   "msg": "﻿feat(cache): el boton de liberar la cache de la API, con dryRun -> confirm -> borrado"
-  },
-  {
-   "sha": "d3289690f321822204384ce64bcec19290173174",
-   "short": "d328969",
-   "autor": "Pablo Sanchez",
-   "fecha": "2026-09-30T18:24:33-03:00",
-   "msg": "﻿docs(changelog): el Idea 50 Tramo F, que estaba mergeado y sin entrada"
-  },
-  {
-   "sha": "c7d4ec0da89e5da246e46a56f3f3b53825a8b988",
-   "short": "c7d4ec0",
-   "autor": "Pablo Sanchez",
-   "fecha": "2026-09-30T18:21:22-03:00",
-   "msg": "docs(cache): Idea 50 P3 mergeada - el registro de bases, la red de preservacion y los 4 cambios del Reviewer"
-  },
-  {
-   "sha": "cfff5482e5f05894e9e3b70f159f21d40ba879a2",
-   "short": "cfff548",
-   "autor": "Pablo Sanchez",
-   "fecha": "2026-09-30T18:09:34-03:00",
-   "msg": "﻿docs(alerts): ALERT-79 adenda - los 6 escapes Documentados, 4 de ellos en .md y no en .js"
-  },
-  {
-   "sha": "c23f1ced73caa99c94a16ef1f409f473ea2743c5",
-   "short": "c23f1ce",
-   "autor": "Pablo Sanchez",
-   "fecha": "2026-09-30T18:07:16-03:00",
-   "msg": "﻿docs(logs): HB#67 - P3 mergeado con los 4 cambios del Reviewer, ALERT-81, y 4 escapes de ALERT-79"
-  },
-  {
-   "sha": "0d1d0aa544379b445fe78aac2f53e93bde31d9a0",
-   "short": "0d1d0aa",
-   "autor": "Pablo Sanchez",
-   "fecha": "2026-09-30T18:04:19-03:00",
-   "msg": "﻿fix(cache): los 4 cambios que pidio el Reviewer sobre P3 (registro global, red completa, hoist, runner)"
-  },
-  {
-   "sha": "6d50323db5570ef502ced6e278a90b06445649b1",
-   "short": "6d50323",
-   "autor": "Pablo Sanchez",
-   "fecha": "2026-09-30T18:01:01-03:00",
-   "msg": "fix(comentario): 'Revieweredia' -> 'Reviewer decia' en api-gw2.js:1730 (ALERT-79)"
   }
  ],
  "archivos_md": [
@@ -395,9 +395,9 @@
    "repo": "gw2-wallet-agents",
    "label": "Desarrollo",
    "role": "dev",
-   "sha": "4573f309a5c012760ba6d51c000bc9a7be5e2c22",
-   "short_sha": "4573f30",
-   "commit": "﻿docs(backlog): la premisa de l",
+   "sha": "955a64ef5e5ccfeb057217707034c43130900538",
+   "short_sha": "955a64e",
+   "commit": "fix(trackers): el mutex CANCELABA la carga nueva; ahora la",
    "estado": "open",
    "protected": false,
    "protected_fresco": true,
@@ -407,9 +407,9 @@
    "repo": "gw2-agents-dashboard",
    "label": "Dashboard",
    "role": "dashboard",
-   "sha": "ffc624d97219bf233d30cf8d58741239ccd598d5",
-   "short_sha": "ffc624d",
-   "commit": "chore(dashboard): pulso automatico 2026-10-01_09-51_UTC",
+   "sha": "ab15377a9f26a5dcd3aeb65ae95e34754ffbd26b",
+   "short_sha": "ab15377",
+   "commit": "chore(dashboard): pulso automatico 2026-10-01_10-06_UTC",
    "estado": "open",
    "protected": false,
    "protected_fresco": true,
