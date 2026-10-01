@@ -1,12 +1,12 @@
 {
- "generado_utc": "20261001T193608Z",
- "generado_h": "2026-10-01 19:36 UTC",
+ "generado_utc": "20261001T195103Z",
+ "generado_h": "2026-10-01 19:51 UTC",
  "archivos_estado": [
   {
    "archivo": "TEAM_STATUS.md",
    "quien": "Principal /30min",
    "estado": "ok",
-   "edad_h": 0.7,
+   "edad_h": 1.0,
    "kb": 215.1,
    "crecimiento": "EXCEDE 80 KB (215 KB)"
   },
@@ -14,7 +14,7 @@
    "archivo": "SESSION_LOG.md",
    "quien": "Documentador /4h",
    "estado": "ok",
-   "edad_h": 0.7,
+   "edad_h": 1.0,
    "kb": 211.0,
    "crecimiento": "EXCEDE 60 KB (211 KB)"
   },
@@ -22,14 +22,14 @@
    "archivo": "COMMS_LOG.md",
    "quien": "Principal /30min",
    "estado": "ok",
-   "edad_h": 0.7,
+   "edad_h": 1.0,
    "kb": 167.3
   },
   {
    "archivo": "PRE_BACKLOG.md",
    "quien": "PO /2h",
    "estado": "ROTO",
-   "edad_h": 36.0,
+   "edad_h": 36.2,
    "kb": 238.3,
    "crecimiento": "EXCEDE 120 KB (238 KB)"
   },
@@ -37,14 +37,14 @@
    "archivo": "ALERTS_LOG.md",
    "quien": "Principal /30min",
    "estado": "ok",
-   "edad_h": 0.7,
+   "edad_h": 1.0,
    "kb": 257.2
   },
   {
    "archivo": "DECISIONS_LOG.md",
    "quien": "Principal",
    "estado": "ok",
-   "edad_h": 41.6,
+   "edad_h": 41.8,
    "kb": 10.2
   }
  ],
@@ -280,16 +280,16 @@
   },
   {
    "dia": "2026-10-01",
-   "llamadas": 5456,
-   "prompt": 488937928,
-   "cache_read": 477084767,
+   "llamadas": 5512,
+   "prompt": 494344252,
+   "cache_read": 482431318,
    "cache_pct": 97.6,
-   "prompt_por_llamada": 89614,
+   "prompt_por_llamada": 89685,
    "por_agente": [
     {
      "agente": "default",
-     "llamadas": 3346,
-     "prompt": 317471326,
+     "llamadas": 3387,
+     "prompt": 322290812,
      "cache_pct": 98.0
     },
     {
@@ -300,9 +300,9 @@
     },
     {
      "agente": "Code-Reviewer",
-     "llamadas": 648,
-     "prompt": 45872158,
-     "cache_pct": 96.0
+     "llamadas": 663,
+     "prompt": 46458996,
+     "cache_pct": 95.9
     },
     {
      "agente": "architect",
@@ -316,17 +316,17 @@
  "dashboard": [
   {
    "archivo": "comms.json",
-   "edad_min": 0.4,
+   "edad_min": 0.2,
    "estado": "ok"
   },
   {
    "archivo": "salud.json",
-   "edad_min": 15.1,
+   "edad_min": 14.8,
    "estado": "ok"
   },
   {
    "archivo": "estructura.json",
-   "edad_min": 0.4,
+   "edad_min": 0.2,
    "estado": "ok"
   }
  ],
