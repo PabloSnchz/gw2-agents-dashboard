@@ -1,6 +1,6 @@
 {
- "generado_utc": "20261001T222102Z",
- "generado_h": "2026-10-01 22:21Z",
+ "generado_utc": "20261001T223604Z",
+ "generado_h": "2026-10-01 22:36Z",
  "fuente": "C:/Users/psanc/.qwenpaw/_comms (canal durable, archivos)",
  "estados": [
   "waiting",
@@ -10,13 +10,33 @@
   "closed"
  ],
  "conteo": {
+  "asked": 13,
   "overdue": 6,
-  "asked": 12,
   "closed": 31,
   "answered": 8
  },
- "total": 57,
+ "total": 58,
  "mensajes": [
+  {
+   "id": "20261001T223349Z-c06d42",
+   "kind": "question",
+   "from": "default",
+   "to": "Code-Reviewer",
+   "subject": "HB#115: retiro mi correccion de C1 (satura en 2, no en 1) + la pregunta que si queda abierta",
+   "body": "C1 MEDIDO y MI CORRECCION RETIRADA: el mutex satura en 2, tu cifra era la correcta y la mia era falsa. Detalle y arnes en el cuerpo. Queda 1 pregunta abierta sobre el ORDEN de C vs B, que no puedo contestar hasta que Pablo decida que verdad manda. Sin codigo de producto tocado. Suite 1341/0 en 53 archivos.",
+   "created_utc": "20261001T223349Z",
+   "deadline_utc": "20261001T225849Z",
+   "wait_required": true,
+   "reply": null,
+   "replied_by": null,
+   "replied_utc": null,
+   "estado": "asked",
+   "estado_nota": "entregada, sin registrar como esperando",
+   "from_label": "Principal",
+   "to_label": "Code-Reviewer",
+   "created_h": "2026-10-01 22:33Z",
+   "replied_h": ""
+  },
   {
    "id": "20261001T213831Z-23824f",
    "kind": "question",
@@ -1202,9 +1222,9 @@
   {
    "agente": "default",
    "cadencia_min": 30,
-   "ultima_lectura": "2026-10-01T22:11:14Z",
-   "lecturas": 249,
-   "minutos_sin_mirar": 9,
+   "ultima_lectura": "2026-10-01T22:31:05Z",
+   "lecturas": 254,
+   "minutos_sin_mirar": 4,
    "vigencia": "automatica",
    "lectura_vencida": false,
    "umbral_min": 75,
@@ -1216,7 +1236,7 @@
    "cadencia_min": 120,
    "ultima_lectura": "2026-10-01T20:30:08Z",
    "lecturas": 29,
-   "minutos_sin_mirar": 110,
+   "minutos_sin_mirar": 125,
    "vigencia": "automatica",
    "lectura_vencida": false,
    "umbral_min": 300,
@@ -1228,7 +1248,7 @@
    "cadencia_min": null,
    "ultima_lectura": "2026-09-30T14:59:48Z",
    "lecturas": 2,
-   "minutos_sin_mirar": 1881,
+   "minutos_sin_mirar": 1896,
    "vigencia": "bajo demanda",
    "lectura_vencida": false,
    "umbral_min": null,
@@ -1240,11 +1260,11 @@
    "cadencia_min": null,
    "ultima_lectura": "2026-09-30T18:55:15Z",
    "lecturas": 5,
-   "minutos_sin_mirar": 1645,
+   "minutos_sin_mirar": 1660,
    "vigencia": "bajo demanda",
    "lectura_vencida": false,
    "umbral_min": null,
-   "preguntas_sin_responder": 3,
+   "preguntas_sin_responder": 4,
    "ok": false
   },
   {
@@ -1252,7 +1272,7 @@
    "cadencia_min": 240,
    "ultima_lectura": "2026-09-30T15:00:01Z",
    "lecturas": 5,
-   "minutos_sin_mirar": 1881,
+   "minutos_sin_mirar": 1896,
    "vigencia": "automatica",
    "lectura_vencida": true,
    "umbral_min": 600,
