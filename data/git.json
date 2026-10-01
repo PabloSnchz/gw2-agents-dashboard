@@ -1,8 +1,15 @@
 {
- "generado_utc": "20261001T212120Z",
- "generado_h": "2026-10-01 21:21 UTC",
+ "generado_utc": "20261001T213615Z",
+ "generado_h": "2026-10-01 21:36 UTC",
  "origen": "git local + ls-remote (sin cuota). protected cacheado TTL 6h.",
  "commits": [
+  {
+   "sha": "47a25267a2feee4e82bb254de04a4d81441580ae",
+   "short": "47a2526",
+   "autor": "Pablo Sanchez",
+   "fecha": "2026-10-01T18:24:45-03:00",
+   "msg": "docs(features): rutas reales y guiones sin adorno  Dos fichas declaraban '#/account' y '#/account/accounts con paréntesis'. El panel de Cuentas SÍ existe en dev y se mide como /account/accounts, así que la puerta y el aviso de permisos ahora enlazan a la pantalla real y se pueden probar con un click.  A la de caché le habia puesto ruta yo mismo en un borrador, y la saqué de vuelta: esa cosa no se ve en ninguna pantalla. Enlazarla te haría ir, borrar una cuenta de prueba, no ver nada, y concluir 'lo probé y funciona'. Un link a algo que no se puede observar es peor que un guion: manufactura una decisión que nadie tomó."
+  },
   {
    "sha": "fa205e134c0a6bfb50d958710775e24c929111d5",
    "short": "fa205e1",
@@ -345,13 +352,6 @@
    "autor": "Pablo Sanchez",
    "fecha": "2026-10-01T02:25:32-03:00",
    "msg": "docs(hb80): la premisa del PO era falsa, y mi primera medicion tambien"
-  },
-  {
-   "sha": "585367d6ee2badc1779e9bae4c25c0c86de2e3d9",
-   "short": "585367d",
-   "autor": "Pablo Sanchez",
-   "fecha": "2026-10-01T02:23:11-03:00",
-   "msg": "fix(app): el mensaje de la puerta de permisos se borra antes de que se pueda leer"
   }
  ],
  "archivos_md": [
@@ -396,9 +396,9 @@
    "repo": "gw2-wallet-agents",
    "label": "Desarrollo",
    "role": "dev",
-   "sha": "fa205e134c0a6bfb50d958710775e24c929111d5",
-   "short_sha": "fa205e1",
-   "commit": "docs(features): ficha de la puerta de",
+   "sha": "47a25267a2feee4e82bb254de04a4d81441580ae",
+   "short_sha": "47a2526",
+   "commit": "docs(features): rutas reales y guiones",
    "estado": "open",
    "protected": false,
    "protected_fresco": true,
@@ -408,9 +408,9 @@
    "repo": "gw2-agents-dashboard",
    "label": "Dashboard",
    "role": "dashboard",
-   "sha": "ad49488fed3afb8c3af1e566bb929efc9e24973e",
-   "short_sha": "ad49488",
-   "commit": "chore(dashboard): pulso automatico 2026-10-01_21-06_UTC",
+   "sha": "bc444fadf85798c3b4de1ab03f7d43b2284470e6",
+   "short_sha": "bc444fa",
+   "commit": "fix(dev-catalogo): un guion es ausencia",
    "estado": "open",
    "protected": false,
    "protected_fresco": true,
