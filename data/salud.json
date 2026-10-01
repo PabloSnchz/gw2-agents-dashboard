@@ -1,12 +1,12 @@
 {
- "generado_utc": "20261001T152104Z",
- "generado_h": "2026-10-01 15:21 UTC",
+ "generado_utc": "20261001T153602Z",
+ "generado_h": "2026-10-01 15:36 UTC",
  "archivos_estado": [
   {
    "archivo": "TEAM_STATUS.md",
    "quien": "Principal /30min",
    "estado": "ROTO",
-   "edad_h": 5.2,
+   "edad_h": 5.4,
    "kb": 141.9,
    "crecimiento": "EXCEDE 80 KB (142 KB)"
   },
@@ -14,7 +14,7 @@
    "archivo": "SESSION_LOG.md",
    "quien": "Documentador /4h",
    "estado": "ok",
-   "edad_h": 5.2,
+   "edad_h": 5.4,
    "kb": 157.6,
    "crecimiento": "EXCEDE 60 KB (158 KB)"
   },
@@ -22,14 +22,14 @@
    "archivo": "COMMS_LOG.md",
    "quien": "Principal /30min",
    "estado": "ROTO",
-   "edad_h": 5.2,
+   "edad_h": 5.4,
    "kb": 110.0
   },
   {
    "archivo": "PRE_BACKLOG.md",
    "quien": "PO /2h",
    "estado": "ROTO",
-   "edad_h": 31.7,
+   "edad_h": 32.0,
    "kb": 238.3,
    "crecimiento": "EXCEDE 120 KB (238 KB)"
   },
@@ -37,14 +37,14 @@
    "archivo": "ALERTS_LOG.md",
    "quien": "Principal /30min",
    "estado": "ROTO",
-   "edad_h": 5.2,
+   "edad_h": 5.4,
    "kb": 179.5
   },
   {
    "archivo": "DECISIONS_LOG.md",
    "quien": "Principal",
    "estado": "ok",
-   "edad_h": 37.3,
+   "edad_h": 37.6,
    "kb": 10.2
   }
  ],
@@ -265,16 +265,16 @@
   },
   {
    "dia": "2026-10-01",
-   "llamadas": 3925,
-   "prompt": 345888136,
-   "cache_read": 337847024,
+   "llamadas": 4014,
+   "prompt": 353384737,
+   "cache_read": 345114392,
    "cache_pct": 97.7,
-   "prompt_por_llamada": 88124,
+   "prompt_por_llamada": 88038,
    "por_agente": [
     {
      "agente": "default",
-     "llamadas": 2474,
-     "prompt": 231823635,
+     "llamadas": 2513,
+     "prompt": 234486066,
      "cache_pct": 98.1
     },
     {
@@ -285,9 +285,9 @@
     },
     {
      "agente": "Code-Reviewer",
-     "llamadas": 383,
-     "prompt": 23489763,
-     "cache_pct": 94.9
+     "llamadas": 433,
+     "prompt": 28323933,
+     "cache_pct": 95.3
     },
     {
      "agente": "architect",
@@ -306,7 +306,7 @@
   },
   {
    "archivo": "salud.json",
-   "edad_min": 14.7,
+   "edad_min": 14.9,
    "estado": "ok"
   },
   {
