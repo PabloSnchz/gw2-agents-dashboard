@@ -1,8 +1,64 @@
 {
- "generado_utc": "20261001T210611Z",
- "generado_h": "2026-10-01 21:06 UTC",
+ "generado_utc": "20261001T212120Z",
+ "generado_h": "2026-10-01 21:21 UTC",
  "origen": "git local + ls-remote (sin cuota). protected cacheado TTL 6h.",
  "commits": [
+  {
+   "sha": "fa205e134c0a6bfb50d958710775e24c929111d5",
+   "short": "fa205e1",
+   "autor": "Pablo Sanchez",
+   "fecha": "2026-10-01T18:10:20-03:00",
+   "msg": "docs(features): ficha de la puerta de permisos (570336b + 5a6c8c3)  Al aplicar la regla de la ficha me encontre con que el gateado se movio durante el rebase: el equipo mergeo la puerta de permisos en 2 commits mientras yo escribia. Los dos sin ficha.  Es 1 ficha, no 2: es un solo feat partido en 2 commits porque el Reviewer lo aprobo en dos partes. Partir la ficha seria mentir sobre la unidad de la cosa.  Marcada 'mejora visible' y no 'oculta', y es lo unico de este commit que me hizo dudar: el arreglo es de validacion, pero el efecto que ve Pablo es el aviso. Lo que importa de la ficha es 'donde la veo', y ahi si aparece algo concreto.  El riesgo que mas me importaba，稍 al escribirla: una puerta de validacion que rechaza entradas es el tipo de cambio que puede borrar cuentas. Este NO lo hace, y por eso lo dice de frente -- 'perms' ausente es desconocido, no malo; nunca se rechaza una clave; el import no se corta por una clave incompleta. Sin esas tres reglas, el arreglo mismo habria sido el riesgo.  Incluyo tambien que importar un backup REEMPLAZA la lista de cuentas. No es de este cambio, pero es la consecuencia practica de usar esto, y callarla seria editar la ficha para que suene mejor de lo que es."
+  },
+  {
+   "sha": "bf78c442b4c194f41dcc74eb7e9923bd1c2fa92c",
+   "short": "bf78c44",
+   "autor": "Pablo Sanchez",
+   "fecha": "2026-10-01T18:09:16-03:00",
+   "msg": "docs(agentes): la ficha es el paso 4 del merge, no un extra  El commit 4f25315 decia 'regla agregada al AGENTS.md del Principal'. Era falso: git grep FEATURES sobre los .md del repo solo encontraba el propio FEATURES.md. Verificado hoy. La regla nunca existio, y por eso el Principal no escribio ninguna ficha: no se le pidio.  Ese mismo commit ya habia repetido el patron de 392c3b9 -- escribir que algo quedo hecho porque era lo que el plan pedia, sin verificarlo. Es la segunda vez en dos semanas y en dos repos distintos. Lo que mas cuesta no es el error: es que mi mensaje de commit lo daba por hecho y nadie lo chequeo.  LA REGLA, por que asi:   - Va pegada al checklist de merge que YA existe, como paso 4. Una     regla en su propia seccion es una seccion que el agente puede no     leer. Un paso en una lista que ya sigue, no.   - La escritura la hace el Principal, no el PO: el PO propone ideas     pero no vio el codigo y no puede saber 'donde la veo'. Si escribiera     la ficha, inventaria ese campo, que es el unico que Pablo necesita     para decidir.   - 'Si no lo sabes, escribi —' con el motivo: el dashboard muestra     guion cuando no sabe, y muestra el dato falso como verdad si se     inventa. Un campo inventado es peor que uno vacio.  CONTRASTE NECESARIO: primero escribi una SEGUNDA lista de pasos del merge dentro de la seccion nueva, y convivia con la de arriba. Dos listas numeradas que se contradicen es exactamente el defecto que le vengo corrigiendo al equipo en PROMOTIONS.md. Lo detecta uno mismo antes de commitear, no despues de que el agente lo lea.  Dos fichas retroactivas para 6c3f8e5 y 1e5aedb. Los campos de riesgo salen de los propios commits, que los documentan con medidas; lo que no se puede ver en pantalla queda como guion, no como frase. Quedan pendientes de prueba en dev.  Encoding verificado: sin BOM, sin U+FFFD, sin cirilico."
+  },
+  {
+   "sha": "904345b8dba166a60a855a45e8bfc6b049717437",
+   "short": "904345b",
+   "autor": "Pablo Sanchez",
+   "fecha": "2026-10-01T17:41:07-03:00",
+   "msg": "docs(hb112): el veredicto de T14/T15 llego, y no recomienda lo que yo esperaba"
+  },
+  {
+   "sha": "1fd98dc9c852f95ce46710f04df3b82fc3cb733e",
+   "short": "1fd98dc",
+   "autor": "Pablo Sanchez",
+   "fecha": "2026-10-01T17:27:48-03:00",
+   "msg": "﻿docs(log): HB#111 - la puerta de permisos cerrada (2 de 2), T14/T15 medidas, 5 alertas"
+  },
+  {
+   "sha": "5a6c8c339f94c2b8b923d48270d1586d09e27f25",
+   "short": "5a6c8c3",
+   "autor": "Pablo Sanchez",
+   "fecha": "2026-10-01T17:18:44-03:00",
+   "msg": "﻿fix(puerta): commit 2 de 2 - el import de un backup pasa por KeyManager.save()"
+  },
+  {
+   "sha": "c50e00839293de2ca37295df4eb7ba53d0622a64",
+   "short": "c50e008",
+   "autor": "Pablo Sanchez",
+   "fecha": "2026-10-01T16:48:55-03:00",
+   "msg": "docs(log): HB#109 - la fila 120 al Reviewer y las 2 VENCIDAS que ya estaban respondidas"
+  },
+  {
+   "sha": "6c3f8e53b5a459b8c99fb13dcac739f538f08261",
+   "short": "6c3f8e5",
+   "autor": "Pablo Sanchez",
+   "fecha": "2026-10-01T16:42:02-03:00",
+   "msg": "﻿fix(cache): al borrar una cuenta, su cache se va con ella (IDEA 50-D, a'')"
+  },
+  {
+   "sha": "1e5aedb8bcb8b123173531b244b715edc506bce9",
+   "short": "1e5aedb",
+   "autor": "Pablo Sanchez",
+   "fecha": "2026-10-01T16:10:59-03:00",
+   "msg": "﻿fix(t13): el latch de activate() baja - barrido con PREDICADO DOM, no pref"
+  },
   {
    "sha": "f6c9876a3e9dc78efc435ebc1ac5df8f0f2432e0",
    "short": "f6c9876",
@@ -296,62 +352,6 @@
    "autor": "Pablo Sanchez",
    "fecha": "2026-10-01T02:23:11-03:00",
    "msg": "fix(app): el mensaje de la puerta de permisos se borra antes de que se pueda leer"
-  },
-  {
-   "sha": "9ab5733edba38fc18e28f9c1e051d7d0938195c6",
-   "short": "9ab5733",
-   "autor": "Pablo Sanchez",
-   "fecha": "2026-10-01T02:23:11-03:00",
-   "msg": "fix(accounts): hacer clic en el nombre de una cuenta ya no te saca de la vista"
-  },
-  {
-   "sha": "6af57fffdee26f7815839d5d19c2d48be35c3da5",
-   "short": "6af57ff",
-   "autor": "Pablo Sanchez",
-   "fecha": "2026-10-01T02:08:20-03:00",
-   "msg": "docs(hb79): el codigo muerto ya no esta, y 2 ALERT sobre probes que dan numeros con aire"
-  },
-  {
-   "sha": "87bab2330a38de4ff626a6b0057e9e770d8238a3",
-   "short": "87bab23",
-   "autor": "Pablo Sanchez",
-   "fecha": "2026-10-01T02:05:10-03:00",
-   "msg": "fix(app): se saca el codigo muerto que el Reviewer measuro en app.js:1067"
-  },
-  {
-   "sha": "fdf29ace89e5504860dc04c77d6a2e4963293537",
-   "short": "fdf29ac",
-   "autor": "Pablo Sanchez",
-   "fecha": "2026-10-01T01:19:49-03:00",
-   "msg": "fix(app): el mensaje de la puerta de permisos llegaba reescrito (y decia 2 de 7)  La puerta de T1 (ea10e9b) construye el mensaje correcto: nombra los 7 permisos que exige y el motivo de cada uno. Pero el catch del modal lo pasa por parseKeyError, y esa funcion reescribia cualquier mensaje que matcheara /permisos/i con 'Faltan permisos: account + wallet' — los 2 permisos de antes de T1. El detalle se construia bien y no se mostraba nunca: la app le decia a Pablo que le faltaban 2 permisos y le decia CUALES, y las dos cosas eran falsas.  El fix conserva el mensaje en vez de reemplazarlo, y respeta un error que ya venga clasificado con 'kind'. El clasificador sigue clasificando 401/403/429/ red: no se desarmo, se le saco el pisoton.  tests/hb75-permisos.test.js afirmaba que la puerta nombra el permiso que falta y el motivo. Es cierto, y sigue siendolo — pero es una asercion sobre la CONSTRUCCION del mensaje, no sobre lo que Pablo lee. tests/hb77-puerta-llega extiende parseKeyError del fuente y lo evalua con el mensaje que la puerta realmente tira, asi que falla si el mensaje vuelve cambiado.  Verificacion: 6 FAIL en fase roja por la razon correcta; con el fix 19 pass. Mutaciones (cada una debe romperlo): volver el pisoton -> 6 FAIL; volver a decir 'glifos' -> 1 FAIL; quitar 5 permisos de REQUIRED_PERMISSIONS -> 2 FAIL. Las 2 mutaciones de contenido de la puerta (exigir 2, no nombrar el motivo) NO las ve este test y las ve hb75 (1 FAIL cada una) — la division de trabajo es deliberada: hb77 es 'el mensaje LLEGA', hb75 es 'el mensaje es correcto'. Suite completa: 940 pass, 0 FAIL.  Ademas, el copy de app.js:683 que reporta el PO en la ronda 22: 'glifos' prometia una funcionalidad que homestead-tracker.js (su unico consumidor) no expone en ningun .html. El permiso unlocks SIGUE siendo necesario (lo piden /v2/account/luck y /v2/account/home/nodes, que si corren)."
-  },
-  {
-   "sha": "1fb0e32b365bdf281222bac26c43719e38444cd0",
-   "short": "1fb0e32",
-   "autor": "Pablo Sanchez",
-   "fecha": "2026-10-01T01:47:57-03:00",
-   "msg": "docs(hb78): la gn: de la pestana Raids/Strikes ya tiene escritor, y 2 ALERT nuevas sobre mapas y sobre premisas"
-  },
-  {
-   "sha": "f9239d7648ae9ab218e35df3774b995c69e749f1",
-   "short": "f9239d7",
-   "autor": "Pablo Sanchez",
-   "fecha": "2026-10-01T01:44:00-03:00",
-   "msg": "fix(raid-tracker): la pestana Raids/Strikes se escribe en la gn: que storage.js declara, y un valor invalido ya no abre Strikes solo"
-  },
-  {
-   "sha": "529113864381f236e786dc5a2cc95533ce712229",
-   "short": "5291138",
-   "autor": "Pablo Sanchez",
-   "fecha": "2026-10-01T01:15:50-03:00",
-   "msg": "docs(hb77): \"+N commits\" no dice si hay que mergear, y una premisa mia era FALSA"
-  },
-  {
-   "sha": "2e36237f5d589fae055d36ae5c37ed54d879ddd3",
-   "short": "2e36237",
-   "autor": "Pablo Sanchez",
-   "fecha": "2026-10-01T00:48:34-03:00",
-   "msg": "docs(hb76): fila 080, la pregunta al Reviewer sobre los raw de raid-tracker.js"
   }
  ],
  "archivos_md": [
@@ -396,9 +396,9 @@
    "repo": "gw2-wallet-agents",
    "label": "Desarrollo",
    "role": "dev",
-   "sha": "904345b8dba166a60a855a45e8bfc6b049717437",
-   "short_sha": "904345b",
-   "commit": "docs(hb112): el veredicto de T14/T15 llego, y no recomienda",
+   "sha": "fa205e134c0a6bfb50d958710775e24c929111d5",
+   "short_sha": "fa205e1",
+   "commit": "docs(features): ficha de la puerta de",
    "estado": "open",
    "protected": false,
    "protected_fresco": true,
@@ -408,9 +408,9 @@
    "repo": "gw2-agents-dashboard",
    "label": "Dashboard",
    "role": "dashboard",
-   "sha": "f18190b0891de02c237e88e760ee46dbb28ac019",
-   "short_sha": "f18190b",
-   "commit": "chore(dashboard): pulso automatico 2026-10-01_20-51_UTC",
+   "sha": "ad49488fed3afb8c3af1e566bb929efc9e24973e",
+   "short_sha": "ad49488",
+   "commit": "chore(dashboard): pulso automatico 2026-10-01_21-06_UTC",
    "estado": "open",
    "protected": false,
    "protected_fresco": true,
