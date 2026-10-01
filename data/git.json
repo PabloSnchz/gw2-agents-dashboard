@@ -1,6 +1,6 @@
 {
- "generado_utc": "20261001T220617Z",
- "generado_h": "2026-10-01 22:06 UTC",
+ "generado_utc": "20261001T222116Z",
+ "generado_h": "2026-10-01 22:21 UTC",
  "origen": "git local + ls-remote (sin cuota). protected cacheado TTL 6h.",
  "commits": [
   {
@@ -412,9 +412,9 @@
    "repo": "gw2-agents-dashboard",
    "label": "Dashboard",
    "role": "dashboard",
-   "sha": "148675c0c7d0265af0a1de3ef26cec889221fbc7",
-   "short_sha": "148675c",
-   "commit": "feat(guard): la proteccion de main deja de ser un si/no  El",
+   "sha": "5c21d96e11c4ba58ffa1a7250669af7315f692a1",
+   "short_sha": "5c21d96",
+   "commit": "chore(dashboard): pulso automatico 2026-10-01_22-06_UTC",
    "estado": "open",
    "protected": false,
    "protected_fresco": true,
