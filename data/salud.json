@@ -1,12 +1,12 @@
 {
- "generado_utc": "20261001T033603Z",
- "generado_h": "2026-10-01 03:36 UTC",
+ "generado_utc": "20261001T035102Z",
+ "generado_h": "2026-10-01 03:51 UTC",
  "archivos_estado": [
   {
    "archivo": "TEAM_STATUS.md",
    "quien": "Principal /30min",
    "estado": "ok",
-   "edad_h": 0.4,
+   "edad_h": 0.0,
    "kb": 82.3,
    "crecimiento": "EXCEDE 80 KB (82 KB)"
   },
@@ -14,7 +14,7 @@
    "archivo": "SESSION_LOG.md",
    "quien": "Documentador /4h",
    "estado": "ok",
-   "edad_h": 3.9,
+   "edad_h": 4.1,
    "kb": 145.1,
    "crecimiento": "EXCEDE 60 KB (145 KB)"
   },
@@ -22,14 +22,14 @@
    "archivo": "COMMS_LOG.md",
    "quien": "Principal /30min",
    "estado": "ok",
-   "edad_h": 0.4,
+   "edad_h": 0.0,
    "kb": 91.5
   },
   {
    "archivo": "PRE_BACKLOG.md",
    "quien": "PO /2h",
    "estado": "ROTO",
-   "edad_h": 20.0,
+   "edad_h": 20.2,
    "kb": 238.3,
    "crecimiento": "EXCEDE 120 KB (238 KB)"
   },
@@ -37,14 +37,14 @@
    "archivo": "ALERTS_LOG.md",
    "quien": "Principal /30min",
    "estado": "ok",
-   "edad_h": 0.4,
+   "edad_h": 0.7,
    "kb": 126.9
   },
   {
    "archivo": "DECISIONS_LOG.md",
    "quien": "Principal",
    "estado": "ok",
-   "edad_h": 25.6,
+   "edad_h": 25.8,
    "kb": 10.2
   }
  ],
@@ -84,11 +84,6 @@
   }
  ],
  "ramas_sin_integrar": [
-  {
-   "rama": "feat-hb75-permisos",
-   "commits": 3,
-   "fecha": "2026-10-01"
-  },
   {
    "rama": "hb75-local-tmp",
    "commits": 3,
@@ -240,29 +235,29 @@
   },
   {
    "dia": "2026-10-01",
-   "llamadas": 211,
-   "prompt": 13361353,
-   "cache_read": 12888331,
-   "cache_pct": 96.5,
-   "prompt_por_llamada": 63323,
+   "llamadas": 322,
+   "prompt": 23756947,
+   "cache_read": 22999524,
+   "cache_pct": 96.8,
+   "prompt_por_llamada": 73779,
    "por_agente": [
     {
      "agente": "default",
-     "llamadas": 131,
-     "prompt": 9348882,
-     "cache_pct": 98.0
+     "llamadas": 192,
+     "prompt": 15816781,
+     "cache_pct": 97.9
     },
     {
      "agente": "architect",
-     "llamadas": 75,
-     "prompt": 3777139,
-     "cache_pct": 94.2
+     "llamadas": 114,
+     "prompt": 7328127,
+     "cache_pct": 95.7
     },
     {
      "agente": "Code-Reviewer",
-     "llamadas": 5,
-     "prompt": 235332,
-     "cache_pct": 71.0
+     "llamadas": 16,
+     "prompt": 612039,
+     "cache_pct": 81.5
     }
    ]
   }
