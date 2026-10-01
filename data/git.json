@@ -1,8 +1,22 @@
 {
- "generado_utc": "20261001T015105Z",
- "generado_h": "2026-10-01 01:51 UTC",
+ "generado_utc": "20261001T020606Z",
+ "generado_h": "2026-10-01 02:06 UTC",
  "origen": "git local + ls-remote (sin cuota). protected cacheado TTL 6h.",
  "commits": [
+  {
+   "sha": "b1b74bb98e1ac29c0a79dcc94aad5fc1ba0996ee",
+   "short": "b1b74bb",
+   "autor": "Pablo Sanchez",
+   "fecha": "2026-09-30T23:05:18-03:00",
+   "msg": "merge(hb74): idea84 - la cadena que regenera el catalogo de legendarias (T5 opcion d)"
+  },
+  {
+   "sha": "b055bda45dfe74b6b2d7c7d75f1d5a84151e1fb9",
+   "short": "b055bda",
+   "autor": "Pablo Sanchez",
+   "fecha": "2026-09-30T23:04:55-03:00",
+   "msg": "feat(idea84): el regenerador del catalogo era una idea; ahora es una orden (T5 opcion d)"
+  },
   {
    "sha": "0e0d41b8ee41556b011ffc348ac87aeb804a9a61",
    "short": "0e0d41b",
@@ -338,20 +352,6 @@
    "autor": "Pablo Sanchez",
    "fecha": "2026-09-30T16:39:57-03:00",
    "msg": "﻿docs(logs): Heartbeat #64 - un resumen contradice al veredicto que resume, y la 50F se mergea"
-  },
-  {
-   "sha": "86b351acfdd92cca39e41c17df129bc8a986fbbd",
-   "short": "86b351a",
-   "autor": "Pablo Sanchez",
-   "fecha": "2026-09-30T16:35:41-03:00",
-   "msg": "merge(Idea 50 Tramo F): cacheClear() borra de verdad, y nace con dryRun (P4 del Reviewer)  VEREDICTO: APROBADO CON CAMBIOS, sin bloqueantes de codigo, 1 de test. El Reviewer lo dijo textual: 'Mergealo'. Unico pedido duro: P3, que es 'no bloqueante para mergear, bloqueante para el boton' asi que no frena esto.  Trae dos commits: - c04496e: cacheClear() deixa de limpiar solo la sesion y borra de verdad las   18 claves de la capa, por allowlist EXACTA y no por prefijos. Motivo medido:   wallet y luck son nombres pelados, y un barrido por familias habria dejado   vivas justamente las que mas cuota gastan. - a330d30: P4. cacheClear(opts) acepta {dryRun:true} y devuelve   {removed,kept,bytes,dryRun} sin borrar. Pido explicito del Reviewer para que   el boton no tenga que cambiar una firma ya mergeada. Ademas removed paso de   contar llamadas a lsDel (que se traga la excepcion, o sea una intencion) a   ser la diferencia real de localStorage.length antes y despues.  NO CAMBIA LO QUE PABLO VE: la funcion sigue con 0 callers, el boton es el Tramo siguiente. Arregla una funcion que miente, no agrega UI.  Garantia verificada por el test: NO toca gn:account:keys ni gw2_keys (las 27 cuentas), ni pines, ni tema, ni las caches de otros modulos. Suite: 369 pass / 0 FAIL, 25 archivos, todos exit 0. Fase roja del P4 verificada: 8 FAIL contra el archivo sin el fix."
-  },
-  {
-   "sha": "a330d305a255f859a19abbd062ecf615a85187ad",
-   "short": "a330d30",
-   "autor": "Pablo Sanchez",
-   "fecha": "2026-09-30T16:35:30-03:00",
-   "msg": "﻿fix(api-gw2): P4 del Reviewer - cacheClear() nace con dryRun y removed es un hecho (Idea 50 Tramo F)"
   }
  ],
  "archivos_md": [
@@ -395,9 +395,9 @@
    "repo": "gw2-wallet-agents",
    "label": "Desarrollo",
    "role": "dev",
-   "sha": "0e0d41b8ee41556b011ffc348ac87aeb804a9a61",
-   "short_sha": "0e0d41b",
-   "commit": "﻿fix(tests): la limitacion del ",
+   "sha": "b1b74bb98e1ac29c0a79dcc94aad5fc1ba0996ee",
+   "short_sha": "b1b74bb",
+   "commit": "feat(idea84): el regenerador del catalogo era una idea; ahora",
    "estado": "open",
    "protected": false,
    "protected_fresco": true,
@@ -407,9 +407,9 @@
    "repo": "gw2-agents-dashboard",
    "label": "Dashboard",
    "role": "dashboard",
-   "sha": "d430b62128304eb20a42e94c49326acf32c89e2a",
-   "short_sha": "d430b62",
-   "commit": null,
+   "sha": "55377d5ea92b1e87bd28abc394ee0e2ce583bd9e",
+   "short_sha": "55377d5",
+   "commit": "chore(dashboard): pulso automatico 2026-10-01_01-51_UTC",
    "estado": "open",
    "protected": false,
    "protected_fresco": true,
