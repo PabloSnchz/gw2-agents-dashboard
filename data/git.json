@@ -1,8 +1,22 @@
 {
- "generado_utc": "20261001T030606Z",
- "generado_h": "2026-10-01 03:06 UTC",
+ "generado_utc": "20261001T032106Z",
+ "generado_h": "2026-10-01 03:21 UTC",
  "origen": "git local + ls-remote (sin cuota). protected cacheado TTL 6h.",
  "commits": [
+  {
+   "sha": "d974256950f89296550e8e2749447779dc6c161c",
+   "short": "d974256",
+   "autor": "Pablo Sanchez",
+   "fecha": "2026-10-01T00:13:18-03:00",
+   "msg": "docs(hb75): fila 079 (pregunta del PO al Reviewer) y el estado REAL de las ramas abiertas - fix-idea50b sin mergear y un worktree ajeno con WIP"
+  },
+  {
+   "sha": "f7a7f415fe25f14eb98d191b7be9127d4c049add",
+   "short": "f7a7f41",
+   "autor": "Pablo Sanchez",
+   "fecha": "2026-10-01T00:10:25-03:00",
+   "msg": "docs(hb75): ALERT-93 (mutacion fuera de alcance) y ALERT-94 (open w convierte a CRLF y git status no lo dice)"
+  },
   {
    "sha": "0c12adc81d509b8f3492c7b29059a00267915c75",
    "short": "0c12adc",
@@ -338,20 +352,6 @@
    "autor": "Pablo Sanchez",
    "fecha": "2026-09-30T17:04:37-03:00",
    "msg": "﻿docs(logs): Heartbeat #65 - un invariante redactado mas fuerte que el codigo que lo respalda, y un audit que vigilaba el conjunto equivocado"
-  },
-  {
-   "sha": "5c80ae5a7e3abec910206ba84f5795c846f3e5dc",
-   "short": "5c80ae5",
-   "autor": "Pablo Sanchez",
-   "fecha": "2026-09-30T17:02:50-03:00",
-   "msg": "merge(Idea 61 Tramo 3): el espejo se mide en comportamiento por los 4 pares, no con un regex sobre MIRROR_MAP"
-  },
-  {
-   "sha": "905dc7794f2fe83bd43658c9e91b6a99aca3290d",
-   "short": "905dc77",
-   "autor": "Pablo Sanchez",
-   "fecha": "2026-09-30T17:02:46-03:00",
-   "msg": "﻿test(storage): el espejo deja de medirse con un regex y se mide en comportamiento, por los 4 pares (Idea 61 Tramo 3 recambiado)"
   }
  ],
  "archivos_md": [
@@ -395,9 +395,9 @@
    "repo": "gw2-wallet-agents",
    "label": "Desarrollo",
    "role": "dev",
-   "sha": "b1b74bb98e1ac29c0a79dcc94aad5fc1ba0996ee",
-   "short_sha": "b1b74bb",
-   "commit": "feat(idea84): el regenerador del catalogo era una idea; ahora",
+   "sha": "d974256950f89296550e8e2749447779dc6c161c",
+   "short_sha": "d974256",
+   "commit": "docs(hb75): fila 079 (pregunta del PO al Reviewer) y el",
    "estado": "open",
    "protected": false,
    "protected_fresco": true,
@@ -407,9 +407,9 @@
    "repo": "gw2-agents-dashboard",
    "label": "Dashboard",
    "role": "dashboard",
-   "sha": "86333668717dd507ecd5530036c03d71e9ec0d91",
-   "short_sha": "8633366",
-   "commit": "chore(dashboard): pulso automatico 2026-10-01_02-51_UTC",
+   "sha": "4ddad3b1839b2b9ad8a99b88b67a8e439a9f911b",
+   "short_sha": "4ddad3b",
+   "commit": "chore(dashboard): pulso automatico 2026-10-01_03-06_UTC",
    "estado": "open",
    "protected": false,
    "protected_fresco": true,

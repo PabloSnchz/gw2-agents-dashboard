@@ -1,19 +1,20 @@
 {
- "generado_utc": "20261001T030602Z",
- "generado_h": "2026-10-01 03:06 UTC",
+ "generado_utc": "20261001T032102Z",
+ "generado_h": "2026-10-01 03:21 UTC",
  "archivos_estado": [
   {
    "archivo": "TEAM_STATUS.md",
    "quien": "Principal /30min",
    "estado": "ok",
-   "edad_h": 1.9,
-   "kb": 78.3
+   "edad_h": 0.2,
+   "kb": 82.3,
+   "crecimiento": "EXCEDE 80 KB (82 KB)"
   },
   {
    "archivo": "SESSION_LOG.md",
    "quien": "Documentador /4h",
    "estado": "ok",
-   "edad_h": 3.4,
+   "edad_h": 3.6,
    "kb": 145.1,
    "crecimiento": "EXCEDE 60 KB (145 KB)"
   },
@@ -21,14 +22,14 @@
    "archivo": "COMMS_LOG.md",
    "quien": "Principal /30min",
    "estado": "ok",
-   "edad_h": 1.9,
-   "kb": 87.1
+   "edad_h": 0.1,
+   "kb": 91.5
   },
   {
    "archivo": "PRE_BACKLOG.md",
    "quien": "PO /2h",
    "estado": "ROTO",
-   "edad_h": 19.5,
+   "edad_h": 19.7,
    "kb": 238.3,
    "crecimiento": "EXCEDE 120 KB (238 KB)"
   },
@@ -36,14 +37,14 @@
    "archivo": "ALERTS_LOG.md",
    "quien": "Principal /30min",
    "estado": "ok",
-   "edad_h": 1.9,
-   "kb": 124.0
+   "edad_h": 0.2,
+   "kb": 126.9
   },
   {
    "archivo": "DECISIONS_LOG.md",
    "quien": "Principal",
    "estado": "ok",
-   "edad_h": 25.1,
+   "edad_h": 25.3,
    "kb": 10.2
   }
  ],
@@ -83,6 +84,11 @@
   }
  ],
  "ramas_sin_integrar": [
+  {
+   "rama": "hb75-local-tmp",
+   "commits": 3,
+   "fecha": "2026-10-01"
+  },
   {
    "rama": "legacy/fix-concurrency-pool-phase2",
    "commits": 2,
@@ -229,17 +235,23 @@
   },
   {
    "dia": "2026-10-01",
-   "llamadas": 41,
-   "prompt": 2307421,
-   "cache_read": 2238662,
-   "cache_pct": 97.0,
-   "prompt_por_llamada": 56278,
+   "llamadas": 96,
+   "prompt": 6628830,
+   "cache_read": 6465556,
+   "cache_pct": 97.5,
+   "prompt_por_llamada": 69050,
    "por_agente": [
     {
      "agente": "default",
-     "llamadas": 41,
-     "prompt": 2307421,
-     "cache_pct": 97.0
+     "llamadas": 91,
+     "prompt": 6393498,
+     "cache_pct": 98.5
+    },
+    {
+     "agente": "Code-Reviewer",
+     "llamadas": 5,
+     "prompt": 235332,
+     "cache_pct": 71.0
     }
    ]
   }
