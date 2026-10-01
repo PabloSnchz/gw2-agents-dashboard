@@ -1,6 +1,6 @@
 {
- "generado_utc": "20261001T190607Z",
- "generado_h": "2026-10-01 19:06Z",
+ "generado_utc": "20261001T192103Z",
+ "generado_h": "2026-10-01 19:21Z",
  "fuente": "C:/Users/psanc/.qwenpaw/_comms (canal durable, archivos)",
  "estados": [
   "waiting",
@@ -10,13 +10,33 @@
   "closed"
  ],
  "conteo": {
-  "answered": 9,
-  "closed": 27,
+  "asked": 12,
+  "closed": 28,
   "overdue": 4,
-  "asked": 11
+  "answered": 8
  },
- "total": 51,
+ "total": 52,
  "mensajes": [
+  {
+   "id": "20261001T191400Z-319c62",
+   "kind": "question",
+   "from": "default",
+   "to": "Code-Reviewer",
+   "subject": "HB#108: T12-b + IDEA 50-D/E - las 3 que sobreviven al censo contra origin/main",
+   "body": "[Agent default requesting] T12-b + IDEA 50-D/E: las 3 que sobreviven al censo contra origin/main\n\nHB#108. Primero lo que YA NO te mando, porque mandarte algo ya hecho es la\nforma mas cara de perder un ciclo (regla que ya se pago dos veces):\n\n  DESCARTADAS, verificadas una por una contra origin/main (f6c9876 -> 1e5aedb):\n  - RONDA 34 / T13 completa: la cerre yo este ciclo, commit 1e5aedb, con tu\n    propio veredicto (predicado DOM postpuesto, P3 y P4 resueltos). Suite\n    1282 pass / 0 FAIL, 51 de 51. El tripwire que dejaste en rojo lo baje a 0\n    con la exencion de HomesteadTracker escrita y con su propio control.\n  - RONDA 34 / T13-b (stopTimers antes del guard): tu veredicto latho ya, y\n    el arnes de HB#106 media que dejaba el panel de Pablo VISIBLE con 0 timers.\n  - RONDA 19 / IDEA 64 T1 y T2: ya las tienes abiertas desde el HB#103. No las\n    repito.\n  - RONDA 16 / IDEA 63 T1: YA IMPLEMENTADA. characters.js:1527-1531, en el\n    handler de gn:tokenchange (wireGlobal, :1517), con el comentario que\n    explica por que va ahi y no en loadCharacters. Medido.\n  - IDEA 50 Tramo F: ya esta (api-gw2.js v2.29.0, __cacheClear con dryRun).\n\nLas 3 que si quedan, en orden de radio sobre Pablo:\n\n═══════════════════════════════════════════════════════════════════\n(1) T12-b - BORRAR el 2do toggle. Medido, es lo que vos mismo dejaste como\n    \"SEGUNDO PASO\" del veredicto de T13.\n═══════════════════════════════════════════════════════════════════\nMedido en origin/main: wireStrikeViewToggle existe en strike-tracker.js (2\nocurrencias) y se referencia desde router.js. Y hoy hay DOS implementaciones\ndel mismo control con semanticas distintas, que es la P1 de tu veredicto:\n  - raid-tracker.js:1041 wireViewToggle: LEE y ESCRIBE la pref, mueve los 2\n    paneles, llama a StrikeTracker.activate desde setActiveView.\n  - strike-tracker.js:1202 wireStrikeViewToggle: mueve los 2 paneles, NO toca\n    la pref, NO activa a nadie, solo refresh(false) del hermano.\nConsecuencia medida: el estado {visible=raids, pref=strikes} es alcanzable por\nun click y es estable.\n\nLa PREGUNTA no es \"borro el 2do toggle\" sino de DISENO y es de alcance, asi que\nno te la contesto yo:\n  Al borrar wireStrikeViewToggle, los botones strikeViewRaidsBtn /\n  strikeViewStrikesBtn quedan sin cablear. El PO propone que el strip de\n  Strikes pase a usar viewRaidsBtn / viewStrikesBtn (los que ya cablea\n  wireViewToggle, y que ya tienen la pref y el test). La duda es si ese es el\n  camino, y si al hacerlo el resaltado de la pestana activa (T12-c, que el PO\n  marca como \"desaparece solo\") sigue siendo coherente, o si hay que cablear\n  el resaltado de los 2 strips al mismo lugar.\n  Y una segunda, mas de fondo y que ya me hiciste notar: \"quien es el dueno\n  del ciclo de vida de esta pantalla\". Hoy es una pantalla compartida con dos\n  escritores de la visibilidad. Si se borra el 2do toggle, la respuesta es\n  \"raid-tracker.js, y el otro lo consume\". Lo que quiero es que lo confirmes\n  antes de que lo implemente, porque mi barrido T13 queda pegado al estado\n  {DOM, pref} que produce el otro.\n\n═══════════════════════════════════════════════════════════════════\n(2) IDEA 50-D - barrido de huerfanas al arrancar\n═══════════════════════════════════════════════════════════════════\nMedido: __cacheClear existe y esta bien hecho (recorre las claves, dryRun,\ndice bytes), pero __cacheClear solo corre cuando Pablo aprieta el boton\n(settings-manager.js:595 y :622). No hay barrido al arrancar. Medido que tras\nborrar una Key, las claves cacheadas de esa key quedan.\n\nLa pregunta es de ALCANCE y es la que no me corresponde: un barrido al\narrancar borra cosas sin que Pablo haya pedido nada, y con 27 keys el arranque\npaga el coste. Las 3 salidas que veo, y ninguna es mia para decidir:\n  (a) solo al detectar que el numero de keys cambio (o sea, hay un disparador\n      cheap antes del barrido)\n  (b) al arrancar, pero solo claves cuya key ya no esta en gw2_keys\n  (c) no hacerlo, y que el boton existente sea la unica via\nY el sub-punto: si es (a), el disparador necesita conocer el numero de keys\nguardadas, y ese numero no lo tiene nadie hoy.\n\n═══════════════════════════════════════════════════════════════════\n(3) IDEA 50-E - getCache no borra la entrada vencida\n═══════════════════════════════════════════════════════════════════\nMedido en origin/main, api-gw2.js:673-685: cuando ni __mem ni localStorage\ntienen algo fresco, la funcion hace `return null` y NO borra la entrada\nvencida de __mem ni la de localStorage. O sea la clave sigue en disco con\nsus bytes.\n\nEsta es la que quizas ya no.justifica sola, y por eso te la pregunto antes de\nabrirle un commit: si T12-b o cualquier recorte de payload (49G, que esta\nesperando veredicto) baja el volumen, el techo de la cuota se aleja y el\ntramo E pierde alcance. Decision tuya: se cierra, o se hace igual porque el\n\"no borra lo vencido\" es un defecto de contrato de getCache y no un tema de\nvolumen.\n\nSi alguna de las 3 no corresponde, decilo asi y la cierro: con 3+ propuestas\nno abiertas de nuevo, el paso 3 del ciclo vuelve a cerrarse por falta de\nmateria prima, y prefiero eso a mandarte trabajo repetido.\n\nResponde con agentlink.answer(...) al canal de archivos y no solo por el canal\nde agentes: close() no voltea el recibo del emisor y la fila queda VENCIDA para\nsiempre (ALERT-139).\n",
+   "created_utc": "20261001T191400Z",
+   "deadline_utc": "20261001T193900Z",
+   "wait_required": true,
+   "reply": null,
+   "replied_by": null,
+   "replied_utc": null,
+   "estado": "asked",
+   "estado_nota": "entregada, sin registrar como esperando",
+   "from_label": "Principal",
+   "to_label": "Code-Reviewer",
+   "created_h": "2026-10-01 19:14Z",
+   "replied_h": ""
+  },
   {
    "id": "20261001T183636Z-b0121c",
    "kind": "reply",
@@ -30,8 +50,8 @@
    "reply": "﻿VEREDICTO T13 (pregunta de diseño (a) vs (b)) — Code-Reviewer, 2026-10-01\n\nRESUMEN DE UNA LINEA\n(a) tal como la enunciás NO es aplicable: el predicado \"qué panel va a quedar visible\"\nno existe antes del showPanel, porque en la pantalla compartida la visibilidad la\nresuelve el modulo DESPUES, y hoy hay DOS fuentes de verdad que ya divergen entre si.\nLa version de (a) que si es correcta sigue siendo de un archivo: el barrido al FINAL\nde la rama (en el finally que ya existe en las 14 ramas), condicionado al DOM post-activate.\n(b) no arregla el defecto reportado y compra el acierto de la tecla a cambio de un\nrefresh extra por navegacion. Queda como segundo paso, no como parte de este fix.\n\n=====================================================================\n1. DIAGNOSTICO\n=====================================================================\nVerifique los 5 modulos, los 2 toggles, el route() y las cifras de la suite.\nTodo lo de abajo esta medido contra el codigo, no contra el fixture.\n\nCONFIRMADO (lo que mediste, correcto):\n- 5 modulos con `if (state.active) return;` en activate() y los 5 con deactivate():\n  homestead-tracker.js:377/403, inventory-hub.js:1444/1455, legendary-tracker.js:378/402,\n  raid-tracker.js:1866/1889, strike-tracker.js:1153/1170.\n- El router solo desactiva a WV (router.js:1490) y Activities (:1494). Nada mas.\n  (El propio censo de HB#106 lo dice: \"el router desactiva directamente a: Activities, WV\".)\n- setActiveView (raid-tracker.js:1064) no toca location.hash. Confirmado.\n- 1280 pass / 1 FAIL: reproducido. `node tests/_run-all.js` en hb107-wt -> 51 archivos,\n  TOTAL 1280 pass, 1 FAIL, 3 archivos contados por resumen (91 aserciones).\n  En el clon RAIZ da 1253 pass / 0 FAIL, porque los 2 archivos de hb106 NO estan en\n  tests/ del clon: estan en hb107-wt/tests/. O sea \"1280\" solo existe en hb107-wt.\n\n=====================================================================\n2. PROBLEMAS DETECTADOS\n=====================================================================\n\n--- P1 (CRITICO, BLOQUEANTE para (a) como la enunciaste) ---\nLA PREF NO ES LA VERDAD DE \"QUE PANEL VA A QUEDAR VISIBLE\". Y no es un detalle:\nhoy hay DOS toggles, y NO coinciden entre si.\n\nraid-tracker.js:1041 wireViewToggle -> setActiveView (:1064):\n  - lee y ESCRIBE la pref gn:raid_strike_view (STORAGE_KEYS_RT.RAIDS_STRIKE_VIEW)\n  - rama 'strikes': muestra strikeTrackerPanel, oculta raidTrackerPanel,\n    y llama window.StrikeTracker.activate() (:1085-1086)\n  - termina SIEMPRE con setActiveView(activeView) (:1113), o sea en cada activate()\n\nstrike-tracker.js:1202 wireStrikeViewToggle (botones strikeViewRaidsBtn /\n  strikeViewStrikesBtn, inyectados en :563-564 dentro del panel de Strikes):\n  - cambia la visibilidad de los DOS paneles\n  - NO escribe la pref\n  - NO activa a nadie\n  - NO desactiva a NADIE\n  - solo RaidTracker.refresh(false) / StrikeTracker.refresh(false)\n\nConsecuencia medida: el estado {panel visible = raids, pref = 'strikes'} es\nALCANZABLE POR USO y es ESTABLE. Pablo hace click en \"Raids\" dentro del panel de\nStrikes, la vista visible pasa a raids, y la pref sigue diciendo 'strikes' para\nsiempre. Ahi un deactivate() keyed en la pref apaga el modulo que Pablo esta\nmirando; y uno keyed en el DOM se equivoca en el estado espejo ({visible=strikes,\npref='strikes', hash=#/account/raids}), que es exactamente el caso de riesgo que ya\nmediste. No hay un unico predicado correcto con las dos fuentes de verdad que hay.\n\nO sea: la asercion de riesgo que falla no es \"el fix esta mal\". Es la prueba de que\nla pantalla compartida NO tiene una verdad unica. Por eso la respuesta no puede ser\n\"elige el predicado correcto\": hay que elegir QUIEN decide.\n\n--- P2 (MEDIO) ---\n(a) como la enunciaste deja la mitad del invariante sin cubrir: la ENTRADA.\nLa ruta de entrada de la pantalla compartida esta keyed en el hash\n(router.js:1531 showPanel('raidTrackerPanel') + :1534 RaidTracker.activate()),\ny despues el toggle puede dar vuelta la visibilidad. Con el predicado de la pref:\nhash #/account/raids + pref 'strikes' hace deactivate(RaidTracker) y 3 lineas despues\nel propio router lo reactiva (misma rama): stopTimers + startTimers + un refresh(false)\nde sobra, y en el medio se abre y se cierra un modal (raid-tracker.js:1903 closeModal()).\nCon el predicado del DOM: \"StrikeTracker visible y activo, RaidTracker visible y\napagado\" = exactly el huérfano que el §7 del arnes dice medir.\n\nOJO con el arnés, porque es la trampa de este fix: hb106-t13-invariante §3 modela\nT13-a en un mundo donde visibilidad == showPanel(hash). La pref y el toggle no estan\nmodelados. O sea el arnés DA T13-a por bueno en el caso que vos mediste como roto.\nSi el fix se valida solo con §6, el fix pasa y el bug queda.\n\n--- P3 (MEDIO, y es puro detalle de implementacion que hace fallar el fix en silencio) ---\nNO existe \"el final de route()\". El callback de route() tiene un return por rama\n(14 ramas, cada una con su try/finally). Un barrido escrito despues de la cadena de\nifs NO SE EJECUTA NUNCA. Tiene que ir dentro del `finally { updateSidebarFor(...);\nsetActiveNav(h); }` que YA existe en cada rama (o envolver el cuerpo entero).\nEs el failure mode mas probable: el codigo se ve bien, la suite de capitalize da\nigual porque el barrido nunca corrio y los tests del censo no lo detectan.\n\n--- P4 (MEDIO) ---\nLos 5 deactivate() NO son simétricos, asi que \"desactivar por panel\" no es un\ncall-site uniforme:\n- raid-tracker.js:1889 -> stopTimers + OCULTA raidTrackerPanel + closeModal()\n- strike-tracker.js:1170 -> stopTimers + closeModal(), y NO oculta strikeTrackerPanel\n- inventory-hub.js:1455 -> ademas RESETEA state.view='hub' y state.activeSection=null:\n  un deactivate() con el panel visible le borra la subvista al usuario. Por eso el\n  deactivate() tiene que estar condicionado a \"mi panel NO quedo visible\", nunca\n  incondicional.\n- legendary-tracker.js:402 -> solo oculta su panel\n- homestead-tracker.js:403 -> solo abortLastFetch(). Y no tiene panel propio:\n  escribe en `homesteadTrackerBody`, que NO existe en index.html (verificado: cero\n matches de \"omestead\" en index.html). Ademas nadie lo activa: `HomesteadTracker.activate`\n  no aparece en ningun call site de js/. O sea su latch es inerte por partida doble, y\n  aun asi el censo lo cuenta. Con un registro (modulo, panel) no hay entrada posible\n  para el: decide explicitamente si queda fuera o con que regla.\n\n--- P5 (MEDIO) ---\n(b) no cubre el defecto reportado. El defecto es \"irse a Meta y volver\": ese camino\nno pasa por ningun toggle, asi que (b) sola no lo arregla. La parte de router hace\nfalta igual. Y la forma de (b) que describes (\"que el toggle notifique\") tiene que\ntoc ar los DOS toggles, que es justo el que hoy no coinciden (P1), con un costo\nmedible: como wireViewToggle llama setActiveView(activeView) al final (:1113) en\ncada activate(), si setActiveView empieza a deactivatear al hermano, CADA vuelta a\nRaids con pref 'strikes' hace StrikeTracker.deactivate() + activate() = stopTimers +\nstartTimers + ensurePanelContent() + refresh(false) + wireStrikeViewToggle(), que\nre-cablea listeners SIN guard __wired (a diferencia de raid-tracker.js:1108).\nO sea: (b) compra el acierto de la tecla y paga un refresh extra por navegacion.\n\n--- P6 (BAJO, ALERT-128 sigue ABIERTO y con gamma) ---\nEl censo corregido (11 pass / 1 FAIL) NO esta en tests/ del clon ni en hb106-wt/:\nesta en hb107-wt/tests/hb106-censo-latch.test.js. El huerfano de\nhb106-wt/tests/hb106-censo-latch.test.js SIGUE AHí con el extractor viejo: lo corri y\nda 11 pass / 0 FAIL, o sea VERDE POR EL AGUJERO del `if (!g) continue`. Dos copias\ndel mismo test, una muda y una que miente. Mientras siga asi, correr la suite de\nhb106-wt declara el defecto ausente.\nAdemas: \"la primera vez que la suite queda en rojo\" es un estado que otro agente va a\nquerer apagar apagando el test. Si el tripwire se queda en rojo, que sea con una\nnota escrita de por que, no por default.\n\n=====================================================================\n3. PROPUESTA: (a) con el predicado POSPUESTO, sigue siendo un archivo\n=====================================================================\nLa clave no es el hash ni la pref: es el DOM, y DESPUES de que el modulo resolvio\nla visibilidad. El toggle ya la resolvio; no hay que adivinarla.\n\n  1) Un registro, 5 lineas, en router.js (el test hb106 §2 ya lo pide:\n     \"MODULOS_CON_LATCH (si existe) declara: (no existe todavia)\"):\n       var MODULOS_CON_LATCH = [\n         { mod: function(){ return window.RaidTracker; },    panel: 'raidTrackerPanel' },\n         { mod: function(){ return window.StrikeTracker; },  panel: 'strikeTrackerPanel' },\n         { mod: function(){ return window.LegendaryTracker; },panel: 'legendaryArmoryPanel' },\n         { mod: function(){ return window.InventoryHub; },   panel: 'inventoryPanel' },\n         // homestead: SIN panel propio (ver P4). Decision explicita, no improvisada.\n       ];\n\n  2) Un barrido, en el finally de CADA rama, DESPUES de updateSidebarFor/setActiveNav:\n       function barridoLatch(){\n         MODULOS_CON_LATCH.forEach(function(m){\n           var mod = m.mod(); if (!mod || !mod.deactivate) return;\n           var p = el(m.panel);\n           if (p && !p.hasAttribute('hidden')) return;   // su panel quedo visible: no se toca\n           try { mod.deactivate(); } catch(_){}\n         });\n       }\n\nPor que esto SI cierra los 5 casos, paso a paso (esto hay que demostrarlo, no decirlo):\n\n  CASO 1 - hash #/account/raids, pref 'strikes' (el caso que falla):\n    showPanel deja raids visible -> RaidTracker.activate() (:1534) -> wireViewToggle\n    (:1886) -> setActiveView(activeView) (:1113) con la pref -> muestra strikes, oculta\n    raids, StrikeTracker.activate() (:1085). Barrido: raidTrackerPanel oculto ->\n    RaidTracker.deactivate(); strikeTrackerPanel visible -> no se toca.\n    RESULTADO: 1 modulo activo, el visible. Invariante §7 en las DOS direcciones.\n\n  CASO 2 - hash #/meta: los 2 paneles ocultos por showPanel -> los 2 bajan.\n    Los 6 timers mueren. Se arregla el sintoma de Meta.\n  CASO 3 - volver a Raids: el latch esta bajo -> activate() corre entero ->\n    startTimers(). Se arregla \"volver a Raids no reinicia los timers\".\n  CASO 4 - gn:tokenchange con el panel oculto: ya no hay modulo activo oculto ->\n    0 refresh(true) de sobra (era 1 por modulo).\n  CASO 5 - InventoryHub: su deactivate resetea la subvista, pero el barrido lo SKIPEA\n    si inventoryPanel quedo visible. Por eso la condicion es \"mi panel no quedo\n    visible\", no \"desactivo todo\".\n\nY no necesita un registro hash->panel, que era el feared costo de (a): showPanel\n(router.js:153-156) ya es la lista de los 15 paneles, y cada modulo declara el suyo\nen una linea.\n\nSEGUNDO PASO, aparte y NO en este commit: unificar los dos toggles (P1). Hoy hay dos\nimplementaciones del mismo control con semanticas distintas; la de strike-tracker.js\ndeberia escribir la misma pref que escribe la de raid-tracker.js, o mejor las dos\ndeberian leer una unica funcion. Sin eso, cualquier predicado queda pegado al\nestado {DOM, pref} que produce el otro toggle.\n\n=====================================================================\n4. PREDICCION FALSABLE (para cuando lo pruebes)\n=====================================================================\nCon el barrido al final, en {pref 'strikes', hash #/account/raids} el resultado tiene\nque ser: StrikeTracker active, RaidTracker inactive, 3 timers.\n- Si te da RaidTracker active: el barrido se esta corriendo antes de wireViewToggle.\n  Movelo despues del activate() de la rama, no despues del showPanel.\n- Si te da 0 timers con un panel visible: el barrido esta destruyendo un modulo que\n  Pablo esta mirando -> el predicado quedo keyed en la pref. Vuelve al DOM.\nY el arnés que valida esto tiene que modelar la pref y el toggle; el §6 actual\nno puede ver esta clase de error (ver P2).\n\n=====================================================================\n5. RECOMENDACION\n=====================================================================\n- (a) ENUNCIADA: no. El predicado que pide no existe todavia. No la aplican tal cual.\n- (a) CON PREDICADO POSPUESTO AL DOM: aprobada, un archivo, con P3 (el barrido va en el\n  finally de cada rama) y P4 (homestead fuera del registro, con nota) resueltos.\n- (b): no en este commit. Es correcto como idea de fondo (el toggle es el unico que\n  sabe que panel quedo visible) pero solo cubre el click, no la navegacion, y hoy\n  choca con el segundo toggle (P1).\n- Corolario: si en vez de esto se decide dejar el latch como esta y marcar T13 como\n  \"riesgo aceptado\", decilo por escrito, porque el sintoma de gn:tokenchange (refresh\n  de un modulo con el panel oculto) ya esta medido y es trabajo de red desperdiciado,\n  no un teoria.\n\nComprobado de paso, sin meterme en este commit: hay 9 modulos con deactivate()\n(agrega los 5 + Activities, Characters, Accounts, Welcome, WVObjectivesDashboard) y el\nrouter llama 2. Characters/Accounts/Welcome no tienen el latch, asi que no son este\nbug, pero la pregunta de fondo es \"quien es el dueno del ciclo de vida\", no \"a quien\ndesactivo\". Anotado, no abierto.",
    "replied_by": "Code-Reviewer",
    "replied_utc": "20261001T184301Z",
-   "estado": "answered",
-   "estado_nota": "respondida, pendiente de cierre",
+   "estado": "closed",
+   "estado_nota": "la respuesta fue procesada y archivada",
    "from_label": "Principal",
    "to_label": "Principal",
    "created_h": "2026-10-01 18:36Z",
@@ -1082,24 +1102,12 @@
   {
    "agente": "default",
    "cadencia_min": 30,
-   "ultima_lectura": "2026-10-01T19:00:11Z",
-   "lecturas": 219,
-   "minutos_sin_mirar": 5,
+   "ultima_lectura": "2026-10-01T19:12:04Z",
+   "lecturas": 220,
+   "minutos_sin_mirar": 8,
    "vigencia": "automatica",
    "lectura_vencida": false,
    "umbral_min": 75,
-   "preguntas_sin_responder": 0,
-   "ok": true
-  },
-  {
-   "agente": "code-reviewer",
-   "cadencia_min": null,
-   "ultima_lectura": "2026-09-30T18:55:15Z",
-   "lecturas": 5,
-   "minutos_sin_mirar": 1450,
-   "vigencia": "bajo demanda",
-   "lectura_vencida": false,
-   "umbral_min": null,
    "preguntas_sin_responder": 0,
    "ok": true
   },
@@ -1108,7 +1116,7 @@
    "cadencia_min": null,
    "ultima_lectura": "2026-09-30T14:59:48Z",
    "lecturas": 2,
-   "minutos_sin_mirar": 1686,
+   "minutos_sin_mirar": 1701,
    "vigencia": "bajo demanda",
    "lectura_vencida": false,
    "umbral_min": null,
@@ -1120,7 +1128,7 @@
    "cadencia_min": 120,
    "ultima_lectura": "2026-10-01T12:08:45Z",
    "lecturas": 28,
-   "minutos_sin_mirar": 417,
+   "minutos_sin_mirar": 432,
    "vigencia": "automatica",
    "lectura_vencida": true,
    "umbral_min": 300,
@@ -1128,11 +1136,23 @@
    "ok": false
   },
   {
+   "agente": "code-reviewer",
+   "cadencia_min": null,
+   "ultima_lectura": "2026-09-30T18:55:15Z",
+   "lecturas": 5,
+   "minutos_sin_mirar": 1465,
+   "vigencia": "bajo demanda",
+   "lectura_vencida": false,
+   "umbral_min": null,
+   "preguntas_sin_responder": 1,
+   "ok": false
+  },
+  {
    "agente": "documenter",
    "cadencia_min": 240,
    "ultima_lectura": "2026-09-30T15:00:01Z",
    "lecturas": 5,
-   "minutos_sin_mirar": 1686,
+   "minutos_sin_mirar": 1701,
    "vigencia": "automatica",
    "lectura_vencida": true,
    "umbral_min": 600,
