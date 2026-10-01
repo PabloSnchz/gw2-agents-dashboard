@@ -4,7 +4,10 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>GW2 Agents Dashboard</title>
-    <link rel="stylesheet" href="css/main.css?v=21">
+    <!-- v=22: main.css gana .guard-rules (config real de la rama de produccion).
+         Sin este bump Pages sigue sirviendo el CSS viejo y uno "verifica" el
+         anterior creyendo que es el nuevo. -->
+    <link rel="stylesheet" href="css/main.css?v=22">
     <link rel="stylesheet" href="css/theme.css?v=21">
 <link rel="stylesheet" href="css/feat-promociones.css?v=1">
   <link rel="stylesheet" href="css/pulso.css?v=1">
@@ -287,7 +290,9 @@
     <script src="js/attention.js?v=5"></script>
     <script src="js/upcoming.js?v=7"></script>
     <script src="js/live-status.js?v=9"></script>
-    <script src="js/production-guard.js?v=4"></script>
+    <!-- v=5: production-guard lee el detalle de proteccion (si exige pull request,
+         si los admins la saltean) y deja de decir que "no se puede leer sin token". -->
+    <script src="js/production-guard.js?v=5"></script>
     <script src="js/comms-channel.js?v=7"></script>
     <script src="js/eco-health.js?v=2"></script>
     <script src="js/pulso.js?v=3"></script>

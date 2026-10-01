@@ -1361,6 +1361,27 @@ body {
 }
 .guard-detail code { color: #6aa9e0; }
 
+  /* Configuracion real de la rama de produccion, leida por el pulso con
+     token. Antes el panel afirmaba que esto no se podia leer nunca. */
+  .guard-rules {
+      list-style: none;
+      margin: 10px 0 2px;
+      padding: 0;
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(230px, 1fr));
+      gap: 3px 16px;
+  }
+  .guard-rules li {
+      display: flex;
+      justify-content: space-between;
+      align-items: baseline;
+      gap: 10px;
+      font-size: 0.74rem;
+      color: #7a8fa8;
+      padding: 1px 0;
+  }
+  .guard-rules b { color: #9fb0c4; font-weight: 600; white-space: nowrap; }
+
 .guard-foot {
     color: #6a7a8c;
     font-size: 0.75rem;

@@ -2,18 +2,18 @@
  * js/production-guard.js
  * Watchdog de protección de producción.
  *
- * Consulta la API pública de GitHub (sin token) y lee el campo `protected`
- * de la rama main de los repos clave: producción, desarrollo y el dashboard. Es un dato real, no una constante:
- * si alguien desactiva la protección de gw2-wallet-ligero, el dashboard
- * se pone rojo en la próxima carga.
+ * NO consulta la API: lee data/git.json, que _eco\git_export.py calcula en el
+ * pulso de 15 min. Cada carga del navegador usa 0 requests a api.github.com.
  *
- * Lo que NO se puede verificar sin token: si la regla exige pull request,
- * cuántos approvals necesita y QUIÉN aprueba. Eso hay que confirmarlo a
- * mano en Settings → Rules. El panel lo dice explícitamente para no
- * dar una falsa sensación de cobertura.
+ * El booleano "protegida" lo da la API pública. La CONFIGURACIÓN (si exige
+ * pull request, cuántos approvals, si los admins la saltean, force-push)
+ * solo aparece si el pulso tiene GW2_GH_TOKEN en el entorno, porque
+ * /branches/main/protection exige Administration: read. Cuando el token no
+ * está, el panel lo dice explícito en vez de asumir que "protegida" es
+ * "segura": una ruleset puede proteger la rama sin exigir ni un PR.
  *
- * Rate limit: 60 req/h por IP sin token. Cada carga del dashboard usa 3
- * de esos requests, así que el margen es holgado.
+ * Cuando el detalle sí llega, este bloque OBSERVA. No activa, no desactiva,
+ * no modifica nada:_settings las cambia Pablo.
  */
 
 const REPOS_GUARD = [
@@ -59,7 +59,12 @@ const ProductionGuard = {
                 // estado es 'open', NO es igual de confiable que uno recien
                 // verificado: lo marcamos aparte para no mentir.
                 cached: r.protected_fresco === false,
-                checkedAt: r.protected_verificado_utc
+                checkedAt: r.protected_verificado_utc,
+                // Configuracion real de la rama, si el pulso pudo leerla con
+                // token. Antes esto no existia: el panel afirmaba que no se
+                // podia leer nunca, y por eso nadie sabia si main exigia PR.
+                detalle: r.proteccion_detalle || null,
+                detalleMotivo: r.proteccion_detalle_motivo || null
             }));
         } catch (e) {
             return this._todosUnknown(e.message);
@@ -90,7 +95,13 @@ const ProductionGuard = {
                 const critico = (r.role === 'production' || r.role === 'dashboard');
                 tone = critico ? 'danger' : 'neutral';
                 icon = critico ? '🚨' : '🔓';
-                label = critico ? 'SIN PROTECCIÓN' : 'Abierta (esperado)';
+                // Si producción ya tiene una alerta abajo que explica el motivo
+                // ("la rama main NO tiene protección"), repetirlo en MAYÚSCULAS
+                // en la esquina es gritar lo mismo dos veces. La etiqueta
+                // nombra el estado; la alerta explica la consecuencia.
+                label = (r.role === 'production' && this._problemasProd(r).length)
+                    ? 'Abierta'
+                    : (critico ? 'SIN PROTECCIÓN' : 'Abierta (esperado)');
             } else {
                 tone = 'neutral'; icon = '❓'; label = 'No verificable';
             }
@@ -111,6 +122,19 @@ const ProductionGuard = {
                 }
             }
 
+            // El detalle solo se muestra en produccion: desarrollo y dashboard
+            // estan desprotegidos A PROPOSITO (es la decision de que la
+            // barrera dura sea produccion), asi que listar "no exige PR" ahi
+            // seria ruido que se lee como alarma.
+            const reglas = (r.role === 'production' && r.detalle)
+                ? this._reglasDe(r.detalle)
+                : '';
+            const sinLeer = (r.role === 'production' && r.state !== 'unknown' && !r.detalle)
+                ? '<p class="guard-detail"><em>Configuración no leída: ' +
+                  this._escape(r.detalleMotivo || 'el pulso no informó por qué') +
+                  '. "Protegida" no dice si exige pull request.</em></p>'
+                : '';
+
             return `
                 <div class="guard-card guard-card--${tone}">
                     <div class="guard-top">
@@ -122,13 +146,19 @@ const ProductionGuard = {
                         <span class="guard-state">${label}</span>
                     </div>
                     ${detail ? `<p class="guard-detail">${detail}</p>` : ''}
+                    ${reglas}
+                    ${sinLeer}
                 </div>`;
         }).join('');
 
+        // "Protegida" NO es "segura". Antes el panel solo gritaba si la rama
+        // estaba sin proteccion, y se callaba ante el caso que de verdad importa:
+        // proteccion activa que NO exige pull request, o admins que la saltean.
         const prod = results.filter(r => r.role === 'production')[0];
-        const alert = (prod && prod.state === 'open')
-            ? '<p class="guard-alert">Producción <strong>NO</strong> está protegida. Cualquiera con permiso de escritura ' +
-              'puede pushear directo a <code>main</code> sin pasar por vos. Revisá Settings → Rules.</p>'
+        const problemas = prod ? this._problemasProd(prod) : [];
+        const alert = problemas.length
+            ? '<p class="guard-alert">Producción: <strong>' + this._escape(problemas.join(' · ')) +
+              '</strong>. Eso deja pasarpusheos a <code>main</code> sin tu OK.</p>'
             : '';
 
         container.innerHTML = `
@@ -136,9 +166,60 @@ const ProductionGuard = {
             <div class="guard-grid">${cards}</div>
             <p class="guard-foot">
                 Datos pre-calculados por el pulso del ecosistema (data/git.json) a las ${this._escape(now)}.
-                Que la rama esté <em>protegida</em> no implica que exija PR ni que seas el único que aprueba:
-                eso <strong>no se puede leer sin token</strong>. Confirmalo en Settings → Rules.
+                ${prod && prod.detalle
+                    ? 'La configuración de <code>main</code> se lee autenticada (permiso <code>Administration: read</code>) y se refresca cada 6 h. Este bloque <strong>observa</strong>: no activa ni desactiva nada.'
+                    : 'Que la rama esté <em>protegida</em> no implica que exija pull request ni que seas el único que aprueba: eso solo se lee con un token de <code>Administration: read</code>.'}
             </p>`;
+    },
+
+    _bool(v) {
+        if (v === true) return 'Sí';
+        if (v === false) return 'No';
+        return 'sin dato';
+    },
+
+    _reglasDe(d) {
+        const n = d.aprobaciones_requeridas;
+        const sc = d.status_checks_requeridos;
+        const filas = [
+            ['Exige pull request', this._bool(d.pr_requerida)],
+            ['Aprobaciones que exige', n === null || n === undefined ? '—' : String(n)],
+            ['Los admins también están sujetos', this._bool(d.admins_sujetos)],
+            ['Force-push a main', this._bool(d.force_push_permitido)],
+            ['Borrado de main', this._bool(d.borrado_permitido)],
+            ['Puede pushear', d.restricciones === 'activas' ? 'solo usuarios/equipos del repo' : 'cualquiera con escritura'],
+            ['Status checks', sc === null || sc === undefined ? 'ninguno' : String(sc)],
+            ['Conversaciones resueltas', this._bool(d.conversaciones_resueltas)]
+        ];
+        return '<ul class="guard-rules">' + filas.map(f =>
+            '<li><span>' + this._escape(f[0]) + '</span><b>' + this._escape(f[1]) + '</b></li>'
+        ).join('') + '</ul>';
+    },
+
+    // Devuelve los motivos concretos por que la frontera de produccion no
+    // sirve. Vacio = la invariante se cumple. Cada motivo sale de un dato
+    // LEIDO, no de un supuesto.
+    _problemasProd(r) {
+        const out = [];
+        if (r.state === 'open') {
+            out.push('la rama main NO tiene protección');
+            return out;
+        }
+        if (r.state !== 'protected' || !r.detalle) return out;
+        const d = r.detalle;
+        if (d.pr_requerida === false) {
+            out.push('está protegida pero NO exige pull request: un push directo a main pasa igual');
+        }
+        if (d.admins_sujetos === false) {
+            out.push('los administradores pueden saltear la protección');
+        }
+        if (d.force_push_permitido === true) {
+            out.push('permite force-push sobre main');
+        }
+        if (d.borrado_permitido === true) {
+            out.push('permite borrar la rama main');
+        }
+        return out;
     },
 
     _humanTs(compact) {
