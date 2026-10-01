@@ -33,11 +33,14 @@ function ok(cond, msg) {
 const MD = fs.readFileSync('C:/Mis Archivos/GW2 online/gw2-dev/FEATURES.md', 'utf8');
 const fx = D.parseFeatures(MD);
 
-ok(fx.length === 1, `A1 se esperaba 1 ficha, hay ${fx.length}`);
-const armeria = fx[0];
-ok(armeria && armeria.nombre === 'Armería Legendaria', 'A2 nombre de la ficha');
-ok(armeria.tipo === 'nueva', `A3 tipo, salió "${armeria && armeria.tipo}"`);
-ok(armeria.estado === 'listo', `A4 estado, salió "${armeria && armeria.estado}"`);
+// NO se cuenta cuántas fichas hay. Antes este assert pedía 1 y después 4:
+// es un test que se rompe cada vez que el equipo construye algo, que es
+// exactamente cuando DEBE seguir andando. Lo que importa es que la ficha
+// que buscamos esté y se lea bien, no cuántas haya alrededor.
+const armeria = fx.find(f => f.nombre === 'Armería Legendaria');
+  ok(!!armeria, 'A1 la ficha de la Armería está en FEATURES.md');
+  ok(armeria && armeria.tipo === 'nueva', 'A3 tipo, salió "' + (armeria && armeria.tipo) + '"');
+  ok(armeria && armeria.estado === 'listo', 'A4 estado, salió "' + (armeria && armeria.estado) + '"');
 
 // multilínea: la descripción tiene 3 líneas en el archivo
 ok(armeria.campos.descripcion &&

@@ -44,7 +44,25 @@
     var CAMPOS = ['tipo', 'estado', 'dónde la veo', 'ruta', 'descripción',
                   'commits', 'rama', 'si no entra', 'si sale mal'];
 
-    function norm(s) {
+    // Limpieza del VALOR CRUDO, antes de norm().
+      //
+      // Por qué existe: el que escribe es un LLM, y escribe `` `—` `` con
+      // backticks y seguido de un paréntesis explicativo. Con el valor tal
+      // cual, "`—`" no es igual a "—", así que un campo que el equipo dejó
+      // vacío seOe leer como "declaró algo que no existe".
+      //
+      // No se puede resolver del lado de la escritura: no puedo pedirle a un
+      // agente que sea breve y que lo sea para siempre. El que LEE tiene que
+      // ser tolerante. Un parser estricto obliga a un escritor perfecto; uno
+      // tolerante solo obliga a que el escritor no mienta, que es lo único
+      // que importa de verdad.
+      function limpiar(v) {
+        return String(v == null ? '' : v)
+          .replace(/`/g, '')
+          .trim();
+      }
+
+      function norm(s) {
         return String(s == null ? '' : s)
             .toLowerCase()
             .replace(/[áàä]/g, 'a').replace(/[éèë]/g, 'e')
@@ -151,8 +169,12 @@
             porRuta[norm(p.ruta)] = p;
         });
         fichas.forEach(function (f) {
-            var r = norm(f.campos.ruta);
-            var p = r && porRuta[r];
+            // Las fichas se escriben a mano y el paréntesis explicativo se cuela
+            // en el campo Ruta. Una ruta no tiene espacios: se toma el primer
+        // token y el resto es explicación, no parte de la dirección.
+        var rnorm = norm(limpiar(f.campos.ruta).split(/\s+/)[0]);
+        var r = rnorm && rnorm.indexOf('/') === 0 ? rnorm : '';
+        var p = r && porRuta[r];
             f.linkVerificado = p ? (p.url) : null;
             f.nombrePantalla = p ? (p.nombre || p.ruta) : null;
             if (p && !p.en_menu) f.subvista = true;
@@ -169,7 +191,14 @@
 
     function fichaHTML(f) {
         var c = f.campos;
-        var falta = function (v) { return !v || v === '—'; };
+        // Un guion abreindo el campo significa AUSENTE, no "terminó en guion".
+        // `—` y `` `—` (no tiene pantalla) `` son los dos la misma cosa: nadie
+        // declaró una ruta. Antes el segundo caia en "ruta no verificada", que
+        // además acusa a alguien de haber inventado una.
+        var falta = function (v) {
+          var s = limpiar(v);
+          return !s || /^[—–-]/.test(s);
+        };
 
         var meta = [];
         if (c.commits && c.commits !== '—') {
