@@ -1,8 +1,57 @@
 {
- "generado_utc": "20261001T000605Z",
- "generado_h": "2026-10-01 00:06 UTC",
+ "generado_utc": "20261001T002106Z",
+ "generado_h": "2026-10-01 00:21 UTC",
  "origen": "git local + ls-remote (sin cuota). protected cacheado TTL 6h.",
  "commits": [
+  {
+   "sha": "472636f593d4baa25e69772f59b22cf9cff47797",
+   "short": "472636f",
+   "autor": "Pablo Sanchez",
+   "fecha": "2026-09-30T21:20:52-03:00",
+   "msg": "merge(po): ronda 19 - IDEA 64 al dashboard  El PO escalo la decision de T1 (si la cuenta no esta en la lista fresca, no-op o recrear) y quedo resuelta en el commit de app.js con su por que: no-op + console.warn, porque lo que se borro en otra pestana no reaparece."
+  },
+  {
+   "sha": "ea2721b52f5b167652c682b7f4487e086944bc0f",
+   "short": "ea2721b",
+   "autor": "Pablo Sanchez",
+   "fecha": "2026-09-30T21:20:39-03:00",
+   "msg": "merge(idea64): T1+T2 - dos pestanas ya no se pisan la lista de cuentas  Suite: 881 aserciones / 0 FAIL, 32 de 32 archivos. Fase roja contra el app.js sin el fix: 12 FAIL. Mutacion (save() deja de releer): 7 FAIL."
+  },
+  {
+   "sha": "15d6d755b0ab0992e06acc8b1301eae598d18ac7",
+   "short": "15d6d75",
+   "autor": "Pablo Sanchez",
+   "fecha": "2026-09-30T21:20:35-03:00",
+   "msg": "﻿fix(app): Idea 64 T1+T2 - dos pestanas ya no se pisan la lista de cuentas"
+  },
+  {
+   "sha": "4778f928b57055058c7c6fa07ef94c0c3ba486c4",
+   "short": "4778f92",
+   "autor": "Pablo Sanchez",
+   "fecha": "2026-09-30T21:10:44-03:00",
+   "msg": "merge(alert84): T3+T4 - el contrato de registro de la Armeria y el render que lo usa  Rama: feat-alert84-t3t4-registro (3f9d857 + 9fc4e8a) Suite: 855 aserciones / 0 FAIL, 31 de 31 archivos. Fase roja 1: 4 FAIL + crash sin el fix. Fase roja 2: 2 mutaciones -> 3 FAIL y 4 FAIL."
+  },
+  {
+   "sha": "9fc4e8a22ad04828f87e49fe86379634e0c41615",
+   "short": "9fc4e8a",
+   "autor": "Pablo Sanchez",
+   "fecha": "2026-09-30T21:10:23-03:00",
+   "msg": "docs(test): dos palabras pegadas en un comentario (glitch de generacion mio, sin efecto en el codigo)"
+  },
+  {
+   "sha": "3f9d857037240f0a14830fdad49d5aadbdca3508",
+   "short": "3f9d857",
+   "autor": "Pablo Sanchez",
+   "fecha": "2026-09-30T21:09:54-03:00",
+   "msg": "﻿feat(leyenda): ALERT-84 T3+T4 - el contrato de registro y el render que lo usa"
+  },
+  {
+   "sha": "e4bf45ea9a28d3b839d868b0bd9f99b09541fc01",
+   "short": "e4bf45e",
+   "autor": "Pablo Sanchez",
+   "fecha": "2026-09-30T21:07:10-03:00",
+   "msg": "Heartbeat PO ronda 19 - IDEA 64: lost update sobre la lista de cuentas, reproducido sobre el KeyManager real de app.js."
+  },
   {
    "sha": "32de3261ab95f610a34d7814ece098b7e477de19",
    "short": "32de326",
@@ -303,55 +352,6 @@
    "autor": "Pablo Sanchez",
    "fecha": "2026-09-30T15:18:44-03:00",
    "msg": "﻿fix(logs): TEAM_STATUS.md se sobreescribia y por eso los diffs de logs eran de 468 lineas"
-  },
-  {
-   "sha": "893ec23eddd551c32fe9c2343986e45396befc96",
-   "short": "893ec23",
-   "autor": "Pablo Sanchez",
-   "fecha": "2026-09-30T15:17:09-03:00",
-   "msg": "﻿docs(logs): Heartbeat #61 - Idea 49G en rama, y la medicion del BACKLOG era 26% alta"
-  },
-  {
-   "sha": "54267b9148bba8e836fa3505461a3b1598bf0ac9",
-   "short": "54267b9",
-   "autor": "Pablo Sanchez",
-   "fecha": "2026-09-30T14:32:56-03:00",
-   "msg": "﻿docs(logs): Heartbeat #60 - Idea 50 Tramo F en rama, allowlist exacta de 18 claves, ALERT-66"
-  },
-  {
-   "sha": "c04496eb58a0066ca1ecee4e564e7249b6341f33",
-   "short": "c04496e",
-   "autor": "Pablo Sanchez",
-   "fecha": "2026-09-30T14:08:14-03:00",
-   "msg": "﻿fix(api-gw2): Idea 50 Tramo F — cacheClear() borra de verdad, no solo la sesion"
-  },
-  {
-   "sha": "77be9e56ac4e1240c4760bf8432d02fd0535cf14",
-   "short": "77be9e5",
-   "autor": "Pablo Sanchez",
-   "fecha": "2026-09-30T13:44:17-03:00",
-   "msg": "﻿docs(promocion): la Idea 61 T1-2 queda en la lista, marcada NO promover hasta el veredicto"
-  },
-  {
-   "sha": "35a2425eaa0b6cee43536ee3bd779b2bc309013f",
-   "short": "35a2425",
-   "autor": "Pablo Sanchez",
-   "fecha": "2026-09-30T13:43:18-03:00",
-   "msg": "merge: Idea 61 Tramos 1-2 (la gn: congelada) + logs del HB#59  La gn: no estaba desactualizada, estaba CONGELADA: _migrateOne arranca con 'if (hasRaw(newKey)) return' y migrate() corre en cada arranque, asi que la gn: se creo una vez y jamas se refresco mientras un modulo seguia escribiendo la legacy a pelo. Y la gn: es la que sube el Gist.  Merge SIN veredicto del Reviewer a proposito y por una razon que no es 'por merito': el codigo esta en la rama fix-idea61-claves-congeladas (85140bf) y el pedido esta entregado y verificado en el inbox del Reviewer (20260930T164148Z-4b2624). ALERT-48 prohibe mergear cambios de capa de datos sin veredicto, asi que esto se mergea como PENDIENTE y se marca en el TEAM_STATUS. Si el Reviewer dice que el fix correcto es otro, se aplica el suyo y se revierte este.  Es la primera vez que se mergea algo con la excepcion escrita de antemano en vez de descubrirla despues. La Idea 57 Tramo 2 (957cc2c) sigue siendo la unica mergeada sin veredicto y sin aviso previo."
-  },
-  {
-   "sha": "bbac12bc0143d651372616725b1821ff4064baae",
-   "short": "bbac12b",
-   "autor": "Pablo Sanchez",
-   "fecha": "2026-09-30T13:43:10-03:00",
-   "msg": "﻿docs(logs): Heartbeat #59 — Idea 61 en rama, ALERT-66 y el estado del ciclo"
-  },
-  {
-   "sha": "85140bf6fe4bae9b76eb322d0e7ad6aa76309001",
-   "short": "85140bf",
-   "autor": "Pablo Sanchez",
-   "fecha": "2026-09-30T13:40:27-03:00",
-   "msg": "﻿fix(storage): la gn: congelada era una foto del primer arranque (Idea 61 Tramos 1-2)"
   }
  ],
  "archivos_md": [
@@ -407,9 +407,9 @@
    "repo": "gw2-agents-dashboard",
    "label": "Dashboard",
    "role": "dashboard",
-   "sha": "c3908331568e98c20fd36e05a5acf91c8cbabf7b",
-   "short_sha": "c390833",
-   "commit": "﻿feat(promociones): la tab contes",
+   "sha": "a06faa5a7a476cbbc20be91a95de80aa4dde8367",
+   "short_sha": "a06faa5",
+   "commit": "chore(dashboard): pulso automatico 2026-10-01_00-06_UTC",
    "estado": "open",
    "protected": false,
    "protected_fresco": true,
