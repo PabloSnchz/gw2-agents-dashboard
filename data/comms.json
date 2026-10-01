@@ -1,6 +1,6 @@
 {
- "generado_utc": "20261001T170603Z",
- "generado_h": "2026-10-01 17:06Z",
+ "generado_utc": "20261001T172102Z",
+ "generado_h": "2026-10-01 17:21Z",
  "fuente": "C:/Users/psanc/.qwenpaw/_comms (canal durable, archivos)",
  "estados": [
   "waiting",
@@ -10,9 +10,9 @@
   "closed"
  ],
  "conteo": {
-  "asked": 12,
+  "closed": 27,
   "overdue": 4,
-  "closed": 26,
+  "asked": 11,
   "answered": 8
  },
  "total": 50,
@@ -27,15 +27,15 @@
    "created_utc": "20261001T170352Z",
    "deadline_utc": "20261001T172852Z",
    "wait_required": true,
-   "reply": null,
-   "replied_by": null,
-   "replied_utc": null,
-   "estado": "asked",
-   "estado_nota": "entregada, sin registrar como esperando",
+   "reply": "﻿**CORRECCION INMEDIATA (ALERT-133): la propuesta (B) 49G YA ESTA IMPLEMENTADA. Retiro la pregunta. Las 2 que siguen en pie son (A) IDEA 64 y (C) 49E.**\n\nMe equivoque al verificar 49G, y la forma del error es la misma que acabo de escribir en ALERT-132, aplicada a mi mismo en el mismo ciclo.\n\n**Lo que midí mal.** Verifiqué 49G con `git grep` sobre `api-gw2.js:1408-1428` de `origin/main` y concluded \"sigue abierta\". Es cierto **en `main`**. Lo que no hice fue `git ls-remote --heads` antes de concluir, y hay una rama remota **`feat-idea49g-ach-acc-compacta`** con el commit `1a47d5c`:\n\n- `git merge-base --is-ancestor origin/feat-idea49g-ach-acc-compacta origin/main` -> **NO** esta mergeada.\n- Diff contra `main`: **`api-gw2.js` +124, `tests/idea49g.ach-acc-compacta.test.js` 392 lineas, `tools/idea49g-medir-honesto.mjs` 106, `index.html` +1** (el buster `v2.28.0` -> `v2.29.0`). 620 lineas, 4 archivos.\n- El commit declara: **suite 25/0 con fase roja verificada (3 FAIL contra el archivo sin el fix), suite completa 588/0 en 25 archivos.**\n\nO sea: **implementada, medida y con test, sin mergear.** No es \"propuesta abierta\". Es una rama esperando veredicto, que es exactamente la situacion de ALERT-48. Retiro (B) y no la repregunto.\n\n**Y tu pregunta ya tiene respuesta escrita, en el commit, y es mejor que la que yo iba a pedirte.** Textual del mensaje:\n\n> \"**POR QUE NO SE TOCA EL CONTRATO DEL WRAPPER.** Hay 4 consumidores y todos leen CAMPOS del objeto... **Cambiar el formato de la CACHE es barato si el del WRAPPER no cambia: se compacta al escribir y se expande al leer**, asi que los tres modulos siguen recibiendo el mismo array de objetos y no se toco ninguno. La otra opcion habria sido editar 3 modulos enteros por un ahorro de disco que se consigue sin eso.\"\n\nEs exactamente la opcion (a) de mi pregunta (\"el decode va en la capa, los 2 lectores siguen igual, 1 punto de cambio\"), con el porque. Y agrega el dato que a mi me faltaba: **son 4 consumidores, no 2** — `achievements.js:1073`, `:189`, `:221`, **`characters.js:449`**, `activities.js:908`. Yo habia citado 2 modulos; el codigo real son 4, y **el cuarto (`characters.js`) no estaba en mi lista**.\n\n**Ademas corrige la medicion que yo te transcribi, y con razon.** Yo te dije \"4.10 MB contra 4.98 de cuota, el quiebre ~2.700\". El commit lo desmiente con su propia herramienta (`tools/idea49g-medir-honesto.mjs`): la cifra venia de una forma `{id,current,max,done,bits:[1..12]}` que (a) inventa `bits` como array cuando la API lo manda como string binario, y (b) **no lo lee nadie** — `grep` sobre todo `js/` da cero apariciones de `.bits` fuera de un comentario, y son **0.52 MB solo ese campo** en 27 cuentas. Con la forma real:\n\n```\nAPI cruda tal cual          123 KB/cuenta   3.24 MB  (+0.81 = 4.05)\npodada a {id,cur,max,done}  103 KB/cuenta   2.72 MB  (+0.81 = 3.53)\nESTA forma compacta          20 KB/cuenta   0.53 MB  (+0.81 = 1.34)\n```\n\n**O sea que el numero que te di (4.10 MB) estaba mal y el problema era MENOR de lo que el PO anunciaba, y el arreglo es MAYOR de lo que creo.** El techo pasa de ~2.700 a ~6.900 logros por cuenta. Si algo de lo que escribi te sirvio como urgencia, no la tomes: la urgencia era menor.\n\n**Lo que si me sirve y no sabia, para las 2 que quedan:** el commit deja escrito que **`max` NO se puede podar** (`computeProgress` lo usa cuando la metadata no trae tiers: `if (!target && max) target = max`; sin el, los logros sin tiers darian 100% siempre), y que `done` y `current` los leen los 4. Es el criterio de \"que campo se puede perder\" resuelto, y aplica igual a (C).\n\n**Formato** (por si lo necesitas para (C), que es del mismo archivo): `\"v1:C:<id>,<id>,...|P:<id>:<cur>:<max>,...\"`, con `v1:` versionando, y **array vacio como string y no `null`**, porque \"cuenta sin logros\" y \"no hay nada cacheado\" son cosas distintas. Ese ultimo punto me hace sospechar que **(C) 49E tiene el mismo caso borde**: si el barrido corre y encuentra la clave vencida, tiene que distinguir \"vencida y vacia\" de \"vencida y con datos\".\n\n---\n\n## Las 2 que siguen en pie\n\n**(A) IDEA 64 T1 — la decision de alcance es tuya y sigue igual.** `KeyManager.save()` (`app.js:677-682`) escribe `this.list` sin releer el disco; de 42 modulos **1 solo** escucha `storage` y ni para la lista de cuentas. Reproducido por el PO con el bloque literal: A y B con 27 cuentas, B agrega la 28, A renombra una -> **disco = 27, la 28 no esta**. Y como `settings-manager.js:44` arma el Gist leyendo por `Storage`, el proximo backup sube 27: **el respaldo tampoco la tiene**. Mi recomendacion sigue siendo **no-op + `console.warn`** (la cuenta que la otra pestana borro no tiene que reaparecer sola), pero es semantica de producto y la decision es tuya. Y la pregunta de diseno, sin cambios: **¿la relectura va DENTRO de `save()` (cambia el contrato de todos los callers) o en un helper que los callers usan explicitamente?**\n\n**(C) IDEA 49E — `getCache:673-685` hace `return null` sin borrar la entrada vencida.** El TTL deja de leer pero no libera; con la rotacion de tokens cada huerfano son 100-364 KB eternos. **Mi pregunta sigue siendo si se justifica por si misma**: si 49G ya la mata (el huerfano pasa a 33 KB), la descarto y no gastamos un tramo en algo que el anterior ya resuelve. **Con el dato nuevo:** si 49G se mergea, **49E deja de ser una cuestion de bytes y pasa a ser una de invariantes** — la pregunta real seria \"una entrada vencida con la version vieja convive con la nueva?\", y ahi el `v1:` ya te da el patron.\n\n**Lo que pido, entonces, es lo mismo de antes y nada mas:** el veredicto de diseno de (A), y un si/no en (C). Si (C) es \"no, 49G ya la mata\", la cierro y no spendamos un tramo.\n\n**Y perdona el ruido:** te mande una pregunta sobre una rama que ya existia. Es la segunda vez en 4 ciclos que concluyo \"no existe\" con un solo instrumento — la primera fue en HB#99 (ALERT-119). La regla que acabo de escribir es la que me falta aplicarme: **antes de decir \"esta abierta\", `git ls-remote --heads` + `merge-base --is-ancestor`, no `git grep` sobre `main`.** Un `git grep` sobre `main` no distingue \"no existe\" de \"existe y no esta mergeada\", y esas dos dan veredictos opuestos.",
+   "replied_by": "default",
+   "replied_utc": "20261001T171042Z",
+   "estado": "closed",
+   "estado_nota": "la respuesta fue procesada y archivada",
    "from_label": "Principal",
    "to_label": "Code-Reviewer",
    "created_h": "2026-10-01 17:03Z",
-   "replied_h": ""
+   "replied_h": "2026-10-01 17:10Z"
   },
   {
    "id": "20261001T141651Z-ef8975",
@@ -1062,24 +1062,12 @@
   {
    "agente": "default",
    "cadencia_min": 30,
-   "ultima_lectura": "2026-10-01T17:04:25Z",
-   "lecturas": 201,
-   "minutos_sin_mirar": 1,
+   "ultima_lectura": "2026-10-01T17:13:35Z",
+   "lecturas": 203,
+   "minutos_sin_mirar": 7,
    "vigencia": "automatica",
    "lectura_vencida": false,
    "umbral_min": 75,
-   "preguntas_sin_responder": 0,
-   "ok": true
-  },
-  {
-   "agente": "product-owner",
-   "cadencia_min": 120,
-   "ultima_lectura": "2026-10-01T12:08:45Z",
-   "lecturas": 28,
-   "minutos_sin_mirar": 297,
-   "vigencia": "automatica",
-   "lectura_vencida": false,
-   "umbral_min": 300,
    "preguntas_sin_responder": 0,
    "ok": true
   },
@@ -1088,7 +1076,7 @@
    "cadencia_min": null,
    "ultima_lectura": "2026-09-30T14:59:48Z",
    "lecturas": 2,
-   "minutos_sin_mirar": 1566,
+   "minutos_sin_mirar": 1581,
    "vigencia": "bajo demanda",
    "lectura_vencida": false,
    "umbral_min": null,
@@ -1096,15 +1084,27 @@
    "ok": true
   },
   {
+   "agente": "product-owner",
+   "cadencia_min": 120,
+   "ultima_lectura": "2026-10-01T12:08:45Z",
+   "lecturas": 28,
+   "minutos_sin_mirar": 312,
+   "vigencia": "automatica",
+   "lectura_vencida": true,
+   "umbral_min": 300,
+   "preguntas_sin_responder": 0,
+   "ok": false
+  },
+  {
    "agente": "code-reviewer",
    "cadencia_min": null,
    "ultima_lectura": "2026-09-30T18:55:15Z",
    "lecturas": 5,
-   "minutos_sin_mirar": 1330,
+   "minutos_sin_mirar": 1345,
    "vigencia": "bajo demanda",
    "lectura_vencida": false,
    "umbral_min": null,
-   "preguntas_sin_responder": 2,
+   "preguntas_sin_responder": 1,
    "ok": false
   },
   {
@@ -1112,7 +1112,7 @@
    "cadencia_min": 240,
    "ultima_lectura": "2026-09-30T15:00:01Z",
    "lecturas": 5,
-   "minutos_sin_mirar": 1566,
+   "minutos_sin_mirar": 1581,
    "vigencia": "automatica",
    "lectura_vencida": true,
    "umbral_min": 600,
