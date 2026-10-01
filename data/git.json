@@ -1,8 +1,15 @@
 {
- "generado_utc": "20261001T095112Z",
- "generado_h": "2026-10-01 09:51 UTC",
+ "generado_utc": "20261001T100609Z",
+ "generado_h": "2026-10-01 10:06 UTC",
  "origen": "git local + ls-remote (sin cuota). protected cacheado TTL 6h.",
  "commits": [
+  {
+   "sha": "37155ae7026741e48d5f58fab2a1f6c3de845823",
+   "short": "37155ae",
+   "autor": "Pablo Sanchez",
+   "fecha": "2026-10-01T07:03:40-03:00",
+   "msg": "fix(ui): el mensaje de la puerta de permisos LLEGABA pisado a la pantalla (HB#77)  parseKeyError reescribia cualquier mensaje que matcheara /permisos/i con 'Faltan permisos: account + wallet' -- los 2 permisos de antes de que la puerta (T1, ea10e9b) exigiera 7. La puerta construye el mensaje correcto y el catch del modal lo destruia: T1/T3 eran correctos y su efecto observable en la UI era ninguno.  Hallazgo propio, no del PO. Mismo patron que el copy de app.js:683 que reporta el PO: el codigo honesto, el texto que lo acompana no.  POR QUE hb75 NO LO VIO: sus asserts afirmaban la CONSTRUCCION del mensaje, no lo que Pablo LEE. Mutacion medida: hb75 da 46/0 aunque la puerta tire 'Permisos Insuficientes' sin lista.  Test propio (19 asserts) que extiende el clasificador del fuente y lo evalua con el mensaje que la puerta REALMENTE tira. Verificacion: 6 FAIL en rojo contra el archivo sin el fix, 19/0 con el fix, suite 940/0.  Division de alcance: hb77 = 'el mensaje LLEGA', hb75 = 'el mensaje es correcto'.  Sigue el veredicto del Reviewer en f9ea031: saca la rama muerta de err.kind."
+  },
   {
    "sha": "11285a00bb17c708bf4e08f01266f70406151673",
    "short": "11285a0",
@@ -345,13 +352,6 @@
    "autor": "Pablo Sanchez",
    "fecha": "2026-09-30T18:01:01-03:00",
    "msg": "fix(comentario): 'Revieweredia' -> 'Reviewer decia' en api-gw2.js:1730 (ALERT-79)"
-  },
-  {
-   "sha": "9adf6ddde44063586d1c44d9da71887e9a99ca87",
-   "short": "9adf6dd",
-   "autor": "Pablo Sanchez",
-   "fecha": "2026-09-30T17:37:04-03:00",
-   "msg": "chore(tools): el script que mide los 7 test que el runner no parsea (ALERT-78)"
   }
  ],
  "archivos_md": [
@@ -389,7 +389,7 @@
    "estado": "protected",
    "protected": true,
    "protected_fresco": true,
-   "protected_verificado_utc": "20261001T040609Z"
+   "protected_verificado_utc": "20261001T100610Z"
   },
   {
    "repo": "gw2-wallet-agents",
@@ -401,19 +401,19 @@
    "estado": "open",
    "protected": false,
    "protected_fresco": true,
-   "protected_verificado_utc": "20261001T040610Z"
+   "protected_verificado_utc": "20261001T100612Z"
   },
   {
    "repo": "gw2-agents-dashboard",
    "label": "Dashboard",
    "role": "dashboard",
-   "sha": "eb080d37761ae3ce05710778284fe444674ea375",
-   "short_sha": "eb080d3",
-   "commit": "chore(dashboard): pulso automatico 2026-10-01_09-36_UTC",
+   "sha": "ffc624d97219bf233d30cf8d58741239ccd598d5",
+   "short_sha": "ffc624d",
+   "commit": "chore(dashboard): pulso automatico 2026-10-01_09-51_UTC",
    "estado": "open",
    "protected": false,
    "protected_fresco": true,
-   "protected_verificado_utc": "20261001T040612Z"
+   "protected_verificado_utc": "20261001T100613Z"
   }
  ]
 }
