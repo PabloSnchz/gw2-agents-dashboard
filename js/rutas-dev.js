@@ -18,8 +18,39 @@
 (function () {
     'use strict';
 
+    // renderer.js declara "class DashboardRenderer". Eso crea un binding
+    // LEXICO del scope global, no una propiedad de window: window.DashboardRenderer
+    // es undefined SIEMPRE, aunque la clase exista y funcione.
+    //
+    // Por eso la guarda de abajo chequeaba window.X y cortaba el render de
+    // esta tab en silencio, sin error en consola y sin escribir nada. Se
+    // chequea el binding, que es donde vive de verdad.
+    function _renderer() {
+        if (typeof DashboardRenderer !== 'undefined') return DashboardRenderer;
+        return (typeof window !== 'undefined') ? window.DashboardRenderer : null;
+    }
+
+    function _esc(s) {
+        return String(s == null ? '' : s)
+            .replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;');
+    }
+
+    // Un fallo de render que no escribe nada deja la tab en blanco, que es
+    // indistinguible de "no hay promociones". El motivo va al container.
+    function _avisar(motivo) {
+        var c = document.getElementById('promotions-container');
+        if (!c) return;
+        c.innerHTML = '<div class="promo-fallback">' +
+            '<p class="promo-callout promo-callout--danger">' +
+            'La tab Promociones no se pudo dibujar: ' + _esc(motivo) + '</p>' +
+            '<button class="btn btn-secondary btn-sm" onclick="retryLoad()">Reintentar</button>' +
+            '</div>';
+    }
+
     function load() {
-        if (!window.DashboardRenderer || !window.DashboardRenderer.renderPromotions) {
+        var R = _renderer();
+        if (!R || !R.renderPromotions) {
+            _avisar('no se cargó js/renderer.js');
             return;
         }
         // No se auto-arranca en DOMContentLoaded a propósito: en ese momento
@@ -33,7 +64,7 @@
         if (typeof fetch !== 'function') {
             // Sin fetch no hay rutas que validar: se dibuja igual y el render
             // lo aclara. Un panel ausente es peor que uno que avisa.
-            window.DashboardRenderer.renderPromotions(
+            R.renderPromotions(
                 window.__promoParsed, window.__promoMd, null, 'sin fetch');
             return;
         }
@@ -42,7 +73,7 @@
             ? window.DASHBOARD_CONFIG.getRutasUrl() : null;
 
         if (!url) {
-            window.DashboardRenderer.renderPromotions(
+            R.renderPromotions(
                 window.__promoParsed, window.__promoMd, null, 'sin getRutasUrl');
             return;
         }
@@ -54,16 +85,24 @@
             })
             .then(function (data) {
                 window.__rutasDev = data;
-                window.DashboardRenderer.renderPromotions(
+                R.renderPromotions(
                     window.__promoParsed, window.__promoMd, data, null);
             })
             .catch(function (err) {
                 // La tab se dibuja igual. Lo que se pierde son los links
                 // profundos, que es una molestia; lo que se evita es una tab
                 // en blanco o un link que miente.
-                window.DashboardRenderer.renderPromotions(
-                    window.__promoParsed, window.__promoMd, null,
-                    (err && err.message) || String(err));
+                try {
+                    R.renderPromotions(
+                        window.__promoParsed, window.__promoMd, null,
+                        (err && err.message) || String(err));
+                } catch (e2) {
+                    // Si el render falló, reintentarlo con el mismo render no
+                    // arregla nada: vuelve a fallar y el error se pierde en
+                    // silencio, dejando la tab en blanco. Se escribe el
+                    // motivo en el container para que se vea qué pasó.
+                    _avisar((e2 && e2.message) || String(e2));
+                }
             });
     }
 
