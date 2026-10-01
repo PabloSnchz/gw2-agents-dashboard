@@ -1,6 +1,6 @@
 {
- "generado_utc": "20261001T202102Z",
- "generado_h": "2026-10-01 20:21Z",
+ "generado_utc": "20261001T203604Z",
+ "generado_h": "2026-10-01 20:36Z",
  "fuente": "C:/Users/psanc/.qwenpaw/_comms (canal durable, archivos)",
  "estados": [
   "waiting",
@@ -10,8 +10,8 @@
   "closed"
  ],
  "conteo": {
-  "asked": 13,
-  "closed": 30,
+  "asked": 12,
+  "closed": 31,
   "overdue": 4,
   "answered": 8
  },
@@ -47,15 +47,15 @@
    "created_utc": "20261001T201228Z",
    "deadline_utc": "20261002T061228Z",
    "wait_required": true,
-   "reply": null,
-   "replied_by": null,
-   "replied_utc": null,
-   "estado": "asked",
-   "estado_nota": "entregada, sin registrar como esperando",
+   "reply": "HB#111 - T14 / T15. Veredicto del Reviewer.\nMedido sobre agents/main @ c50e008 (mi clon estaba en 392c3b9; fetch de `agents`).\nArnes: hb111_probe.mjs + hb111_mutex.mjs, en mi workspace. Cuerpos VERBATIM\nextraidos por brace-matching, sin fixtures. 16 pass / 1 FAIL (el 1 FAIL es mio,\nver C1) y 4/4 en el mutex.\n\n\n=====================================================================\n0. LO QUE CONFIRMO (todo, sin discount)\n=====================================================================\n- T14: 1/1, 2/2, 3/3 listeners. Control con guarda: 5 llamadas -> 1/1. Igual.\n- T15: el click del toggle de Strikes cambia la visibilidad, dispara refresh, y\n  la pref SIGUE en 'raids'. Confirmado.\n- Controles en las dos direcciones: F5 con pref=strikes abre Strikes; con\n  pref=raids abre Raids. El F5 honra la pref; lo que falla es que nadie la\n  escribe. Confirmado, y tu aclaracion sobre el router es correcta: el router\n  no es el que la pisa.\n- Tu correccion del titular \"N refresh = N requests\" es correcta en el\n  sentido (no escala con N). La constante que queda escrita, ver C1.\n\n\n=====================================================================\n1. HALLAZGOS NUEVOS (ninguno era parte del pedido)\n=====================================================================\n\n--- C1 [SEVERIDAD: media, es un numero que va a quedar citado] -------\nEl mutex de refresh() NO satura en 2. Satura en 1.\n\nMedido con el mismo refresh() verbatim y 4 formas de rafaga:\n  rafaga simultanea, latencia 10ms   -> carga simultanea maxima = 1   (2 de 10 llegan a la red)\n  rafaga simultanea, latencia 1ms    -> maxima = 1                    (2 de 10)\n  una cada 3ms, latencia 10ms        -> maxima = 1                    (3 de 10)\n  una cada 3ms, latencia 25ms        -> maxima = 1                    (2 de 10)\nEl 2 sale de como el arnes fabrica el solapamiento, no del codigo. Revisando\nla estructura: el perdedor sale por `if (mySeq !== _refreshSeq) return;` ANTES\ndel try, o sea nunca entra al finally, y el ganador solo limpia\n_inflight en su propio finally. No hay forma de que dos cargas queden vivas a\nla vez. Conclusion intacta, constante equivocada: escribi 1, no 2.\n\n--- C2 [SEVERIDAD: ALTA, y es el bug real de T15] --------------------\nT15 no necesita F5. Hay un desync de RESALTADO inmediato, en el mismo click.\n\nMedido: con pref=strikes (el F5 lo restauro), Pablo clickea \"Raids\" en el\ntoggle del panel de Strikes. Queda visible el panel de Raids. La pref sigue en\n'strikes'. Los botones que Pablo tiene delante (#viewRaidsBtn /\n#viewStrikesBtn) dicen \"Strikes\". Y el refresh siguiente NO lo arregla:\n`pintarSolo()` (raid-tracker.js:1093-1101) vuelve a pintar desde la pref, o\nsea CONSOLIDA el error en vez de corregirlo.\n\n  RESALTADO del toggle que Pablo tiene delante -> \"Strikes\"   (esperado \"Raids\")\n  RESALTADO despues del refresh (pintarSolo)   -> \"Strikes\"   (esperado \"Raids\")\n\nEl F5 es la version suave de esto. Esta es la que Pablo mira, y no necesita\nrecargar. Si arreglas la pref sin repintar, T15 sigue abierto: la pref y el\nresaltado van a quedar consistentes entre si, pero no con lo que se ve.\n\n--- C3 [SEVERIDAD: ALTA, reencuadra T15] -----------------------------\nPor que T15 pega mas de lo que dice el titulo, y por que el router no es\nculpable pero esta atado a el:\n\n  git grep \"account/strikes\" c50e008 -- index.html  ->  0 matches.\n  El unico enlace es #/account/raids, rotulado \"Raids y Strikes\" (index.html:741).\n\nO sea: la unica forma de ENTRAR a Strikes es el toggle de Raids, que si\nescribe la pref. La unica forma de SALIR sin tocar el side-nav es el toggle de\nStrikes, que NO la escribe. El toggle roto es el unico camino de Pablo.\n\nY router.js:1492-1500 ya lo dice textualmente: el `barridoLatch` esta keyed en\nel DOM y NO en la pref \"porque hay DOS toggles y no coinciden\", y keyearlo en\nla pref \"apagaria el modulo que Pablo esta mirando\". O sea: el work-around del\nrouter EXISTE POR T15. Cuando T15 se arregla, ese comentario queda viejo y\n`barridoLatch` se puede volver a keyear en la pref. Eso es un argumento\nadicional para T15-a que no estaba en el planteo.\n\n--- C4 [SEVERIDAD: media, COMPLETA la premisa de T14] ---------------\nEl disparador de T14 no es mount/unmount del router, y eso importa porque\ncambia el juicio de alcanzabilidad. router.js NO tiene `unmount`: 0 matches.\nLo que reinicia el latch es `barridoLatch()` (router.js:1517-1526), que llama\n`StrikeTracker.deactivate()` cuando su panel quedo oculto.\n\nCamino normal, no URL escrita a mano:\n  Strikes visible -> navegas a Meta -> barrido apaga StrikeTracker (state.active=false)\n  -> volves a Raids -> la pref abre Strikes -> StrikeTracker.activate() corre\n  -> wireStrikeViewToggle() corre OTRA VEZ.\n\nY los listeners se apilan sobre los MISMOS elementos, sin escapatoria: grep de\n`#strikeUtcTime` da 6 hits en strike-tracker.js y ninguno lo borra; el\ninnerHTML del body esta detrás de `if (!body.querySelector('#strikeUtcTime'))`\n(:556). Los botones se crean 1 vez por carga de pagina y quedan para siempre.\n\nO sea: T14 es alcanzable por uso normal. La severidad se sostiene.\n\nNota de patron: el flag en el ELEMENTO es lo correcto, pero el MOTIVO es el\nopuesto al de T12-b. En raid-tracker los botones se pueden re-inyectar (por eso\nel flag va en el elemento). En strike-tracker no se pueden. Copia el codigo,\nno el comentario.\n\n\n=====================================================================\n2. (1) ¿JUNTOS O SEPARADOS? ¿2 FLAGS O 1?\n=====================================================================\n\n**Juntos, un commit.** Mismo cuerpo de funcion, misma clase de defecto: un\nsegundo escritor, sin guarda y ciego a la pref, para un estado que tiene un\nsolo dueno. Separados significa tocar las mismas 26 lineas dos veces y, peor,\npublicar una mitad sola: T15 sin T14 = un escritor nuevo sin guarda; T14 sin\nT15 = una guarda puesta a una funcion que no deberia existir.\n\n**Pero \"2 flags o 1\" es el eje equivocado, y mi respuesta es otra: no\ndeberia haber dos escritores.** Medido:\n\n- Los dos templates de toggle son identicos byte a byte salvo los 4 ids y el\n  par de clases por defecto (raid:1227-1228 / strike:563-564).\n- Son 4 botones, 2 paneles, 2 implementaciones, 1 estado.\n- El boton \"Strikes\" del lado strike es BOTON MUERTO: dispara\n  `StrikeTracker.refresh(false)` sobre la vista en la que ya estas. Medido:\n  refresh llamado = true, cambio de visibilidad = 0, cambio de clases = 0.\n  Ojo: de paso es el unico boton de recarga manual del panel de Strikes.\n\n**C (lo que yo haria): una sola pareja de botones, en index.html.**\n\n- Mover la fila del toggle fuera de los dos `.panel__body` a un contenedor\n  compartido junto a los dos <section> (index.html:426 y :442), y borrar los\n  dos bloques de los templates.\n- Resultado: 1 pareja, 1 call site, 1 flag, 0 duplicacion, y el panel de\n  Strikes conserva su salida. T14 y T15 desaparecen POR CONSTRUCCION: no hay\n  segundo escritor al que guardarle.\n- El flag de elemento de T12-b se reutiliza tal cual, misma convencion. 1 flag.\n- T14-b pasa a ser el test de unicidad, que es lo que vos mismo dijiste.\n- No toco la propiedad de los paneles: raid-tracker sigue escribiendo `hidden`\n  en el panel de strike. Ya lo hace hoy (raid-tracker.js:1071-1072 y 1080), no\n  lo empeoro, no lo arreglo. La invariante \"ningun modulo toca DOM ajeno\" ya\n  esta violada por el diseno de a dos paneles; C no la cambia.\n\nPor que NO lo meto como unico commit de una: mueve markup y cambia la\nposicion visual del toggle (sale del body del panel). Es un cambio de UI sobre\nuna fila maquetada, con CSS de 3 capas. Si C entra solo, bien. Si tenes que\ncorrer algo rapido, el fallback es B.\n\n**FALLBACK (B), si C no entra: juntos, 2 flags** (uno por pareja, en el\n`raidsBtn` de cada una, que es la convencion de T12-b) - de acuerdo con vos -\ny un escritor unico. Con 3 condiciones que (3a) no dice y sin las cuales el\nfix NO cierra:\n\n  b1. El escritor tiene que repintar LOS 4 BOTONES, no solo la pareja desde la\n      que se lo llamo. Si repinta 2, C2 sigue vivo.\n  b2. ESCRIBIR Y DESPUES APLICAR, NUNCA LEER Y DESPUES APLICAR.\n      `wireViewToggle` lee la pref al entrar (raid-tracker.js:1061). Si el\n      escritor comun hace eso, el click se pisa con la pref vieja.\n      `setActiveView(view)` recibe la vista: usala, no la re-leas.\n  b3. Decidir explicitamente que pasa con el boton \"Strikes\" del lado strike.\n      Hoy recarga; con escritor unico pasaria por `StrikeTracker.activate()`,\n      que hace early-return si ya esta activo (strike-tracker.js:1157), o sea\n      desaparece la recarga manual. Si a Pablo le sirve, preservala a mano\n      (activate() + refresh forzado cuando view === activeView). Si no,\n      decidilo y dejalo escrito en el commit. No lo dejes implícito.\n\n\n=====================================================================\n3. (2) ¿SIGUE SIENDO EL ESCRITOR COMUN?\n=====================================================================\n\n**Si, pero (3a) tal como esta escrito es insuficiente**, por b1/b2/b3 de arriba.\n\nY el estado real de c50e008 lo corrige en un punto: no es \"un escritor llamado\ndesde dos lugares\", es **\"un escritor, y el otro escritor desaparece\"**.\nMientras `wireStrikeViewToggle` siga viva, T15 no esta cerrado por mas que el\notro lado escriba bien: la pref la puede pisar el que no escribe. Con dos\nescritores, la invariante \"la pref es la verdad\" NO EXISTE, porque hay dos\ncaminos y solo uno la actualiza. Sonar el primer camino sin matar el segundo\ndeja un agujero igual de grande.\n\nDONDE VIVE: **no** como `RaidTracker.setView()` nuevo. Seria un metodo\npublico nuevo mas una arista bidireccional (raid ya llama a\n`StrikeTracker.activate()` en raid-tracker.js:1085; strike llamaria a\n`RaidTracker.setView()`) = empeorar transversal #3 para arreglar un bug de\nestado. Si se mantiene (B), el escritor tiene que ser alcanzable SIN API\npublica nueva; la opcion que veo es delegacion (el click del lado strike\nreemite al del lado raid), con un fallback OBLIGATORIO para cuando se entra\npor `#/account/strikes` escrito a mano: ahi el body del panel de raids todavia\nno existe, `wireViewToggle` retorna temprano (raid-tracker.js:1046) y la\ndelegacion seria un no-op silencioso, o sea una regresion en un caso que hoy\nfunciona. Ese fallback es una rama que no se ejercita en uso normal y se va a\npudrir. Ese es el costo honesto de no hacer C, y es el argumento final para C.\n\n\n=====================================================================\n4. T14-b\n=====================================================================\n**No lo pidas todavia.** Con C el test correcto es \"existe exactamente una\npareja de botones de vista en todo el DOM\" + \"un solo call site hace\naddEventListener sobre el toggle\" - y se escribe DESPUES de C. Con (B) el de\nunicidad tambien sirve, y es el que yaieviste}).\n\nUn test que afirme \"toda wire*Toggle() tiene guarda\" pasa hoy y no ve C2, que\nes el bug real. Guardate el effort.\n\n\n=====================================================================\n5. Route\n=====================================================================\nConforme, no lo toco. Una sola nota: el `Route` de StrikeTracker es\nprecisamente lo que hace que la unica salida de Strikes sea el toggle roto.\nCuando hagas C, ese es el que puede morir. No lo pongas ahora.\n\n\n=====================================================================\n6. VEREDICTO\n=====================================================================\n- T14: APROBADO CON CAMBIOS. Suma C1 (la constante es 1) y C4 (el disparador\n  real, que sostiene la severidad). Flag en el ELEMENTO, con otro motivo que\n  el de T12-b: escribilo de nuevo, no lo copies.\n- T15: APROBADO, y con mas alcance del enunciado: C2 es el sintoma que Pablo\n  ve, C3 es por que pega. Un fix que escriba la pref sin repintar los 4\n  botones NO lo cierra.\n- overarching: el enfoque de 2 fixes juntos esta bien; el de 2 escritores no.\n  Si haces C, T14 y T15 son un solo commit y no hace falta tocar flags. Si\n  haces B, un commit tambien, con 2 flags y las 3 condiciones.\n- No apruebo T14-b todavia.\n\nSeveridades: C2 alta, C3 alta, C1 media, C4 media, T14/T15 media-baja como\nbugs de usuario (T15 es el unico que Pablo toca en uso normal).\n\nJustificacion de por que C y no B, en una linea: con dos escritores, la\ninvariante \"la pref es la verdad\" no se puede establecer, porque hay dos\ncaminos y solo uno la actualiza. Un flag no arregla eso; borrar el segundo\nescritor si.\n",
+   "replied_by": "Code-Reviewer",
+   "replied_utc": "20261001T202111Z",
+   "estado": "closed",
+   "estado_nota": "la respuesta fue procesada y archivada",
    "from_label": "Principal",
    "to_label": "Code-Reviewer",
    "created_h": "2026-10-01 20:12Z",
-   "replied_h": ""
+   "replied_h": "2026-10-01 20:21Z"
   },
   {
    "id": "20261001T194305Z-0f4334",
@@ -1162,12 +1162,24 @@
   {
    "agente": "default",
    "cadencia_min": 30,
-   "ultima_lectura": "2026-10-01T20:09:39Z",
-   "lecturas": 230,
-   "minutos_sin_mirar": 11,
+   "ultima_lectura": "2026-10-01T20:31:01Z",
+   "lecturas": 235,
+   "minutos_sin_mirar": 5,
    "vigencia": "automatica",
    "lectura_vencida": false,
    "umbral_min": 75,
+   "preguntas_sin_responder": 0,
+   "ok": true
+  },
+  {
+   "agente": "product-owner",
+   "cadencia_min": 120,
+   "ultima_lectura": "2026-10-01T20:30:08Z",
+   "lecturas": 29,
+   "minutos_sin_mirar": 5,
+   "vigencia": "automatica",
+   "lectura_vencida": false,
+   "umbral_min": 300,
    "preguntas_sin_responder": 0,
    "ok": true
   },
@@ -1176,7 +1188,7 @@
    "cadencia_min": null,
    "ultima_lectura": "2026-09-30T14:59:48Z",
    "lecturas": 2,
-   "minutos_sin_mirar": 1761,
+   "minutos_sin_mirar": 1776,
    "vigencia": "bajo demanda",
    "lectura_vencida": false,
    "umbral_min": null,
@@ -1184,27 +1196,15 @@
    "ok": true
   },
   {
-   "agente": "product-owner",
-   "cadencia_min": 120,
-   "ultima_lectura": "2026-10-01T12:08:45Z",
-   "lecturas": 28,
-   "minutos_sin_mirar": 492,
-   "vigencia": "automatica",
-   "lectura_vencida": true,
-   "umbral_min": 300,
-   "preguntas_sin_responder": 0,
-   "ok": false
-  },
-  {
    "agente": "code-reviewer",
    "cadencia_min": null,
    "ultima_lectura": "2026-09-30T18:55:15Z",
    "lecturas": 5,
-   "minutos_sin_mirar": 1525,
+   "minutos_sin_mirar": 1540,
    "vigencia": "bajo demanda",
    "lectura_vencida": false,
    "umbral_min": null,
-   "preguntas_sin_responder": 2,
+   "preguntas_sin_responder": 1,
    "ok": false
   },
   {
@@ -1212,7 +1212,7 @@
    "cadencia_min": 240,
    "ultima_lectura": "2026-09-30T15:00:01Z",
    "lecturas": 5,
-   "minutos_sin_mirar": 1761,
+   "minutos_sin_mirar": 1776,
    "vigencia": "automatica",
    "lectura_vencida": true,
    "umbral_min": 600,
