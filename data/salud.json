@@ -1,19 +1,19 @@
 {
- "generado_utc": "20261001T025103Z",
- "generado_h": "2026-10-01 02:51 UTC",
+ "generado_utc": "20261001T030602Z",
+ "generado_h": "2026-10-01 03:06 UTC",
  "archivos_estado": [
   {
    "archivo": "TEAM_STATUS.md",
    "quien": "Principal /30min",
    "estado": "ok",
-   "edad_h": 1.6,
+   "edad_h": 1.9,
    "kb": 78.3
   },
   {
    "archivo": "SESSION_LOG.md",
    "quien": "Documentador /4h",
    "estado": "ok",
-   "edad_h": 3.1,
+   "edad_h": 3.4,
    "kb": 145.1,
    "crecimiento": "EXCEDE 60 KB (145 KB)"
   },
@@ -21,14 +21,14 @@
    "archivo": "COMMS_LOG.md",
    "quien": "Principal /30min",
    "estado": "ok",
-   "edad_h": 1.6,
+   "edad_h": 1.9,
    "kb": 87.1
   },
   {
    "archivo": "PRE_BACKLOG.md",
    "quien": "PO /2h",
    "estado": "ROTO",
-   "edad_h": 19.2,
+   "edad_h": 19.5,
    "kb": 238.3,
    "crecimiento": "EXCEDE 120 KB (238 KB)"
   },
@@ -36,14 +36,14 @@
    "archivo": "ALERTS_LOG.md",
    "quien": "Principal /30min",
    "estado": "ok",
-   "edad_h": 1.6,
+   "edad_h": 1.9,
    "kb": 124.0
   },
   {
    "archivo": "DECISIONS_LOG.md",
    "quien": "Principal",
    "estado": "ok",
-   "edad_h": 24.8,
+   "edad_h": 25.1,
    "kb": 10.2
   }
  ],
@@ -136,52 +136,6 @@
  ],
  "tokens": [
   {
-   "dia": "2026-09-28",
-   "llamadas": 3788,
-   "prompt": 334940200,
-   "cache_read": 296003808,
-   "cache_pct": 88.4,
-   "prompt_por_llamada": 88421,
-   "por_agente": [
-    {
-     "agente": "default",
-     "llamadas": 2756,
-     "prompt": 248987949,
-     "cache_pct": 89.5
-    },
-    {
-     "agente": "product-owner",
-     "llamadas": 571,
-     "prompt": 54993218,
-     "cache_pct": 88.3
-    },
-    {
-     "agente": "documenter",
-     "llamadas": 201,
-     "prompt": 17122087,
-     "cache_pct": 87.3
-    },
-    {
-     "agente": "Code-Reviewer",
-     "llamadas": 129,
-     "prompt": 8077838,
-     "cache_pct": 80.0
-    },
-    {
-     "agente": "architect",
-     "llamadas": 87,
-     "prompt": 3730442,
-     "cache_pct": 44.7
-    },
-    {
-     "agente": "?",
-     "llamadas": 44,
-     "prompt": 2028666,
-     "cache_pct": 72.8
-    }
-   ]
-  },
-  {
    "dia": "2026-09-29",
    "llamadas": 4641,
    "prompt": 364957845,
@@ -270,6 +224,22 @@
      "llamadas": 2,
      "prompt": 22024,
      "cache_pct": 1.2
+    }
+   ]
+  },
+  {
+   "dia": "2026-10-01",
+   "llamadas": 41,
+   "prompt": 2307421,
+   "cache_read": 2238662,
+   "cache_pct": 97.0,
+   "prompt_por_llamada": 56278,
+   "por_agente": [
+    {
+     "agente": "default",
+     "llamadas": 41,
+     "prompt": 2307421,
+     "cache_pct": 97.0
     }
    ]
   }
