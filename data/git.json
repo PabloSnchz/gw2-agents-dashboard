@@ -1,8 +1,22 @@
 {
- "generado_utc": "20261001T010607Z",
- "generado_h": "2026-10-01 01:06 UTC",
+ "generado_utc": "20261001T012107Z",
+ "generado_h": "2026-10-01 01:21 UTC",
  "origen": "git local + ls-remote (sin cuota). protected cacheado TTL 6h.",
  "commits": [
+  {
+   "sha": "0e0d41b8ee41556b011ffc348ac87aeb804a9a61",
+   "short": "0e0d41b",
+   "autor": "Pablo Sanchez",
+   "fecha": "2026-09-30T22:13:35-03:00",
+   "msg": "merge(hb73): ALERT-92 - la limitacion del stripper era FALSA, y el censo de idea61 contaba prosa"
+  },
+  {
+   "sha": "4eaf6198c3496f6e050aa260b1a16ec2a70f7cc2",
+   "short": "4eaf619",
+   "autor": "Pablo Sanchez",
+   "fecha": "2026-09-30T22:13:29-03:00",
+   "msg": "﻿fix(tests): la limitacion del stripper era FALSA, y una guarda que no puede fallar no es una guarda (ALERT-92)"
+  },
   {
    "sha": "80567acad456100b8dbd3f45b5e98b01bdf78a13",
    "short": "80567ac",
@@ -338,20 +352,6 @@
    "autor": "Pablo Sanchez",
    "fecha": "2026-09-30T16:35:30-03:00",
    "msg": "﻿fix(api-gw2): P4 del Reviewer - cacheClear() nace con dryRun y removed es un hecho (Idea 50 Tramo F)"
-  },
-  {
-   "sha": "decdff2189f6a1571caab18b70a033ec22dde735",
-   "short": "decdff2",
-   "autor": "Pablo Sanchez",
-   "fecha": "2026-09-30T16:10:36-03:00",
-   "msg": "﻿docs(logs): el PO decidio donde va el badge del LM, y desmintio una propuesta mia"
-  },
-  {
-   "sha": "8316e6d4dcf89599d59f091332f90a4ac200fb9b",
-   "short": "8316e6d",
-   "autor": "Pablo Sanchez",
-   "fecha": "2026-09-30T16:08:05-03:00",
-   "msg": "﻿docs(logs): Heartbeat #63 - los 3 veredictos leidos, un bug corregido y un merge que no se hizo"
   }
  ],
  "archivos_md": [
@@ -395,9 +395,9 @@
    "repo": "gw2-wallet-agents",
    "label": "Desarrollo",
    "role": "dev",
-   "sha": "80567acad456100b8dbd3f45b5e98b01bdf78a13",
-   "short_sha": "80567ac",
-   "commit": "docs(hb72): filas 077/078 (Reviewer ALERT-91, PO ronda 20 +",
+   "sha": "0e0d41b8ee41556b011ffc348ac87aeb804a9a61",
+   "short_sha": "0e0d41b",
+   "commit": "﻿fix(tests): la limitacion del ",
    "estado": "open",
    "protected": false,
    "protected_fresco": true,
@@ -407,9 +407,9 @@
    "repo": "gw2-agents-dashboard",
    "label": "Dashboard",
    "role": "dashboard",
-   "sha": "eb1322acc3a5112ec7c1652e863f02a5deb8f2c0",
-   "short_sha": "eb1322a",
-   "commit": "chore(dashboard): pulso automatico 2026-10-01_00-51_UTC",
+   "sha": "0dbf6dac00daeee53f48e2d50762e82cbc790afb",
+   "short_sha": "0dbf6da",
+   "commit": "chore(dashboard): pulso automatico 2026-10-01_01-06_UTC",
    "estado": "open",
    "protected": false,
    "protected_fresco": true,
