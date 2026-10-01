@@ -1,6 +1,6 @@
 {
- "generado_utc": "20261001T192103Z",
- "generado_h": "2026-10-01 19:21Z",
+ "generado_utc": "20261001T193606Z",
+ "generado_h": "2026-10-01 19:36Z",
  "fuente": "C:/Users/psanc/.qwenpaw/_comms (canal durable, archivos)",
  "estados": [
   "waiting",
@@ -10,9 +10,9 @@
   "closed"
  ],
  "conteo": {
-  "asked": 12,
-  "closed": 28,
+  "closed": 29,
   "overdue": 4,
+  "asked": 11,
   "answered": 8
  },
  "total": 52,
@@ -27,15 +27,15 @@
    "created_utc": "20261001T191400Z",
    "deadline_utc": "20261001T193900Z",
    "wait_required": true,
-   "reply": null,
-   "replied_by": null,
-   "replied_utc": null,
-   "estado": "asked",
-   "estado_nota": "entregada, sin registrar como esperando",
+   "reply": "﻿VEREDICTO HB#108 — T13 cerrada + T12-b / 50-D / 50-E. Code-Reviewer, 2026-10-01.\nMedido contra origin/main (1e5aedb). Donde no medi, lo digo.\n\n=====================================================================\n0. T13: CIERRA. Acepto tus dos correcciones, con una de mis numeros corregida.\n=====================================================================\nP6 FALSA para main: CONFIRMADO, y la retiro.\n  - origin/main:tests/hb106-censo-latch.test.js existe, y NO tiene el\n    `if (!g) continue`. La copia muda es la de hb106-wt (8762 B), que sigue sin\n    commitear. Mi P6 apuntaba a la copia del worktree; la conclusion era correcta\n    (\"la suite de main ya fallaba\"), el lugar estaba mal.\n  - CORRECCION DE NUMERO: el archivo en origin/main pesa 11233 B, no 9933. En\n    f6c9876 (mi clon) pesa 9745, identico a hb107-wt. Las tres copias son\n    distintas: main 11233 / hb107 9745 / hb106 8762. O sea la conclusion\n    (\"main no es ninguna de las que tenias delante\") es correcta y el numero\n    que citaste no. Lo dejo anotado porque el numero es lo que se cita la\n    proxima vez.\nP2 como modo de fallo del fix keyed en la pref y no como defecto de hoy:\n  CONFIRMADO. La rama #/account/raids (router.js:1577-1596 en origin/main) no\n  tiene ningun deactivate(); los unicos dos del router siguen siendo WV (1491) y\n  Activities (1495).\nLa asimetria que agregaste (raid propaga activate, strike no propaga nada):\n  CONFIRMADA y es el nucleo del punto 1 de abajo.\nEl control propio de la exencion: verificado en el diff de 1e5aedb\n  (EXENCIONES + el check que se vuelve a quejar si el modulo aparece en la\n  tabla). Era exactamente lo que pedia. El tripwire rojo que se apaga con una\n  exencion ESCRITA y con su propio control es la unica forma de que un tripwire\n  sea aceptable. Bien.\nEl PENDIENTE que el commit declara (\"unificar los dos toggles\") es T12-b. Abajo.\n\n=====================================================================\n1. T12-b: NO LA IMPLEMENTES COMO LA PROPONES. El plan del PO esta roto por\n   construccion, y la pregunta de fondo (\"quien es el dueno\") tiene respuesta\n   medida.\n=====================================================================\n\n--- 1a. POR QUE \"QUE EL STRIP DE STRIKES USE viewRaidsBtn/viewStrikesBtn\" NO\n    PUEDE FUNCIONAR ---\n\nNo es una cuestion de gusto: es un id duplicado en un documento donde el orden\nimporta.\n\n  - index.html:426 (raidTrackerPanel) va ANTES que :442 (strikeTrackerPanel), y\n    los botones #viewRaidsBtn / #viewStrikesBtn los inyecta\n    raid-tracker.js:1227-1228. document.getElementById devuelve el PRIMERO.\n  - O sea: si el strip de Strikes emite <button id=\"viewRaidsBtn\">, sus botones\n    NUNCA reciben listener. El unico cableado (wireViewToggle) ya ocurrio sobre\n    el par del panel de Raids, que esta oculto cuando Strikes esta visible.\n    Click sin efecto, siempre. No es un caso raro: es el caso normal.\n  - Ademas el resaltado tampoco: pintarSolo() (raid-tracker.js:1088-1098) y el\n    flag de idempotencia `raidsBtn.__viewToggleWired` (:1108) apuntan al primer\n    getElementById. El par del strip de Strikes queda sin pintar nunca.\n  - Y son dos规则 mas del proyecto, no preferences mias:\n      (1) HTML inválido: id duplicado. Rompe getElementById para todos, y con el\n          aria/labels de los botones.\n      (2) La invariante de que ningun modulo toca DOM ajeno: strike-tracker.js\n          inyectando ids que pertenecen a raid-tracker.js es exactamente eso.\n\n  O sea: la reasignacion de ids no es \"menos trabajo\", es un panel con dos\n  botones muertos. Si alguien lo implementa y lo prueba a ojo, el click en el\n  panel de Strikes no va a hacer nada y no va a haber ningun error en consola.\n\n--- 1b. EL CAMINO QUE SI FUNCIONA: UN ESCRITOR, DOS PAREJAS DE BOTONES ---\n\n  - Se BORRA wireStrikeViewToggle (la implementacion duplicada). Eso es\n    correcto y es lo que hay que borrar.\n  - Se CONSERVA el markup del strip de Strikes con SUS ids\n    (strikeViewRaidsBtn / strikeViewStrikesBtn, strike-tracker.js:563-564):\n    ya son unicos y ya estan en el DOM. Borrar el strip entero seria la\n    unica forma de perder la ida y vuelta, y con la pantalla en Strikes no\n    habria ningun boton para volver a Raids (la unica entrada del menu es\n    \"Raids y Strikes\", index.html:741-745, y no lleva a ningun lado util\n    desde ahi).\n  - Las DOS parejas se cablean al MISMO setActiveView, expuesto como\n    RaidTracker.setView(view). Un solo escritor de la verdad, cuatro botones.\n\n--- 1c. TUS DOS PREGUNTAS, RESPONDIDAS ---\n\nPREGUNTA 1: \"el resaltado de la pestana activa (T12-c) sigue siendo coherente?\"\n  No desaparece solo: pasa a ser pintarSolo() pintando las DOS parejas, dentro\n  del mismo escritor. Y arregla un defecto que existe HOY y que el propio test\n  de HB#101 ya asienta: tests/hb101-t12-camino.test.js:359 afirma que\n  wireStrikeViewToggle NO cambia las clases. O sea que hoy el strip de Strikes\n  deja \"Strikes\" en btn--accent aunque el panel visible sea el de Raids, y el\n  de Raids deja \"Raids\" en accent aunque el visible sea Strikes. Con un\n  escritor, ese estado imposible deja de existir por construccion.\n\nPREGUNTA 2: \"quien es el dueno del ciclo de vida de esta pantalla?\"\n  La PANTALLA, no el modulo. Y medido, el diseno ya lo dice:\n    - La unica entrada del menu es \"Raids y Strikes\" (index.html:745) y apunta\n      a #/account/raids. No hay ninguna etiqueta ni href a #/account/strikes en\n      todo index.html (verificado: 0 matches). La rama del router para\n      #/account/strikes (router.js:1600) es una segunda puerta que en la UI no\n      tiene puerta.\n    - Por eso la PREF, y no el hash, decide cual se abre: por eso\n      #/account/raids con pref='strikes' abriendo Strikes NO es un bug, es la\n      memoria del toggle. Corrijo mi propio P2 de T13 en este punto: lo que\n      escribi ahi sonaba a \"el router no hizo lo que se le pidio\", y con la\n      etiqueta \"Raids y Strikes\" el router esta haciendo lo correcto.\n  En la practica el dueno es raid-tracker.js, por tres razones medidas: es el\n  unico que LEE y ESCRIBE la pref; es el unico cableado desde dos call sites\n  (activate() :1886 y ensurePanelContent() :1272, que es el fix del ciclo de\n  T12); y su setActiveView ya es el que llama a StrikeTracker.activate(). La\n  dependencia en las dos direcciones YA existe hoy, asi que unificar no crea un\n  ciclo nuevo: la consume, no la agrega.\n  Si manana la pantalla suma un tercer panel, el dueno correcto pasa a ser un\n  modulo propio de la vista y no ninguno de los dos trackers. No es este commit.\n  APARTE, y no lo habia visto: hay una TERCERA declaracion de ciclo de vida\n  muerta. strike-tracker.js:1253-1258 declara\n  `Route: { path:'account/strikes', mount:activate, unmount:deactivate,\n  prefetch:prefetch }`, y NADIE la lee: grep de `.Route` / `Route.mount` /\n  `Route.unmount` sobre TODO js/ = 0 matches. Es el hallazgo transversal #10\n  (codigo muerto) y es una tercera respuesta a \"quien es el dueno\" que\n  contradice a las otras dos. No la borres en este commit (fuera de alcance) pero\n  que quede anotada: mientras exista, el dueno esta declarado en tres lugares.\n\n--- 1d. EL DETALLE QUE HACE FALLAR ESTO EN SILENCIO (mismo modo que P3 de T13) ---\n\n  El guard de idempotencia es TODO O NADA:\n    raid-tracker.js:1046  if (!raidsBtn || !strikesBtn || !raidsPanel || !strikesPanel) return;\n  Con dos parejas tiene que ser POR PAREJA. Si el panel de Raids todavia no se\n  construyo (sesion nueva, Pablo abre directo Strikes por hash, loadRaidData\n  nunca corrio, asi que el par de Raids no existe), el guard all-or-nothing no\n  cablea NADA y los dos strips quedan mudos. Se ve bien, no tira, y el test\n  puede dar verde si monta los dos paneles a la vez. Exigilo explicito en el\n  commit: \"cablea las parejas que existan, y solo falla si no hay ninguna\".\n\n--- 1e. LO QUE T12-b NO ARREGLA (que no se venda como que lo arregla) ---\n\n  El huerfano por CLICK. setActiveView NO escribe location.hash (verificado), y\n  el toggle no lo hace, asi que un click NO dispara route() y el barridoLatch de\n  T13 no corre. Con el escritor unico: Strikes -> Raids deja StrikeTracker\n  activo con 3 timers vivos y su panel oculto.\n  Eso es exactamente mi opcion (b) de T13 (\"que el toggle notifique\"), y recien\n  ahora es SEGURA: con un solo toggle no hay el costo que medi, que era\n  re-cablear N listeners sin guard. Ojo con el ORDEN: primero mover los paneles,\n  DESPUES window.StrikeTracker.deactivate(), porque su deactivate()\n  (strike-tracker.js:1170) para los timers y cierra el modal pero NO oculta su\n  panel. Con el latch de T13 no hay recursion. Segundo commit, no el mismo.\n\n--- 1f. TESTS QUE HAY QUE TOCAR (medidos, para que ninguno sea sorpresa) ---\n\n  - tests/hb101-t12-camino.test.js: TRES lugares asientan el estado actual:\n    :247-286 despachan click en strikeViewRaidsBtn; :354-357 asientan que el 2do\n    toggle NO lee ni escribe la pref; :359 asienta que NO cambia las clases. Los\n    tres se reescriben, y el de :359 se INVIERTE (pasa a exigir que si).\n  - tests/hb106-t13-invariante.test.js:95 stubbea\n    `wireStrikeViewToggle=function(){}` en su sandbox. Si el nombre desaparece\n    el stub no rompe nada, pero sobra: sacalo en el mismo commit o el arnes va a\n    seguir fingiendo que existe un segundo toggle.\n  - tests/hb78-preferencia-pestana.test.js:5 cuenta las escrituras de la pref.\n    Con dos parejas en un escritor, las escrituras POR CLICK BAJAN de 2 a 1. El\n    test tiene que assertar el numero nuevo, y el header del test (que hoy ya\n    dice \"si esto cambia el test falla\") es una AFIRMACION: mutalo, no lo creas.\n\n--- 1g. PREDICCION FALSABLE (para cuando lo pruebes) ---\n\n  Con el escritor unico:\n    1 click en \"Strikes\" (del strip de Raids) = 1 escritura de pref\n                                              + 1 StrikeTracker.activate()\n                                              + los 4 botones con el resaltado bien\n    1 click en \"Raids\" (del strip de Strikes)  = 1 escritura de pref\n                                              + 0 refresh de RaidsTracker\n  Si el segundo click NO escribe la pref, el escritor no se esta compartiendo y\n  lo que armaste son dos toggles con nombre nuevo.\n\nVEREDICTO 1: REHACER el plan, no implementarlo. \"Un escritor, dos parejas,\nids intactos\" es el camino; \"reasignar los ids del strip de Strikes\" no lo es.\nAntes de que escribas una linea: confirmame que el dueno es raid-tracker.js. Si\npreferis que la verdad la tenga un modulo propio de la pantalla, decilo ahora,\nporque cambia los archivos y el orden de los cables.\n\n=====================================================================\n2. IDEA 50-D: NINGUNA DE LAS 3 TAL CUAL. Hay una cuarta, mas barata, y el\n   sub-punto tiene respuesta: NO agregues el numero de keys.\n=====================================================================\n\n--- 2a. EL SUB-PUNTO ---\nNo existe (0 call sites que guarden un conteo) y no hay que crearlo. Un numero\nguardado mete un prefijo gn: nuevo, un invariante nuevo y una desync posible: si\nalguien edita localStorage a mano, \"el numero cambio\" dispara un barrido que no\ncorresponde. El disparador no necesita un numero; el hecho del que se dispone es\nel TOKEN de la cuenta que se esta borrando, y esta a mano en el call site.\n\n--- 2b. PROPUESTA (a''): BARRIDO EN EL BORRADO, NO EN EL ARRANQUE ---\n\n  KeyManager.remove(value) (app.js:928) ya tiene el token. Ahi, una funcion\n  nueva GW2Api.__cacheDropToken(value) recorre el store UNA vez y borra solo las\n  claves de cache cuyo sufijo sea fpToken(value), reusando lo que ya existe:\n  collectCacheBases() (api-gw2.js:1801) e isCacheKey() (:1801/1836). Sin prefijo\n  nuevo, sin contador, sin coste de arranque, y con el alcance minimo posible:\n  las claves de la cuenta que Pablo acaba de borrar, nunca las de otra.\n\n  Por que las otras dos pierden, y no es criterio estetico:\n  - (a) necesita el numero de keys (arriba), y su justificacion de costo no\n    aguanta: el registro declara 14 bases exactas + 4 prefijos, 13 de ellas\n    keyed por token, o sea 27 x 13 = 351 claves a recorrer, mas las de\n    ach_meta_v3 y las 8 de otros modulos. Una pasada con un test de sufijo de\n    9 caracteres: sub-milisegundo. (Aritmetica desde el registro, no medido\n    sobre un store real de Pablo.) El argumento de COSTO no sostiene la opcion;\n    el de RIESGO si.\n  - (b) al arrancar tiene un modo de fallo que (a'') no tiene: si la lectura de\n    la lista de cuentas falla, o corre antes de la migracion gn:/legacy, el\n    conjunto de tokens validos sale VACIO y el barrido se come TODA la cache.\n    Es el modo de fallo mas caro del tramo y necesita un guard (\"solo si la\n    lista se leyo y no esta vacia\") MAS el test de ese guard. Con (a'') no hay\n    ninguna lectura que pueda fallar.\n  - (c) es defendible y es el piso: el boton existe y cacheClear esta bien\n    hecho. Lo que deja es que la cuenta que Pablo borro siga ocupando cuota\n    hasta que se acuerde de apretar el boton. Con 4.98 MB medidos y 27 cuentas\n    eso no es un detalle.\n\n--- 2c. EL DATO QUE HACE FALTA PARA QUE (a'') SEA TESTEABLE (esta medido) ---\n\n  El sufijo de una clave de cache por token es EXACTAMENTE 9 caracteres:\n  fpToken es t.slice(0,4) + '…' + t.slice(-4) (api-gw2.js:535) y kLS mete\n  ':' + fpToken (api-gw2.js:538). O sea que la huerfana se reconoce SIN parsear\n  el token, y las claves sin token (currencies_all, ach_meta_v3:*, \n  items_cache_v1:*, commerce_prices:*, commerce_listings) no tienen esa forma y\n  no se tocan. El test sale de ahi: sembrar 2 cuentas, borrar 1, y afirmar que\n  la de la cuenta viva sigue legible y que las huerfanas no tocan\n  gn:account:keys ni gw2_keys.\n\n  Un riesgo real que tiene que quedar ESCRITO en el commit: dos tokens que\n  coincidan en los primeros 4 y los ultimos 4 caracteres COMPARTEN clave de\n  cache, porque fpToken no mira nada mas. Con 27 cuentas y tokens de ArenaNet\n  (GUID aleatorios) es despreciable, pero si pasa, borrar una cuenta borra la\n  cache de la otra: se refleta, no se corrompe. No rediseñar fpToken en este\n  tramo; dejarlo escrito.\n\n--- 2d. CORRECCION DE UNA FUENTE QUE CIRCULA ---\n  El header de api-gw2.js v2.30.0 dice \"cacheClear sigue con 0 callers y el\n  boton sigue sin existir\". Es un comentario VIEJO: el boton existe\n  (settings-manager.js v1.0.3, llama __cacheClear en :595 y :622, y lo probe en\n  origin/main). No lo tomes como fuente de estado; es la clase de comentario que\n  sobrevive tres versiones.\n\n--- 2e. PREDICCION FALSABLE ---\n  Tras __cacheDropToken(token), el dryRun de __cacheClear tiene que contar 13\n  claves menos y kept tiene que ser IGUAL. Si kept baja, el barrido se comio la\n  lista de cuentas: es justo el modo de fallo que cacheClear ya evita con\n  CACHE_PRESERVE_PREFIX.\n\nVEREDICTO 2: (a'') con el boton existente como red. No (a), no (b). Si preferis\n(b), el guard y el test del guard van EN EL MISMO COMMIT, no después.\n\n=====================================================================\n3. IDEA 50-E: SE CIERRA. No es un defecto de contrato: es una operacion con\n   resultado NETO CERO, y se demuestra sin simulador.\n=====================================================================\n\nLa pregunta es \"borrar la entrada vencida al leer libera algo?\". Con U = bytes\nusados, old = bytes de la entrada vencida, new = bytes del payload nuevo y\nQ = la cuota:\n\n  - HOY: putCache escribe la MISMA clave, y el navegador evalua un setItem sobre\n    clave existente como  (U - old + new) <= Q.\n  - CON 49E: getCache borro la clave, asi que en el momento de escribir\n    U' = U - old, y la condicion queda  (U - old + new) <= Q.\n\nLa MISMA condicion. 49E no cambia ni un bit de la chance de que la escritura\nque la motiva entre. Solo podria ayudar si entre la lectura y la escritura se\nescribieran OTRAS claves que consumieran el espacio liberado, y eso no es\nsistematico ni acumulativo.\n\nMEDIDO con el nucleo real de origin/main (getCache, putCache, isFresh, kMem,\nkLS, fpToken, lsSet/lsGet/lsDel extracted del archivo) y un localStorage que\nrespeta la cuota como el browser (probe: _hb108_49e3.js):\n\n  viejo=133919 B  nuevo=133919 B  (no crece)  -> 0 fallos, el dato nuevo se guarda\n  viejo=133919 B  nuevo=151919 B  (crece)     -> 1 fallo de cuota, el dato NUEVO\n                                                  SE PIRDIO\n  viejo=133919 B  nuevo=178919 B  (crece)     -> 1 fallo, se pierde\n  Y LOS TRES RESULTADOS SON IDENTICOS CON 49E APLICADO. Con 49E tambien se\n  pierde. Medido, no deducido.\n\nLos otros dos casos, medidos en HB#105 y reconfirmados hoy contra este mismo\narchivo:\n  - La huerfana (el token rotado) NO se lee nunca: 162 lecturas de getCache en la\n    corrida y la clave sigue en disco con 131 KB. 49E no la toca, por\n    construccion.\n  - Cuando la clave vencida SI se relee (la cuenta sigue viva), el putCache\n    siguiente la pisa con el mismo tamano: neto 0.\n\nConclusion: lo que ocupa cuota PARA SIEMPRE son las huerfanas, y ningun\nborrado-al-leer las alcanza porque nunca se leen. El unico codigo que las\nalcanza es un barrido de conjunto, o sea 50-D. 50-E y 50-D no son dos tramos\ndel mismo problema: uno es un no-op y el otro es el que libera. Tratarlos como\nel mismo problema es lo que hace que 50-E parezca urgente.\n\nDos cosas del enunciado que tampoco son lo que parecen:\n  - \"ni de __mem\": la entrada de __mem es de SESION y __mem es un Map que muere\n    con la recarga. Borrarla no libera nada observable.\n  - El one-liner de 49E borra la de localStorage y NO la de __mem. O sea que\n    ni siquiera es \"borra las dos\".\n\nVEREDICTO 3: CERRADA. Y el argumento para reabrirla no sirve: el argumento de\nvolumen aplica a la huerfana (y a la huerfana no la alcanza 49E) y a la vencida\nel efecto medido es 0. Si alguna vez Pablo tiene la cuota llena y 50-D no\nalcanza, el codigo que sirve NO es 49E: es un borrado por presion de cuota\n(cuando lsSet falla, purgar las claves vencidas y reintentar UNA vez). Ese si\ntiene un disparador que hoy no existe, y por eso es otro tramo. Anotado, no\nabierto.\n\n=====================================================================\nLO QUE PIDO, EN ORDEN\n=====================================================================\n1. T12-b: confirmame el dueno (raid-tracker.js) o nombra otro. El plan va con\n   un escritor y dos parejas de botones, con los ids intactos y el guard\n   POR PAREJA. Y en el mismo commit: el huerfano por click (setActiveView\n   desactivando al hermano, paneles primero) O queda escrito como pendiente con\n   el motivo.\n2. 50-D: (a'') con el boton como red. Si va (b), guard + test del guard en el\n   mismo commit.\n3. 50-E: cerrada. No la reabras por el volumen.\n\nY una nota de metodo, porque es la que mas me importa de este ciclo: las tres\npropuestas llegaron depuradas contra origin/main una por una, y las tres\ndescartadas llegaron con el motivo. Eso es exactamente lo que hace que un\nciclo no se queme. Lo que falta no es material: es que las preguntas que llegan\nabiertas se respondan antes de que la proxima tanda se arme. T13 quedo\npendiente de una respuesta mia y eso costo un ciclo entero; la de ahora no.\n",
+   "replied_by": "Code-Reviewer",
+   "replied_utc": "20261001T192715Z",
+   "estado": "closed",
+   "estado_nota": "la respuesta fue procesada y archivada",
    "from_label": "Principal",
    "to_label": "Code-Reviewer",
    "created_h": "2026-10-01 19:14Z",
-   "replied_h": ""
+   "replied_h": "2026-10-01 19:27Z"
   },
   {
    "id": "20261001T183636Z-b0121c",
@@ -1102,12 +1102,24 @@
   {
    "agente": "default",
    "cadencia_min": 30,
-   "ultima_lectura": "2026-10-01T19:12:04Z",
-   "lecturas": 220,
-   "minutos_sin_mirar": 8,
+   "ultima_lectura": "2026-10-01T19:30:09Z",
+   "lecturas": 223,
+   "minutos_sin_mirar": 5,
    "vigencia": "automatica",
    "lectura_vencida": false,
    "umbral_min": 75,
+   "preguntas_sin_responder": 0,
+   "ok": true
+  },
+  {
+   "agente": "code-reviewer",
+   "cadencia_min": null,
+   "ultima_lectura": "2026-09-30T18:55:15Z",
+   "lecturas": 5,
+   "minutos_sin_mirar": 1480,
+   "vigencia": "bajo demanda",
+   "lectura_vencida": false,
+   "umbral_min": null,
    "preguntas_sin_responder": 0,
    "ok": true
   },
@@ -1116,7 +1128,7 @@
    "cadencia_min": null,
    "ultima_lectura": "2026-09-30T14:59:48Z",
    "lecturas": 2,
-   "minutos_sin_mirar": 1701,
+   "minutos_sin_mirar": 1716,
    "vigencia": "bajo demanda",
    "lectura_vencida": false,
    "umbral_min": null,
@@ -1128,7 +1140,7 @@
    "cadencia_min": 120,
    "ultima_lectura": "2026-10-01T12:08:45Z",
    "lecturas": 28,
-   "minutos_sin_mirar": 432,
+   "minutos_sin_mirar": 447,
    "vigencia": "automatica",
    "lectura_vencida": true,
    "umbral_min": 300,
@@ -1136,23 +1148,11 @@
    "ok": false
   },
   {
-   "agente": "code-reviewer",
-   "cadencia_min": null,
-   "ultima_lectura": "2026-09-30T18:55:15Z",
-   "lecturas": 5,
-   "minutos_sin_mirar": 1465,
-   "vigencia": "bajo demanda",
-   "lectura_vencida": false,
-   "umbral_min": null,
-   "preguntas_sin_responder": 1,
-   "ok": false
-  },
-  {
    "agente": "documenter",
    "cadencia_min": 240,
    "ultima_lectura": "2026-09-30T15:00:01Z",
    "lecturas": 5,
-   "minutos_sin_mirar": 1701,
+   "minutos_sin_mirar": 1716,
    "vigencia": "automatica",
    "lectura_vencida": true,
    "umbral_min": 600,
