@@ -1,0 +1,301 @@
+/* ══════════════════════════════════════════════════════════════════
+   feat-promociones.css — tab Promociones: "qué construyó el equipo y
+   dónde se ve"
+
+   Por qué un archivo propio y no pegado en theme.css: este bloque es
+   desechable por naturaleza. El equipo puede dejar de mantener
+   FEATURES.md, o Pablo puede decidir que este apartado sobra. Con un
+   <link> entero, apagarlo es borrar una línea de index.html. Pegado en
+   theme.css, sería hunting de selectores sobre 750 líneas — y la
+   próxima que lo toque lo reordena sin querer.
+
+   El color no está en la ficha: el TIPO decide el borde, y solo eso.
+   Nada de degradados ni sombras propias — el bloque tiene que leerse
+   como parte del mismo tema, no como un widget pegado.
+   ══════════════════════════════════════════════════════════════════ */
+
+.feat-enc {
+    margin-bottom: 22px;
+}
+
+/* ── encabezado del bloque ── */
+.feat-enc__titulo {
+    margin: 0 0 4px;
+    font-size: 1.05rem;
+    font-weight: 600;
+    color: var(--text-primary, #dfe3ee);
+}
+
+.feat-enc__sub {
+    margin: 0 0 14px;
+    font-size: 0.85rem;
+    line-height: 1.5;
+    color: var(--text-muted, #8b93a7);
+}
+.feat-enc__sub code {
+    font-size: 0.82em;
+    padding: 1px 5px;
+    border-radius: 3px;
+    background: rgba(255, 255, 255, 0.06);
+}
+
+/* ── los 3 números de arriba ── */
+.feat-enc__kpis {
+    display: flex;
+    gap: 10px;
+    flex-wrap: wrap;
+    margin-bottom: 16px;
+}
+
+.feat-kpi {
+    display: flex;
+    flex-direction: column;
+    gap: 1px;
+    min-width: 108px;
+    padding: 9px 13px;
+    border: 1px solid rgba(255, 255, 255, 0.08);
+    border-left: 3px solid #5a6e9a;
+    border-radius: 6px;
+    background: rgba(255, 255, 255, 0.02);
+}
+.feat-kpi--alerta { border-left-color: #d8a657; }
+
+.feat-kpi__n {
+    font-size: 1.35rem;
+    font-weight: 600;
+    line-height: 1.1;
+    color: var(--text-primary, #dfe3ee);
+}
+.feat-kpi__l {
+    font-size: 0.74rem;
+    text-transform: uppercase;
+    letter-spacing: 0.04em;
+    color: var(--text-muted, #8b93a7);
+}
+
+/* ── grupos por ACCIÓN ── */
+.feat-grupo {
+    margin-bottom: 10px;
+    border: 1px solid rgba(255, 255, 255, 0.08);
+    border-radius: 6px;
+    background: rgba(255, 255, 255, 0.015);
+}
+
+.feat-grupo__sum {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    padding: 11px 14px;
+    cursor: pointer;
+    user-select: none;
+    list-style: none;
+}
+.feat-grupo__sum::-webkit-details-marker { display: none; }
+
+.feat-grupo__t {
+    font-size: 0.93rem;
+    font-weight: 600;
+    color: var(--text-primary, #dfe3ee);
+}
+
+.feat-grupo__n {
+    display: inline-block;
+    min-width: 20px;
+    padding: 1px 7px;
+    border-radius: 10px;
+    background: rgba(90, 110, 154, 0.28);
+    font-size: 0.78rem;
+    font-weight: 600;
+    text-align: center;
+    color: #cfd6e6;
+}
+
+/* el grupo que hay que resolver es el único que trae color de acción */
+.feat-grupo[open] > .feat-grupo__sum { border-bottom: 1px solid rgba(255, 255, 255, 0.06); }
+
+.feat-grupo__nota {
+    margin: 10px 14px 0;
+    font-size: 0.8rem;
+    line-height: 1.5;
+    color: var(--text-muted, #8b93a7);
+}
+
+.feat-grupo__body {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+    padding: 12px 14px 14px;
+}
+
+/* ── la ficha ── */
+.feat {
+    padding: 13px 15px;
+    border: 1px solid rgba(255, 255, 255, 0.08);
+    border-left: 3px solid #5a6e9a;
+    border-radius: 6px;
+    background: rgba(255, 255, 255, 0.02);
+}
+
+/* el color lo decide el TIPO, y no dice nada más:
+   que el color signifique "algo" y no un dato medido es problema del
+   que lo lea, no del que lo ve. */
+.feat-chip--nueva            { border-left-color: #5f9ea0; }
+.feat-chip--mejora-visible   { border-left-color: #7d8fd0; }
+.feat-chip--mejora-oculta    { border-left-color: #6b6f7d; }
+
+.feat__head {
+    display: flex;
+    align-items: baseline;
+    gap: 10px;
+    flex-wrap: wrap;
+    margin-bottom: 7px;
+}
+
+.feat-chip {
+    padding: 2px 8px;
+    border-radius: 3px;
+    background: rgba(255, 255, 255, 0.07);
+    font-size: 0.68rem;
+    font-weight: 600;
+    letter-spacing: 0.05em;
+    text-transform: uppercase;
+    white-space: nowrap;
+    color: #b9c1d4;
+}
+
+.feat__nombre {
+    margin: 0;
+    font-size: 1rem;
+    font-weight: 600;
+    line-height: 1.3;
+    color: var(--text-primary, #dfe3ee);
+}
+
+.feat__desc {
+    margin: 0 0 8px;
+    font-size: 0.88rem;
+    line-height: 1.55;
+    color: var(--text-secondary, #b3bacb);
+}
+.feat__desc--falta {
+    color: var(--text-muted, #8b93a7);
+    font-style: italic;
+}
+
+/* "dónde lo veo" es lo que Pablo vino a buscar: tiene que destacar
+   sobre el resto de la ficha, no ser un renglón más. */
+.feat-donde {
+    margin: 0 0 8px;
+    padding: 6px 10px;
+    border-radius: 4px;
+    background: rgba(90, 110, 154, 0.13);
+    font-size: 0.85rem;
+    line-height: 1.45;
+    color: var(--text-primary, #dfe3ee);
+}
+.feat-donde__lbl {
+    display: inline-block;
+    margin-right: 6px;
+    font-size: 0.68rem;
+    font-weight: 600;
+    letter-spacing: 0.05em;
+    text-transform: uppercase;
+    color: #8b93a7;
+}
+
+.feat__meta {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    flex-wrap: wrap;
+    margin: 0 0 10px;
+    font-size: 0.78rem;
+    color: var(--text-muted, #8b93a7);
+}
+.feat-meta__rama {
+    padding: 1px 6px;
+    border-radius: 3px;
+    background: rgba(255, 255, 255, 0.05);
+    font-size: 0.74rem;
+    color: #98a1b6;
+}
+
+.feat__acc {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    flex-wrap: wrap;
+    margin: 0 0 8px;
+}
+
+.feat-btn {
+    display: inline-block;
+    padding: 6px 14px;
+    border-radius: 5px;
+    border: 1px solid rgba(95, 158, 160, 0.45);
+    background: rgba(95, 158, 160, 0.15);
+    color: #cfe6e6;
+    font-size: 0.84rem;
+    font-weight: 600;
+    text-decoration: none;
+    transition: background 0.15s, border-color 0.15s;
+}
+.feat-btn:hover {
+    background: rgba(95, 158, 160, 0.26);
+    border-color: rgba(95, 158, 160, 0.7);
+}
+
+/* sin link NO es un botón: es un dato faltante, y se ve distinto */
+.feat-btn--sin {
+    border-style: dashed;
+    border-color: rgba(216, 166, 87, 0.4);
+    background: transparent;
+    color: #b99a68;
+    cursor: default;
+    font-weight: 500;
+}
+
+.feat-falta {
+    margin: 0;
+    font-size: 0.76rem;
+    color: #b99a68;
+}
+
+.feat-riesgo {
+    margin: 5px 0 0;
+    padding-left: 9px;
+    border-left: 2px solid rgba(216, 166, 87, 0.35);
+    font-size: 0.82rem;
+    line-height: 1.5;
+    color: var(--text-secondary, #b3bacb);
+}
+.feat-riesgo--b { border-left-color: rgba(255, 255, 255, 0.14); }
+
+.feat-riesgo__lbl {
+    display: inline-block;
+    margin-right: 6px;
+    font-size: 0.68rem;
+    font-weight: 600;
+    letter-spacing: 0.05em;
+    text-transform: uppercase;
+    color: #8b93a7;
+}
+
+/* ── errores de lectura: lo más importante es NO parecer "0 features" ── */
+.feat-err {
+    margin: 0;
+    padding: 13px 15px;
+    border: 1px solid rgba(216, 166, 87, 0.3);
+    border-left: 3px solid #d8a657;
+    border-radius: 6px;
+    background: rgba(216, 166, 87, 0.07);
+    font-size: 0.86rem;
+    line-height: 1.55;
+    color: var(--text-secondary, #b3bacb);
+}
+.feat-err code {
+    padding: 1px 5px;
+    border-radius: 3px;
+    background: rgba(255, 255, 255, 0.07);
+    font-size: 0.83em;
+}

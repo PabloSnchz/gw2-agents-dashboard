@@ -863,7 +863,7 @@ class DashboardRenderer {
     // @param {string}      rawMd       — PROMOTIONS.md original, para el fallback
     // @param {Object|null} rutas       — data/rutas-dev.json (pantallas reales)
     // @param {string|null} rutasError  — por qué no hay rutas, si no hay
-    static renderPromotions(promo, rawMd, rutas, rutasError) {
+    static renderPromotions(promo, rawMd, rutas, rutasError, catalogo, catalogoError, fichas, fichasError) {
         const container = document.getElementById('promotions-container');
         if (!container) return;
 
@@ -1148,10 +1148,33 @@ class DashboardRenderer {
                 antes de clickear.
             </p>`;
 
+        // ── Bloque "qué construyó y dónde se ve" ─────────────────────────
+        // Va PRIMERO, antes de la respuesta a "qué espera decisión", porque la
+        // pregunta más común no es esa: es "dónde veo lo que hicieron".
+        //
+        // Si el módulo no está cargado o el catálogo no llegó, se dibuja el
+        // aviso (o nada), pero nunca un catálogo vacío: un bloque en cero
+        // parece "el equipo no construyó nada", que es una conclusión
+        // distinta de "no pudimos leerlo".
+        let bloqueCatalogo = '';
+        if (window.DevCatalogo && typeof window.DevCatalogo.build === 'function') {
+            try {
+                bloqueCatalogo = window.DevCatalogo.build(fichas, catalogo, fichasError);
+                if (!bloqueCatalogo && window.DevCatalogo.aviso) {
+                    bloqueCatalogo = window.DevCatalogo.aviso(
+                        fichasError || catalogoError || 'sin datos');
+                }
+            } catch (ec) {
+                bloqueCatalogo = window.DevCatalogo.aviso
+                    ? window.DevCatalogo.aviso((ec && ec.message) || String(ec))
+                    : '';
+            }
+        }
+
         container.innerHTML = `
+            ${bloqueCatalogo}
             <div class="promo-head">
-                ${respuesta}
-                <p class="promo-head__meta">
+                ${respuesta}                <p class="promo-head__meta">
                     Fuente: <code>PROMOTIONS.md</code> en
                     <code>${esc(repoName)}</code>
                     ${promo.updatedAt ? `· última fecha del archivo: ${esc(promo.updatedAt)}` : ''}

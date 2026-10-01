@@ -85,8 +85,7 @@
             })
             .then(function (data) {
                 window.__rutasDev = data;
-                R.renderPromotions(
-                    window.__promoParsed, window.__promoMd, data, null);
+                return cargarFeatures(R, data, null);
             })
             .catch(function (err) {
                 // La tab se dibuja igual. Lo que se pierde son los links
@@ -95,7 +94,7 @@
                 try {
                     R.renderPromotions(
                         window.__promoParsed, window.__promoMd, null,
-                        (err && err.message) || String(err));
+                        (err && err.message) || String(err), null, null, null, null);
                 } catch (e2) {
                     // Si el render falló, reintentarlo con el mismo render no
                     // arregla nada: vuelve a fallar y el error se pierde en
@@ -103,6 +102,86 @@
                     // motivo en el container para que se vea qué pasó.
                     _avisar((e2 && e2.message) || String(e2));
                 }
+            });
+    }
+
+    /**
+     * FEATURES.md: el catálogo de lo que el equipo construyó, escrito por el
+     * Principal al mergear a agents/main.
+     *
+     * Va PRIMERO en la cadena, antes que dev-catalogo.json, y no en paralelo,
+     * por dos razones que_importan:
+     *
+     *  1. Sin fichas la tab no tiene nada que mostrar. El catálogo de rutas
+     *     sirve para VALIDAR los links; sin la ficha no hay a qué validarlos.
+     *  2. El orden de los .then marca el orden de la espera. Si las dos cosas
+     *     se piden juntas y una falla, el catch se dispara antes de que la
+     *     otra llegue, y la tab se dibuja con medio dato. Encadenadas, cada
+     *     error se reporta en el campo que le corresponde.
+     */
+    function cargarFeatures(R, rutas, errRutas) {
+        var cfg = window.DASHBOARD_CONFIG;
+        var url = cfg && cfg.getFeaturesUrl ? cfg.getFeaturesUrl() : null;
+        if (!url) {
+            R.renderPromotions(window.__promoParsed, window.__promoMd, rutas,
+                errRutas, null, null, null, 'sin getFeaturesUrl');
+            return;
+        }
+        fetch(url)
+            .then(function (r) {
+                if (!r.ok) throw new Error('HTTP ' + r.status);
+                return r.text();
+            })
+            .then(function (txt) {
+                window.__featuresMd = txt;
+                var fichas = [];
+                if (window.DevCatalogo && window.DevCatalogo.parseFeatures) {
+                    fichas = window.DevCatalogo.parseFeatures(txt);
+                }
+                window.__features = fichas;
+                cargarCatalogo(R, rutas, errRutas, fichas, null);
+            })
+            .catch(function (err) {
+                // Un 404 acá significa que el equipo todavia no escribio
+                // FEATURES.md. NO es lo mismo que "no hay features": por eso
+                // el error viaja como fichasError y no como fichas vacias,
+                // para que la tab pueda decirlo al pie.
+                cargarCatalogo(R, rutas, errRutas, null,
+                    (err && err.message) || String(err));
+            });
+    }
+
+    /**
+     * data/dev-catalogo.json responde "qué pantallas REALES tiene dev": las
+     * lee _eco\gen_dev_catalogo.py del js/ de gw2-dev. Sirve solo para
+     * verificar los links de las fichas — si una ruta declarada no existe acá,
+     * la ficha se muestra sin link en vez de mandar a una pantalla inventada.
+     */
+    function cargarCatalogo(R, rutas, errRutas, fichas, fichasError) {
+        var cfg = window.DASHBOARD_CONFIG;
+        var url = cfg && cfg.getCatalogoUrl ? cfg.getCatalogoUrl() : null;
+        if (!url) {
+            R.renderPromotions(window.__promoParsed, window.__promoMd, rutas,
+                errRutas, null, 'sin getCatalogoUrl', fichas, fichasError);
+            return;
+        }
+        fetch(url)
+            .then(function (r) {
+                if (!r.ok) throw new Error('HTTP ' + r.status);
+                return r.json();
+            })
+            .then(function (data) {
+                window.__devCatalogo = data;
+                R.renderPromotions(window.__promoParsed, window.__promoMd, rutas,
+                    errRutas, data, null, fichas, fichasError);
+            })
+            .catch(function (err) {
+                // Sin catálogo se pierden los links profundos, pero las fichas
+                // siguen siendo legibles. Se dibuja igual y el botón pasa a
+                // "ruta no verificada" en vez de desaparecer.
+                R.renderPromotions(window.__promoParsed, window.__promoMd, rutas,
+                    errRutas, null, (err && err.message) || String(err),
+                    fichas, fichasError);
             });
     }
 

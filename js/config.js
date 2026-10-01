@@ -98,6 +98,23 @@ const DASHBOARD_CONFIG = {
         return `https://raw.githubusercontent.com/${this.structureRepoOwner}/${this.structureRepoName}/${this.structureBranch}/data/rutas-dev.json`;
     },
 
+    // Qué construyó el equipo y dónde se ve. Lo escribe _eco\gen_dev_catalogo.py
+    // leyendo el js/ real de gw2-dev: qué pantallas existen, cuáles no tienen
+    // entrada en el menú, qué módulos están escritos pero no cableados, y qué
+    // ítems declararon PO y Principal.
+    getCatalogoUrl() {
+        return `https://raw.githubusercontent.com/${this.structureRepoOwner}/${this.structureRepoName}/${this.structureBranch}/data/dev-catalogo.json`;
+    },
+
+    // FEATURES.md vive en el repo de DESARROLLO (agents), no en el dashboard:
+    // lo escribe el equipo al mergear a agents/main. Se lee crudo y lo parsea
+    // js/dev-catalogo.js en el navegador, porque las fichas son texto para
+    // personas y no un formato generado. Las reglas de escritura están en el
+    // AGENTS.md del Principal.
+    getFeaturesUrl() {
+        return `https://raw.githubusercontent.com/${this.structureRepoOwner}/${this.structureRepoName}/${this.structureBranch}/FEATURES.md`;
+    },
+
     // Estado de git de los 3 repos (sha, ultimo commit, proteccion de main).
     // Lo escribe _eco\git_export.py cada 15 min y publica con el pulso.
     // REEMPLAZA a las 3 llamadas branches/main que el navegador hacia contra
