@@ -1,8 +1,15 @@
 {
- "generado_utc": "20261001T023607Z",
- "generado_h": "2026-10-01 02:36 UTC",
+ "generado_utc": "20261001T025107Z",
+ "generado_h": "2026-10-01 02:51 UTC",
  "origen": "git local + ls-remote (sin cuota). protected cacheado TTL 6h.",
  "commits": [
+  {
+   "sha": "0c12adc81d509b8f3492c7b29059a00267915c75",
+   "short": "0c12adc",
+   "autor": "Pablo Sanchez",
+   "fecha": "2026-09-30T23:49:46-03:00",
+   "msg": "fix(idea50b): el boton \"Liberar la cache\" no alcanzaba la cache de SESION del WV"
+  },
   {
    "sha": "b1b74bb98e1ac29c0a79dcc94aad5fc1ba0996ee",
    "short": "b1b74bb",
@@ -345,13 +352,6 @@
    "autor": "Pablo Sanchez",
    "fecha": "2026-09-30T17:02:46-03:00",
    "msg": "﻿test(storage): el espejo deja de medirse con un regex y se mide en comportamiento, por los 4 pares (Idea 61 Tramo 3 recambiado)"
-  },
-  {
-   "sha": "1890a83b81cbd695dd4b0afbe30031539ada7107",
-   "short": "1890a83",
-   "autor": "Pablo Sanchez",
-   "fecha": "2026-09-30T16:39:57-03:00",
-   "msg": "﻿docs(logs): Heartbeat #64 - un resumen contradice al veredicto que resume, y la 50F se mergea"
   }
  ],
  "archivos_md": [
@@ -407,9 +407,9 @@
    "repo": "gw2-agents-dashboard",
    "label": "Dashboard",
    "role": "dashboard",
-   "sha": "49de825c42c7ae80f94def42697d82c5c0e25260",
-   "short_sha": "49de825",
-   "commit": "chore(dashboard): pulso automatico 2026-10-01_02-21_UTC",
+   "sha": "21773128d85a99f180afc9c14f2108b799436353",
+   "short_sha": "2177312",
+   "commit": "chore(dashboard): pulso automatico 2026-10-01_02-36_UTC",
    "estado": "open",
    "protected": false,
    "protected_fresco": true,
