@@ -1,35 +1,35 @@
 {
- "generado_utc": "20261001T185102Z",
- "generado_h": "2026-10-01 18:51 UTC",
+ "generado_utc": "20261001T190609Z",
+ "generado_h": "2026-10-01 19:06 UTC",
  "archivos_estado": [
   {
    "archivo": "TEAM_STATUS.md",
    "quien": "Principal /30min",
    "estado": "ok",
-   "edad_h": 0.4,
-   "kb": 212.4,
-   "crecimiento": "EXCEDE 80 KB (212 KB)"
+   "edad_h": 0.2,
+   "kb": 215.1,
+   "crecimiento": "EXCEDE 80 KB (215 KB)"
   },
   {
    "archivo": "SESSION_LOG.md",
    "quien": "Documentador /4h",
    "estado": "ok",
-   "edad_h": 0.4,
-   "kb": 209.9,
-   "crecimiento": "EXCEDE 60 KB (210 KB)"
+   "edad_h": 0.2,
+   "kb": 211.0,
+   "crecimiento": "EXCEDE 60 KB (211 KB)"
   },
   {
    "archivo": "COMMS_LOG.md",
    "quien": "Principal /30min",
    "estado": "ok",
-   "edad_h": 0.4,
-   "kb": 166.9
+   "edad_h": 0.2,
+   "kb": 167.3
   },
   {
    "archivo": "PRE_BACKLOG.md",
    "quien": "PO /2h",
    "estado": "ROTO",
-   "edad_h": 35.2,
+   "edad_h": 35.5,
    "kb": 238.3,
    "crecimiento": "EXCEDE 120 KB (238 KB)"
   },
@@ -37,14 +37,14 @@
    "archivo": "ALERTS_LOG.md",
    "quien": "Principal /30min",
    "estado": "ok",
-   "edad_h": 0.4,
-   "kb": 253.7
+   "edad_h": 0.2,
+   "kb": 257.2
   },
   {
    "archivo": "DECISIONS_LOG.md",
    "quien": "Principal",
    "estado": "ok",
-   "edad_h": 40.8,
+   "edad_h": 41.1,
    "kb": 10.2
   }
  ],
@@ -86,7 +86,7 @@
  "ramas_sin_integrar": [
   {
    "rama": "docs-features-md",
-   "commits": 24,
+   "commits": 26,
    "fecha": "2026-10-01"
   },
   {
@@ -280,17 +280,17 @@
   },
   {
    "dia": "2026-10-01",
-   "llamadas": 5201,
-   "prompt": 464927867,
-   "cache_read": 453700821,
-   "cache_pct": 97.6,
-   "prompt_por_llamada": 89392,
+   "llamadas": 5306,
+   "prompt": 473872416,
+   "cache_read": 462228375,
+   "cache_pct": 97.5,
+   "prompt_por_llamada": 89308,
    "por_agente": [
     {
      "agente": "default",
-     "llamadas": 3214,
-     "prompt": 303620433,
-     "cache_pct": 97.9
+     "llamadas": 3241,
+     "prompt": 305844564,
+     "cache_pct": 98.0
     },
     {
      "agente": "product-owner",
@@ -306,9 +306,9 @@
     },
     {
      "agente": "architect",
-     "llamadas": 311,
-     "prompt": 25025651,
-     "cache_pct": 95.5
+     "llamadas": 389,
+     "prompt": 31746069,
+     "cache_pct": 95.2
     }
    ]
   }
@@ -316,17 +316,17 @@
  "dashboard": [
   {
    "archivo": "comms.json",
-   "edad_min": 0.1,
+   "edad_min": 0.4,
    "estado": "ok"
   },
   {
    "archivo": "salud.json",
-   "edad_min": 15.0,
+   "edad_min": 15.4,
    "estado": "ok"
   },
   {
    "archivo": "estructura.json",
-   "edad_min": 0.1,
+   "edad_min": 0.4,
    "estado": "ok"
   }
  ],
@@ -445,7 +445,7 @@
   },
   "esperando_decision_error": null,
   "backlog": {
-   "abiertos": 20,
+   "abiertos": 21,
    "cerrados": 37,
    "bloqueados": 4,
    "bloqueados_items": [

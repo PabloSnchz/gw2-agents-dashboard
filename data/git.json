@@ -1,8 +1,22 @@
 {
- "generado_utc": "20261001T185110Z",
- "generado_h": "2026-10-01 18:51 UTC",
+ "generado_utc": "20261001T190632Z",
+ "generado_h": "2026-10-01 19:06 UTC",
  "origen": "git local + ls-remote (sin cuota). protected cacheado TTL 6h.",
  "commits": [
+  {
+   "sha": "f6c9876a3e9dc78efc435ebc1ac5df8f0f2432e0",
+   "short": "f6c9876",
+   "autor": "Pablo Sanchez",
+   "fecha": "2026-10-01T15:53:23-03:00",
+   "msg": "docs(promociones): 392c3b9 esta en produccion SIN VERIFICAR  Pablo lo confirmo el 2026-10-01: el pill de Solitary Throne CM ya se ve en el modulo de Actividades de produccion. O sea, la fila decia PENDIENTE y la realidad era otra.  El error era mio y viene de antes. La autorizacion retroactiva de este commit la habia anotado en la rama docs-estructura-20260930 (408603e), que nunca se mergeo. PROMOTIONS.md en main seguia diciendo PENDIENTE, y la tab leia main. El registro existia; vivia donde nadie lee.  El estado nuevo no es cosmetico. Las dos salidas anteriores eran mentirosas en direcciones opuestas:    - PENDIENTE le decia a Pablo 'decidi esto' sobre algo que ya estaba     resuelto. El bug caro de esta tab.   - AUTORIZADO lo escondia bajo 'decisiones tomadas' y dejaba de avisar     que NADIE lo probo. SeTruthfulness al reves: tapa el agujero.  'Esta en produccion' y 'funciona' son dos hechos distintos, y hace falta un estado que los separe. El dashboard lo renderiza en su propio bloque, con lo que falta verificar escrito, no en un badge.  En produccion y visible no es lo mismo que funcional: el pill se ve, pero nadie confirmo que el tracker calcule bien. Queda asi, y se descongela cuando alguien lo pruebe de verdad."
+  },
+  {
+   "sha": "ce62cfb3504d6ff583a0b861dab19130041202f7",
+   "short": "ce62cfb",
+   "autor": "Pablo Sanchez",
+   "fecha": "2026-10-01T15:39:07-03:00",
+   "msg": "﻿test(hb107): el censo de T13 daba \"ok\" mirando cero modulos, y el runner de suite no arrancaba"
+  },
   {
    "sha": "4f253154614aeec17ee005299349c11872ea9708",
    "short": "4f25315",
@@ -338,20 +352,6 @@
    "autor": "Pablo Sanchez",
    "fecha": "2026-10-01T00:48:34-03:00",
    "msg": "docs(hb76): fila 080, la pregunta al Reviewer sobre los raw de raid-tracker.js"
-  },
-  {
-   "sha": "10f1e276bcf2c4e4b6e64e7280c766ed87fbce49",
-   "short": "10f1e27",
-   "autor": "Pablo Sanchez",
-   "fecha": "2026-10-01T00:48:05-03:00",
-   "msg": "docs(hb76): WIP recuperado de hb75-wt, y un test que moria SIN CONTAR"
-  },
-  {
-   "sha": "ea10e9b62a8d8f4a1bd3c3955437335d7a8c3b22",
-   "short": "ea10e9b",
-   "autor": "Pablo Sanchez",
-   "fecha": "2026-10-01T00:38:01-03:00",
-   "msg": "﻿feat(app): la puerta de permisos exige los 7 que la app USA, no 2 (recuperado)"
   }
  ],
  "archivos_md": [
@@ -396,9 +396,9 @@
    "repo": "gw2-wallet-agents",
    "label": "Desarrollo",
    "role": "dev",
-   "sha": "ce62cfb3504d6ff583a0b861dab19130041202f7",
-   "short_sha": "ce62cfb",
-   "commit": "﻿test(hb107): el censo de T13",
+   "sha": "f6c9876a3e9dc78efc435ebc1ac5df8f0f2432e0",
+   "short_sha": "f6c9876",
+   "commit": "docs(promociones): 392c3b9 esta en produccion SIN VERIFICAR",
    "estado": "open",
    "protected": false,
    "protected_fresco": true,
@@ -408,9 +408,9 @@
    "repo": "gw2-agents-dashboard",
    "label": "Dashboard",
    "role": "dashboard",
-   "sha": "43f3ef3676d29becc146ef7575a88ef160872ceb",
-   "short_sha": "43f3ef3",
-   "commit": "chore(dashboard): pulso automatico 2026-10-01_18-36_UTC",
+   "sha": "8820169f6f3190e30cc86704d24adc8d61f9dd0c",
+   "short_sha": "8820169",
+   "commit": "feat(promociones): estado 'en produccion",
    "estado": "open",
    "protected": false,
    "protected_fresco": true,
