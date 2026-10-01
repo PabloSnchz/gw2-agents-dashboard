@@ -886,6 +886,7 @@ class DashboardRenderer {
         const congelado = promo.congelado || [];
         const noCandidato = promo.noCandidato || [];
         const indeterminado = promo.indeterminado || [];
+        const sinVerificar = promo.prodSinVerificar || [];
         const decidido = promo.decidido || [];
 
         const cfg = window.DASHBOARD_CONFIG || {};
@@ -977,6 +978,30 @@ class DashboardRenderer {
                 </p>
             </article>`;
         };
+
+        // ── Tarjeta de "en producción sin verificar" ───────────────────────
+        // Un cuarto estado que no existía. No es una tarea (ya está
+        // resuelto) ni un congelado (no hay que protegerlo). Es lo más
+        // incómodo de los cuatro: algo que YA ESTÁ VIVO y que nadie
+        // confirmó que haga lo que dice hacer.
+        //
+        // Por qué tiene bloque propio y no va al historial con los decididos:
+        // marcado AUTORIZADO desaparece de la vista, y eso sería afirmar que
+        // funciona. Al lado del 57008ae (autorizado y revisado por Pablo)
+        // se leería como que también se revisó.
+        const cardSinVerificar = item => `
+            <article class="promo-card promo-card--sin-verificar">
+                <header class="promo-card__head">
+                    <h4 class="promo-card__title">${esc(item.nombre)}</h4>
+                    <span class="promo-badge promo-badge--sin-verificar">en producción · sin verificar</span>
+                </header>
+                ${item.detalle ? `<p class="promo-card__body">${esc(item.detalle)}</p>` : ''}
+                <p class="promo-card__inertial">
+                    <strong>Ya está en producción, pero nadie confirmó que funcione.</strong>
+                    Que se vea no es lo mismo que haga lo que dice hacer. No
+                    espera tu decisión: espera que alguien lo pruebe.
+                </p>
+            </article>`;
 
         // ── Tarjeta de congelado ───────────────────────────────────────────
         // Esto NO es una tarea. Es un aviso de que hay algo que no hay que
@@ -1085,6 +1110,19 @@ class DashboardRenderer {
                 ${esperando.map(cardEspera).join('')}
             </section>` : '';
 
+        const bSinVerificar = sinVerificar.length ? `
+            <section class="promo-bloque promo-bloque--sin-verificar">
+                <h3 class="promo-bloque__t">
+                    <span class="promo-bloque__lock" aria-hidden="true">⚠</span>
+                    En producción, sin verificar
+                </h3>
+                <p class="promo-bloque__sub">
+                    Esto ya está vivo en la web que usás, pero nadie confirmó
+                    que funcione. No espera tu decisión: espera que alguien lo pruebe.
+                </p>
+                ${sinVerificar.map(cardSinVerificar).join('')}
+            </section>` : '';
+
         const bCongelado = congelado.length ? `
             <section class="promo-bloque promo-bloque--congelado">
                 <h3 class="promo-bloque__t">
@@ -1183,6 +1221,7 @@ class DashboardRenderer {
             </div>
 
             ${bExpecta}
+            ${bSinVerificar}
             ${bCongelado}
             ${bIndet}
             ${bFuera}

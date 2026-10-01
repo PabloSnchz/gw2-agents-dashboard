@@ -1591,6 +1591,7 @@ class DashboardParser {
             updatedAt: null,
             esperando: [],      // espera una decisión de Pablo
             congelado: [],      // "no revertir ni modificar" → NO es decisión
+            prodSinVerificar: [],  // YA en producción, sin confirmar que funcione
             noCandidato: [],    // explícitamente no es candidato a promoción
             indeterminado: [],  // no se pudo leer el estado; se dice, no se supone
             decidido: []        // historial de decisiones tomadas
@@ -1647,6 +1648,17 @@ class DashboardParser {
      * primer partido si se probara después.
      */
     static _clasificarPromo(data, item, isDecision) {
+        // Antes de la rama de decisiones, y antes que congelado.
+        //
+        // El item está en la tabla de "Decisiones tomadas" (isDecision), así
+        // que sin esto caería en `congelado` por su "No revertir ni modificar
+        // hasta que se verifique" — y quedaría pidiendo una decisión sobre algo
+        // que ya está resuelto, que es el bug que esta tab ya tuvo una vez.
+        // Lo que le falta no es la decisión: es la PRUEBA.
+        if (item.prodSinVerificar) {
+            data.prodSinVerificar.push(item);
+            return;
+        }
         if (isDecision) {
             // En el historial "PENDIENTE" no significa "esperando tu
             // decisión": significa "así quedó, sin resolver". 392c3b9 dice
@@ -1666,7 +1678,8 @@ class DashboardParser {
             return;
         }
 
-        if (item.congelado) { data.congelado.push(item); return; }
+        if (item.prodSinVerificar) { data.prodSinVerificar.push(item); return; }
+            if (item.congelado) { data.congelado.push(item); return; }
         if (item.noCandidato) { data.noCandidato.push(item); return; }
         if (item.state === 'pending' || item.state === 'ready') {
             data.esperando.push(item);
@@ -1839,6 +1852,24 @@ class DashboardParser {
             /no revertir|sin revertir|no modificar|sin modificar|no tocar|intocable|congelad|hasta instrucci|hasta que Pablo|no revertir ni/i.test(raw)
         );
 
+        // "Está en producción pero nadie confirmó que funcione" (2026-10-01).
+        //
+        // Se evalúa ANTES que congelado y antes que el state, por una razón
+        // concreta: la fila dice "No revertir ni modificar hasta que se
+        // verifique", así que el regex de congelado la matchea y se la lleva.
+        // Con el orden viejo, un item que YA está en producción se renderiza
+        // como "congelado" — que es exactamente lo que dice la fila, pero
+        // esconde lo único que le importa a Pablo: que falta probarlo.
+        //
+        // El patrón busca SOLO expresiones de duda: "sin verificar", "nadie lo
+        // verificó", "todavía no se verificó". Deliberadamente NO matchea
+        // "verificado": un "AUTORIZADO, verificado por Pablo" es lo contrario
+        // de lo que representa este estado, y un regex que lo absorbiera
+        // mandaría lo ya revisado al bloque de "falta probar".
+        const prodSinVerificar = !!(
+            /(?:sin|no)\s+verific|nadie\s+(?:lo|la|los|las)?\s*verific|no\s+se\s+pudo\s+verific|todav[ií]a\s+no\s+(?:se|lo|la)?\s*verific|queda\s+(?:por|pendiente)?\s*verificar|falta\s+verificar|(?:sin|nadie\s+)\s*confirm\w*/i.test(raw)
+        );
+
         const noCandidato = !!entrada.noCandidatoPorColumna || !!(
             /no es candid|no son candidat|no candidata|excluido|excluida|descartad|0 callers|no aplica a promoci/i.test(raw)
         );
@@ -1859,7 +1890,12 @@ class DashboardParser {
         };
         const probe = primerBold(entrada.detalle) || primerBold(raw) || raw;
         let state = 'unknown';
-        if (congelado) state = 'congelado';
+        // prodSinVerificar va PRIMERO: si no, la frase "hasta que se verifique"
+        // de la fila la manda a 'congelado', que es verdad pero no es lo que
+        // hay que mostrar. Lo que hay que mostrar es que ya está en
+        // producción y le falta la prueba.
+        if (prodSinVerificar) state = 'prod_sin_verificar';
+        else if (congelado) state = 'congelado';
         else if (noCandidato) state = 'no_candidato';
         // "LISTO." a secas es el estado real del botón de cacheClear. Las dos
         // reglas anteriores pedían "listo para probar" y caían en unknown, que
@@ -1907,6 +1943,7 @@ class DashboardParser {
             ruta: entrada.ruta || null,
             state,
             congelado,
+            prodSinVerificar,
             decidido,
             noCandidato,
             raw

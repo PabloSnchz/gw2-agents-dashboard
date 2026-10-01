@@ -495,6 +495,13 @@
 .promo-card--esperando { border-left: 3px solid #d8a657; }
 .promo-card--congelado { border-left: 3px solid #c0646f; background: rgba(192, 100, 111, 0.05); }
 
+/* En produccion sin verificar: NO es una alarma de peligro (eso seria rojo,
+   y rojo aca significa "esto se rompio"), es un dato que falta. Por eso usa
+   ambar, el mismo color que "esperando tu decision": ambas cosas dicen
+   "falta algo por hacer" en el mismo registro visual. */
+.promo-card--sin-verificar { border-left: 3px solid #d8a657; background: rgba(216, 166, 87, 0.05); }
+.promo-badge--sin-verificar { background: rgba(216, 166, 87, 0.18); color: #e0bd7f; border: 1px solid rgba(216, 166, 87, 0.35); }
+
 .promo-card__head {
     display: flex;
     align-items: flex-start;
