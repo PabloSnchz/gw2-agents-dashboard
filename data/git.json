@@ -1,8 +1,36 @@
 {
- "generado_utc": "20261001T003607Z",
- "generado_h": "2026-10-01 00:36 UTC",
+ "generado_utc": "20261001T005107Z",
+ "generado_h": "2026-10-01 00:51 UTC",
  "origen": "git local + ls-remote (sin cuota). protected cacheado TTL 6h.",
  "commits": [
+  {
+   "sha": "80567acad456100b8dbd3f45b5e98b01bdf78a13",
+   "short": "80567ac",
+   "autor": "Pablo Sanchez",
+   "fecha": "2026-09-30T21:41:51-03:00",
+   "msg": "docs(hb72): filas 077/078 (Reviewer ALERT-91, PO ronda 20 + T5)"
+  },
+  {
+   "sha": "dce1189950b3683cd288366a4783024876a01f19",
+   "short": "dce1189",
+   "autor": "Pablo Sanchez",
+   "fecha": "2026-09-30T21:40:33-03:00",
+   "msg": "docs(hb72): TEAM_STATUS y ALERT-91 (el assert que afirmaba el defecto)"
+  },
+  {
+   "sha": "70f235f406ad1cd3113a2af667a41e882f8e5da8",
+   "short": "70f235f",
+   "autor": "Pablo Sanchez",
+   "fecha": "2026-09-30T21:38:34-03:00",
+   "msg": "merge(hb72): el LECTOR CRUDO de la lista de cuentas, y el assert que lo nominaba"
+  },
+  {
+   "sha": "b8bd0af57183f1107314e48d383814d6c58cb15a",
+   "short": "b8bd0af",
+   "autor": "Pablo Sanchez",
+   "fecha": "2026-09-30T21:38:29-03:00",
+   "msg": "﻿fix(cuentas): el LECTOR CRUDO de la legacy, y el assert que lo nominaba (ALERT-91)"
+  },
   {
    "sha": "472636f593d4baa25e69772f59b22cf9cff47797",
    "short": "472636f",
@@ -324,34 +352,6 @@
    "autor": "Pablo Sanchez",
    "fecha": "2026-09-30T16:08:05-03:00",
    "msg": "﻿docs(logs): Heartbeat #63 - los 3 veredictos leidos, un bug corregido y un merge que no se hizo"
-  },
-  {
-   "sha": "8dd53a0a505df0ed18343640e0da423238eeb010",
-   "short": "8dd53a0",
-   "autor": "Pablo Sanchez",
-   "fecha": "2026-09-30T16:05:00-03:00",
-   "msg": "﻿fix(characters): \"Puntos de logros\" no puede mostrar NaN (Idea 78)"
-  },
-  {
-   "sha": "bcc1e36d72ed82dda1bfc3de38fb58c399e52e19",
-   "short": "bcc1e36",
-   "autor": "Pablo Sanchez",
-   "fecha": "2026-09-30T15:44:00-03:00",
-   "msg": "docs(org): el chat Admin se retira; la estructura pasa al Arquitecto"
-  },
-  {
-   "sha": "bf5961dca8ad6d85d32cd4d64118ff5c5ad11b5e",
-   "short": "bf5961d",
-   "autor": "Pablo Sanchez",
-   "fecha": "2026-09-30T15:39:15-03:00",
-   "msg": "﻿docs(logs): Heartbeat #62 - el Reviewer no estaba lento, nadie lo despertaba (ALERT-72)"
-  },
-  {
-   "sha": "942bf1b98ca0d5e8d9e11de42cca8e2fca91d08c",
-   "short": "942bf1b",
-   "autor": "Pablo Sanchez",
-   "fecha": "2026-09-30T15:18:44-03:00",
-   "msg": "﻿fix(logs): TEAM_STATUS.md se sobreescribia y por eso los diffs de logs eran de 468 lineas"
   }
  ],
  "archivos_md": [
@@ -395,9 +395,9 @@
    "repo": "gw2-wallet-agents",
    "label": "Desarrollo",
    "role": "dev",
-   "sha": "472636f593d4baa25e69772f59b22cf9cff47797",
-   "short_sha": "472636f",
-   "commit": "Heartbeat PO ronda 19 - IDEA 64: lost update sobre la lista",
+   "sha": "80567acad456100b8dbd3f45b5e98b01bdf78a13",
+   "short_sha": "80567ac",
+   "commit": "docs(hb72): filas 077/078 (Reviewer ALERT-91, PO ronda 20 +",
    "estado": "open",
    "protected": false,
    "protected_fresco": true,
@@ -407,9 +407,9 @@
    "repo": "gw2-agents-dashboard",
    "label": "Dashboard",
    "role": "dashboard",
-   "sha": "1eecfb9f8fb4fa61c0f323f9c8ba0387c9c54db3",
-   "short_sha": "1eecfb9",
-   "commit": "chore(dashboard): pulso automatico 2026-10-01_00-21_UTC",
+   "sha": "a2f0099781cdd53203217e4aad7f9f7bd710b4e8",
+   "short_sha": "a2f0099",
+   "commit": "chore(dashboard): pulso automatico 2026-10-01_00-36_UTC",
    "estado": "open",
    "protected": false,
    "protected_fresco": true,
