@@ -106,13 +106,22 @@ const DASHBOARD_CONFIG = {
         return `https://raw.githubusercontent.com/${this.structureRepoOwner}/${this.structureRepoName}/${this.structureBranch}/data/dev-catalogo.json`;
     },
 
-    // FEATURES.md vive en el repo de DESARROLLO (agents), no en el dashboard:
-    // lo escribe el equipo al mergear a agents/main. Se lee crudo y lo parsea
-    // js/dev-catalogo.js en el navegador, porque las fichas son texto para
-    // personas y no un formato generado. Las reglas de escritura están en el
-    // AGENTS.md del Principal.
+    // FEATURES.md vive en el repo de DESARROLLO (agents), NO en el del
+    // dashboard: lo escribe el equipo al mergear a agents/main, y el
+    // dashboard no tiene por qué tener una copia que se le desincronice.
+    //
+    // OJO con el repo: los *.md que salen del dashboard (estructura.json,
+    // rutas-dev.json, dev-catalogo.json) usan structureRepo*, que apunta a
+    // gw2-agents-dashboard. FEATURES.md NO. Es el único archivo de esta tab
+    // que sale del repo del equipo, y por eso tiene su propio par de
+    // variables — apuntarlo a structure* da un 404 silencioso que se lee
+    // como "el equipo no construyó nada".
+    devRepoOwner: 'PabloSnchz',
+    devRepoName: 'gw2-wallet-agents',
+    devBranch: 'main',
+
     getFeaturesUrl() {
-        return `https://raw.githubusercontent.com/${this.structureRepoOwner}/${this.structureRepoName}/${this.structureBranch}/FEATURES.md`;
+        return `https://raw.githubusercontent.com/${this.devRepoOwner}/${this.devRepoName}/${this.devBranch}/FEATURES.md`;
     },
 
     // Estado de git de los 3 repos (sha, ultimo commit, proteccion de main).

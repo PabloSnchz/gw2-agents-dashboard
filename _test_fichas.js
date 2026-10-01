@@ -169,6 +169,31 @@ const htmlFalta = D.build(D.parseFeatures(MD_SIN_RUTA), CAT, null);
 ok(htmlFalta.indexOf('faltan:') > 0, 'K1 avisa qué campos no escribió el equipo');
 
 // ─────────────────────────────────────────────────────────────
+// L. LA URL DE LA FUENTE
+// Ya salió UN bug acá: getFeaturesUrl() usaba structureRepo*, que apunta
+// a gw2-agents-dashboard, cuando FEATURES.md vive en gw2-wallet-agents.
+// El 404 se leía como "el equipo no construyó nada" — la peor forma de
+// estar equivocado: no se ve el error, se ve una conclusión falsa.
+// ─────────────────────────────────────────────────────────────
+global.DASHBOARD_CONFIG = undefined;
+(0, eval)(fs.readFileSync('js/config.js', 'utf8'));
+const CFG = global.DASHBOARD_CONFIG || global.window.DASHBOARD_CONFIG;
+const u = CFG.getFeaturesUrl();
+ok(u.indexOf('gw2-wallet-agents') > 0, 'L1 FEATURES.md se lee del repo de DESARROLLO');
+ok(u.indexOf('gw2-agents-dashboard') === -1,
+   'L2 NO se lee del repo del dashboard (ese no tiene el archivo)');
+ok(u.endsWith('/FEATURES.md'), 'L3 la ruta del archivo es la correcta');
+ok(CFG.getCatalogoUrl().indexOf('gw2-agents-dashboard') > 0,
+   'L4 dev-catalogo.json sigue viniendo del dashboard (no se movió)');
+ok(CFG.getCatalogoUrl() !== u,
+   'L5 las dos fuentes son distintas: el equipo escribe una, yo genero la otra');
+
+// una URL 404 tiene que ser RECONOCIBLE, no un fallo genérico
+const html404 = D.build(null, CAT, 'HTTP 404');
+ok(html404.indexOf('HTTP 404') > 0 && html404.indexOf('no haya trabajo hecho') > 0,
+   'L6 un 404 se muestra como lo que es: no se pudo leer');
+
+// ─────────────────────────────────────────────────────────────
 console.log(`\n${pass} ok, ${fail} fallos\n`);
 if (fails.length) { fails.forEach(f => console.log('  ✗ ' + f)); process.exit(1); }
 console.log('Las fichas muestran lo que el equipo escribió, y muestran — lo que no escribió.');
