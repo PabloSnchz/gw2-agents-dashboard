@@ -1,8 +1,190 @@
 {
- "generado_utc": "20261001T182110Z",
- "generado_h": "2026-10-01 18:21 UTC",
+ "generado_utc": "20261001T183611Z",
+ "generado_h": "2026-10-01 18:36 UTC",
  "origen": "git local + ls-remote (sin cuota). protected cacheado TTL 6h.",
  "commits": [
+  {
+   "sha": "4f253154614aeec17ee005299349c11872ea9708",
+   "short": "4f25315",
+   "autor": "Pablo Sanchez",
+   "fecha": "2026-10-01T15:26:50-03:00",
+   "msg": "docs(features): el inventario que Pablo lee para decidir que se promueve  PROMOTIONS.md es el log de decisiones; faltaba el catalogo de lo construido. Sin el, la tab Promociones contestaba 'que espera decision' cuando la pregunta real era 'donde veo la armeria legendaria' — que si existia, funcionaba, y no se podia encontrar.  FEATURES.md lleva una ficha por cosa construida, con los campos que Pablo necesita para PROBAR antes de autorizar:   Tipo (nueva / mejora visible / mejora oculta)   Donde la veo -> el punto exacto en la pantalla, no el modulo   Ruta        -> solo si hay pantalla   Si no entra / Si sale mal -> obligatorios en mejoras ocultas   Commits, rama  Regla dura escrita en el propio archivo: si no lo sabes, va '—'. Un campo inventado es peor que uno vacio, porque el dashboard no puede distinguir 'no lo sé' de 'no existe'.  El equipo lo escribe al mergear a agents/main (regla agregada al AGENTS.md del Principal). El PO no: propone ideas pero no vio el codigo y no puede saber 'donde la veo'.  Se siembra con la Armería Legendaria, verificada: 206 items con precios de TP en 39, ruta #/account/legendary-armory, item 8 del menu."
+  },
+  {
+   "sha": "2e009ee6481bd0e026f6a6be686ae9a534936179",
+   "short": "2e009ee",
+   "autor": "Pablo Sanchez",
+   "fecha": "2026-10-01T15:13:12-03:00",
+   "msg": "﻿docs(log): HB#105 - ALERT-138 (no habia runner de suite) y ALERT-139 (close() no cierra la fila)"
+  },
+  {
+   "sha": "570336baf4383a42dd81eb6833fecd9c1a26278e",
+   "short": "570336b",
+   "autor": "Pablo Sanchez",
+   "fecha": "2026-10-01T15:10:45-03:00",
+   "msg": "﻿fix(puerta): commit 1 de 2 - la key guardada lleva sus permisos"
+  },
+  {
+   "sha": "c60b096dafb511e51b715c5d5c05bf36476b3f97",
+   "short": "c60b096",
+   "autor": "Pablo Sanchez",
+   "fecha": "2026-10-01T14:41:42-03:00",
+   "msg": "﻿docs(log): ALERT-137 -- `overdue` lista 9 preguntas ya respondidas por otra via"
+  },
+  {
+   "sha": "14b803a7bcb844c50b0eb17d26828fa398110b78",
+   "short": "14b803a",
+   "autor": "Pablo Sanchez",
+   "fecha": "2026-10-01T14:40:20-03:00",
+   "msg": "﻿fix(settings): el confirm del restore de archivo estaba DESPUES de las 7 escrituras"
+  },
+  {
+   "sha": "7002e78f8fa5ca1d3006327d6079218a27950ef1",
+   "short": "7002e78",
+   "autor": "Pablo Sanchez",
+   "fecha": "2026-10-01T14:12:31-03:00",
+   "msg": "﻿docs(heartbeat#103): ALERT-133 -- mande al Reviewer una pregunta sobre 49G, que ya estaba implementada"
+  },
+  {
+   "sha": "56b330380787ecd0410cc8eee07d31227b0d9504",
+   "short": "56b3303",
+   "autor": "Pablo Sanchez",
+   "fecha": "2026-10-01T14:08:40-03:00",
+   "msg": "﻿docs(heartbeat#103): el paso 3 contaba en el archivo equivocado; ALERT-132"
+  },
+  {
+   "sha": "9c93300759c588f0dffc5ee081afc58b5ce52cff",
+   "short": "9c93300",
+   "autor": "Pablo Sanchez",
+   "fecha": "2026-10-01T13:43:26-03:00",
+   "msg": "﻿fix(raid-tracker): el toggle Raids/Strikes quedaba MUERTO al entrar por Strikes (T12)"
+  },
+  {
+   "sha": "805eddbe28c229cff2cd7a781167d4878979c6b2",
+   "short": "805eddb",
+   "autor": "Pablo Sanchez",
+   "fecha": "2026-10-01T13:11:28-03:00",
+   "msg": "﻿chore(hb100): ALERT-130 + T1-bis resuelto + HB#91 medido - el \"0 FAIL\" era una medicion sin controlar"
+  },
+  {
+   "sha": "844d33c1c9b5f0091d6b074baba8c2ac3f55622a",
+   "short": "844d33c",
+   "autor": "Pablo Sanchez",
+   "fecha": "2026-10-01T12:42:19-03:00",
+   "msg": "﻿docs(hb99): veredicto de T11 aplicado con ALERT-129 - el Reviewer midi sobre el clon compartido"
+  },
+  {
+   "sha": "031f1bf9a397850afcbf2c0265acf9baa886d1bc",
+   "short": "031f1bf",
+   "autor": "Pablo Sanchez",
+   "fecha": "2026-10-01T12:36:16-03:00",
+   "msg": "﻿docs(hb99): T1 aplicado y ALERT-128 - el WIP de otra sesion es invisible desde origin/main"
+  },
+  {
+   "sha": "8ff95b5ad61ab503b7ac92ecb935d0784f9a0f64",
+   "short": "8ff95b5",
+   "autor": "Pablo Sanchez",
+   "fecha": "2026-10-01T12:33:00-03:00",
+   "msg": "﻿fix(wv-shop-ui): gn:wv:shop:view y gn:wv:shop:legacy_filter CONGELADAS - el boton escribia la legacy a pelo"
+  },
+  {
+   "sha": "c1b069349dc89c4c7b3913bf672aed512acda28f",
+   "short": "c1b0693",
+   "autor": "Pablo Sanchez",
+   "fecha": "2026-10-01T10:54:54-03:00",
+   "msg": "docs(hb96): el PO responde pero choca con un techo de 100 iteraciones, y eso no es estar mudo  task-b51dea39f809 termino en 'Max iterations (100) reached', el mismo techo que la ronda anterior y el que se le anticipo antes de mandarla. El Reviewer, en la misma tanda, devolvio un veredicto completo de ~5k caracteres: el techo es del turno del PO, no de la plataforma.  Consecuencia para el ciclo: la via que funciona con el PO es submit_to_agent, no su cron de archivo. Es el mismo patron del Reviewer, con una diferencia: el PO tiene un disparador y el Reviewer no (ALERT-127).  check_agent_task no devuelve el cuerpo, solo el marcador, asi que para respuestas largas hay que pedirle cortas al PO."
+  },
+  {
+   "sha": "f487573dbecd84123183fa28824f3d0bd8c7af59",
+   "short": "f487573",
+   "autor": "Pablo Sanchez",
+   "fecha": "2026-10-01T10:53:39-03:00",
+   "msg": "﻿fix(hb96): T10 - la politica contradictoria de movimiento reducido se borra, y el arnes que loodia tambien"
+  },
+  {
+   "sha": "a0871838e18361aa57415db860c2583897d5a06d",
+   "short": "a087183",
+   "autor": "Pablo Sanchez",
+   "fecha": "2026-10-01T10:37:59-03:00",
+   "msg": "﻿chore(hb96): ALERT-127 - el canal de archivos ENTREGA pero no DESPIERTA; hay 3 condiciones para que un mensaje llegue y el equipo media 2"
+  },
+  {
+   "sha": "5a0c437603b2a34040d6e659682d96c0242aeb70",
+   "short": "5a0c437",
+   "autor": "Pablo Sanchez",
+   "fecha": "2026-10-01T10:10:10-03:00",
+   "msg": "﻿docs(hb95): el censo de filas falsas era 4, no 2, y solo una de las dos clases es instrumentable"
+  },
+  {
+   "sha": "702a2549342e2cd3e6b35daac2af577a2cf03ad0",
+   "short": "702a254",
+   "autor": "Pablo Sanchez",
+   "fecha": "2026-10-01T10:07:03-03:00",
+   "msg": "﻿docs(hb95): 2 filas del BACKLOG decian \"esperando veredicto\" con el veredicto cerrado hace 30-40 heartbeats"
+  },
+  {
+   "sha": "ef8c8debcf6dcfd3aed3d988b81c4790fdd20a27",
+   "short": "ef8c8de",
+   "autor": "Pablo Sanchez",
+   "fecha": "2026-10-01T09:51:00-03:00",
+   "msg": "﻿chore(hb94): T10 del PO verificado por ejecucion, test en rojo y pregunta de diseno al Reviewer"
+  },
+  {
+   "sha": "03ca201e5142e4d55342ae5a0855778e58dffdb4",
+   "short": "03ca201",
+   "autor": "Pablo Sanchez",
+   "fecha": "2026-10-01T08:50:38-03:00",
+   "msg": "﻿chore(hb93): el PO no abre el canal de archivos, y el BACKLOG tenia 2 filas falsas"
+  },
+  {
+   "sha": "844d054b3b79ec2c340e654c8358f858516b7803",
+   "short": "844d054",
+   "autor": "Pablo Sanchez",
+   "fecha": "2026-10-01T08:06:41-03:00",
+   "msg": "﻿chore(hb92): el canal de archivos entrega mensajes que el destinatario no puede leer"
+  },
+  {
+   "sha": "4dc4d3d10d83834d2537d50e90b52a19c11e7978",
+   "short": "4dc4d3d",
+   "autor": "Pablo Sanchez",
+   "fecha": "2026-10-01T07:39:27-03:00",
+   "msg": "﻿docs(tests): la puerta de permisos ya rechaza la key de 2 permisos; hb75 mira la forma, no la conducta"
+  },
+  {
+   "sha": "f2e76e0e49e5c75af05e814527d90a97aaa98b49",
+   "short": "f2e76e0",
+   "autor": "Pablo Sanchez",
+   "fecha": "2026-10-01T07:30:47-03:00",
+   "msg": "fix(tests): hb89 usaba una 5a forma de resumen y la suite no lo contaba"
+  },
+  {
+   "sha": "73477cc9e9c7513c076d769993db250807a8faf3",
+   "short": "73477cc",
+   "autor": "Pablo Sanchez",
+   "fecha": "2026-10-01T07:28:44-03:00",
+   "msg": "merge(hb90): la sesion paralela subio 54feae8; el fix T9 ya estaba en main"
+  },
+  {
+   "sha": "1d9f2d7fbfd33b046d7df61f4086e78330f3963c",
+   "short": "1d9f2d7",
+   "autor": "Pablo Sanchez",
+   "fecha": "2026-10-01T07:28:24-03:00",
+   "msg": "docs(hb90): ALERT-118, el mutex cancelaba la carga nueva y el contador media 0"
+  },
+  {
+   "sha": "54feae87a73ca90052bb05b99f265db0b62997b4",
+   "short": "54feae8",
+   "autor": "Pablo Sanchez",
+   "fecha": "2026-10-01T07:23:04-03:00",
+   "msg": "﻿docs(hb90): los 2 veredictos ya estaban en main, y el bug del PO ya estaba arreglado"
+  },
+  {
+   "sha": "955a64ef5e5ccfeb057217707034c43130900538",
+   "short": "955a64e",
+   "autor": "Pablo Sanchez",
+   "fecha": "2026-10-01T07:15:31-03:00",
+   "msg": "fix(trackers): el mutex CANCELABA la carga nueva; ahora la pospone (T9/HB#90)"
+  },
   {
    "sha": "4573f309a5c012760ba6d51c000bc9a7be5e2c22",
    "short": "4573f30",
@@ -170,188 +352,6 @@
    "autor": "Pablo Sanchez",
    "fecha": "2026-10-01T00:38:01-03:00",
    "msg": "﻿feat(app): la puerta de permisos exige los 7 que la app USA, no 2 (recuperado)"
-  },
-  {
-   "sha": "d974256950f89296550e8e2749447779dc6c161c",
-   "short": "d974256",
-   "autor": "Pablo Sanchez",
-   "fecha": "2026-10-01T00:13:18-03:00",
-   "msg": "docs(hb75): fila 079 (pregunta del PO al Reviewer) y el estado REAL de las ramas abiertas - fix-idea50b sin mergear y un worktree ajeno con WIP"
-  },
-  {
-   "sha": "f7a7f415fe25f14eb98d191b7be9127d4c049add",
-   "short": "f7a7f41",
-   "autor": "Pablo Sanchez",
-   "fecha": "2026-10-01T00:10:25-03:00",
-   "msg": "docs(hb75): ALERT-93 (mutacion fuera de alcance) y ALERT-94 (open w convierte a CRLF y git status no lo dice)"
-  },
-  {
-   "sha": "0c12adc81d509b8f3492c7b29059a00267915c75",
-   "short": "0c12adc",
-   "autor": "Pablo Sanchez",
-   "fecha": "2026-09-30T23:49:46-03:00",
-   "msg": "fix(idea50b): el boton \"Liberar la cache\" no alcanzaba la cache de SESION del WV"
-  },
-  {
-   "sha": "b1b74bb98e1ac29c0a79dcc94aad5fc1ba0996ee",
-   "short": "b1b74bb",
-   "autor": "Pablo Sanchez",
-   "fecha": "2026-09-30T23:05:18-03:00",
-   "msg": "merge(hb74): idea84 - la cadena que regenera el catalogo de legendarias (T5 opcion d)"
-  },
-  {
-   "sha": "b055bda45dfe74b6b2d7c7d75f1d5a84151e1fb9",
-   "short": "b055bda",
-   "autor": "Pablo Sanchez",
-   "fecha": "2026-09-30T23:04:55-03:00",
-   "msg": "feat(idea84): el regenerador del catalogo era una idea; ahora es una orden (T5 opcion d)"
-  },
-  {
-   "sha": "0e0d41b8ee41556b011ffc348ac87aeb804a9a61",
-   "short": "0e0d41b",
-   "autor": "Pablo Sanchez",
-   "fecha": "2026-09-30T22:13:35-03:00",
-   "msg": "merge(hb73): ALERT-92 - la limitacion del stripper era FALSA, y el censo de idea61 contaba prosa"
-  },
-  {
-   "sha": "4eaf6198c3496f6e050aa260b1a16ec2a70f7cc2",
-   "short": "4eaf619",
-   "autor": "Pablo Sanchez",
-   "fecha": "2026-09-30T22:13:29-03:00",
-   "msg": "﻿fix(tests): la limitacion del stripper era FALSA, y una guarda que no puede fallar no es una guarda (ALERT-92)"
-  },
-  {
-   "sha": "80567acad456100b8dbd3f45b5e98b01bdf78a13",
-   "short": "80567ac",
-   "autor": "Pablo Sanchez",
-   "fecha": "2026-09-30T21:41:51-03:00",
-   "msg": "docs(hb72): filas 077/078 (Reviewer ALERT-91, PO ronda 20 + T5)"
-  },
-  {
-   "sha": "dce1189950b3683cd288366a4783024876a01f19",
-   "short": "dce1189",
-   "autor": "Pablo Sanchez",
-   "fecha": "2026-09-30T21:40:33-03:00",
-   "msg": "docs(hb72): TEAM_STATUS y ALERT-91 (el assert que afirmaba el defecto)"
-  },
-  {
-   "sha": "70f235f406ad1cd3113a2af667a41e882f8e5da8",
-   "short": "70f235f",
-   "autor": "Pablo Sanchez",
-   "fecha": "2026-09-30T21:38:34-03:00",
-   "msg": "merge(hb72): el LECTOR CRUDO de la lista de cuentas, y el assert que lo nominaba"
-  },
-  {
-   "sha": "b8bd0af57183f1107314e48d383814d6c58cb15a",
-   "short": "b8bd0af",
-   "autor": "Pablo Sanchez",
-   "fecha": "2026-09-30T21:38:29-03:00",
-   "msg": "﻿fix(cuentas): el LECTOR CRUDO de la legacy, y el assert que lo nominaba (ALERT-91)"
-  },
-  {
-   "sha": "472636f593d4baa25e69772f59b22cf9cff47797",
-   "short": "472636f",
-   "autor": "Pablo Sanchez",
-   "fecha": "2026-09-30T21:20:52-03:00",
-   "msg": "merge(po): ronda 19 - IDEA 64 al dashboard  El PO escalo la decision de T1 (si la cuenta no esta en la lista fresca, no-op o recrear) y quedo resuelta en el commit de app.js con su por que: no-op + console.warn, porque lo que se borro en otra pestana no reaparece."
-  },
-  {
-   "sha": "ea2721b52f5b167652c682b7f4487e086944bc0f",
-   "short": "ea2721b",
-   "autor": "Pablo Sanchez",
-   "fecha": "2026-09-30T21:20:39-03:00",
-   "msg": "merge(idea64): T1+T2 - dos pestanas ya no se pisan la lista de cuentas  Suite: 881 aserciones / 0 FAIL, 32 de 32 archivos. Fase roja contra el app.js sin el fix: 12 FAIL. Mutacion (save() deja de releer): 7 FAIL."
-  },
-  {
-   "sha": "15d6d755b0ab0992e06acc8b1301eae598d18ac7",
-   "short": "15d6d75",
-   "autor": "Pablo Sanchez",
-   "fecha": "2026-09-30T21:20:35-03:00",
-   "msg": "﻿fix(app): Idea 64 T1+T2 - dos pestanas ya no se pisan la lista de cuentas"
-  },
-  {
-   "sha": "4778f928b57055058c7c6fa07ef94c0c3ba486c4",
-   "short": "4778f92",
-   "autor": "Pablo Sanchez",
-   "fecha": "2026-09-30T21:10:44-03:00",
-   "msg": "merge(alert84): T3+T4 - el contrato de registro de la Armeria y el render que lo usa  Rama: feat-alert84-t3t4-registro (3f9d857 + 9fc4e8a) Suite: 855 aserciones / 0 FAIL, 31 de 31 archivos. Fase roja 1: 4 FAIL + crash sin el fix. Fase roja 2: 2 mutaciones -> 3 FAIL y 4 FAIL."
-  },
-  {
-   "sha": "9fc4e8a22ad04828f87e49fe86379634e0c41615",
-   "short": "9fc4e8a",
-   "autor": "Pablo Sanchez",
-   "fecha": "2026-09-30T21:10:23-03:00",
-   "msg": "docs(test): dos palabras pegadas en un comentario (glitch de generacion mio, sin efecto en el codigo)"
-  },
-  {
-   "sha": "3f9d857037240f0a14830fdad49d5aadbdca3508",
-   "short": "3f9d857",
-   "autor": "Pablo Sanchez",
-   "fecha": "2026-09-30T21:09:54-03:00",
-   "msg": "﻿feat(leyenda): ALERT-84 T3+T4 - el contrato de registro y el render que lo usa"
-  },
-  {
-   "sha": "e4bf45ea9a28d3b839d868b0bd9f99b09541fc01",
-   "short": "e4bf45e",
-   "autor": "Pablo Sanchez",
-   "fecha": "2026-09-30T21:07:10-03:00",
-   "msg": "Heartbeat PO ronda 19 - IDEA 64: lost update sobre la lista de cuentas, reproducido sobre el KeyManager real de app.js."
-  },
-  {
-   "sha": "32de3261ab95f610a34d7814ece098b7e477de19",
-   "short": "32de326",
-   "autor": "Pablo Sanchez",
-   "fecha": "2026-09-30T20:44:30-03:00",
-   "msg": "docs(logs): el veredicto de T3+T4 llego antes del cierre - (a) reducido al minimo, y una cifra mia que estaba mal  El Reviewer elige (a) por una razon estructural: es la unica que crea un segundo punto de observabilidad (catalogo cargado / registro listo se asertan por separado y pueden fallar por separado). (b) se descarta porque no hay evento al cual engancharse: gn:tokenchange se escucha, no se despacha.  LO UNICO BLOQUEANTE: hacer (a) sin fijar las 3 firmas. Y NO implementar getState() entero.  Me corrigio una cifra que yo repeti sin medir: getState tiene 0 invocaciones (no 1); esta en un bloque de comentario de la cabecera. registerRender son 5 menciones y 4 en codigo, no 5. Un conteo que viene de otro agente y entra en mi pregunta como si lo hubiera medido es el mismo modo de falla que el 634 del Reviewer y que el count-suite-totals.py fantasma.  Sin cambios de codigo: esto es solo registro. T3+T4 queda con diseno aprobado y para el proximo ciclo, en rama propia."
-  },
-  {
-   "sha": "975eaa446ea691262a175bdac4ffe9dfc8ea8682",
-   "short": "975eaa4",
-   "autor": "Pablo Sanchez",
-   "fecha": "2026-09-30T20:42:48-03:00",
-   "msg": "merge(alert89): el invariante de encounters vigilado en las dos direcciones + logs del HB#71"
-  },
-  {
-   "sha": "df4844029f8601b043150849b15e6c7e1b850f49",
-   "short": "df48440",
-   "autor": "Pablo Sanchez",
-   "fecha": "2026-09-30T20:42:42-03:00",
-   "msg": "﻿docs(logs): HB#71 - ALERT-89 (el invariante en una sola direccion), ALERT-90 y la adenda a ALERT-79"
-  },
-  {
-   "sha": "1176be6035301e30f253b0fa0f2f972e5a36717b",
-   "short": "1176be6",
-   "autor": "Pablo Sanchez",
-   "fecha": "2026-09-30T20:37:16-03:00",
-   "msg": "﻿test(raids): ALERT-89 - el invariante de encounters se vigilaba en UNA sola direccion"
-  },
-  {
-   "sha": "addfc9f3cfb82dbb2e6cc2b76ff46025ffc495d4",
-   "short": "addfc9f",
-   "autor": "Pablo Sanchez",
-   "fecha": "2026-09-30T20:09:50-03:00",
-   "msg": "docs(alerts): ALERT-88 - un veredicto que nombra lineas de un arbol que ya no existia"
-  },
-  {
-   "sha": "0152434e55c51841ba7658097d564fccfe82974d",
-   "short": "0152434",
-   "autor": "Pablo Sanchez",
-   "fecha": "2026-09-30T20:04:49-03:00",
-   "msg": "﻿docs(logs): HB#70 - el boton mergeado, y ALERT-87 (el assert que pasaba sobre la lectura equivocada)"
-  },
-  {
-   "sha": "950ea64b8b791e473173e278b3ff987ada772a60",
-   "short": "950ea64",
-   "autor": "Pablo Sanchez",
-   "fecha": "2026-09-30T20:01:44-03:00",
-   "msg": "merge(idea50): el boton de liberar cache, con su alcance cierto  Tramos A-F de la Idea 50 mas el censo (ALERT-86) y las correcciones de citas de linea (ALERT-84). Veredicto del Reviewer: APROBADO CON CAMBIOS, y los 2 bloqueantes (H1 titulo, H2 enumeracion de kept) estan aplicados en 46b2d7f con un enfoque SUPERIOR al pedido: la linea de conservadas ya no enumera categorias, dice los bytes que quedan, que es lo que sigue siendo cierto cuando el registro cambie.  Suite: 793 aserciones / 0 FAIL, 29 de 29 archivos."
-  },
-  {
-   "sha": "30d85a88df6b7a6b4bf844ad4eb9fd30180a8fc1",
-   "short": "30d85a8",
-   "autor": "Pablo Sanchez",
-   "fecha": "2026-09-30T20:01:09-03:00",
-   "msg": "﻿fix(censo): ALERT-86 - 3 familias de cache que solo el NOMBRE no reconoce"
   }
  ],
  "archivos_md": [
@@ -364,6 +364,7 @@
   "CRON_SCHEDULE.md",
   "DASHBOARD_PO_IDEAS.md",
   "DECISIONS_LOG.md",
+  "FEATURES.md",
   "HEARTBEAT.md",
   "IN_PROGRESS.md",
   "MEMORY.md",
@@ -395,9 +396,9 @@
    "repo": "gw2-wallet-agents",
    "label": "Desarrollo",
    "role": "dev",
-   "sha": "2e009ee6481bd0e026f6a6be686ae9a534936179",
-   "short_sha": "2e009ee",
-   "commit": "﻿docs(log): HB#105 - ALERT-138 ",
+   "sha": "4f253154614aeec17ee005299349c11872ea9708",
+   "short_sha": "4f25315",
+   "commit": "docs(features): el inventario que Pablo",
    "estado": "open",
    "protected": false,
    "protected_fresco": true,
@@ -407,9 +408,9 @@
    "repo": "gw2-agents-dashboard",
    "label": "Dashboard",
    "role": "dashboard",
-   "sha": "7388d50744daefccfc5439dae002a96375cde400",
-   "short_sha": "7388d50",
-   "commit": "chore(dashboard): pulso automatico 2026-10-01_18-06_UTC",
+   "sha": "0b43fa6d7d1fe6359ee6f1e0856f890dacc5528d",
+   "short_sha": "0b43fa6",
+   "commit": "fix(promociones): FEATURES.md se leia del repo equivocado",
    "estado": "open",
    "protected": false,
    "protected_fresco": true,

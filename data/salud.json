@@ -1,50 +1,50 @@
 {
- "generado_utc": "20261001T182103Z",
- "generado_h": "2026-10-01 18:21 UTC",
+ "generado_utc": "20261001T183604Z",
+ "generado_h": "2026-10-01 18:36 UTC",
  "archivos_estado": [
   {
    "archivo": "TEAM_STATUS.md",
    "quien": "Principal /30min",
-   "estado": "ROTO",
-   "edad_h": 8.2,
-   "kb": 141.9,
-   "crecimiento": "EXCEDE 80 KB (142 KB)"
+   "estado": "ok",
+   "edad_h": 0.2,
+   "kb": 212.4,
+   "crecimiento": "EXCEDE 80 KB (212 KB)"
   },
   {
    "archivo": "SESSION_LOG.md",
    "quien": "Documentador /4h",
-   "estado": "RARO",
-   "edad_h": 8.2,
-   "kb": 157.6,
-   "crecimiento": "EXCEDE 60 KB (158 KB)"
+   "estado": "ok",
+   "edad_h": 0.2,
+   "kb": 209.9,
+   "crecimiento": "EXCEDE 60 KB (210 KB)"
   },
   {
    "archivo": "COMMS_LOG.md",
    "quien": "Principal /30min",
-   "estado": "ROTO",
-   "edad_h": 8.2,
-   "kb": 110.0
+   "estado": "ok",
+   "edad_h": 0.2,
+   "kb": 166.9
   },
   {
    "archivo": "PRE_BACKLOG.md",
    "quien": "PO /2h",
    "estado": "ROTO",
-   "edad_h": 34.7,
+   "edad_h": 35.0,
    "kb": 238.3,
    "crecimiento": "EXCEDE 120 KB (238 KB)"
   },
   {
    "archivo": "ALERTS_LOG.md",
    "quien": "Principal /30min",
-   "estado": "ROTO",
-   "edad_h": 8.2,
-   "kb": 179.5
+   "estado": "ok",
+   "edad_h": 0.2,
+   "kb": 253.7
   },
   {
    "archivo": "DECISIONS_LOG.md",
    "quien": "Principal",
    "estado": "ok",
-   "edad_h": 40.3,
+   "edad_h": 40.6,
    "kb": 10.2
   }
  ],
@@ -84,6 +84,11 @@
   }
  ],
  "ramas_sin_integrar": [
+  {
+   "rama": "docs-features-md",
+   "commits": 24,
+   "fecha": "2026-10-01"
+  },
   {
    "rama": "po/hb104-dashboard",
    "commits": 17,
@@ -275,17 +280,17 @@
   },
   {
    "dia": "2026-10-01",
-   "llamadas": 4951,
-   "prompt": 442904295,
-   "cache_read": 432172061,
+   "llamadas": 5125,
+   "prompt": 459113926,
+   "cache_read": 447973339,
    "cache_pct": 97.6,
-   "prompt_por_llamada": 89457,
+   "prompt_por_llamada": 89583,
    "por_agente": [
     {
      "agente": "default",
-     "llamadas": 3107,
-     "prompt": 292221292,
-     "cache_pct": 98.0
+     "llamadas": 3182,
+     "prompt": 300277768,
+     "cache_pct": 97.9
     },
     {
      "agente": "product-owner",
@@ -295,15 +300,15 @@
     },
     {
      "agente": "Code-Reviewer",
-     "llamadas": 556,
-     "prompt": 39510279,
-     "cache_pct": 95.9
+     "llamadas": 560,
+     "prompt": 40069762,
+     "cache_pct": 96.0
     },
     {
      "agente": "architect",
-     "llamadas": 215,
-     "prompt": 17324349,
-     "cache_pct": 94.2
+     "llamadas": 310,
+     "prompt": 24918021,
+     "cache_pct": 95.4
     }
    ]
   }
@@ -440,8 +445,8 @@
   },
   "esperando_decision_error": null,
   "backlog": {
-   "abiertos": 21,
-   "cerrados": 35,
+   "abiertos": 20,
+   "cerrados": 37,
    "bloqueados": 4,
    "bloqueados_items": [
     "Badge CM: la corona no dice si vos lo completaste (Idea 48, PO 09:00...",
