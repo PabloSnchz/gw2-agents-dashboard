@@ -1,6 +1,6 @@
 {
- "generado_utc": "20261001T035106Z",
- "generado_h": "2026-10-01 03:51 UTC",
+ "generado_utc": "20261001T040608Z",
+ "generado_h": "2026-10-01 04:06 UTC",
  "origen": "git local + ls-remote (sin cuota). protected cacheado TTL 6h.",
  "commits": [
   {
@@ -389,7 +389,7 @@
    "estado": "protected",
    "protected": true,
    "protected_fresco": true,
-   "protected_verificado_utc": "20260930T220608Z"
+   "protected_verificado_utc": "20261001T040609Z"
   },
   {
    "repo": "gw2-wallet-agents",
@@ -401,19 +401,19 @@
    "estado": "open",
    "protected": false,
    "protected_fresco": true,
-   "protected_verificado_utc": "20260930T220609Z"
+   "protected_verificado_utc": "20261001T040610Z"
   },
   {
    "repo": "gw2-agents-dashboard",
    "label": "Dashboard",
    "role": "dashboard",
-   "sha": "ee69f8e410d46397b28cdca47a0fc3e99f106a44",
-   "short_sha": "ee69f8e",
-   "commit": "fix(promociones): la tab se dibuja - el binding no esta en",
+   "sha": "391738c3f3ddd7c9b75199b9a71fe721dcb02771",
+   "short_sha": "391738c",
+   "commit": "chore(dashboard): pulso automatico 2026-10-01_03-51_UTC",
    "estado": "open",
    "protected": false,
    "protected_fresco": true,
-   "protected_verificado_utc": "20260930T220611Z"
+   "protected_verificado_utc": "20261001T040612Z"
   }
  ]
 }

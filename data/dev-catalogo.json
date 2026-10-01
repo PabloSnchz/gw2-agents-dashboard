@@ -1,0 +1,490 @@
+{
+ "generado": "2026-10-01T03:59:55Z",
+ "dev_base": "https://pablosnchz.github.io/gw2-wallet-agents/",
+ "dev_sha": "d974256",
+ "pantallas": [
+  {
+   "ruta": "/welcome",
+   "nombre": "Inicio",
+   "en_menu": true,
+   "url": "https://pablosnchz.github.io/gw2-wallet-agents/#/welcome"
+  },
+  {
+   "ruta": "/cards",
+   "nombre": "Cartera",
+   "en_menu": true,
+   "url": "https://pablosnchz.github.io/gw2-wallet-agents/#/cards"
+  },
+  {
+   "ruta": "/meta",
+   "nombre": "Meta & Eventos",
+   "en_menu": true,
+   "url": "https://pablosnchz.github.io/gw2-wallet-agents/#/meta"
+  },
+  {
+   "ruta": "/account/achievements",
+   "nombre": "Logros",
+   "en_menu": true,
+   "url": "https://pablosnchz.github.io/gw2-wallet-agents/#/account/achievements"
+  },
+  {
+   "ruta": "/account/wizards-vault",
+   "nombre": "Cámara del Brujo",
+   "en_menu": true,
+   "url": "https://pablosnchz.github.io/gw2-wallet-agents/#/account/wizards-vault"
+  },
+  {
+   "ruta": "/activities",
+   "nombre": "Actividades",
+   "en_menu": true,
+   "url": "https://pablosnchz.github.io/gw2-wallet-agents/#/activities"
+  },
+  {
+   "ruta": "/account/raids",
+   "nombre": "Raids",
+   "en_menu": true,
+   "url": "https://pablosnchz.github.io/gw2-wallet-agents/#/account/raids"
+  },
+  {
+   "ruta": "/account/characters",
+   "nombre": "Personajes",
+   "en_menu": true,
+   "url": "https://pablosnchz.github.io/gw2-wallet-agents/#/account/characters"
+  },
+  {
+   "ruta": "/account/legendary-armory",
+   "nombre": "Armería Legendaria",
+   "en_menu": true,
+   "url": "https://pablosnchz.github.io/gw2-wallet-agents/#/account/legendary-armory"
+  },
+  {
+   "ruta": "/account/accounts",
+   "nombre": "Cuentas",
+   "en_menu": true,
+   "url": "https://pablosnchz.github.io/gw2-wallet-agents/#/account/accounts"
+  },
+  {
+   "ruta": "/wallet/dashboard",
+   "nombre": "Dashboard de Cartera Multi-Cuenta",
+   "en_menu": false,
+   "url": "https://pablosnchz.github.io/gw2-wallet-agents/#/wallet/dashboard",
+   "subvista": true,
+   "nombre_fuente": "header de wallet-dashboard.js (via WalletDashboard)"
+  },
+  {
+   "ruta": "/inventory/dashboard",
+   "nombre": "Dashboard de Inventario Multi-Cuenta",
+   "en_menu": false,
+   "url": "https://pablosnchz.github.io/gw2-wallet-agents/#/inventory/dashboard",
+   "subvista": true,
+   "nombre_fuente": "header de inventory-dashboard.js (via InventoryDashboard)"
+  },
+  {
+   "ruta": "/account/strikes",
+   "nombre": "Seguimiento de Strike Missions",
+   "en_menu": false,
+   "url": "https://pablosnchz.github.io/gw2-wallet-agents/#/account/strikes",
+   "subvista": true,
+   "nombre_fuente": "header de strike-tracker.js (via StrikeTracker)"
+  },
+  {
+   "ruta": "/account/wizards-vault/objectives-dashboard",
+   "nombre": "Dashboard de Objetivos Multi-Cuenta",
+   "en_menu": false,
+   "url": "https://pablosnchz.github.io/gw2-wallet-agents/#/account/wizards-vault/objectives-dashboard",
+   "subvista": true,
+   "nombre_fuente": "header de wv-objectives-dashboard.js (via WVObjectivesDashboard)"
+  }
+ ],
+ "modulos": {
+  "total": 42,
+  "cableados": 41,
+  "sueltos": 1
+ },
+ "sueltos": [
+  {
+   "archivo": "homestead-tracker.js",
+   "lineas": 481,
+   "bytes": 19026,
+   "declarado": {
+    "fuente": "BACKLOG.md",
+    "cita": "tead tracker: completar wiring** — ⚠️ PENDIENTE DECISION. En `agents/main` el archivo `js/homestead-tracker.js` esta commiteado pero **inerte**: sus 5 metodos `GW2Api` no existen en `api-gw2.js` de ma"
+   }
+  }
+ ],
+ "items": [
+  {
+   "titulo": "**Hook `onClear`: que el borrado de la cache de disco tambien vacie la `__mem",
+   "estado": "",
+   "fuente": "BACKLOG.md",
+   "pantalla": null
+  },
+  {
+   "titulo": "Idea 50, boton de liberar la cache de la API",
+   "estado": "x",
+   "fuente": "BACKLOG.md",
+   "pantalla": null
+  },
+  {
+   "titulo": "ALERT-84 T1 (PO, ronda 17)",
+   "estado": "x",
+   "fuente": "BACKLOG.md",
+   "pantalla": null
+  },
+  {
+   "titulo": "Nexus of Eternity achievement tracker",
+   "estado": "x",
+   "fuente": "BACKLOG.md",
+   "pantalla": "https://pablosnchz.github.io/gw2-wallet-agents/#/account/raids",
+   "pantalla_nombre": "Raids",
+   "pantalla_ruta": "/account/raids"
+  },
+  {
+   "titulo": "Solitary Throne fractal daily tracker",
+   "estado": "x",
+   "fuente": "BACKLOG.md",
+   "pantalla": "https://pablosnchz.github.io/gw2-wallet-agents/#/activities",
+   "pantalla_nombre": "Actividades",
+   "pantalla_ruta": "/activities"
+  },
+  {
+   "titulo": "Nexus of Eternity raid tracker (Wing 9)",
+   "estado": "x",
+   "fuente": "BACKLOG.md",
+   "pantalla": "https://pablosnchz.github.io/gw2-wallet-agents/#/account/raids",
+   "pantalla_nombre": "Raids",
+   "pantalla_ruta": "/account/raids"
+  },
+  {
+   "titulo": "Promotion to production",
+   "estado": "x",
+   "fuente": "BACKLOG.md",
+   "pantalla": null
+  },
+  {
+   "titulo": "Badge CM: la corona no dice si vos lo completaste (Idea 48, PO 09:00 UTC)",
+   "estado": "",
+   "fuente": "BACKLOG.md",
+   "pantalla": null
+  },
+  {
+   "titulo": "🔴 ALERT-41 — El Strike Tracker no puede marcar ningun strike como completado",
+   "estado": "",
+   "fuente": "BACKLOG.md",
+   "pantalla": "https://pablosnchz.github.io/gw2-wallet-agents/#/account/strikes",
+   "pantalla_nombre": "Seguimiento de Strike Missions",
+   "pantalla_ruta": "/account/strikes"
+  },
+  {
+   "titulo": "Idea 47 — errores que se muestran como ceros",
+   "estado": "x",
+   "fuente": "BACKLOG.md",
+   "pantalla": null
+  },
+  {
+   "titulo": "Rotación diaria de fractales INVENTADA (hallazgo del PO)",
+   "estado": "x",
+   "fuente": "BACKLOG.md",
+   "pantalla": null
+  },
+  {
+   "titulo": "/v2/events` RETIRADO (meta.js Ley Line)",
+   "estado": "x",
+   "fuente": "BACKLOG.md",
+   "pantalla": "https://pablosnchz.github.io/gw2-wallet-agents/#/meta",
+   "pantalla_nombre": "Meta & Eventos",
+   "pantalla_ruta": "/meta"
+  },
+  {
+   "titulo": "Idea 48 — el pool esta calibrado a 1/3 del permiso",
+   "estado": "x",
+   "fuente": "BACKLOG.md",
+   "pantalla": "https://pablosnchz.github.io/gw2-wallet-agents/#/cards",
+   "pantalla_nombre": "Cartera",
+   "pantalla_ruta": "/cards"
+  },
+  {
+   "titulo": "Coberturable account-scoped multicuenta (idea del PO 18:00 UTC)",
+   "estado": "",
+   "fuente": "BACKLOG.md",
+   "pantalla": "https://pablosnchz.github.io/gw2-wallet-agents/#/account/accounts",
+   "pantalla_nombre": "Cuentas",
+   "pantalla_ruta": "/account/accounts"
+  },
+  {
+   "titulo": "Commerce delivery",
+   "estado": "x",
+   "fuente": "BACKLOG.md",
+   "pantalla": null
+  },
+  {
+   "titulo": "Dungeon dailies",
+   "estado": "",
+   "fuente": "BACKLOG.md",
+   "pantalla": null
+  },
+  {
+   "titulo": "Legendary Armory Phase 3",
+   "estado": "",
+   "fuente": "BACKLOG.md",
+   "pantalla": "https://pablosnchz.github.io/gw2-wallet-agents/#/account/legendary-armory",
+   "pantalla_nombre": "Armería Legendaria",
+   "pantalla_ruta": "/account/legendary-armory"
+  },
+  {
+   "titulo": "VoE content integration verification",
+   "estado": "x",
+   "fuente": "BACKLOG.md",
+   "pantalla": null
+  },
+  {
+   "titulo": "Idea 57 — la REGLA del contrato de FORMA, no el fix del caso N (PO, HB#12 ronda 12)",
+   "estado": "",
+   "fuente": "BACKLOG.md",
+   "pantalla": null
+  },
+  {
+   "titulo": "Idea 56 — guard de FORMA en `getAccountRaids` (Idea del PO, 10:00 UTC)",
+   "estado": "",
+   "fuente": "BACKLOG.md",
+   "pantalla": null
+  },
+  {
+   "titulo": "Idea 49 — la cache persistente de localStorage muere en silencio (PO, 04:00 UTC)",
+   "estado": "",
+   "fuente": "BACKLOG.md",
+   "pantalla": null
+  },
+  {
+   "titulo": "206 parcial — la API responde 206 cuando solo PARTE de los ids existen (PO, 09:00 UTC, \"Addendum Idea 48\")",
+   "estado": "x",
+   "fuente": "BACKLOG.md",
+   "pantalla": null
+  },
+  {
+   "titulo": "Idea 56 — guard de forma en `getAccountRaids` (PO, 10:00 UTC)",
+   "estado": "",
+   "fuente": "BACKLOG.md",
+   "pantalla": null
+  },
+  {
+   "titulo": "Idea 52 — `raid-tracker.js`: 5 de 30 encuentros que no existen (PO, 08:00 UTC)",
+   "estado": "x",
+   "fuente": "BACKLOG.md",
+   "pantalla": "https://pablosnchz.github.io/gw2-wallet-agents/#/account/raids",
+   "pantalla_nombre": "Raids",
+   "pantalla_ruta": "/account/raids"
+  },
+  {
+   "titulo": "Idea 53 — Strike Tracker: re-apuntarlo a logros o borrarlo (PO, 08:00 UTC)",
+   "estado": "",
+   "fuente": "BACKLOG.md",
+   "pantalla": "https://pablosnchz.github.io/gw2-wallet-agents/#/account/strikes",
+   "pantalla_nombre": "Seguimiento de Strike Missions",
+   "pantalla_ruta": "/account/strikes"
+  },
+  {
+   "titulo": "Idea 50 — la cuota no se libera nunca (PO, 06:00 UTC)",
+   "estado": "",
+   "fuente": "BACKLOG.md",
+   "pantalla": null
+  },
+  {
+   "titulo": "Idea 49G — `ach_acc` en forma compacta (PO, 08:00 UTC)",
+   "estado": "",
+   "fuente": "BACKLOG.md",
+   "pantalla": null
+  },
+  {
+   "titulo": "Homestead Glyph API mismatch",
+   "estado": "x",
+   "fuente": "BACKLOG.md",
+   "pantalla": null
+  },
+  {
+   "titulo": "Homestead tracker: completar wiring",
+   "estado": "",
+   "fuente": "BACKLOG.md",
+   "pantalla": null
+  },
+  {
+   "titulo": "Verificar encoding de archivos",
+   "estado": "",
+   "fuente": "BACKLOG.md",
+   "pantalla": null
+  },
+  {
+   "titulo": "Homestead decoration collection tracker",
+   "estado": "",
+   "fuente": "BACKLOG.md",
+   "pantalla": null
+  },
+  {
+   "titulo": "New Items Awareness Feed",
+   "estado": "x",
+   "fuente": "BACKLOG.md",
+   "pantalla": null
+  },
+  {
+   "titulo": "Mobile PWA enhancement",
+   "estado": "",
+   "fuente": "BACKLOG.md",
+   "pantalla": null
+  },
+  {
+   "titulo": "WvW Borderlands beta tracker",
+   "estado": "",
+   "fuente": "BACKLOG.md",
+   "pantalla": null
+  },
+  {
+   "titulo": "Inventory cleanup tool",
+   "estado": "",
+   "fuente": "BACKLOG.md",
+   "pantalla": null
+  },
+  {
+   "titulo": "Convergence Achievement Tracker — DROP (no downgrade)",
+   "estado": "x",
+   "fuente": "BACKLOG.md",
+   "pantalla": "https://pablosnchz.github.io/gw2-wallet-agents/#/account/achievements",
+   "pantalla_nombre": "Logros",
+   "pantalla_ruta": "/account/achievements"
+  },
+  {
+   "titulo": "Fractal Tracker multicuenta (Idea 39 del PO)",
+   "estado": "x",
+   "fuente": "BACKLOG.md",
+   "pantalla": "https://pablosnchz.github.io/gw2-wallet-agents/#/account/accounts",
+   "pantalla_nombre": "Cuentas",
+   "pantalla_ruta": "/account/accounts"
+  },
+  {
+   "titulo": "Suerte (MF base account-wide)",
+   "estado": "x",
+   "fuente": "BACKLOG.md",
+   "pantalla": null
+  },
+  {
+   "titulo": "Legendary Armory Phase 1 skeleton (router + panel + IIFE v1.0.0)",
+   "estado": "x",
+   "fuente": "BACKLOG.md",
+   "pantalla": "https://pablosnchz.github.io/gw2-wallet-agents/#/account/legendary-armory",
+   "pantalla_nombre": "Armería Legendaria",
+   "pantalla_ruta": "/account/legendary-armory"
+  },
+  {
+   "titulo": "Legendary Armory Phase 2 (legendary-data.js: catálogo base 206 items + precios TP 39 tradeables)",
+   "estado": "x",
+   "fuente": "BACKLOG.md",
+   "pantalla": "https://pablosnchz.github.io/gw2-wallet-agents/#/account/legendary-armory",
+   "pantalla_nombre": "Armería Legendaria",
+   "pantalla_ruta": "/account/legendary-armory"
+  },
+  {
+   "titulo": "Legendary Armory Phase 3 skeleton (render-catologo + detail-modal + CSS theme JS)",
+   "estado": "x",
+   "fuente": "BACKLOG.md",
+   "pantalla": "https://pablosnchz.github.io/gw2-wallet-agents/#/account/legendary-armory",
+   "pantalla_nombre": "Armería Legendaria",
+   "pantalla_ruta": "/account/legendary-armory"
+  },
+  {
+   "titulo": "Legendary A/B/C conflict resolution",
+   "estado": "x",
+   "fuente": "BACKLOG.md",
+   "pantalla": "https://pablosnchz.github.io/gw2-wallet-agents/#/account/legendary-armory",
+   "pantalla_nombre": "Armería Legendaria",
+   "pantalla_ruta": "/account/legendary-armory"
+  },
+  {
+   "titulo": "storage.js Fase 2",
+   "estado": "x",
+   "fuente": "BACKLOG.md",
+   "pantalla": null
+  },
+  {
+   "titulo": "Cache-busting: refs `?v=` alineadas (commit 794bafa, 33fdcd9, 58a5190)",
+   "estado": "x",
+   "fuente": "BACKLOG.md",
+   "pantalla": null
+  },
+  {
+   "titulo": "Multi-account (multicuenta) wallet dashboard",
+   "estado": "x",
+   "fuente": "BACKLOG.md",
+   "pantalla": "https://pablosnchz.github.io/gw2-wallet-agents/#/cards",
+   "pantalla_nombre": "Cartera",
+   "pantalla_ruta": "/cards"
+  },
+  {
+   "titulo": "Strike Tracker",
+   "estado": "x",
+   "fuente": "BACKLOG.md",
+   "pantalla": "https://pablosnchz.github.io/gw2-wallet-agents/#/account/strikes",
+   "pantalla_nombre": "Seguimiento de Strike Missions",
+   "pantalla_ruta": "/account/strikes"
+  },
+  {
+   "titulo": "storage.js Fase 1",
+   "estado": "x",
+   "fuente": "BACKLOG.md",
+   "pantalla": null
+  },
+  {
+   "titulo": "Ventas de WV (WvE/WvW)",
+   "estado": "x",
+   "fuente": "BACKLOG.md",
+   "pantalla": "https://pablosnchz.github.io/gw2-wallet-agents/#/account/wizards-vault",
+   "pantalla_nombre": "Cámara del Brujo",
+   "pantalla_ruta": "/account/wizards-vault"
+  },
+  {
+   "titulo": "Ventas de WV History",
+   "estado": "x",
+   "fuente": "BACKLOG.md",
+   "pantalla": "https://pablosnchz.github.io/gw2-wallet-agents/#/account/wizards-vault",
+   "pantalla_nombre": "Cámara del Brujo",
+   "pantalla_ruta": "/account/wizards-vault"
+  },
+  {
+   "titulo": "Ventas de WV History 2",
+   "estado": "x",
+   "fuente": "BACKLOG.md",
+   "pantalla": "https://pablosnchz.github.io/gw2-wallet-agents/#/account/wizards-vault",
+   "pantalla_nombre": "Cámara del Brujo",
+   "pantalla_ruta": "/account/wizards-vault"
+  },
+  {
+   "titulo": "Sept 29 CM content: Solitary Throne tracker + Nexus raid tracker",
+   "estado": "x",
+   "fuente": "BACKLOG.md",
+   "pantalla": "https://pablosnchz.github.io/gw2-wallet-agents/#/activities",
+   "pantalla_nombre": "Actividades",
+   "pantalla_ruta": "/activities"
+  },
+  {
+   "titulo": "S1: gist-sync.js security fix (contraseña fija)",
+   "estado": "x",
+   "fuente": "BACKLOG.md",
+   "pantalla": null
+  },
+  {
+   "titulo": "Idea 50 Tramo E — que `getCache()` borre la entrada vencida",
+   "estado": "",
+   "fuente": "BACKLOG.md",
+   "pantalla": null
+  },
+  {
+   "titulo": "Idea 63 T3** (persistir filtros por cuenta): **DESBLOQUEADA",
+   "estado": "",
+   "fuente": "BACKLOG.md",
+   "pantalla": null
+  }
+ ],
+ "cobertura": {
+  "con_pantalla": 22,
+  "sin_pantalla": 32,
+  "cobertura": 40.7
+ }
+}
