@@ -1,20 +1,20 @@
 {
- "generado_utc": "20261001T040603Z",
- "generado_h": "2026-10-01 04:06 UTC",
+ "generado_utc": "20261001T042102Z",
+ "generado_h": "2026-10-01 04:21 UTC",
  "archivos_estado": [
   {
    "archivo": "TEAM_STATUS.md",
    "quien": "Principal /30min",
    "estado": "ok",
-   "edad_h": 0.3,
-   "kb": 82.3,
-   "crecimiento": "EXCEDE 80 KB (82 KB)"
+   "edad_h": 0.0,
+   "kb": 99.9,
+   "crecimiento": "EXCEDE 80 KB (100 KB)"
   },
   {
    "archivo": "SESSION_LOG.md",
    "quien": "Documentador /4h",
    "estado": "ok",
-   "edad_h": 4.4,
+   "edad_h": 4.6,
    "kb": 145.1,
    "crecimiento": "EXCEDE 60 KB (145 KB)"
   },
@@ -22,14 +22,14 @@
    "archivo": "COMMS_LOG.md",
    "quien": "Principal /30min",
    "estado": "ok",
-   "edad_h": 0.3,
-   "kb": 91.5
+   "edad_h": 0.1,
+   "kb": 94.1
   },
   {
    "archivo": "PRE_BACKLOG.md",
    "quien": "PO /2h",
    "estado": "ROTO",
-   "edad_h": 20.5,
+   "edad_h": 20.7,
    "kb": 238.3,
    "crecimiento": "EXCEDE 120 KB (238 KB)"
   },
@@ -37,14 +37,14 @@
    "archivo": "ALERTS_LOG.md",
    "quien": "Principal /30min",
    "estado": "ok",
-   "edad_h": 0.9,
-   "kb": 126.9
+   "edad_h": 0.1,
+   "kb": 133.1
   },
   {
    "archivo": "DECISIONS_LOG.md",
    "quien": "Principal",
    "estado": "ok",
-   "edad_h": 26.1,
+   "edad_h": 26.3,
    "kb": 10.2
   }
  ],
@@ -84,6 +84,21 @@
   }
  ],
  "ramas_sin_integrar": [
+  {
+   "rama": "fix-hb77-puerta-llega",
+   "commits": 8,
+   "fecha": "2026-10-01"
+  },
+  {
+   "rama": "hb77-cierre-p1p2p3-reviewer",
+   "commits": 7,
+   "fecha": "2026-10-01"
+  },
+  {
+   "rama": "po/hb77-dashboard",
+   "commits": 7,
+   "fecha": "2026-10-01"
+  },
   {
    "rama": "hb75-local-tmp",
    "commits": 3,
@@ -235,17 +250,17 @@
   },
   {
    "dia": "2026-10-01",
-   "llamadas": 448,
-   "prompt": 34696300,
-   "cache_read": 33547708,
-   "cache_pct": 96.7,
-   "prompt_por_llamada": 77447,
+   "llamadas": 664,
+   "prompt": 53668626,
+   "cache_read": 52197123,
+   "cache_pct": 97.3,
+   "prompt_por_llamada": 80826,
    "por_agente": [
     {
      "agente": "default",
-     "llamadas": 203,
-     "prompt": 16347518,
-     "cache_pct": 97.7
+     "llamadas": 365,
+     "prompt": 30549950,
+     "cache_pct": 98.2
     },
     {
      "agente": "architect",
@@ -255,15 +270,15 @@
     },
     {
      "agente": "product-owner",
-     "llamadas": 35,
-     "prompt": 1875170,
-     "cache_pct": 94.7
+     "llamadas": 80,
+     "prompt": 6359269,
+     "cache_pct": 98.0
     },
     {
      "agente": "Code-Reviewer",
-     "llamadas": 16,
-     "prompt": 612039,
-     "cache_pct": 81.5
+     "llamadas": 25,
+     "prompt": 897834,
+     "cache_pct": 74.9
     }
    ]
   }

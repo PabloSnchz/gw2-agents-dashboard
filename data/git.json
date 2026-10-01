@@ -1,8 +1,43 @@
 {
- "generado_utc": "20261001T040608Z",
- "generado_h": "2026-10-01 04:06 UTC",
+ "generado_utc": "20261001T042107Z",
+ "generado_h": "2026-10-01 04:21 UTC",
  "origen": "git local + ls-remote (sin cuota). protected cacheado TTL 6h.",
  "commits": [
+  {
+   "sha": "9fa39863524b6302cec30e970cd08da5335a09b7",
+   "short": "9fa3986",
+   "autor": "Pablo Sanchez",
+   "fecha": "2026-10-01T01:19:49-03:00",
+   "msg": "fix(app): el mensaje de la puerta de permisos llegaba reescrito (y decia 2 de 7)  La puerta de T1 (ea10e9b) construye el mensaje correcto: nombra los 7 permisos que exige y el motivo de cada uno. Pero el catch del modal lo pasa por parseKeyError, y esa funcion reescribia cualquier mensaje que matcheara /permisos/i con 'Faltan permisos: account + wallet' — los 2 permisos de antes de T1. El detalle se construia bien y no se mostraba nunca: la app le decia a Pablo que le faltaban 2 permisos y le decia CUALES, y las dos cosas eran falsas.  El fix conserva el mensaje en vez de reemplazarlo, y respeta un error que ya venga clasificado con 'kind'. El clasificador sigue clasificando 401/403/429/ red: no se desarmo, se le saco el pisoton.  tests/hb75-permisos.test.js afirmaba que la puerta nombra el permiso que falta y el motivo. Es cierto, y sigue siendolo — pero es una asercion sobre la CONSTRUCCION del mensaje, no sobre lo que Pablo lee. tests/hb77-puerta-llega extiende parseKeyError del fuente y lo evalua con el mensaje que la puerta realmente tira, asi que falla si el mensaje vuelve cambiado.  Verificacion: 6 FAIL en fase roja por la razon correcta; con el fix 19 pass. Mutaciones (cada una debe romperlo): volver el pisoton -> 6 FAIL; volver a decir 'glifos' -> 1 FAIL; quitar 5 permisos de REQUIRED_PERMISSIONS -> 2 FAIL. Las 2 mutaciones de contenido de la puerta (exigir 2, no nombrar el motivo) NO las ve este test y las ve hb75 (1 FAIL cada una) — la division de trabajo es deliberada: hb77 es 'el mensaje LLEGA', hb75 es 'el mensaje es correcto'. Suite completa: 940 pass, 0 FAIL.  Ademas, el copy de app.js:683 que reporta el PO en la ronda 22: 'glifos' prometia una funcionalidad que homestead-tracker.js (su unico consumidor) no expone en ningun .html. El permiso unlocks SIGUE siendo necesario (lo piden /v2/account/luck y /v2/account/home/nodes, que si corren)."
+  },
+  {
+   "sha": "f739e21c8eba71e5bda2d22e4fcd7d8817186616",
+   "short": "f739e21",
+   "autor": "Pablo Sanchez",
+   "fecha": "2026-10-01T01:15:50-03:00",
+   "msg": "docs(hb77): \"+N commits\" no dice si hay que mergear, y una premisa mia era FALSA"
+  },
+  {
+   "sha": "2e36237f5d589fae055d36ae5c37ed54d879ddd3",
+   "short": "2e36237",
+   "autor": "Pablo Sanchez",
+   "fecha": "2026-10-01T00:48:34-03:00",
+   "msg": "docs(hb76): fila 080, la pregunta al Reviewer sobre los raw de raid-tracker.js"
+  },
+  {
+   "sha": "10f1e276bcf2c4e4b6e64e7280c766ed87fbce49",
+   "short": "10f1e27",
+   "autor": "Pablo Sanchez",
+   "fecha": "2026-10-01T00:48:05-03:00",
+   "msg": "docs(hb76): WIP recuperado de hb75-wt, y un test que moria SIN CONTAR"
+  },
+  {
+   "sha": "ea10e9b62a8d8f4a1bd3c3955437335d7a8c3b22",
+   "short": "ea10e9b",
+   "autor": "Pablo Sanchez",
+   "fecha": "2026-10-01T00:38:01-03:00",
+   "msg": "﻿feat(app): la puerta de permisos exige los 7 que la app USA, no 2 (recuperado)"
+  },
   {
    "sha": "d974256950f89296550e8e2749447779dc6c161c",
    "short": "d974256",
@@ -317,41 +352,6 @@
    "autor": "Pablo Sanchez",
    "fecha": "2026-09-30T17:18:17-03:00",
    "msg": "merge(idea63): T1+T2 - reset de filtros y pagina al cambiar de cuenta, y estado vacio con texto"
-  },
-  {
-   "sha": "daf3e6f497a7c6cd927dda51cfd01d799252731d",
-   "short": "daf3e6f",
-   "autor": "Pablo Sanchez",
-   "fecha": "2026-09-30T17:18:16-03:00",
-   "msg": "docs(po): ronda 16 (IDEA 63) al mirror - cambiar de cuenta deja Personajes vacio y sin texto"
-  },
-  {
-   "sha": "30263654ea341e251be119b5f3867545d94ea470",
-   "short": "3026365",
-   "autor": "Pablo Sanchez",
-   "fecha": "2026-09-30T17:17:47-03:00",
-   "msg": "﻿fix(characters,app): cambiar de cuenta ya no deja Personajes en blanco (Idea 63 T1+T2)"
-  },
-  {
-   "sha": "da4518718bd1595db53eff0aa95d16904488c26d",
-   "short": "da45187",
-   "autor": "Pablo Sanchez",
-   "fecha": "2026-09-30T17:10:45-03:00",
-   "msg": "docs(po): Heartbeat PO ronda 16 - IDEA 63: cambiar de cuenta deja Personajes vacio y sin texto (194 dias)"
-  },
-  {
-   "sha": "aed761c0ffac32795588caa1ed57bf7d9620e339",
-   "short": "aed761c",
-   "autor": "Pablo Sanchez",
-   "fecha": "2026-09-30T17:05:12-03:00",
-   "msg": "docs(logs): fila 070 en COMMS_LOG - la re-pregunta de P3 (task-a42d69c93c58), con el orden agujero-antes-que-registro"
-  },
-  {
-   "sha": "2a38c29979f334385464a5fcf55ee6acb0e59b37",
-   "short": "2a38c29",
-   "autor": "Pablo Sanchez",
-   "fecha": "2026-09-30T17:04:37-03:00",
-   "msg": "﻿docs(logs): Heartbeat #65 - un invariante redactado mas fuerte que el codigo que lo respalda, y un audit que vigilaba el conjunto equivocado"
   }
  ],
  "archivos_md": [
@@ -395,9 +395,9 @@
    "repo": "gw2-wallet-agents",
    "label": "Desarrollo",
    "role": "dev",
-   "sha": "2e36237f5d589fae055d36ae5c37ed54d879ddd3",
-   "short_sha": "2e36237",
-   "commit": "docs(hb76): fila 080, la pregunta al Reviewer sobre los raw",
+   "sha": "529113864381f236e786dc5a2cc95533ce712229",
+   "short_sha": "5291138",
+   "commit": "docs(hb77): \"+N commits\" no dice si hay que mergear, y una",
    "estado": "open",
    "protected": false,
    "protected_fresco": true,
@@ -407,9 +407,9 @@
    "repo": "gw2-agents-dashboard",
    "label": "Dashboard",
    "role": "dashboard",
-   "sha": "391738c3f3ddd7c9b75199b9a71fe721dcb02771",
-   "short_sha": "391738c",
-   "commit": "chore(dashboard): pulso automatico 2026-10-01_03-51_UTC",
+   "sha": "6d8480007f52be33e5b89b0c773f467507d7cc42",
+   "short_sha": "6d84800",
+   "commit": "chore(dashboard): pulso automatico 2026-10-01_04-06_UTC",
    "estado": "open",
    "protected": false,
    "protected_fresco": true,
