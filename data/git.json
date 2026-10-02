@@ -1,6 +1,6 @@
 {
- "generado_utc": "20261002T093616Z",
- "generado_h": "2026-10-02 09:36 UTC",
+ "generado_utc": "20261002T095116Z",
+ "generado_h": "2026-10-02 09:51 UTC",
  "origen": "git local + ls-remote (sin cuota). protected cacheado TTL 6h.",
  "commits": [
   {
@@ -390,7 +390,7 @@
    "estado": "protected",
    "protected": true,
    "protected_fresco": true,
-   "protected_verificado_utc": "20261002T035114Z",
+   "protected_verificado_utc": "20261002T095117Z",
    "proteccion_detalle": null,
    "proteccion_detalle_motivo": "sin token"
   },
@@ -398,13 +398,13 @@
    "repo": "gw2-wallet-agents",
    "label": "Desarrollo",
    "role": "dev",
-   "sha": "bd0f9e176127573f5c7b0a99c9d5e683cf9b0305",
-   "short_sha": "bd0f9e1",
-   "commit": "docs(hb127): ALERT-193 y el TEAM_STATUS del ciclo",
+   "sha": "32926dda0800e63fcb87585c982b3838f6ae5fdc",
+   "short_sha": "32926dd",
+   "commit": "docs(hb128): ALERT-194 y ALERT-194b, y la regla que falto la",
    "estado": "open",
    "protected": false,
    "protected_fresco": true,
-   "protected_verificado_utc": "20261002T035116Z",
+   "protected_verificado_utc": "20261002T095119Z",
    "proteccion_detalle": null,
    "proteccion_detalle_motivo": "sin token"
   },
@@ -412,13 +412,13 @@
    "repo": "gw2-agents-dashboard",
    "label": "Dashboard",
    "role": "dashboard",
-   "sha": "a8691be36e595ec4fa8f26dbadbdc3acafd624cb",
-   "short_sha": "a8691be",
-   "commit": "chore(dashboard): pulso automatico 2026-10-02_09-21_UTC",
+   "sha": "987a01f149a990481f40d94d3bfe816dd15060df",
+   "short_sha": "987a01f",
+   "commit": "chore(dashboard): pulso automatico 2026-10-02_09-36_UTC",
    "estado": "open",
    "protected": false,
    "protected_fresco": true,
-   "protected_verificado_utc": "20261002T035117Z",
+   "protected_verificado_utc": "20261002T095120Z",
    "proteccion_detalle": null,
    "proteccion_detalle_motivo": "sin token"
   }
