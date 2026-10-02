@@ -1,8 +1,22 @@
 {
- "generado_utc": "20261002T195128Z",
- "generado_h": "2026-10-02 19:51 UTC",
+ "generado_utc": "20261002T200618Z",
+ "generado_h": "2026-10-02 20:06 UTC",
  "origen": "git local + ls-remote (sin cuota). protected cacheado TTL 6h.",
  "commits": [
+  {
+   "sha": "9b5106a656a7e84c7dc2657f68b967a0aea55d4d",
+   "short": "9b5106a",
+   "autor": "Pablo Sanchez",
+   "fecha": "2026-10-02T16:54:26-03:00",
+   "msg": "docs(armeria): el hash real de la ficha de los filtros y el boton de cola"
+  },
+  {
+   "sha": "956f1402eb3032690865c52cfedcc0a7f26dcf4c",
+   "short": "956f140",
+   "autor": "Pablo Sanchez",
+   "fecha": "2026-10-02T16:54:00-03:00",
+   "msg": "feat(armeria): filtro Tengo/Me faltan y boton de encolar en la card del catalogo"
+  },
   {
    "sha": "a9d842564d2ffd28a6c26ddaf4c68663fdadd44b",
    "short": "a9d8425",
@@ -338,20 +352,6 @@
    "autor": "Pablo Sanchez",
    "fecha": "2026-10-02T05:14:43-03:00",
    "msg": "feat(armeria): paso 5 - \"Mi progreso\" pasa a ser la COLA de crafteo (max 5)"
-  },
-  {
-   "sha": "fd8e5791ac4badff9e6698154c1b377c4f76b622",
-   "short": "fd8e579",
-   "autor": "Pablo Sanchez",
-   "fecha": "2026-10-02T03:42:44-03:00",
-   "msg": "fix(api-gw2): la cabecera de la v2.30.0 describia en PRESENTE lo que ya no era cierto"
-  },
-  {
-   "sha": "7ac400c06cc9cee61ab650ca078d18212df734fa",
-   "short": "7ac400c",
-   "autor": "Pablo Sanchez",
-   "fecha": "2026-10-02T03:42:44-03:00",
-   "msg": "docs(backlog): la poda del PO aplicada (6 archivadas) y el conteo corregido: 16 a 10, no 13 a 7"
   }
  ],
  "archivos_md": [
@@ -398,9 +398,9 @@
    "repo": "gw2-wallet-agents",
    "label": "Desarrollo",
    "role": "dev",
-   "sha": "a9d842564d2ffd28a6c26ddaf4c68663fdadd44b",
-   "short_sha": "a9d8425",
-   "commit": "docs(hb145): el veredicto BLOQUEANTE de T12-b caducaba",
+   "sha": "9b5106a656a7e84c7dc2657f68b967a0aea55d4d",
+   "short_sha": "9b5106a",
+   "commit": "docs(armeria): el hash real de la ficha de los filtros y el",
    "estado": "open",
    "protected": false,
    "protected_fresco": true,
@@ -412,9 +412,9 @@
    "repo": "gw2-agents-dashboard",
    "label": "Dashboard",
    "role": "dashboard",
-   "sha": "16b9cda9bd1d88872a55527a0560693ae527d0d7",
-   "short_sha": "16b9cda",
-   "commit": "chore(dashboard): pulso automatico 2026-10-02_19-36_UTC",
+   "sha": "121ec8aab2c9ee2c4e7f63ecbfd9fd7b65f0d750",
+   "short_sha": "121ec8a",
+   "commit": "chore(dashboard): pulso automatico 2026-10-02_19-51_UTC",
    "estado": "open",
    "protected": false,
    "protected_fresco": true,
