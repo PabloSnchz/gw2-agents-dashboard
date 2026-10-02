@@ -1,8 +1,15 @@
 {
- "generado_utc": "20261002T145118Z",
- "generado_h": "2026-10-02 14:51 UTC",
+ "generado_utc": "20261002T150618Z",
+ "generado_h": "2026-10-02 15:06 UTC",
  "origen": "git local + ls-remote (sin cuota). protected cacheado TTL 6h.",
  "commits": [
+  {
+   "sha": "adea801834ea836312f1e69c51ee2ded4aa33288",
+   "short": "adea801",
+   "autor": "Pablo Sanchez",
+   "fecha": "2026-10-02T11:53:22-03:00",
+   "msg": "﻿chore: el Source Control de Pablo tenia 95 entradas y 5 eran reales"
+  },
   {
    "sha": "589e3461093ca656285764ecdcab822fbcc341ea",
    "short": "589e346",
@@ -345,13 +352,6 @@
    "autor": "Pablo Sanchez",
    "fecha": "2026-10-01T20:13:07-03:00",
    "msg": "﻿docs(hb116): TEAM_STATUS y 2 fichas de la union del PO"
-  },
-  {
-   "sha": "301cf0ebdc158ca996f78553f70834034b37fca5",
-   "short": "301cf0e",
-   "autor": "Pablo Sanchez",
-   "fecha": "2026-10-01T20:11:46-03:00",
-   "msg": "﻿fix(po): 11 rondas del PO nunca llegaron a main, y no era una rama"
   }
  ],
  "archivos_md": [
@@ -398,9 +398,9 @@
    "repo": "gw2-wallet-agents",
    "label": "Desarrollo",
    "role": "dev",
-   "sha": "589e3461093ca656285764ecdcab822fbcc341ea",
-   "short_sha": "589e346",
-   "commit": "docs(hb136): TEAM_STATUS, COMMS_LOG (fila 162), SESSION_LOG y",
+   "sha": "adea801834ea836312f1e69c51ee2ded4aa33288",
+   "short_sha": "adea801",
+   "commit": "﻿chore: el Source Control de ",
    "estado": "open",
    "protected": false,
    "protected_fresco": true,
@@ -412,9 +412,9 @@
    "repo": "gw2-agents-dashboard",
    "label": "Dashboard",
    "role": "dashboard",
-   "sha": "e7f661fc36b30cb8662c9f47a509c60640ef4dee",
-   "short_sha": "e7f661f",
-   "commit": "chore(dashboard): pulso automatico 2026-10-02_14-36_UTC",
+   "sha": "8e9f8d3afa4b726790aac6273a20866833bfc11c",
+   "short_sha": "8e9f8d3",
+   "commit": "chore(dashboard): pulso automatico 2026-10-02_14-51_UTC",
    "estado": "open",
    "protected": false,
    "protected_fresco": true,
