@@ -1,8 +1,15 @@
 {
- "generado_utc": "20261002T222119Z",
- "generado_h": "2026-10-02 22:21 UTC",
+ "generado_utc": "20261002T223622Z",
+ "generado_h": "2026-10-02 22:36 UTC",
  "origen": "git local + ls-remote (sin cuota). protected cacheado TTL 6h.",
  "commits": [
+  {
+   "sha": "3c3af8a0428968ab901f883407993b3c06a44110",
+   "short": "3c3af8a",
+   "autor": "Pablo Sanchez",
+   "fecha": "2026-10-02T19:23:27-03:00",
+   "msg": "docs(hb149): ALERT-219 - un arbol sucio puede ser el ciclo anterior vivo; poda de 2 filas del PO y ALERT-41 escalada a Pablo"
+  },
   {
    "sha": "0eb87b9dabd59092ff566d69617386f50654109e",
    "short": "0eb87b9",
@@ -345,13 +352,6 @@
    "autor": "Pablo Sanchez",
    "fecha": "2026-10-02T07:15:32-03:00",
    "msg": "docs(hb130): poda del PO aplicada — 10 items abiertos a 6, y el mas caro no existia"
-  },
-  {
-   "sha": "32926dda0800e63fcb87585c982b3838f6ae5fdc",
-   "short": "32926dd",
-   "autor": "Pablo Sanchez",
-   "fecha": "2026-10-02T06:49:55-03:00",
-   "msg": "docs(hb128): ALERT-194 y ALERT-194b, y la regla que falto la primera vez"
   }
  ],
  "archivos_md": [
@@ -398,9 +398,9 @@
    "repo": "gw2-wallet-agents",
    "label": "Desarrollo",
    "role": "dev",
-   "sha": "0eb87b9dabd59092ff566d69617386f50654109e",
-   "short_sha": "0eb87b9",
-   "commit": "test(armeria): ALERT-216 reescribe el certificado de",
+   "sha": "3c3af8a0428968ab901f883407993b3c06a44110",
+   "short_sha": "3c3af8a",
+   "commit": "docs(hb149): ALERT-219 - un arbol sucio puede ser el ciclo",
    "estado": "open",
    "protected": false,
    "protected_fresco": true,
@@ -412,9 +412,9 @@
    "repo": "gw2-agents-dashboard",
    "label": "Dashboard",
    "role": "dashboard",
-   "sha": "f40519e96074523bd41986470d13d2317a1ea54b",
-   "short_sha": "f40519e",
-   "commit": "chore(dashboard): pulso automatico 2026-10-02_22-06_UTC",
+   "sha": "25f0ad5b6e888f4d89d1096e5494ce502255e446",
+   "short_sha": "25f0ad5",
+   "commit": "chore(dashboard): pulso automatico 2026-10-02_22-21_UTC",
    "estado": "open",
    "protected": false,
    "protected_fresco": true,
