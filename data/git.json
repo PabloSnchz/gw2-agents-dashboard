@@ -1,8 +1,15 @@
 {
- "generado_utc": "20261002T150618Z",
- "generado_h": "2026-10-02 15:06 UTC",
+ "generado_utc": "20261002T152119Z",
+ "generado_h": "2026-10-02 15:21 UTC",
  "origen": "git local + ls-remote (sin cuota). protected cacheado TTL 6h.",
  "commits": [
+  {
+   "sha": "d0824e935e658170c0be4603572c802bf378d146",
+   "short": "d0824e9",
+   "autor": "Pablo Sanchez",
+   "fecha": "2026-10-02T12:13:31-03:00",
+   "msg": "﻿docs(hb137): ALERT-203, la premisa de MIRROR_MAP corregida donde se cita, y el grep truncado"
+  },
   {
    "sha": "adea801834ea836312f1e69c51ee2ded4aa33288",
    "short": "adea801",
@@ -345,13 +352,6 @@
    "autor": "Pablo Sanchez",
    "fecha": "2026-10-01T20:13:53-03:00",
    "msg": "﻿docs(hb116): 3 filas en COMMS_LOG, con control de columnas"
-  },
-  {
-   "sha": "37e16ebbac91b66c8fd0d0ddd1643d599d3c0a1d",
-   "short": "37e16eb",
-   "autor": "Pablo Sanchez",
-   "fecha": "2026-10-01T20:13:07-03:00",
-   "msg": "﻿docs(hb116): TEAM_STATUS y 2 fichas de la union del PO"
   }
  ],
  "archivos_md": [
@@ -398,9 +398,9 @@
    "repo": "gw2-wallet-agents",
    "label": "Desarrollo",
    "role": "dev",
-   "sha": "adea801834ea836312f1e69c51ee2ded4aa33288",
-   "short_sha": "adea801",
-   "commit": "﻿chore: el Source Control de ",
+   "sha": "89ed2a0f90f836ca9931aa2dc9dd62f43e700475",
+   "short_sha": "89ed2a0",
+   "commit": "docs(armeria): el contrato no alcanza para el arbol completo,",
    "estado": "open",
    "protected": false,
    "protected_fresco": true,
@@ -412,9 +412,9 @@
    "repo": "gw2-agents-dashboard",
    "label": "Dashboard",
    "role": "dashboard",
-   "sha": "8e9f8d3afa4b726790aac6273a20866833bfc11c",
-   "short_sha": "8e9f8d3",
-   "commit": "chore(dashboard): pulso automatico 2026-10-02_14-51_UTC",
+   "sha": "d4224e8db7b969465ab549f4db91acae1395f2c1",
+   "short_sha": "d4224e8",
+   "commit": "chore(dashboard): pulso automatico 2026-10-02_15-06_UTC",
    "estado": "open",
    "protected": false,
    "protected_fresco": true,
