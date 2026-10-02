@@ -1,19 +1,19 @@
 {
- "generado_utc": "20261002T210603Z",
- "generado_h": "2026-10-02 21:06 UTC",
+ "generado_utc": "20261002T212102Z",
+ "generado_h": "2026-10-02 21:21 UTC",
  "archivos_estado": [
   {
    "archivo": "TEAM_STATUS.md",
    "quien": "Principal /30min",
    "estado": "ok",
-   "edad_h": 0.0,
-   "kb": 35.4
+   "edad_h": 0.2,
+   "kb": 39.1
   },
   {
    "archivo": "SESSION_LOG.md",
    "quien": "Documentador /4h",
    "estado": "ok",
-   "edad_h": 2.4,
+   "edad_h": 2.6,
    "kb": 301.9,
    "crecimiento": "EXCEDE 60 KB (302 KB)"
   },
@@ -21,14 +21,14 @@
    "archivo": "COMMS_LOG.md",
    "quien": "Principal /30min",
    "estado": "ok",
-   "edad_h": 0.0,
-   "kb": 237.9
+   "edad_h": 0.2,
+   "kb": 238.7
   },
   {
    "archivo": "PRE_BACKLOG.md",
    "quien": "PO /2h",
    "estado": "ROTO",
-   "edad_h": 61.5,
+   "edad_h": 61.7,
    "kb": 238.3,
    "crecimiento": "EXCEDE 120 KB (238 KB)"
   },
@@ -36,14 +36,14 @@
    "archivo": "ALERTS_LOG.md",
    "quien": "Principal /30min",
    "estado": "ok",
-   "edad_h": 0.0,
-   "kb": 381.4
+   "edad_h": 0.2,
+   "kb": 381.6
   },
   {
    "archivo": "DECISIONS_LOG.md",
    "quien": "Principal",
    "estado": "RARO",
-   "edad_h": 67.1,
+   "edad_h": 67.3,
    "kb": 10.2
   }
  ],
@@ -286,11 +286,6 @@
    "rama": "rescue-idea47-parallel-wip",
    "commits": 1,
    "fecha": "2026-09-29"
-  },
-  {
-   "rama": "test-hb147-alerta211-212",
-   "commits": 1,
-   "fecha": "2026-10-02"
   }
  ],
  "tokens": [
@@ -376,16 +371,16 @@
   },
   {
    "dia": "2026-10-02",
-   "llamadas": 5876,
-   "prompt": 544123554,
-   "cache_read": 523819866,
+   "llamadas": 5890,
+   "prompt": 545794245,
+   "cache_read": 525478017,
    "cache_pct": 96.3,
-   "prompt_por_llamada": 92601,
+   "prompt_por_llamada": 92664,
    "por_agente": [
     {
      "agente": "default",
-     "llamadas": 4375,
-     "prompt": 406179785,
+     "llamadas": 4389,
+     "prompt": 407850476,
      "cache_pct": 96.7
     },
     {

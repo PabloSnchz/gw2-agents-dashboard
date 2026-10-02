@@ -1,8 +1,15 @@
 {
- "generado_utc": "20261002T210619Z",
- "generado_h": "2026-10-02 21:06 UTC",
+ "generado_utc": "20261002T212118Z",
+ "generado_h": "2026-10-02 21:21 UTC",
  "origen": "git local + ls-remote (sin cuota). protected cacheado TTL 6h.",
  "commits": [
+  {
+   "sha": "70fd048fe8c4d2fe063f51efcce596612f685748",
+   "short": "70fd048",
+   "autor": "Pablo Sanchez",
+   "fecha": "2026-10-02T18:07:48-03:00",
+   "msg": "docs: TEAM_STATUS de HB#147 + la respuesta al PO que cierra su ronda 44"
+  },
   {
    "sha": "69a7595d9bf50ec520b52e5d0082f39dd21b9ec0",
    "short": "69a7595",
@@ -345,13 +352,6 @@
    "autor": "Pablo Sanchez",
    "fecha": "2026-10-02T06:44:39-03:00",
    "msg": "feat(armeria): el paso 6 (arbol de fabricacion) se corta con la premisa MEDIDA, no con una opinion"
-  },
-  {
-   "sha": "bd0f9e176127573f5c7b0a99c9d5e683cf9b0305",
-   "short": "bd0f9e1",
-   "autor": "Pablo Sanchez",
-   "fecha": "2026-10-02T06:19:40-03:00",
-   "msg": "docs(hb127): ALERT-193 y el TEAM_STATUS del ciclo"
   }
  ],
  "archivos_md": [
@@ -398,9 +398,9 @@
    "repo": "gw2-wallet-agents",
    "label": "Desarrollo",
    "role": "dev",
-   "sha": "69a7595d9bf50ec520b52e5d0082f39dd21b9ec0",
-   "short_sha": "69a7595",
-   "commit": "test(armeria): ALERT-211 cierra el falso verde del 3.1, y",
+   "sha": "70fd048fe8c4d2fe063f51efcce596612f685748",
+   "short_sha": "70fd048",
+   "commit": "docs: TEAM_STATUS de HB#147 + la respuesta al PO que cierra",
    "estado": "open",
    "protected": false,
    "protected_fresco": true,
@@ -412,9 +412,9 @@
    "repo": "gw2-agents-dashboard",
    "label": "Dashboard",
    "role": "dashboard",
-   "sha": "4441ee71da37af6a02be8f76d00d81c576ddcd80",
-   "short_sha": "4441ee7",
-   "commit": "chore(dashboard): pulso automatico 2026-10-02_20-51_UTC",
+   "sha": "89e2f43377521592ad0a17324407a334695b972f",
+   "short_sha": "89e2f43",
+   "commit": "chore(dashboard): pulso automatico 2026-10-02_21-06_UTC",
    "estado": "open",
    "protected": false,
    "protected_fresco": true,
