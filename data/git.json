@@ -1,8 +1,22 @@
 {
- "generado_utc": "20261002T230620Z",
- "generado_h": "2026-10-02 23:06 UTC",
+ "generado_utc": "20261002T232119Z",
+ "generado_h": "2026-10-02 23:21 UTC",
  "origen": "git local + ls-remote (sin cuota). protected cacheado TTL 6h.",
  "commits": [
+  {
+   "sha": "1a5a93d8a248938108fce1b22903fba830c7caa1",
+   "short": "1a5a93d",
+   "autor": "Pablo Sanchez",
+   "fecha": "2026-10-02T20:13:12-03:00",
+   "msg": "docs(hb151): ALERT-223 - el veredicto del Reviewer sobre los 7 del patron B sigue valido en 7 de 7, pero 1 linea quedo desfasada"
+  },
+  {
+   "sha": "1094c26675764034c1af2563125fd7f25bbf1bd7",
+   "short": "1094c26",
+   "autor": "Pablo Sanchez",
+   "fecha": "2026-10-02T20:08:37-03:00",
+   "msg": "feat(api): getAccountSkins - Tramo 1 de Coberturable (RESCATE del HB#150) + ALERT-222"
+  },
   {
    "sha": "3c3af8a0428968ab901f883407993b3c06a44110",
    "short": "3c3af8a",
@@ -338,20 +352,6 @@
    "autor": "Pablo Sanchez",
    "fecha": "2026-10-02T07:31:48-03:00",
    "msg": "feat(idea50): Tramo E — la entrada vencida se BORRA; el TTL dejaba de leer y no liberaba"
-  },
-  {
-   "sha": "2c8c37417687535a6d5ba622f1682a9693099a10",
-   "short": "2c8c374",
-   "autor": "Pablo Sanchez",
-   "fecha": "2026-10-02T07:18:11-03:00",
-   "msg": "docs(hb130): ALERT-195 y los logs del ciclo — un .md truncado a 0 es invisible para git status"
-  },
-  {
-   "sha": "daeee6fd6fb431379c5954a88b67faffd1331352",
-   "short": "daeee6f",
-   "autor": "Pablo Sanchez",
-   "fecha": "2026-10-02T07:15:32-03:00",
-   "msg": "docs(hb130): poda del PO aplicada — 10 items abiertos a 6, y el mas caro no existia"
   }
  ],
  "archivos_md": [
@@ -398,9 +398,9 @@
    "repo": "gw2-wallet-agents",
    "label": "Desarrollo",
    "role": "dev",
-   "sha": "3c3af8a0428968ab901f883407993b3c06a44110",
-   "short_sha": "3c3af8a",
-   "commit": "docs(hb149): ALERT-219 - un arbol sucio puede ser el ciclo",
+   "sha": "1a5a93d8a248938108fce1b22903fba830c7caa1",
+   "short_sha": "1a5a93d",
+   "commit": "docs(hb151): ALERT-223 - el veredicto del Reviewer sobre los",
    "estado": "open",
    "protected": false,
    "protected_fresco": true,
@@ -412,9 +412,9 @@
    "repo": "gw2-agents-dashboard",
    "label": "Dashboard",
    "role": "dashboard",
-   "sha": "701a1b1c2783add07d3e561cab9b0d332d73e27d",
-   "short_sha": "701a1b1",
-   "commit": "chore(dashboard): pulso automatico 2026-10-02_22-51_UTC",
+   "sha": "3d9ecebb2835d71e4169149468fe1097fbc7690a",
+   "short_sha": "3d9eceb",
+   "commit": "chore(dashboard): pulso automatico 2026-10-02_23-06_UTC",
    "estado": "open",
    "protected": false,
    "protected_fresco": true,
