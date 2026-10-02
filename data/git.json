@@ -1,8 +1,15 @@
 {
- "generado_utc": "20261002T233621Z",
- "generado_h": "2026-10-02 23:36 UTC",
+ "generado_utc": "20261002T235122Z",
+ "generado_h": "2026-10-02 23:51 UTC",
  "origen": "git local + ls-remote (sin cuota). protected cacheado TTL 6h.",
  "commits": [
+  {
+   "sha": "7e2c9162552d6ec7fe299e1f5f61314d65f35a16",
+   "short": "7e2c916",
+   "autor": "Pablo Sanchez",
+   "fecha": "2026-10-02T20:45:14-03:00",
+   "msg": "feat(armeria): icono y color de rareza en el arbol, resueltos por item-icons.js"
+  },
   {
    "sha": "1a5a93d8a248938108fce1b22903fba830c7caa1",
    "short": "1a5a93d",
@@ -345,13 +352,6 @@
    "autor": "Pablo Sanchez",
    "fecha": "2026-10-02T08:45:00-03:00",
    "msg": "docs(hb131): la fila de Idea 50E ya estaba mergeada, y un veredicto del Reviewer llevaba dos ciclos sin leerse"
-  },
-  {
-   "sha": "f4e35e4c1610d5fb709602e795edde2d3fb3570b",
-   "short": "f4e35e4",
-   "autor": "Pablo Sanchez",
-   "fecha": "2026-10-02T07:31:48-03:00",
-   "msg": "feat(idea50): Tramo E — la entrada vencida se BORRA; el TTL dejaba de leer y no liberaba"
   }
  ],
  "archivos_md": [
@@ -398,9 +398,9 @@
    "repo": "gw2-wallet-agents",
    "label": "Desarrollo",
    "role": "dev",
-   "sha": "1a5a93d8a248938108fce1b22903fba830c7caa1",
-   "short_sha": "1a5a93d",
-   "commit": "docs(hb151): ALERT-223 - el veredicto del Reviewer sobre los",
+   "sha": "7e2c9162552d6ec7fe299e1f5f61314d65f35a16",
+   "short_sha": "7e2c916",
+   "commit": "feat(armeria): icono y color de rareza en el arbol, resueltos",
    "estado": "open",
    "protected": false,
    "protected_fresco": true,
@@ -412,9 +412,9 @@
    "repo": "gw2-agents-dashboard",
    "label": "Dashboard",
    "role": "dashboard",
-   "sha": "a81b31cae79208b3f5dd10dab682a7b3c5ed3b07",
-   "short_sha": "a81b31c",
-   "commit": "chore(dashboard): pulso automatico 2026-10-02_23-21_UTC",
+   "sha": "dda8297229c2877e7fecc4d176276497f1935e51",
+   "short_sha": "dda8297",
+   "commit": "chore(dashboard): pulso automatico 2026-10-02_23-36_UTC",
    "estado": "open",
    "protected": false,
    "protected_fresco": true,
