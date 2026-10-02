@@ -1,8 +1,15 @@
 {
- "generado_utc": "20261002T163619Z",
- "generado_h": "2026-10-02 16:36 UTC",
+ "generado_utc": "20261002T165116Z",
+ "generado_h": "2026-10-02 16:51 UTC",
  "origen": "git local + ls-remote (sin cuota). protected cacheado TTL 6h.",
  "commits": [
+  {
+   "sha": "c59ec548433b777023394f34335f9cfc67b66937",
+   "short": "c59ec54",
+   "autor": "Pablo Sanchez",
+   "fecha": "2026-10-02T13:40:10-03:00",
+   "msg": "﻿docs(logs): fila 165 y TEAM_STATUS del HB#139 (ALERT-205 cerrada)"
+  },
   {
    "sha": "b6ac5d5f2b857a82a6983894dce5c50c33f49b29",
    "short": "b6ac5d5",
@@ -345,13 +352,6 @@
    "autor": "Pablo Sanchez",
    "fecha": "2026-10-02T00:12:36-03:00",
    "msg": "merge(armeria): 22a6a71 a main - 93 legendarias con generation=null que ningun filtro alcanzaba"
-  },
-  {
-   "sha": "07de012f6b41f11335fd767b72a7f7fe114629a1",
-   "short": "07de012",
-   "autor": "Pablo Sanchez",
-   "fecha": "2026-10-02T00:00:28-03:00",
-   "msg": "feat(armeria): puntos 1.1 (precio con componente de oro) y 2.2 (filtros + switch en Mi progreso)"
   }
  ],
  "archivos_md": [
@@ -398,9 +398,9 @@
    "repo": "gw2-wallet-agents",
    "label": "Desarrollo",
    "role": "dev",
-   "sha": "b6ac5d5f2b857a82a6983894dce5c50c33f49b29",
-   "short_sha": "b6ac5d5",
-   "commit": "﻿chore(limpieza): 2 scratch sin",
+   "sha": "c59ec548433b777023394f34335f9cfc67b66937",
+   "short_sha": "c59ec54",
+   "commit": "﻿docs(logs): fila 165 y TEAM_",
    "estado": "open",
    "protected": false,
    "protected_fresco": true,
@@ -412,9 +412,9 @@
    "repo": "gw2-agents-dashboard",
    "label": "Dashboard",
    "role": "dashboard",
-   "sha": "5436608d12c07b046e6766c2e9b033a995b20862",
-   "short_sha": "5436608",
-   "commit": "chore(dashboard): pulso automatico 2026-10-02_16-21_UTC",
+   "sha": "af23ceb5d11db7688d7db932f7e3f296996abf05",
+   "short_sha": "af23ceb",
+   "commit": "chore(dashboard): pulso automatico 2026-10-02_16-36_UTC",
    "estado": "open",
    "protected": false,
    "protected_fresco": true,
