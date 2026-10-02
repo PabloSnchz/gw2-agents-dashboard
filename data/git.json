@@ -1,8 +1,22 @@
 {
- "generado_utc": "20261002T162120Z",
- "generado_h": "2026-10-02 16:21 UTC",
+ "generado_utc": "20261002T163619Z",
+ "generado_h": "2026-10-02 16:36 UTC",
  "origen": "git local + ls-remote (sin cuota). protected cacheado TTL 6h.",
  "commits": [
+  {
+   "sha": "b6ac5d5f2b857a82a6983894dce5c50c33f49b29",
+   "short": "b6ac5d5",
+   "autor": "Pablo Sanchez",
+   "fecha": "2026-10-02T13:35:14-03:00",
+   "msg": "﻿chore(limpieza): 2 scratch sin referencias, uno restaurado porque el PO lo CITA"
+  },
+  {
+   "sha": "1a7cf4699b4326dab7d9edd60b1ec67866f7bbcd",
+   "short": "1a7cf46",
+   "autor": "Pablo Sanchez",
+   "fecha": "2026-10-02T13:32:40-03:00",
+   "msg": "﻿fix(arneses): ALERT-205 - un arnes atado a la RUTA de un worktree, no al repo"
+  },
   {
    "sha": "08651a0e70c21300407bd06767d4d75ad774ff3a",
    "short": "08651a0",
@@ -338,20 +352,6 @@
    "autor": "Pablo Sanchez",
    "fecha": "2026-10-02T00:00:28-03:00",
    "msg": "feat(armeria): puntos 1.1 (precio con componente de oro) y 2.2 (filtros + switch en Mi progreso)"
-  },
-  {
-   "sha": "22a6a716432a2e43d267c0e785d923243a75ad60",
-   "short": "22a6a71",
-   "autor": "Pablo Sanchez",
-   "fecha": "2026-10-01T23:42:00-03:00",
-   "msg": "fix(armeria): 93 legendarias con generation=null no las alcanzaba ningun filtro (ALERT-ARME-01)"
-  },
-  {
-   "sha": "4974c81d9b42e3b46b2ffd969dc3893b8f559bdd",
-   "short": "4974c81",
-   "autor": "Pablo Sanchez",
-   "fecha": "2026-10-01T23:27:42-03:00",
-   "msg": "docs(hb119): T20-a aplicada, T19-a NO aplicada, y 4 alertas nuevas"
   }
  ],
  "archivos_md": [
@@ -398,9 +398,9 @@
    "repo": "gw2-wallet-agents",
    "label": "Desarrollo",
    "role": "dev",
-   "sha": "08651a0e70c21300407bd06767d4d75ad774ff3a",
-   "short_sha": "08651a0",
-   "commit": "feat(armeria): el motor del arbol y la multiplicidad, con",
+   "sha": "b6ac5d5f2b857a82a6983894dce5c50c33f49b29",
+   "short_sha": "b6ac5d5",
+   "commit": "﻿chore(limpieza): 2 scratch sin",
    "estado": "open",
    "protected": false,
    "protected_fresco": true,
@@ -412,9 +412,9 @@
    "repo": "gw2-agents-dashboard",
    "label": "Dashboard",
    "role": "dashboard",
-   "sha": "32757f572136404f7c11515c7ba20d6d578582ec",
-   "short_sha": "32757f5",
-   "commit": "chore(dashboard): pulso automatico 2026-10-02_16-06_UTC",
+   "sha": "5436608d12c07b046e6766c2e9b033a995b20862",
+   "short_sha": "5436608",
+   "commit": "chore(dashboard): pulso automatico 2026-10-02_16-21_UTC",
    "estado": "open",
    "protected": false,
    "protected_fresco": true,
