@@ -1,8 +1,22 @@
 {
- "generado_utc": "20261002T180618Z",
- "generado_h": "2026-10-02 18:06 UTC",
+ "generado_utc": "20261002T182120Z",
+ "generado_h": "2026-10-02 18:21 UTC",
  "origen": "git local + ls-remote (sin cuota). protected cacheado TTL 6h.",
  "commits": [
+  {
+   "sha": "95f4bd60eca3397f31cf1061af7a8c4d58e0a8eb",
+   "short": "95f4bd6",
+   "autor": "Pablo Sanchez",
+   "fecha": "2026-10-02T15:18:09-03:00",
+   "msg": "docs(hb142): la ronda 43 del PO (rama nueva) y el conteo de la Idea 57, verificado"
+  },
+  {
+   "sha": "44adb12e6af33734837a65c7289a481c7f2c3a95",
+   "short": "44adb12",
+   "autor": "Pablo Sanchez",
+   "fecha": "2026-10-02T15:14:45-03:00",
+   "msg": "feat(gist): T20-b rescatado del worktree, y un arnes que fallaba contra el codigo correcto"
+  },
   {
    "sha": "12907efd49c2fbe128dfcffb2fd49ad9d748a974",
    "short": "12907ef",
@@ -338,20 +352,6 @@
    "autor": "Principal",
    "fecha": "2026-10-02T01:42:02-03:00",
    "msg": "fix(settings): ALERT-179 - importFromData delega en applyImportData"
-  },
-  {
-   "sha": "4e8a93f44e079a7ffcabb77cf7751bd7ae328149",
-   "short": "4e8a93f",
-   "autor": "Pablo Sanchez",
-   "fecha": "2026-10-02T01:19:36-03:00",
-   "msg": "docs(hb122): sesion y fila 149 (poda del PO mergeada, 7 podas auditadas una por una)"
-  },
-  {
-   "sha": "f1c58011677f737905dc473c0db6de5a0d726a6d",
-   "short": "f1c5801",
-   "autor": "Pablo Sanchez",
-   "fecha": "2026-10-02T01:06:22-03:00",
-   "msg": "docs(po-hb122): poda por control de carga — 23 items abiertos a 16, cada uno con su razon escrita"
   }
  ],
  "archivos_md": [
@@ -398,9 +398,9 @@
    "repo": "gw2-wallet-agents",
    "label": "Desarrollo",
    "role": "dev",
-   "sha": "12907efd49c2fbe128dfcffb2fd49ad9d748a974",
-   "short_sha": "12907ef",
-   "commit": "docs(hb141): ALERT-206 (suite roja con el producto sano) y",
+   "sha": "95f4bd60eca3397f31cf1061af7a8c4d58e0a8eb",
+   "short_sha": "95f4bd6",
+   "commit": "docs(hb142): la ronda 43 del PO (rama nueva) y el conteo de",
    "estado": "open",
    "protected": false,
    "protected_fresco": true,
@@ -412,9 +412,9 @@
    "repo": "gw2-agents-dashboard",
    "label": "Dashboard",
    "role": "dashboard",
-   "sha": "e52a6f5194a5a1704aa2f1acd219285a8ee4f99b",
-   "short_sha": "e52a6f5",
-   "commit": "chore(dashboard): pulso automatico 2026-10-02_17-51_UTC",
+   "sha": "8a1d7513a91f2a8fedf1cb1c51fcfa921098c4dc",
+   "short_sha": "8a1d751",
+   "commit": "chore(dashboard): pulso automatico 2026-10-02_18-06_UTC",
    "estado": "open",
    "protected": false,
    "protected_fresco": true,
