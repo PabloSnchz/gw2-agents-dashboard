@@ -1,8 +1,15 @@
 {
- "generado_utc": "20261002T220621Z",
- "generado_h": "2026-10-02 22:06 UTC",
+ "generado_utc": "20261002T222119Z",
+ "generado_h": "2026-10-02 22:21 UTC",
  "origen": "git local + ls-remote (sin cuota). protected cacheado TTL 6h.",
  "commits": [
+  {
+   "sha": "0eb87b9dabd59092ff566d69617386f50654109e",
+   "short": "0eb87b9",
+   "autor": "Pablo Sanchez",
+   "fecha": "2026-10-02T19:14:02-03:00",
+   "msg": "test(armeria): ALERT-216 reescribe el certificado de FILTRO-05 por EFECTO; ALERT-217 cierra el \"TOTAL que bouncea 2x\""
+  },
   {
    "sha": "70fd048fe8c4d2fe063f51efcce596612f685748",
    "short": "70fd048",
@@ -345,13 +352,6 @@
    "autor": "Pablo Sanchez",
    "fecha": "2026-10-02T06:49:55-03:00",
    "msg": "docs(hb128): ALERT-194 y ALERT-194b, y la regla que falto la primera vez"
-  },
-  {
-   "sha": "8dac6c87e17974e6d2d26cccb521755131cfa91a",
-   "short": "8dac6c8",
-   "autor": "Pablo Sanchez",
-   "fecha": "2026-10-02T06:44:39-03:00",
-   "msg": "feat(armeria): el paso 6 (arbol de fabricacion) se corta con la premisa MEDIDA, no con una opinion"
   }
  ],
  "archivos_md": [
@@ -398,9 +398,9 @@
    "repo": "gw2-wallet-agents",
    "label": "Desarrollo",
    "role": "dev",
-   "sha": "70fd048fe8c4d2fe063f51efcce596612f685748",
-   "short_sha": "70fd048",
-   "commit": "docs: TEAM_STATUS de HB#147 + la respuesta al PO que cierra",
+   "sha": "0eb87b9dabd59092ff566d69617386f50654109e",
+   "short_sha": "0eb87b9",
+   "commit": "test(armeria): ALERT-216 reescribe el certificado de",
    "estado": "open",
    "protected": false,
    "protected_fresco": true,
@@ -412,9 +412,9 @@
    "repo": "gw2-agents-dashboard",
    "label": "Dashboard",
    "role": "dashboard",
-   "sha": "5423b8c0606b491359bb1f9a6bfe7ab273ea9096",
-   "short_sha": "5423b8c",
-   "commit": "chore(dashboard): pulso automatico 2026-10-02_21-51_UTC",
+   "sha": "f40519e96074523bd41986470d13d2317a1ea54b",
+   "short_sha": "f40519e",
+   "commit": "chore(dashboard): pulso automatico 2026-10-02_22-06_UTC",
    "estado": "open",
    "protected": false,
    "protected_fresco": true,
