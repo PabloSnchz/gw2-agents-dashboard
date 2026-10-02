@@ -1,8 +1,29 @@
 {
- "generado_utc": "20261002T152119Z",
- "generado_h": "2026-10-02 15:21 UTC",
+ "generado_utc": "20261002T153617Z",
+ "generado_h": "2026-10-02 15:36 UTC",
  "origen": "git local + ls-remote (sin cuota). protected cacheado TTL 6h.",
  "commits": [
+  {
+   "sha": "89ed2a0f90f836ca9931aa2dc9dd62f43e700475",
+   "short": "89ed2a0",
+   "autor": "Pablo Sanchez",
+   "fecha": "2026-10-02T12:21:15-03:00",
+   "msg": "docs(armeria): el contrato no alcanza para el arbol completo, y queda dicho"
+  },
+  {
+   "sha": "fd77340377182c6b87b338e4e7d24593ca471eee",
+   "short": "fd77340",
+   "autor": "Pablo Sanchez",
+   "fecha": "2026-10-02T12:19:55-03:00",
+   "msg": "feat(armeria): nombre en las 64 entradas sin receta + isMaterial + depth documentado"
+  },
+  {
+   "sha": "20dfaed7250807b84d36d782803a2177974fce6f",
+   "short": "20dfaed",
+   "autor": "Pablo Sanchez",
+   "fecha": "2026-10-02T12:13:36-03:00",
+   "msg": "feat(armeria): nombre en las 64 entradas sin receta + isMaterial + depth documentado"
+  },
   {
    "sha": "d0824e935e658170c0be4603572c802bf378d146",
    "short": "d0824e9",
@@ -331,27 +352,6 @@
    "autor": "Pablo Sanchez",
    "fecha": "2026-10-01T22:12:31-03:00",
    "msg": "docs(hb118): T19-c aplicada, el paso 3 con la fuente reparada, y 4 alertas nuevas  ALERT-172: tools/run-suite.cmd no puede fallar. Filtra la salida con findstr /C:\"pass /\", asi que 31 de sus 55 archivos no imprimen linea de recuento y desaparecen del reporte sin avisar. Un test puede dejar de ejecutarse y el runner sigue verde. Agregado tools/hb118-suite-exit.js, que juzga por exit code: 55/55 exit 0, 686 aserciones.  ALERT-173: la instruccion del veredicto (reducir la allowlist por par) era correcta pero acotada a un solo modulo; extenderla a los 4 dejaba 3 filas vigilando una lectura que no existe.  ALERT-174: el Reviewer afirmo que los 4 sitios de T19-c son textualmente identicos. No lo son, y un fix escrito 'textual' deja residuo en 1 de 4.  ALERT-175: 8 filas de COMMS_LOG.md tienen el numero de columnas equivocado (la peor, 24 en vez de 12). Un lector con split e indices fijos lee el estado de otra fila sin dar error. La fila 140 de este ciclo salio con 14 por un operador OR dentro de una celda; corregida. Las otras 8 son de heartbeats anteriores y no se tocan.  Tambien: una correccion de premisa del HB#117. ALERT-84 T3 NO esta aplicada: loadLegendaryData esta en legendary-tracker.js:331, no en router.js, y su cuerpo dice 'not implemented (Phase 2)'. El conteo del PO sobre la union de sus 10 refs dio 8 secciones vivas, 6 ya aplicadas.  Co-Authored-By: QwenPaw <noreply@qwenpaw.ai>"
-  },
-  {
-   "sha": "d32e05499d06ad04f09ebd388656bcabf311d7b8",
-   "short": "d32e054",
-   "autor": "Pablo Sanchez",
-   "fecha": "2026-10-01T22:11:54-03:00",
-   "msg": "fix(storage): T19-c - los 4 lectores de la cuenta seleccionada pasan por la capa Storage  Los 4 modulos (inventory-hub, raid-tracker, strike-tracker, wv-purchase-detail) leiaban 'gw2_selected_key_v1' con localStorage.getItem a pelo, saltandose la capa Storage. Como la gn: es la que arma el Gist, el backup podia guardar una foto distinta de la de la pantalla.  Veredicto del Reviewer (task-debe51c6331f) auditado ANTES de aplicar: 25 aserciones contra origin/main @ 6be9a69, 25/0. Sus 3 bloqueantes se sostienen: R1 los 4 leen el <select> antes del getItem (la legacy es fallback, no fuente) y el fallback se conserva y queda declarado en el JSDoc; R2 con solo la gn: el crudo daria null y la capa da el GUID -- divergencia real, alcanzabilidad NO probada, asi que el test fija el comportamiento en vez de afirmar que hoy son iguales; R3 el guard atado es idea61:425-435 y es por par.  Un punto suyo NO se sostiene (ALERT-174): los 4 no son textualmente identicos. Y su instruccion 'reducir por par' era correcta pero acotada: solo wv-purchase-detail tiene 2 raws y se reduce; los otros 3 tienen 1 y salen de la lista, porque ponerlos como [gw2_keys] seria vigilar una lectura inexistente.  Fase roja 12 FAIL -> 36/0. Suite 55 archivos exit 0 / 686 aserciones / 0 FAIL. El agregado de idea61 baja de 7 a 4 lectores crudos.  MIRROR_MAP y MIGRATION_MODE ('copy') intactos: pasarlo a 'move' dejaria mudos a los 4 modulos a la vez. Sin CSS, sin localStorage nuevo, sin refactor masivo.  Co-Authored-By: QwenPaw <noreply@qwenpaw.ai>"
-  },
-  {
-   "sha": "6be9a696f759dec5f07ad8d690ccfac95504f5de",
-   "short": "6be9a69",
-   "autor": "Pablo Sanchez",
-   "fecha": "2026-10-01T21:05:43-03:00",
-   "msg": "﻿docs(hb117): ALERT-169 - gn:tokenchange no llega al InventoryHub, y el AGENTS.md lo describe al reves"
-  },
-  {
-   "sha": "5f4688f7b70c66e16a62a7cbcb4c5dfa1f2953a9",
-   "short": "5f4688f",
-   "autor": "Pablo Sanchez",
-   "fecha": "2026-10-01T20:13:53-03:00",
-   "msg": "﻿docs(hb116): 3 filas en COMMS_LOG, con control de columnas"
   }
  ],
  "archivos_md": [
@@ -412,9 +412,9 @@
    "repo": "gw2-agents-dashboard",
    "label": "Dashboard",
    "role": "dashboard",
-   "sha": "d4224e8db7b969465ab549f4db91acae1395f2c1",
-   "short_sha": "d4224e8",
-   "commit": "chore(dashboard): pulso automatico 2026-10-02_15-06_UTC",
+   "sha": "a7ea36ace7082d6ab0befadd92c365df8e076f64",
+   "short_sha": "a7ea36a",
+   "commit": "chore(dashboard): pulso automatico 2026-10-02_15-21_UTC",
    "estado": "open",
    "protected": false,
    "protected_fresco": true,
