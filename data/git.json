@@ -1,8 +1,22 @@
 {
- "generado_utc": "20261002T190618Z",
- "generado_h": "2026-10-02 19:06 UTC",
+ "generado_utc": "20261002T192121Z",
+ "generado_h": "2026-10-02 19:21 UTC",
  "origen": "git local + ls-remote (sin cuota). protected cacheado TTL 6h.",
  "commits": [
+  {
+   "sha": "b8f7bdc8239789f7b08c8484bde9199792c690b5",
+   "short": "b8f7bdc",
+   "autor": "Pablo Sanchez",
+   "fecha": "2026-10-02T16:17:44-03:00",
+   "msg": "docs(backlog): Idea 57 con su Tramo 3 (la CUENTA, pedido por el PO en la ronda 44)"
+  },
+  {
+   "sha": "ae89b8ca97ece90c64de075a1b3985044ef0225b",
+   "short": "ae89b8c",
+   "autor": "Pablo Sanchez",
+   "fecha": "2026-10-02T16:16:55-03:00",
+   "msg": "fix(idea57): la cuenta de \"cuantos faltan migrar\", verificada en vez de escrita"
+  },
   {
    "sha": "45ee93a7ef1ce2c4d8abf8c6a060cda0be80f084",
    "short": "45ee93a",
@@ -338,20 +352,6 @@
    "autor": "Pablo Sanchez",
    "fecha": "2026-10-02T03:38:13-03:00",
    "msg": "fix(idea57): MERGE del Tramo 2 - los 3 wrappers de inventario ya no degradan la FORMA a []"
-  },
-  {
-   "sha": "3520fdcaa8a34d7a608ed72a7db73e5d911e680a",
-   "short": "3520fdc",
-   "autor": "Pablo Sanchez",
-   "fecha": "2026-10-02T03:37:11-03:00",
-   "msg": "fix(armeria): el generador de recetas declara su fuente, y sus 3 casos dejan de estar fundidos"
-  },
-  {
-   "sha": "de42a690cbf0640895d6b8dfdc4b7251b6be8ebb",
-   "short": "de42a69",
-   "autor": "Pablo Sanchez",
-   "fecha": "2026-10-02T02:50:13-03:00",
-   "msg": "docs(hb124): los 5 logs del ciclo, y la mutacion que no moria"
   }
  ],
  "archivos_md": [
@@ -412,9 +412,9 @@
    "repo": "gw2-agents-dashboard",
    "label": "Dashboard",
    "role": "dashboard",
-   "sha": "e4d428afe1d229e2d05ce8c468ac015cea40c3da",
-   "short_sha": "e4d428a",
-   "commit": "chore(dashboard): pulso automatico 2026-10-02_18-51_UTC",
+   "sha": "0c377fe96809a099dcb5ddb022609b826366fafd",
+   "short_sha": "0c377fe",
+   "commit": "chore(dashboard): pulso automatico 2026-10-02_19-06_UTC",
    "estado": "open",
    "protected": false,
    "protected_fresco": true,

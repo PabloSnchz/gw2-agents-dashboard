@@ -1,19 +1,19 @@
 {
- "generado_utc": "20261002T190602Z",
- "generado_h": "2026-10-02 19:06 UTC",
+ "generado_utc": "20261002T192104Z",
+ "generado_h": "2026-10-02 19:21 UTC",
  "archivos_estado": [
   {
    "archivo": "TEAM_STATUS.md",
    "quien": "Principal /30min",
    "estado": "ok",
-   "edad_h": 0.3,
-   "kb": 18.8
+   "edad_h": 0.0,
+   "kb": 25.5
   },
   {
    "archivo": "SESSION_LOG.md",
    "quien": "Documentador /4h",
    "estado": "ok",
-   "edad_h": 0.4,
+   "edad_h": 0.6,
    "kb": 301.9,
    "crecimiento": "EXCEDE 60 KB (302 KB)"
   },
@@ -21,14 +21,14 @@
    "archivo": "COMMS_LOG.md",
    "quien": "Principal /30min",
    "estado": "ok",
-   "edad_h": 0.4,
+   "edad_h": 0.6,
    "kb": 234.2
   },
   {
    "archivo": "PRE_BACKLOG.md",
    "quien": "PO /2h",
    "estado": "ROTO",
-   "edad_h": 59.5,
+   "edad_h": 59.7,
    "kb": 238.3,
    "crecimiento": "EXCEDE 120 KB (238 KB)"
   },
@@ -36,14 +36,14 @@
    "archivo": "ALERTS_LOG.md",
    "quien": "Principal /30min",
    "estado": "ok",
-   "edad_h": 0.9,
+   "edad_h": 1.1,
    "kb": 369.2
   },
   {
    "archivo": "DECISIONS_LOG.md",
    "quien": "Principal",
    "estado": "RARO",
-   "edad_h": 65.1,
+   "edad_h": 65.3,
    "kb": 10.2
   }
  ],
@@ -114,6 +114,11 @@
   },
   {
    "rama": "fix-195-route-desalineado",
+   "commits": 2,
+   "fecha": "2026-10-02"
+  },
+  {
+   "rama": "fix-hb144-cuenta-viva",
    "commits": 2,
    "fecha": "2026-10-02"
   },
@@ -366,17 +371,17 @@
   },
   {
    "dia": "2026-10-02",
-   "llamadas": 5262,
-   "prompt": 482856422,
-   "cache_read": 465089050,
+   "llamadas": 5354,
+   "prompt": 492565891,
+   "cache_read": 474389361,
    "cache_pct": 96.3,
-   "prompt_por_llamada": 91762,
+   "prompt_por_llamada": 91999,
    "por_agente": [
     {
      "agente": "default",
-     "llamadas": 4033,
-     "prompt": 370416329,
-     "cache_pct": 96.7
+     "llamadas": 4105,
+     "prompt": 378916372,
+     "cache_pct": 96.8
     },
     {
      "agente": "product-owner",
@@ -386,15 +391,15 @@
     },
     {
      "agente": "architect",
-     "llamadas": 599,
-     "prompt": 49571465,
-     "cache_pct": 92.5
+     "llamadas": 608,
+     "prompt": 50325604,
+     "cache_pct": 92.3
     },
     {
      "agente": "Code-Reviewer",
-     "llamadas": 74,
-     "prompt": 4074604,
-     "cache_pct": 94.8
+     "llamadas": 85,
+     "prompt": 4529891,
+     "cache_pct": 93.3
     }
    ]
   }
