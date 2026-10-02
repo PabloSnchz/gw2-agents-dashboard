@@ -1,8 +1,15 @@
 {
- "generado_utc": "20261002T170617Z",
- "generado_h": "2026-10-02 17:06 UTC",
+ "generado_utc": "20261002T172118Z",
+ "generado_h": "2026-10-02 17:21 UTC",
  "origen": "git local + ls-remote (sin cuota). protected cacheado TTL 6h.",
  "commits": [
+  {
+   "sha": "39d1cb651823c2945f9a8c1f578b463db0a8a719",
+   "short": "39d1cb6",
+   "autor": "Pablo Sanchez",
+   "fecha": "2026-10-02T14:14:36-03:00",
+   "msg": "fix(arneses): ALERT-79 - 7 ideogramas CJK colados en prosa espanola  ALERT-79 recurre porque el sintoma es invisible: un archivo de estado en un idioma que no es el suyo se lee igual de lleno que uno con una cifra mal. 7 leaks, todos mios, de la clase que el ALERT ya describe:   tests/hb104:3, tests/hb136:10, tests/hb205:11,   tools/hb114-cuento-v2.mjs:43, TEAM_STATUS_HB60.md:125,   SESSION_LOG.md:3612, DASHBOARD_PO_IDEAS.md:2199  Verificado con _hb140-cjk-check.js: 0 leaks, 12 citas excluidas a proposito (ALERTS_LOG/CHANGELOG/ONBOARDING documentan este mismo bug y contarlos obligaria a borrar la evidencia).  De paso, y porque era el pendiente que MEMORY daba por hecho: la precondicion de T14/T15 esta MEDIDA, no pendiente. El arnes de la escena 2 (tests/hb136-escena2-solo-strikes.test.js) corre 23 pass / 0 FAIL con sus dos controles negativos, asi que lo que el Reviewer pidio asertar ya esta asertado. El veredicto (opcion C) sigue sin aplicarse.  Suite: 77 archivos, 77 exit 0, 3574 pass."
+  },
   {
    "sha": "c59ec548433b777023394f34335f9cfc67b66937",
    "short": "c59ec54",
@@ -345,13 +352,6 @@
    "autor": "Pablo Sanchez",
    "fecha": "2026-10-01T23:41:51-03:00",
    "msg": "fix(gist-sync): T20-c - una foto local antes de sobrescribir por el camino del Gist"
-  },
-  {
-   "sha": "9a68eb4b87e21d4410ef6c5ac8b27ce673238526",
-   "short": "9a68eb4",
-   "autor": "Pablo Sanchez",
-   "fecha": "2026-10-02T00:12:36-03:00",
-   "msg": "merge(armeria): 22a6a71 a main - 93 legendarias con generation=null que ningun filtro alcanzaba"
   }
  ],
  "archivos_md": [
@@ -398,9 +398,9 @@
    "repo": "gw2-wallet-agents",
    "label": "Desarrollo",
    "role": "dev",
-   "sha": "c59ec548433b777023394f34335f9cfc67b66937",
-   "short_sha": "c59ec54",
-   "commit": "﻿docs(logs): fila 165 y TEAM_",
+   "sha": "39d1cb651823c2945f9a8c1f578b463db0a8a719",
+   "short_sha": "39d1cb6",
+   "commit": "fix(arneses): ALERT-79 - 7 ideogramas CJK colados en prosa",
    "estado": "open",
    "protected": false,
    "protected_fresco": true,
@@ -412,9 +412,9 @@
    "repo": "gw2-agents-dashboard",
    "label": "Dashboard",
    "role": "dashboard",
-   "sha": "db7b61ecf8134d841adcf1c0af2b6153fc73c999",
-   "short_sha": "db7b61e",
-   "commit": "chore(dashboard): pulso automatico 2026-10-02_16-51_UTC",
+   "sha": "ba24db0179b2c3071dbf26d73907e5f000ad44d1",
+   "short_sha": "ba24db0",
+   "commit": "chore(dashboard): pulso automatico 2026-10-02_17-06_UTC",
    "estado": "open",
    "protected": false,
    "protected_fresco": true,
