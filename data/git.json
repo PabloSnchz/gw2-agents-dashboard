@@ -1,8 +1,15 @@
 {
- "generado_utc": "20261002T175117Z",
- "generado_h": "2026-10-02 17:51 UTC",
+ "generado_utc": "20261002T180618Z",
+ "generado_h": "2026-10-02 18:06 UTC",
  "origen": "git local + ls-remote (sin cuota). protected cacheado TTL 6h.",
  "commits": [
+  {
+   "sha": "12907efd49c2fbe128dfcffb2fd49ad9d748a974",
+   "short": "12907ef",
+   "autor": "Pablo Sanchez",
+   "fecha": "2026-10-02T14:52:07-03:00",
+   "msg": "docs(hb141): ALERT-206 (suite roja con el producto sano) y ALERT-207 (un control que falla no mide)"
+  },
   {
    "sha": "9f3b097e5fc96c98a5fc77512a1a2e93765cdbf2",
    "short": "9f3b097",
@@ -345,13 +352,6 @@
    "autor": "Pablo Sanchez",
    "fecha": "2026-10-02T01:06:22-03:00",
    "msg": "docs(po-hb122): poda por control de carga — 23 items abiertos a 16, cada uno con su razon escrita"
-  },
-  {
-   "sha": "ed9a12651b7662650c1f44aae3906fc68a55a170",
-   "short": "ed9a126",
-   "autor": "Pablo Sanchez",
-   "fecha": "2026-10-02T01:04:40-03:00",
-   "msg": "feat(armeria): CONTRATO de fabricacion - craftType + dataStatus para los 206 ids"
   }
  ],
  "archivos_md": [
@@ -398,9 +398,9 @@
    "repo": "gw2-wallet-agents",
    "label": "Desarrollo",
    "role": "dev",
-   "sha": "9f3b097e5fc96c98a5fc77512a1a2e93765cdbf2",
-   "short_sha": "9f3b097",
-   "commit": "fix(armeria): el chevron que se ve y no hace nada, y el",
+   "sha": "12907efd49c2fbe128dfcffb2fd49ad9d748a974",
+   "short_sha": "12907ef",
+   "commit": "docs(hb141): ALERT-206 (suite roja con el producto sano) y",
    "estado": "open",
    "protected": false,
    "protected_fresco": true,
@@ -412,9 +412,9 @@
    "repo": "gw2-agents-dashboard",
    "label": "Dashboard",
    "role": "dashboard",
-   "sha": "05f4187d57388d3120379affdaa6cb4d6ec3ff02",
-   "short_sha": "05f4187",
-   "commit": "chore(dashboard): pulso automatico 2026-10-02_17-36_UTC",
+   "sha": "e52a6f5194a5a1704aa2f1acd219285a8ee4f99b",
+   "short_sha": "e52a6f5",
+   "commit": "chore(dashboard): pulso automatico 2026-10-02_17-51_UTC",
    "estado": "open",
    "protected": false,
    "protected_fresco": true,
