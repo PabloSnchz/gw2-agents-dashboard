@@ -1,19 +1,19 @@
 {
- "generado_utc": "20261002T225102Z",
- "generado_h": "2026-10-02 22:51 UTC",
+ "generado_utc": "20261002T230604Z",
+ "generado_h": "2026-10-02 23:06 UTC",
  "archivos_estado": [
   {
    "archivo": "TEAM_STATUS.md",
    "quien": "Principal /30min",
    "estado": "ok",
-   "edad_h": 0.1,
-   "kb": 46.0
+   "edad_h": 0.0,
+   "kb": 45.3
   },
   {
    "archivo": "SESSION_LOG.md",
    "quien": "Documentador /4h",
    "estado": "ok",
-   "edad_h": 4.1,
+   "edad_h": 4.4,
    "kb": 301.9,
    "crecimiento": "EXCEDE 60 KB (302 KB)"
   },
@@ -21,14 +21,14 @@
    "archivo": "COMMS_LOG.md",
    "quien": "Principal /30min",
    "estado": "ok",
-   "edad_h": 0.1,
+   "edad_h": 0.4,
    "kb": 243.6
   },
   {
    "archivo": "PRE_BACKLOG.md",
    "quien": "PO /2h",
    "estado": "ROTO",
-   "edad_h": 63.2,
+   "edad_h": 63.5,
    "kb": 238.3,
    "crecimiento": "EXCEDE 120 KB (238 KB)"
   },
@@ -36,14 +36,14 @@
    "archivo": "ALERTS_LOG.md",
    "quien": "Principal /30min",
    "estado": "ok",
-   "edad_h": 0.2,
-   "kb": 402.5
+   "edad_h": 0.0,
+   "kb": 396.4
   },
   {
    "archivo": "DECISIONS_LOG.md",
    "quien": "Principal",
    "estado": "RARO",
-   "edad_h": 68.8,
+   "edad_h": 69.1,
    "kb": 10.2
   }
  ],
@@ -376,16 +376,16 @@
   },
   {
    "dia": "2026-10-02",
-   "llamadas": 6368,
-   "prompt": 593126045,
-   "cache_read": 570715736,
+   "llamadas": 6415,
+   "prompt": 597131939,
+   "cache_read": 574468625,
    "cache_pct": 96.2,
-   "prompt_por_llamada": 93141,
+   "prompt_por_llamada": 93083,
    "por_agente": [
     {
      "agente": "default",
-     "llamadas": 4767,
-     "prompt": 446542881,
+     "llamadas": 4810,
+     "prompt": 450372519,
      "cache_pct": 96.7
     },
     {
@@ -396,15 +396,21 @@
     },
     {
      "agente": "architect",
-     "llamadas": 678,
-     "prompt": 55171564,
-     "cache_pct": 91.8
+     "llamadas": 680,
+     "prompt": 55294774,
+     "cache_pct": 91.7
     },
     {
      "agente": "Code-Reviewer",
      "llamadas": 196,
      "prompt": 15898984,
      "cache_pct": 95.5
+    },
+    {
+     "agente": "?",
+     "llamadas": 2,
+     "prompt": 53046,
+     "cache_pct": 50.2
     }
    ]
   }
@@ -417,7 +423,7 @@
   },
   {
    "archivo": "salud.json",
-   "edad_min": 14.9,
+   "edad_min": 15.0,
    "estado": "ok"
   },
   {
