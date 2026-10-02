@@ -1,8 +1,29 @@
 {
- "generado_utc": "20261002T183621Z",
- "generado_h": "2026-10-02 18:36 UTC",
+ "generado_utc": "20261002T185120Z",
+ "generado_h": "2026-10-02 18:51 UTC",
  "origen": "git local + ls-remote (sin cuota). protected cacheado TTL 6h.",
  "commits": [
+  {
+   "sha": "45ee93a7ef1ce2c4d8abf8c6a060cda0be80f084",
+   "short": "45ee93a",
+   "autor": "Pablo Sanchez",
+   "fecha": "2026-10-02T15:45:55-03:00",
+   "msg": "docs(hb143): ARME 2.3, la decision sobre los dos tests rescatados, y dos alertas"
+  },
+  {
+   "sha": "455384d705c47846c3f8f36622c07574b412f6da",
+   "short": "455384d",
+   "autor": "Pablo Sanchez",
+   "fecha": "2026-10-02T15:43:49-03:00",
+   "msg": "docs(hb143): ALERT-209 - \"ya esta aplicado\" y \"sigue abierto\" son la misma afirmacion"
+  },
+  {
+   "sha": "3e302314f60c62444ddaee282e34cf2dd982fc16",
+   "short": "3e30231",
+   "autor": "Pablo Sanchez",
+   "fecha": "2026-10-02T15:40:22-03:00",
+   "msg": "test(armeria): el contrato de la cola (2.3), con 7 mutaciones que lo bajan"
+  },
   {
    "sha": "95f4bd60eca3397f31cf1061af7a8c4d58e0a8eb",
    "short": "95f4bd6",
@@ -331,27 +352,6 @@
    "autor": "Pablo Sanchez",
    "fecha": "2026-10-02T02:50:13-03:00",
    "msg": "docs(hb124): los 5 logs del ciclo, y la mutacion que no moria"
-  },
-  {
-   "sha": "6e6287b2c555d9828a466b9e01d3fb64ae6792e1",
-   "short": "6e6287b",
-   "autor": "Pablo Sanchez",
-   "fecha": "2026-10-02T02:40:13-03:00",
-   "msg": "feat(armeria): 1.2 - el modal de materiales, y los cuatro estados del contrato"
-  },
-  {
-   "sha": "941049cdb6bba8cbf59c3ec8338dc41a56391deb",
-   "short": "941049c",
-   "autor": "Principal",
-   "fecha": "2026-10-02T01:51:35-03:00",
-   "msg": "docs(hb123): 4 logs, 2 alertas y las 3 verificaciones que evitaron trabajo equivocado"
-  },
-  {
-   "sha": "029d2e11ef1b89b5c173346c020b8a33c2fbcce5",
-   "short": "029d2e1",
-   "autor": "Principal",
-   "fecha": "2026-10-02T01:42:02-03:00",
-   "msg": "fix(settings): ALERT-179 - importFromData delega en applyImportData"
   }
  ],
  "archivos_md": [
@@ -398,9 +398,9 @@
    "repo": "gw2-wallet-agents",
    "label": "Desarrollo",
    "role": "dev",
-   "sha": "95f4bd60eca3397f31cf1061af7a8c4d58e0a8eb",
-   "short_sha": "95f4bd6",
-   "commit": "docs(hb142): la ronda 43 del PO (rama nueva) y el conteo de",
+   "sha": "45ee93a7ef1ce2c4d8abf8c6a060cda0be80f084",
+   "short_sha": "45ee93a",
+   "commit": "docs(hb143): ARME 2.3, la decision sobre los dos tests",
    "estado": "open",
    "protected": false,
    "protected_fresco": true,
@@ -412,9 +412,9 @@
    "repo": "gw2-agents-dashboard",
    "label": "Dashboard",
    "role": "dashboard",
-   "sha": "8c54da47cd34dde16f1887ea4aaac1b118c0bb6b",
-   "short_sha": "8c54da4",
-   "commit": "chore(dashboard): pulso automatico 2026-10-02_18-21_UTC",
+   "sha": "b738319c0f2d73ad7ffe465a19778523ce119753",
+   "short_sha": "b738319",
+   "commit": "chore(dashboard): pulso automatico 2026-10-02_18-36_UTC",
    "estado": "open",
    "protected": false,
    "protected_fresco": true,
