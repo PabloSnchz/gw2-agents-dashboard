@@ -1,8 +1,15 @@
 {
- "generado_utc": "20261002T193622Z",
- "generado_h": "2026-10-02 19:36 UTC",
+ "generado_utc": "20261002T195128Z",
+ "generado_h": "2026-10-02 19:51 UTC",
  "origen": "git local + ls-remote (sin cuota). protected cacheado TTL 6h.",
  "commits": [
+  {
+   "sha": "a9d842564d2ffd28a6c26ddaf4c68663fdadd44b",
+   "short": "a9d8425",
+   "autor": "Pablo Sanchez",
+   "fecha": "2026-10-02T16:36:38-03:00",
+   "msg": "docs(hb145): el veredicto BLOQUEANTE de T12-b caducaba entero, y el HB#144 estaba sin mergear"
+  },
   {
    "sha": "b8f7bdc8239789f7b08c8484bde9199792c690b5",
    "short": "b8f7bdc",
@@ -345,13 +352,6 @@
    "autor": "Pablo Sanchez",
    "fecha": "2026-10-02T03:42:44-03:00",
    "msg": "docs(backlog): la poda del PO aplicada (6 archivadas) y el conteo corregido: 16 a 10, no 13 a 7"
-  },
-  {
-   "sha": "0d498b1fe3fb0aa811e5c4dffb0569c0058a8d00",
-   "short": "0d498b1",
-   "autor": "Pablo Sanchez",
-   "fecha": "2026-10-02T03:38:13-03:00",
-   "msg": "fix(idea57): MERGE del Tramo 2 - los 3 wrappers de inventario ya no degradan la FORMA a []"
   }
  ],
  "archivos_md": [
@@ -398,9 +398,9 @@
    "repo": "gw2-wallet-agents",
    "label": "Desarrollo",
    "role": "dev",
-   "sha": "45ee93a7ef1ce2c4d8abf8c6a060cda0be80f084",
-   "short_sha": "45ee93a",
-   "commit": "docs(hb143): ARME 2.3, la decision sobre los dos tests",
+   "sha": "a9d842564d2ffd28a6c26ddaf4c68663fdadd44b",
+   "short_sha": "a9d8425",
+   "commit": "docs(hb145): el veredicto BLOQUEANTE de T12-b caducaba",
    "estado": "open",
    "protected": false,
    "protected_fresco": true,
@@ -412,9 +412,9 @@
    "repo": "gw2-agents-dashboard",
    "label": "Dashboard",
    "role": "dashboard",
-   "sha": "0e76612ef49663457a5b04db868c8b3dcaab9ba5",
-   "short_sha": "0e76612",
-   "commit": "chore(dashboard): pulso automatico 2026-10-02_19-21_UTC",
+   "sha": "16b9cda9bd1d88872a55527a0560693ae527d0d7",
+   "short_sha": "16b9cda",
+   "commit": "chore(dashboard): pulso automatico 2026-10-02_19-36_UTC",
    "estado": "open",
    "protected": false,
    "protected_fresco": true,
