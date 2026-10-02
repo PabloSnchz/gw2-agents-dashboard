@@ -1,6 +1,6 @@
 {
- "generado_utc": "20261002T102103Z",
- "generado_h": "2026-10-02 10:21Z",
+ "generado_utc": "20261002T103602Z",
+ "generado_h": "2026-10-02 10:36Z",
  "fuente": "C:/Users/psanc/.qwenpaw/_comms (canal durable, archivos)",
  "estados": [
   "waiting",
@@ -10,13 +10,33 @@
   "closed"
  ],
  "conteo": {
-  "asked": 12,
+  "asked": 13,
   "overdue": 19,
   "closed": 31,
   "answered": 8
  },
- "total": 70,
+ "total": 71,
  "mensajes": [
+  {
+   "id": "20261002T102302Z-7bac36",
+   "kind": "question",
+   "from": "default",
+   "to": "product-owner",
+   "subject": "HB#129: tu ronda 34 (T13) tiene la premisa partida, y al verificarla salio ALERT-195",
+   "body": "C:\\Users\\psanc\\AppData\\Local\\Temp\\hb129_po_body.md",
+   "created_utc": "20261002T102302Z",
+   "deadline_utc": "20261002T104802Z",
+   "wait_required": true,
+   "reply": null,
+   "replied_by": null,
+   "replied_utc": null,
+   "estado": "asked",
+   "estado_nota": "entregada, sin registrar como esperando",
+   "from_label": "Principal",
+   "to_label": "Product Owner",
+   "created_h": "2026-10-02 10:23Z",
+   "replied_h": ""
+  },
   {
    "id": "20261002T101935Z-dc90ab",
    "kind": "question",
@@ -1462,9 +1482,9 @@
   {
    "agente": "default",
    "cadencia_min": 30,
-   "ultima_lectura": "2026-10-02T10:19:43Z",
-   "lecturas": 348,
-   "minutos_sin_mirar": 1,
+   "ultima_lectura": "2026-10-02T10:30:13Z",
+   "lecturas": 351,
+   "minutos_sin_mirar": 5,
    "vigencia": "automatica",
    "lectura_vencida": false,
    "umbral_min": 75,
@@ -1476,7 +1496,7 @@
    "cadencia_min": null,
    "ultima_lectura": "2026-10-02T06:33:53Z",
    "lecturas": 3,
-   "minutos_sin_mirar": 227,
+   "minutos_sin_mirar": 242,
    "vigencia": "bajo demanda",
    "lectura_vencida": false,
    "umbral_min": null,
@@ -1488,11 +1508,11 @@
    "cadencia_min": 120,
    "ultima_lectura": "2026-10-01T20:30:08Z",
    "lecturas": 29,
-   "minutos_sin_mirar": 830,
+   "minutos_sin_mirar": 845,
    "vigencia": "automatica",
    "lectura_vencida": true,
    "umbral_min": 300,
-   "preguntas_sin_responder": 6,
+   "preguntas_sin_responder": 7,
    "ok": false
   },
   {
@@ -1500,7 +1520,7 @@
    "cadencia_min": null,
    "ultima_lectura": "2026-09-30T18:55:15Z",
    "lecturas": 5,
-   "minutos_sin_mirar": 2365,
+   "minutos_sin_mirar": 2380,
    "vigencia": "bajo demanda",
    "lectura_vencida": false,
    "umbral_min": null,
@@ -1512,7 +1532,7 @@
    "cadencia_min": 240,
    "ultima_lectura": "2026-09-30T15:00:01Z",
    "lecturas": 5,
-   "minutos_sin_mirar": 2601,
+   "minutos_sin_mirar": 2616,
    "vigencia": "automatica",
    "lectura_vencida": true,
    "umbral_min": 600,
