@@ -1,19 +1,19 @@
 {
- "generado_utc": "20261002T200602Z",
- "generado_h": "2026-10-02 20:06 UTC",
+ "generado_utc": "20261002T202102Z",
+ "generado_h": "2026-10-02 20:21 UTC",
  "archivos_estado": [
   {
    "archivo": "TEAM_STATUS.md",
    "quien": "Principal /30min",
    "estado": "ok",
-   "edad_h": 0.5,
-   "kb": 30.9
+   "edad_h": 0.1,
+   "kb": 33.2
   },
   {
    "archivo": "SESSION_LOG.md",
    "quien": "Documentador /4h",
    "estado": "ok",
-   "edad_h": 1.4,
+   "edad_h": 1.6,
    "kb": 301.9,
    "crecimiento": "EXCEDE 60 KB (302 KB)"
   },
@@ -21,14 +21,14 @@
    "archivo": "COMMS_LOG.md",
    "quien": "Principal /30min",
    "estado": "ok",
-   "edad_h": 0.5,
-   "kb": 235.3
+   "edad_h": 0.1,
+   "kb": 235.6
   },
   {
    "archivo": "PRE_BACKLOG.md",
    "quien": "PO /2h",
    "estado": "ROTO",
-   "edad_h": 60.5,
+   "edad_h": 60.7,
    "kb": 238.3,
    "crecimiento": "EXCEDE 120 KB (238 KB)"
   },
@@ -36,14 +36,14 @@
    "archivo": "ALERTS_LOG.md",
    "quien": "Principal /30min",
    "estado": "ok",
-   "edad_h": 1.9,
-   "kb": 369.2
+   "edad_h": 0.1,
+   "kb": 372.9
   },
   {
    "archivo": "DECISIONS_LOG.md",
    "quien": "Principal",
    "estado": "RARO",
-   "edad_h": 66.1,
+   "edad_h": 66.3,
    "kb": 10.2
   }
  ],
@@ -366,23 +366,23 @@
   },
   {
    "dia": "2026-10-02",
-   "llamadas": 5631,
-   "prompt": 516704369,
-   "cache_read": 497347597,
+   "llamadas": 5803,
+   "prompt": 535477130,
+   "cache_read": 515543014,
    "cache_pct": 96.3,
-   "prompt_por_llamada": 91760,
+   "prompt_por_llamada": 92275,
    "por_agente": [
     {
      "agente": "default",
-     "llamadas": 4288,
-     "prompt": 396338164,
+     "llamadas": 4324,
+     "prompt": 400343987,
      "cache_pct": 96.7
     },
     {
      "agente": "product-owner",
-     "llamadas": 596,
-     "prompt": 62349470,
-     "cache_pct": 96.8
+     "llamadas": 660,
+     "prompt": 69506094,
+     "cache_pct": 96.9
     },
     {
      "agente": "architect",
@@ -392,9 +392,9 @@
     },
     {
      "agente": "Code-Reviewer",
-     "llamadas": 102,
-     "prompt": 5478044,
-     "cache_pct": 93.2
+     "llamadas": 174,
+     "prompt": 13088358,
+     "cache_pct": 95.2
     }
    ]
   }
@@ -402,17 +402,17 @@
  "dashboard": [
   {
    "archivo": "comms.json",
-   "edad_min": 0.3,
+   "edad_min": 0.4,
    "estado": "ok"
   },
   {
    "archivo": "salud.json",
-   "edad_min": 14.8,
+   "edad_min": 15.1,
    "estado": "ok"
   },
   {
    "archivo": "estructura.json",
-   "edad_min": 0.3,
+   "edad_min": 0.4,
    "estado": "ok"
   }
  ],
@@ -531,7 +531,7 @@
   },
   "esperando_decision_error": null,
   "backlog": {
-   "abiertos": 5,
+   "abiertos": 6,
    "cerrados": 58,
    "bloqueados": 0,
    "bloqueados_items": []
