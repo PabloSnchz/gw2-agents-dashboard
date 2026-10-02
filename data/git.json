@@ -1,8 +1,15 @@
 {
- "generado_utc": "20261002T173619Z",
- "generado_h": "2026-10-02 17:36 UTC",
+ "generado_utc": "20261002T175117Z",
+ "generado_h": "2026-10-02 17:51 UTC",
  "origen": "git local + ls-remote (sin cuota). protected cacheado TTL 6h.",
  "commits": [
+  {
+   "sha": "9f3b097e5fc96c98a5fc77512a1a2e93765cdbf2",
+   "short": "9f3b097",
+   "autor": "Pablo Sanchez",
+   "fecha": "2026-10-02T14:42:37-03:00",
+   "msg": "fix(armeria): el chevron que se ve y no hace nada, y el \"cargando\" que caia en el mensaje de error"
+  },
   {
    "sha": "934d2ae5fa93dd6116ebc71e97816ce24b7693ae",
    "short": "934d2ae",
@@ -345,13 +352,6 @@
    "autor": "Pablo Sanchez",
    "fecha": "2026-10-02T01:04:40-03:00",
    "msg": "feat(armeria): CONTRATO de fabricacion - craftType + dataStatus para los 206 ids"
-  },
-  {
-   "sha": "d61483efebf51255d4e35ff3c3d5e2cadaa8fcc0",
-   "short": "d61483e",
-   "autor": "Pablo Sanchez",
-   "fecha": "2026-10-02T00:32:08-03:00",
-   "msg": "docs(hb121): los 5 logs del ciclo, y el WIP de HB#120 sale del arbol de trabajo"
   }
  ],
  "archivos_md": [
@@ -398,9 +398,9 @@
    "repo": "gw2-wallet-agents",
    "label": "Desarrollo",
    "role": "dev",
-   "sha": "39d1cb651823c2945f9a8c1f578b463db0a8a719",
-   "short_sha": "39d1cb6",
-   "commit": "fix(arneses): ALERT-79 - 7 ideogramas CJK colados en prosa",
+   "sha": "9f3b097e5fc96c98a5fc77512a1a2e93765cdbf2",
+   "short_sha": "9f3b097",
+   "commit": "fix(armeria): el chevron que se ve y no hace nada, y el",
    "estado": "open",
    "protected": false,
    "protected_fresco": true,
@@ -412,9 +412,9 @@
    "repo": "gw2-agents-dashboard",
    "label": "Dashboard",
    "role": "dashboard",
-   "sha": "515913585318e7494ded78fd4bf2a7fb3f48ed30",
-   "short_sha": "5159135",
-   "commit": "chore(dashboard): pulso automatico 2026-10-02_17-21_UTC",
+   "sha": "05f4187d57388d3120379affdaa6cb4d6ec3ff02",
+   "short_sha": "05f4187",
+   "commit": "chore(dashboard): pulso automatico 2026-10-02_17-36_UTC",
    "estado": "open",
    "protected": false,
    "protected_fresco": true,
