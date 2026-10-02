@@ -1,8 +1,15 @@
 {
- "generado_utc": "20261002T205120Z",
- "generado_h": "2026-10-02 20:51 UTC",
+ "generado_utc": "20261002T210619Z",
+ "generado_h": "2026-10-02 21:06 UTC",
  "origen": "git local + ls-remote (sin cuota). protected cacheado TTL 6h.",
  "commits": [
+  {
+   "sha": "69a7595d9bf50ec520b52e5d0082f39dd21b9ec0",
+   "short": "69a7595",
+   "autor": "Pablo Sanchez",
+   "fecha": "2026-10-02T18:05:36-03:00",
+   "msg": "test(armeria): ALERT-211 cierra el falso verde del 3.1, y ALERT-212 muestra que FILTRO-05 no puede fallar"
+  },
   {
    "sha": "3f32b77e232809745f95ed3c2212e3c232e09746",
    "short": "3f32b77",
@@ -345,13 +352,6 @@
    "autor": "Pablo Sanchez",
    "fecha": "2026-10-02T06:19:40-03:00",
    "msg": "docs(hb127): ALERT-193 y el TEAM_STATUS del ciclo"
-  },
-  {
-   "sha": "4c01b29c4bd428081d1332006ea41e39139b22d9",
-   "short": "4c01b29",
-   "autor": "Pablo Sanchez",
-   "fecha": "2026-10-02T06:10:07-03:00",
-   "msg": "docs(hb127): los 4 logs del ciclo, y la truncacion que casi borro 8500 lineas de historial"
   }
  ],
  "archivos_md": [
@@ -398,9 +398,9 @@
    "repo": "gw2-wallet-agents",
    "label": "Desarrollo",
    "role": "dev",
-   "sha": "3f32b77e232809745f95ed3c2212e3c232e09746",
-   "short_sha": "3f32b77",
-   "commit": "docs(hb146): ALERT-210 - un arnes que no parsea, y un arreglo",
+   "sha": "69a7595d9bf50ec520b52e5d0082f39dd21b9ec0",
+   "short_sha": "69a7595",
+   "commit": "test(armeria): ALERT-211 cierra el falso verde del 3.1, y",
    "estado": "open",
    "protected": false,
    "protected_fresco": true,
@@ -412,9 +412,9 @@
    "repo": "gw2-agents-dashboard",
    "label": "Dashboard",
    "role": "dashboard",
-   "sha": "d643a9bb3253144e8e1e5c0ed727933c16bb8145",
-   "short_sha": "d643a9b",
-   "commit": "chore(dashboard): pulso automatico 2026-10-02_20-36_UTC",
+   "sha": "4441ee71da37af6a02be8f76d00d81c576ddcd80",
+   "short_sha": "4441ee7",
+   "commit": "chore(dashboard): pulso automatico 2026-10-02_20-51_UTC",
    "estado": "open",
    "protected": false,
    "protected_fresco": true,

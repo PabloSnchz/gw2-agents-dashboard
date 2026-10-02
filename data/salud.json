@@ -1,19 +1,19 @@
 {
- "generado_utc": "20261002T205104Z",
- "generado_h": "2026-10-02 20:51 UTC",
+ "generado_utc": "20261002T210603Z",
+ "generado_h": "2026-10-02 21:06 UTC",
  "archivos_estado": [
   {
    "archivo": "TEAM_STATUS.md",
    "quien": "Principal /30min",
    "estado": "ok",
-   "edad_h": 0.4,
-   "kb": 34.7
+   "edad_h": 0.0,
+   "kb": 35.4
   },
   {
    "archivo": "SESSION_LOG.md",
    "quien": "Documentador /4h",
    "estado": "ok",
-   "edad_h": 2.1,
+   "edad_h": 2.4,
    "kb": 301.9,
    "crecimiento": "EXCEDE 60 KB (302 KB)"
   },
@@ -21,14 +21,14 @@
    "archivo": "COMMS_LOG.md",
    "quien": "Principal /30min",
    "estado": "ok",
-   "edad_h": 0.6,
-   "kb": 235.6
+   "edad_h": 0.0,
+   "kb": 237.9
   },
   {
    "archivo": "PRE_BACKLOG.md",
    "quien": "PO /2h",
    "estado": "ROTO",
-   "edad_h": 61.2,
+   "edad_h": 61.5,
    "kb": 238.3,
    "crecimiento": "EXCEDE 120 KB (238 KB)"
   },
@@ -36,14 +36,14 @@
    "archivo": "ALERTS_LOG.md",
    "quien": "Principal /30min",
    "estado": "ok",
-   "edad_h": 0.4,
-   "kb": 376.5
+   "edad_h": 0.0,
+   "kb": 381.4
   },
   {
    "archivo": "DECISIONS_LOG.md",
    "quien": "Principal",
    "estado": "RARO",
-   "edad_h": 66.8,
+   "edad_h": 67.1,
    "kb": 10.2
   }
  ],
@@ -273,6 +273,11 @@
    "fecha": "2026-10-02"
   },
   {
+   "rama": "rescate/hb143-wt",
+   "commits": 1,
+   "fecha": "2026-10-02"
+  },
+  {
    "rama": "rescate/wt-hb108-wt",
    "commits": 1,
    "fecha": "2026-10-01"
@@ -281,6 +286,11 @@
    "rama": "rescue-idea47-parallel-wip",
    "commits": 1,
    "fecha": "2026-09-29"
+  },
+  {
+   "rama": "test-hb147-alerta211-212",
+   "commits": 1,
+   "fecha": "2026-10-02"
   }
  ],
  "tokens": [
@@ -366,16 +376,16 @@
   },
   {
    "dia": "2026-10-02",
-   "llamadas": 5855,
-   "prompt": 542210762,
-   "cache_read": 522100643,
+   "llamadas": 5876,
+   "prompt": 544123554,
+   "cache_read": 523819866,
    "cache_pct": 96.3,
-   "prompt_por_llamada": 92606,
+   "prompt_por_llamada": 92601,
    "por_agente": [
     {
      "agente": "default",
-     "llamadas": 4354,
-     "prompt": 404266993,
+     "llamadas": 4375,
+     "prompt": 406179785,
      "cache_pct": 96.7
     },
     {
