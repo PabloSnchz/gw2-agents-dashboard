@@ -1,6 +1,6 @@
 {
- "generado_utc": "20261002T035101Z",
- "generado_h": "2026-10-02 03:51Z",
+ "generado_utc": "20261002T040601Z",
+ "generado_h": "2026-10-02 04:06Z",
  "fuente": "C:/Users/psanc/.qwenpaw/_comms (canal durable, archivos)",
  "estados": [
   "waiting",
@@ -10,13 +10,33 @@
   "closed"
  ],
  "conteo": {
+  "asked": 12,
   "overdue": 15,
-  "asked": 11,
   "closed": 31,
   "answered": 8
  },
- "total": 65,
+ "total": 66,
  "mensajes": [
+  {
+   "id": "20261002T040521Z-d1ae8e",
+   "kind": "question",
+   "from": "default",
+   "to": "Code-Reviewer",
+   "subject": "HB#122 ALERT-179: delegar importFromData en applyImportData cambia un contrato publico. 1 pregunta de ALCANCE",
+   "body": "PREGUNTA UNICA, de alcance.  PREMISA medida contra origin/main @ ed9a126. settings-manager.js tiene DOS caminos que escriben las mismas 7 familias y NO se tocan:  1) applyImportData (~:485), la que se usa al importar un archivo. 2) importFromData (~:538), la que se usa al sincronizar desde el Gist. Tiene las 7 escrituras DUPLICADAS linea por linea y NO delega en applyImportData.  Consecuencia ya medida: el fix del HB#119 (T20-a, 2c53b32) esta en applyImportData, asi que NO alcanza al camino del Gist. Un fix en una no cubre la otra.  EL PROBLEMA DE ALCANCE: importFromData PARSEA STRINGS antes de escribir (:541-547), porque lo que llega del Gist es JSON (todo texto). applyImportData NO parsea: espera datos ya tipados.  Entonces delegar no es sacar codigo duplicado: es MOVER la responsabilidad de parsear de una funcion a otra. Hoy cada camino es autosuficiente; delegado, uno tiene que hacerlo y el otro tiene que confiar en que ya esta parseado.  LAS TRES OPCIONES:  A) Delegar tal cual, moviendo el parseo a applyImportData. Riesgo: cambia el contrato publico de applyImportData, y el parseo de applyImportData pasa a tener que ser idempotente (parsear algo ya tipado tiene que dar lo mismo).  B) Delegar SOLO las escrituras: importFromData sigue parseando y despues pasa a applyImportData datos ya tipados, igual que hoy el camino del archivo. Gana: applyImportData no cambia de contrato. Se elimina la duplicacion.  C) No delegar. Extraer una tercera funcion interna (escribirConfig) que las dos llames, sin tocar ninguno de los dos contratos publicos. Gana: 0 cambios de contrato, 7 escrituras en un lugar.  LA PREGUNTA: cual de las tres, o ninguna, y por que. Lo que necesito saber en concreto es si el parseo de :541-547 es IDEMPOTENTE, porque de eso depende que A sea siquiera segura.  No hace falta revisar estilo ni otros modulos: es solo el contrato de estas dos funciones.",
+   "created_utc": "20261002T040521Z",
+   "deadline_utc": "20261002T043021Z",
+   "wait_required": true,
+   "reply": null,
+   "replied_by": null,
+   "replied_utc": null,
+   "estado": "asked",
+   "estado_nota": "entregada, sin registrar como esperando",
+   "from_label": "Principal",
+   "to_label": "Code-Reviewer",
+   "created_h": "2026-10-02 04:05Z",
+   "replied_h": ""
+  },
   {
    "id": "20261002T030431Z-e6775b",
    "kind": "question",
@@ -1362,9 +1382,9 @@
   {
    "agente": "default",
    "cadencia_min": 30,
-   "ultima_lectura": "2026-10-02T03:30:15Z",
-   "lecturas": 304,
-   "minutos_sin_mirar": 20,
+   "ultima_lectura": "2026-10-02T04:00:18Z",
+   "lecturas": 306,
+   "minutos_sin_mirar": 5,
    "vigencia": "automatica",
    "lectura_vencida": false,
    "umbral_min": 75,
@@ -1376,7 +1396,7 @@
    "cadencia_min": null,
    "ultima_lectura": "2026-09-30T14:59:48Z",
    "lecturas": 2,
-   "minutos_sin_mirar": 2211,
+   "minutos_sin_mirar": 2226,
    "vigencia": "bajo demanda",
    "lectura_vencida": false,
    "umbral_min": null,
@@ -1388,7 +1408,7 @@
    "cadencia_min": 120,
    "ultima_lectura": "2026-10-01T20:30:08Z",
    "lecturas": 29,
-   "minutos_sin_mirar": 440,
+   "minutos_sin_mirar": 455,
    "vigencia": "automatica",
    "lectura_vencida": true,
    "umbral_min": 300,
@@ -1400,11 +1420,11 @@
    "cadencia_min": null,
    "ultima_lectura": "2026-09-30T18:55:15Z",
    "lecturas": 5,
-   "minutos_sin_mirar": 1975,
+   "minutos_sin_mirar": 1990,
    "vigencia": "bajo demanda",
    "lectura_vencida": false,
    "umbral_min": null,
-   "preguntas_sin_responder": 9,
+   "preguntas_sin_responder": 10,
    "ok": false
   },
   {
@@ -1412,7 +1432,7 @@
    "cadencia_min": 240,
    "ultima_lectura": "2026-09-30T15:00:01Z",
    "lecturas": 5,
-   "minutos_sin_mirar": 2211,
+   "minutos_sin_mirar": 2226,
    "vigencia": "automatica",
    "lectura_vencida": true,
    "umbral_min": 600,
