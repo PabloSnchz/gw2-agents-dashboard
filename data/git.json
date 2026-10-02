@@ -1,8 +1,15 @@
 {
- "generado_utc": "20261002T140618Z",
- "generado_h": "2026-10-02 14:06 UTC",
+ "generado_utc": "20261002T142119Z",
+ "generado_h": "2026-10-02 14:21 UTC",
  "origen": "git local + ls-remote (sin cuota). protected cacheado TTL 6h.",
  "commits": [
+  {
+   "sha": "a5edad6f6c47a21630a574b51f9d38b477613ea1",
+   "short": "a5edad6",
+   "autor": "Pablo Sanchez",
+   "fecha": "2026-10-02T11:06:58-03:00",
+   "msg": "docs(hb135): rescate del working tree revertido (ALERT-202) y 3 veredictos recogidos"
+  },
   {
    "sha": "ef499647ac7051550ad750f6d86ed996e7d78677",
    "short": "ef49964",
@@ -345,13 +352,6 @@
    "autor": "Pablo Sanchez",
    "fecha": "2026-10-01T19:40:21-03:00",
    "msg": "﻿docs(hb115): 3 filas en COMMS_LOG, incluida la correccion de C1"
-  },
-  {
-   "sha": "6509641071f3d969dbeebf6d3d456de8e21e0f5c",
-   "short": "6509641",
-   "autor": "Pablo Sanchez",
-   "fecha": "2026-10-01T19:39:01-03:00",
-   "msg": "﻿docs(hb115): la atribucion de C1 estaba al reves, y C1 es FALSO"
   }
  ],
  "archivos_md": [
@@ -398,9 +398,9 @@
    "repo": "gw2-wallet-agents",
    "label": "Desarrollo",
    "role": "dev",
-   "sha": "ef499647ac7051550ad750f6d86ed996e7d78677",
-   "short_sha": "ef49964",
-   "commit": "tools: versionar la fuente de recetas (cl_recipes.json) y el",
+   "sha": "a5edad6f6c47a21630a574b51f9d38b477613ea1",
+   "short_sha": "a5edad6",
+   "commit": "docs(hb135): rescate del working tree revertido (ALERT-202) y",
    "estado": "open",
    "protected": false,
    "protected_fresco": true,
@@ -412,9 +412,9 @@
    "repo": "gw2-agents-dashboard",
    "label": "Dashboard",
    "role": "dashboard",
-   "sha": "b295d95f912a8ba32fc866e2b06aa97fc5c5c6b6",
-   "short_sha": "b295d95",
-   "commit": "chore(dashboard): pulso automatico 2026-10-02_13-51_UTC",
+   "sha": "37be58f0f2e5256410fc020dfdcadcd67a54df14",
+   "short_sha": "37be58f",
+   "commit": "chore(dashboard): pulso automatico 2026-10-02_14-06_UTC",
    "estado": "open",
    "protected": false,
    "protected_fresco": true,
