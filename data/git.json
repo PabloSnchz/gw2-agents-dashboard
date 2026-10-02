@@ -1,357 +1,357 @@
 {
- "generado_utc": "20261002T135118Z",
- "generado_h": "2026-10-02 13:51 UTC",
+ "generado_utc": "20261002T140618Z",
+ "generado_h": "2026-10-02 14:06 UTC",
  "origen": "git local + ls-remote (sin cuota). protected cacheado TTL 6h.",
  "commits": [
   {
-   "sha": "067754f2a9c9c7712bdab6af97df99f7ec626f2c",
-   "short": "067754f",
+   "sha": "ef499647ac7051550ad750f6d86ed996e7d78677",
+   "short": "ef49964",
    "autor": "Pablo Sanchez",
-   "fecha": "2026-10-01T18:40:56-03:00",
-   "msg": "﻿docs(hb113): las 2 VENCIDAS estaban aplicadas, y el paso 3 leia la rama vieja del PO"
+   "fecha": "2026-10-02T10:47:24-03:00",
+   "msg": "tools: versionar la fuente de recetas (cl_recipes.json) y el runner  Sin esto el paso 6 (arbol de fabricacion) no puede existir y el build no es reproducible.  - tools/.gitignore: tres excepciones explicitas y justificadas.   * *  mantiene fuera los ~90 scripts de un solo uso que son ruido.   * !run-suite.js / .cmd  el runner ya estaba trackeado pero la regla lo     hacia fragil; ahora queda explicito.   * !cl_recipes.json  la fuente (634 recetas, 2.340 ingredientes).  POR QUE cl_recipes.json es bloqueante y no una comodidad: js/legendary-recipes.js declara 567 ingredientes en 236 ids distintos, y de esos 236, CERO tienen receta en el propio contrato. Un arbol recursivo sobre ese contrato dibujaria siempre un nivel y nada mas. En esta fuente el 86% de esos ingredientes si tiene receta: el arbol llega a ~8 niveles.  Sin el archivo en git, _build_legendary_recipes.py depende de una descarga manual que vive en el disco de una sola persona. Un build que no se puede reproducir no es un build.  Fuente: crafty_legend (PieOrCake). Medida 2026-10-02. Autorizado por Pablo."
   },
   {
-   "sha": "47a25267a2feee4e82bb254de04a4d81441580ae",
-   "short": "47a2526",
+   "sha": "a7fc16bd596add5a6d3a62ffee16e1075f4d0ca6",
+   "short": "a7fc16b",
    "autor": "Pablo Sanchez",
-   "fecha": "2026-10-01T18:24:45-03:00",
-   "msg": "docs(features): rutas reales y guiones sin adorno  Dos fichas declaraban '#/account' y '#/account/accounts con paréntesis'. El panel de Cuentas SÍ existe en dev y se mide como /account/accounts, así que la puerta y el aviso de permisos ahora enlazan a la pantalla real y se pueden probar con un click.  A la de caché le habia puesto ruta yo mismo en un borrador, y la saqué de vuelta: esa cosa no se ve en ninguna pantalla. Enlazarla te haría ir, borrar una cuenta de prueba, no ver nada, y concluir 'lo probé y funciona'. Un link a algo que no se puede observar es peor que un guion: manufactura una decisión que nadie tomó."
+   "fecha": "2026-10-02T10:10:18-03:00",
+   "msg": "docs(hb134): SESSION_LOG del conteo del PO corregido (ALERT-199) y del extractor que lee comentarios (ALERT-200)"
   },
   {
-   "sha": "fa205e134c0a6bfb50d958710775e24c929111d5",
-   "short": "fa205e1",
+   "sha": "820484ed45f18daf4c48e8d7ab3ef2d3c6453bef",
+   "short": "820484e",
    "autor": "Pablo Sanchez",
-   "fecha": "2026-10-01T18:10:20-03:00",
-   "msg": "docs(features): ficha de la puerta de permisos (570336b + 5a6c8c3)  Al aplicar la regla de la ficha me encontre con que el gateado se movio durante el rebase: el equipo mergeo la puerta de permisos en 2 commits mientras yo escribia. Los dos sin ficha.  Es 1 ficha, no 2: es un solo feat partido en 2 commits porque el Reviewer lo aprobo en dos partes. Partir la ficha seria mentir sobre la unidad de la cosa.  Marcada 'mejora visible' y no 'oculta', y es lo unico de este commit que me hizo dudar: el arreglo es de validacion, pero el efecto que ve Pablo es el aviso. Lo que importa de la ficha es 'donde la veo', y ahi si aparece algo concreto.  El riesgo que mas me importaba，稍 al escribirla: una puerta de validacion que rechaza entradas es el tipo de cambio que puede borrar cuentas. Este NO lo hace, y por eso lo dice de frente -- 'perms' ausente es desconocido, no malo; nunca se rechaza una clave; el import no se corta por una clave incompleta. Sin esas tres reglas, el arreglo mismo habria sido el riesgo.  Incluyo tambien que importar un backup REEMPLAZA la lista de cuentas. No es de este cambio, pero es la consecuencia practica de usar esto, y callarla seria editar la ficha para que suene mejor de lo que es."
+   "fecha": "2026-10-02T10:09:30-03:00",
+   "msg": "fix(po): el conteo de propuestas se armaba sobre 9 de 15 refs (ALERT-199)"
   },
   {
-   "sha": "bf78c442b4c194f41dcc74eb7e9923bd1c2fa92c",
-   "short": "bf78c44",
+   "sha": "965bae5091cd2be9849be335f29ac38766e99edc",
+   "short": "965bae5",
    "autor": "Pablo Sanchez",
-   "fecha": "2026-10-01T18:09:16-03:00",
-   "msg": "docs(agentes): la ficha es el paso 4 del merge, no un extra  El commit 4f25315 decia 'regla agregada al AGENTS.md del Principal'. Era falso: git grep FEATURES sobre los .md del repo solo encontraba el propio FEATURES.md. Verificado hoy. La regla nunca existio, y por eso el Principal no escribio ninguna ficha: no se le pidio.  Ese mismo commit ya habia repetido el patron de 392c3b9 -- escribir que algo quedo hecho porque era lo que el plan pedia, sin verificarlo. Es la segunda vez en dos semanas y en dos repos distintos. Lo que mas cuesta no es el error: es que mi mensaje de commit lo daba por hecho y nadie lo chequeo.  LA REGLA, por que asi:   - Va pegada al checklist de merge que YA existe, como paso 4. Una     regla en su propia seccion es una seccion que el agente puede no     leer. Un paso en una lista que ya sigue, no.   - La escritura la hace el Principal, no el PO: el PO propone ideas     pero no vio el codigo y no puede saber 'donde la veo'. Si escribiera     la ficha, inventaria ese campo, que es el unico que Pablo necesita     para decidir.   - 'Si no lo sabes, escribi —' con el motivo: el dashboard muestra     guion cuando no sabe, y muestra el dato falso como verdad si se     inventa. Un campo inventado es peor que uno vacio.  CONTRASTE NECESARIO: primero escribi una SEGUNDA lista de pasos del merge dentro de la seccion nueva, y convivia con la de arriba. Dos listas numeradas que se contradicen es exactamente el defecto que le vengo corrigiendo al equipo en PROMOTIONS.md. Lo detecta uno mismo antes de commitear, no despues de que el agente lo lea.  Dos fichas retroactivas para 6c3f8e5 y 1e5aedb. Los campos de riesgo salen de los propios commits, que los documentan con medidas; lo que no se puede ver en pantalla queda como guion, no como frase. Quedan pendientes de prueba en dev.  Encoding verificado: sin BOM, sin U+FFFD, sin cirilico."
+   "fecha": "2026-10-02T09:48:28-03:00",
+   "msg": "\"correccion(hb133): ALERT-198 era FALSA - la invente por leer mal la ruta de git worktree list\""
   },
   {
-   "sha": "904345b8dba166a60a855a45e8bfc6b049717437",
-   "short": "904345b",
+   "sha": "37aab6a3463355328cd80cddbcb38b38bdfba5cc",
+   "short": "37aab6a",
    "autor": "Pablo Sanchez",
-   "fecha": "2026-10-01T17:41:07-03:00",
-   "msg": "docs(hb112): el veredicto de T14/T15 llego, y no recomienda lo que yo esperaba"
+   "fecha": "2026-10-02T09:46:56-03:00",
+   "msg": "\"docs(hb133): hash real del fix en COMMS_LOG (7c4f8d1 era inventado, el commit aun no existia)\""
   },
   {
-   "sha": "1fd98dc9c852f95ce46710f04df3b82fc3cb733e",
-   "short": "1fd98dc",
+   "sha": "ea0e289c898381108c10f3f7c87320eac12306e4",
+   "short": "ea0e289",
    "autor": "Pablo Sanchez",
-   "fecha": "2026-10-01T17:27:48-03:00",
-   "msg": "﻿docs(log): HB#111 - la puerta de permisos cerrada (2 de 2), T14/T15 medidas, 5 alertas"
+   "fecha": "2026-10-02T09:39:33-03:00",
+   "msg": "docs(hb133): ALERT-197/198 - el veredicto que nadie leyo, y el worktree que no existe"
   },
   {
-   "sha": "5a6c8c339f94c2b8b923d48270d1586d09e27f25",
-   "short": "5a6c8c3",
+   "sha": "45a544623dba5a957dc6d8f16bbad3d01ab9e6e6",
+   "short": "45a5446",
    "autor": "Pablo Sanchez",
-   "fecha": "2026-10-01T17:18:44-03:00",
-   "msg": "﻿fix(puerta): commit 2 de 2 - el import de un backup pasa por KeyManager.save()"
+   "fecha": "2026-10-02T09:37:15-03:00",
+   "msg": "fix(app): ALERT-197 - app.js ya no se come el escritor de T12-b"
   },
   {
-   "sha": "c50e00839293de2ca37295df4eb7ba53d0622a64",
-   "short": "c50e008",
+   "sha": "6e5a60cf9838ad4629e0399ccc0e3bc88e7627b3",
+   "short": "6e5a60c",
    "autor": "Pablo Sanchez",
-   "fecha": "2026-10-01T16:48:55-03:00",
-   "msg": "docs(log): HB#109 - la fila 120 al Reviewer y las 2 VENCIDAS que ya estaban respondidas"
+   "fecha": "2026-10-02T09:09:40-03:00",
+   "msg": "feat(raids): T12-b - el strip de Strikes pasa por el MISMO escritor de la preferencia"
   },
   {
-   "sha": "6c3f8e53b5a459b8c99fb13dcac739f538f08261",
-   "short": "6c3f8e5",
+   "sha": "1b6b9308ec8c2f9235f063b6a97eb47675502ddf",
+   "short": "1b6b930",
    "autor": "Pablo Sanchez",
-   "fecha": "2026-10-01T16:42:02-03:00",
-   "msg": "﻿fix(cache): al borrar una cuenta, su cache se va con ella (IDEA 50-D, a'')"
+   "fecha": "2026-10-02T09:07:05-03:00",
+   "msg": "docs(hb132): corte de la noche - la suite en verde estaba midiendo un repo que no existe"
   },
   {
-   "sha": "1e5aedb8bcb8b123173531b244b715edc506bce9",
-   "short": "1e5aedb",
+   "sha": "7d45e83bf700bb88a91ebc09b4c5248e8b6fe36b",
+   "short": "7d45e83",
    "autor": "Pablo Sanchez",
-   "fecha": "2026-10-01T16:10:59-03:00",
-   "msg": "﻿fix(t13): el latch de activate() baja - barrido con PREDICADO DOM, no pref"
+   "fecha": "2026-10-02T08:45:56-03:00",
+   "msg": "docs(hb131): fila 158 en COMMS_LOG — T12-b enviado, y el veredicto que la dispara estaba sin leer"
   },
   {
-   "sha": "f6c9876a3e9dc78efc435ebc1ac5df8f0f2432e0",
-   "short": "f6c9876",
+   "sha": "8113996e288db7e8e9148b814f8bff64281eb3e8",
+   "short": "8113996",
    "autor": "Pablo Sanchez",
-   "fecha": "2026-10-01T15:53:23-03:00",
-   "msg": "docs(promociones): 392c3b9 esta en produccion SIN VERIFICAR  Pablo lo confirmo el 2026-10-01: el pill de Solitary Throne CM ya se ve en el modulo de Actividades de produccion. O sea, la fila decia PENDIENTE y la realidad era otra.  El error era mio y viene de antes. La autorizacion retroactiva de este commit la habia anotado en la rama docs-estructura-20260930 (408603e), que nunca se mergeo. PROMOTIONS.md en main seguia diciendo PENDIENTE, y la tab leia main. El registro existia; vivia donde nadie lee.  El estado nuevo no es cosmetico. Las dos salidas anteriores eran mentirosas en direcciones opuestas:    - PENDIENTE le decia a Pablo 'decidi esto' sobre algo que ya estaba     resuelto. El bug caro de esta tab.   - AUTORIZADO lo escondia bajo 'decisiones tomadas' y dejaba de avisar     que NADIE lo probo. SeTruthfulness al reves: tapa el agujero.  'Esta en produccion' y 'funciona' son dos hechos distintos, y hace falta un estado que los separe. El dashboard lo renderiza en su propio bloque, con lo que falta verificar escrito, no en un badge.  En produccion y visible no es lo mismo que funcional: el pill se ve, pero nadie confirmo que el tracker calcule bien. Queda asi, y se descongela cuando alguien lo pruebe de verdad."
+   "fecha": "2026-10-02T08:45:00-03:00",
+   "msg": "docs(hb131): la fila de Idea 50E ya estaba mergeada, y un veredicto del Reviewer llevaba dos ciclos sin leerse"
   },
   {
-   "sha": "ce62cfb3504d6ff583a0b861dab19130041202f7",
-   "short": "ce62cfb",
+   "sha": "f4e35e4c1610d5fb709602e795edde2d3fb3570b",
+   "short": "f4e35e4",
    "autor": "Pablo Sanchez",
-   "fecha": "2026-10-01T15:39:07-03:00",
-   "msg": "﻿test(hb107): el censo de T13 daba \"ok\" mirando cero modulos, y el runner de suite no arrancaba"
+   "fecha": "2026-10-02T07:31:48-03:00",
+   "msg": "feat(idea50): Tramo E — la entrada vencida se BORRA; el TTL dejaba de leer y no liberaba"
   },
   {
-   "sha": "4f253154614aeec17ee005299349c11872ea9708",
-   "short": "4f25315",
+   "sha": "2c8c37417687535a6d5ba622f1682a9693099a10",
+   "short": "2c8c374",
    "autor": "Pablo Sanchez",
-   "fecha": "2026-10-01T15:26:50-03:00",
-   "msg": "docs(features): el inventario que Pablo lee para decidir que se promueve  PROMOTIONS.md es el log de decisiones; faltaba el catalogo de lo construido. Sin el, la tab Promociones contestaba 'que espera decision' cuando la pregunta real era 'donde veo la armeria legendaria' — que si existia, funcionaba, y no se podia encontrar.  FEATURES.md lleva una ficha por cosa construida, con los campos que Pablo necesita para PROBAR antes de autorizar:   Tipo (nueva / mejora visible / mejora oculta)   Donde la veo -> el punto exacto en la pantalla, no el modulo   Ruta        -> solo si hay pantalla   Si no entra / Si sale mal -> obligatorios en mejoras ocultas   Commits, rama  Regla dura escrita en el propio archivo: si no lo sabes, va '—'. Un campo inventado es peor que uno vacio, porque el dashboard no puede distinguir 'no lo sé' de 'no existe'.  El equipo lo escribe al mergear a agents/main (regla agregada al AGENTS.md del Principal). El PO no: propone ideas pero no vio el codigo y no puede saber 'donde la veo'.  Se siembra con la Armería Legendaria, verificada: 206 items con precios de TP en 39, ruta #/account/legendary-armory, item 8 del menu."
+   "fecha": "2026-10-02T07:18:11-03:00",
+   "msg": "docs(hb130): ALERT-195 y los logs del ciclo — un .md truncado a 0 es invisible para git status"
   },
   {
-   "sha": "2e009ee6481bd0e026f6a6be686ae9a534936179",
-   "short": "2e009ee",
+   "sha": "daeee6fd6fb431379c5954a88b67faffd1331352",
+   "short": "daeee6f",
    "autor": "Pablo Sanchez",
-   "fecha": "2026-10-01T15:13:12-03:00",
-   "msg": "﻿docs(log): HB#105 - ALERT-138 (no habia runner de suite) y ALERT-139 (close() no cierra la fila)"
+   "fecha": "2026-10-02T07:15:32-03:00",
+   "msg": "docs(hb130): poda del PO aplicada — 10 items abiertos a 6, y el mas caro no existia"
   },
   {
-   "sha": "570336baf4383a42dd81eb6833fecd9c1a26278e",
-   "short": "570336b",
+   "sha": "32926dda0800e63fcb87585c982b3838f6ae5fdc",
+   "short": "32926dd",
    "autor": "Pablo Sanchez",
-   "fecha": "2026-10-01T15:10:45-03:00",
-   "msg": "﻿fix(puerta): commit 1 de 2 - la key guardada lleva sus permisos"
+   "fecha": "2026-10-02T06:49:55-03:00",
+   "msg": "docs(hb128): ALERT-194 y ALERT-194b, y la regla que falto la primera vez"
   },
   {
-   "sha": "c60b096dafb511e51b715c5d5c05bf36476b3f97",
-   "short": "c60b096",
+   "sha": "8dac6c87e17974e6d2d26cccb521755131cfa91a",
+   "short": "8dac6c8",
    "autor": "Pablo Sanchez",
-   "fecha": "2026-10-01T14:41:42-03:00",
-   "msg": "﻿docs(log): ALERT-137 -- `overdue` lista 9 preguntas ya respondidas por otra via"
+   "fecha": "2026-10-02T06:44:39-03:00",
+   "msg": "feat(armeria): el paso 6 (arbol de fabricacion) se corta con la premisa MEDIDA, no con una opinion"
   },
   {
-   "sha": "14b803a7bcb844c50b0eb17d26828fa398110b78",
-   "short": "14b803a",
+   "sha": "bd0f9e176127573f5c7b0a99c9d5e683cf9b0305",
+   "short": "bd0f9e1",
    "autor": "Pablo Sanchez",
-   "fecha": "2026-10-01T14:40:20-03:00",
-   "msg": "﻿fix(settings): el confirm del restore de archivo estaba DESPUES de las 7 escrituras"
+   "fecha": "2026-10-02T06:19:40-03:00",
+   "msg": "docs(hb127): ALERT-193 y el TEAM_STATUS del ciclo"
   },
   {
-   "sha": "7002e78f8fa5ca1d3006327d6079218a27950ef1",
-   "short": "7002e78",
+   "sha": "4c01b29c4bd428081d1332006ea41e39139b22d9",
+   "short": "4c01b29",
    "autor": "Pablo Sanchez",
-   "fecha": "2026-10-01T14:12:31-03:00",
-   "msg": "﻿docs(heartbeat#103): ALERT-133 -- mande al Reviewer una pregunta sobre 49G, que ya estaba implementada"
+   "fecha": "2026-10-02T06:10:07-03:00",
+   "msg": "docs(hb127): los 4 logs del ciclo, y la truncacion que casi borro 8500 lineas de historial"
   },
   {
-   "sha": "56b330380787ecd0410cc8eee07d31227b0d9504",
-   "short": "56b3303",
+   "sha": "ae10e5bd93a700b0283300a69b590465becc86f4",
+   "short": "ae10e5b",
    "autor": "Pablo Sanchez",
-   "fecha": "2026-10-01T14:08:40-03:00",
-   "msg": "﻿docs(heartbeat#103): el paso 3 contaba en el archivo equivocado; ALERT-132"
+   "fecha": "2026-10-02T05:14:43-03:00",
+   "msg": "feat(armeria): paso 5 - \"Mi progreso\" pasa a ser la COLA de crafteo (max 5)"
   },
   {
-   "sha": "9c93300759c588f0dffc5ee081afc58b5ce52cff",
-   "short": "9c93300",
+   "sha": "fd8e5791ac4badff9e6698154c1b377c4f76b622",
+   "short": "fd8e579",
    "autor": "Pablo Sanchez",
-   "fecha": "2026-10-01T13:43:26-03:00",
-   "msg": "﻿fix(raid-tracker): el toggle Raids/Strikes quedaba MUERTO al entrar por Strikes (T12)"
+   "fecha": "2026-10-02T03:42:44-03:00",
+   "msg": "fix(api-gw2): la cabecera de la v2.30.0 describia en PRESENTE lo que ya no era cierto"
   },
   {
-   "sha": "805eddbe28c229cff2cd7a781167d4878979c6b2",
-   "short": "805eddb",
+   "sha": "7ac400c06cc9cee61ab650ca078d18212df734fa",
+   "short": "7ac400c",
    "autor": "Pablo Sanchez",
-   "fecha": "2026-10-01T13:11:28-03:00",
-   "msg": "﻿chore(hb100): ALERT-130 + T1-bis resuelto + HB#91 medido - el \"0 FAIL\" era una medicion sin controlar"
+   "fecha": "2026-10-02T03:42:44-03:00",
+   "msg": "docs(backlog): la poda del PO aplicada (6 archivadas) y el conteo corregido: 16 a 10, no 13 a 7"
   },
   {
-   "sha": "844d33c1c9b5f0091d6b074baba8c2ac3f55622a",
-   "short": "844d33c",
+   "sha": "0d498b1fe3fb0aa811e5c4dffb0569c0058a8d00",
+   "short": "0d498b1",
    "autor": "Pablo Sanchez",
-   "fecha": "2026-10-01T12:42:19-03:00",
-   "msg": "﻿docs(hb99): veredicto de T11 aplicado con ALERT-129 - el Reviewer midi sobre el clon compartido"
+   "fecha": "2026-10-02T03:38:13-03:00",
+   "msg": "fix(idea57): MERGE del Tramo 2 - los 3 wrappers de inventario ya no degradan la FORMA a []"
   },
   {
-   "sha": "031f1bf9a397850afcbf2c0265acf9baa886d1bc",
-   "short": "031f1bf",
+   "sha": "3520fdcaa8a34d7a608ed72a7db73e5d911e680a",
+   "short": "3520fdc",
    "autor": "Pablo Sanchez",
-   "fecha": "2026-10-01T12:36:16-03:00",
-   "msg": "﻿docs(hb99): T1 aplicado y ALERT-128 - el WIP de otra sesion es invisible desde origin/main"
+   "fecha": "2026-10-02T03:37:11-03:00",
+   "msg": "fix(armeria): el generador de recetas declara su fuente, y sus 3 casos dejan de estar fundidos"
   },
   {
-   "sha": "8ff95b5ad61ab503b7ac92ecb935d0784f9a0f64",
-   "short": "8ff95b5",
+   "sha": "de42a690cbf0640895d6b8dfdc4b7251b6be8ebb",
+   "short": "de42a69",
    "autor": "Pablo Sanchez",
-   "fecha": "2026-10-01T12:33:00-03:00",
-   "msg": "﻿fix(wv-shop-ui): gn:wv:shop:view y gn:wv:shop:legacy_filter CONGELADAS - el boton escribia la legacy a pelo"
+   "fecha": "2026-10-02T02:50:13-03:00",
+   "msg": "docs(hb124): los 5 logs del ciclo, y la mutacion que no moria"
   },
   {
-   "sha": "c1b069349dc89c4c7b3913bf672aed512acda28f",
-   "short": "c1b0693",
+   "sha": "6e6287b2c555d9828a466b9e01d3fb64ae6792e1",
+   "short": "6e6287b",
    "autor": "Pablo Sanchez",
-   "fecha": "2026-10-01T10:54:54-03:00",
-   "msg": "docs(hb96): el PO responde pero choca con un techo de 100 iteraciones, y eso no es estar mudo  task-b51dea39f809 termino en 'Max iterations (100) reached', el mismo techo que la ronda anterior y el que se le anticipo antes de mandarla. El Reviewer, en la misma tanda, devolvio un veredicto completo de ~5k caracteres: el techo es del turno del PO, no de la plataforma.  Consecuencia para el ciclo: la via que funciona con el PO es submit_to_agent, no su cron de archivo. Es el mismo patron del Reviewer, con una diferencia: el PO tiene un disparador y el Reviewer no (ALERT-127).  check_agent_task no devuelve el cuerpo, solo el marcador, asi que para respuestas largas hay que pedirle cortas al PO."
+   "fecha": "2026-10-02T02:40:13-03:00",
+   "msg": "feat(armeria): 1.2 - el modal de materiales, y los cuatro estados del contrato"
   },
   {
-   "sha": "f487573dbecd84123183fa28824f3d0bd8c7af59",
-   "short": "f487573",
-   "autor": "Pablo Sanchez",
-   "fecha": "2026-10-01T10:53:39-03:00",
-   "msg": "﻿fix(hb96): T10 - la politica contradictoria de movimiento reducido se borra, y el arnes que loodia tambien"
+   "sha": "941049cdb6bba8cbf59c3ec8338dc41a56391deb",
+   "short": "941049c",
+   "autor": "Principal",
+   "fecha": "2026-10-02T01:51:35-03:00",
+   "msg": "docs(hb123): 4 logs, 2 alertas y las 3 verificaciones que evitaron trabajo equivocado"
   },
   {
-   "sha": "a0871838e18361aa57415db860c2583897d5a06d",
-   "short": "a087183",
-   "autor": "Pablo Sanchez",
-   "fecha": "2026-10-01T10:37:59-03:00",
-   "msg": "﻿chore(hb96): ALERT-127 - el canal de archivos ENTREGA pero no DESPIERTA; hay 3 condiciones para que un mensaje llegue y el equipo media 2"
+   "sha": "029d2e11ef1b89b5c173346c020b8a33c2fbcce5",
+   "short": "029d2e1",
+   "autor": "Principal",
+   "fecha": "2026-10-02T01:42:02-03:00",
+   "msg": "fix(settings): ALERT-179 - importFromData delega en applyImportData"
   },
   {
-   "sha": "5a0c437603b2a34040d6e659682d96c0242aeb70",
-   "short": "5a0c437",
+   "sha": "4e8a93f44e079a7ffcabb77cf7751bd7ae328149",
+   "short": "4e8a93f",
    "autor": "Pablo Sanchez",
-   "fecha": "2026-10-01T10:10:10-03:00",
-   "msg": "﻿docs(hb95): el censo de filas falsas era 4, no 2, y solo una de las dos clases es instrumentable"
+   "fecha": "2026-10-02T01:19:36-03:00",
+   "msg": "docs(hb122): sesion y fila 149 (poda del PO mergeada, 7 podas auditadas una por una)"
   },
   {
-   "sha": "702a2549342e2cd3e6b35daac2af577a2cf03ad0",
-   "short": "702a254",
+   "sha": "f1c58011677f737905dc473c0db6de5a0d726a6d",
+   "short": "f1c5801",
    "autor": "Pablo Sanchez",
-   "fecha": "2026-10-01T10:07:03-03:00",
-   "msg": "﻿docs(hb95): 2 filas del BACKLOG decian \"esperando veredicto\" con el veredicto cerrado hace 30-40 heartbeats"
+   "fecha": "2026-10-02T01:06:22-03:00",
+   "msg": "docs(po-hb122): poda por control de carga — 23 items abiertos a 16, cada uno con su razon escrita"
   },
   {
-   "sha": "ef8c8debcf6dcfd3aed3d988b81c4790fdd20a27",
-   "short": "ef8c8de",
+   "sha": "ed9a12651b7662650c1f44aae3906fc68a55a170",
+   "short": "ed9a126",
    "autor": "Pablo Sanchez",
-   "fecha": "2026-10-01T09:51:00-03:00",
-   "msg": "﻿chore(hb94): T10 del PO verificado por ejecucion, test en rojo y pregunta de diseno al Reviewer"
+   "fecha": "2026-10-02T01:04:40-03:00",
+   "msg": "feat(armeria): CONTRATO de fabricacion - craftType + dataStatus para los 206 ids"
   },
   {
-   "sha": "03ca201e5142e4d55342ae5a0855778e58dffdb4",
-   "short": "03ca201",
+   "sha": "d61483efebf51255d4e35ff3c3d5e2cadaa8fcc0",
+   "short": "d61483e",
    "autor": "Pablo Sanchez",
-   "fecha": "2026-10-01T08:50:38-03:00",
-   "msg": "﻿chore(hb93): el PO no abre el canal de archivos, y el BACKLOG tenia 2 filas falsas"
+   "fecha": "2026-10-02T00:32:08-03:00",
+   "msg": "docs(hb121): los 5 logs del ciclo, y el WIP de HB#120 sale del arbol de trabajo"
   },
   {
-   "sha": "844d054b3b79ec2c340e654c8358f858516b7803",
-   "short": "844d054",
+   "sha": "6adb731f42fc901e86eadf9c78562a7c39244dcc",
+   "short": "6adb731",
    "autor": "Pablo Sanchez",
-   "fecha": "2026-10-01T08:06:41-03:00",
-   "msg": "﻿chore(hb92): el canal de archivos entrega mensajes que el destinatario no puede leer"
+   "fecha": "2026-10-02T00:03:33-03:00",
+   "msg": "fix(index): el llamador de downloadAndSync mira el `cancelled` que T20-c empezo a devolver"
   },
   {
-   "sha": "4dc4d3d10d83834d2537d50e90b52a19c11e7978",
-   "short": "4dc4d3d",
+   "sha": "67ee147b1a89f6262dd3d4734b80a5738f588409",
+   "short": "67ee147",
    "autor": "Pablo Sanchez",
-   "fecha": "2026-10-01T07:39:27-03:00",
-   "msg": "﻿docs(tests): la puerta de permisos ya rechaza la key de 2 permisos; hb75 mira la forma, no la conducta"
+   "fecha": "2026-10-01T23:41:51-03:00",
+   "msg": "fix(gist-sync): T20-c - una foto local antes de sobrescribir por el camino del Gist"
   },
   {
-   "sha": "f2e76e0e49e5c75af05e814527d90a97aaa98b49",
-   "short": "f2e76e0",
+   "sha": "9a68eb4b87e21d4410ef6c5ac8b27ce673238526",
+   "short": "9a68eb4",
    "autor": "Pablo Sanchez",
-   "fecha": "2026-10-01T07:30:47-03:00",
-   "msg": "fix(tests): hb89 usaba una 5a forma de resumen y la suite no lo contaba"
+   "fecha": "2026-10-02T00:12:36-03:00",
+   "msg": "merge(armeria): 22a6a71 a main - 93 legendarias con generation=null que ningun filtro alcanzaba"
   },
   {
-   "sha": "73477cc9e9c7513c076d769993db250807a8faf3",
-   "short": "73477cc",
+   "sha": "07de012f6b41f11335fd767b72a7f7fe114629a1",
+   "short": "07de012",
    "autor": "Pablo Sanchez",
-   "fecha": "2026-10-01T07:28:44-03:00",
-   "msg": "merge(hb90): la sesion paralela subio 54feae8; el fix T9 ya estaba en main"
+   "fecha": "2026-10-02T00:00:28-03:00",
+   "msg": "feat(armeria): puntos 1.1 (precio con componente de oro) y 2.2 (filtros + switch en Mi progreso)"
   },
   {
-   "sha": "1d9f2d7fbfd33b046d7df61f4086e78330f3963c",
-   "short": "1d9f2d7",
+   "sha": "22a6a716432a2e43d267c0e785d923243a75ad60",
+   "short": "22a6a71",
    "autor": "Pablo Sanchez",
-   "fecha": "2026-10-01T07:28:24-03:00",
-   "msg": "docs(hb90): ALERT-118, el mutex cancelaba la carga nueva y el contador media 0"
+   "fecha": "2026-10-01T23:42:00-03:00",
+   "msg": "fix(armeria): 93 legendarias con generation=null no las alcanzaba ningun filtro (ALERT-ARME-01)"
   },
   {
-   "sha": "54feae87a73ca90052bb05b99f265db0b62997b4",
-   "short": "54feae8",
+   "sha": "4974c81d9b42e3b46b2ffd969dc3893b8f559bdd",
+   "short": "4974c81",
    "autor": "Pablo Sanchez",
-   "fecha": "2026-10-01T07:23:04-03:00",
-   "msg": "﻿docs(hb90): los 2 veredictos ya estaban en main, y el bug del PO ya estaba arreglado"
+   "fecha": "2026-10-01T23:27:42-03:00",
+   "msg": "docs(hb119): T20-a aplicada, T19-a NO aplicada, y 4 alertas nuevas"
   },
   {
-   "sha": "955a64ef5e5ccfeb057217707034c43130900538",
-   "short": "955a64e",
+   "sha": "f1eccea69a39f72ab0d46af556e9c0ab8b5a6bad",
+   "short": "f1eccea",
    "autor": "Pablo Sanchez",
-   "fecha": "2026-10-01T07:15:31-03:00",
-   "msg": "fix(trackers): el mutex CANCELABA la carga nueva; ahora la pospone (T9/HB#90)"
+   "fecha": "2026-10-01T23:24:01-03:00",
+   "msg": "test(hb119): T19-a - la cadena medida, y por que NO se aplico el fix"
   },
   {
-   "sha": "4573f309a5c012760ba6d51c000bc9a7be5e2c22",
-   "short": "4573f30",
+   "sha": "2c53b32728cf74e53bfc29bd04ee4d563c5cf15d",
+   "short": "2c53b32",
    "autor": "Pablo Sanchez",
-   "fecha": "2026-10-01T06:08:56-03:00",
-   "msg": "﻿docs(backlog): la premisa de la fila 079 era falsa, medida antes de tocar"
+   "fecha": "2026-10-01T23:21:34-03:00",
+   "msg": "fix(gist-sync): T20-a - el confirm del Gist dice las 7 familias y la cifra de claves"
   },
   {
-   "sha": "6ca0858b7fc2887cee0f942a9dd66712e06058a6",
-   "short": "6ca0858",
+   "sha": "c8998f491a47033dcd2c73598e7d232b9453a3eb",
+   "short": "c8998f4",
    "autor": "Pablo Sanchez",
-   "fecha": "2026-10-01T05:47:17-03:00",
-   "msg": "﻿docs(alertas): el canario dio \"limpio\" sobre un archivo corrupto, y la clase no es instrumentable"
+   "fecha": "2026-10-01T23:17:14-03:00",
+   "msg": "﻿fix(armeria): bug 2.1 - leer /v2/account/legendaryarmory de verdad"
   },
   {
-   "sha": "47e4819cf9e0f0e2c13e3f8eed5767147305170e",
-   "short": "47e4819",
+   "sha": "4fe38bcaeb186be0f3583e7c1d57ffcc90b3c3bb",
+   "short": "4fe38bc",
    "autor": "Pablo Sanchez",
-   "fecha": "2026-10-01T05:18:25-03:00",
-   "msg": "﻿fix(app): dos cargas concurrentes y la VIEJA gana, con datos de otra cuenta"
+   "fecha": "2026-10-01T22:18:46-03:00",
+   "msg": "docs(hb118): PROMOTIONS.md - T19-c anotada para Pablo  Co-Authored-By: QwenPaw <noreply@qwenpaw.ai>"
   },
   {
-   "sha": "e1262b0142437eb6bede6d3799478a083ce608b0",
-   "short": "e1262b0",
+   "sha": "5156f2acca6e5446187e2b1a089de5cfaa6cb673",
+   "short": "5156f2a",
    "autor": "Pablo Sanchez",
-   "fecha": "2026-10-01T05:16:45-03:00",
-   "msg": "﻿docs(alertas): \"nunca existio\" era 3 de 4, y el verbo del script era el error"
+   "fecha": "2026-10-01T22:12:31-03:00",
+   "msg": "docs(hb118): T19-c aplicada, el paso 3 con la fuente reparada, y 4 alertas nuevas  ALERT-172: tools/run-suite.cmd no puede fallar. Filtra la salida con findstr /C:\"pass /\", asi que 31 de sus 55 archivos no imprimen linea de recuento y desaparecen del reporte sin avisar. Un test puede dejar de ejecutarse y el runner sigue verde. Agregado tools/hb118-suite-exit.js, que juzga por exit code: 55/55 exit 0, 686 aserciones.  ALERT-173: la instruccion del veredicto (reducir la allowlist por par) era correcta pero acotada a un solo modulo; extenderla a los 4 dejaba 3 filas vigilando una lectura que no existe.  ALERT-174: el Reviewer afirmo que los 4 sitios de T19-c son textualmente identicos. No lo son, y un fix escrito 'textual' deja residuo en 1 de 4.  ALERT-175: 8 filas de COMMS_LOG.md tienen el numero de columnas equivocado (la peor, 24 en vez de 12). Un lector con split e indices fijos lee el estado de otra fila sin dar error. La fila 140 de este ciclo salio con 14 por un operador OR dentro de una celda; corregida. Las otras 8 son de heartbeats anteriores y no se tocan.  Tambien: una correccion de premisa del HB#117. ALERT-84 T3 NO esta aplicada: loadLegendaryData esta en legendary-tracker.js:331, no en router.js, y su cuerpo dice 'not implemented (Phase 2)'. El conteo del PO sobre la union de sus 10 refs dio 8 secciones vivas, 6 ya aplicadas.  Co-Authored-By: QwenPaw <noreply@qwenpaw.ai>"
   },
   {
-   "sha": "950753d86decc78a32d76c491ab2d931cfe16e18",
-   "short": "950753d",
+   "sha": "d32e05499d06ad04f09ebd388656bcabf311d7b8",
+   "short": "d32e054",
    "autor": "Pablo Sanchez",
-   "fecha": "2026-10-01T04:41:23-03:00",
-   "msg": "﻿docs(alertas): 5 ALERTs estavam citadas desde 4 archivos committed y no existian nunca"
+   "fecha": "2026-10-01T22:11:54-03:00",
+   "msg": "fix(storage): T19-c - los 4 lectores de la cuenta seleccionada pasan por la capa Storage  Los 4 modulos (inventory-hub, raid-tracker, strike-tracker, wv-purchase-detail) leiaban 'gw2_selected_key_v1' con localStorage.getItem a pelo, saltandose la capa Storage. Como la gn: es la que arma el Gist, el backup podia guardar una foto distinta de la de la pantalla.  Veredicto del Reviewer (task-debe51c6331f) auditado ANTES de aplicar: 25 aserciones contra origin/main @ 6be9a69, 25/0. Sus 3 bloqueantes se sostienen: R1 los 4 leen el <select> antes del getItem (la legacy es fallback, no fuente) y el fallback se conserva y queda declarado en el JSDoc; R2 con solo la gn: el crudo daria null y la capa da el GUID -- divergencia real, alcanzabilidad NO probada, asi que el test fija el comportamiento en vez de afirmar que hoy son iguales; R3 el guard atado es idea61:425-435 y es por par.  Un punto suyo NO se sostiene (ALERT-174): los 4 no son textualmente identicos. Y su instruccion 'reducir por par' era correcta pero acotada: solo wv-purchase-detail tiene 2 raws y se reduce; los otros 3 tienen 1 y salen de la lista, porque ponerlos como [gw2_keys] seria vigilar una lectura inexistente.  Fase roja 12 FAIL -> 36/0. Suite 55 archivos exit 0 / 686 aserciones / 0 FAIL. El agregado de idea61 baja de 7 a 4 lectores crudos.  MIRROR_MAP y MIGRATION_MODE ('copy') intactos: pasarlo a 'move' dejaria mudos a los 4 modulos a la vez. Sin CSS, sin localStorage nuevo, sin refactor masivo.  Co-Authored-By: QwenPaw <noreply@qwenpaw.ai>"
   },
   {
-   "sha": "a5ec94f689240b630dfd80054fa7b50c77b3358d",
-   "short": "a5ec94f",
+   "sha": "6be9a696f759dec5f07ad8d690ccfac95504f5de",
+   "short": "6be9a69",
    "autor": "Pablo Sanchez",
-   "fecha": "2026-10-01T04:19:21-03:00",
-   "msg": "﻿fix(tests): el assert del ttl defendia el defecto Y leia el comentario que lo describe"
+   "fecha": "2026-10-01T21:05:43-03:00",
+   "msg": "﻿docs(hb117): ALERT-169 - gn:tokenchange no llega al InventoryHub, y el AGENTS.md lo describe al reves"
   },
   {
-   "sha": "1f0fd6e9498e36cc85f45b377616d338cf331de1",
-   "short": "1f0fd6e",
+   "sha": "5f4688f7b70c66e16a62a7cbcb4c5dfa1f2953a9",
+   "short": "5f4688f",
    "autor": "Pablo Sanchez",
-   "fecha": "2026-10-01T04:17:13-03:00",
-   "msg": "﻿fix(app): `ttl:0` era persistente de mentira, y su `close` solo corria en el camino feliz"
+   "fecha": "2026-10-01T20:13:53-03:00",
+   "msg": "﻿docs(hb116): 3 filas en COMMS_LOG, con control de columnas"
   },
   {
-   "sha": "97b56b4e886c4f5c1b02d98f49dd874d9e457689",
-   "short": "97b56b4",
+   "sha": "37e16ebbac91b66c8fd0d0ddd1643d599d3c0a1d",
+   "short": "37e16eb",
    "autor": "Pablo Sanchez",
-   "fecha": "2026-10-01T03:37:49-03:00",
-   "msg": "﻿fix(tests): el guard de la Idea 61 leia prosa y por eso contaba un sitio muerto"
+   "fecha": "2026-10-01T20:13:07-03:00",
+   "msg": "﻿docs(hb116): TEAM_STATUS y 2 fichas de la union del PO"
   },
   {
-   "sha": "262488f39683a0a40c526a82c1c31149b3669fc5",
-   "short": "262488f",
+   "sha": "301cf0ebdc158ca996f78553f70834034b37fca5",
+   "short": "301cf0e",
    "autor": "Pablo Sanchez",
-   "fecha": "2026-10-01T03:21:15-03:00",
-   "msg": "docs(hb83): los 6 sin explicar eran dos errores del runner que se anulaban"
+   "fecha": "2026-10-01T20:11:46-03:00",
+   "msg": "﻿fix(po): 11 rondas del PO nunca llegaron a main, y no era una rama"
   },
   {
-   "sha": "386a022b89120fab00c3f588fde02f39cc6a6c83",
-   "short": "386a022",
+   "sha": "0d333d4a46492f8a58e6090346bfe0aeed202547",
+   "short": "0d333d4",
    "autor": "Pablo Sanchez",
-   "fecha": "2026-10-01T03:10:12-03:00",
-   "msg": "fix(tests): el runner contaba la linea de RESUMEN como si fuera una asercion"
+   "fecha": "2026-10-01T20:02:09-03:00",
+   "msg": "Merge remote-tracking branch 'origin/po/hb114-dashboard' into hb116-wt"
   },
   {
-   "sha": "2593306393de0e015dfe2b71c644be3e4449ad28",
-   "short": "2593306",
+   "sha": "4805d898e0ec0645435f4c1a5d94bf43beca9193",
+   "short": "4805d89",
    "autor": "Pablo Sanchez",
-   "fecha": "2026-10-01T02:42:40-03:00",
-   "msg": "fix(app): el toast de la puerta no se iba antes de leerse -- estaba DETRAS del modal"
+   "fecha": "2026-10-01T19:40:21-03:00",
+   "msg": "﻿docs(hb115): 3 filas en COMMS_LOG, incluida la correccion de C1"
   },
   {
-   "sha": "22062178321f0098701a3bf62af5653991d3c0e3",
-   "short": "2206217",
+   "sha": "6509641071f3d969dbeebf6d3d456de8e21e0f5c",
+   "short": "6509641",
    "autor": "Pablo Sanchez",
-   "fecha": "2026-10-01T03:05:12-03:00",
-   "msg": "fix(tests): el runner de suite se comia 77 aserciones en silencio"
+   "fecha": "2026-10-01T19:39:01-03:00",
+   "msg": "﻿docs(hb115): la atribucion de C1 estaba al reves, y C1 es FALSO"
   }
  ],
  "archivos_md": [
@@ -412,9 +412,9 @@
    "repo": "gw2-agents-dashboard",
    "label": "Dashboard",
    "role": "dashboard",
-   "sha": "4fa2916a39535474ca5c52e6c93a139c959394fe",
-   "short_sha": "4fa2916",
-   "commit": "chore(dashboard): pulso automatico 2026-10-02_13-36_UTC",
+   "sha": "b295d95f912a8ba32fc866e2b06aa97fc5c5c6b6",
+   "short_sha": "b295d95",
+   "commit": "chore(dashboard): pulso automatico 2026-10-02_13-51_UTC",
    "estado": "open",
    "protected": false,
    "protected_fresco": true,

@@ -1,50 +1,49 @@
 {
- "generado_utc": "20261002T135104Z",
- "generado_h": "2026-10-02 13:51 UTC",
+ "generado_utc": "20261002T140603Z",
+ "generado_h": "2026-10-02 14:06 UTC",
  "archivos_estado": [
   {
    "archivo": "TEAM_STATUS.md",
    "quien": "Principal /30min",
-   "estado": "ROTO",
-   "edad_h": 16.2,
-   "kb": 238.7,
-   "crecimiento": "EXCEDE 80 KB (239 KB)"
+   "estado": "ok",
+   "edad_h": 0.0,
+   "kb": 6.6
   },
   {
    "archivo": "SESSION_LOG.md",
    "quien": "Documentador /4h",
-   "estado": "ROTO",
-   "edad_h": 16.7,
-   "kb": 217.7,
-   "crecimiento": "EXCEDE 60 KB (218 KB)"
+   "estado": "ok",
+   "edad_h": 0.0,
+   "kb": 282.0,
+   "crecimiento": "EXCEDE 60 KB (282 KB)"
   },
   {
    "archivo": "COMMS_LOG.md",
    "quien": "Principal /30min",
-   "estado": "ROTO",
-   "edad_h": 16.2,
-   "kb": 178.8
+   "estado": "ok",
+   "edad_h": 0.0,
+   "kb": 221.3
   },
   {
    "archivo": "PRE_BACKLOG.md",
    "quien": "PO /2h",
    "estado": "ROTO",
-   "edad_h": 54.2,
+   "edad_h": 54.5,
    "kb": 238.3,
    "crecimiento": "EXCEDE 120 KB (238 KB)"
   },
   {
    "archivo": "ALERTS_LOG.md",
    "quien": "Principal /30min",
-   "estado": "ROTO",
-   "edad_h": 16.2,
-   "kb": 273.3
+   "estado": "ok",
+   "edad_h": 0.0,
+   "kb": 360.9
   },
   {
    "archivo": "DECISIONS_LOG.md",
    "quien": "Principal",
    "estado": "RARO",
-   "edad_h": 59.8,
+   "edad_h": 60.1,
    "kb": 10.2
   }
  ],
@@ -92,6 +91,11 @@
   }
  ],
  "ramas_sin_integrar": [
+  {
+   "rama": "docs-hb113-logs",
+   "commits": 91,
+   "fecha": "2026-10-02"
+  },
   {
    "rama": "tools/versionar-fuente-de-recetas",
    "commits": 91,
@@ -225,11 +229,6 @@
   {
    "rama": "po/hb114-dashboard",
    "commits": 37,
-   "fecha": "2026-10-01"
-  },
-  {
-   "rama": "docs-hb113-logs",
-   "commits": 36,
    "fecha": "2026-10-01"
   },
   {
@@ -426,23 +425,23 @@
   },
   {
    "dia": "2026-10-02",
-   "llamadas": 3289,
-   "prompt": 295761488,
-   "cache_read": 285852849,
+   "llamadas": 3352,
+   "prompt": 300900659,
+   "cache_read": 290650172,
    "cache_pct": 96.6,
-   "prompt_por_llamada": 89924,
+   "prompt_por_llamada": 89767,
    "por_agente": [
     {
      "agente": "default",
-     "llamadas": 2689,
-     "prompt": 243480939,
+     "llamadas": 2724,
+     "prompt": 246221581,
      "cache_pct": 96.9
     },
     {
      "agente": "product-owner",
-     "llamadas": 317,
-     "prompt": 31629435,
-     "cache_pct": 97.0
+     "llamadas": 345,
+     "prompt": 34027964,
+     "cache_pct": 96.7
     },
     {
      "agente": "architect",
@@ -591,15 +590,10 @@
   },
   "esperando_decision_error": null,
   "backlog": {
-   "abiertos": 21,
-   "cerrados": 37,
-   "bloqueados": 4,
-   "bloqueados_items": [
-    "Badge CM: la corona no dice si vos lo completaste (Idea 48, PO 09:00...",
-    "Legendary Armory Phase 3",
-    "Idea 56",
-    "Idea 53"
-   ]
+   "abiertos": 5,
+   "cerrados": 58,
+   "bloqueados": 0,
+   "bloqueados_items": []
   },
   "backlog_error": null,
   "agentes": {
