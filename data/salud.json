@@ -1,12 +1,12 @@
 {
- "generado_utc": "20261002T030603Z",
- "generado_h": "2026-10-02 03:06 UTC",
+ "generado_utc": "20261002T032103Z",
+ "generado_h": "2026-10-02 03:21 UTC",
  "archivos_estado": [
   {
    "archivo": "TEAM_STATUS.md",
    "quien": "Principal /30min",
    "estado": "ROTO",
-   "edad_h": 5.4,
+   "edad_h": 5.7,
    "kb": 238.7,
    "crecimiento": "EXCEDE 80 KB (239 KB)"
   },
@@ -14,7 +14,7 @@
    "archivo": "SESSION_LOG.md",
    "quien": "Documentador /4h",
    "estado": "ok",
-   "edad_h": 5.9,
+   "edad_h": 6.2,
    "kb": 217.7,
    "crecimiento": "EXCEDE 60 KB (218 KB)"
   },
@@ -22,14 +22,14 @@
    "archivo": "COMMS_LOG.md",
    "quien": "Principal /30min",
    "estado": "ROTO",
-   "edad_h": 5.4,
+   "edad_h": 5.7,
    "kb": 178.8
   },
   {
    "archivo": "PRE_BACKLOG.md",
    "quien": "PO /2h",
    "estado": "ROTO",
-   "edad_h": 43.5,
+   "edad_h": 43.7,
    "kb": 238.3,
    "crecimiento": "EXCEDE 120 KB (238 KB)"
   },
@@ -37,14 +37,14 @@
    "archivo": "ALERTS_LOG.md",
    "quien": "Principal /30min",
    "estado": "ROTO",
-   "edad_h": 5.4,
+   "edad_h": 5.7,
    "kb": 273.3
   },
   {
    "archivo": "DECISIONS_LOG.md",
    "quien": "Principal",
    "estado": "RARO",
-   "edad_h": 49.1,
+   "edad_h": 49.3,
    "kb": 10.2
   }
  ],
@@ -66,6 +66,14 @@
    "timeout": null
   },
   {
+   "workspace": "default",
+   "id": "76e15f97",
+   "nombre": "Arquitecto - supervision nocturna Armeria",
+   "cron": "0,30 * * * *",
+   "enabled": true,
+   "timeout": null
+  },
+  {
    "workspace": "product-owner",
    "id": "c3f30dc2",
    "nombre": "Heartbeat PO",
@@ -74,7 +82,7 @@
    "timeout": null
   }
  ],
- "crons_activos": 2,
+ "crons_activos": 3,
  "worktrees": [
   {
    "path": "default\\_wt_47",
@@ -84,6 +92,11 @@
   }
  ],
  "ramas_sin_integrar": [
+  {
+   "rama": "feat-armeria-merge-22a6a71",
+   "commits": 58,
+   "fecha": "2026-10-02"
+  },
   {
    "rama": "hb120",
    "commits": 57,
@@ -348,23 +361,23 @@
   },
   {
    "dia": "2026-10-02",
-   "llamadas": 103,
-   "prompt": 8316306,
-   "cache_read": 8039755,
-   "cache_pct": 96.7,
-   "prompt_por_llamada": 80740,
+   "llamadas": 211,
+   "prompt": 18137873,
+   "cache_read": 17675706,
+   "cache_pct": 97.5,
+   "prompt_por_llamada": 85961,
    "por_agente": [
     {
      "agente": "default",
-     "llamadas": 72,
-     "prompt": 5708957,
-     "cache_pct": 97.7
+     "llamadas": 129,
+     "prompt": 11921671,
+     "cache_pct": 98.6
     },
     {
      "agente": "architect",
-     "llamadas": 31,
-     "prompt": 2607349,
-     "cache_pct": 94.5
+     "llamadas": 82,
+     "prompt": 6216202,
+     "cache_pct": 95.2
     }
    ]
   }
