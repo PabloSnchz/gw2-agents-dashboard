@@ -1,34 +1,34 @@
 {
- "generado_utc": "20261002T153602Z",
- "generado_h": "2026-10-02 15:36 UTC",
+ "generado_utc": "20261002T155104Z",
+ "generado_h": "2026-10-02 15:51 UTC",
  "archivos_estado": [
   {
    "archivo": "TEAM_STATUS.md",
    "quien": "Principal /30min",
    "estado": "ok",
-   "edad_h": 0.4,
-   "kb": 12.1
+   "edad_h": 0.1,
+   "kb": 14.9
   },
   {
    "archivo": "SESSION_LOG.md",
    "quien": "Documentador /4h",
    "estado": "ok",
-   "edad_h": 0.4,
-   "kb": 289.8,
-   "crecimiento": "EXCEDE 60 KB (290 KB)"
+   "edad_h": 0.1,
+   "kb": 294.4,
+   "crecimiento": "EXCEDE 60 KB (294 KB)"
   },
   {
    "archivo": "COMMS_LOG.md",
    "quien": "Principal /30min",
    "estado": "ok",
-   "edad_h": 0.5,
-   "kb": 224.8
+   "edad_h": 0.1,
+   "kb": 228.1
   },
   {
    "archivo": "PRE_BACKLOG.md",
    "quien": "PO /2h",
    "estado": "ROTO",
-   "edad_h": 56.0,
+   "edad_h": 56.2,
    "kb": 238.3,
    "crecimiento": "EXCEDE 120 KB (238 KB)"
   },
@@ -36,14 +36,14 @@
    "archivo": "ALERTS_LOG.md",
    "quien": "Principal /30min",
    "estado": "ok",
-   "edad_h": 0.5,
+   "edad_h": 0.7,
    "kb": 358.5
   },
   {
    "archivo": "DECISIONS_LOG.md",
    "quien": "Principal",
    "estado": "RARO",
-   "edad_h": 61.6,
+   "edad_h": 61.8,
    "kb": 10.2
   }
  ],
@@ -336,17 +336,17 @@
   },
   {
    "dia": "2026-10-02",
-   "llamadas": 3872,
-   "prompt": 348455205,
-   "cache_read": 336021693,
+   "llamadas": 3972,
+   "prompt": 358270096,
+   "cache_read": 345539802,
    "cache_pct": 96.4,
-   "prompt_por_llamada": 89993,
+   "prompt_por_llamada": 90198,
    "por_agente": [
     {
      "agente": "default",
-     "llamadas": 3051,
-     "prompt": 275279532,
-     "cache_pct": 96.7
+     "llamadas": 3118,
+     "prompt": 282074818,
+     "cache_pct": 96.8
     },
     {
      "agente": "product-owner",
@@ -356,9 +356,9 @@
     },
     {
      "agente": "architect",
-     "llamadas": 359,
-     "prompt": 29960099,
-     "cache_pct": 93.0
+     "llamadas": 392,
+     "prompt": 32979704,
+     "cache_pct": 93.2
     },
     {
      "agente": "Code-Reviewer",
