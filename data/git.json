@@ -1,14 +1,28 @@
 {
- "generado_utc": "20261002T172118Z",
- "generado_h": "2026-10-02 17:21 UTC",
+ "generado_utc": "20261002T173619Z",
+ "generado_h": "2026-10-02 17:36 UTC",
  "origen": "git local + ls-remote (sin cuota). protected cacheado TTL 6h.",
  "commits": [
+  {
+   "sha": "934d2ae5fa93dd6116ebc71e97816ce24b7693ae",
+   "short": "934d2ae",
+   "autor": "Pablo Sanchez",
+   "fecha": "2026-10-02T14:21:30-03:00",
+   "msg": "feat(armeria): el arbol de fabricacion y los totales, recovered del WIP  La rama feat-arbol-legendario-ui quedo con el commit 539f410 y main la igualo por fast-forward con el fix de CJK (39d1cb6) sin tomar el arbol. Se resuelve con merge de a tres: los dos tocaban arneses, y un cherry-pick a pelo habria traido de vuelta los ideogramas que 39d1cb6 acaba de sacar.  Sin tests todavia: van en el commit siguiente."
+  },
   {
    "sha": "39d1cb651823c2945f9a8c1f578b463db0a8a719",
    "short": "39d1cb6",
    "autor": "Pablo Sanchez",
    "fecha": "2026-10-02T14:14:36-03:00",
    "msg": "fix(arneses): ALERT-79 - 7 ideogramas CJK colados en prosa espanola  ALERT-79 recurre porque el sintoma es invisible: un archivo de estado en un idioma que no es el suyo se lee igual de lleno que uno con una cifra mal. 7 leaks, todos mios, de la clase que el ALERT ya describe:   tests/hb104:3, tests/hb136:10, tests/hb205:11,   tools/hb114-cuento-v2.mjs:43, TEAM_STATUS_HB60.md:125,   SESSION_LOG.md:3612, DASHBOARD_PO_IDEAS.md:2199  Verificado con _hb140-cjk-check.js: 0 leaks, 12 citas excluidas a proposito (ALERTS_LOG/CHANGELOG/ONBOARDING documentan este mismo bug y contarlos obligaria a borrar la evidencia).  De paso, y porque era el pendiente que MEMORY daba por hecho: la precondicion de T14/T15 esta MEDIDA, no pendiente. El arnes de la escena 2 (tests/hb136-escena2-solo-strikes.test.js) corre 23 pass / 0 FAIL con sus dos controles negativos, asi que lo que el Reviewer pidio asertar ya esta asertado. El veredicto (opcion C) sigue sin aplicarse.  Suite: 77 archivos, 77 exit 0, 3574 pass."
+  },
+  {
+   "sha": "539f41051c139f81e386c0a5c65553e4e48c81fe",
+   "short": "539f410",
+   "autor": "Pablo Sanchez",
+   "fecha": "2026-10-02T14:14:22-03:00",
+   "msg": "feat(armeria): el arbol de fabricacion y sus totales, como vista  WIP de la nocheparkado en rama propia (regla de WIP huerfano: nunca dejar codigo sin commitear sin rama asignada).  - js/legendary-tree-ui.js (nuevo, 320 lineas): PICA el arbol y los   totales. NO calcula cantidades: las pide a legendary-tree.js con   build(). La unica cuenta local es falta = max(0, necesito - tengo),   que depende del inventario del usuario y no de la receta. - js/legendary-tracker.js: header del modal sticky (el dialogo tiene   overflow:auto, y con 55 nodos el boton de agregar se iba de   pantalla), acciones de vista y de cola separadas, y UN listener   sobre el modal en vez de uno por nodo. - index.html: carga legendary-tree.js y legendary-tree-ui.js.  SIN TEST todavia, y NO esta listo para main. Los 3 call sites de root.LegendaryTreeUI estan guardados (if (UI) / if (!UI || !T)), asi que sin la vista el tracker degrada honestamente en vez de romper: no se lo llama 'cargando' porque seria mentir (alert84).  Suite verde igual: 77 archivos, 77 exit 0."
   },
   {
    "sha": "c59ec548433b777023394f34335f9cfc67b66937",
@@ -338,20 +352,6 @@
    "autor": "Pablo Sanchez",
    "fecha": "2026-10-02T00:32:08-03:00",
    "msg": "docs(hb121): los 5 logs del ciclo, y el WIP de HB#120 sale del arbol de trabajo"
-  },
-  {
-   "sha": "6adb731f42fc901e86eadf9c78562a7c39244dcc",
-   "short": "6adb731",
-   "autor": "Pablo Sanchez",
-   "fecha": "2026-10-02T00:03:33-03:00",
-   "msg": "fix(index): el llamador de downloadAndSync mira el `cancelled` que T20-c empezo a devolver"
-  },
-  {
-   "sha": "67ee147b1a89f6262dd3d4734b80a5738f588409",
-   "short": "67ee147",
-   "autor": "Pablo Sanchez",
-   "fecha": "2026-10-01T23:41:51-03:00",
-   "msg": "fix(gist-sync): T20-c - una foto local antes de sobrescribir por el camino del Gist"
   }
  ],
  "archivos_md": [
@@ -412,9 +412,9 @@
    "repo": "gw2-agents-dashboard",
    "label": "Dashboard",
    "role": "dashboard",
-   "sha": "ba24db0179b2c3071dbf26d73907e5f000ad44d1",
-   "short_sha": "ba24db0",
-   "commit": "chore(dashboard): pulso automatico 2026-10-02_17-06_UTC",
+   "sha": "515913585318e7494ded78fd4bf2a7fb3f48ed30",
+   "short_sha": "5159135",
+   "commit": "chore(dashboard): pulso automatico 2026-10-02_17-21_UTC",
    "estado": "open",
    "protected": false,
    "protected_fresco": true,
