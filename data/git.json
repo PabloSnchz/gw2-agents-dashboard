@@ -1,8 +1,15 @@
 {
- "generado_utc": "20261003T110621Z",
- "generado_h": "2026-10-03 11:06 UTC",
+ "generado_utc": "20261003T112121Z",
+ "generado_h": "2026-10-03 11:21 UTC",
  "origen": "git local + ls-remote (sin cuota). protected cacheado TTL 6h.",
  "commits": [
+  {
+   "sha": "b366eb9298a01db1ebcfdfb8a32529640af07900",
+   "short": "b366eb9",
+   "autor": "Pablo Sanchez",
+   "fecha": "2026-10-03T08:10:44-03:00",
+   "msg": "docs(hb171): ALERT-241 - una regex anclada en $ por linea no da 0 sobre CRLF, da SOLO LA ULTIMA LINEA, y el 0 que se vio fue suerte"
+  },
   {
    "sha": "1ad8a080463d12cba15273022ab619a7ac6da858",
    "short": "1ad8a08",
@@ -345,13 +352,6 @@
    "autor": "Pablo Sanchez",
    "fecha": "2026-10-02T14:14:36-03:00",
    "msg": "fix(arneses): ALERT-79 - 7 ideogramas CJK colados en prosa espanola  ALERT-79 recurre porque el sintoma es invisible: un archivo de estado en un idioma que no es el suyo se lee igual de lleno que uno con una cifra mal. 7 leaks, todos mios, de la clase que el ALERT ya describe:   tests/hb104:3, tests/hb136:10, tests/hb205:11,   tools/hb114-cuento-v2.mjs:43, TEAM_STATUS_HB60.md:125,   SESSION_LOG.md:3612, DASHBOARD_PO_IDEAS.md:2199  Verificado con _hb140-cjk-check.js: 0 leaks, 12 citas excluidas a proposito (ALERTS_LOG/CHANGELOG/ONBOARDING documentan este mismo bug y contarlos obligaria a borrar la evidencia).  De paso, y porque era el pendiente que MEMORY daba por hecho: la precondicion de T14/T15 esta MEDIDA, no pendiente. El arnes de la escena 2 (tests/hb136-escena2-solo-strikes.test.js) corre 23 pass / 0 FAIL con sus dos controles negativos, asi que lo que el Reviewer pidio asertar ya esta asertado. El veredicto (opcion C) sigue sin aplicarse.  Suite: 77 archivos, 77 exit 0, 3574 pass."
-  },
-  {
-   "sha": "539f41051c139f81e386c0a5c65553e4e48c81fe",
-   "short": "539f410",
-   "autor": "Pablo Sanchez",
-   "fecha": "2026-10-02T14:14:22-03:00",
-   "msg": "feat(armeria): el arbol de fabricacion y sus totales, como vista  WIP de la nocheparkado en rama propia (regla de WIP huerfano: nunca dejar codigo sin commitear sin rama asignada).  - js/legendary-tree-ui.js (nuevo, 320 lineas): PICA el arbol y los   totales. NO calcula cantidades: las pide a legendary-tree.js con   build(). La unica cuenta local es falta = max(0, necesito - tengo),   que depende del inventario del usuario y no de la receta. - js/legendary-tracker.js: header del modal sticky (el dialogo tiene   overflow:auto, y con 55 nodos el boton de agregar se iba de   pantalla), acciones de vista y de cola separadas, y UN listener   sobre el modal en vez de uno por nodo. - index.html: carga legendary-tree.js y legendary-tree-ui.js.  SIN TEST todavia, y NO esta listo para main. Los 3 call sites de root.LegendaryTreeUI estan guardados (if (UI) / if (!UI || !T)), asi que sin la vista el tracker degrada honestamente en vez de romper: no se lo llama 'cargando' porque seria mentir (alert84).  Suite verde igual: 77 archivos, 77 exit 0."
   }
  ],
  "archivos_md": [
@@ -398,9 +398,9 @@
    "repo": "gw2-wallet-agents",
    "label": "Desarrollo",
    "role": "dev",
-   "sha": "1ad8a080463d12cba15273022ab619a7ac6da858",
-   "short_sha": "1ad8a08",
-   "commit": "docs(hb170): ALERT-240 - el corte de seccion puede invertir",
+   "sha": "b366eb9298a01db1ebcfdfb8a32529640af07900",
+   "short_sha": "b366eb9",
+   "commit": "docs(hb171): ALERT-241 - una regex anclada en $ por linea no",
    "estado": "open",
    "protected": false,
    "protected_fresco": true,
@@ -412,9 +412,9 @@
    "repo": "gw2-agents-dashboard",
    "label": "Dashboard",
    "role": "dashboard",
-   "sha": "b62161474709b2a4cbea16cad99e2dae7a15320c",
-   "short_sha": "b621614",
-   "commit": "chore(dashboard): pulso automatico 2026-10-03_10-51_UTC",
+   "sha": "8b002950d1c0c61e0973cecb142716d75ba36188",
+   "short_sha": "8b00295",
+   "commit": "chore(dashboard): pulso automatico 2026-10-03_11-06_UTC",
    "estado": "open",
    "protected": false,
    "protected_fresco": true,
