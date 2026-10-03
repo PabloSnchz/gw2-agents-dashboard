@@ -1,8 +1,15 @@
 {
- "generado_utc": "20261003T093619Z",
- "generado_h": "2026-10-03 09:36 UTC",
+ "generado_utc": "20261003T095119Z",
+ "generado_h": "2026-10-03 09:51 UTC",
  "origen": "git local + ls-remote (sin cuota). protected cacheado TTL 6h.",
  "commits": [
+  {
+   "sha": "2561416ea631c0f0da63e3c1d92d3a47a5f873cd",
+   "short": "2561416",
+   "autor": "Pablo Sanchez",
+   "fecha": "2026-10-03T06:37:33-03:00",
+   "msg": "docs(hb168): ALERT-238 - el texto \"para pegar\" del PO traia un control positivo falso"
+  },
   {
    "sha": "6fda7fac416a1ac6846a02d82f24a2da85135414",
    "short": "6fda7fa",
@@ -345,13 +352,6 @@
    "autor": "Pablo Sanchez",
    "fecha": "2026-10-02T13:35:14-03:00",
    "msg": "﻿chore(limpieza): 2 scratch sin referencias, uno restaurado porque el PO lo CITA"
-  },
-  {
-   "sha": "1a7cf4699b4326dab7d9edd60b1ec67866f7bbcd",
-   "short": "1a7cf46",
-   "autor": "Pablo Sanchez",
-   "fecha": "2026-10-02T13:32:40-03:00",
-   "msg": "﻿fix(arneses): ALERT-205 - un arnes atado a la RUTA de un worktree, no al repo"
   }
  ],
  "archivos_md": [
@@ -398,9 +398,9 @@
    "repo": "gw2-wallet-agents",
    "label": "Desarrollo",
    "role": "dev",
-   "sha": "6fda7fac416a1ac6846a02d82f24a2da85135414",
-   "short_sha": "6fda7fa",
-   "commit": "docs(hb167): ALERT-237 - la medicion correcta no llego a la",
+   "sha": "2561416ea631c0f0da63e3c1d92d3a47a5f873cd",
+   "short_sha": "2561416",
+   "commit": "docs(hb168): ALERT-238 - el texto \"para pegar\" del PO traia",
    "estado": "open",
    "protected": false,
    "protected_fresco": true,
@@ -412,9 +412,9 @@
    "repo": "gw2-agents-dashboard",
    "label": "Dashboard",
    "role": "dashboard",
-   "sha": "9dc4992970b8204f753e78e2b4eb61270ac2370d",
-   "short_sha": "9dc4992",
-   "commit": "chore(dashboard): pulso automatico 2026-10-03_09-21_UTC",
+   "sha": "7915d6ae60ad870e31d8bf96918658e2a480e0af",
+   "short_sha": "7915d6a",
+   "commit": "chore(dashboard): pulso automatico 2026-10-03_09-36_UTC",
    "estado": "open",
    "protected": false,
    "protected_fresco": true,
