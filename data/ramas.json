@@ -1,25 +1,81 @@
 {
-  "generado": "2026-10-03T03:01:04.269Z",
+  "generado": "2026-10-03T07:00:20.970Z",
   "resumen": {
-    "TOTAL": 87,
-    "BORRABLE": 44,
-    "RESCATAR": 27,
+    "TOTAL": 91,
+    "BORRABLE": 45,
+    "RESCATAR": 30,
     "PROTEGIDA": 16
   },
   "ramas": [
     {
       "nombre": "main",
-      "sha": "90775ee",
-      "fecha": "2026-10-02 23:31:56 -0300",
+      "sha": "128cfbe",
+      "fecha": "2026-10-03 03:43:39 -0300",
       "veredicto": "PROTEGIDA",
       "motivo": "es el trunk"
+    },
+    {
+      "nombre": "po/hb163-prune",
+      "sha": "eb42c3b",
+      "fecha": "2026-10-03 02:39:28 -0300",
+      "veredicto": "PROTEGIDA",
+      "motivo": "un worktree activo la esta usando"
+    },
+    {
+      "nombre": "po/hb160-poda",
+      "sha": "f2b5a82",
+      "fecha": "2026-10-03 01:11:41 -0300",
+      "en_main": true,
+      "veredicto": "BORRABLE",
+      "motivo": "su HEAD ya esta en origin/main"
+    },
+    {
+      "nombre": "feat-wallet-dashboard-solo-suerte",
+      "sha": "23eed32",
+      "fecha": "2026-10-03 00:36:56 -0300",
+      "en_main": false,
+      "commits_no_main": 1,
+      "commits_sueltos": 1,
+      "veredicto": "RESCATAR",
+      "motivo": "1 commit(s) cuyo contenido NO esta en main",
+      "rescatar": [
+        {
+          "sha": "23eed32",
+          "resumen": ""
+        }
+      ]
     },
     {
       "nombre": "po/hb153-poda",
       "sha": "998fa66",
       "fecha": "2026-10-02 23:13:35 -0300",
-      "veredicto": "PROTEGIDA",
-      "motivo": "un worktree activo la esta usando"
+      "en_main": false,
+      "commits_no_main": 1,
+      "commits_sueltos": 1,
+      "veredicto": "RESCATAR",
+      "motivo": "1 commit(s) cuyo contenido NO esta en main",
+      "rescatar": [
+        {
+          "sha": "998fa66",
+          "resumen": ""
+        }
+      ]
+    },
+    {
+      "nombre": "rescate/po-hb153-poda",
+      "sha": "998fa66",
+      "fecha": "2026-10-02 23:13:35 -0300",
+      "en_main": false,
+      "commits_no_main": 1,
+      "commits_sueltos": 1,
+      "veredicto": "RESCATAR",
+      "motivo": "1 commit(s) cuyo contenido NO esta en main",
+      "rescatar": [
+        {
+          "sha": "998fa66",
+          "resumen": ""
+        }
+      ]
     },
     {
       "nombre": "feat-cuenta-skins",
