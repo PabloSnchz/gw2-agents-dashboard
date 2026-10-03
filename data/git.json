@@ -1,8 +1,15 @@
 {
- "generado_utc": "20261003T083620Z",
- "generado_h": "2026-10-03 08:36 UTC",
+ "generado_utc": "20261003T085121Z",
+ "generado_h": "2026-10-03 08:51 UTC",
  "origen": "git local + ls-remote (sin cuota). protected cacheado TTL 6h.",
  "commits": [
+  {
+   "sha": "1372eb18df3e87f8e2879e9c817e767fe7f01059",
+   "short": "1372eb1",
+   "autor": "Pablo Sanchez",
+   "fecha": "2026-10-03T05:42:26-03:00",
+   "msg": "docs(hb166): ALERT-235 (PRE_BACKLOG.md tiene dos canonicos) y ALERT-236 (mi detector daba un 0 vacio)"
+  },
   {
    "sha": "6f38c8059b236a41b255be697ed4736728915cf9",
    "short": "6f38c80",
@@ -345,13 +352,6 @@
    "autor": "Pablo Sanchez",
    "fecha": "2026-10-02T13:19:46-03:00",
    "msg": "feat(armeria): el motor del arbol y la multiplicidad, con arnes  computeMaterials() (legendary-tracker.js:398) mira SOLO el contrato del catalogo y arma una fila por ingrediente DIRECTO. Para Frostfang eso son 4 filas, y con 4 filas no hay columna de falta que sirva: el Tooth of Frostfang no es una bolsa de materiales, es una subreceta.  js/legendary-tree.js baja el arbol entero desde los DOS contratos y multiplica a lo largo del camino, asi que cada nodo sabe cuanto necesita la RAIZ y no cuanto cuesta hacerlo una vez.  Verificado contra la wiki de Frostfang: 55 nodos, 32 materiales base, 8613 unidades, y los 7 materiales T6 en 250 exactos. El motor baja mas que la wiki: Icy Runestone da 110 y no 100, y Crystallic Dust 260 y no 250, porque la wiki no desglosa el Freezing Core. Darksteel no aparece como hoja porque 19681 tiene receta y se expande a Platinum y Mithril.  LO QUE NO ENTRA EN LA COLUMNA DE NECESITO, Y POR QUE ESTA AFIRMADO   vendor   -> se compra a un NPC. Si entro en 'necesito', la app le estaria               diciendo al usuario que fabrique algo que se compra.   itemId 0 -> la fuente no trae el id. Sin id no hay inventario que mirar.   unknown  -> no esta en ninguno de los dos contratos. Si desaparece, el               usuario no tiene forma de reportar el dato que falta.  Sin los precursores cargados, build() devuelve needsPrecursors y la vista tiene que decir 'receta no disponible'. NO dibuja un arbol de un solo nivel: se verian 4 hijos y el usuario concluiria que la legendaria se hace con eso.  Convention de niveles, la que fijo Pablo: raiz es nivel 1, depth es informativo y el recorrido no lo usa. El arnes afirma las cantidades, no la forma del arbol, porque un motor que multiplica mal no falla visiblemente: da un numero, y el numero equivocado es peor que un error.  tests/armeria-motor-arbol.test.js: 45 aserciones, con controles negativos. El control negativo del estado 'pending' es el importante: sin el segundo contrato el arbol NO se dibuja.  Suite del arbol: 45 pass / 0 FAIL. La suite global tiene 2 FAIL en hb205-ruta-no-atada.test.js, que NO son de este cambio: ese archivo estaba sin trackear y lo escribio otro agente en este mismo arbol 14 segundos antes de que yo mirara. No se toco."
-  },
-  {
-   "sha": "e118c97943ea5f18e894a889c7ae584b523ad626",
-   "short": "e118c97",
-   "autor": "Pablo Sanchez",
-   "fecha": "2026-10-02T12:57:03-03:00",
-   "msg": "docs(estructura): reglas de ciclo de vida de los worktrees  Se acumularon 55 worktrees (3,1 GB) y 7 de ellos en carpetas que nadie vigila, dos dentro de C:\\tmp (Windows las limpia y el trabajo se pierde sin avisar). No se acumulaban por descuido: no habia ninguna regla que dijera que pasa con un worktree cuando la tarea termina, y borrar uno sonaba a perder trabajo.  Las 4 reglas nuevas:   1. un worktree por tarea, se borra en el MISMO ciclo en que el trabajo llega      a main (no en el siguiente, no cuando me acuerde)   2. todo worktree nuevo vive en UN solo directorio; prohibido C:\\tmp y las      carpetas temporales   3. no se borra nada que tenga codigo sin commitear; lo que se borra es lo      que empieza con _ (instrumentos, no trabajo)   4. el criterio de borrado es un script verificable, no una sensacion  Regla 3 es la que evita el miedo: un worktree se puede borrar entero si y solo si no tiene nada que ningun commit tenga, y eso son 4 preguntas con respuesta objetiva. El caso que asusta (trabajo a medias) es exactamente el que el criterio se niega a borrar.  Se agrega ademas la excepcion de media/*.gif: confetti.gif y burbuja.gif son el preview animado del drop de los eventos de Meta. No hay otra pagina que muestre el efecto de una infusion. No son ripeables.  Cambio solo de documentacion. Ningun .js, .css, .json ni .md de producto."
   }
  ],
  "archivos_md": [
@@ -398,9 +398,9 @@
    "repo": "gw2-wallet-agents",
    "label": "Desarrollo",
    "role": "dev",
-   "sha": "6f38c8059b236a41b255be697ed4736728915cf9",
-   "short_sha": "6f38c80",
-   "commit": "fix(hb165): rescatar el HB#164 y reparar la corrupcion que el",
+   "sha": "1372eb18df3e87f8e2879e9c817e767fe7f01059",
+   "short_sha": "1372eb1",
+   "commit": "docs(hb166): ALERT-235 (PRE_BACKLOG.md tiene dos canonicos) y",
    "estado": "open",
    "protected": false,
    "protected_fresco": true,
@@ -412,9 +412,9 @@
    "repo": "gw2-agents-dashboard",
    "label": "Dashboard",
    "role": "dashboard",
-   "sha": "3cf453fe49633f3996b0a516417b20ffce383f12",
-   "short_sha": "3cf453f",
-   "commit": "chore(dashboard): pulso automatico 2026-10-03_08-21_UTC",
+   "sha": "7507fd0bfccab4f3ca7e79720b11dd6e506903fe",
+   "short_sha": "7507fd0",
+   "commit": "chore(dashboard): pulso automatico 2026-10-03_08-36_UTC",
    "estado": "open",
    "protected": false,
    "protected_fresco": true,
