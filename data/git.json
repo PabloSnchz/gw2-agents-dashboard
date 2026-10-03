@@ -1,8 +1,15 @@
 {
- "generado_utc": "20261003T003620Z",
- "generado_h": "2026-10-03 00:36 UTC",
+ "generado_utc": "20261003T005119Z",
+ "generado_h": "2026-10-03 00:51 UTC",
  "origen": "git local + ls-remote (sin cuota). protected cacheado TTL 6h.",
  "commits": [
+  {
+   "sha": "ec33a0d633760791ea9a89ba3f65c24d8d7dca1c",
+   "short": "ec33a0d",
+   "autor": "Pablo Sanchez",
+   "fecha": "2026-10-02T21:37:29-03:00",
+   "msg": "docs(hb153): el \"paso 1 bloqueante\" de la noche ya estaba mergeado 4 minutos antes de que el bloque lo declarara pendiente"
+  },
   {
    "sha": "6b0c12c295435abf363168617a60609a2c89d476",
    "short": "6b0c12c",
@@ -345,13 +352,6 @@
    "autor": "Pablo Sanchez",
    "fecha": "2026-10-02T09:09:40-03:00",
    "msg": "feat(raids): T12-b - el strip de Strikes pasa por el MISMO escritor de la preferencia"
-  },
-  {
-   "sha": "1b6b9308ec8c2f9235f063b6a97eb47675502ddf",
-   "short": "1b6b930",
-   "autor": "Pablo Sanchez",
-   "fecha": "2026-10-02T09:07:05-03:00",
-   "msg": "docs(hb132): corte de la noche - la suite en verde estaba midiendo un repo que no existe"
   }
  ],
  "archivos_md": [
@@ -398,9 +398,9 @@
    "repo": "gw2-wallet-agents",
    "label": "Desarrollo",
    "role": "dev",
-   "sha": "6b0c12c295435abf363168617a60609a2c89d476",
-   "short_sha": "6b0c12c",
-   "commit": "feat(armeria): presupuesto propio de cache para los 906 ids",
+   "sha": "ec33a0d633760791ea9a89ba3f65c24d8d7dca1c",
+   "short_sha": "ec33a0d",
+   "commit": "docs(hb153): el \"paso 1 bloqueante\" de la noche ya estaba",
    "estado": "open",
    "protected": false,
    "protected_fresco": true,
@@ -412,9 +412,9 @@
    "repo": "gw2-agents-dashboard",
    "label": "Dashboard",
    "role": "dashboard",
-   "sha": "04cfdff8413b26548b4db32ad9f7e213ad095d68",
-   "short_sha": "04cfdff",
-   "commit": "chore(dashboard): pulso automatico 2026-10-03_00-21_UTC",
+   "sha": "ec4a748d8c336487ea66635f2e2953717e291c87",
+   "short_sha": "ec4a748",
+   "commit": "chore(dashboard): pulso automatico 2026-10-03_00-36_UTC",
    "estado": "open",
    "protected": false,
    "protected_fresco": true,
