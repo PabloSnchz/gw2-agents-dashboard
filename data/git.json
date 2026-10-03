@@ -1,8 +1,15 @@
 {
- "generado_utc": "20261003T063621Z",
- "generado_h": "2026-10-03 06:36 UTC",
+ "generado_utc": "20261003T065119Z",
+ "generado_h": "2026-10-03 06:51 UTC",
  "origen": "git local + ls-remote (sin cuota). protected cacheado TTL 6h.",
  "commits": [
+  {
+   "sha": "128cfbe02d2820fb3eb584e2782a4583045d7a47",
+   "short": "128cfbe",
+   "autor": "Pablo Sanchez",
+   "fecha": "2026-10-03T03:43:39-03:00",
+   "msg": "docs(hb163): el paso 3 del PO lee UN canal y hay TRES (ALERT-231) + ALERT-232"
+  },
   {
    "sha": "eb42c3b6e517d0f0f649c9bce83f5f0d1e994a6a",
    "short": "eb42c3b",
@@ -345,13 +352,6 @@
    "autor": "Pablo Sanchez",
    "fecha": "2026-10-02T12:44:23-03:00",
    "msg": "feat(armeria): contrato de precursores, aparte del catalogo y bajo demanda  Pablo decidio el corte: legendary-recipes.js (206, 107 KB) se carga siempre, y los precursores del arbol van en su propio archivo que se pide solo cuando se abre un arbol de fabricacion. Motivo concreto: la mayoria de quien abre la app nunca abre un arbol, y pagar 267 KB en cada carga por eso es caro. Ademas, si el fetch falla, la app sigue entera y el control se ve igual con el mensaje de receta no disponible.  Medido sobre tools/cl_recipes.json (634 recetas):   907 entradas = 471 con receta + 436 materiales base   436 hojas, 0 sin nombre, 0 aristas huerfanas, 267 KB   Pablo habia medido 903: son los mismos, sin las 4 recetas tipo vendor.  Las 64 hojas sin nombre que habian quedado abiertas: son los items del catalogo sin receta publicada, y estan 64 de 64 en legendary-data.js. Van por ahi, sin llamada a la API.  Lo que la fuente no tiene y no se inventa:   - iconos (0 de 634 recetas los traen): el archivo expone iconUrl(id) para     resolverlos en runtime contra la API   - nombre en espanol: la fuente solo trae el nombre en ingles   - 2 aristas con itemId 0 (Relic any en 101540, Testimony of Castoran     Heroics en 109686): la fuente no tiene esos ids. Se conservan con su     nombre y marcadas, para que el consumidor no las cuente como material.  Multiplicidad verificada contra la wiki de Frostfang: los 7 materiales T6 cierran en 250 exactos. El +10 sobre el ldestone y el dust viene de Freezing Core, que la wiki no desglosa. Darksteel no falta: se expande a Platinum y Mithril, que es lo correcto.  Suite: 1834 pass, 0 FAIL en 72 archivos."
-  },
-  {
-   "sha": "db01a4498a5970c8b89f6ee54a693790b003a81e",
-   "short": "db01a44",
-   "autor": "Pablo Sanchez",
-   "fecha": "2026-10-02T12:43:46-03:00",
-   "msg": "docs(hb138): ALERT-204 en los tres logs, y las 2 correcciones de medicion propias  TEAM_STATUS: el bloque del ciclo, el fix del detector con su porque, y la distincion explicita entre este clon (limpio, 3 atras) y el de ALERT-202 (divergido, indice igual a main y disco atras).  COMMS_LOG fila 164 (numero sacado del MAXIMO del archivo, 10 columnas verificadas con split).  SESSION_LOG: el resumen del ciclo, con los dos errores de medicion mios.  Correccion a una cifra que venia repetida: la ronda maxima del PO es 42, no 36 ni 37. hb116-union-po.mjs solo imprime las rondas 18-36 y por eso reportaba 36. Un instrumento que imprime un rango fijo no es un contador.  Suite 3981 pass / 0 FAIL en 73 archivos, exit 0."
   }
  ],
  "archivos_md": [
@@ -398,9 +398,9 @@
    "repo": "gw2-wallet-agents",
    "label": "Desarrollo",
    "role": "dev",
-   "sha": "eb42c3b6e517d0f0f649c9bce83f5f0d1e994a6a",
-   "short_sha": "eb42c3b",
-   "commit": "docs(hb162): ALERT-231 - el criterio de rama viva del paso 3",
+   "sha": "128cfbe02d2820fb3eb584e2782a4583045d7a47",
+   "short_sha": "128cfbe",
+   "commit": "docs(hb163): el paso 3 del PO lee UN canal y hay TRES",
    "estado": "open",
    "protected": false,
    "protected_fresco": true,
@@ -412,9 +412,9 @@
    "repo": "gw2-agents-dashboard",
    "label": "Dashboard",
    "role": "dashboard",
-   "sha": "7e1fc868b3c05f8672c90d185980fe74caa0ac02",
-   "short_sha": "7e1fc86",
-   "commit": "chore(dashboard): pulso automatico 2026-10-03_06-21_UTC",
+   "sha": "02b025bf4b76d62a7ea1eb3670aa036bc8f0ccf5",
+   "short_sha": "02b025b",
+   "commit": "chore(dashboard): pulso automatico 2026-10-03_06-36_UTC",
    "estado": "open",
    "protected": false,
    "protected_fresco": true,
