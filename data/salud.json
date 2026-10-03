@@ -1,19 +1,20 @@
 {
- "generado_utc": "20261003T042101Z",
- "generado_h": "2026-10-03 04:21 UTC",
+ "generado_utc": "20261003T043603Z",
+ "generado_h": "2026-10-03 04:36 UTC",
  "archivos_estado": [
   {
    "archivo": "TEAM_STATUS.md",
    "quien": "Principal /30min",
    "estado": "ok",
-   "edad_h": 0.0,
-   "kb": 73.9
+   "edad_h": 0.2,
+   "kb": 86.5,
+   "crecimiento": "EXCEDE 80 KB (86 KB)"
   },
   {
    "archivo": "SESSION_LOG.md",
    "quien": "Documentador /4h",
    "estado": "ok",
-   "edad_h": 2.2,
+   "edad_h": 2.5,
    "kb": 309.5,
    "crecimiento": "EXCEDE 60 KB (310 KB)"
   },
@@ -21,29 +22,29 @@
    "archivo": "COMMS_LOG.md",
    "quien": "Principal /30min",
    "estado": "ok",
-   "edad_h": 0.0,
-   "kb": 249.8
+   "edad_h": 0.2,
+   "kb": 250.6
   },
   {
    "archivo": "PRE_BACKLOG.md",
    "quien": "PO /2h",
    "estado": "ROTO",
-   "edad_h": 68.7,
+   "edad_h": 69.0,
    "kb": 238.3,
    "crecimiento": "EXCEDE 120 KB (238 KB)"
   },
   {
    "archivo": "ALERTS_LOG.md",
    "quien": "Principal /30min",
-   "estado": "ok",
-   "edad_h": 1.9,
+   "estado": "RARO",
+   "edad_h": 2.2,
    "kb": 429.0
   },
   {
    "archivo": "DECISIONS_LOG.md",
    "quien": "Principal",
    "estado": "RARO",
-   "edad_h": 74.3,
+   "edad_h": 74.6,
    "kb": 10.2
   }
  ],
@@ -143,11 +144,6 @@
    "rama": "rescate/wt-hb119",
    "commits": 2,
    "fecha": "2026-10-01"
-  },
-  {
-   "rama": "chore-hb159-404-y-turno",
-   "commits": 1,
-   "fecha": "2026-10-03"
   },
   {
    "rama": "docs-estructura-20260930",
@@ -387,17 +383,17 @@
   },
   {
    "dia": "2026-10-03",
-   "llamadas": 486,
-   "prompt": 49959279,
-   "cache_read": 48181988,
-   "cache_pct": 96.4,
-   "prompt_por_llamada": 102796,
+   "llamadas": 511,
+   "prompt": 52024330,
+   "cache_read": 50109885,
+   "cache_pct": 96.3,
+   "prompt_por_llamada": 101808,
    "por_agente": [
     {
      "agente": "default",
-     "llamadas": 271,
-     "prompt": 29438552,
-     "cache_pct": 96.5
+     "llamadas": 296,
+     "prompt": 31503603,
+     "cache_pct": 96.3
     },
     {
      "agente": "architect",
