@@ -1,8 +1,22 @@
 {
- "generado_utc": "20261003T030620Z",
- "generado_h": "2026-10-03 03:06 UTC",
+ "generado_utc": "20261003T032120Z",
+ "generado_h": "2026-10-03 03:21 UTC",
  "origen": "git local + ls-remote (sin cuota). protected cacheado TTL 6h.",
  "commits": [
+  {
+   "sha": "ceb5a601b724fa42767003590bb5846c55de5dbc",
+   "short": "ceb5a60",
+   "autor": "Pablo Sanchez",
+   "fecha": "2026-10-03T00:11:20-03:00",
+   "msg": "docs(hb158): seccion de TEAM_STATUS del ciclo - rescate de HB#157, y la hora que un ciclo firma sobre si mismo no cierra nada"
+  },
+  {
+   "sha": "2d13d7ca63b2b88441391909b8ea39226ea38cb3",
+   "short": "2d13d7c",
+   "autor": "Pablo Sanchez",
+   "fecha": "2026-10-03T00:09:15-03:00",
+   "msg": "fix(armeria): rescate de HB#157 - iconos y nombres traducidos en el modal"
+  },
   {
    "sha": "90775ee031dd49631477011bec661c79a9131fe4",
    "short": "90775ee",
@@ -338,20 +352,6 @@
    "autor": "Pablo Sanchez",
    "fecha": "2026-10-02T11:36:37-03:00",
    "msg": "test(hb136): la escena 2 (solo Strikes) medida, con fase roja y control negativo"
-  },
-  {
-   "sha": "a5edad6f6c47a21630a574b51f9d38b477613ea1",
-   "short": "a5edad6",
-   "autor": "Pablo Sanchez",
-   "fecha": "2026-10-02T11:06:58-03:00",
-   "msg": "docs(hb135): rescate del working tree revertido (ALERT-202) y 3 veredictos recogidos"
-  },
-  {
-   "sha": "ef499647ac7051550ad750f6d86ed996e7d78677",
-   "short": "ef49964",
-   "autor": "Pablo Sanchez",
-   "fecha": "2026-10-02T10:47:24-03:00",
-   "msg": "tools: versionar la fuente de recetas (cl_recipes.json) y el runner  Sin esto el paso 6 (arbol de fabricacion) no puede existir y el build no es reproducible.  - tools/.gitignore: tres excepciones explicitas y justificadas.   * *  mantiene fuera los ~90 scripts de un solo uso que son ruido.   * !run-suite.js / .cmd  el runner ya estaba trackeado pero la regla lo     hacia fragil; ahora queda explicito.   * !cl_recipes.json  la fuente (634 recetas, 2.340 ingredientes).  POR QUE cl_recipes.json es bloqueante y no una comodidad: js/legendary-recipes.js declara 567 ingredientes en 236 ids distintos, y de esos 236, CERO tienen receta en el propio contrato. Un arbol recursivo sobre ese contrato dibujaria siempre un nivel y nada mas. En esta fuente el 86% de esos ingredientes si tiene receta: el arbol llega a ~8 niveles.  Sin el archivo en git, _build_legendary_recipes.py depende de una descarga manual que vive en el disco de una sola persona. Un build que no se puede reproducir no es un build.  Fuente: crafty_legend (PieOrCake). Medida 2026-10-02. Autorizado por Pablo."
   }
  ],
  "archivos_md": [
@@ -398,9 +398,9 @@
    "repo": "gw2-wallet-agents",
    "label": "Desarrollo",
    "role": "dev",
-   "sha": "90775ee031dd49631477011bec661c79a9131fe4",
-   "short_sha": "90775ee",
-   "commit": "docs(hb156): seccion de TEAM_STATUS del ciclo, con los 6",
+   "sha": "ceb5a601b724fa42767003590bb5846c55de5dbc",
+   "short_sha": "ceb5a60",
+   "commit": "docs(hb158): seccion de TEAM_STATUS del ciclo - rescate de",
    "estado": "open",
    "protected": false,
    "protected_fresco": true,
@@ -412,9 +412,9 @@
    "repo": "gw2-agents-dashboard",
    "label": "Dashboard",
    "role": "dashboard",
-   "sha": "86dcbbbd3b24b2fbe6e9d22983cf9c1c8910d76c",
-   "short_sha": "86dcbbb",
-   "commit": "chore(dashboard): pulso automatico 2026-10-03_02-51_UTC",
+   "sha": "7b80936f447496e1b8b69e99a531735698eeb96a",
+   "short_sha": "7b80936",
+   "commit": "chore(dashboard): pulso automatico 2026-10-03_03-06_UTC",
    "estado": "open",
    "protected": false,
    "protected_fresco": true,
