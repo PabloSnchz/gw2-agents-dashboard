@@ -1,20 +1,20 @@
 {
- "generado_utc": "20261003T050601Z",
- "generado_h": "2026-10-03 05:06 UTC",
+ "generado_utc": "20261003T052101Z",
+ "generado_h": "2026-10-03 05:21 UTC",
  "archivos_estado": [
   {
    "archivo": "TEAM_STATUS.md",
    "quien": "Principal /30min",
    "estado": "ok",
-   "edad_h": 0.2,
-   "kb": 92.6,
-   "crecimiento": "EXCEDE 80 KB (93 KB)"
+   "edad_h": 0.0,
+   "kb": 106.1,
+   "crecimiento": "EXCEDE 80 KB (106 KB)"
   },
   {
    "archivo": "SESSION_LOG.md",
    "quien": "Documentador /4h",
    "estado": "ok",
-   "edad_h": 3.0,
+   "edad_h": 3.2,
    "kb": 309.5,
    "crecimiento": "EXCEDE 60 KB (310 KB)"
   },
@@ -22,14 +22,14 @@
    "archivo": "COMMS_LOG.md",
    "quien": "Principal /30min",
    "estado": "ok",
-   "edad_h": 0.7,
+   "edad_h": 1.0,
    "kb": 250.6
   },
   {
    "archivo": "PRE_BACKLOG.md",
    "quien": "PO /2h",
    "estado": "ROTO",
-   "edad_h": 69.5,
+   "edad_h": 69.7,
    "kb": 238.3,
    "crecimiento": "EXCEDE 120 KB (238 KB)"
   },
@@ -37,14 +37,14 @@
    "archivo": "ALERTS_LOG.md",
    "quien": "Principal /30min",
    "estado": "ok",
-   "edad_h": 0.3,
-   "kb": 434.6
+   "edad_h": 0.0,
+   "kb": 439.1
   },
   {
    "archivo": "DECISIONS_LOG.md",
    "quien": "Principal",
    "estado": "RARO",
-   "edad_h": 75.1,
+   "edad_h": 75.3,
    "kb": 10.2
   }
  ],
@@ -286,6 +286,11 @@
    "fecha": "2026-10-02"
   },
   {
+   "rama": "rescate/hb158-teams-status",
+   "commits": 1,
+   "fecha": "2026-10-03"
+  },
+  {
    "rama": "rescate/po-hb153-poda",
    "commits": 1,
    "fecha": "2026-10-02"
@@ -378,17 +383,17 @@
   },
   {
    "dia": "2026-10-03",
-   "llamadas": 611,
-   "prompt": 64237643,
-   "cache_read": 62057101,
-   "cache_pct": 96.6,
-   "prompt_por_llamada": 105135,
+   "llamadas": 665,
+   "prompt": 71065057,
+   "cache_read": 68721584,
+   "cache_pct": 96.7,
+   "prompt_por_llamada": 106864,
    "por_agente": [
     {
      "agente": "default",
-     "llamadas": 396,
-     "prompt": 43716916,
-     "cache_pct": 96.7
+     "llamadas": 450,
+     "prompt": 50544330,
+     "cache_pct": 96.9
     },
     {
      "agente": "architect",

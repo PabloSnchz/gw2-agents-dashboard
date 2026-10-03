@@ -1,8 +1,22 @@
 {
- "generado_utc": "20261003T050619Z",
- "generado_h": "2026-10-03 05:06 UTC",
+ "generado_utc": "20261003T052120Z",
+ "generado_h": "2026-10-03 05:21 UTC",
  "origen": "git local + ls-remote (sin cuota). protected cacheado TTL 6h.",
  "commits": [
+  {
+   "sha": "fe905878591421d2cf1a0deb79349e59de565bec",
+   "short": "fe90587",
+   "autor": "Pablo Sanchez",
+   "fecha": "2026-10-03T02:19:16-03:00",
+   "msg": "docs(hb161): rescata el bloque HB#158 de TEAM_STATUS.md, que estaba commiteado sin pushear"
+  },
+  {
+   "sha": "14b2631cb1ac0b6fa27732c0cc4ec6e09732b43d",
+   "short": "14b2631",
+   "autor": "Pablo Sanchez",
+   "fecha": "2026-10-03T02:14:54-03:00",
+   "msg": "docs(hb161): el espejo de HEARTBEAT.md estaba desactualizado y los 2 chequeos del banner lo approveban"
+  },
   {
    "sha": "87ee48172c4ee1d48db95cdd12886e63d92180dc",
    "short": "87ee481",
@@ -338,20 +352,6 @@
    "autor": "Pablo Sanchez",
    "fecha": "2026-10-02T12:21:15-03:00",
    "msg": "docs(armeria): el contrato no alcanza para el arbol completo, y queda dicho"
-  },
-  {
-   "sha": "fd77340377182c6b87b338e4e7d24593ca471eee",
-   "short": "fd77340",
-   "autor": "Pablo Sanchez",
-   "fecha": "2026-10-02T12:19:55-03:00",
-   "msg": "feat(armeria): nombre en las 64 entradas sin receta + isMaterial + depth documentado"
-  },
-  {
-   "sha": "20dfaed7250807b84d36d782803a2177974fce6f",
-   "short": "20dfaed",
-   "autor": "Pablo Sanchez",
-   "fecha": "2026-10-02T12:13:36-03:00",
-   "msg": "feat(armeria): nombre en las 64 entradas sin receta + isMaterial + depth documentado"
   }
  ],
  "archivos_md": [
@@ -398,9 +398,9 @@
    "repo": "gw2-wallet-agents",
    "label": "Desarrollo",
    "role": "dev",
-   "sha": "87ee48172c4ee1d48db95cdd12886e63d92180dc",
-   "short_sha": "87ee481",
-   "commit": "HB#158 - ALERT-227: el paso 3 resolvia la rama del PO por",
+   "sha": "fe905878591421d2cf1a0deb79349e59de565bec",
+   "short_sha": "fe90587",
+   "commit": "docs(hb161): rescata el bloque HB#158 de TEAM_STATUS.md, que",
    "estado": "open",
    "protected": false,
    "protected_fresco": true,
@@ -412,9 +412,9 @@
    "repo": "gw2-agents-dashboard",
    "label": "Dashboard",
    "role": "dashboard",
-   "sha": "bda8fd03154b27e56b92b968fdd161ae0e99fa2d",
-   "short_sha": "bda8fd0",
-   "commit": "chore(dashboard): pulso automatico 2026-10-03_04-51_UTC",
+   "sha": "1109a41daf81b45c8d47428d9c79ae17c4110895",
+   "short_sha": "1109a41",
+   "commit": "chore(dashboard): pulso automatico 2026-10-03_05-06_UTC",
    "estado": "open",
    "protected": false,
    "protected_fresco": true,
