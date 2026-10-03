@@ -1,8 +1,15 @@
 {
- "generado_utc": "20261003T013621Z",
- "generado_h": "2026-10-03 01:36 UTC",
+ "generado_utc": "20261003T015120Z",
+ "generado_h": "2026-10-03 01:51 UTC",
  "origen": "git local + ls-remote (sin cuota). protected cacheado TTL 6h.",
  "commits": [
+  {
+   "sha": "23e2fea55970d34339581aaee0ee253dd67edfe1",
+   "short": "23e2fea",
+   "autor": "Pablo Sanchez",
+   "fecha": "2026-10-02T22:50:00-03:00",
+   "msg": "feat(api): rescate de HB#154 — getSkinsBatch (Tramo 2 de Coberturable) cierra los 3 FAIL"
+  },
   {
    "sha": "ac0563f4368a2e9169d190b1fd1c0c2937a13ebd",
    "short": "ac0563f",
@@ -345,13 +352,6 @@
    "autor": "Pablo Sanchez",
    "fecha": "2026-10-02T09:46:56-03:00",
    "msg": "\"docs(hb133): hash real del fix en COMMS_LOG (7c4f8d1 era inventado, el commit aun no existia)\""
-  },
-  {
-   "sha": "ea0e289c898381108c10f3f7c87320eac12306e4",
-   "short": "ea0e289",
-   "autor": "Pablo Sanchez",
-   "fecha": "2026-10-02T09:39:33-03:00",
-   "msg": "docs(hb133): ALERT-197/198 - el veredicto que nadie leyo, y el worktree que no existe"
   }
  ],
  "archivos_md": [
@@ -398,9 +398,9 @@
    "repo": "gw2-wallet-agents",
    "label": "Desarrollo",
    "role": "dev",
-   "sha": "ac0563f4368a2e9169d190b1fd1c0c2937a13ebd",
-   "short_sha": "ac0563f",
-   "commit": "fix(api): las tres opciones del presupuesto de items son un",
+   "sha": "23e2fea55970d34339581aaee0ee253dd67edfe1",
+   "short_sha": "23e2fea",
+   "commit": "feat(api): rescate de HB#154 —",
    "estado": "open",
    "protected": false,
    "protected_fresco": true,
@@ -412,9 +412,9 @@
    "repo": "gw2-agents-dashboard",
    "label": "Dashboard",
    "role": "dashboard",
-   "sha": "317aa10ac171ed302e3697e2e186ef11a35a97ec",
-   "short_sha": "317aa10",
-   "commit": "chore(dashboard): pulso automatico 2026-10-03_01-21_UTC",
+   "sha": "33052f4e7881eb7c593224de8060985bd357e635",
+   "short_sha": "33052f4",
+   "commit": "chore(dashboard): pulso automatico 2026-10-03_01-36_UTC",
    "estado": "open",
    "protected": false,
    "protected_fresco": true,
