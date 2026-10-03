@@ -1,8 +1,15 @@
 {
- "generado_utc": "20261003T140621Z",
- "generado_h": "2026-10-03 14:06 UTC",
+ "generado_utc": "20261003T142122Z",
+ "generado_h": "2026-10-03 14:21 UTC",
  "origen": "git local + ls-remote (sin cuota). protected cacheado TTL 6h.",
  "commits": [
+  {
+   "sha": "7f575bcfdaa7a8d0d3cbaa2870dad5bbb0a0eb31",
+   "short": "7f575bc",
+   "autor": "Pablo Sanchez",
+   "fecha": "2026-10-03T11:13:03-03:00",
+   "msg": "docs(backlog): podar 2 filas verificadas por tema (HB#176 del PO)"
+  },
   {
    "sha": "7ffab6285a63176c1666be6e44a6bdcbd5f130d0",
    "short": "7ffab62",
@@ -345,13 +352,6 @@
    "autor": "Pablo Sanchez",
    "fecha": "2026-10-02T15:18:09-03:00",
    "msg": "docs(hb142): la ronda 43 del PO (rama nueva) y el conteo de la Idea 57, verificado"
-  },
-  {
-   "sha": "44adb12e6af33734837a65c7289a481c7f2c3a95",
-   "short": "44adb12",
-   "autor": "Pablo Sanchez",
-   "fecha": "2026-10-02T15:14:45-03:00",
-   "msg": "feat(gist): T20-b rescatado del worktree, y un arnes que fallaba contra el codigo correcto"
   }
  ],
  "archivos_md": [
@@ -412,9 +412,9 @@
    "repo": "gw2-agents-dashboard",
    "label": "Dashboard",
    "role": "dashboard",
-   "sha": "28daa574a63ad40b74d80316bc611fcc4fb76ade",
-   "short_sha": "28daa57",
-   "commit": "chore(dashboard): pulso automatico 2026-10-03_13-51_UTC",
+   "sha": "99466a3d4c5d4ab2c8021fcd3fec2fbef5c324c3",
+   "short_sha": "99466a3",
+   "commit": "chore(dashboard): pulso automatico 2026-10-03_14-06_UTC",
    "estado": "open",
    "protected": false,
    "protected_fresco": true,
