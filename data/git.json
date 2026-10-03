@@ -1,8 +1,15 @@
 {
- "generado_utc": "20261003T132120Z",
- "generado_h": "2026-10-03 13:21 UTC",
+ "generado_utc": "20261003T133622Z",
+ "generado_h": "2026-10-03 13:36 UTC",
  "origen": "git local + ls-remote (sin cuota). protected cacheado TTL 6h.",
  "commits": [
+  {
+   "sha": "7ffab6285a63176c1666be6e44a6bdcbd5f130d0",
+   "short": "7ffab62",
+   "autor": "Pablo Sanchez",
+   "fecha": "2026-10-03T10:23:57-03:00",
+   "msg": "docs(hb244): rescate del ciclo HB#244 - ALERT-244 y la tabla de control de carga vive en el canonico"
+  },
   {
    "sha": "d342c3c3791d90e8cf86a43ea14813f2c8bda5b8",
    "short": "d342c3c",
@@ -345,13 +352,6 @@
    "autor": "Pablo Sanchez",
    "fecha": "2026-10-02T15:14:45-03:00",
    "msg": "feat(gist): T20-b rescatado del worktree, y un arnes que fallaba contra el codigo correcto"
-  },
-  {
-   "sha": "12907efd49c2fbe128dfcffb2fd49ad9d748a974",
-   "short": "12907ef",
-   "autor": "Pablo Sanchez",
-   "fecha": "2026-10-02T14:52:07-03:00",
-   "msg": "docs(hb141): ALERT-206 (suite roja con el producto sano) y ALERT-207 (un control que falla no mide)"
   }
  ],
  "archivos_md": [
@@ -398,9 +398,9 @@
    "repo": "gw2-wallet-agents",
    "label": "Desarrollo",
    "role": "dev",
-   "sha": "d342c3c3791d90e8cf86a43ea14813f2c8bda5b8",
-   "short_sha": "d342c3c",
-   "commit": "docs(hb173): ALERT-243 - el eje de conteo tiene TRES formas,",
+   "sha": "7ffab6285a63176c1666be6e44a6bdcbd5f130d0",
+   "short_sha": "7ffab62",
+   "commit": "docs(hb244): rescate del ciclo HB#244 - ALERT-244 y la tabla",
    "estado": "open",
    "protected": false,
    "protected_fresco": true,
@@ -412,9 +412,9 @@
    "repo": "gw2-agents-dashboard",
    "label": "Dashboard",
    "role": "dashboard",
-   "sha": "8146d6f84ff9244029d2cf5f23614475ee613524",
-   "short_sha": "8146d6f",
-   "commit": "chore(dashboard): pulso automatico 2026-10-03_13-06_UTC",
+   "sha": "dedc0576f389b64878f04f4a73efe6d530d994a0",
+   "short_sha": "dedc057",
+   "commit": "chore(dashboard): pulso automatico 2026-10-03_13-21_UTC",
    "estado": "open",
    "protected": false,
    "protected_fresco": true,
