@@ -1,12 +1,12 @@
 {
- "generado_utc": "20261003T200602Z",
- "generado_h": "2026-10-03 20:06 UTC",
+ "generado_utc": "20261003T202102Z",
+ "generado_h": "2026-10-03 20:21 UTC",
  "archivos_estado": [
   {
    "archivo": "TEAM_STATUS.md",
    "quien": "Principal /30min",
    "estado": "ok",
-   "edad_h": 1.2,
+   "edad_h": 1.4,
    "kb": 200.0,
    "crecimiento": "EXCEDE 80 KB (200 KB)"
   },
@@ -14,7 +14,7 @@
    "archivo": "SESSION_LOG.md",
    "quien": "Documentador /4h",
    "estado": "ROTO",
-   "edad_h": 18.0,
+   "edad_h": 18.2,
    "kb": 309.5,
    "crecimiento": "EXCEDE 60 KB (310 KB)"
   },
@@ -22,14 +22,14 @@
    "archivo": "COMMS_LOG.md",
    "quien": "Principal /30min",
    "estado": "ROTO",
-   "edad_h": 4.1,
+   "edad_h": 4.4,
    "kb": 254.2
   },
   {
    "archivo": "PRE_BACKLOG.md",
    "quien": "PO /2h",
    "estado": "ok",
-   "edad_h": 0.0,
+   "edad_h": 0.3,
    "kb": 243.6,
    "crecimiento": "EXCEDE 120 KB (244 KB)"
   },
@@ -37,14 +37,14 @@
    "archivo": "ALERTS_LOG.md",
    "quien": "Principal /30min",
    "estado": "ok",
-   "edad_h": 1.2,
+   "edad_h": 1.4,
    "kb": 501.9
   },
   {
    "archivo": "DECISIONS_LOG.md",
    "quien": "Principal",
    "estado": "RARO",
-   "edad_h": 90.1,
+   "edad_h": 90.3,
    "kb": 10.2
   }
  ],
@@ -167,6 +167,11 @@
   },
   {
    "rama": "feat-wallet-dashboard-solo-suerte",
+   "commits": 1,
+   "fecha": "2026-10-03"
+  },
+  {
+   "rama": "fix-armeria-materiales-tengo",
    "commits": 1,
    "fecha": "2026-10-03"
   },
@@ -403,16 +408,16 @@
   },
   {
    "dia": "2026-10-03",
-   "llamadas": 3686,
-   "prompt": 405733504,
-   "cache_read": 384173597,
+   "llamadas": 3715,
+   "prompt": 409808219,
+   "cache_read": 388024932,
    "cache_pct": 94.7,
-   "prompt_por_llamada": 110074,
+   "prompt_por_llamada": 110311,
    "por_agente": [
     {
      "agente": "default",
-     "llamadas": 2406,
-     "prompt": 291540231,
+     "llamadas": 2435,
+     "prompt": 295614946,
      "cache_pct": 94.5
     },
     {

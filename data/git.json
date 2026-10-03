@@ -1,8 +1,15 @@
 {
- "generado_utc": "20261003T200622Z",
- "generado_h": "2026-10-03 20:06 UTC",
+ "generado_utc": "20261003T202122Z",
+ "generado_h": "2026-10-03 20:21 UTC",
  "origen": "git local + ls-remote (sin cuota). protected cacheado TTL 6h.",
  "commits": [
+  {
+   "sha": "71797b1791ca175d6845c3be4ead448a25103eea",
+   "short": "71797b1",
+   "autor": "Pablo Sanchez",
+   "fecha": "2026-10-03T17:07:40-03:00",
+   "msg": "wip(rescate-hb179): 4a fuente de \"tengo\" en Armeria Materiales (account_inventory) - sin cerrar"
+  },
   {
    "sha": "2e29ed61c9e16c8e2628dfb2072dc6b11f4a14ae",
    "short": "2e29ed6",
@@ -345,13 +352,6 @@
    "autor": "Pablo Sanchez",
    "fecha": "2026-10-02T16:54:26-03:00",
    "msg": "docs(armeria): el hash real de la ficha de los filtros y el boton de cola"
-  },
-  {
-   "sha": "956f1402eb3032690865c52cfedcc0a7f26dcf4c",
-   "short": "956f140",
-   "autor": "Pablo Sanchez",
-   "fecha": "2026-10-02T16:54:00-03:00",
-   "msg": "feat(armeria): filtro Tengo/Me faltan y boton de encolar en la card del catalogo"
   }
  ],
  "archivos_md": [
@@ -412,9 +412,9 @@
    "repo": "gw2-agents-dashboard",
    "label": "Dashboard",
    "role": "dashboard",
-   "sha": "13365539c65a5b33cf294a71ee36ca2412ddfbc5",
-   "short_sha": "1336553",
-   "commit": "chore(dashboard): pulso automatico 2026-10-03_19-51_UTC",
+   "sha": "6c7ad840e612e51ec47020877f933fa2a3de3f67",
+   "short_sha": "6c7ad84",
+   "commit": "chore(dashboard): pulso automatico 2026-10-03_20-06_UTC",
    "estado": "open",
    "protected": false,
    "protected_fresco": true,
