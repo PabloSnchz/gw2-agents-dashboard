@@ -1,8 +1,15 @@
 {
- "generado_utc": "20261003T080621Z",
- "generado_h": "2026-10-03 08:06 UTC",
+ "generado_utc": "20261003T082121Z",
+ "generado_h": "2026-10-03 08:21 UTC",
  "origen": "git local + ls-remote (sin cuota). protected cacheado TTL 6h.",
  "commits": [
+  {
+   "sha": "6f38c8059b236a41b255be697ed4736728915cf9",
+   "short": "6f38c80",
+   "autor": "Pablo Sanchez",
+   "fecha": "2026-10-03T05:19:09-03:00",
+   "msg": "fix(hb165): rescatar el HB#164 y reparar la corrupcion que el mismo HB#164 documento"
+  },
   {
    "sha": "128cfbe02d2820fb3eb584e2782a4583045d7a47",
    "short": "128cfbe",
@@ -345,13 +352,6 @@
    "autor": "Pablo Sanchez",
    "fecha": "2026-10-02T12:57:03-03:00",
    "msg": "docs(estructura): reglas de ciclo de vida de los worktrees  Se acumularon 55 worktrees (3,1 GB) y 7 de ellos en carpetas que nadie vigila, dos dentro de C:\\tmp (Windows las limpia y el trabajo se pierde sin avisar). No se acumulaban por descuido: no habia ninguna regla que dijera que pasa con un worktree cuando la tarea termina, y borrar uno sonaba a perder trabajo.  Las 4 reglas nuevas:   1. un worktree por tarea, se borra en el MISMO ciclo en que el trabajo llega      a main (no en el siguiente, no cuando me acuerde)   2. todo worktree nuevo vive en UN solo directorio; prohibido C:\\tmp y las      carpetas temporales   3. no se borra nada que tenga codigo sin commitear; lo que se borra es lo      que empieza con _ (instrumentos, no trabajo)   4. el criterio de borrado es un script verificable, no una sensacion  Regla 3 es la que evita el miedo: un worktree se puede borrar entero si y solo si no tiene nada que ningun commit tenga, y eso son 4 preguntas con respuesta objetiva. El caso que asusta (trabajo a medias) es exactamente el que el criterio se niega a borrar.  Se agrega ademas la excepcion de media/*.gif: confetti.gif y burbuja.gif son el preview animado del drop de los eventos de Meta. No hay otra pagina que muestre el efecto de una infusion. No son ripeables.  Cambio solo de documentacion. Ningun .js, .css, .json ni .md de producto."
-  },
-  {
-   "sha": "bede0f52da28cd724a8d517a3d789a36311b16ed",
-   "short": "bede0f5",
-   "autor": "Pablo Sanchez",
-   "fecha": "2026-10-02T12:44:23-03:00",
-   "msg": "feat(armeria): contrato de precursores, aparte del catalogo y bajo demanda  Pablo decidio el corte: legendary-recipes.js (206, 107 KB) se carga siempre, y los precursores del arbol van en su propio archivo que se pide solo cuando se abre un arbol de fabricacion. Motivo concreto: la mayoria de quien abre la app nunca abre un arbol, y pagar 267 KB en cada carga por eso es caro. Ademas, si el fetch falla, la app sigue entera y el control se ve igual con el mensaje de receta no disponible.  Medido sobre tools/cl_recipes.json (634 recetas):   907 entradas = 471 con receta + 436 materiales base   436 hojas, 0 sin nombre, 0 aristas huerfanas, 267 KB   Pablo habia medido 903: son los mismos, sin las 4 recetas tipo vendor.  Las 64 hojas sin nombre que habian quedado abiertas: son los items del catalogo sin receta publicada, y estan 64 de 64 en legendary-data.js. Van por ahi, sin llamada a la API.  Lo que la fuente no tiene y no se inventa:   - iconos (0 de 634 recetas los traen): el archivo expone iconUrl(id) para     resolverlos en runtime contra la API   - nombre en espanol: la fuente solo trae el nombre en ingles   - 2 aristas con itemId 0 (Relic any en 101540, Testimony of Castoran     Heroics en 109686): la fuente no tiene esos ids. Se conservan con su     nombre y marcadas, para que el consumidor no las cuente como material.  Multiplicidad verificada contra la wiki de Frostfang: los 7 materiales T6 cierran en 250 exactos. El +10 sobre el ldestone y el dust viene de Freezing Core, que la wiki no desglosa. Darksteel no falta: se expande a Platinum y Mithril, que es lo correcto.  Suite: 1834 pass, 0 FAIL en 72 archivos."
   }
  ],
  "archivos_md": [
@@ -398,9 +398,9 @@
    "repo": "gw2-wallet-agents",
    "label": "Desarrollo",
    "role": "dev",
-   "sha": "128cfbe02d2820fb3eb584e2782a4583045d7a47",
-   "short_sha": "128cfbe",
-   "commit": "docs(hb163): el paso 3 del PO lee UN canal y hay TRES",
+   "sha": "6f38c8059b236a41b255be697ed4736728915cf9",
+   "short_sha": "6f38c80",
+   "commit": "fix(hb165): rescatar el HB#164 y reparar la corrupcion que el",
    "estado": "open",
    "protected": false,
    "protected_fresco": true,
@@ -412,9 +412,9 @@
    "repo": "gw2-agents-dashboard",
    "label": "Dashboard",
    "role": "dashboard",
-   "sha": "ba7b8d30d637849b17baad46516b626acb5f466e",
-   "short_sha": "ba7b8d3",
-   "commit": "chore(dashboard): pulso automatico 2026-10-03_07-51_UTC",
+   "sha": "2a5aedc932ececaa1e384e7f8722fb60a72601de",
+   "short_sha": "2a5aedc",
+   "commit": "chore(dashboard): pulso automatico 2026-10-03_08-06_UTC",
    "estado": "open",
    "protected": false,
    "protected_fresco": true,
