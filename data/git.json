@@ -1,8 +1,15 @@
 {
- "generado_utc": "20261003T100621Z",
- "generado_h": "2026-10-03 10:06 UTC",
+ "generado_utc": "20261003T102121Z",
+ "generado_h": "2026-10-03 10:21 UTC",
  "origen": "git local + ls-remote (sin cuota). protected cacheado TTL 6h.",
  "commits": [
+  {
+   "sha": "b4eb16011a2da32be56a7988d77e25f17eb11960",
+   "short": "b4eb160",
+   "autor": "Pablo Sanchez",
+   "fecha": "2026-10-03T07:16:51-03:00",
+   "msg": "chore(heartbeat): HB#169 - ALERT-239, el filtro de la API de crons no filtra y hay una capa de disparadores que cron list no ve"
+  },
   {
    "sha": "2561416ea631c0f0da63e3c1d92d3a47a5f873cd",
    "short": "2561416",
@@ -345,13 +352,6 @@
    "autor": "Pablo Sanchez",
    "fecha": "2026-10-02T13:40:10-03:00",
    "msg": "﻿docs(logs): fila 165 y TEAM_STATUS del HB#139 (ALERT-205 cerrada)"
-  },
-  {
-   "sha": "b6ac5d5f2b857a82a6983894dce5c50c33f49b29",
-   "short": "b6ac5d5",
-   "autor": "Pablo Sanchez",
-   "fecha": "2026-10-02T13:35:14-03:00",
-   "msg": "﻿chore(limpieza): 2 scratch sin referencias, uno restaurado porque el PO lo CITA"
   }
  ],
  "archivos_md": [
@@ -398,9 +398,9 @@
    "repo": "gw2-wallet-agents",
    "label": "Desarrollo",
    "role": "dev",
-   "sha": "2561416ea631c0f0da63e3c1d92d3a47a5f873cd",
-   "short_sha": "2561416",
-   "commit": "docs(hb168): ALERT-238 - el texto \"para pegar\" del PO traia",
+   "sha": "b4eb16011a2da32be56a7988d77e25f17eb11960",
+   "short_sha": "b4eb160",
+   "commit": "chore(heartbeat): HB#169 - ALERT-239, el filtro de la API de",
    "estado": "open",
    "protected": false,
    "protected_fresco": true,
@@ -412,9 +412,9 @@
    "repo": "gw2-agents-dashboard",
    "label": "Dashboard",
    "role": "dashboard",
-   "sha": "7a2202dcc662f28fd5e2182e9d18006c54c12b53",
-   "short_sha": "7a2202d",
-   "commit": "chore(dashboard): pulso automatico 2026-10-03_09-51_UTC",
+   "sha": "05f3acbd84d030b1365eb47bbc5ac8ed7a6ddb69",
+   "short_sha": "05f3acb",
+   "commit": "chore(dashboard): pulso automatico 2026-10-03_10-06_UTC",
    "estado": "open",
    "protected": false,
    "protected_fresco": true,
