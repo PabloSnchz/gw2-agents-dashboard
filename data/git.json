@@ -1,8 +1,15 @@
 {
- "generado_utc": "20261003T175129Z",
- "generado_h": "2026-10-03 17:51 UTC",
+ "generado_utc": "20261003T180621Z",
+ "generado_h": "2026-10-03 18:06 UTC",
  "origen": "git local + ls-remote (sin cuota). protected cacheado TTL 6h.",
  "commits": [
+  {
+   "sha": "e420a94cfc51d1aabedcd17e1619aff9a7569f08",
+   "short": "e420a94",
+   "autor": "Pablo Sanchez",
+   "fecha": "2026-10-03T15:00:18-03:00",
+   "msg": "refactor(wallet-dashboard): quitar las columnas de resumen y el selector de campos  Las 3 columnas de resumen (MF base / Apariencias / Personajes / Raids) y el selector 'Campos:' salen de la tabla. Se van con ellos los symbols, labels, el total de encuentros de raid y la persistencia de los campos elegidos.  El KPI 'Mejor MF base' queda incondicional: antes solo se dibujaba porque 'luck' estaba en state.summaryFields.  La tabla queda con Cuenta + las divisas elegidas. Selector de divisas, CURRENCY_LABELS, ACCOUNT_TYPE_ICONS y los totales de divisa sin tocar.  Verificado: node --check OK; grep de los 10 simbolos = 0 coincidencias (control positivo:36 en HEAD). Suite 4581 pass / 1 FAIL, y el unico FAIL (idea57t2-luck-sindato.test.js:255) es una asercion que exige el call site 'fieldErr ? unreadableCell(', que es justamente uno de los <td> de resumen que esta tarea ordena borrar. No se toco el test (fuera de alcance)."
+  },
   {
    "sha": "fa3b18232732a801b36b8df5c666464316554618",
    "short": "fa3b182",
@@ -345,13 +352,6 @@
    "autor": "Pablo Sanchez",
    "fecha": "2026-10-02T16:17:44-03:00",
    "msg": "docs(backlog): Idea 57 con su Tramo 3 (la CUENTA, pedido por el PO en la ronda 44)"
-  },
-  {
-   "sha": "ae89b8ca97ece90c64de075a1b3985044ef0225b",
-   "short": "ae89b8c",
-   "autor": "Pablo Sanchez",
-   "fecha": "2026-10-02T16:16:55-03:00",
-   "msg": "fix(idea57): la cuenta de \"cuantos faltan migrar\", verificada en vez de escrita"
   }
  ],
  "archivos_md": [
@@ -398,9 +398,9 @@
    "repo": "gw2-wallet-agents",
    "label": "Desarrollo",
    "role": "dev",
-   "sha": "e67690e991f0f7c83e1abac73b8a21df90c95ab4",
-   "short_sha": "e67690e",
-   "commit": "refactor(wallet-dashboard): quitar 3 tarjetas KPI de resumen",
+   "sha": "e420a94cfc51d1aabedcd17e1619aff9a7569f08",
+   "short_sha": "e420a94",
+   "commit": "refactor(wallet-dashboard): quitar las columnas de resumen y",
    "estado": "open",
    "protected": false,
    "protected_fresco": true,
@@ -412,9 +412,9 @@
    "repo": "gw2-agents-dashboard",
    "label": "Dashboard",
    "role": "dashboard",
-   "sha": "d0a0a609152a2760c8e5aaa935ee4ce438b91957",
-   "short_sha": "d0a0a60",
-   "commit": "chore(dashboard): pulso automatico 2026-10-03_17-36_UTC",
+   "sha": "467ec7a2ce60b79043b32205b8c748a4b6de458c",
+   "short_sha": "467ec7a",
+   "commit": "chore(dashboard): pulso automatico 2026-10-03_17-51_UTC",
    "estado": "open",
    "protected": false,
    "protected_fresco": true,
