@@ -1,8 +1,22 @@
 {
- "generado_utc": "20261003T113621Z",
- "generado_h": "2026-10-03 11:36 UTC",
+ "generado_utc": "20261003T115121Z",
+ "generado_h": "2026-10-03 11:51 UTC",
  "origen": "git local + ls-remote (sin cuota). protected cacheado TTL 6h.",
  "commits": [
+  {
+   "sha": "ac205dcef382e149703efab59caca07065df3bff",
+   "short": "ac205dc",
+   "autor": "Pablo Sanchez",
+   "fecha": "2026-10-03T08:41:10-03:00",
+   "msg": "docs(hb172): ALERT-242 - un conteo por subcadena no puede decidir si un 0 es medicion"
+  },
+  {
+   "sha": "4dd5cca26af55ec8616003973a103e0c376d8d0d",
+   "short": "4dd5cca",
+   "autor": "Pablo Sanchez",
+   "fecha": "2026-10-03T08:39:26-03:00",
+   "msg": "docs(hb172): el guard del paso 3 esta sano y mi contador no - el eje es anclado vs subcadena"
+  },
   {
    "sha": "b366eb9298a01db1ebcfdfb8a32529640af07900",
    "short": "b366eb9",
@@ -338,20 +352,6 @@
    "autor": "Pablo Sanchez",
    "fecha": "2026-10-02T14:42:37-03:00",
    "msg": "fix(armeria): el chevron que se ve y no hace nada, y el \"cargando\" que caia en el mensaje de error"
-  },
-  {
-   "sha": "934d2ae5fa93dd6116ebc71e97816ce24b7693ae",
-   "short": "934d2ae",
-   "autor": "Pablo Sanchez",
-   "fecha": "2026-10-02T14:21:30-03:00",
-   "msg": "feat(armeria): el arbol de fabricacion y los totales, recovered del WIP  La rama feat-arbol-legendario-ui quedo con el commit 539f410 y main la igualo por fast-forward con el fix de CJK (39d1cb6) sin tomar el arbol. Se resuelve con merge de a tres: los dos tocaban arneses, y un cherry-pick a pelo habria traido de vuelta los ideogramas que 39d1cb6 acaba de sacar.  Sin tests todavia: van en el commit siguiente."
-  },
-  {
-   "sha": "39d1cb651823c2945f9a8c1f578b463db0a8a719",
-   "short": "39d1cb6",
-   "autor": "Pablo Sanchez",
-   "fecha": "2026-10-02T14:14:36-03:00",
-   "msg": "fix(arneses): ALERT-79 - 7 ideogramas CJK colados en prosa espanola  ALERT-79 recurre porque el sintoma es invisible: un archivo de estado en un idioma que no es el suyo se lee igual de lleno que uno con una cifra mal. 7 leaks, todos mios, de la clase que el ALERT ya describe:   tests/hb104:3, tests/hb136:10, tests/hb205:11,   tools/hb114-cuento-v2.mjs:43, TEAM_STATUS_HB60.md:125,   SESSION_LOG.md:3612, DASHBOARD_PO_IDEAS.md:2199  Verificado con _hb140-cjk-check.js: 0 leaks, 12 citas excluidas a proposito (ALERTS_LOG/CHANGELOG/ONBOARDING documentan este mismo bug y contarlos obligaria a borrar la evidencia).  De paso, y porque era el pendiente que MEMORY daba por hecho: la precondicion de T14/T15 esta MEDIDA, no pendiente. El arnes de la escena 2 (tests/hb136-escena2-solo-strikes.test.js) corre 23 pass / 0 FAIL con sus dos controles negativos, asi que lo que el Reviewer pidio asertar ya esta asertado. El veredicto (opcion C) sigue sin aplicarse.  Suite: 77 archivos, 77 exit 0, 3574 pass."
   }
  ],
  "archivos_md": [
@@ -398,9 +398,9 @@
    "repo": "gw2-wallet-agents",
    "label": "Desarrollo",
    "role": "dev",
-   "sha": "b366eb9298a01db1ebcfdfb8a32529640af07900",
-   "short_sha": "b366eb9",
-   "commit": "docs(hb171): ALERT-241 - una regex anclada en $ por linea no",
+   "sha": "ac205dcef382e149703efab59caca07065df3bff",
+   "short_sha": "ac205dc",
+   "commit": "docs(hb172): ALERT-242 - un conteo por subcadena no puede",
    "estado": "open",
    "protected": false,
    "protected_fresco": true,
@@ -412,9 +412,9 @@
    "repo": "gw2-agents-dashboard",
    "label": "Dashboard",
    "role": "dashboard",
-   "sha": "cc8d16f760d351353ce08e29b0b026ef9a67f85a",
-   "short_sha": "cc8d16f",
-   "commit": "chore(dashboard): pulso automatico 2026-10-03_11-21_UTC",
+   "sha": "fe69be603b0b0803c61e08bf12ca4cf53fdad311",
+   "short_sha": "fe69be6",
+   "commit": "chore(dashboard): pulso automatico 2026-10-03_11-36_UTC",
    "estado": "open",
    "protected": false,
    "protected_fresco": true,
