@@ -1,15 +1,8 @@
 {
- "generado_utc": "20261003T185122Z",
- "generado_h": "2026-10-03 18:51 UTC",
+ "generado_utc": "20261003T190626Z",
+ "generado_h": "2026-10-03 19:06 UTC",
  "origen": "git local + ls-remote (sin cuota). protected cacheado TTL 6h.",
  "commits": [
-  {
-   "sha": "4a5c0cc1f1f3fe4d3061c4e2290eaa7606072363",
-   "short": "4a5c0cc",
-   "autor": "Pablo Sanchez",
-   "fecha": "2026-10-03T15:42:18-03:00",
-   "msg": "rescate(hb181): ALERT-251 - el rescate del HB#179 existia pero nunca llego a main"
-  },
   {
    "sha": "2e29ed61c9e16c8e2628dfb2072dc6b11f4a14ae",
    "short": "2e29ed6",
@@ -352,6 +345,13 @@
    "autor": "Pablo Sanchez",
    "fecha": "2026-10-02T16:54:26-03:00",
    "msg": "docs(armeria): el hash real de la ficha de los filtros y el boton de cola"
+  },
+  {
+   "sha": "956f1402eb3032690865c52cfedcc0a7f26dcf4c",
+   "short": "956f140",
+   "autor": "Pablo Sanchez",
+   "fecha": "2026-10-02T16:54:00-03:00",
+   "msg": "feat(armeria): filtro Tengo/Me faltan y boton de encolar en la card del catalogo"
   }
  ],
  "archivos_md": [
@@ -412,9 +412,9 @@
    "repo": "gw2-agents-dashboard",
    "label": "Dashboard",
    "role": "dashboard",
-   "sha": "fe07eae39577ca490e887e75c827a91142868983",
-   "short_sha": "fe07eae",
-   "commit": "chore(dashboard): pulso automatico 2026-10-03_18-36_UTC",
+   "sha": "7b3b47e0c431f7a056df1282cc912d7a67020dff",
+   "short_sha": "7b3b47e",
+   "commit": "chore(dashboard): pulso automatico 2026-10-03_18-51_UTC",
    "estado": "open",
    "protected": false,
    "protected_fresco": true,
