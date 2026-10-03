@@ -1,14 +1,14 @@
 {
- "generado_utc": "20261003T040619Z",
- "generado_h": "2026-10-03 04:06 UTC",
+ "generado_utc": "20261003T042119Z",
+ "generado_h": "2026-10-03 04:21 UTC",
  "origen": "git local + ls-remote (sin cuota). protected cacheado TTL 6h.",
  "commits": [
   {
-   "sha": "23eed328e1769b637324a7753fabb6641ada3c1c",
-   "short": "23eed32",
+   "sha": "159611c0fcef98ef762fb9d88541c1ca9818fc99",
+   "short": "159611c",
    "autor": "Pablo Sanchez",
-   "fecha": "2026-10-03T00:36:48-03:00",
-   "msg": "feat(wallet-dashboard): el resumen multicuenta queda en una sola dimension (Suerte MF)"
+   "fecha": "2026-10-03T01:20:05-03:00",
+   "msg": "docs(hb159): los 11 task_id del PASO 1 dan 404, y el veredicto del Reviewer era (B) con mi premisa FALSA"
   },
   {
    "sha": "ceb5a601b724fa42767003590bb5846c55de5dbc",
@@ -398,9 +398,9 @@
    "repo": "gw2-wallet-agents",
    "label": "Desarrollo",
    "role": "dev",
-   "sha": "ceb5a601b724fa42767003590bb5846c55de5dbc",
-   "short_sha": "ceb5a60",
-   "commit": "docs(hb158): seccion de TEAM_STATUS del ciclo - rescate de",
+   "sha": "159611c0fcef98ef762fb9d88541c1ca9818fc99",
+   "short_sha": "159611c",
+   "commit": "docs(hb159): los 11 task_id del PASO 1 dan 404, y el",
    "estado": "open",
    "protected": false,
    "protected_fresco": true,
@@ -412,9 +412,9 @@
    "repo": "gw2-agents-dashboard",
    "label": "Dashboard",
    "role": "dashboard",
-   "sha": "6a97d93d26865ac368a183939d42f58b5ea51f07",
-   "short_sha": "6a97d93",
-   "commit": "chore(dashboard): pulso automatico 2026-10-03_03-51_UTC",
+   "sha": "472a2c9e0c89b8160e3a4aacfbb16db5da16e541",
+   "short_sha": "472a2c9",
+   "commit": "chore(dashboard): pulso automatico 2026-10-03_04-06_UTC",
    "estado": "open",
    "protected": false,
    "protected_fresco": true,
