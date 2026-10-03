@@ -1,8 +1,22 @@
 {
- "generado_utc": "20261003T155154Z",
- "generado_h": "2026-10-03 15:51 UTC",
+ "generado_utc": "20261003T160720Z",
+ "generado_h": "2026-10-03 16:07 UTC",
  "origen": "git local + ls-remote (sin cuota). protected cacheado TTL 6h.",
  "commits": [
+  {
+   "sha": "4dfeff82915f27ec1c0eef41482364a8e38b3490",
+   "short": "4dfeff8",
+   "autor": "Pablo Sanchez",
+   "fecha": "2026-10-03T12:56:39-03:00",
+   "msg": "docs(hb177): rescata los 4 logs que el ciclo dejo sin commitear"
+  },
+  {
+   "sha": "e295f2b8e899f94a40e03332eaa1f3601b756e20",
+   "short": "e295f2b",
+   "autor": "Pablo Sanchez",
+   "fecha": "2026-10-03T12:55:52-03:00",
+   "msg": "fix(ui): 4 escapes \\U invalidos en wallet-dashboard.js pasan a \\u{...}"
+  },
   {
    "sha": "7f575bcfdaa7a8d0d3cbaa2870dad5bbb0a0eb31",
    "short": "7f575bc",
@@ -338,20 +352,6 @@
    "autor": "Pablo Sanchez",
    "fecha": "2026-10-02T15:43:49-03:00",
    "msg": "docs(hb143): ALERT-209 - \"ya esta aplicado\" y \"sigue abierto\" son la misma afirmacion"
-  },
-  {
-   "sha": "3e302314f60c62444ddaee282e34cf2dd982fc16",
-   "short": "3e30231",
-   "autor": "Pablo Sanchez",
-   "fecha": "2026-10-02T15:40:22-03:00",
-   "msg": "test(armeria): el contrato de la cola (2.3), con 7 mutaciones que lo bajan"
-  },
-  {
-   "sha": "95f4bd60eca3397f31cf1061af7a8c4d58e0a8eb",
-   "short": "95f4bd6",
-   "autor": "Pablo Sanchez",
-   "fecha": "2026-10-02T15:18:09-03:00",
-   "msg": "docs(hb142): la ronda 43 del PO (rama nueva) y el conteo de la Idea 57, verificado"
   }
  ],
  "archivos_md": [
@@ -390,7 +390,7 @@
    "estado": "protected",
    "protected": true,
    "protected_fresco": true,
-   "protected_verificado_utc": "20261003T100622Z",
+   "protected_verificado_utc": "20261003T160722Z",
    "proteccion_detalle": null,
    "proteccion_detalle_motivo": "sin token"
   },
@@ -398,13 +398,13 @@
    "repo": "gw2-wallet-agents",
    "label": "Desarrollo",
    "role": "dev",
-   "sha": "7ffab6285a63176c1666be6e44a6bdcbd5f130d0",
-   "short_sha": "7ffab62",
-   "commit": "docs(hb244): rescate del ciclo HB#244 - ALERT-244 y la tabla",
+   "sha": "4dfeff82915f27ec1c0eef41482364a8e38b3490",
+   "short_sha": "4dfeff8",
+   "commit": "docs(hb177): rescata los 4 logs que el ciclo dejo sin",
    "estado": "open",
    "protected": false,
    "protected_fresco": true,
-   "protected_verificado_utc": "20261003T100623Z",
+   "protected_verificado_utc": "20261003T160724Z",
    "proteccion_detalle": null,
    "proteccion_detalle_motivo": "sin token"
   },
@@ -412,13 +412,13 @@
    "repo": "gw2-agents-dashboard",
    "label": "Dashboard",
    "role": "dashboard",
-   "sha": "f87cd21b096d12754df97f6da4ddf8158d9fa9dc",
-   "short_sha": "f87cd21",
-   "commit": "chore(dashboard): pulso automatico 2026-10-03_15-36_UTC",
+   "sha": "2cb730fdfd6024265b74ac8e1b10ca2089c2387b",
+   "short_sha": "2cb730f",
+   "commit": "chore(dashboard): pulso automatico 2026-10-03_15-51_UTC",
    "estado": "open",
    "protected": false,
    "protected_fresco": true,
-   "protected_verificado_utc": "20261003T100625Z",
+   "protected_verificado_utc": "20261003T160726Z",
    "proteccion_detalle": null,
    "proteccion_detalle_motivo": "sin token"
   }
