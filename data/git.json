@@ -1,8 +1,15 @@
 {
- "generado_utc": "20261003T033620Z",
- "generado_h": "2026-10-03 03:36 UTC",
+ "generado_utc": "20261003T035120Z",
+ "generado_h": "2026-10-03 03:51 UTC",
  "origen": "git local + ls-remote (sin cuota). protected cacheado TTL 6h.",
  "commits": [
+  {
+   "sha": "23eed328e1769b637324a7753fabb6641ada3c1c",
+   "short": "23eed32",
+   "autor": "Pablo Sanchez",
+   "fecha": "2026-10-03T00:36:48-03:00",
+   "msg": "feat(wallet-dashboard): el resumen multicuenta queda en una sola dimension (Suerte MF)"
+  },
   {
    "sha": "ceb5a601b724fa42767003590bb5846c55de5dbc",
    "short": "ceb5a60",
@@ -345,13 +352,6 @@
    "autor": "Pablo Sanchez",
    "fecha": "2026-10-02T11:39:02-03:00",
    "msg": "docs(hb136): TEAM_STATUS, COMMS_LOG (fila 162), SESSION_LOG y las fichas del arnes"
-  },
-  {
-   "sha": "d12ab8b39a7d3768f6a28a3224d8e1b8fa008be4",
-   "short": "d12ab8b",
-   "autor": "Pablo Sanchez",
-   "fecha": "2026-10-02T11:36:37-03:00",
-   "msg": "test(hb136): la escena 2 (solo Strikes) medida, con fase roja y control negativo"
   }
  ],
  "archivos_md": [
@@ -390,7 +390,7 @@
    "estado": "protected",
    "protected": true,
    "protected_fresco": true,
-   "protected_verificado_utc": "20261002T215121Z",
+   "protected_verificado_utc": "20261003T035121Z",
    "proteccion_detalle": null,
    "proteccion_detalle_motivo": "sin token"
   },
@@ -404,7 +404,7 @@
    "estado": "open",
    "protected": false,
    "protected_fresco": true,
-   "protected_verificado_utc": "20261002T215122Z",
+   "protected_verificado_utc": "20261003T035122Z",
    "proteccion_detalle": null,
    "proteccion_detalle_motivo": "sin token"
   },
@@ -412,13 +412,13 @@
    "repo": "gw2-agents-dashboard",
    "label": "Dashboard",
    "role": "dashboard",
-   "sha": "f5c447c040eb5de951d13e4b1d70622c9fbafae3",
-   "short_sha": "f5c447c",
-   "commit": "chore(dashboard): pulso automatico 2026-10-03_03-21_UTC",
+   "sha": "0186e26b870cca9badfa4fa458fee63e43049105",
+   "short_sha": "0186e26",
+   "commit": "chore(dashboard): pulso automatico 2026-10-03_03-36_UTC",
    "estado": "open",
    "protected": false,
    "protected_fresco": true,
-   "protected_verificado_utc": "20261002T215124Z",
+   "protected_verificado_utc": "20261003T035124Z",
    "proteccion_detalle": null,
    "proteccion_detalle_motivo": "sin token"
   }
