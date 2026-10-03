@@ -1,8 +1,15 @@
 {
- "generado_utc": "20261003T172124Z",
- "generado_h": "2026-10-03 17:21 UTC",
+ "generado_utc": "20261003T173624Z",
+ "generado_h": "2026-10-03 17:36 UTC",
  "origen": "git local + ls-remote (sin cuota). protected cacheado TTL 6h.",
  "commits": [
+  {
+   "sha": "e67690e991f0f7c83e1abac73b8a21df90c95ab4",
+   "short": "e67690e",
+   "autor": "Pablo Sanchez",
+   "fecha": "2026-10-03T14:31:24-03:00",
+   "msg": "refactor(wallet-dashboard): quitar 3 tarjetas KPI de resumen (characters, achievements, raids) de renderKPIs  Solo se eliminan las 3 ramas dentro de renderKPIs. SUMMARY_FIELD_LABELS, SUMMARY_FIELD_SYMBOLS, DEFAULT_SUMMARY_FIELDS, renderSummarySelector, renderLuckCell y las columnas/celdas de la tabla multi-cuenta quedan intactos: los 3 campos siguen siendo opciones del dropdown Campos y columnas de la tabla."
+  },
   {
    "sha": "4dfeff82915f27ec1c0eef41482364a8e38b3490",
    "short": "4dfeff8",
@@ -345,13 +352,6 @@
    "autor": "Pablo Sanchez",
    "fecha": "2026-10-02T15:45:55-03:00",
    "msg": "docs(hb143): ARME 2.3, la decision sobre los dos tests rescatados, y dos alertas"
-  },
-  {
-   "sha": "455384d705c47846c3f8f36622c07574b412f6da",
-   "short": "455384d",
-   "autor": "Pablo Sanchez",
-   "fecha": "2026-10-02T15:43:49-03:00",
-   "msg": "docs(hb143): ALERT-209 - \"ya esta aplicado\" y \"sigue abierto\" son la misma afirmacion"
   }
  ],
  "archivos_md": [
@@ -398,9 +398,9 @@
    "repo": "gw2-wallet-agents",
    "label": "Desarrollo",
    "role": "dev",
-   "sha": "4dfeff82915f27ec1c0eef41482364a8e38b3490",
-   "short_sha": "4dfeff8",
-   "commit": "docs(hb177): rescata los 4 logs que el ciclo dejo sin",
+   "sha": "e67690e991f0f7c83e1abac73b8a21df90c95ab4",
+   "short_sha": "e67690e",
+   "commit": "refactor(wallet-dashboard): quitar 3 tarjetas KPI de resumen",
    "estado": "open",
    "protected": false,
    "protected_fresco": true,
@@ -412,9 +412,9 @@
    "repo": "gw2-agents-dashboard",
    "label": "Dashboard",
    "role": "dashboard",
-   "sha": "a78bf411ced55497673a843fe103ed7aea5af792",
-   "short_sha": "a78bf41",
-   "commit": "chore(dashboard): pulso automatico 2026-10-03_17-06_UTC",
+   "sha": "ff7a94bc5bdf87b0c69fcefeada565c3345d2d9e",
+   "short_sha": "ff7a94b",
+   "commit": "chore(dashboard): pulso automatico 2026-10-03_17-21_UTC",
    "estado": "open",
    "protected": false,
    "protected_fresco": true,
