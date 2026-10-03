@@ -1,8 +1,15 @@
 {
- "generado_utc": "20261003T180621Z",
- "generado_h": "2026-10-03 18:06 UTC",
+ "generado_utc": "20261003T182127Z",
+ "generado_h": "2026-10-03 18:21 UTC",
  "origen": "git local + ls-remote (sin cuota). protected cacheado TTL 6h.",
  "commits": [
+  {
+   "sha": "c558b8522ea92a69e5a364e3be0c802896406a36",
+   "short": "c558b85",
+   "autor": "Pablo Sanchez",
+   "fecha": "2026-10-03T15:14:34-03:00",
+   "msg": "rescate(hb179): recuperar el log huerfano del HB#179 (TEAM_STATUS + ALERT-250)"
+  },
   {
    "sha": "e420a94cfc51d1aabedcd17e1619aff9a7569f08",
    "short": "e420a94",
@@ -345,13 +352,6 @@
    "autor": "Pablo Sanchez",
    "fecha": "2026-10-02T16:36:38-03:00",
    "msg": "docs(hb145): el veredicto BLOQUEANTE de T12-b caducaba entero, y el HB#144 estaba sin mergear"
-  },
-  {
-   "sha": "b8f7bdc8239789f7b08c8484bde9199792c690b5",
-   "short": "b8f7bdc",
-   "autor": "Pablo Sanchez",
-   "fecha": "2026-10-02T16:17:44-03:00",
-   "msg": "docs(backlog): Idea 57 con su Tramo 3 (la CUENTA, pedido por el PO en la ronda 44)"
   }
  ],
  "archivos_md": [
@@ -398,9 +398,9 @@
    "repo": "gw2-wallet-agents",
    "label": "Desarrollo",
    "role": "dev",
-   "sha": "e420a94cfc51d1aabedcd17e1619aff9a7569f08",
-   "short_sha": "e420a94",
-   "commit": "refactor(wallet-dashboard): quitar las columnas de resumen y",
+   "sha": "a17aa8ea052953c226b4c4087652a7c5b17b1cc6",
+   "short_sha": "a17aa8e",
+   "commit": "fix(wallet-dashboard): restituir la columna Suerte (MF) en la",
    "estado": "open",
    "protected": false,
    "protected_fresco": true,
@@ -412,9 +412,9 @@
    "repo": "gw2-agents-dashboard",
    "label": "Dashboard",
    "role": "dashboard",
-   "sha": "467ec7a2ce60b79043b32205b8c748a4b6de458c",
-   "short_sha": "467ec7a",
-   "commit": "chore(dashboard): pulso automatico 2026-10-03_17-51_UTC",
+   "sha": "70fb87db1d1c2485707737edbe348fbd1a6811a2",
+   "short_sha": "70fb87d",
+   "commit": "chore(dashboard): pulso automatico 2026-10-03_18-06_UTC",
    "estado": "open",
    "protected": false,
    "protected_fresco": true,
