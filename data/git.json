@@ -1,14 +1,21 @@
 {
- "generado_utc": "20261003T182127Z",
- "generado_h": "2026-10-03 18:21 UTC",
+ "generado_utc": "20261003T183622Z",
+ "generado_h": "2026-10-03 18:36 UTC",
  "origen": "git local + ls-remote (sin cuota). protected cacheado TTL 6h.",
  "commits": [
   {
-   "sha": "c558b8522ea92a69e5a364e3be0c802896406a36",
-   "short": "c558b85",
+   "sha": "2e29ed61c9e16c8e2628dfb2072dc6b11f4a14ae",
+   "short": "2e29ed6",
    "autor": "Pablo Sanchez",
-   "fecha": "2026-10-03T15:14:34-03:00",
-   "msg": "rescate(hb179): recuperar el log huerfano del HB#179 (TEAM_STATUS + ALERT-250)"
+   "fecha": "2026-10-03T15:27:54-03:00",
+   "msg": "fix(ui): ocultar el boton Sincronizar (Gist) del header con display:none inline"
+  },
+  {
+   "sha": "a17aa8ea052953c226b4c4087652a7c5b17b1cc6",
+   "short": "a17aa8e",
+   "autor": "Pablo Sanchez",
+   "fecha": "2026-10-03T15:12:22-03:00",
+   "msg": "fix(wallet-dashboard): restituir la columna Suerte (MF) en la tabla de cuentas"
   },
   {
    "sha": "e420a94cfc51d1aabedcd17e1619aff9a7569f08",
@@ -345,13 +352,6 @@
    "autor": "Pablo Sanchez",
    "fecha": "2026-10-02T16:54:00-03:00",
    "msg": "feat(armeria): filtro Tengo/Me faltan y boton de encolar en la card del catalogo"
-  },
-  {
-   "sha": "a9d842564d2ffd28a6c26ddaf4c68663fdadd44b",
-   "short": "a9d8425",
-   "autor": "Pablo Sanchez",
-   "fecha": "2026-10-02T16:36:38-03:00",
-   "msg": "docs(hb145): el veredicto BLOQUEANTE de T12-b caducaba entero, y el HB#144 estaba sin mergear"
   }
  ],
  "archivos_md": [
@@ -398,9 +398,9 @@
    "repo": "gw2-wallet-agents",
    "label": "Desarrollo",
    "role": "dev",
-   "sha": "a17aa8ea052953c226b4c4087652a7c5b17b1cc6",
-   "short_sha": "a17aa8e",
-   "commit": "fix(wallet-dashboard): restituir la columna Suerte (MF) en la",
+   "sha": "2e29ed61c9e16c8e2628dfb2072dc6b11f4a14ae",
+   "short_sha": "2e29ed6",
+   "commit": "fix(ui): ocultar el boton Sincronizar (Gist) del header con",
    "estado": "open",
    "protected": false,
    "protected_fresco": true,
@@ -412,9 +412,9 @@
    "repo": "gw2-agents-dashboard",
    "label": "Dashboard",
    "role": "dashboard",
-   "sha": "70fb87db1d1c2485707737edbe348fbd1a6811a2",
-   "short_sha": "70fb87d",
-   "commit": "chore(dashboard): pulso automatico 2026-10-03_18-06_UTC",
+   "sha": "5812400f97dfc1583bc98b00c55df03e57cc9fd0",
+   "short_sha": "5812400",
+   "commit": "chore(dashboard): pulso automatico 2026-10-03_18-21_UTC",
    "estado": "open",
    "protected": false,
    "protected_fresco": true,
