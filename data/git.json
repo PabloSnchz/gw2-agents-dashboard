@@ -1,14 +1,35 @@
 {
- "generado_utc": "20261003T043620Z",
- "generado_h": "2026-10-03 04:36 UTC",
+ "generado_utc": "20261003T045119Z",
+ "generado_h": "2026-10-03 04:51 UTC",
  "origen": "git local + ls-remote (sin cuota). protected cacheado TTL 6h.",
  "commits": [
+  {
+   "sha": "87ee48172c4ee1d48db95cdd12886e63d92180dc",
+   "short": "87ee481",
+   "autor": "Pablo Sanchez",
+   "fecha": "2026-10-03T01:46:47-03:00",
+   "msg": "HB#158 - ALERT-227: el paso 3 resolvia la rama del PO por FECHA, y la fecha dice lo contrario de lo que busca"
+  },
+  {
+   "sha": "7bfd8f4815584a1b805d1f0e8c1c789aafb3294b",
+   "short": "7bfd8f4",
+   "autor": "Pablo Sanchez",
+   "fecha": "2026-10-03T01:43:24-03:00",
+   "msg": "merge(po): f2b5a82 - poda de la ronda 47 del PO (HB#160), reencuadra L88 Coberturable y L242 WvW  Verificado antes de mergear, no despues: - Encoding DELTA contra main: CJK 0/0, U+FFFD 0/0, sin BOM. - EOL: main ya es LF puro (424 LF, 0 CRLF); hb160 tambien (400 LF, 0 CRLF).   NO es un archivo CRLF con LF sueltos: es LF en los dos. Sin mezcla. - git apply --check: aplica limpio. Control negativo (--reverse): FALLA, o sea   el parche no esta ya aplicado y el control discrimina. - Es el UNICO commit de hb160 que no esta en main.  El commit del PO sobre BACKLOG.md es correcto y lo requested el propio PO ('el PO no mergea: queda para el Principal')."
+  },
   {
    "sha": "159611c0fcef98ef762fb9d88541c1ca9818fc99",
    "short": "159611c",
    "autor": "Pablo Sanchez",
    "fecha": "2026-10-03T01:20:05-03:00",
    "msg": "docs(hb159): los 11 task_id del PASO 1 dan 404, y el veredicto del Reviewer era (B) con mi premisa FALSA"
+  },
+  {
+   "sha": "f2b5a822865c7b9cac6ddef243e8929f3d99c10c",
+   "short": "f2b5a82",
+   "autor": "Pablo Sanchez",
+   "fecha": "2026-10-03T01:08:28-03:00",
+   "msg": "docs(poda): reencuadra 2 de las 4 filas abiertas - el plazo no se puede escribir, y el Tramo 2 ya estaba"
   },
   {
    "sha": "ceb5a601b724fa42767003590bb5846c55de5dbc",
@@ -331,27 +352,6 @@
    "autor": "Pablo Sanchez",
    "fecha": "2026-10-02T12:13:36-03:00",
    "msg": "feat(armeria): nombre en las 64 entradas sin receta + isMaterial + depth documentado"
-  },
-  {
-   "sha": "d0824e935e658170c0be4603572c802bf378d146",
-   "short": "d0824e9",
-   "autor": "Pablo Sanchez",
-   "fecha": "2026-10-02T12:13:31-03:00",
-   "msg": "﻿docs(hb137): ALERT-203, la premisa de MIRROR_MAP corregida donde se cita, y el grep truncado"
-  },
-  {
-   "sha": "adea801834ea836312f1e69c51ee2ded4aa33288",
-   "short": "adea801",
-   "autor": "Pablo Sanchez",
-   "fecha": "2026-10-02T11:53:22-03:00",
-   "msg": "﻿chore: el Source Control de Pablo tenia 95 entradas y 5 eran reales"
-  },
-  {
-   "sha": "589e3461093ca656285764ecdcab822fbcc341ea",
-   "short": "589e346",
-   "autor": "Pablo Sanchez",
-   "fecha": "2026-10-02T11:39:02-03:00",
-   "msg": "docs(hb136): TEAM_STATUS, COMMS_LOG (fila 162), SESSION_LOG y las fichas del arnes"
   }
  ],
  "archivos_md": [
@@ -398,9 +398,9 @@
    "repo": "gw2-wallet-agents",
    "label": "Desarrollo",
    "role": "dev",
-   "sha": "159611c0fcef98ef762fb9d88541c1ca9818fc99",
-   "short_sha": "159611c",
-   "commit": "docs(hb159): los 11 task_id del PASO 1 dan 404, y el",
+   "sha": "87ee48172c4ee1d48db95cdd12886e63d92180dc",
+   "short_sha": "87ee481",
+   "commit": "HB#158 - ALERT-227: el paso 3 resolvia la rama del PO por",
    "estado": "open",
    "protected": false,
    "protected_fresco": true,
@@ -412,9 +412,9 @@
    "repo": "gw2-agents-dashboard",
    "label": "Dashboard",
    "role": "dashboard",
-   "sha": "1c9d967b92779e6410352814d4c949c9d54e44cc",
-   "short_sha": "1c9d967",
-   "commit": "chore(dashboard): pulso automatico 2026-10-03_04-21_UTC",
+   "sha": "908b07b4655b7a0ff8a9737750d2c1a02be124fc",
+   "short_sha": "908b07b",
+   "commit": "chore(dashboard): pulso automatico 2026-10-03_04-36_UTC",
    "estado": "open",
    "protected": false,
    "protected_fresco": true,
