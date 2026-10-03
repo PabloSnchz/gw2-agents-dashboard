@@ -1,8 +1,22 @@
 {
- "generado_utc": "20261003T010619Z",
- "generado_h": "2026-10-03 01:06 UTC",
+ "generado_utc": "20261003T012121Z",
+ "generado_h": "2026-10-03 01:21 UTC",
  "origen": "git local + ls-remote (sin cuota). protected cacheado TTL 6h.",
  "commits": [
+  {
+   "sha": "ac0563f4368a2e9169d190b1fd1c0c2937a13ebd",
+   "short": "ac0563f",
+   "autor": "Pablo Sanchez",
+   "fecha": "2026-10-02T22:21:16-03:00",
+   "msg": "fix(api): las tres opciones del presupuesto de items son un bloque, y el recorte no puede perder entradas por un slice negativo"
+  },
+  {
+   "sha": "23285789becb1e14ad3a435ed5df150df1e684b4",
+   "short": "2328578",
+   "autor": "Pablo Sanchez",
+   "fecha": "2026-10-02T22:14:17-03:00",
+   "msg": "fix(armeria): el boton + Cola vuelve a los tokens apagados, con la geometria del badge PENDING"
+  },
   {
    "sha": "ec33a0d633760791ea9a89ba3f65c24d8d7dca1c",
    "short": "ec33a0d",
@@ -338,20 +352,6 @@
    "autor": "Pablo Sanchez",
    "fecha": "2026-10-02T09:39:33-03:00",
    "msg": "docs(hb133): ALERT-197/198 - el veredicto que nadie leyo, y el worktree que no existe"
-  },
-  {
-   "sha": "45a544623dba5a957dc6d8f16bbad3d01ab9e6e6",
-   "short": "45a5446",
-   "autor": "Pablo Sanchez",
-   "fecha": "2026-10-02T09:37:15-03:00",
-   "msg": "fix(app): ALERT-197 - app.js ya no se come el escritor de T12-b"
-  },
-  {
-   "sha": "6e5a60cf9838ad4629e0399ccc0e3bc88e7627b3",
-   "short": "6e5a60c",
-   "autor": "Pablo Sanchez",
-   "fecha": "2026-10-02T09:09:40-03:00",
-   "msg": "feat(raids): T12-b - el strip de Strikes pasa por el MISMO escritor de la preferencia"
   }
  ],
  "archivos_md": [
@@ -412,9 +412,9 @@
    "repo": "gw2-agents-dashboard",
    "label": "Dashboard",
    "role": "dashboard",
-   "sha": "c584d1a10fda1395cb6b92f2e8b1b4ee62e6f5d9",
-   "short_sha": "c584d1a",
-   "commit": "chore(dashboard): pulso automatico 2026-10-03_00-51_UTC",
+   "sha": "72bb279b34493f3364f220e0ff1c43da16f12ea5",
+   "short_sha": "72bb279",
+   "commit": "chore(dashboard): pulso automatico 2026-10-03_01-06_UTC",
    "estado": "open",
    "protected": false,
    "protected_fresco": true,
