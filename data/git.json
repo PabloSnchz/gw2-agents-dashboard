@@ -1,8 +1,15 @@
 {
- "generado_utc": "20261003T103619Z",
- "generado_h": "2026-10-03 10:36 UTC",
+ "generado_utc": "20261003T105121Z",
+ "generado_h": "2026-10-03 10:51 UTC",
  "origen": "git local + ls-remote (sin cuota). protected cacheado TTL 6h.",
  "commits": [
+  {
+   "sha": "1ad8a080463d12cba15273022ab619a7ac6da858",
+   "short": "1ad8a08",
+   "autor": "Pablo Sanchez",
+   "fecha": "2026-10-03T07:45:00-03:00",
+   "msg": "docs(hb170): ALERT-240 - el corte de seccion puede invertir el veredicto de una ronda del PO. El bloque de la ronda 49 son 90 lineas y mis 8 lineas decia PAUSA-cero-propuestas; con 90 hay 2 tramos. Confirma la tesis del glifo [x] ambiguo contra HEARTBEAT.md:643 y refuta 2 cifras: Completed no esta vacia (17 casillas) y son 18 filas no 21. No se manda nada al Reviewer."
+  },
   {
    "sha": "b4eb16011a2da32be56a7988d77e25f17eb11960",
    "short": "b4eb160",
@@ -345,13 +352,6 @@
    "autor": "Pablo Sanchez",
    "fecha": "2026-10-02T14:14:22-03:00",
    "msg": "feat(armeria): el arbol de fabricacion y sus totales, como vista  WIP de la nocheparkado en rama propia (regla de WIP huerfano: nunca dejar codigo sin commitear sin rama asignada).  - js/legendary-tree-ui.js (nuevo, 320 lineas): PICA el arbol y los   totales. NO calcula cantidades: las pide a legendary-tree.js con   build(). La unica cuenta local es falta = max(0, necesito - tengo),   que depende del inventario del usuario y no de la receta. - js/legendary-tracker.js: header del modal sticky (el dialogo tiene   overflow:auto, y con 55 nodos el boton de agregar se iba de   pantalla), acciones de vista y de cola separadas, y UN listener   sobre el modal en vez de uno por nodo. - index.html: carga legendary-tree.js y legendary-tree-ui.js.  SIN TEST todavia, y NO esta listo para main. Los 3 call sites de root.LegendaryTreeUI estan guardados (if (UI) / if (!UI || !T)), asi que sin la vista el tracker degrada honestamente en vez de romper: no se lo llama 'cargando' porque seria mentir (alert84).  Suite verde igual: 77 archivos, 77 exit 0."
-  },
-  {
-   "sha": "c59ec548433b777023394f34335f9cfc67b66937",
-   "short": "c59ec54",
-   "autor": "Pablo Sanchez",
-   "fecha": "2026-10-02T13:40:10-03:00",
-   "msg": "﻿docs(logs): fila 165 y TEAM_STATUS del HB#139 (ALERT-205 cerrada)"
   }
  ],
  "archivos_md": [
@@ -398,9 +398,9 @@
    "repo": "gw2-wallet-agents",
    "label": "Desarrollo",
    "role": "dev",
-   "sha": "b4eb16011a2da32be56a7988d77e25f17eb11960",
-   "short_sha": "b4eb160",
-   "commit": "chore(heartbeat): HB#169 - ALERT-239, el filtro de la API de",
+   "sha": "1ad8a080463d12cba15273022ab619a7ac6da858",
+   "short_sha": "1ad8a08",
+   "commit": "docs(hb170): ALERT-240 - el corte de seccion puede invertir",
    "estado": "open",
    "protected": false,
    "protected_fresco": true,
@@ -412,9 +412,9 @@
    "repo": "gw2-agents-dashboard",
    "label": "Dashboard",
    "role": "dashboard",
-   "sha": "e65400ce3397c254fcd9685027c1f23f86c7e525",
-   "short_sha": "e65400c",
-   "commit": "chore(dashboard): pulso automatico 2026-10-03_10-21_UTC",
+   "sha": "812dde6f5d9c31ae726fd3a725ff8d5d86c0a746",
+   "short_sha": "812dde6",
+   "commit": "chore(dashboard): pulso automatico 2026-10-03_10-36_UTC",
    "estado": "open",
    "protected": false,
    "protected_fresco": true,
