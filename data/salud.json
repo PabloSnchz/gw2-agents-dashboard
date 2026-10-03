@@ -1,12 +1,12 @@
 {
- "generado_utc": "20261003T060603Z",
- "generado_h": "2026-10-03 06:06 UTC",
+ "generado_utc": "20261003T062102Z",
+ "generado_h": "2026-10-03 06:21 UTC",
  "archivos_estado": [
   {
    "archivo": "TEAM_STATUS.md",
    "quien": "Principal /30min",
    "estado": "ok",
-   "edad_h": 0.4,
+   "edad_h": 0.7,
    "kb": 117.8,
    "crecimiento": "EXCEDE 80 KB (118 KB)"
   },
@@ -14,7 +14,7 @@
    "archivo": "SESSION_LOG.md",
    "quien": "Documentador /4h",
    "estado": "ok",
-   "edad_h": 4.0,
+   "edad_h": 4.2,
    "kb": 309.5,
    "crecimiento": "EXCEDE 60 KB (310 KB)"
   },
@@ -22,14 +22,14 @@
    "archivo": "COMMS_LOG.md",
    "quien": "Principal /30min",
    "estado": "ok",
-   "edad_h": 1.7,
+   "edad_h": 2.0,
    "kb": 250.6
   },
   {
    "archivo": "PRE_BACKLOG.md",
    "quien": "PO /2h",
    "estado": "ROTO",
-   "edad_h": 70.5,
+   "edad_h": 70.7,
    "kb": 238.3,
    "crecimiento": "EXCEDE 120 KB (238 KB)"
   },
@@ -37,14 +37,14 @@
    "archivo": "ALERTS_LOG.md",
    "quien": "Principal /30min",
    "estado": "ok",
-   "edad_h": 0.4,
+   "edad_h": 0.7,
    "kb": 446.5
   },
   {
    "archivo": "DECISIONS_LOG.md",
    "quien": "Principal",
    "estado": "RARO",
-   "edad_h": 76.1,
+   "edad_h": 76.3,
    "kb": 10.2
   }
  ],
@@ -378,11 +378,11 @@
   },
   {
    "dia": "2026-10-03",
-   "llamadas": 800,
-   "prompt": 84860356,
-   "cache_read": 81688705,
-   "cache_pct": 96.3,
-   "prompt_por_llamada": 106075,
+   "llamadas": 833,
+   "prompt": 89041881,
+   "cache_read": 85839675,
+   "cache_pct": 96.4,
+   "prompt_por_llamada": 106893,
    "por_agente": [
     {
      "agente": "default",
@@ -391,15 +391,15 @@
      "cache_pct": 96.4
     },
     {
+     "agente": "product-owner",
+     "llamadas": 140,
+     "prompt": 14168813,
+     "cache_pct": 97.0
+    },
+    {
      "agente": "architect",
      "llamadas": 129,
      "prompt": 12652197,
-     "cache_pct": 96.0
-    },
-    {
-     "agente": "product-owner",
-     "llamadas": 107,
-     "prompt": 9987288,
      "cache_pct": 96.0
     },
     {
