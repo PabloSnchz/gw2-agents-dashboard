@@ -1,0 +1,963 @@
+{
+  "generado": "2026-10-03T03:01:04.269Z",
+  "resumen": {
+    "TOTAL": 87,
+    "BORRABLE": 44,
+    "RESCATAR": 27,
+    "PROTEGIDA": 16
+  },
+  "ramas": [
+    {
+      "nombre": "main",
+      "sha": "90775ee",
+      "fecha": "2026-10-02 23:31:56 -0300",
+      "veredicto": "PROTEGIDA",
+      "motivo": "es el trunk"
+    },
+    {
+      "nombre": "po/hb153-poda",
+      "sha": "998fa66",
+      "fecha": "2026-10-02 23:13:35 -0300",
+      "veredicto": "PROTEGIDA",
+      "motivo": "un worktree activo la esta usando"
+    },
+    {
+      "nombre": "feat-cuenta-skins",
+      "sha": "3c3af8a",
+      "fecha": "2026-10-02 19:23:27 -0300",
+      "en_main": true,
+      "veredicto": "BORRABLE",
+      "motivo": "su HEAD ya esta en origin/main"
+    },
+    {
+      "nombre": "po/hb150-poda",
+      "sha": "8779109",
+      "fecha": "2026-10-02 19:07:32 -0300",
+      "en_main": false,
+      "commits_no_main": 1,
+      "commits_sueltos": 1,
+      "veredicto": "RESCATAR",
+      "motivo": "1 commit(s) cuyo contenido NO esta en main",
+      "rescatar": [
+        {
+          "sha": "8779109",
+          "resumen": ""
+        }
+      ]
+    },
+    {
+      "nombre": "fix-hb143-correccion-poda",
+      "sha": "06ed117",
+      "fecha": "2026-10-02 15:43:13 -0300",
+      "en_main": false,
+      "commits_no_main": 1,
+      "commits_sueltos": 1,
+      "veredicto": "RESCATAR",
+      "motivo": "1 commit(s) cuyo contenido NO esta en main",
+      "rescatar": [
+        {
+          "sha": "06ed117",
+          "resumen": ""
+        }
+      ]
+    },
+    {
+      "nombre": "rescate/hb143-wt",
+      "sha": "06ed117",
+      "fecha": "2026-10-02 15:43:13 -0300",
+      "en_main": false,
+      "commits_no_main": 1,
+      "commits_sueltos": 1,
+      "veredicto": "RESCATAR",
+      "motivo": "1 commit(s) cuyo contenido NO esta en main",
+      "rescatar": [
+        {
+          "sha": "06ed117",
+          "resumen": ""
+        }
+      ]
+    },
+    {
+      "nombre": "po/hb142-poda",
+      "sha": "9f53fb8",
+      "fecha": "2026-10-02 15:13:56 -0300",
+      "en_main": false,
+      "commits_no_main": 2,
+      "commits_sueltos": 2,
+      "veredicto": "RESCATAR",
+      "motivo": "2 commit(s) cuyo contenido NO esta en main",
+      "rescatar": [
+        {
+          "sha": "2cbd8fd",
+          "resumen": ""
+        },
+        {
+          "sha": "9f53fb8",
+          "resumen": ""
+        }
+      ]
+    },
+    {
+      "nombre": "rescate/po-hb142",
+      "sha": "9f53fb8",
+      "fecha": "2026-10-02 15:13:56 -0300",
+      "en_main": false,
+      "commits_no_main": 2,
+      "commits_sueltos": 2,
+      "veredicto": "RESCATAR",
+      "motivo": "2 commit(s) cuyo contenido NO esta en main",
+      "rescatar": [
+        {
+          "sha": "2cbd8fd",
+          "resumen": ""
+        },
+        {
+          "sha": "9f53fb8",
+          "resumen": ""
+        }
+      ]
+    },
+    {
+      "nombre": "rescate/hb124wt-cola",
+      "sha": "13b1599",
+      "fecha": "2026-10-02 14:58:17 -0300",
+      "veredicto": "PROTEGIDA",
+      "motivo": "un worktree activo la esta usando"
+    },
+    {
+      "nombre": "rescate/hb125-cola",
+      "sha": "cb205b5",
+      "fecha": "2026-10-02 14:58:16 -0300",
+      "veredicto": "PROTEGIDA",
+      "motivo": "un worktree activo la esta usando"
+    },
+    {
+      "nombre": "feat-arbol-legendario-ui",
+      "sha": "539f410",
+      "fecha": "2026-10-02 14:14:22 -0300",
+      "en_main": true,
+      "veredicto": "BORRABLE",
+      "motivo": "su HEAD ya esta en origin/main"
+    },
+    {
+      "nombre": "hb136-cuentas-medidas",
+      "sha": "08651a0",
+      "fecha": "2026-10-02 13:19:46 -0300",
+      "veredicto": "PROTEGIDA",
+      "motivo": "un worktree activo la esta usando"
+    },
+    {
+      "nombre": "po/hb136-poda",
+      "sha": "4462441",
+      "fecha": "2026-10-02 13:08:51 -0300",
+      "en_main": false,
+      "commits_no_main": 1,
+      "commits_sueltos": 1,
+      "veredicto": "RESCATAR",
+      "motivo": "1 commit(s) cuyo contenido NO esta en main",
+      "rescatar": [
+        {
+          "sha": "4462441",
+          "resumen": ""
+        }
+      ]
+    },
+    {
+      "nombre": "fix-arme-limitacion-banner",
+      "sha": "89ed2a0",
+      "fecha": "2026-10-02 12:21:15 -0300",
+      "en_main": true,
+      "veredicto": "BORRABLE",
+      "motivo": "su HEAD ya esta en origin/main"
+    },
+    {
+      "nombre": "feat-arme-nombres-contrato",
+      "sha": "20dfaed",
+      "fecha": "2026-10-02 12:16:06 -0300",
+      "en_main": true,
+      "veredicto": "BORRABLE",
+      "motivo": "su HEAD ya esta en origin/main"
+    },
+    {
+      "nombre": "po/hb135-poda",
+      "sha": "a5edad6",
+      "fecha": "2026-10-02 11:06:58 -0300",
+      "en_main": true,
+      "veredicto": "BORRABLE",
+      "motivo": "su HEAD ya esta en origin/main"
+    },
+    {
+      "nombre": "docs-hb113-logs",
+      "sha": "ef49964",
+      "fecha": "2026-10-02 10:47:24 -0300",
+      "en_main": true,
+      "veredicto": "BORRABLE",
+      "motivo": "su HEAD ya esta en origin/main"
+    },
+    {
+      "nombre": "tools/versionar-fuente-de-recetas",
+      "sha": "ef49964",
+      "fecha": "2026-10-02 10:47:24 -0300",
+      "en_main": true,
+      "veredicto": "BORRABLE",
+      "motivo": "su HEAD ya esta en origin/main"
+    },
+    {
+      "nombre": "po/hb132-poda",
+      "sha": "9ad2ced",
+      "fecha": "2026-10-02 09:12:55 -0300",
+      "en_main": false,
+      "commits_no_main": 1,
+      "commits_sueltos": 1,
+      "veredicto": "RESCATAR",
+      "motivo": "1 commit(s) cuyo contenido NO esta en main",
+      "rescatar": [
+        {
+          "sha": "9ad2ced",
+          "resumen": ""
+        }
+      ]
+    },
+    {
+      "nombre": "feat-idea50e-cache-purge",
+      "sha": "f4e35e4",
+      "fecha": "2026-10-02 07:31:48 -0300",
+      "veredicto": "PROTEGIDA",
+      "motivo": "un worktree activo la esta usando"
+    },
+    {
+      "nombre": "fix-195-route-desalineado",
+      "sha": "dfc3575",
+      "fecha": "2026-10-02 07:28:44 -0300",
+      "veredicto": "PROTEGIDA",
+      "motivo": "un worktree activo la esta usando"
+    },
+    {
+      "nombre": "po/hb130-poda",
+      "sha": "f797757",
+      "fecha": "2026-10-02 07:10:08 -0300",
+      "en_main": false,
+      "commits_no_main": 1,
+      "commits_sueltos": 1,
+      "veredicto": "RESCATAR",
+      "motivo": "1 commit(s) cuyo contenido NO esta en main",
+      "rescatar": [
+        {
+          "sha": "f797757",
+          "resumen": ""
+        }
+      ]
+    },
+    {
+      "nombre": "feat-hb126-cola-crafteo",
+      "sha": "bd0f9e1",
+      "fecha": "2026-10-02 06:19:40 -0300",
+      "en_main": true,
+      "veredicto": "BORRABLE",
+      "motivo": "su HEAD ya esta en origin/main"
+    },
+    {
+      "nombre": "feat-t12b-escritor-comun",
+      "sha": "52ba8c2",
+      "fecha": "2026-10-02 05:45:08 -0300",
+      "veredicto": "PROTEGIDA",
+      "motivo": "un worktree activo la esta usando"
+    },
+    {
+      "nombre": "feat-hb125-idea57-t2",
+      "sha": "fd8e579",
+      "fecha": "2026-10-02 05:06:51 -0300",
+      "en_main": true,
+      "veredicto": "BORRABLE",
+      "motivo": "su HEAD ya esta en origin/main"
+    },
+    {
+      "nombre": "po/hb127-poda",
+      "sha": "fd8e579",
+      "fecha": "2026-10-02 05:06:51 -0300",
+      "en_main": true,
+      "veredicto": "BORRABLE",
+      "motivo": "su HEAD ya esta en origin/main"
+    },
+    {
+      "nombre": "docs-hb125-poda",
+      "sha": "ad0e353",
+      "fecha": "2026-10-02 03:42:44 -0300",
+      "en_main": false,
+      "commits_no_main": 2,
+      "commits_sueltos": 0,
+      "veredicto": "BORRABLE",
+      "motivo": "no esta en main pero sus 2 commit(s) estan por cherry-pick"
+    },
+    {
+      "nombre": "fix-hb125-contrato10-casos",
+      "sha": "3520fdc",
+      "fecha": "2026-10-02 03:37:11 -0300",
+      "en_main": true,
+      "veredicto": "BORRABLE",
+      "motivo": "su HEAD ya esta en origin/main"
+    },
+    {
+      "nombre": "po/hb125-poda",
+      "sha": "70df895",
+      "fecha": "2026-10-02 03:13:02 -0300",
+      "veredicto": "PROTEGIDA",
+      "motivo": "un worktree activo la esta usando"
+    },
+    {
+      "nombre": "hb122",
+      "sha": "92e6215",
+      "fecha": "2026-10-02 01:16:51 -0300",
+      "veredicto": "PROTEGIDA",
+      "motivo": "un worktree activo la esta usando"
+    },
+    {
+      "nombre": "po/hb122-poda",
+      "sha": "f41ab87",
+      "fecha": "2026-10-02 01:06:27 -0300",
+      "veredicto": "PROTEGIDA",
+      "motivo": "un worktree activo la esta usando"
+    },
+    {
+      "nombre": "feat-armeria-merge-22a6a71",
+      "sha": "9a68eb4",
+      "fecha": "2026-10-02 00:12:36 -0300",
+      "en_main": true,
+      "veredicto": "BORRABLE",
+      "motivo": "su HEAD ya esta en origin/main"
+    },
+    {
+      "nombre": "feat-armeria-armeria-2-1",
+      "sha": "07de012",
+      "fecha": "2026-10-02 00:00:55 -0300",
+      "en_main": true,
+      "veredicto": "BORRABLE",
+      "motivo": "su HEAD ya esta en origin/main"
+    },
+    {
+      "nombre": "feat/armeria-recetas-datos",
+      "sha": "22a6a71",
+      "fecha": "2026-10-01 23:42:04 -0300",
+      "en_main": true,
+      "veredicto": "BORRABLE",
+      "motivo": "su HEAD ya esta en origin/main"
+    },
+    {
+      "nombre": "fix-t20a-confirm-gist",
+      "sha": "4974c81",
+      "fecha": "2026-10-01 23:27:42 -0300",
+      "en_main": true,
+      "veredicto": "BORRABLE",
+      "motivo": "su HEAD ya esta en origin/main"
+    },
+    {
+      "nombre": "rescate/wt-hb119",
+      "sha": "c53a86e",
+      "fecha": "2026-10-01 23:10:28 -0300",
+      "en_main": false,
+      "commits_no_main": 2,
+      "commits_sueltos": 2,
+      "veredicto": "RESCATAR",
+      "motivo": "2 commit(s) cuyo contenido NO esta en main",
+      "rescatar": [
+        {
+          "sha": "39ff6c3",
+          "resumen": ""
+        },
+        {
+          "sha": "c53a86e",
+          "resumen": ""
+        }
+      ]
+    },
+    {
+      "nombre": "po/hb119-dashboard",
+      "sha": "1070292",
+      "fecha": "2026-10-01 23:07:45 -0300",
+      "en_main": false,
+      "commits_no_main": 2,
+      "commits_sueltos": 2,
+      "veredicto": "RESCATAR",
+      "motivo": "2 commit(s) cuyo contenido NO esta en main",
+      "rescatar": [
+        {
+          "sha": "e9d901f",
+          "resumen": ""
+        },
+        {
+          "sha": "1070292",
+          "resumen": ""
+        }
+      ]
+    },
+    {
+      "nombre": "po/hb117-dashboard",
+      "sha": "63cb2e1",
+      "fecha": "2026-10-01 21:09:07 -0300",
+      "en_main": false,
+      "commits_no_main": 1,
+      "commits_sueltos": 1,
+      "veredicto": "RESCATAR",
+      "motivo": "1 commit(s) cuyo contenido NO esta en main",
+      "rescatar": [
+        {
+          "sha": "63cb2e1",
+          "resumen": ""
+        }
+      ]
+    },
+    {
+      "nombre": "fix-hb118-t19a-tab-muerta",
+      "sha": "6be9a69",
+      "fecha": "2026-10-01 21:05:43 -0300",
+      "veredicto": "PROTEGIDA",
+      "motivo": "un worktree activo la esta usando"
+    },
+    {
+      "nombre": "hb116-wt",
+      "sha": "6be9a69",
+      "fecha": "2026-10-01 21:05:43 -0300",
+      "en_main": true,
+      "veredicto": "BORRABLE",
+      "motivo": "su HEAD ya esta en origin/main"
+    },
+    {
+      "nombre": "feat-legendary-fixes",
+      "sha": "5f4688f",
+      "fecha": "2026-10-01 20:13:53 -0300",
+      "en_main": true,
+      "veredicto": "BORRABLE",
+      "motivo": "su HEAD ya esta en origin/main"
+    },
+    {
+      "nombre": "docs-hb114-t17-t18-v2",
+      "sha": "d61e675",
+      "fecha": "2026-10-01 19:27:36 -0300",
+      "en_main": true,
+      "veredicto": "BORRABLE",
+      "motivo": "su HEAD ya esta en origin/main"
+    },
+    {
+      "nombre": "docs-hb114-t17-t18",
+      "sha": "3c0b48a",
+      "fecha": "2026-10-01 19:24:40 -0300",
+      "en_main": false,
+      "commits_no_main": 1,
+      "commits_sueltos": 1,
+      "veredicto": "RESCATAR",
+      "motivo": "1 commit(s) cuyo contenido NO esta en main",
+      "rescatar": [
+        {
+          "sha": "3c0b48a",
+          "resumen": ""
+        }
+      ]
+    },
+    {
+      "nombre": "hb114-ciclo",
+      "sha": "e559e14",
+      "fecha": "2026-10-01 19:23:30 -0300",
+      "en_main": true,
+      "veredicto": "BORRABLE",
+      "motivo": "su HEAD ya esta en origin/main"
+    },
+    {
+      "nombre": "po/hb114-dashboard",
+      "sha": "81372a6",
+      "fecha": "2026-10-01 19:09:56 -0300",
+      "veredicto": "PROTEGIDA",
+      "motivo": "un worktree activo la esta usando"
+    },
+    {
+      "nombre": "docs-features-md",
+      "sha": "47a2526",
+      "fecha": "2026-10-01 18:24:45 -0300",
+      "en_main": true,
+      "veredicto": "BORRABLE",
+      "motivo": "su HEAD ya esta en origin/main"
+    },
+    {
+      "nombre": "fix-idea57-t2-forma",
+      "sha": "a621767",
+      "fecha": "2026-10-01 18:11:15 -0300",
+      "veredicto": "PROTEGIDA",
+      "motivo": "un worktree activo la esta usando"
+    },
+    {
+      "nombre": "po/hb110-dashboard",
+      "sha": "5a176fe",
+      "fecha": "2026-10-01 17:07:37 -0300",
+      "en_main": false,
+      "commits_no_main": 3,
+      "commits_sueltos": 3,
+      "veredicto": "RESCATAR",
+      "motivo": "3 commit(s) cuyo contenido NO esta en main",
+      "rescatar": [
+        {
+          "sha": "4fe6162",
+          "resumen": ""
+        },
+        {
+          "sha": "20866df",
+          "resumen": ""
+        },
+        {
+          "sha": "5a176fe",
+          "resumen": ""
+        }
+      ]
+    },
+    {
+      "nombre": "rescate/wt-hb108-wt",
+      "sha": "57a6fcd",
+      "fecha": "2026-10-01 16:16:30 -0300",
+      "en_main": false,
+      "commits_no_main": 1,
+      "commits_sueltos": 1,
+      "veredicto": "RESCATAR",
+      "motivo": "1 commit(s) cuyo contenido NO esta en main",
+      "rescatar": [
+        {
+          "sha": "57a6fcd",
+          "resumen": ""
+        }
+      ]
+    },
+    {
+      "nombre": "po/hb104-dashboard",
+      "sha": "20866df",
+      "fecha": "2026-10-01 15:10:01 -0300",
+      "en_main": false,
+      "commits_no_main": 2,
+      "commits_sueltos": 2,
+      "veredicto": "RESCATAR",
+      "motivo": "2 commit(s) cuyo contenido NO esta en main",
+      "rescatar": [
+        {
+          "sha": "4fe6162",
+          "resumen": ""
+        },
+        {
+          "sha": "20866df",
+          "resumen": ""
+        }
+      ]
+    },
+    {
+      "nombre": "po/hb99-dashboard",
+      "sha": "4fe6162",
+      "fecha": "2026-10-01 13:12:03 -0300",
+      "en_main": false,
+      "commits_no_main": 1,
+      "commits_sueltos": 1,
+      "veredicto": "RESCATAR",
+      "motivo": "1 commit(s) cuyo contenido NO esta en main",
+      "rescatar": [
+        {
+          "sha": "4fe6162",
+          "resumen": ""
+        }
+      ]
+    },
+    {
+      "nombre": "po/hb97-wv-view",
+      "sha": "45fc221",
+      "fecha": "2026-10-01 11:29:34 -0300",
+      "en_main": false,
+      "commits_no_main": 1,
+      "commits_sueltos": 1,
+      "veredicto": "RESCATAR",
+      "motivo": "1 commit(s) cuyo contenido NO esta en main",
+      "rescatar": [
+        {
+          "sha": "45fc221",
+          "resumen": ""
+        }
+      ]
+    },
+    {
+      "nombre": "po/hb31-dashboard",
+      "sha": "a087183",
+      "fecha": "2026-10-01 10:37:59 -0300",
+      "en_main": true,
+      "veredicto": "BORRABLE",
+      "motivo": "su HEAD ya esta en origin/main"
+    },
+    {
+      "nombre": "hb94-wt",
+      "sha": "ef8c8de",
+      "fecha": "2026-10-01 09:51:00 -0300",
+      "en_main": true,
+      "veredicto": "BORRABLE",
+      "motivo": "su HEAD ya esta en origin/main"
+    },
+    {
+      "nombre": "fix-t9-mutex-sec",
+      "sha": "f2e76e0",
+      "fecha": "2026-10-01 07:30:47 -0300",
+      "en_main": true,
+      "veredicto": "BORRABLE",
+      "motivo": "su HEAD ya esta en origin/main"
+    },
+    {
+      "nombre": "po/hb87-dashboard",
+      "sha": "b172d65",
+      "fecha": "2026-10-01 07:08:46 -0300",
+      "en_main": false,
+      "commits_no_main": 1,
+      "commits_sueltos": 1,
+      "veredicto": "RESCATAR",
+      "motivo": "1 commit(s) cuyo contenido NO esta en main",
+      "rescatar": [
+        {
+          "sha": "b172d65",
+          "resumen": ""
+        }
+      ]
+    },
+    {
+      "nombre": "fix-hb87-carga-gana",
+      "sha": "47e4819",
+      "fecha": "2026-10-01 05:18:40 -0300",
+      "en_main": true,
+      "veredicto": "BORRABLE",
+      "motivo": "su HEAD ya esta en origin/main"
+    },
+    {
+      "nombre": "hb86-ciclo",
+      "sha": "e1262b0",
+      "fecha": "2026-10-01 05:16:45 -0300",
+      "en_main": true,
+      "veredicto": "BORRABLE",
+      "motivo": "su HEAD ya esta en origin/main"
+    },
+    {
+      "nombre": "po/hb77-dashboard",
+      "sha": "220674e",
+      "fecha": "2026-10-01 05:06:05 -0300",
+      "en_main": false,
+      "commits_no_main": 6,
+      "commits_sueltos": 6,
+      "veredicto": "RESCATAR",
+      "motivo": "6 commit(s) cuyo contenido NO esta en main",
+      "rescatar": [
+        {
+          "sha": "5387db8",
+          "resumen": ""
+        },
+        {
+          "sha": "43e8ad4",
+          "resumen": ""
+        },
+        {
+          "sha": "5053874",
+          "resumen": ""
+        },
+        {
+          "sha": "9aaf661",
+          "resumen": ""
+        },
+        {
+          "sha": "80b5717",
+          "resumen": ""
+        },
+        {
+          "sha": "220674e",
+          "resumen": ""
+        }
+      ]
+    },
+    {
+      "nombre": "hb85-p1p2p3",
+      "sha": "a5ec94f",
+      "fecha": "2026-10-01 04:19:21 -0300",
+      "en_main": true,
+      "veredicto": "BORRABLE",
+      "motivo": "su HEAD ya esta en origin/main"
+    },
+    {
+      "nombre": "hb84-ciclo",
+      "sha": "97b56b4",
+      "fecha": "2026-10-01 03:37:49 -0300",
+      "en_main": true,
+      "veredicto": "BORRABLE",
+      "motivo": "su HEAD ya esta en origin/main"
+    },
+    {
+      "nombre": "hb82-standalone",
+      "sha": "2206217",
+      "fecha": "2026-10-01 03:05:25 -0300",
+      "en_main": true,
+      "veredicto": "BORRABLE",
+      "motivo": "su HEAD ya esta en origin/main"
+    },
+    {
+      "nombre": "hb82-runner-formato",
+      "sha": "0086593",
+      "fecha": "2026-10-01 03:05:12 -0300",
+      "en_main": false,
+      "commits_no_main": 2,
+      "commits_sueltos": 0,
+      "veredicto": "BORRABLE",
+      "motivo": "no esta en main pero sus 2 commit(s) estan por cherry-pick"
+    },
+    {
+      "nombre": "hb81-ciclo",
+      "sha": "b1fe9e7",
+      "fecha": "2026-10-01 02:42:40 -0300",
+      "veredicto": "PROTEGIDA",
+      "motivo": "un worktree activo la esta usando"
+    },
+    {
+      "nombre": "hb80-merge",
+      "sha": "d970995",
+      "fecha": "2026-10-01 02:25:32 -0300",
+      "en_main": true,
+      "veredicto": "BORRABLE",
+      "motivo": "su HEAD ya esta en origin/main"
+    },
+    {
+      "nombre": "hb79-merge",
+      "sha": "6af57ff",
+      "fecha": "2026-10-01 02:08:20 -0300",
+      "en_main": true,
+      "veredicto": "BORRABLE",
+      "motivo": "su HEAD ya esta en origin/main"
+    },
+    {
+      "nombre": "hb79-puerta-sin-kind",
+      "sha": "87bab23",
+      "fecha": "2026-10-01 02:05:10 -0300",
+      "en_main": true,
+      "veredicto": "BORRABLE",
+      "motivo": "su HEAD ya esta en origin/main"
+    },
+    {
+      "nombre": "hb77-cierre-p1p2p3-reviewer",
+      "sha": "5291138",
+      "fecha": "2026-10-01 01:17:51 -0300",
+      "en_main": true,
+      "veredicto": "BORRABLE",
+      "motivo": "su HEAD ya esta en origin/main"
+    },
+    {
+      "nombre": "hb75-local-tmp",
+      "sha": "d974256",
+      "fecha": "2026-10-01 00:13:18 -0300",
+      "en_main": true,
+      "veredicto": "BORRABLE",
+      "motivo": "su HEAD ya esta en origin/main"
+    },
+    {
+      "nombre": "fix-idea50b-hook-cache-mem",
+      "sha": "0c12adc",
+      "fecha": "2026-09-30 23:49:50 -0300",
+      "en_main": true,
+      "veredicto": "BORRABLE",
+      "motivo": "su HEAD ya esta en origin/main"
+    },
+    {
+      "nombre": "fix-idea92-limitacion-stripper",
+      "sha": "b1b74bb",
+      "fecha": "2026-09-30 23:05:18 -0300",
+      "en_main": true,
+      "veredicto": "BORRABLE",
+      "motivo": "su HEAD ya esta en origin/main"
+    },
+    {
+      "nombre": "po/hb69-dashboard",
+      "sha": "45a54f0",
+      "fecha": "2026-09-30 19:47:59 -0300",
+      "en_main": false,
+      "commits_no_main": 1,
+      "commits_sueltos": 1,
+      "veredicto": "RESCATAR",
+      "motivo": "1 commit(s) cuyo contenido NO esta en main",
+      "rescatar": [
+        {
+          "sha": "45a54f0",
+          "resumen": ""
+        }
+      ]
+    },
+    {
+      "nombre": "docs-idea50p3-hb67",
+      "sha": "d328969",
+      "fecha": "2026-09-30 18:24:33 -0300",
+      "en_main": true,
+      "veredicto": "BORRABLE",
+      "motivo": "su HEAD ya esta en origin/main"
+    },
+    {
+      "nombre": "feat-idea49g-ach-acc-compacta",
+      "sha": "1a47d5c",
+      "fecha": "2026-09-30 15:10:53 -0300",
+      "en_main": false,
+      "commits_no_main": 1,
+      "commits_sueltos": 1,
+      "veredicto": "RESCATAR",
+      "motivo": "1 commit(s) cuyo contenido NO esta en main",
+      "rescatar": [
+        {
+          "sha": "1a47d5c",
+          "resumen": ""
+        }
+      ]
+    },
+    {
+      "nombre": "fix-idea57t4-idioma-contrato",
+      "sha": "bc605c4",
+      "fecha": "2026-09-30 13:11:23 -0300",
+      "en_main": true,
+      "veredicto": "BORRABLE",
+      "motivo": "su HEAD ya esta en origin/main"
+    },
+    {
+      "nombre": "feat-idea56-forma-raids",
+      "sha": "6cfbf2c",
+      "fecha": "2026-09-30 06:46:21 -0300",
+      "en_main": true,
+      "veredicto": "BORRABLE",
+      "motivo": "su HEAD ya esta en origin/main"
+    },
+    {
+      "nombre": "po/hb56-forma-raids",
+      "sha": "1fcb9b6",
+      "fecha": "2026-09-30 06:04:26 -0300",
+      "en_main": false,
+      "commits_no_main": 1,
+      "commits_sueltos": 1,
+      "veredicto": "RESCATAR",
+      "motivo": "1 commit(s) cuyo contenido NO esta en main",
+      "rescatar": [
+        {
+          "sha": "1fcb9b6",
+          "resumen": ""
+        }
+      ]
+    },
+    {
+      "nombre": "idea49-partial-206",
+      "sha": "c4b226a",
+      "fecha": "2026-09-30 05:59:26 -0300",
+      "en_main": true,
+      "veredicto": "BORRABLE",
+      "motivo": "su HEAD ya esta en origin/main"
+    },
+    {
+      "nombre": "idea55-tramo3a-account-layer",
+      "sha": "94aec9e",
+      "fecha": "2026-09-30 05:55:49 -0300",
+      "en_main": true,
+      "veredicto": "BORRABLE",
+      "motivo": "su HEAD ya esta en origin/main"
+    },
+    {
+      "nombre": "po/hb55",
+      "sha": "cb03a4c",
+      "fecha": "2026-09-30 05:09:24 -0300",
+      "en_main": true,
+      "veredicto": "BORRABLE",
+      "motivo": "su HEAD ya esta en origin/main"
+    },
+    {
+      "nombre": "docs-estructura-20260930",
+      "sha": "408603e",
+      "fecha": "2026-09-30 00:56:17 -0300",
+      "en_main": false,
+      "commits_no_main": 1,
+      "commits_sueltos": 1,
+      "veredicto": "RESCATAR",
+      "motivo": "1 commit(s) cuyo contenido NO esta en main",
+      "rescatar": [
+        {
+          "sha": "408603e",
+          "resumen": ""
+        }
+      ]
+    },
+    {
+      "nombre": "feat-idea48b-eta-contador",
+      "sha": "90d2b0e",
+      "fecha": "2026-09-30 00:44:28 -0300",
+      "en_main": true,
+      "veredicto": "BORRABLE",
+      "motivo": "su HEAD ya esta en origin/main"
+    },
+    {
+      "nombre": "legacy/fix-idea47-commerce-callsite",
+      "sha": "ddd3047",
+      "fecha": "2026-09-30 00:02:49 -0300",
+      "en_main": false,
+      "commits_no_main": 1,
+      "commits_sueltos": 1,
+      "veredicto": "RESCATAR",
+      "motivo": "1 commit(s) cuyo contenido NO esta en main",
+      "rescatar": [
+        {
+          "sha": "ddd3047",
+          "resumen": ""
+        }
+      ]
+    },
+    {
+      "nombre": "legacy/fix-concurrency-pool-phase2",
+      "sha": "6709bc6",
+      "fecha": "2026-09-29 23:07:52 -0300",
+      "en_main": false,
+      "commits_no_main": 2,
+      "commits_sueltos": 2,
+      "veredicto": "RESCATAR",
+      "motivo": "2 commit(s) cuyo contenido NO esta en main",
+      "rescatar": [
+        {
+          "sha": "d91888b",
+          "resumen": ""
+        },
+        {
+          "sha": "6709bc6",
+          "resumen": ""
+        }
+      ]
+    },
+    {
+      "nombre": "legacy/rescue-idea47-parallel-wip",
+      "sha": "06675b0",
+      "fecha": "2026-09-29 22:41:23 -0300",
+      "en_main": false,
+      "commits_no_main": 1,
+      "commits_sueltos": 1,
+      "veredicto": "RESCATAR",
+      "motivo": "1 commit(s) cuyo contenido NO esta en main",
+      "rescatar": [
+        {
+          "sha": "06675b0",
+          "resumen": ""
+        }
+      ]
+    },
+    {
+      "nombre": "rescue-idea47-parallel-wip",
+      "sha": "06675b0",
+      "fecha": "2026-09-29 22:41:23 -0300",
+      "veredicto": "PROTEGIDA",
+      "motivo": "un worktree activo la esta usando"
+    },
+    {
+      "nombre": "legacy/fix-idea47-ceros-falsos",
+      "sha": "19005cb",
+      "fecha": "2026-09-29 21:43:08 -0300",
+      "en_main": false,
+      "commits_no_main": 1,
+      "commits_sueltos": 1,
+      "veredicto": "RESCATAR",
+      "motivo": "1 commit(s) cuyo contenido NO esta en main",
+      "rescatar": [
+        {
+          "sha": "19005cb",
+          "resumen": ""
+        }
+      ]
+    }
+  ]
+}
