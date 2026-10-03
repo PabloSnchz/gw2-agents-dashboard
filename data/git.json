@@ -1,8 +1,15 @@
 {
- "generado_utc": "20261003T020619Z",
- "generado_h": "2026-10-03 02:06 UTC",
+ "generado_utc": "20261003T022120Z",
+ "generado_h": "2026-10-03 02:21 UTC",
  "origen": "git local + ls-remote (sin cuota). protected cacheado TTL 6h.",
  "commits": [
+  {
+   "sha": "e1dfb69e20139bcfd2c40b33148d47f25c8690cc",
+   "short": "e1dfb69",
+   "autor": "Pablo Sanchez",
+   "fecha": "2026-10-02T23:08:29-03:00",
+   "msg": "docs(hb155): la guardia de escritor vivo se disparo y se libero sola; \"vivo\" es un instante, no un estado"
+  },
   {
    "sha": "23e2fea55970d34339581aaee0ee253dd67edfe1",
    "short": "23e2fea",
@@ -345,13 +352,6 @@
    "autor": "Pablo Sanchez",
    "fecha": "2026-10-02T09:48:28-03:00",
    "msg": "\"correccion(hb133): ALERT-198 era FALSA - la invente por leer mal la ruta de git worktree list\""
-  },
-  {
-   "sha": "37aab6a3463355328cd80cddbcb38b38bdfba5cc",
-   "short": "37aab6a",
-   "autor": "Pablo Sanchez",
-   "fecha": "2026-10-02T09:46:56-03:00",
-   "msg": "\"docs(hb133): hash real del fix en COMMS_LOG (7c4f8d1 era inventado, el commit aun no existia)\""
   }
  ],
  "archivos_md": [
@@ -398,9 +398,9 @@
    "repo": "gw2-wallet-agents",
    "label": "Desarrollo",
    "role": "dev",
-   "sha": "23e2fea55970d34339581aaee0ee253dd67edfe1",
-   "short_sha": "23e2fea",
-   "commit": "feat(api): rescate de HB#154 —",
+   "sha": "e1dfb69e20139bcfd2c40b33148d47f25c8690cc",
+   "short_sha": "e1dfb69",
+   "commit": "docs(hb155): la guardia de escritor vivo se disparo y se",
    "estado": "open",
    "protected": false,
    "protected_fresco": true,
@@ -412,9 +412,9 @@
    "repo": "gw2-agents-dashboard",
    "label": "Dashboard",
    "role": "dashboard",
-   "sha": "9621614fa749daa9c18d842d7be803c9dcb4e84a",
-   "short_sha": "9621614",
-   "commit": "chore(dashboard): pulso automatico 2026-10-03_01-51_UTC",
+   "sha": "1bf86f183dc17351970142ac3123634aa693c684",
+   "short_sha": "1bf86f1",
+   "commit": "chore(dashboard): pulso automatico 2026-10-03_02-06_UTC",
    "estado": "open",
    "protected": false,
    "protected_fresco": true,
