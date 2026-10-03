@@ -1,6 +1,6 @@
 {
- "generado_utc": "20261003T215134Z",
- "generado_h": "2026-10-03 21:51 UTC",
+ "generado_utc": "20261003T222207Z",
+ "generado_h": "2026-10-03 22:22 UTC",
  "origen": "git local + ls-remote (sin cuota). protected cacheado TTL 6h.",
  "commits": [
   {
@@ -390,7 +390,7 @@
    "estado": "protected",
    "protected": true,
    "protected_fresco": true,
-   "protected_verificado_utc": "20261003T160722Z",
+   "protected_verificado_utc": "20261003T222210Z",
    "proteccion_detalle": null,
    "proteccion_detalle_motivo": "sin token"
   },
@@ -404,7 +404,7 @@
    "estado": "open",
    "protected": false,
    "protected_fresco": true,
-   "protected_verificado_utc": "20261003T160724Z",
+   "protected_verificado_utc": "20261003T222212Z",
    "proteccion_detalle": null,
    "proteccion_detalle_motivo": "sin token"
   },
@@ -412,13 +412,13 @@
    "repo": "gw2-agents-dashboard",
    "label": "Dashboard",
    "role": "dashboard",
-   "sha": "f0c821bcb66ef0cb50dcea44b09292421588a3cd",
-   "short_sha": "f0c821b",
-   "commit": "chore(dashboard): pulso automatico 2026-10-03_21-36_UTC",
+   "sha": "26921b53f0cfc15e49aa342cf82268c42f29ca8e",
+   "short_sha": "26921b5",
+   "commit": "chore(dashboard): pulso automatico 2026-10-03_21-51_UTC",
    "estado": "open",
    "protected": false,
    "protected_fresco": true,
-   "protected_verificado_utc": "20261003T160726Z",
+   "protected_verificado_utc": "20261003T222214Z",
    "proteccion_detalle": null,
    "proteccion_detalle_motivo": "sin token"
   }
