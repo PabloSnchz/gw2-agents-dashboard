@@ -1,8 +1,15 @@
 {
- "generado_utc": "20261003T120621Z",
- "generado_h": "2026-10-03 12:06 UTC",
+ "generado_utc": "20261003T122121Z",
+ "generado_h": "2026-10-03 12:21 UTC",
  "origen": "git local + ls-remote (sin cuota). protected cacheado TTL 6h.",
  "commits": [
+  {
+   "sha": "d342c3c3791d90e8cf86a43ea14813f2c8bda5b8",
+   "short": "d342c3c",
+   "autor": "Pablo Sanchez",
+   "fecha": "2026-10-03T09:12:55-03:00",
+   "msg": "docs(hb173): ALERT-243 - el eje de conteo tiene TRES formas, no dos, y el umbral de MODO PODA esta a 1"
+  },
   {
    "sha": "ac205dcef382e149703efab59caca07065df3bff",
    "short": "ac205dc",
@@ -345,13 +352,6 @@
    "autor": "Pablo Sanchez",
    "fecha": "2026-10-02T14:52:07-03:00",
    "msg": "docs(hb141): ALERT-206 (suite roja con el producto sano) y ALERT-207 (un control que falla no mide)"
-  },
-  {
-   "sha": "9f3b097e5fc96c98a5fc77512a1a2e93765cdbf2",
-   "short": "9f3b097",
-   "autor": "Pablo Sanchez",
-   "fecha": "2026-10-02T14:42:37-03:00",
-   "msg": "fix(armeria): el chevron que se ve y no hace nada, y el \"cargando\" que caia en el mensaje de error"
   }
  ],
  "archivos_md": [
@@ -398,9 +398,9 @@
    "repo": "gw2-wallet-agents",
    "label": "Desarrollo",
    "role": "dev",
-   "sha": "ac205dcef382e149703efab59caca07065df3bff",
-   "short_sha": "ac205dc",
-   "commit": "docs(hb172): ALERT-242 - un conteo por subcadena no puede",
+   "sha": "d342c3c3791d90e8cf86a43ea14813f2c8bda5b8",
+   "short_sha": "d342c3c",
+   "commit": "docs(hb173): ALERT-243 - el eje de conteo tiene TRES formas,",
    "estado": "open",
    "protected": false,
    "protected_fresco": true,
@@ -412,9 +412,9 @@
    "repo": "gw2-agents-dashboard",
    "label": "Dashboard",
    "role": "dashboard",
-   "sha": "7e61aab011d835c5edce30a9c773fc57252d01d8",
-   "short_sha": "7e61aab",
-   "commit": "chore(dashboard): pulso automatico 2026-10-03_11-51_UTC",
+   "sha": "e4ea686011cf6afe0396926804e9dc162658f83b",
+   "short_sha": "e4ea686",
+   "commit": "chore(dashboard): pulso automatico 2026-10-03_12-06_UTC",
    "estado": "open",
    "protected": false,
    "protected_fresco": true,
