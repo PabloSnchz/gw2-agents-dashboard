@@ -1,8 +1,29 @@
 {
- "generado_utc": "20261003T022120Z",
- "generado_h": "2026-10-03 02:21 UTC",
+ "generado_utc": "20261003T023619Z",
+ "generado_h": "2026-10-03 02:36 UTC",
  "origen": "git local + ls-remote (sin cuota). protected cacheado TTL 6h.",
  "commits": [
+  {
+   "sha": "90775ee031dd49631477011bec661c79a9131fe4",
+   "short": "90775ee",
+   "autor": "Pablo Sanchez",
+   "fecha": "2026-10-02T23:31:56-03:00",
+   "msg": "docs(hb156): seccion de TEAM_STATUS del ciclo, con los 6 errores de instrumento propios"
+  },
+  {
+   "sha": "24f7dbcefca3faa377d44bef0b284af0fcdc6dfc",
+   "short": "24f7dbc",
+   "autor": "Pablo Sanchez",
+   "fecha": "2026-10-02T23:29:39-03:00",
+   "msg": "docs(hb156-fix): el banner citaba el marcador que su propio chequeo busca Un control que se puede disparar con el material que controla deja de ser control: 3a vez en el ecosistema, la misma del HB#151. El criterio 2 del banner transcribia el titulo de la version vencida del paso 3 para explicar que era lo que senalaba, asi que la senal aparecia en el archivo sano."
+  },
+  {
+   "sha": "a7918db7825774762988a27409f93003c3d37cda",
+   "short": "a7918db",
+   "autor": "Pablo Sanchez",
+   "fecha": "2026-10-02T23:25:58-03:00",
+   "msg": "docs(hb156): hay dos HEARTBEAT.md y no son el mismo de dos generaciones"
+  },
   {
    "sha": "e1dfb69e20139bcfd2c40b33148d47f25c8690cc",
    "short": "e1dfb69",
@@ -331,27 +352,6 @@
    "autor": "Pablo Sanchez",
    "fecha": "2026-10-02T10:47:24-03:00",
    "msg": "tools: versionar la fuente de recetas (cl_recipes.json) y el runner  Sin esto el paso 6 (arbol de fabricacion) no puede existir y el build no es reproducible.  - tools/.gitignore: tres excepciones explicitas y justificadas.   * *  mantiene fuera los ~90 scripts de un solo uso que son ruido.   * !run-suite.js / .cmd  el runner ya estaba trackeado pero la regla lo     hacia fragil; ahora queda explicito.   * !cl_recipes.json  la fuente (634 recetas, 2.340 ingredientes).  POR QUE cl_recipes.json es bloqueante y no una comodidad: js/legendary-recipes.js declara 567 ingredientes en 236 ids distintos, y de esos 236, CERO tienen receta en el propio contrato. Un arbol recursivo sobre ese contrato dibujaria siempre un nivel y nada mas. En esta fuente el 86% de esos ingredientes si tiene receta: el arbol llega a ~8 niveles.  Sin el archivo en git, _build_legendary_recipes.py depende de una descarga manual que vive en el disco de una sola persona. Un build que no se puede reproducir no es un build.  Fuente: crafty_legend (PieOrCake). Medida 2026-10-02. Autorizado por Pablo."
-  },
-  {
-   "sha": "a7fc16bd596add5a6d3a62ffee16e1075f4d0ca6",
-   "short": "a7fc16b",
-   "autor": "Pablo Sanchez",
-   "fecha": "2026-10-02T10:10:18-03:00",
-   "msg": "docs(hb134): SESSION_LOG del conteo del PO corregido (ALERT-199) y del extractor que lee comentarios (ALERT-200)"
-  },
-  {
-   "sha": "820484ed45f18daf4c48e8d7ab3ef2d3c6453bef",
-   "short": "820484e",
-   "autor": "Pablo Sanchez",
-   "fecha": "2026-10-02T10:09:30-03:00",
-   "msg": "fix(po): el conteo de propuestas se armaba sobre 9 de 15 refs (ALERT-199)"
-  },
-  {
-   "sha": "965bae5091cd2be9849be335f29ac38766e99edc",
-   "short": "965bae5",
-   "autor": "Pablo Sanchez",
-   "fecha": "2026-10-02T09:48:28-03:00",
-   "msg": "\"correccion(hb133): ALERT-198 era FALSA - la invente por leer mal la ruta de git worktree list\""
   }
  ],
  "archivos_md": [
@@ -398,9 +398,9 @@
    "repo": "gw2-wallet-agents",
    "label": "Desarrollo",
    "role": "dev",
-   "sha": "e1dfb69e20139bcfd2c40b33148d47f25c8690cc",
-   "short_sha": "e1dfb69",
-   "commit": "docs(hb155): la guardia de escritor vivo se disparo y se",
+   "sha": "90775ee031dd49631477011bec661c79a9131fe4",
+   "short_sha": "90775ee",
+   "commit": "docs(hb156): seccion de TEAM_STATUS del ciclo, con los 6",
    "estado": "open",
    "protected": false,
    "protected_fresco": true,
@@ -412,9 +412,9 @@
    "repo": "gw2-agents-dashboard",
    "label": "Dashboard",
    "role": "dashboard",
-   "sha": "1bf86f183dc17351970142ac3123634aa693c684",
-   "short_sha": "1bf86f1",
-   "commit": "chore(dashboard): pulso automatico 2026-10-03_02-06_UTC",
+   "sha": "250ad50b929049d93d7e0a06c101ff7120937d21",
+   "short_sha": "250ad50",
+   "commit": "chore(dashboard): pulso automatico 2026-10-03_02-21_UTC",
    "estado": "open",
    "protected": false,
    "protected_fresco": true,
