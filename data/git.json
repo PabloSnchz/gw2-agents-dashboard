@@ -1,8 +1,15 @@
 {
- "generado_utc": "20261003T173624Z",
- "generado_h": "2026-10-03 17:36 UTC",
+ "generado_utc": "20261003T175129Z",
+ "generado_h": "2026-10-03 17:51 UTC",
  "origen": "git local + ls-remote (sin cuota). protected cacheado TTL 6h.",
  "commits": [
+  {
+   "sha": "fa3b18232732a801b36b8df5c666464316554618",
+   "short": "fa3b182",
+   "autor": "Pablo Sanchez",
+   "fecha": "2026-10-03T14:44:11-03:00",
+   "msg": "fix(tools): ALERT-249 - el campo autoritativo openItems pasa a la forma que tolera sangria  Rescate del trabajo terminado del HB#179 (murio antes del commit: rama fix-hb179-openitems-autoritativo, worktree sucio con mtimes 17:08-17:10, 22 min anteriores al arranque, sin escritor vivo).  El defecto que corrige: hb163-canales.mjs contaba openItems con /^- [ ]/gm, anclado en columna 0, mientras el parrafo de ALERT-243 en HEARTBEAT.md concluia que la forma que no pierde un item abierto si alguien lo indenta bajo un subtitulo es la que TOLERA sangria. El parrafo tenia escrita la forma correcta a cinco lineas del campo que usaba la otra, y el modo de los 5 agentes se decidia con el numero de la forma que puede perder item sin avisar.  Ahora openItems ES la forma tolerante (el nombre no cambia, la cita no se rompe, y lo que la cita alcanza es el numero que no puede perder trabajo). openItemsAnclada + openItemsQueLaAncladaPierde + openItems_INCONSISTENTE_por_forma quedan como diagnostico. La guarda openItemsDiscrimina se calcula sobre RE_MARCA tambien tolerante: con la forma anclada era MAS ESTRECHA que el numero que custodia (una fila con la unica casilla sangrada daba marcadorPresente 0, openItemsDiscrimina false y openItems 1: tres campos, uno cierto).  Medido: BACKLOG.md openItems 5 = PAUSA, openItemsAnclada 5, perdidos 0, marcadorPresente 68 (era 65: son las 3 casillas con sangria L284/L420/L421, todas - [x]). Fixture control_sangria 2/1/1, que discrimina.  Fase roja VERIFICADA por el Principal antes de commitear, no heredada de la prosa: las 2 mutaciones colapsan RE_ABIERTO y RE_MARCA a la forma anclada y las 2 dan controles_ok false con exit 1, sin crash, restaurado byte a byte.  Sin js/ ni tests/ tocados: la suite NO aplica y no se corrio por costumbre."
+  },
   {
    "sha": "e67690e991f0f7c83e1abac73b8a21df90c95ab4",
    "short": "e67690e",
@@ -345,13 +352,6 @@
    "autor": "Pablo Sanchez",
    "fecha": "2026-10-02T16:16:55-03:00",
    "msg": "fix(idea57): la cuenta de \"cuantos faltan migrar\", verificada en vez de escrita"
-  },
-  {
-   "sha": "45ee93a7ef1ce2c4d8abf8c6a060cda0be80f084",
-   "short": "45ee93a",
-   "autor": "Pablo Sanchez",
-   "fecha": "2026-10-02T15:45:55-03:00",
-   "msg": "docs(hb143): ARME 2.3, la decision sobre los dos tests rescatados, y dos alertas"
   }
  ],
  "archivos_md": [
@@ -412,9 +412,9 @@
    "repo": "gw2-agents-dashboard",
    "label": "Dashboard",
    "role": "dashboard",
-   "sha": "ff7a94bc5bdf87b0c69fcefeada565c3345d2d9e",
-   "short_sha": "ff7a94b",
-   "commit": "chore(dashboard): pulso automatico 2026-10-03_17-21_UTC",
+   "sha": "d0a0a609152a2760c8e5aaa935ee4ce438b91957",
+   "short_sha": "d0a0a60",
+   "commit": "chore(dashboard): pulso automatico 2026-10-03_17-36_UTC",
    "estado": "open",
    "protected": false,
    "protected_fresco": true,
