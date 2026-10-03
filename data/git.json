@@ -1,8 +1,15 @@
 {
- "generado_utc": "20261003T002119Z",
- "generado_h": "2026-10-03 00:21 UTC",
+ "generado_utc": "20261003T003620Z",
+ "generado_h": "2026-10-03 00:36 UTC",
  "origen": "git local + ls-remote (sin cuota). protected cacheado TTL 6h.",
  "commits": [
+  {
+   "sha": "6b0c12c295435abf363168617a60609a2c89d476",
+   "short": "6b0c12c",
+   "autor": "Pablo Sanchez",
+   "fecha": "2026-10-02T21:27:04-03:00",
+   "msg": "feat(armeria): presupuesto propio de cache para los 906 ids del arbol"
+  },
   {
    "sha": "d2dfd572f57841c15af24e72fcc89a88478be954",
    "short": "d2dfd57",
@@ -345,13 +352,6 @@
    "autor": "Pablo Sanchez",
    "fecha": "2026-10-02T09:07:05-03:00",
    "msg": "docs(hb132): corte de la noche - la suite en verde estaba midiendo un repo que no existe"
-  },
-  {
-   "sha": "7d45e83bf700bb88a91ebc09b4c5248e8b6fe36b",
-   "short": "7d45e83",
-   "autor": "Pablo Sanchez",
-   "fecha": "2026-10-02T08:45:56-03:00",
-   "msg": "docs(hb131): fila 158 en COMMS_LOG — T12-b enviado, y el veredicto que la dispara estaba sin leer"
   }
  ],
  "archivos_md": [
@@ -398,9 +398,9 @@
    "repo": "gw2-wallet-agents",
    "label": "Desarrollo",
    "role": "dev",
-   "sha": "d2dfd572f57841c15af24e72fcc89a88478be954",
-   "short_sha": "d2dfd57",
-   "commit": "fix(armeria): el boton + Cola del catalogo usa --color-red en",
+   "sha": "6b0c12c295435abf363168617a60609a2c89d476",
+   "short_sha": "6b0c12c",
+   "commit": "feat(armeria): presupuesto propio de cache para los 906 ids",
    "estado": "open",
    "protected": false,
    "protected_fresco": true,
@@ -412,9 +412,9 @@
    "repo": "gw2-agents-dashboard",
    "label": "Dashboard",
    "role": "dashboard",
-   "sha": "2ed56b060548e692d5e2a7892092cee549ab7fa0",
-   "short_sha": "2ed56b0",
-   "commit": "chore(dashboard): pulso automatico 2026-10-03_00-06_UTC",
+   "sha": "04cfdff8413b26548b4db32ad9f7e213ad095d68",
+   "short_sha": "04cfdff",
+   "commit": "chore(dashboard): pulso automatico 2026-10-03_00-21_UTC",
    "estado": "open",
    "protected": false,
    "protected_fresco": true,
