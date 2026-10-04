@@ -1,8 +1,15 @@
 {
- "generado_utc": "20261004T105124Z",
- "generado_h": "2026-10-04 10:51 UTC",
+ "generado_utc": "20261004T110626Z",
+ "generado_h": "2026-10-04 11:06 UTC",
  "origen": "git local + ls-remote (sin cuota). protected cacheado TTL 6h.",
  "commits": [
+  {
+   "sha": "b74848b830a55f462ac1280e7605281d60013b91",
+   "short": "b74848b",
+   "autor": "Pablo Sanchez",
+   "fecha": "2026-10-04T08:04:07-03:00",
+   "msg": "fix(logs): quita el prefijo '+' de 91 lineas de ALERT-255 en ALERTS_LOG.md  El blob de origin/main tenia 91 lineas con un '+' literal al inicio dentro del bloque ALERT-255 (HB#185), artefacto de un patch escrito como texto. El worktree ya tenia la version sin el prefijo; este commit la entrega.  Medido antes de escribir (hb188probe/hb188e): - A) lineas que arrancan con '+' en el BLOB de origin/main: 91 - B) lineas que arrancan con '+' en el WORKTREE: 0 - diff con --ignore-all-space: 91/91 -> es CONTENIDO, no EOL - stage sin -c core.autocrlf=false: LF PURO, igual que el blob - ALERT-255 en el worktree: 3665 lineas, 26 fences pares, 99   subsecciones -> el bloque esta completo, no truncado - AGENTS.md y SESSION_LOG.md tienen 1 linea con '+' en AMBOS   lados y es contenido legitimo (+11/-10, + archivos/commits):   preexistente, NO es la misma corrupcion"
+  },
   {
    "sha": "0207bebffa00d88ee8799356953c264246b1cf3e",
    "short": "0207beb",
@@ -345,13 +352,6 @@
    "autor": "Pablo Sanchez",
    "fecha": "2026-10-02T20:08:37-03:00",
    "msg": "feat(api): getAccountSkins - Tramo 1 de Coberturable (RESCATE del HB#150) + ALERT-222"
-  },
-  {
-   "sha": "3c3af8a0428968ab901f883407993b3c06a44110",
-   "short": "3c3af8a",
-   "autor": "Pablo Sanchez",
-   "fecha": "2026-10-02T19:23:27-03:00",
-   "msg": "docs(hb149): ALERT-219 - un arbol sucio puede ser el ciclo anterior vivo; poda de 2 filas del PO y ALERT-41 escalada a Pablo"
   }
  ],
  "archivos_md": [
@@ -412,9 +412,9 @@
    "repo": "gw2-agents-dashboard",
    "label": "Dashboard",
    "role": "dashboard",
-   "sha": "c8a8a6b39ddb8a977ab0e7b1a5df4d1097a2abdb",
-   "short_sha": "c8a8a6b",
-   "commit": "chore(dashboard): pulso automatico 2026-10-04_10-36_UTC",
+   "sha": "37719cbb99fa9e0ca59e3bb0c3a724dda7c6e37f",
+   "short_sha": "37719cb",
+   "commit": "chore(dashboard): pulso automatico 2026-10-04_10-51_UTC",
    "estado": "open",
    "protected": false,
    "protected_fresco": true,
