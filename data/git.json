@@ -1,8 +1,22 @@
 {
- "generado_utc": "20261004T160626Z",
- "generado_h": "2026-10-04 16:06 UTC",
+ "generado_utc": "20261004T162126Z",
+ "generado_h": "2026-10-04 16:21 UTC",
  "origen": "git local + ls-remote (sin cuota). protected cacheado TTL 6h.",
  "commits": [
+  {
+   "sha": "fcaee4008aac5d59254b321b9d1817aeb3e7f463",
+   "short": "fcaee40",
+   "autor": "Pablo Sanchez",
+   "fecha": "2026-10-04T13:19:19-03:00",
+   "msg": "docs(teams): HB#192 - registro de la ronda 62 del PO y del podado aplicado"
+  },
+  {
+   "sha": "82f66cd7e146a5f5050b250969d713abc4e43d39",
+   "short": "82f66cd",
+   "autor": "Pablo Sanchez",
+   "fecha": "2026-10-04T13:16:07-03:00",
+   "msg": "chore(backlog): archiva L298 y L352, 5 -> 3 items abiertos = RECOLECTAR"
+  },
   {
    "sha": "5c496d37b0f192c5ce170cde7e7b80daf5bffbf3",
    "short": "5c496d3",
@@ -338,20 +352,6 @@
    "autor": "Pablo Sanchez",
    "fecha": "2026-10-02T22:14:17-03:00",
    "msg": "fix(armeria): el boton + Cola vuelve a los tokens apagados, con la geometria del badge PENDING"
-  },
-  {
-   "sha": "ec33a0d633760791ea9a89ba3f65c24d8d7dca1c",
-   "short": "ec33a0d",
-   "autor": "Pablo Sanchez",
-   "fecha": "2026-10-02T21:37:29-03:00",
-   "msg": "docs(hb153): el \"paso 1 bloqueante\" de la noche ya estaba mergeado 4 minutos antes de que el bloque lo declarara pendiente"
-  },
-  {
-   "sha": "6b0c12c295435abf363168617a60609a2c89d476",
-   "short": "6b0c12c",
-   "autor": "Pablo Sanchez",
-   "fecha": "2026-10-02T21:27:04-03:00",
-   "msg": "feat(armeria): presupuesto propio de cache para los 906 ids del arbol"
   }
  ],
  "archivos_md": [
@@ -398,9 +398,9 @@
    "repo": "gw2-wallet-agents",
    "label": "Desarrollo",
    "role": "dev",
-   "sha": "5c496d37b0f192c5ce170cde7e7b80daf5bffbf3",
-   "short_sha": "5c496d3",
-   "commit": "docs(hb189): rescate de HB#188 a main + ronda 61 del PO ya",
+   "sha": "fcaee4008aac5d59254b321b9d1817aeb3e7f463",
+   "short_sha": "fcaee40",
+   "commit": "docs(teams): HB#192 - registro de la ronda 62 del PO y del",
    "estado": "open",
    "protected": false,
    "protected_fresco": true,
@@ -412,9 +412,9 @@
    "repo": "gw2-agents-dashboard",
    "label": "Dashboard",
    "role": "dashboard",
-   "sha": "64db5b4d5d64acd9f6b4512bd2fc60dac5412031",
-   "short_sha": "64db5b4",
-   "commit": "chore(dashboard): pulso automatico 2026-10-04_15-51_UTC",
+   "sha": "1d0ec24ac3e523a223c92ddc8a651b24a5db56a8",
+   "short_sha": "1d0ec24",
+   "commit": "chore(dashboard): pulso automatico 2026-10-04_16-06_UTC",
    "estado": "open",
    "protected": false,
    "protected_fresco": true,

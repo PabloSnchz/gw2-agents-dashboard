@@ -1,7 +1,7 @@
 {
- "generado": "2026-10-04T16:06:31Z",
+ "generado": "2026-10-04T16:21:32Z",
  "dev_base": "https://pablosnchz.github.io/gw2-wallet-agents/",
- "dev_sha": "5c496d3",
+ "dev_sha": "fcaee40",
  "pantallas": [
   {
    "ruta": "/welcome",
@@ -307,7 +307,7 @@
   },
   {
    "titulo": "Fractal Tracker: iterar las 27 cuentas en el panel de CM",
-   "estado": "",
+   "estado": "x",
    "fuente": "BACKLOG.md",
    "pantalla": "https://pablosnchz.github.io/gw2-wallet-agents/#/activities",
    "pantalla_nombre": "Actividades",
@@ -357,7 +357,7 @@
   },
   {
    "titulo": "WvW: VISOR de `/v2/wvw/objectives` (VISOR, no tracker)",
-   "estado": "",
+   "estado": "x",
    "fuente": "BACKLOG.md",
    "pantalla": null
   },
