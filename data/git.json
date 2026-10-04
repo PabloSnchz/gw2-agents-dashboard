@@ -1,21 +1,28 @@
 {
- "generado_utc": "20261004T190625Z",
- "generado_h": "2026-10-04 19:06 UTC",
+ "generado_utc": "20261004T192128Z",
+ "generado_h": "2026-10-04 19:21 UTC",
  "origen": "git local + ls-remote (sin cuota). protected cacheado TTL 6h.",
  "commits": [
   {
-   "sha": "9a19aab5de8c9337ee2f96dc015fc24f08ad16ae",
-   "short": "9a19aab",
+   "sha": "482e5bf61bcd2f6b8fa772dba2a443601c54ae53",
+   "short": "482e5bf",
    "autor": "Pablo Sanchez",
-   "fecha": "2026-10-04T15:08:07-03:00",
-   "msg": "merge(po): la razon de la poda L298/L352 entra al repo, y L60 queda escrita como pregunta"
+   "fecha": "2026-10-04T16:15:25-03:00",
+   "msg": "docs(hb195): ALERT-258 - una insercion limpia salio como 7376 lineas de ruido  El find del ciclo: TEAM_STATUS.md esta CRLF PURO en el blob de origin/main y LF PURO en mi worktree. core.autocrlf=true sin .gitattributes hace que el commit lo reescriba entero: mi insercion de ~152 lineas salio como 3882 insertions / 3494 deletions.  El numero que lo delata NO es el diff previo, es el codigo de salida del commit (3943/3494). Correccion: convertir el worktree a CRLF y stagear con git -c core.autocrlf=false add. El diff cae a 623/235 y la paridad staged==blob queda OK.  Herramienta nueva: tools/_hb195_eol.mjs, que compara worktree contra el BLOB de origin/main y devuelve el MODO. La comparacion que no detecta el cambio de estilo es worktree-contra-worktree.  Y el dato que hace fallable al instrumento propio: mi primer parser del diff reporto 0 quitadas / 0 agregadas sobre un diff de 623/235. No era el archivo roto, el parser no contaba. Rehecho en PowerShell: 235/623, 4 hunks, coincidente con --numstat. Un instrumento que da 0 sobre un input grande no se arrima: no se midio.  Contexto: edit_file REORDENA bloques al insertar, asi que un diff de insercion pura no tiene por que dar 0 quitadas. Controlada linea por linea: PERDIDAS_DE_VERDAD=0. Las 235 quitadas estan todas entre las agregadas. Un control escrito sin medir el caso sano habria reportado 235 lineas reescritas como perdida.  Los 3 archivos quedan con paridad staged==blob OK."
   },
   {
-   "sha": "504e2178fab89133e42117c5ba03644294541508",
-   "short": "504e217",
+   "sha": "dcaf4f06c5e52a060165288f128cee68b4904b25",
+   "short": "dcaf4f0",
    "autor": "Pablo Sanchez",
-   "fecha": "2026-10-04T14:58:48-03:00",
-   "msg": "﻿docs(po/hb193): RECOLECTAR - la banda se mide en git y el podado se decide fuera de git"
+   "fecha": "2026-10-04T16:12:37-03:00",
+   "msg": "docs(hb195): ALERT-257 - el prefijo getAccount es convencion, no capa  Cierre del ciclo HB#195.  ALERT-257 (nueva): el conteo de wrappers por prefijo mezcla dos familias. Medido sobre origin/main @ fcaee40 con control positivo y negativo:  - wrappers reales: function getAccount* en js/api-gw2.js = 10 - identificadores unicos getAccount* en todo js/ = 10 - helpers de presentacion en los otros 4 archivos = 6  No hay 17. El prefijo getAccount nombra una CONVENCION (dato de cuenta), no una CAPA (capa de API): getAccountColor mapea un tag a color y getAccountTypeTags lee acc.tags. El conteo tiene que anclarse al archivo.  Su hermano, y mas caro porque el numero sale en 0: /v2.json devuelve {langs, routes} y routes es un ARRAY DE OBJETOS, no un diccionario. Leer las claves da 0; leer las propiedades del contenedor da 8; solo $j.routes[] por el campo 'path' da 46. Con 4 controles: wallet=1, /v2/accountZZZ*=0, total=184, emotes active+auth. 46 rutas /v2/account*, 45 activas, la unica inactiva es /v2/account/mail (que es un endpoint real).  Un 0 que sale de leer una estructura con la forma equivocada es indistinguible de 'no existe'. L88 decia 43 con la etiqueta 'NO re-medido hoy'; corregido a 46/45.  Rescate del HB#194 (muerto antes del commit: arbol sucio, mtime 18:41 UTC, 0/112 sesiones running). Re-verificado por el Principal en vez de aceptar el dato, y las 2 correcciones salieron de ahi.  Los 2 commits de chore-hb193-banda-medida ya estaban en origin pero nunca entraron a main; no los mergeo porque son del PO.  Sin js/ ni tests/ -> la suite NO aplica y no se corre por costumbre. 0 worktrees creados; _r56_wt y _wt193 son preexistentes y del PO."
+  },
+  {
+   "sha": "2c46496f84d8d1330bfa88ed181b99ca3a900117",
+   "short": "2c46496",
+   "autor": "Pablo Sanchez",
+   "fecha": "2026-10-04T16:09:58-03:00",
+   "msg": "docs(backlog): rescate del HB#194 y denominador de L88 re-medido  El HB#194 murio antes del commit (arbol sucio, mtime 18:41 UTC, 0 sesiones running). Se rescata su bloque de BACKLOG.md, RE-VERIFICADO de forma independiente en vez de aceptar el dato:  - /v2/account/emotes: 0 usos en js/ e index.html, con control POSITIVO   getAccountSkins=3 y NEGATIVO getAccountZZZ999=0. - Catalogo: 14 emotes, 14/14 con commands y unlock_items; 12 items unicos   resueltos 12/12 contra /v2/items (100099 = /bless Emote Tome, Exotic).   Control negativo: un id invalido en el lote -> HTTP 206 con los validos. - Sonda viva: /v2/account/emotes = 401, wallet = 401 (positivo),   /v2/account/inventario = 404 (negativo).  Dos correcciones sobre lo que el PO reporto:  1) El denominador de L88 estaba en 43 rutas y sin re-medir. Hoy son 46    rutas /v2/account*, 45 activas; la unica inactiva es /v2/account/mail.    Nota de instrumento: /v2.json envuelve las rutas en un array de objetos,    asi que hay que contar por el campo 'path'. Leer las claves del objeto    devuelve 0 y parece que no hay rutas.  2) El '17 vs 10' de wrappers NO es sobre-conteo. Hay 10 wrappers en    js/api-gw2.js y 10 identificadores getAccount* en todo js/: no hay 17.    El prefijo agrega 6 helpers locales de presentacion (getAccountColor,    getAccountIcon, getAccountType, getAccountTypeTags, getAccountTypeIcon)    que no tocan la API. El prefijo getAccount nombra una convencion, no    una capa.  openItems queda en 3 (no movido) y controles_ok=true: la edicion es texto dentro de una fila cerrada."
   },
   {
    "sha": "fcaee4008aac5d59254b321b9d1817aeb3e7f463",
@@ -345,13 +352,6 @@
    "autor": "Pablo Sanchez",
    "fecha": "2026-10-02T23:08:29-03:00",
    "msg": "docs(hb155): la guardia de escritor vivo se disparo y se libero sola; \"vivo\" es un instante, no un estado"
-  },
-  {
-   "sha": "23e2fea55970d34339581aaee0ee253dd67edfe1",
-   "short": "23e2fea",
-   "autor": "Pablo Sanchez",
-   "fecha": "2026-10-02T22:50:00-03:00",
-   "msg": "feat(api): rescate de HB#154 — getSkinsBatch (Tramo 2 de Coberturable) cierra los 3 FAIL"
   }
  ],
  "archivos_md": [
@@ -412,9 +412,9 @@
    "repo": "gw2-agents-dashboard",
    "label": "Dashboard",
    "role": "dashboard",
-   "sha": "367df18be517415fc6298637f87f4546aed4b0e8",
-   "short_sha": "367df18",
-   "commit": "chore(dashboard): pulso automatico 2026-10-04_18-51_UTC",
+   "sha": "2244033e89ed5fac56caf1e0e83967ca062f422e",
+   "short_sha": "2244033",
+   "commit": "chore(dashboard): pulso automatico 2026-10-04_19-06_UTC",
    "estado": "open",
    "protected": false,
    "protected_fresco": true,
