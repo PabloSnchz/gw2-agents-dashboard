@@ -1,8 +1,15 @@
 {
- "generado_utc": "20261004T092126Z",
- "generado_h": "2026-10-04 09:21 UTC",
+ "generado_utc": "20261004T093626Z",
+ "generado_h": "2026-10-04 09:36 UTC",
  "origen": "git local + ls-remote (sin cuota). protected cacheado TTL 6h.",
  "commits": [
+  {
+   "sha": "0207bebffa00d88ee8799356953c264246b1cf3e",
+   "short": "0207beb",
+   "autor": "Pablo Sanchez",
+   "fecha": "2026-10-04T06:34:08-03:00",
+   "msg": "rescate(hb187): PRE_BACKLOG.md ronda 53 del PO sin commitear (ARCHIVADAS CON FECHA)"
+  },
   {
    "sha": "2e7eb19b87a462a9f1caf0ed9c9721056c54c309",
    "short": "2e7eb19",
@@ -345,13 +352,6 @@
    "autor": "Pablo Sanchez",
    "fecha": "2026-10-02T19:23:27-03:00",
    "msg": "docs(hb149): ALERT-219 - un arbol sucio puede ser el ciclo anterior vivo; poda de 2 filas del PO y ALERT-41 escalada a Pablo"
-  },
-  {
-   "sha": "0eb87b9dabd59092ff566d69617386f50654109e",
-   "short": "0eb87b9",
-   "autor": "Pablo Sanchez",
-   "fecha": "2026-10-02T19:14:02-03:00",
-   "msg": "test(armeria): ALERT-216 reescribe el certificado de FILTRO-05 por EFECTO; ALERT-217 cierra el \"TOTAL que bouncea 2x\""
   }
  ],
  "archivos_md": [
@@ -412,9 +412,9 @@
    "repo": "gw2-agents-dashboard",
    "label": "Dashboard",
    "role": "dashboard",
-   "sha": "2a8f0d038b34e484fc934e0c09df1d836f350a00",
-   "short_sha": "2a8f0d0",
-   "commit": "chore(dashboard): pulso automatico 2026-10-04_09-06_UTC",
+   "sha": "a7de45959a132af9d4376f3beb2f24dcd4f572cd",
+   "short_sha": "a7de459",
+   "commit": "chore(dashboard): pulso automatico 2026-10-04_09-21_UTC",
    "estado": "open",
    "protected": false,
    "protected_fresco": true,
