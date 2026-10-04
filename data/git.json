@@ -1,8 +1,15 @@
 {
- "generado_utc": "20261004T200627Z",
- "generado_h": "2026-10-04 20:06 UTC",
+ "generado_utc": "20261004T202127Z",
+ "generado_h": "2026-10-04 20:21 UTC",
  "origen": "git local + ls-remote (sin cuota). protected cacheado TTL 6h.",
  "commits": [
+  {
+   "sha": "40fd97ac1644dca023d77af216c642046fe0581e",
+   "short": "40fd97a",
+   "autor": "Pablo Sanchez",
+   "fecha": "2026-10-04T17:12:26-03:00",
+   "msg": "docs(hb196): rescate de 3 commits sin pushear + ALERT-259"
+  },
   {
    "sha": "482e5bf61bcd2f6b8fa772dba2a443601c54ae53",
    "short": "482e5bf",
@@ -345,13 +352,6 @@
    "autor": "Pablo Sanchez",
    "fecha": "2026-10-02T23:25:58-03:00",
    "msg": "docs(hb156): hay dos HEARTBEAT.md y no son el mismo de dos generaciones"
-  },
-  {
-   "sha": "e1dfb69e20139bcfd2c40b33148d47f25c8690cc",
-   "short": "e1dfb69",
-   "autor": "Pablo Sanchez",
-   "fecha": "2026-10-02T23:08:29-03:00",
-   "msg": "docs(hb155): la guardia de escritor vivo se disparo y se libero sola; \"vivo\" es un instante, no un estado"
   }
  ],
  "archivos_md": [
@@ -398,9 +398,9 @@
    "repo": "gw2-wallet-agents",
    "label": "Desarrollo",
    "role": "dev",
-   "sha": "482e5bf61bcd2f6b8fa772dba2a443601c54ae53",
-   "short_sha": "482e5bf",
-   "commit": "docs(hb195): ALERT-258 - una insercion limpia salio como 7376",
+   "sha": "40fd97ac1644dca023d77af216c642046fe0581e",
+   "short_sha": "40fd97a",
+   "commit": "docs(hb196): rescate de 3 commits sin pushear + ALERT-259",
    "estado": "open",
    "protected": false,
    "protected_fresco": true,
@@ -412,9 +412,9 @@
    "repo": "gw2-agents-dashboard",
    "label": "Dashboard",
    "role": "dashboard",
-   "sha": "0898d560c13b188352c4d523fa38ae4c27bb0e55",
-   "short_sha": "0898d56",
-   "commit": "chore(dashboard): pulso automatico 2026-10-04_19-51_UTC",
+   "sha": "2c01d402c7a0ec260bf5088908b861a6e2d6ea50",
+   "short_sha": "2c01d40",
+   "commit": "chore(dashboard): pulso automatico 2026-10-04_20-06_UTC",
    "estado": "open",
    "protected": false,
    "protected_fresco": true,
