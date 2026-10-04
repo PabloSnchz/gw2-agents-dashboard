@@ -1,0 +1,34 @@
+{
+  "generado_utc": "2026-10-04T04:20:20Z",
+  "dev_head": "cb369e5",
+  "prod_head": "c0471e0",
+  "alcance": [
+    "js/",
+    "css/",
+    "index.html"
+  ],
+  "archivos": {
+    "comparados": 74,
+    "identicos": 67,
+    "distintos": 0,
+    "solo_dev": 7,
+    "solo_prod": 0,
+    "solo_dev_webapp": 1,
+    "solo_dev_datos": 1,
+    "solo_dev_no_webapp": 5
+  },
+  "distintos_lista": [],
+  "distintos_webapp_lista": [],
+  "solo_dev_webapp_lista": [
+    "js/homestead-tracker.js"
+  ],
+  "solo_dev_no_webapp_lista": [
+    "js/_build_legendary_data.py",
+    "js/_build_legendary_precursors.py",
+    "js/_build_legendary_recipes.py",
+    "js/_fetch_legendary_items.py",
+    "js/_fetch_thematic_prices.py"
+  ],
+  "solo_prod_lista": [],
+  "advertencia": "Este archivo NO cruza con FEATURES.md. El KPI \"en produccion\" de las fichas sigue viniendo del campo Estado:, que declara el equipo y nadie actualiza al promover. Para que sea automatico hace falta que cada ficha declare que archivo la implementa."
+}
