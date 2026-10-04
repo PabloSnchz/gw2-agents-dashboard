@@ -126,6 +126,21 @@ const DASHBOARD_CONFIG = {
         return `https://raw.githubusercontent.com/${this.structureRepoOwner}/${this.structureRepoName}/${this.structureBranch}/data/dev-catalogo.json`;
     },
 
+    // Lo que REALMENTE esta en produccion, medido archivo por archivo. Lo
+    // escribe _eco\gen_promocion.py comparando el sha de cada blob de gw2-dev
+    // contra el de gw2-wallet-ligero.
+    //
+    // Existe porque el KPI "en produccion" de las fichas NO se puede medir:
+    // sale del campo `Estado:` de FEATURES.md, que declara el equipo y nadie
+    // actualiza al promover. El 2026-10-04 decia 0 con la Armeria entera
+    // promovida. Este archivo no arregla ese KPI — para eso haria falta que
+    // cada ficha declare que archivo la implementa — pero separa lo MEDIDO de
+    // lo DECLARADO, que es la diferencia entre un numero que Pablo puede usar
+    // y uno que hay que creerse.
+    getMedidoUrl() {
+        return `https://raw.githubusercontent.com/${this.structureRepoOwner}/${this.structureRepoName}/${this.structureBranch}/data/prod-medido.json`;
+    },
+
     // FEATURES.md vive en el repo de DESARROLLO (agents), NO en el del
     // dashboard: lo escribe el equipo al mergear a agents/main, y el
     // dashboard no tiene por qué tener una copia que se le desincronice.

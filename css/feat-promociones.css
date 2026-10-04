@@ -299,3 +299,64 @@
     background: rgba(255, 255, 255, 0.07);
     font-size: 0.83em;
 }
+
+/* ── fuente del dato, y lo medido ──
+ *
+ * La tarjeta de KPI decía un número sin decir de dónde salía. Con la Armería
+ * entera en producción y el KPI en 0, un número sin fuente se ve igual de
+ * preciso que uno medido: por eso cada tarjeta lleva su origen, y el bloque
+ * de abajo separa lo que el panel AFIRMA de lo que solo DECLARA el equipo.
+ */
+.feat-kpi__src {
+    font-size: 0.66rem;
+    letter-spacing: 0.01em;
+    color: rgba(139, 147, 167, 0.72);
+    margin-top: 3px;
+}
+
+.feat-medido {
+    margin: 0 0 16px;
+    padding: 12px 14px;
+    border: 1px solid rgba(255, 255, 255, 0.08);
+    border-left: 3px solid #5a6e9a;
+    border-radius: 6px;
+    background: rgba(255, 255, 255, 0.02);
+}
+.feat-medido--ok { border-left-color: #6fae7d; }
+.feat-medido--no { border-left-color: #d8a657; }
+
+.feat-medido__t {
+    margin: 0 0 4px;
+    font-size: 0.74rem;
+    text-transform: uppercase;
+    letter-spacing: 0.04em;
+    color: var(--text-muted, #8b93a7);
+}
+.feat-medido__v {
+    margin: 0 0 8px;
+    font-size: 0.94rem;
+    color: var(--text-primary, #dfe3ee);
+}
+.feat-medido__l {
+    margin: 0;
+    padding-left: 18px;
+    font-size: 0.82rem;
+    color: var(--text-muted, #8b93a7);
+}
+.feat-medido__detalle {
+    margin: 10px 0 0;
+    font-size: 0.78rem;
+    color: var(--text-muted, #8b93a7);
+}
+.feat-medido__detalle code {
+    display: inline-block;
+    padding: 1px 6px;
+    margin-bottom: 3px;
+    border-radius: 4px;
+    background: rgba(255, 255, 255, 0.04);
+}
+.feat-medido__src {
+    margin: 10px 0 0;
+    font-size: 0.7rem;
+    color: rgba(139, 147, 167, 0.7);
+}

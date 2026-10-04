@@ -19,7 +19,7 @@ const src = fs.readFileSync(path.join(__dirname, 'js', 'parser.js'), 'utf8');
 (0, eval)(src + '\n;globalThis.__P = DashboardParser;');
 const P = globalThis.__P;
 
-const MD = 'C:/Mis Archivos/GW2 online/gw2-dev/PROMOTIONS.md';
+const MD = process.argv[2] || 'C:/Mis Archivos/GW2 online/gw2-dev/PROMOTIONS.md';
 const md = fs.readFileSync(MD, 'utf8');
 const promo = P.parsePromotions(md);
 
@@ -92,9 +92,25 @@ if (/`d32e054`/.test(comoSeUsa)) {
   fails.push('la tabla de "Como se usa" todavia tiene una fila de datos pegada');
 }
 
+// 8. Cada tarjeta tiene que tener un titulo corto. Una tabla de decisiones
+//    sin columna "Feat" hace que el parser use la celda entera como nombre,
+//    y la tarjeta sale titulada "2026-10-04 - `c0471e0` (Armería Legendaria
+//    - 12 módulos nuevos, 36 archivos, 1994 KB; incluye...". El dato estaba
+//    bien y la tarjeta ilegible: el mismo patrón que el de ALERT-49.
+all.forEach(i => {
+  const n = String(i.nombre || '');
+  if (n.length > 110) {
+    fails.push('titulo ilegible (' + n.length + ' chars, la tarjeta lo corta): ' +
+      n.slice(0, 60) + '...');
+  }
+  if (/^\d{4}-\d{2}-\d{2}/.test(n)) {
+    fails.push('el titulo arranca con la fecha: falta columna "Feat" en la tabla');
+  }
+});
+
 console.log('\n=== CONTROLES ===');
 if (!fails.length) {
-  console.log('  OK   7/7 controles contra el PROMOTIONS.md REAL');
+  console.log('  OK   8/8 controles contra el PROMOTIONS.md REAL');
 } else {
   fails.forEach(f => console.log('  FAIL', f));
   console.log('  ' + fails.length + ' FALLA(S)');

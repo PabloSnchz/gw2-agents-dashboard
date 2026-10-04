@@ -172,16 +172,58 @@
             })
             .then(function (data) {
                 window.__devCatalogo = data;
-                R.renderPromotions(window.__promoParsed, window.__promoMd, rutas,
-                    errRutas, data, null, fichas, fichasError);
+                cargarMedido(R, rutas, errRutas, data, null, fichas, fichasError);
             })
             .catch(function (err) {
                 // Sin catálogo se pierden los links profundos, pero las fichas
                 // siguen siendo legibles. Se dibuja igual y el botón pasa a
                 // "ruta no verificada" en vez de desaparecer.
-                R.renderPromotions(window.__promoParsed, window.__promoMd, rutas,
-                    errRutas, null, (err && err.message) || String(err),
+                cargarMedido(R, rutas, errRutas, null,
+                    (err && err.message) || String(err),
                     fichas, fichasError);
+            });
+    }
+
+    /**
+     * data/prod-medido.json responde "qué hay REALMENTE en producción", medido
+     * comparando el sha de cada archivo de gw2-dev contra el de
+     * gw2-wallet-ligero. Va ÚLTIMO en la cadena, y es el único fetch cuyo fallo
+     * NO se propaga: si no llega, window.__prodMedido queda null y el bloque
+     * medido sale con "no se pudo medir", que es lo cierto.
+     *
+     * Que no propague es deliberado. El resto de los datos son links y fichas:
+     * sin ellos la tab pierde riqueza. Este es el que separa lo MEDIDO de lo
+     * DECLARADO, y un bloque ausente con su aviso es más honesto que un bloque
+     * dibujado con un dato viejo cuya antigüedad nadie conoce.
+     */
+    function cargarMedido(R, rutas, errRutas, catalogo, catalogoError, fichas, fichasError) {
+        var cfg = window.DASHBOARD_CONFIG;
+        var url = cfg && cfg.getMedidoUrl ? cfg.getMedidoUrl() : null;
+
+        function dibujar() {
+            R.renderPromotions(window.__promoParsed, window.__promoMd, rutas,
+                errRutas, catalogo, catalogoError, fichas, fichasError);
+        }
+
+        if (!url) {
+            window.__prodMedido = null;
+            dibujar();
+            return;
+        }
+        fetch(url)
+            .then(function (r) {
+                if (!r.ok) throw new Error('HTTP ' + r.status);
+                return r.json();
+            })
+            .then(function (data) {
+                window.__prodMedido = data;
+                dibujar();
+            })
+            .catch(function () {
+                // Sin motivo: el bloque medido ya explica que no llegó a
+                // medirse, y el error técnico acá es ruido para Pablo.
+                window.__prodMedido = null;
+                dibujar();
             });
     }
 

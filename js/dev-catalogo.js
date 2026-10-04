@@ -78,28 +78,25 @@
     function parseFeatures(md) {
         if (!md || typeof md !== 'string') return [];
         var out = [];
-        // corta en la sección de ejemplo: las reglas del encabezado no son fichas
-        var cut = md.indexOf('## Fichas');
-        var cuerpo = cut >= 0 ? md.slice(cut + '## Fichas'.length) : md;
 
         var re = /^##[ \t]+(.+?)[ \t]*$/gm;
         var heads = [];
         var m;
-        while ((m = re.exec(cuerpo)) !== null) {
+        while ((m = re.exec(md)) !== null) {
             heads.push({ titulo: m[1].trim(), ini: m.index, fin: m.index + m[0].length });
         }
 
         for (var i = 0; i < heads.length; i++) {
             var h = heads[i];
-            var fin = (i + 1 < heads.length) ? heads[i + 1].ini : cuerpo.length;
-            var bloque = cuerpo.slice(h.fin, fin);
+            var fin = (i + 1 < heads.length) ? heads[i + 1].ini : md.length;
+            var bloque = md.slice(h.fin, fin);
             var f = { nombre: h.titulo, campos: {} };
 
             // Markdown natural: "- **Tipo:** nueva" -> los ':' van DENTRO de los
             // asteriscos. Se acepta también la forma "**Tipo**: nueva".
             var rCampo = /^[ \t]*[-*][ \t]*\*\*(.+?)\*\*:?[ \t]*(.*)$/;
             var actual = null;          // clave del campo que se sigue completando
-            var lineas = cuerpo.slice(h.fin, fin).split(/\r?\n/);
+            var lineas = bloque.split(/\r?\n/);
 
             for (var L = 0; L < lineas.length; L++) {
                 var linea = lineas[L];
@@ -122,6 +119,33 @@
             }
             f.tipo = normTipo(f.campos.tipo);
             f.estado = normEstado(f.campos.estado);
+
+            // ── qué ES una ficha ─────────────────────────────────────────
+            //
+            // ANTES: el parseo cortaba el documento en el encabezado '## Fichas'
+            // y descartaba TODO lo que estaba arriba de ese índice.
+            //
+            // Eso no era "sacarle las reglas del encabezado", que es lo que
+            // decía el comentario: se llevaba dos fichas REALES. El equipo
+            // pegó 'la cola de crafteo' y 'materiales de una legendaria' antes
+            // del índice, y el panel las perdió. Medido el 2026-10-04: 12
+            // fichas de 14. Dos features de la Armería existían y no se veían.
+            //
+            // AHORA: una ficha es una sección que DECLARA Tipo. Las secciones de
+            // documentación ('Qué significa cada estado', 'Fichas', ...) no lo
+            // declaran y se caen solas — sin una lista de títulos que mantener,
+            // que es lo que vuelve brittle a un filtro por nombre. La plantilla
+            // se cae por su propio valor: trae la lista de estados posibles
+            // separada por '|', y ninguna ficha real puede declararla.
+            //
+            // Lo que NO se arregla acá: 'Cómo leer el archivo de ideas' tiene
+            // 'Tipo: mejora oculta' y es documentación. No la esconde, porque
+            // el error es del que la escribió como si fuera ficha, y taparlo
+            // con un filtro por título sería un filtro que no distingue lo que
+            // quiere medir. Se muestra y se dice.
+            if (!f.campos.tipo) continue;
+            if (String(f.campos.tipo).indexOf('|') >= 0) continue;
+
             out.push(f);
         }
         return out;
@@ -147,10 +171,86 @@
         return String(v);
     }
 
-    // ── agrupación por acción ────────────────────────────────────────────
+    // ── cruce con el registro de promociones ───────────────────────────
+    //
+    // POR QUE PROMOTIONS.md Y NO EL CAMPO `Estado:` DE FEATURES.md
+    //
+    // `Estado:` se escribe al CREAR la feature, y nadie lo actualiza al
+    // promover. Medido el 2026-10-04: las 5 fichas de la Armería seguían
+    // diciendo 'listo' con los 12 módulos ya en producción — 67 de 67
+    // archivos de js/, css/ e index.html idénticos byte a byte — y el panel
+    // mostraba 0 en producción.
+    //
+    // PROMOTIONS.md se escribe en el MOMENTO de promover, que es cuando la
+    // decisión existe. Es el registro de la decisión, no una etiqueta de
+    // intenciones. Sigue siendo una declaración —no la midió nadie— pero es
+    // la declaración del acto, y esa se mantiene.
+
+    function aplicarPromocion(fichas, promo) {
+        var g = { porNombre: {}, rutas: {} };
+
+        var bolsa = []
+            .concat((promo && promo.decidido) || [])
+            .concat((promo && promo.prodSinVerificar) || []);
+
+        bolsa.forEach(function (d) {
+            var det = String(d.detalle || '');
+            // REVERTIDO no está en producción, aunque esté en `decidido`.
+            if (/revertid/i.test(det)) return;
+            var nom = norm(limpiar(d.nombre));
+            if (!nom) return;
+            g.porNombre[nom] = d;
+            // La ficha se llama 'Armería Legendaria' y el registro
+            // 'Armería Legendaria — 12 módulos nuevos, 36 archivos'. Se guardan
+            // además las palabras iniciales para el prefijo.
+            g.porNombre[nom.split(' ').slice(0, 4).join(' ')] = d;
+        });
+
+        fichas.forEach(function (f) {
+            f.estadoProd = null;
+            var nom = norm(f.nombre);
+            var d = g.porNombre[nom] ||
+                g.porNombre[nom.split(' ').slice(0, 4).join(' ')] ||
+                Object.keys(g.porNombre).filter(function (k) {
+                    return k.length > 6 && (nom.indexOf(k) === 0 || k.indexOf(nom) === 0);
+                }).map(function (k) { return g.porNombre[k]; })[0];
+
+            if (d) {
+                f.estadoProd = { via: 'registro', ref: d, nombre: limpiar(d.nombre) };
+                var r = norm(limpiar(f.campos.ruta).split(/\s+/)[0]);
+                if (r) g.rutas[r] = true;
+                return;
+            }
+
+            // Segunda pasada: heredar por ruta SOLO si esa ruta coincide con la
+            // de una ficha que el REGISTRO dice que se promovió.
+            //
+            // El límite está escrito porque la alternativa —heredar por
+            // cualquier ruta— sobrevende: 'Importar un backup' apunta a
+            // /account/accounts, que existe en producción desde hace semanas, y
+            // ese fix NO está. Compartir pantalla no prueba nada; lo que
+            // prueba es que una promoción concreta se llevó esa pantalla
+            // entera, y por eso las sub-fichas de esa promoción sí cuentan.
+            f._ruta = norm(limpiar(f.campos.ruta).split(/\s+/)[0]);
+        });
+
+        fichas.forEach(function (f) {
+            if (f.estadoProd || !f._ruta || !g.rutas[f._ruta]) return;
+            f.estadoProd = { via: 'misma promoción', ref: null, nombre: null };
+        });
+
+        return fichas;
+    }
+
     function agrupar(fichas) {
         var g = { decidir: [], produccion: [], descartado: [] };
         fichas.forEach(function (f) {
+            // El REGISTRO de promociones manda sobre el campo `Estado:`.
+            // Razon medida el 2026-10-04: `Estado:` se escribe al crear la
+            // feature y nadie lo actualiza al promover, asi que las 5 fichas
+            // de la Armeria decian 'listo' con los 12 modulos ya promovidos.
+            // PROMOTIONS.md si se mantiene, porque se escribe al promover.
+            if (f.estadoProd) { g.produccion.push(f); return; }
             var e = f.estado;
             if (e === 'autorizado') g.produccion.push(f);
             else if (e === 'rechazado' || e === 'revertido' || e === 'probado no va') g.descartado.push(f);
@@ -208,6 +308,14 @@
         }
         if (c.rama && c.rama !== '—') {
             meta.push('<code class="feat-meta__rama">' + esc(c.rama) + '</code>');
+        }
+        if (f.estadoProd) {
+            var ref = f.estadoProd.ref;
+            var como = f.estadoProd.via === 'registro'
+                ? 'registro: ' + esc(String(f.estadoProd.nombre).slice(0, 46)) +
+                  (ref && ref.commit ? ' @ ' + esc(String(ref.commit).slice(0, 7)) : '')
+                : 'misma promoción que su pantalla';
+            meta.push('<span class="feat-meta__prod">en producción · ' + como + '</span>');
         }
 
         var donde = '';
@@ -298,15 +406,62 @@
             '</div>';
         }
 
+        aplicarPromocion(fichas, window.__promoParsed || null);
         construirLinks(fichas, catalogo);
         var g = agrupar(fichas);
 
-        var cuerpo = grupoHTML('Tenés que decidir', g.decidir, true,
-            'Cada una está en dev y se puede probar. Tocá "Probar en dev" y decidí.') +
-            grupoHTML('Ya está en producción', g.produccion, false, null) +
-            grupoHTML('Descartado', g.descartado, false, null);
+        // ── qué se puede CONTAR y qué no ────────────────────────────────
+        //
+        // 'en producción' sale del campo `Estado:` de FEATURES.md. Es una
+        // DECLARACIÓN del equipo, no una medición: el panel no abre git.
+        //
+        // El 2026-10-04 ese KPI decía 0 con la Armería Legendaria entera ya
+        // promovida. Medido por separado: 67 de 67 archivos de js/, css/ e
+        // index.html idénticos byte a byte entre gw2-dev y gw2-wallet-ligero,
+        // ruta '#/account/legendary-armory' montada en producción con sus 7
+        // scripts, y PROMOTIONS.md:77 con la promoción registrada como
+        // AUTORIZADO. El 0 no era una medición: era un campo que nadie
+        // actualizó al promover.
+        //
+        // Un KPI que afirma un número que no puede verificar es peor que uno
+        // que no existe, porque se ve igual de preciso. Por eso cada tarjeta
+        // dice DE DÓNDE sale su número, y el bloque medido de abajo dice el
+        // verdadero, con su fuente.
+        //
+        // Lo que falta para que esto sea verdad SOLO: que la ficha declare qué
+        // archivo la implementa. Con ese campo el panel compara sha contra
+        // producción sin preguntarle a nadie. Se descartó cruzar por ruta
+        // porque sobrevende: 'Importar un backup' apunta a
+        // /account/accounts, que existe en producción desde hace semanas, y
+        // ese fix no está. Una ruta compartida no dice si la feature está.
 
-        var sinLink = fichas.filter(function (f) { return !f.linkVerificado; }).length;
+        // 'sin link verificable' mezclaba dos cosas distintas: fichas que NO
+        // TIENEN pantalla (mejoras ocultas — es correcto que no la tengan, no
+        // es un error) y fichas que declaran una ruta que no existe (eso sí es
+        // una alerta). Medido el 2026-10-04: 6 de las 7 eran lo primero, y el
+        // KPI las contaba como problema.
+        var sinPantalla = 0, rutaRota = 0;
+        fichas.forEach(function (f) {
+            if (f.linkVerificado) return;
+            var v = limpiar(f.campos.ruta);
+            if (!v || /^[—–-]/.test(v)) sinPantalla++; else rutaRota++;
+        });
+
+        function kpi(n_, l, src, alerta) {
+            return '<div class="feat-kpi' + (alerta ? ' feat-kpi--alerta' : '') + '">' +
+                '<span class="feat-kpi__n">' + n(n_) + '</span>' +
+                '<span class="feat-kpi__l">' + esc(l) + '</span>' +
+                '<span class="feat-kpi__src">' + esc(src) + '</span></div>';
+        }
+
+        var cuerpo = grupoHTML('Tenés que decidir', g.decidir, true,
+            'Cada una está en dev y se puede probar. Tocá "Probar en dev" y decidí. ' +
+            '<strong>El estado lo declara el equipo</strong> en FEATURES.md; ' +
+            'el panel no lo contrasta contra producción.') +
+            grupoHTML('Ya está en producción', g.produccion, false,
+                'Declarado como autorizado por el equipo. Abajo se mide de verdad ' +
+                'qué hay en producción.') +
+            grupoHTML('Descartado', g.descartado, false, null);
 
         return enc +
             '<h3 class="feat-enc__titulo">Qué construyó el equipo y dónde se ve</h3>' +
@@ -314,16 +469,63 @@
                 '<code>agents/main</code>. Los links abren la app de desarrollo, ' +
                 'no producción.</p>' +
             '<div class="feat-enc__kpis">' +
-                '<div class="feat-kpi"><span class="feat-kpi__n">' + n(g.decidir.length) + '</span>' +
-                    '<span class="feat-kpi__l">para decidir</span></div>' +
-                '<div class="feat-kpi"><span class="feat-kpi__n">' + n(g.produccion.length) + '</span>' +
-                    '<span class="feat-kpi__l">en producción</span></div>' +
-                '<div class="feat-kpi' + (sinLink ? ' feat-kpi--alerta' : '') + '">' +
-                    '<span class="feat-kpi__n">' + n(sinLink) + '</span>' +
-                    '<span class="feat-kpi__l">sin link verificable</span></div>' +
+                kpi(g.decidir.length, 'para decidir', 'declarado') +
+                kpi(g.produccion.length, 'en producción', 'registro de promociones') +
+                kpi(sinPantalla, 'sin pantalla propia', 'correcto si es oculta') +
+                kpi(rutaRota, 'ruta no verificada', 'alerta', rutaRota > 0) +
             '</div>' +
+            medidoHTML(window.__prodMedido) +
             cuerpo +
         '</div>';
+    }
+
+    /**
+     * Lo que el panel SÍ puede afirmar, porque lo midió: qué archivos del
+     * clon de desarrollo están en producción con el mismo contenido.
+     *
+     * No cruza con las fichas: no hay dato que cruce. Muestra la verdad del
+     * árbol, que es lo que hay, y lo dice.
+     */
+    function medidoHTML(m) {
+        if (!m) {
+            return '<p class="feat-medido feat-medido--no">No se pudo medir qué hay ' +
+                'en producción: el medidor no corrió o no pudo leer los dos clones. ' +
+                'Los números de arriba <strong>no</strong> vienen de ahí.</p>';
+        }
+        var a = m.archivos || {};
+        var hayFaltantes = (a.solo_dev_webapp || 0) > 0 || (a.distintos || 0) > 0;
+
+        var veredicto;
+        if (!hayFaltantes) {
+            veredicto = 'Todo el código web de desarrollo está en producción, ' +
+                'byte a byte. Nada esperando promoción.';
+        } else {
+            veredicto = 'Hay código en desarrollo que todavía no llegó a producción.';
+        }
+
+        var out = '<div class="feat-medido' + (hayFaltantes ? '' : ' feat-medido--ok') + '">' +
+            '<p class="feat-medido__t">Lo que está en producción, medido</p>' +
+            '<p class="feat-medido__v">' + esc(veredicto) + '</p>' +
+            '<ul class="feat-medido__l">' +
+                '<li>' + n(a.identicos) + ' de ' + n(a.comparados) +
+                    ' archivos idénticos entre dev y producción</li>' +
+                '<li>' + n(a.distintos) + ' con contenido distinto</li>' +
+                '<li>' + n(a.solo_dev_webapp) + ' módulos web solo en desarrollo' +
+                    (a.solo_dev_no_webapp ? ' (+' + n(a.solo_dev_no_webapp) +
+                        ' herramientas, tests y documentación, que no van a producción)' : '') +
+                '</li>' +
+            '</ul>';
+
+        if (m.solo_dev_webapp_lista && m.solo_dev_webapp_lista.length) {
+            out += '<p class="feat-medido__detalle">Solo en desarrollo:<br>' +
+                m.solo_dev_webapp_lista.map(function (f) {
+                    return '<code>' + esc(f) + '</code>';
+                }).join('<br>') + '</p>';
+        }
+        out += '<p class="feat-medido__src">Medido por <code>gen_promocion.py</code> ' +
+            'el ' + esc(m.generado_utc || '?') + ' · dev <code>' + esc(m.dev_head || '?') +
+            '</code> · producción <code>' + esc(m.prod_head || '?') + '</code></p>';
+        return out + '</div>';
     }
 
     window.DevCatalogo = {
