@@ -1,7 +1,7 @@
 {
- "generado": "2026-10-01T03:59:55Z",
+ "generado": "2026-10-04T00:25:37Z",
  "dev_base": "https://pablosnchz.github.io/gw2-wallet-agents/",
- "dev_sha": "d974256",
+ "dev_sha": "2e29ed6",
  "pantallas": [
   {
    "ruta": "/welcome",
@@ -97,8 +97,8 @@
   }
  ],
  "modulos": {
-  "total": 42,
-  "cableados": 41,
+  "total": 47,
+  "cableados": 46,
   "sueltos": 1
  },
  "sueltos": [
@@ -114,13 +114,13 @@
  ],
  "items": [
   {
-   "titulo": "**Hook `onClear`: que el borrado de la cache de disco tambien vacie la `__mem",
-   "estado": "",
+   "titulo": "~~**Hook `onClear`: que el borrado de la cache de disco tambien vacie la `__mem",
+   "estado": "x",
    "fuente": "BACKLOG.md",
    "pantalla": null
   },
   {
-   "titulo": "Idea 50, boton de liberar la cache de la API",
+   "titulo": "**Raw de `gw2_selected_key_v1` en 3 modulos** (\"rompe en escenario",
    "estado": "x",
    "fuente": "BACKLOG.md",
    "pantalla": null
@@ -163,7 +163,7 @@
   },
   {
    "titulo": "Badge CM: la corona no dice si vos lo completaste (Idea 48, PO 09:00 UTC)",
-   "estado": "",
+   "estado": "x",
    "fuente": "BACKLOG.md",
    "pantalla": null
   },
@@ -212,12 +212,6 @@
    "pantalla_ruta": "/account/accounts"
   },
   {
-   "titulo": "Commerce delivery",
-   "estado": "x",
-   "fuente": "BACKLOG.md",
-   "pantalla": null
-  },
-  {
    "titulo": "Dungeon dailies",
    "estado": "",
    "fuente": "BACKLOG.md",
@@ -225,11 +219,27 @@
   },
   {
    "titulo": "Legendary Armory Phase 3",
-   "estado": "",
+   "estado": "x",
    "fuente": "BACKLOG.md",
    "pantalla": "https://pablosnchz.github.io/gw2-wallet-agents/#/account/legendary-armory",
    "pantalla_nombre": "Armería Legendaria",
    "pantalla_ruta": "/account/legendary-armory"
+  },
+  {
+   "titulo": "~~**inventory-dashboard.js (glow + overflow)**~~",
+   "estado": "x",
+   "fuente": "BACKLOG.md",
+   "pantalla": "https://pablosnchz.github.io/gw2-wallet-agents/#/inventory/dashboard",
+   "pantalla_nombre": "Dashboard de Inventario Multi-Cuenta",
+   "pantalla_ruta": "/inventory/dashboard"
+  },
+  {
+   "titulo": "Estilos inline de inventory-dashboard.js (P1 del Reviewer) - ? REENCUADRADO en el HB#47, las cifras del BACKLOG estaban desactualizadas.",
+   "estado": "x",
+   "fuente": "BACKLOG.md",
+   "pantalla": "https://pablosnchz.github.io/gw2-wallet-agents/#/inventory/dashboard",
+   "pantalla_nombre": "Dashboard de Inventario Multi-Cuenta",
+   "pantalla_ruta": "/inventory/dashboard"
   },
   {
    "titulo": "VoE content integration verification",
@@ -239,19 +249,19 @@
   },
   {
    "titulo": "Idea 57 — la REGLA del contrato de FORMA, no el fix del caso N (PO, HB#12 ronda 12)",
-   "estado": "",
+   "estado": "x",
    "fuente": "BACKLOG.md",
    "pantalla": null
   },
   {
    "titulo": "Idea 56 — guard de FORMA en `getAccountRaids` (Idea del PO, 10:00 UTC)",
-   "estado": "",
+   "estado": "x",
    "fuente": "BACKLOG.md",
    "pantalla": null
   },
   {
    "titulo": "Idea 49 — la cache persistente de localStorage muere en silencio (PO, 04:00 UTC)",
-   "estado": "",
+   "estado": "x",
    "fuente": "BACKLOG.md",
    "pantalla": null
   },
@@ -263,7 +273,7 @@
   },
   {
    "titulo": "Idea 56 — guard de forma en `getAccountRaids` (PO, 10:00 UTC)",
-   "estado": "",
+   "estado": "x",
    "fuente": "BACKLOG.md",
    "pantalla": null
   },
@@ -277,7 +287,7 @@
   },
   {
    "titulo": "Idea 53 — Strike Tracker: re-apuntarlo a logros o borrarlo (PO, 08:00 UTC)",
-   "estado": "",
+   "estado": "x",
    "fuente": "BACKLOG.md",
    "pantalla": "https://pablosnchz.github.io/gw2-wallet-agents/#/account/strikes",
    "pantalla_nombre": "Seguimiento de Strike Missions",
@@ -285,15 +295,23 @@
   },
   {
    "titulo": "Idea 50 — la cuota no se libera nunca (PO, 06:00 UTC)",
-   "estado": "",
+   "estado": "x",
    "fuente": "BACKLOG.md",
    "pantalla": null
   },
   {
    "titulo": "Idea 49G — `ach_acc` en forma compacta (PO, 08:00 UTC)",
-   "estado": "",
+   "estado": "x",
    "fuente": "BACKLOG.md",
    "pantalla": null
+  },
+  {
+   "titulo": "Fractal Tracker: la parte MULTICUENTA (lo que la fila de Completed promete y no existe)",
+   "estado": "",
+   "fuente": "BACKLOG.md",
+   "pantalla": "https://pablosnchz.github.io/gw2-wallet-agents/#/account/accounts",
+   "pantalla_nombre": "Cuentas",
+   "pantalla_ruta": "/account/accounts"
   },
   {
    "titulo": "Homestead Glyph API mismatch",
@@ -303,19 +321,19 @@
   },
   {
    "titulo": "Homestead tracker: completar wiring",
-   "estado": "",
+   "estado": "x",
    "fuente": "BACKLOG.md",
    "pantalla": null
   },
   {
    "titulo": "Verificar encoding de archivos",
-   "estado": "",
+   "estado": "x",
    "fuente": "BACKLOG.md",
    "pantalla": null
   },
   {
    "titulo": "Homestead decoration collection tracker",
-   "estado": "",
+   "estado": "x",
    "fuente": "BACKLOG.md",
    "pantalla": null
   },
@@ -327,19 +345,25 @@
   },
   {
    "titulo": "Mobile PWA enhancement",
-   "estado": "",
+   "estado": "x",
    "fuente": "BACKLOG.md",
    "pantalla": null
   },
   {
-   "titulo": "WvW Borderlands beta tracker",
+   "titulo": "**WvW Borderlands - NO es un \"map tracker\", y el plazo no se puede escribir** -",
+   "estado": "x",
+   "fuente": "BACKLOG.md",
+   "pantalla": null
+  },
+  {
+   "titulo": "WvW: VISOR de `/v2/wvw/objectives` (VISOR, no tracker)",
    "estado": "",
    "fuente": "BACKLOG.md",
    "pantalla": null
   },
   {
    "titulo": "Inventory cleanup tool",
-   "estado": "",
+   "estado": "x",
    "fuente": "BACKLOG.md",
    "pantalla": null
   },
@@ -471,20 +495,70 @@
   },
   {
    "titulo": "Idea 50 Tramo E — que `getCache()` borre la entrada vencida",
-   "estado": "",
+   "estado": "x",
    "fuente": "BACKLOG.md",
    "pantalla": null
   },
   {
+   "titulo": "ALERT-89 (HB#71): `camp` sin declarar en `raid-tracker.js`, y el invariante de encounters vigilado en una sola direccion.",
+   "estado": "x",
+   "fuente": "BACKLOG.md",
+   "pantalla": "https://pablosnchz.github.io/gw2-wallet-agents/#/account/raids",
+   "pantalla_nombre": "Raids",
+   "pantalla_ruta": "/account/raids"
+  },
+  {
    "titulo": "Idea 63 T3** (persistir filtros por cuenta): **DESBLOQUEADA",
-   "estado": "",
+   "estado": "x",
+   "fuente": "BACKLOG.md",
+   "pantalla": null
+  },
+  {
+   "titulo": "Idea 50: el hook `onClear",
+   "estado": "x",
+   "fuente": "BACKLOG.md",
+   "pantalla": null
+  },
+  {
+   "titulo": "**ALERT-84 T3+T4 (ronda 17 del PO)**: implementar `loadLegendaryData()` de verdad, y el contrato `registerRender`/`getState`.",
+   "estado": "x",
+   "fuente": "BACKLOG.md",
+   "pantalla": null
+  },
+  {
+   "titulo": "~~**`fix-idea50b-hook-cache-mem` (`0c12adc`) SIGUE SIN MERGEAR.**~~ **FALSO,",
+   "estado": "x",
+   "fuente": "BACKLOG.md",
+   "pantalla": null
+  },
+  {
+   "titulo": "**T13: el latch de `state.active` no baja nunca** (propuesta del PO, ronda 34).",
+   "estado": "x",
+   "fuente": "BACKLOG.md",
+   "pantalla": null
+  },
+  {
+   "titulo": "T19 (PO, ronda 37, 2026-10-02 00:40 UTC) — multi-pestaña: la `gn:` de la cuenta seleccionada y los 4 lectores a pelo",
+   "estado": "x",
+   "fuente": "BACKLOG.md",
+   "pantalla": null
+  },
+  {
+   "titulo": "ALERT-84 T3 (PO, ronda 18) — `loadLegendaryData()` es un stub y la ronda lo pedia como si existiera",
+   "estado": "x",
+   "fuente": "BACKLOG.md",
+   "pantalla": null
+  },
+  {
+   "titulo": "Armería: en \"Mi progreso\" la barra de filtros se pinta y NO recorta nada",
+   "estado": "x",
    "fuente": "BACKLOG.md",
    "pantalla": null
   }
  ],
  "cobertura": {
-  "con_pantalla": 22,
-  "sin_pantalla": 32,
-  "cobertura": 40.7
+  "con_pantalla": 26,
+  "sin_pantalla": 39,
+  "cobertura": 40.0
  }
 }
