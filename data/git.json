@@ -1,6 +1,6 @@
 {
- "generado_utc": "20261004T042129Z",
- "generado_h": "2026-10-04 04:21 UTC",
+ "generado_utc": "20261004T043625Z",
+ "generado_h": "2026-10-04 04:36 UTC",
  "origen": "git local + ls-remote (sin cuota). protected cacheado TTL 6h.",
  "commits": [
   {
@@ -387,10 +387,10 @@
    "sha": "c0471e0f6f8cae523a383627d86e5b6552952b1b",
    "short_sha": "c0471e0",
    "commit": "feat: Armería Legendaria —",
-   "estado": "protected",
-   "protected": true,
+   "estado": "open",
+   "protected": false,
    "protected_fresco": true,
-   "protected_verificado_utc": "20261003T222210Z",
+   "protected_verificado_utc": "20261004T043626Z",
    "proteccion_detalle": null,
    "proteccion_detalle_motivo": "sin token"
   },
@@ -404,7 +404,7 @@
    "estado": "open",
    "protected": false,
    "protected_fresco": true,
-   "protected_verificado_utc": "20261003T222212Z",
+   "protected_verificado_utc": "20261004T043627Z",
    "proteccion_detalle": null,
    "proteccion_detalle_motivo": "sin token"
   },
@@ -412,13 +412,13 @@
    "repo": "gw2-agents-dashboard",
    "label": "Dashboard",
    "role": "dashboard",
-   "sha": "8e64482ea338d2e3c34c93d4b997da0754367a1a",
-   "short_sha": "8e64482",
-   "commit": "chore(dashboard): pulso automatico 2026-10-04_04-06_UTC",
+   "sha": "1da2199153dec8e07f5ca55e5991f46a602f5777",
+   "short_sha": "1da2199",
+   "commit": "fix(dashboard): el KPI 'en produccion' sale del registro de",
    "estado": "open",
    "protected": false,
    "protected_fresco": true,
-   "protected_verificado_utc": "20261003T222214Z",
+   "protected_verificado_utc": "20261004T043629Z",
    "proteccion_detalle": null,
    "proteccion_detalle_motivo": "sin token"
   }
