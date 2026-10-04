@@ -1,8 +1,15 @@
 {
- "generado_utc": "20261004T120627Z",
- "generado_h": "2026-10-04 12:06 UTC",
+ "generado_utc": "20261004T122124Z",
+ "generado_h": "2026-10-04 12:21 UTC",
  "origen": "git local + ls-remote (sin cuota). protected cacheado TTL 6h.",
  "commits": [
+  {
+   "sha": "af21cdfcdedfab01a04ca020f1aeea3d740f0e42",
+   "short": "af21cdf",
+   "autor": "Pablo Sanchez",
+   "fecha": "2026-10-04T09:15:27-03:00",
+   "msg": "merge(po/hb184): entrega PRE_BACKLOG.md - rondas 53-55 a main  Resuelve el pedido #1 de la ronda 56 del PO.  MEDIDO antes de resolver (no verificado a ojo): - hb184 contiene TODAS las lineas no vacias de main local (0 ausentes) - la resolucion toma hb184 entero: 244006 -> 320468 bytes, +1300 lineas - el resultado staged == hb184 byte a byte (320468 = 320468) - 0 marcadores de conflicto, 0 BOM, CRLF puro (4956/4956) - PRE_BACKLOG.md: main termina en ronda 53, hb184 llega a ronda 55  El conflicto existia porque hb184 REORDENA (mete las entregas del PO antes de la ronda 37 del archivo), no porque pierda contenido. Resolver hacia main local habria perdido 1292 lineas del PO."
+  },
   {
    "sha": "b74848b830a55f462ac1280e7605281d60013b91",
    "short": "b74848b",
@@ -30,6 +37,13 @@
    "autor": "Pablo Sanchez",
    "fecha": "2026-10-04T02:40:57-03:00",
    "msg": "rescate(hb185): 2 ciclos de logs muertos sin commitear (HB#181 + HB#183)"
+  },
+  {
+   "sha": "7bf1cba397a4a2e9bd13bb4d34623fdcfa30bb94",
+   "short": "7bf1cba",
+   "autor": "Pablo Sanchez",
+   "fecha": "2026-10-04T01:12:32-03:00",
+   "msg": "docs(po): ronda 55 (PAUSA, 14a) — 7 entregas de podado, 0 en main; consolido las 7 en una sola rama"
   },
   {
    "sha": "cb369e55d1b105c6ac5180d621dd3ce8dee40da0",
@@ -338,20 +352,6 @@
    "autor": "Pablo Sanchez",
    "fecha": "2026-10-02T20:45:14-03:00",
    "msg": "feat(armeria): icono y color de rareza en el arbol, resueltos por item-icons.js"
-  },
-  {
-   "sha": "1a5a93d8a248938108fce1b22903fba830c7caa1",
-   "short": "1a5a93d",
-   "autor": "Pablo Sanchez",
-   "fecha": "2026-10-02T20:13:12-03:00",
-   "msg": "docs(hb151): ALERT-223 - el veredicto del Reviewer sobre los 7 del patron B sigue valido en 7 de 7, pero 1 linea quedo desfasada"
-  },
-  {
-   "sha": "1094c26675764034c1af2563125fd7f25bbf1bd7",
-   "short": "1094c26",
-   "autor": "Pablo Sanchez",
-   "fecha": "2026-10-02T20:08:37-03:00",
-   "msg": "feat(api): getAccountSkins - Tramo 1 de Coberturable (RESCATE del HB#150) + ALERT-222"
   }
  ],
  "archivos_md": [
@@ -398,9 +398,9 @@
    "repo": "gw2-wallet-agents",
    "label": "Desarrollo",
    "role": "dev",
-   "sha": "2e7eb19b87a462a9f1caf0ed9c9721056c54c309",
-   "short_sha": "2e7eb19",
-   "commit": "rescate(hb186): logs del HB#186 sin commitear (ALERT-256 +",
+   "sha": "b74848b830a55f462ac1280e7605281d60013b91",
+   "short_sha": "b74848b",
+   "commit": "fix(logs): quita el prefijo '+' de 91 lineas de ALERT-255 en",
    "estado": "open",
    "protected": false,
    "protected_fresco": true,
@@ -412,9 +412,9 @@
    "repo": "gw2-agents-dashboard",
    "label": "Dashboard",
    "role": "dashboard",
-   "sha": "544a3d85b46d227f9c266ae3f53400d26a69cd9f",
-   "short_sha": "544a3d8",
-   "commit": "chore(dashboard): pulso automatico 2026-10-04_11-51_UTC",
+   "sha": "f722ff7348377005839fb7345bcfeb1f1589a5b7",
+   "short_sha": "f722ff7",
+   "commit": "chore(dashboard): pulso automatico 2026-10-04_12-06_UTC",
    "estado": "open",
    "protected": false,
    "protected_fresco": true,
