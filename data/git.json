@@ -1,8 +1,15 @@
 {
- "generado_utc": "20261004T222128Z",
- "generado_h": "2026-10-04 22:21 UTC",
+ "generado_utc": "20261004T223627Z",
+ "generado_h": "2026-10-04 22:36 UTC",
  "origen": "git local + ls-remote (sin cuota). protected cacheado TTL 6h.",
  "commits": [
+  {
+   "sha": "531a5fec6638bd18bee8bc89d22a1876774ce34d",
+   "short": "531a5fe",
+   "autor": "Pablo Sanchez",
+   "fecha": "2026-10-04T19:34:14-03:00",
+   "msg": "docs(api-gw2,alerts): rescate de HB#197 - docblock de esquema + ALERT-260  Rescate de trabajo terminado sin commitear. El arbol abrio sucio con ALERTS_LOG.md y js/api-gw2.js modificados (160 inserciones, 0 borrados) en la rama chore-hb197-docblock-esquema, sin commits propios. mtimes de ambos (22:09:14 y 22:29:22 UTC) anteriores al arranque de este ciclo (22:30:05) y estables en la re-medicion: escritor MUERTO, trabajo TERMINADO (PASO -1 pto 3).  Que aporta:  1) api-gw2.js, docblock (26 lineas). Las claves de cache NO codifican la version    del esquema: kMem/kLS son base + separador + fpToken(token), y de los 18 sitios    de lectura/escritura solo 2 piden ?v=latest. No hay ninguna pieza del sistema    que diga 'esto se lleno con el esquema viejo'. Hoy NO es un bug (la API no    cambia desde 2025-08-29 y el unico breaking change de ese dia no toca la app),    pero es una ventana SIN CALIBRAR. Documenta tambien que el escape ya existe y    esta medido: cacheClear() v2.29.0 con dryRun, boton en Ajustes, registro que    cubre los 18. Y lo que NO se hizo: poner ?v=latest en los 16 restantes seria    optar a todo cambio de la API para siempre.  2) ALERTS_LOG.md, ALERT-260 (134 lineas). Las '19 mergeables' de la ronda 64 del    PO no son 19 mergeables: 0 lo son. Todas son un replace que pierde 56 a 1311    lineas de main. 'Solo tocan archivos del PO' es condicion de RUTA; 'mergeable    sin perdida' es condicion de CONTENIDO, y ninguna cumple la segunda.  Cumple la propuesta P3 de la ronda 65 del PO (1 docblock, 5 lineas utiles).  Verificado antes de commitear: - node --check js/api-gw2.js: OK - encoding delta contra origin/main @ 714ae3e: cjk/fw/cyr/ufffd = 0/0/0/0 en ambos - EOL: worktree LF PURO en ambos, blob de origin/main LF PURO en ambos - las 19 cifras de la ronda 64 medidas una por una, coinciden con el PO - mount_guid = 0 usos reales y /v2/mounts = 0: los hits que aparecen son el   propio docblock citandose, no codigo. El PO lo advertia y tenia razon."
+  },
   {
    "sha": "714ae3e9e34a15aaefcbf8e4b53d4fce771d2f14",
    "short": "714ae3e",
@@ -345,13 +352,6 @@
    "autor": "Pablo Sanchez",
    "fecha": "2026-10-03T00:09:15-03:00",
    "msg": "fix(armeria): rescate de HB#157 - iconos y nombres traducidos en el modal"
-  },
-  {
-   "sha": "90775ee031dd49631477011bec661c79a9131fe4",
-   "short": "90775ee",
-   "autor": "Pablo Sanchez",
-   "fecha": "2026-10-02T23:31:56-03:00",
-   "msg": "docs(hb156): seccion de TEAM_STATUS del ciclo, con los 6 errores de instrumento propios"
   }
  ],
  "archivos_md": [
@@ -412,9 +412,9 @@
    "repo": "gw2-agents-dashboard",
    "label": "Dashboard",
    "role": "dashboard",
-   "sha": "11f795535e0450b811af2260b450262d5ecaf2ca",
-   "short_sha": "11f7955",
-   "commit": "chore(dashboard): pulso automatico 2026-10-04_22-06_UTC",
+   "sha": "6bf4c4cb6dd91db2b649a255045b0e62e3c05f31",
+   "short_sha": "6bf4c4c",
+   "commit": "chore(dashboard): pulso automatico 2026-10-04_22-21_UTC",
    "estado": "open",
    "protected": false,
    "protected_fresco": true,

@@ -1,6 +1,6 @@
 {
-  "generado_utc": "2026-10-04T21:21:34Z",
-  "dev_head": "714ae3e",
+  "generado_utc": "2026-10-04T22:36:31Z",
+  "dev_head": "531a5fe",
   "prod_head": "c0471e0",
   "alcance": [
     "js/",
@@ -9,16 +9,20 @@
   ],
   "archivos": {
     "comparados": 74,
-    "identicos": 67,
-    "distintos": 0,
+    "identicos": 66,
+    "distintos": 1,
     "solo_dev": 7,
     "solo_prod": 0,
     "solo_dev_webapp": 1,
     "solo_dev_datos": 1,
     "solo_dev_no_webapp": 5
   },
-  "distintos_lista": [],
-  "distintos_webapp_lista": [],
+  "distintos_lista": [
+    "js/api-gw2.js"
+  ],
+  "distintos_webapp_lista": [
+    "js/api-gw2.js"
+  ],
   "solo_dev_webapp_lista": [
     "js/homestead-tracker.js"
   ],
