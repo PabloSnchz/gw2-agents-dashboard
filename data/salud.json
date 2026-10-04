@@ -1,12 +1,12 @@
 {
- "generado_utc": "20261004T150603Z",
- "generado_h": "2026-10-04 15:06 UTC",
+ "generado_utc": "20261004T152102Z",
+ "generado_h": "2026-10-04 15:21 UTC",
  "archivos_estado": [
   {
    "archivo": "TEAM_STATUS.md",
    "quien": "Principal /30min",
    "estado": "ROTO",
-   "edad_h": 6.0,
+   "edad_h": 6.2,
    "kb": 240.8,
    "crecimiento": "EXCEDE 80 KB (241 KB)"
   },
@@ -14,7 +14,7 @@
    "archivo": "SESSION_LOG.md",
    "quien": "Documentador /4h",
    "estado": "ROTO",
-   "edad_h": 37.0,
+   "edad_h": 37.2,
    "kb": 309.5,
    "crecimiento": "EXCEDE 60 KB (310 KB)"
   },
@@ -22,14 +22,14 @@
    "archivo": "COMMS_LOG.md",
    "quien": "Principal /30min",
    "estado": "ROTO",
-   "edad_h": 23.1,
+   "edad_h": 23.4,
    "kb": 254.2
   },
   {
    "archivo": "PRE_BACKLOG.md",
    "quien": "PO /2h",
    "estado": "ok",
-   "edad_h": 2.9,
+   "edad_h": 3.1,
    "kb": 324.0,
    "crecimiento": "EXCEDE 120 KB (324 KB)"
   },
@@ -37,14 +37,14 @@
    "archivo": "ALERTS_LOG.md",
    "quien": "Principal /30min",
    "estado": "RARO",
-   "edad_h": 3.3,
+   "edad_h": 3.6,
    "kb": 522.0
   },
   {
    "archivo": "DECISIONS_LOG.md",
    "quien": "Principal",
    "estado": "ROTO",
-   "edad_h": 109.1,
+   "edad_h": 109.3,
    "kb": 10.2
   }
  ],
