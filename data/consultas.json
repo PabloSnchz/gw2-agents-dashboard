@@ -1,0 +1,37 @@
+{
+  "generado": "20261004T234645Z",
+  "regla": "Los agentes ya no te preguntan a vos: me preguntan a mi. Aca llega solo lo que decidi que necesita una decision tuya y que no puedo resolver por medicion o por regla. Si no hay nada esperando, es porque lo resolvi yo, y eso se ve abajo. Ningun agente te escribe directo desde el 2026-10-04.",
+  "para_pablo": [
+    {
+      "id": "ARQ-ARMERIA-MIPROGRESO-001",
+      "agente": "architect",
+      "origen": "arquitecto",
+      "pregunta": "Mi progreso en la Armería: ¿cuántas legendarias y qué muestra cada una?",
+      "bloqueante": "El Principal no puede avanzar porque las dos definiciones posibles dan interfaces distintas y no es un default que se pueda declarar: es qué ve Pablo cuando abre la app. El código actual renderiza la lista global de las 206 legendarias, que es una copia del Catálogo y no dice si algo falta de fabricar.",
+      "opciones": [
+        "Cola de 3 legendarias elegidas a mano. Cada una muestra: cuánto falta de cada material, el total, y un botón para abrir el árbol de crafteo. Es lo que veníamos pensando y se ajusta al ejemplo de las 3 backlog.",
+        "Cola de 5, con lo mismo. Da más margen de planificación y ocupa más pantalla en móvil.",
+        "Volver a la lista global de desbloqueadas, pero marcando las que son de fabricar. Es lo que hay hoy, sin tocar el render."
+      ],
+      "due": "20261006T180000Z",
+      "estado": "esperando",
+      "nota_interna": "Replace la idea abierta de 3-5: ahora la pregunta es cerrada, con 3 opciones numeradas, y el boton de copiar arma el bloque para que responda con un numero. Default si vence: la opcion 1."
+    }
+  ],
+  "resueltas_architecto": [
+    {
+      "id": "ARQ-HOMESTEAD-ICONO-001",
+      "agente": "default",
+      "origen": "arquitecto",
+      "pregunta": "El wiring de Homestead usa assets/icons/Cuentas/homestead-icon.png y ese archivo no existe. ¿Se espera un PNG o se usa otro ícono?",
+      "bloqueante": "Aparecía en IN_PROGRESS.md como si fuera una decisión de Pablo. No lo es: es un detalle técnico, y lo había detenido por pedir un archivo que nadie tiene.",
+      "resolucion": "Resuelto sin consultar: un <img> con src inexistente muestra el borde roto pero no rompe el módulo. El Principal usa el ícono que devuelve getItemsMany, o inline SVG, o el slot vacío. No es un bloqueo y no se registra como consulta.",
+      "estado": "resuelta",
+      "respondio": "architect"
+    }
+  ],
+  "del_equipo": [],
+  "notas_generador": [
+    "CONSULTAS.md no existe todavia en gw2-dev. El equipo sigue escribiendo en IN_PROGRESS.md, que es justo lo que produce el deadlock que esta tab viene a corregir."
+  ]
+}

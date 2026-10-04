@@ -141,6 +141,20 @@ const DASHBOARD_CONFIG = {
         return `https://raw.githubusercontent.com/${this.structureRepoOwner}/${this.structureRepoName}/${this.structureBranch}/data/prod-medido.json`;
     },
 
+    // Consultas del Arquitecto, 2026-10-04. Pablo: "los agentes no deberian
+    // validar conmigo, ellos deberian hablar con vos, y si vos lo consideras,
+    // tendrias que tener un apartado en el dashboard donde me haces consultas".
+    //
+    // Vive en el repo del DASHBOARD, no en agents, por la misma razon que
+    // getStructureUrl(): el filtro de que consulta llega a Pablo es MIO, y el
+    // equipo escribe su parte cruda en CONSULTAS.md (que vive en agents). El
+    // generador junta las dos y escribe aca. Si este archivo viviera en agents,
+    // el equipo tendria que editar el dato ya filtrado, que es exactamente la
+    // frontera que se acaba de sacar de encima.
+    getConsultasUrl() {
+        return `https://raw.githubusercontent.com/${this.structureRepoOwner}/${this.structureRepoName}/${this.structureBranch}/data/consultas.json`;
+    },
+
     // FEATURES.md vive en el repo de DESARROLLO (agents), NO en el del
     // dashboard: lo escribe el equipo al mergear a agents/main, y el
     // dashboard no tiene por qué tener una copia que se le desincronice.

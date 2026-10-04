@@ -32,7 +32,11 @@
     // div .dashboard-tab-content no alcanzan). Por eso 'salud' falto durante
     // tiempo: el boton existia, eco-health renderizaba perfecto, y el tab no se
     // abria nunca.
-    const VALID_TABS = ['resumen', 'equipo', 'historial', 'proximas', 'promociones', 'salud', 'estructura', 'logs'];
+    // 2026-10-04: 'consultas' es el tab donde YO le pregunto a Pablo, ya
+      // filtrado. El equipo escribe su parte cruda en CONSULTAS.md; lo que
+      // llega aca es lo que yo subi. Ojo con el aviso de arriba: si esta
+      // entrada falta, el boton no hace nada y no hay error en consola.
+      const VALID_TABS = ['resumen', 'equipo', 'historial', 'proximas', 'promociones', 'consultas', 'salud', 'estructura', 'logs'];
 
     // ============ TABS (definido PRIMERO, antes de init) ============
     window.setDashboardTab = function(tabName, silent) {
@@ -73,6 +77,25 @@
                           : VALID_TABS.includes(savedTab) ? savedTab
                           : 'resumen';
         setDashboardTab(initialTab, true);
+
+          // Consultas del Arquitecto: carga independiente de los .md, asi que
+          // no espera a que termine el parseo de PROMOTIONS.md. Se dispara
+          // siempre (no solo si la tab activa es esta) para que el primer click
+          // ya muestre el dato y no un spinner.
+          if (window.ConsultasArq) {
+              window.ConsultasArq.load();
+          } else {
+              // Sin el modulo, la tab no queda en blanco: escribe el motivo en
+              // su propio container. Un tab muda es indistinguible de "no hay
+              // consultas", que es justo la confusion que esta tab evita.
+              const cc = document.getElementById('consultas-container');
+              if (cc) {
+                  cc.innerHTML = '<div class="consultas-error">'
+                      + 'No se cargo js/consultas.js.'
+                      + '<span class="consultas-error__detalle">'
+                      + 'El script falta en index.html o el navegador sirvio una version vieja (cache).</span></div>';
+              }
+          }
 
         // Listener de hashchange
         window.addEventListener('hashchange', () => {

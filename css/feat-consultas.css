@@ -1,0 +1,300 @@
+/* ==========================================================================
+   css/feat-consultas.css — tab "Consultas del Arquitecto"
+   --------------------------------------------------------------------------
+   Por qué un archivo aparte y no main.css: main.css lo tocan 8 tabs. Un
+   selector mal cerrado acá rompería tabs que no tienen nada que ver con esto.
+   feat-promociones.css se hizo por lo mismo.
+
+   Sin !important. La receta del proyecto: main.css = layout, theme-polish = piel,
+   *-theme.js = solo borderLeft. Esta es una sección de layout, va en main, pero
+   como es nueva y aislada va en su propio archivo.
+   ========================================================================== */
+
+.consultas-wrap {
+    padding: 1rem 0;
+}
+
+/* --- Cabecera: la regla del filtro, que es la parte importante ------------
+   Pablo tiene que poder ver DE UN VISTAZO que esto no es el buzón del equipo
+   sino el mío. Si la regla no está arriba, la tab parece un inbox. */
+.consultas-regla {
+    background: var(--bg-2, #16181d);
+    border-left: 3px solid #7aa2f7;
+    border-radius: 6px;
+    padding: 0.85rem 1rem;
+    margin-bottom: 1.25rem;
+}
+
+.consultas-regla__titulo {
+    font-size: 0.82rem;
+    font-weight: 600;
+    letter-spacing: 0.04em;
+    text-transform: uppercase;
+    color: #7aa2f7;
+    margin: 0 0 0.4rem;
+}
+
+.consultas-regla__texto {
+    font-size: 0.86rem;
+    line-height: 1.5;
+    color: var(--tx-2, #b8bec9);
+    margin: 0;
+}
+
+/* --- Las dos columnas de arriba: lo que te pregunto vs lo que resolví ---- */
+.consultas-tope {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+    gap: 0.9rem;
+    margin-bottom: 1.5rem;
+}
+
+.consultas-metrica {
+    background: var(--bg-2, #16181d);
+    border: 1px solid rgba(255, 255, 255, 0.08);
+    border-radius: 8px;
+    padding: 0.9rem 1rem;
+}
+
+.consultas-metrica__num {
+    font-size: 1.9rem;
+    font-weight: 700;
+    line-height: 1.1;
+    color: var(--tx-1, #e6e9ef);
+}
+
+.consultas-metrica__num--esperando { color: #e0b04a; }
+.consultas-metrica__num--vencida    { color: #e07070; }
+.consultas-metrica__num--resuelta   { color: #7ac47a; }
+
+.consultas-metrica__label {
+    font-size: 0.78rem;
+    color: var(--tx-3, #7f8796);
+    margin-top: 0.25rem;
+    line-height: 1.35;
+}
+
+/* --- Secciones ------------------------------------------------------------ */
+.consultas-seccion {
+    margin-bottom: 1.75rem;
+}
+
+.consultas-seccion__titulo {
+    font-size: 0.9rem;
+    font-weight: 600;
+    color: var(--tx-1, #e6e9ef);
+    margin: 0 0 0.15rem;
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+}
+
+.consultas-seccion__nota {
+    font-size: 0.79rem;
+    color: var(--tx-3, #7f8796);
+    margin: 0 0 0.8rem;
+    line-height: 1.45;
+}
+
+/* --- Card de consulta ----------------------------------------------------- */
+.consulta {
+    background: var(--bg-2, #16181d);
+    border: 1px solid rgba(255, 255, 255, 0.08);
+    border-radius: 8px;
+    padding: 1rem 1.1rem;
+    margin-bottom: 0.8rem;
+}
+
+.consulta--esperando { border-left: 3px solid #e0b04a; }
+.consulta--respondida { border-left: 3px solid #7ac47a; }
+.consulta--vencida    { border-left: 3px solid #e07070; opacity: 0.72; }
+
+.consulta__meta {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    gap: 0.5rem;
+    margin-bottom: 0.55rem;
+    font-size: 0.73rem;
+    color: var(--tx-3, #7f8796);
+}
+
+.consulta__agente {
+    font-weight: 600;
+    color: #7aa2f7;
+}
+
+.consulta__badge {
+    padding: 0.1rem 0.45rem;
+    border-radius: 10px;
+    font-size: 0.7rem;
+    font-weight: 600;
+    letter-spacing: 0.03em;
+    border: 1px solid currentColor;
+}
+
+.consulta__badge--esperando { color: #e0b04a; }
+.consulta__badge--respondida { color: #7ac47a; }
+.consulta__badge--vencida    { color: #e07070; }
+
+.consulta__pregunta {
+    font-size: 0.98rem;
+    font-weight: 600;
+    color: var(--tx-1, #e6e9ef);
+    line-height: 1.45;
+    margin: 0 0 0.6rem;
+}
+
+.consulta__bloqueante {
+    font-size: 0.83rem;
+    color: var(--tx-2, #b8bec9);
+    line-height: 1.5;
+    margin: 0 0 0.75rem;
+    padding-left: 0.6rem;
+    border-left: 2px solid rgba(255, 255, 255, 0.1);
+}
+
+/* Opciones: Pablo responde con un número. Sin esto tiene que escribir texto
+   libre y es exactamente la fricción que complained. */
+.consulta__opciones {
+    margin: 0 0 0.85rem;
+    padding: 0;
+    list-style: none;
+    counter-reset: opcion;
+}
+
+.consulta__opcion {
+    counter-increment: opcion;
+    font-size: 0.86rem;
+    color: var(--tx-2, #b8bec9);
+    line-height: 1.45;
+    padding: 0.3rem 0 0.3rem 1.6rem;
+    position: relative;
+}
+
+.consulta__opcion::before {
+    content: counter(opcion);
+    position: absolute;
+    left: 0;
+    top: 0.32rem;
+    width: 1.15rem;
+    height: 1.15rem;
+    border-radius: 4px;
+    background: rgba(122, 162, 247, 0.15);
+    color: #7aa2f7;
+    font-size: 0.72rem;
+    font-weight: 700;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.consulta__acciones {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.5rem;
+    align-items: center;
+}
+
+.consulta__btn-copiar {
+    background: rgba(122, 162, 247, 0.12);
+    border: 1px solid #7aa2f7;
+    color: #7aa2f7;
+    border-radius: 6px;
+    padding: 0.42rem 0.85rem;
+    font-size: 0.82rem;
+    font-weight: 600;
+    cursor: pointer;
+    font-family: inherit;
+    transition: background 0.15s ease;
+}
+
+.consulta__btn-copiar:hover {
+    background: rgba(122, 162, 247, 0.24);
+}
+
+.consulta__btn-copiar--hecho {
+    border-color: #7ac47a;
+    color: #7ac47a;
+    background: rgba(122, 196, 122, 0.14);
+}
+
+.consulta__hint {
+    font-size: 0.75rem;
+    color: var(--tx-3, #7f8796);
+}
+
+/* Respuesta ya dada por Pablo */
+.consulta__respuesta {
+    margin-top: 0.75rem;
+    padding: 0.65rem 0.8rem;
+    background: rgba(122, 196, 122, 0.08);
+    border-radius: 6px;
+    font-size: 0.85rem;
+    color: var(--tx-2, #b8bec9);
+    line-height: 1.45;
+}
+
+.consulta__respuesta__quien {
+    font-size: 0.72rem;
+    font-weight: 600;
+    color: #7ac47a;
+    display: block;
+    margin-bottom: 0.2rem;
+}
+
+/* Lo que el equipo ginseng a mí y yo resolví sin molestar a Pablo. Se ve
+   colapsado por defecto: es transparencia, no una tarea pendiente. */
+.consultas-colapsable > summary {
+    cursor: pointer;
+    font-size: 0.85rem;
+    font-weight: 600;
+    color: var(--tx-2, #b8bec9);
+    padding: 0.4rem 0;
+    list-style: none;
+    user-select: none;
+}
+
+.consultas-colapsable > summary::-webkit-details-marker { display: none; }
+.consultas-colapsable > summary::before { content: '▸ '; color: var(--tx-3, #7f8796); }
+.consultas-colapsable[open] > summary::before { content: '▾ '; }
+
+.consultas-colapsable > summary:hover { color: var(--tx-1, #e6e9ef); }
+
+/* --- Estado vacío y error -------------------------------------------------
+   Una tab en blanco es indistinguible de "no hay nada". Esto avisa siempre. */
+.consultas-vacio {
+    background: var(--bg-2, #16181d);
+    border: 1px dashed rgba(255, 255, 255, 0.14);
+    border-radius: 8px;
+    padding: 1.5rem 1rem;
+    text-align: center;
+    color: var(--tx-3, #7f8796);
+    font-size: 0.87rem;
+    line-height: 1.5;
+}
+
+.consultas-error {
+    background: var(--bg-2, #16181d);
+    border-left: 3px solid #e07070;
+    border-radius: 6px;
+    padding: 0.85rem 1rem;
+    color: #e07070;
+    font-size: 0.86rem;
+    line-height: 1.5;
+    margin-bottom: 1rem;
+}
+
+.consultas-error__detalle {
+    display: block;
+    margin-top: 0.4rem;
+    color: var(--tx-3, #7f8796);
+    font-size: 0.79rem;
+}
+
+.consultas-frescura {
+    font-size: 0.75rem;
+    color: var(--tx-3, #7f8796);
+    text-align: right;
+    margin-top: 0.5rem;
+}
