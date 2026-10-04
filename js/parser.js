@@ -1601,8 +1601,18 @@ class DashboardParser {
             return { parseable: false, ...data };
         }
 
-        const d = md.match(/\d{4}-\d{2}-\d{2}/);
-        if (d) data.updatedAt = d[0];
+        // La fecha sale de las FILAS, no de todo el documento.
+        //
+        // Antes tomaba la primera fecha del texto entero, y en un archivo que
+        // explica en su prosa que el estado "EN PRODUCCIÓN, SIN VERIFICAR"
+        // existe "desde el 2026-10-01", esa prosa le ganaba a los datos: la tab
+        // decía "actualizado 2026-10-01" el mismo día que se registraba la
+        // promoción del 2026-10-04. "Última actualización" tiene que ser el
+        // dato más reciente que escribió el equipo, no una fecha citada de
+        // pasada en un párrafo explicativo.
+        const filas = md.split('\n').filter(l => l.trim().startsWith('|'));
+        const dFecha = filas.join('\n').match(/\d{4}-\d{2}-\d{2}/);
+        if (dFecha) data.updatedAt = dFecha[0];
 
         const sections = md.split(/^##\s+/m).slice(1);
         let foundSections = false;
