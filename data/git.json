@@ -1,8 +1,15 @@
 {
- "generado_utc": "20261004T133624Z",
- "generado_h": "2026-10-04 13:36 UTC",
+ "generado_utc": "20261004T135126Z",
+ "generado_h": "2026-10-04 13:51 UTC",
  "origen": "git local + ls-remote (sin cuota). protected cacheado TTL 6h.",
  "commits": [
+  {
+   "sha": "436e92e145ca0bc6ff06076ce39700b9ee774d3b",
+   "short": "436e92e",
+   "autor": "Pablo Sanchez",
+   "fecha": "2026-10-04T10:38:18-03:00",
+   "msg": "fix(backlog): desambigua el nombre de las 2 filas del Fractal Tracker (rescate del HB#188)"
+  },
   {
    "sha": "af21cdfcdedfab01a04ca020f1aeea3d740f0e42",
    "short": "af21cdf",
@@ -345,13 +352,6 @@
    "autor": "Pablo Sanchez",
    "fecha": "2026-10-02T21:08:47-03:00",
    "msg": "fix(armeria): el boton + Cola del catalogo usa --color-red en vez de los tokens apagados  El boton en su estado NO encolado usaba exactamente los mismos tokens que toda la grilla (--bd-1 / --bg-1 / --tx-3), asi que no contrastaba con nada. Medido sobre los tokens reales de cada tema: el borde pasaba de 1.21:1 a 9.35:1 en boveda y de 1.58:1 a 6.23:1 en catppuccin, y el texto del boton queda en 7.87:1 (AAA) y 6.48:1 (AA).  El estado encolado NO se toca: verificado que el string que produce es byte a byte el de antes, sin box-shadow ni ninguna propiedad nueva. Por eso el halo va con (enCola ? '' : ...) y no con 'none'.'."
-  },
-  {
-   "sha": "7e2c9162552d6ec7fe299e1f5f61314d65f35a16",
-   "short": "7e2c916",
-   "autor": "Pablo Sanchez",
-   "fecha": "2026-10-02T20:45:14-03:00",
-   "msg": "feat(armeria): icono y color de rareza en el arbol, resueltos por item-icons.js"
   }
  ],
  "archivos_md": [
@@ -412,9 +412,9 @@
    "repo": "gw2-agents-dashboard",
    "label": "Dashboard",
    "role": "dashboard",
-   "sha": "cca260bde83c2cfb0a9522daa90ae2a7b7d3b2be",
-   "short_sha": "cca260b",
-   "commit": "chore(dashboard): pulso automatico 2026-10-04_13-21_UTC",
+   "sha": "e4d36f1d3d65d9e45191f616de687d64664e8953",
+   "short_sha": "e4d36f1",
+   "commit": "chore(dashboard): pulso automatico 2026-10-04_13-36_UTC",
    "estado": "open",
    "protected": false,
    "protected_fresco": true,
