@@ -1,8 +1,22 @@
 {
- "generado_utc": "20261004T210628Z",
- "generado_h": "2026-10-04 21:06 UTC",
+ "generado_utc": "20261004T212129Z",
+ "generado_h": "2026-10-04 21:21 UTC",
  "origen": "git local + ls-remote (sin cuota). protected cacheado TTL 6h.",
  "commits": [
+  {
+   "sha": "714ae3e9e34a15aaefcbf8e4b53d4fce771d2f14",
+   "short": "714ae3e",
+   "autor": "Pablo Sanchez",
+   "fecha": "2026-10-04T18:07:08-03:00",
+   "msg": "merge(po): rama hb196-una-sola-ronda a main, sin resolver el deadlock de las 27 ramas po/* sin mergear (ronda 64 del PO)"
+  },
+  {
+   "sha": "f79ee89f8ea92ac408ed354678909b0fa6837d80",
+   "short": "f79ee89",
+   "autor": "Pablo Sanchez",
+   "fecha": "2026-10-04T17:12:45-03:00",
+   "msg": "docs(po/hb196): RECOLECTAR - 11 ramas tocan PRE_BACKLOG.md y ninguna esta mergeada"
+  },
   {
    "sha": "40fd97ac1644dca023d77af216c642046fe0581e",
    "short": "40fd97a",
@@ -338,20 +352,6 @@
    "autor": "Pablo Sanchez",
    "fecha": "2026-10-02T23:31:56-03:00",
    "msg": "docs(hb156): seccion de TEAM_STATUS del ciclo, con los 6 errores de instrumento propios"
-  },
-  {
-   "sha": "24f7dbcefca3faa377d44bef0b284af0fcdc6dfc",
-   "short": "24f7dbc",
-   "autor": "Pablo Sanchez",
-   "fecha": "2026-10-02T23:29:39-03:00",
-   "msg": "docs(hb156-fix): el banner citaba el marcador que su propio chequeo busca Un control que se puede disparar con el material que controla deja de ser control: 3a vez en el ecosistema, la misma del HB#151. El criterio 2 del banner transcribia el titulo de la version vencida del paso 3 para explicar que era lo que senalaba, asi que la senal aparecia en el archivo sano."
-  },
-  {
-   "sha": "a7918db7825774762988a27409f93003c3d37cda",
-   "short": "a7918db",
-   "autor": "Pablo Sanchez",
-   "fecha": "2026-10-02T23:25:58-03:00",
-   "msg": "docs(hb156): hay dos HEARTBEAT.md y no son el mismo de dos generaciones"
   }
  ],
  "archivos_md": [
@@ -412,9 +412,9 @@
    "repo": "gw2-agents-dashboard",
    "label": "Dashboard",
    "role": "dashboard",
-   "sha": "0595b8f51a6ca6c3547cc0736c1bda335faaf389",
-   "short_sha": "0595b8f",
-   "commit": "chore(dashboard): pulso automatico 2026-10-04_20-51_UTC",
+   "sha": "604b8a66b3b8b5a261bfbcd65792fc91e350166f",
+   "short_sha": "604b8a6",
+   "commit": "chore(dashboard): pulso automatico 2026-10-04_21-06_UTC",
    "estado": "open",
    "protected": false,
    "protected_fresco": true,
