@@ -1,5 +1,5 @@
 {
-  "generado_utc": "2026-10-04T18:21:30Z",
+  "generado_utc": "2026-10-04T18:38:20Z",
   "dev_head": "9a19aab",
   "prod_head": "c0471e0",
   "alcance": [
@@ -21,6 +21,9 @@
   "distintos_webapp_lista": [],
   "solo_dev_webapp_lista": [
     "js/homestead-tracker.js"
+  ],
+  "solo_dev_datos_lista": [
+    "js/_legendary_prices_cache.json"
   ],
   "solo_dev_no_webapp_lista": [
     "js/_build_legendary_data.py",

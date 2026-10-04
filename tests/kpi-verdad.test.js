@@ -109,6 +109,31 @@ check('cada KPI declara su origen',
       ka.s.length === ka.l.length && ka.s.every(s => s && s.length > 0),
       JSON.stringify(ka.s));
 
+// ── el invariante que faltaba ─────────────────────────────────────────────
+// Un número sin lista al lado es un número que nadie puede auditar. El panel
+// showed "+5 herramientas, tests y documentación" mirando solo
+// `solo_dev_no_webapp`, y se comía el archivo de datos: eran 6. Nadie lo
+// notó porque el 5 se veía bien y el 1 no aparecía en ninguna parte.
+//
+// La regla: TODO lo que se cuenta tiene nombre. Si mañana el equipo sube un
+// archivo nuevo y la clasificación lo pone en una categoría que el generador
+// no lista, este check salta en vez de dejar que el panel lo trague.
+const a = medido.archivos || {};
+const listas = ['solo_dev_webapp_lista', 'solo_dev_datos_lista', 'solo_dev_no_webapp_lista'];
+const contados = (a.solo_dev_webapp || 0) + (a.solo_dev_datos || 0) + (a.solo_dev_no_webapp || 0);
+const nombrados = listas.reduce((s, k) => s + ((medido[k] || []).length), 0);
+check('todo archivo solo en dev está nombrado',
+      contados === nombrados,
+      'contados=' + contados + ' nombrados=' + nombrados + ' -> ' +
+      listas.map(k => k + '=' + ((medido[k] || []).length)).join(' '));
+check('el conteo cuadra con las comparaciones',
+      (a.identicos || 0) + (a.distintos || 0) + (a.solo_dev || 0) === (a.comparados || 0),
+      (a.identicos || 0) + '+' + (a.distintos || 0) + '+' + (a.solo_dev || 0) +
+      ' vs comparados=' + (a.comparados || 0));
+check('el panel nombra los archivos que no carga el navegador',
+      nombrados > 0 && A.html.includes('no los carga'),
+      'html=' + A.html.includes('no los carga'));
+
 check('hay un KPI "sin pantalla propia"', ka.l.indexOf('sin pantalla propia') >= 0, ka.l.join(' | '));
 check('NO queda el KPI viejo "sin link verificable"', ka.l.indexOf('sin link verificable') < 0, 'quedo el viejo');
 check('dice cuantos identificos hay', A.html.indexOf('archivos idénticos') > 0, 'falta el conteo');

@@ -503,6 +503,15 @@
             veredicto = 'Hay código en desarrollo que todavía no llegó a producción.';
         }
 
+        // Todo lo que NO es web cuenta igual y se nombra igual. La version
+        // anterior de esta linea decia "+5 herramientas, tests y
+        // documentacion" mirando solo `solo_dev_no_webapp`, y se comia el
+        // archivo de datos: los 5 .py mas el .json son 6. Y decia "fuera"
+        // cuando los 6 estan dentro de js/, que este mismo panel declara
+        // en alcance. Excluidos por extension, no fuera del alcance.
+        var noWeb = (a.solo_dev_no_webapp || 0) + (a.solo_dev_datos || 0);
+        var noWebLista = (m.solo_dev_no_webapp_lista || []).concat(m.solo_dev_datos_lista || []);
+
         var out = '<div class="feat-medido' + (hayFaltantes ? '' : ' feat-medido--ok') + '">' +
             '<p class="feat-medido__t">Lo que está en producción, medido</p>' +
             '<p class="feat-medido__v">' + esc(veredicto) + '</p>' +
@@ -511,8 +520,8 @@
                     ' archivos idénticos entre dev y producción</li>' +
                 '<li>' + n(a.distintos) + ' con contenido distinto</li>' +
                 '<li>' + n(a.solo_dev_webapp) + ' módulos web solo en desarrollo' +
-                    (a.solo_dev_no_webapp ? ' (+' + n(a.solo_dev_no_webapp) +
-                        ' herramientas, tests y documentación, que no van a producción)' : '') +
+                    (noWeb ? ' (+' + n(noWeb) +
+                        ' que el navegador no carga: scripts y datos)' : '') +
                 '</li>' +
             '</ul>';
 
@@ -522,9 +531,25 @@
                     return '<code>' + esc(f) + '</code>';
                 }).join('<br>') + '</p>';
         }
-        out += '<p class="feat-medido__src">Medido por <code>gen_promocion.py</code> ' +
-            'el ' + esc(m.generado_utc || '?') + ' · dev <code>' + esc(m.dev_head || '?') +
-            '</code> · producción <code>' + esc(m.prod_head || '?') + '</code></p>';
+        if (noWebLista.length) {
+            out += '<p class="feat-medido__detalle">También solo en desarrollo, ' +
+                'pero el navegador no los carga:<br>' +
+                noWebLista.map(function (f) {
+                    return '<code>' + esc(f) + '</code>';
+                }).join('<br>') + '</p>';
+        }
+        // El reloj dice "cambio por ultima vez", no "medido", y la diferencia
+        // no es de redaccion. El generador no reescribe el JSON cuando nada
+        // cambio (esta en CLAVES, en gen_promocion.py), asi que el timestamp
+        // es la ultima vez que los numeros se movieron, no la ultima vez que
+        // se midieron. Decir "medido el" cuando hace 14 horas que no se
+        // midio es exactamente el problema que este panel vino a arreglar:
+        // un numero que se ve fresco y no lo esta.
+        out += '<p class="feat-medido__src">Cambió por última vez el ' +
+            '<code>' + esc(m.generado_utc || '?') + '</code> · ' +
+            'medido por <code>gen_promocion.py</code> cada 15 min · dev <code>' +
+            esc(m.dev_head || '?') + '</code> · producción <code>' +
+            esc(m.prod_head || '?') + '</code></p>';
         return out + '</div>';
     }
 
