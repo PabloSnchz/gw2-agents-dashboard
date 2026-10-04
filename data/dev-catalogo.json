@@ -1,5 +1,5 @@
 {
- "generado": "2026-10-04T13:06:31Z",
+ "generado": "2026-10-04T13:21:28Z",
  "dev_base": "https://pablosnchz.github.io/gw2-wallet-agents/",
  "dev_sha": "af21cdf",
  "pantallas": [
@@ -306,12 +306,12 @@
    "pantalla": null
   },
   {
-   "titulo": "Fractal Tracker: la parte MULTICUENTA (lo que la fila de Completed promete y no existe)",
+   "titulo": "Fractal Tracker: iterar las 27 cuentas en el panel de CM",
    "estado": "",
    "fuente": "BACKLOG.md",
-   "pantalla": "https://pablosnchz.github.io/gw2-wallet-agents/#/account/accounts",
-   "pantalla_nombre": "Cuentas",
-   "pantalla_ruta": "/account/accounts"
+   "pantalla": "https://pablosnchz.github.io/gw2-wallet-agents/#/activities",
+   "pantalla_nombre": "Actividades",
+   "pantalla_ruta": "/activities"
   },
   {
    "titulo": "Homestead Glyph API mismatch",
@@ -376,12 +376,12 @@
    "pantalla_ruta": "/account/achievements"
   },
   {
-   "titulo": "Fractal Tracker multicuenta (Idea 39 del PO)",
+   "titulo": "Fractal Tracker: panel de CM de cuenta unica",
    "estado": "x",
    "fuente": "BACKLOG.md",
-   "pantalla": "https://pablosnchz.github.io/gw2-wallet-agents/#/account/accounts",
-   "pantalla_nombre": "Cuentas",
-   "pantalla_ruta": "/account/accounts"
+   "pantalla": "https://pablosnchz.github.io/gw2-wallet-agents/#/activities",
+   "pantalla_nombre": "Actividades",
+   "pantalla_ruta": "/activities"
   },
   {
    "titulo": "Suerte (MF base account-wide)",
