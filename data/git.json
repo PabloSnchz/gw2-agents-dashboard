@@ -1,8 +1,15 @@
 {
- "generado_utc": "20261004T080624Z",
- "generado_h": "2026-10-04 08:06 UTC",
+ "generado_utc": "20261004T082126Z",
+ "generado_h": "2026-10-04 08:21 UTC",
  "origen": "git local + ls-remote (sin cuota). protected cacheado TTL 6h.",
  "commits": [
+  {
+   "sha": "2e7eb19b87a462a9f1caf0ed9c9721056c54c309",
+   "short": "2e7eb19",
+   "autor": "Pablo Sanchez",
+   "fecha": "2026-10-04T05:15:18-03:00",
+   "msg": "rescate(hb186): logs del HB#186 sin commitear (ALERT-256 + ALERT-255)"
+  },
   {
    "sha": "219ed5f2134e9da5516c567ad56635cb1410c23e",
    "short": "219ed5f",
@@ -345,13 +352,6 @@
    "autor": "Pablo Sanchez",
    "fecha": "2026-10-02T19:14:02-03:00",
    "msg": "test(armeria): ALERT-216 reescribe el certificado de FILTRO-05 por EFECTO; ALERT-217 cierra el \"TOTAL que bouncea 2x\""
-  },
-  {
-   "sha": "70fd048fe8c4d2fe063f51efcce596612f685748",
-   "short": "70fd048",
-   "autor": "Pablo Sanchez",
-   "fecha": "2026-10-02T18:07:48-03:00",
-   "msg": "docs: TEAM_STATUS de HB#147 + la respuesta al PO que cierra su ronda 44"
   }
  ],
  "archivos_md": [
@@ -398,9 +398,9 @@
    "repo": "gw2-wallet-agents",
    "label": "Desarrollo",
    "role": "dev",
-   "sha": "219ed5f2134e9da5516c567ad56635cb1410c23e",
-   "short_sha": "219ed5f",
-   "commit": "rescate(hb185): 2 ciclos de logs muertos sin commitear",
+   "sha": "2e7eb19b87a462a9f1caf0ed9c9721056c54c309",
+   "short_sha": "2e7eb19",
+   "commit": "rescate(hb186): logs del HB#186 sin commitear (ALERT-256 +",
    "estado": "open",
    "protected": false,
    "protected_fresco": true,
@@ -412,9 +412,9 @@
    "repo": "gw2-agents-dashboard",
    "label": "Dashboard",
    "role": "dashboard",
-   "sha": "37385bd89ef19bf0bb1ece185141ca772103a9ce",
-   "short_sha": "37385bd",
-   "commit": "chore(dashboard): pulso automatico 2026-10-04_07-51_UTC",
+   "sha": "ca44033565a452c8067072610af32db57619f15c",
+   "short_sha": "ca44033",
+   "commit": "chore(dashboard): pulso automatico 2026-10-04_08-06_UTC",
    "estado": "open",
    "protected": false,
    "protected_fresco": true,
