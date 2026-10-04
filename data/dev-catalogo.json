@@ -1,7 +1,7 @@
 {
- "generado": "2026-10-04T18:06:31Z",
+ "generado": "2026-10-04T18:21:29Z",
  "dev_base": "https://pablosnchz.github.io/gw2-wallet-agents/",
- "dev_sha": "fcaee40",
+ "dev_sha": "9a19aab",
  "pantallas": [
   {
    "ruta": "/welcome",

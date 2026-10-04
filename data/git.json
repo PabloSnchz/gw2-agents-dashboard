@@ -1,8 +1,22 @@
 {
- "generado_utc": "20261004T180626Z",
- "generado_h": "2026-10-04 18:06 UTC",
+ "generado_utc": "20261004T182125Z",
+ "generado_h": "2026-10-04 18:21 UTC",
  "origen": "git local + ls-remote (sin cuota). protected cacheado TTL 6h.",
  "commits": [
+  {
+   "sha": "9a19aab5de8c9337ee2f96dc015fc24f08ad16ae",
+   "short": "9a19aab",
+   "autor": "Pablo Sanchez",
+   "fecha": "2026-10-04T15:08:07-03:00",
+   "msg": "merge(po): la razon de la poda L298/L352 entra al repo, y L60 queda escrita como pregunta"
+  },
+  {
+   "sha": "504e2178fab89133e42117c5ba03644294541508",
+   "short": "504e217",
+   "autor": "Pablo Sanchez",
+   "fecha": "2026-10-04T14:58:48-03:00",
+   "msg": "﻿docs(po/hb193): RECOLECTAR - la banda se mide en git y el podado se decide fuera de git"
+  },
   {
    "sha": "fcaee4008aac5d59254b321b9d1817aeb3e7f463",
    "short": "fcaee40",
@@ -338,20 +352,6 @@
    "autor": "Pablo Sanchez",
    "fecha": "2026-10-02T22:50:00-03:00",
    "msg": "feat(api): rescate de HB#154 — getSkinsBatch (Tramo 2 de Coberturable) cierra los 3 FAIL"
-  },
-  {
-   "sha": "ac0563f4368a2e9169d190b1fd1c0c2937a13ebd",
-   "short": "ac0563f",
-   "autor": "Pablo Sanchez",
-   "fecha": "2026-10-02T22:21:16-03:00",
-   "msg": "fix(api): las tres opciones del presupuesto de items son un bloque, y el recorte no puede perder entradas por un slice negativo"
-  },
-  {
-   "sha": "23285789becb1e14ad3a435ed5df150df1e684b4",
-   "short": "2328578",
-   "autor": "Pablo Sanchez",
-   "fecha": "2026-10-02T22:14:17-03:00",
-   "msg": "fix(armeria): el boton + Cola vuelve a los tokens apagados, con la geometria del badge PENDING"
   }
  ],
  "archivos_md": [
@@ -412,9 +412,9 @@
    "repo": "gw2-agents-dashboard",
    "label": "Dashboard",
    "role": "dashboard",
-   "sha": "040bfd394a62d933aacaf1c83daea97c1cdbe3b8",
-   "short_sha": "040bfd3",
-   "commit": "chore(dashboard): pulso automatico 2026-10-04_17-51_UTC",
+   "sha": "bec68f5f25accbc23b2ca68b1523f11807ca9250",
+   "short_sha": "bec68f5",
+   "commit": "chore(dashboard): pulso automatico 2026-10-04_18-06_UTC",
    "estado": "open",
    "protected": false,
    "protected_fresco": true,
