@@ -52,7 +52,27 @@ const DASHBOARD_CONFIG = {
 
     // Genera URL raw de GitHub para un archivo
     getUrl(filename) {
-        return `https://raw.githubusercontent.com/${this.repoOwner}/${this.repoName}/${this.branch}/${filename}`;
+        return `https://raw.githubusercontent.com/${this.repoOwner}/${this.repoName}/${this.branch}/${filename}${this._cacheBust()}`;
+    },
+
+    /**
+     * Sufijo de cache-buster para raw.githubusercontent.com.
+     *
+     * El CDN cachea por URL, y en la ruta de rama su TTL resulto ser mas
+     * largo que el cache en memoria de fetcher.js (5 min). Medido el
+     * 2026-10-04: la rama `main` devolvia 5950 bytes — la version vieja de
+     * PROMOTIONS.md — mientras el mismo archivo pedido por SHA devolvia 5936,
+     * la nueva, con `git ls-remote` confirmando que el push ya estaba en el
+     * servidor. El dashboard dibujaba un dato viejo con toda la apariencia
+     * de estar al dia: el mismo patron que ALERT-49, aqui en nuestro propio
+     * producto.
+     *
+     * La ventana de 5 min evita generar una URL distinta por carga: son 288
+     * claves por dia, la misma cadencia que el TTL de fetcher.js ya asumia,
+     * asi las dos capas no se pelean entre si.
+     */
+    _cacheBust() {
+        return '?v=' + Math.floor(Date.now() / 300000);
     },
 
     // Auto-deteccion de .md: ahora lee la lista pre-calculada de git.json
@@ -133,7 +153,7 @@ const DASHBOARD_CONFIG = {
     // pre-calculado, y `protected` llega cacheado con TTL de 6 h porque es
     // el unico campo que la API REST sola puede dar.
     getGitDataUrl() {
-        return `https://raw.githubusercontent.com/${this.structureRepoOwner}/${this.structureRepoName}/${this.structureBranch}/data/git.json`;
+        return `https://raw.githubusercontent.com/${this.structureRepoOwner}/${this.structureRepoName}/${this.structureBranch}/data/git.json${this._cacheBust()}`;
     },
 
     // Heurística de zonas para archivos descubiertos dinámicamente via API
