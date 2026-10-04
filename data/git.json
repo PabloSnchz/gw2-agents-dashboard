@@ -1,8 +1,29 @@
 {
- "generado_utc": "20261004T002533Z",
- "generado_h": "2026-10-04 00:25 UTC",
+ "generado_utc": "20261004T003623Z",
+ "generado_h": "2026-10-04 00:36 UTC",
  "origen": "git local + ls-remote (sin cuota). protected cacheado TTL 6h.",
  "commits": [
+  {
+   "sha": "cb369e55d1b105c6ac5180d621dd3ce8dee40da0",
+   "short": "cb369e5",
+   "autor": "Pablo Sanchez",
+   "fecha": "2026-10-03T21:33:50-03:00",
+   "msg": "docs: documentar la Armería Legendaria en los 5 documentos"
+  },
+  {
+   "sha": "ff6b8ce0546291b51b0162001eb827245ae022b7",
+   "short": "ff6b8ce",
+   "autor": "Pablo Sanchez",
+   "fecha": "2026-10-03T21:29:25-03:00",
+   "msg": "docs(PROMOTIONS): columna Feat propia para que las tarjetas tengan titulo corto"
+  },
+  {
+   "sha": "f3e7c0c3ea59f4059160bb4148d8d1ef043bd1d5",
+   "short": "f3e7c0c",
+   "autor": "Pablo Sanchez",
+   "fecha": "2026-10-03T21:27:06-03:00",
+   "msg": "docs(PROMOTIONS): registrar la promocion de la Armeria y las filas que la tab no leia"
+  },
   {
    "sha": "2e29ed61c9e16c8e2628dfb2072dc6b11f4a14ae",
    "short": "2e29ed6",
@@ -331,27 +352,6 @@
    "autor": "Pablo Sanchez",
    "fecha": "2026-10-02T18:05:36-03:00",
    "msg": "test(armeria): ALERT-211 cierra el falso verde del 3.1, y ALERT-212 muestra que FILTRO-05 no puede fallar"
-  },
-  {
-   "sha": "3f32b77e232809745f95ed3c2212e3c232e09746",
-   "short": "3f32b77",
-   "autor": "Pablo Sanchez",
-   "fecha": "2026-10-02T17:12:58-03:00",
-   "msg": "docs(hb146): ALERT-210 - un arnes que no parsea, y un arreglo \"obvio\" que rompia 3 contratos"
-  },
-  {
-   "sha": "9b5106a656a7e84c7dc2657f68b967a0aea55d4d",
-   "short": "9b5106a",
-   "autor": "Pablo Sanchez",
-   "fecha": "2026-10-02T16:54:26-03:00",
-   "msg": "docs(armeria): el hash real de la ficha de los filtros y el boton de cola"
-  },
-  {
-   "sha": "956f1402eb3032690865c52cfedcc0a7f26dcf4c",
-   "short": "956f140",
-   "autor": "Pablo Sanchez",
-   "fecha": "2026-10-02T16:54:00-03:00",
-   "msg": "feat(armeria): filtro Tengo/Me faltan y boton de encolar en la card del catalogo"
   }
  ],
  "archivos_md": [
@@ -398,9 +398,9 @@
    "repo": "gw2-wallet-agents",
    "label": "Desarrollo",
    "role": "dev",
-   "sha": "2e29ed61c9e16c8e2628dfb2072dc6b11f4a14ae",
-   "short_sha": "2e29ed6",
-   "commit": "fix(ui): ocultar el boton Sincronizar (Gist) del header con",
+   "sha": "cb369e55d1b105c6ac5180d621dd3ce8dee40da0",
+   "short_sha": "cb369e5",
+   "commit": "docs: documentar la Armería Legend",
    "estado": "open",
    "protected": false,
    "protected_fresco": true,
@@ -412,9 +412,9 @@
    "repo": "gw2-agents-dashboard",
    "label": "Dashboard",
    "role": "dashboard",
-   "sha": "4865ee2748fc767bf6dbc720cf15e5253c204d16",
-   "short_sha": "4865ee2",
-   "commit": "chore(dashboard): pulso automatico 2026-10-04_00-21_UTC",
+   "sha": "0aff88227900348e1edd6843571535a16a353ee5",
+   "short_sha": "0aff882",
+   "commit": "fix(config): cache-buster en las URLs de",
    "estado": "open",
    "protected": false,
    "protected_fresco": true,
