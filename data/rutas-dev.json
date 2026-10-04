@@ -1,10 +1,10 @@
 {
-  "generado_utc": "2026-10-04T22:36:30Z",
+  "generado_utc": "2026-10-04T23:51:47Z",
   "base_url": "https://pablosnchz.github.io/gw2-wallet-agents/",
   "origen_config": "PabloSnchz/gw2-wallet-agents@main",
   "fuente": "gw2-dev/index.html (menu lateral) + js/router.js (sub-vistas)",
-  "fuente_sha": "531a5fe",
-  "total": 10,
+  "fuente_sha": "ce5849f",
+  "total": 11,
   "rutas": [
     {
       "ruta": "/welcome",
@@ -49,6 +49,11 @@
     {
       "ruta": "/account/legendary-armory",
       "pantalla": "Armería Legendaria",
+      "en_menu": true
+    },
+    {
+      "ruta": "/account/homestead",
+      "pantalla": "Homestead",
       "en_menu": true
     },
     {

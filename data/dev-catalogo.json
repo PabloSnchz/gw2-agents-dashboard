@@ -1,7 +1,7 @@
 {
- "generado": "2026-10-04T23:36:43Z",
+ "generado": "2026-10-04T23:51:48Z",
  "dev_base": "https://pablosnchz.github.io/gw2-wallet-agents/",
- "dev_sha": "531a5fe",
+ "dev_sha": "ce5849f",
  "pantallas": [
   {
    "ruta": "/welcome",
@@ -58,6 +58,12 @@
    "url": "https://pablosnchz.github.io/gw2-wallet-agents/#/account/legendary-armory"
   },
   {
+   "ruta": "/account/homestead",
+   "nombre": "Homestead",
+   "en_menu": true,
+   "url": "https://pablosnchz.github.io/gw2-wallet-agents/#/account/homestead"
+  },
+  {
    "ruta": "/account/accounts",
    "nombre": "Cuentas",
    "en_menu": true,
@@ -98,20 +104,10 @@
  ],
  "modulos": {
   "total": 47,
-  "cableados": 46,
-  "sueltos": 1
+  "cableados": 47,
+  "sueltos": 0
  },
- "sueltos": [
-  {
-   "archivo": "homestead-tracker.js",
-   "lineas": 481,
-   "bytes": 19026,
-   "declarado": {
-    "fuente": "BACKLOG.md",
-    "cita": "tead tracker: completar wiring** — ⚠️ PENDIENTE DECISION. En `agents/main` el archivo `js/homestead-tracker.js` esta commiteado pero **inerte**: sus 5 metodos `GW2Api` no existen en `api-gw2.js` de ma"
-   }
-  }
- ],
+ "sueltos": [],
  "items": [
   {
    "titulo": "~~**Hook `onClear`: que el borrado de la cache de disco tambien vacie la `__mem",

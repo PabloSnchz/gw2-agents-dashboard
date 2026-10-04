@@ -1,14 +1,21 @@
 {
- "generado_utc": "20261004T233637Z",
- "generado_h": "2026-10-04 23:36 UTC",
+ "generado_utc": "20261004T235143Z",
+ "generado_h": "2026-10-04 23:51 UTC",
  "origen": "git local + ls-remote (sin cuota). protected cacheado TTL 6h.",
  "commits": [
   {
-   "sha": "531a5fec6638bd18bee8bc89d22a1876774ce34d",
-   "short": "531a5fe",
+   "sha": "ce5849f5251682455f4c583d115a888bff3ff25c",
+   "short": "ce5849f",
    "autor": "Pablo Sanchez",
-   "fecha": "2026-10-04T19:34:14-03:00",
-   "msg": "docs(api-gw2,alerts): rescate de HB#197 - docblock de esquema + ALERT-260  Rescate de trabajo terminado sin commitear. El arbol abrio sucio con ALERTS_LOG.md y js/api-gw2.js modificados (160 inserciones, 0 borrados) en la rama chore-hb197-docblock-esquema, sin commits propios. mtimes de ambos (22:09:14 y 22:29:22 UTC) anteriores al arranque de este ciclo (22:30:05) y estables en la re-medicion: escritor MUERTO, trabajo TERMINADO (PASO -1 pto 3).  Que aporta:  1) api-gw2.js, docblock (26 lineas). Las claves de cache NO codifican la version    del esquema: kMem/kLS son base + separador + fpToken(token), y de los 18 sitios    de lectura/escritura solo 2 piden ?v=latest. No hay ninguna pieza del sistema    que diga 'esto se lleno con el esquema viejo'. Hoy NO es un bug (la API no    cambia desde 2025-08-29 y el unico breaking change de ese dia no toca la app),    pero es una ventana SIN CALIBRAR. Documenta tambien que el escape ya existe y    esta medido: cacheClear() v2.29.0 con dryRun, boton en Ajustes, registro que    cubre los 18. Y lo que NO se hizo: poner ?v=latest en los 16 restantes seria    optar a todo cambio de la API para siempre.  2) ALERTS_LOG.md, ALERT-260 (134 lineas). Las '19 mergeables' de la ronda 64 del    PO no son 19 mergeables: 0 lo son. Todas son un replace que pierde 56 a 1311    lineas de main. 'Solo tocan archivos del PO' es condicion de RUTA; 'mergeable    sin perdida' es condicion de CONTENIDO, y ninguna cumple la segunda.  Cumple la propuesta P3 de la ronda 65 del PO (1 docblock, 5 lineas utiles).  Verificado antes de commitear: - node --check js/api-gw2.js: OK - encoding delta contra origin/main @ 714ae3e: cjk/fw/cyr/ufffd = 0/0/0/0 en ambos - EOL: worktree LF PURO en ambos, blob de origin/main LF PURO en ambos - las 19 cifras de la ronda 64 medidas una por una, coinciden con el PO - mount_guid = 0 usos reales y /v2/mounts = 0: los hits que aparecen son el   propio docblock citandose, no codigo. El PO lo advertia y tenia razon."
+   "fecha": "2026-09-29T12:36:34-03:00",
+   "msg": "fix(homestead): normalizar glyphs de la API (schema real = strings, no objetos)"
+  },
+  {
+   "sha": "83775dc0b7de728d0450eca87a96659727d6908e",
+   "short": "83775dc",
+   "autor": "Pablo Sanchez",
+   "fecha": "2026-10-04T20:46:18-03:00",
+   "msg": "feat(homestead): wiring de e855e67 a mano sobre main, sin merge  El modulo js/homestead-tracker.js YA estaba en main, identico byte a byte a e855e67 (verificado con fc /b). Faltaba todo el wiring, y sin el el modulo fallaba en el primer fetch con TypeError: llama 5 metodos que no existian (medido: 0 matches de getHomestead* en main).  El numero que circulaba --'257 archivos, 88706 borrados'-- es ruido: la rama nacio 53 commits atras. No se hizo merge, que habria revertido el sharding de la Idea 49. Se extrajeron a mano los 3 bloques de e855e67:  - index.html: el <section id=homesteadTrackerPanel>, el   <a id=navHomestead> en el side-nav, y el <script defer> del modulo.   Ubicados junto a sus pares, no al final del archivo. - js/api-gw2.js: los 5 metodos (2 TTL nuevos), respetando el patron de   cache/inflightOnce/fetchWithRetry del archivo actual. No se copio el   archivo entero: api-gw2.js cambio 1940 lineas desde la base de la rama. - js/router.js: la entrada en el mapa de vistas, la rama del switch de   showPanel, el call site de activate, y el bloque de gn:tokenchange.  Correccion de un comentario que el wiring dejo viejo: MODULOS_CON_LATCH exclodia a HomesteadTracker, y la razon escrita (no tiene panel propio, nadie lo activa) era correcta al escribirse pero es falsa con el wiring. Medido hoy: ambas cosas ya no son cero. HomesteadTracker entra al latch, igual que LegendaryTracker.  Icono: assets/icons/Cuentas/homestead-icon.png NO existe en el repo (medido: dir sobre la carpeta). No fue un bloqueo. Se resolvio con SVG inline en el panel y en el nav, que no depende de ningun archivo externo y por lo tanto no puede mostrar borde roto. Verificado ademas contra la API publica que /v2/homestead/glyphs devuelve objetos con id string, item_id y slot -- sin name, sin icon, sin upgrade_item -- lo que confirma que los IDs 21234/21244 de CONFIG.GLYPH_UPGRADES son inventados."
   },
   {
    "sha": "714ae3e9e34a15aaefcbf8e4b53d4fce771d2f14",
@@ -345,13 +352,6 @@
    "autor": "Pablo Sanchez",
    "fecha": "2026-10-03T00:11:20-03:00",
    "msg": "docs(hb158): seccion de TEAM_STATUS del ciclo - rescate de HB#157, y la hora que un ciclo firma sobre si mismo no cierra nada"
-  },
-  {
-   "sha": "2d13d7ca63b2b88441391909b8ea39226ea38cb3",
-   "short": "2d13d7c",
-   "autor": "Pablo Sanchez",
-   "fecha": "2026-10-03T00:09:15-03:00",
-   "msg": "fix(armeria): rescate de HB#157 - iconos y nombres traducidos en el modal"
   }
  ],
  "archivos_md": [
@@ -412,9 +412,9 @@
    "repo": "gw2-agents-dashboard",
    "label": "Dashboard",
    "role": "dashboard",
-   "sha": "a7237110ce6806b4e3d6fcb0acb9bf5cef5e6ed2",
-   "short_sha": "a723711",
-   "commit": "chore(dashboard): pulso automatico 2026-10-04_23-21_UTC",
+   "sha": "32dde3a1487a93705c39d1bedbf0de131b1302cd",
+   "short_sha": "32dde3a",
+   "commit": "fix: el boton Copiar dependia de una promesa que puede no",
    "estado": "open",
    "protected": false,
    "protected_fresco": true,
