@@ -112,19 +112,33 @@
     }
 
     function _copiar(texto, btn) {
-        var ok = function () {
+        // El label cambia PRIMERO, sin esperar a ninguna promesa. Antes de este
+        // cambio dependiamos de navigator.clipboard.writeText y se midio que en
+        // un contexto sin permiso de portapapeles la promesa NO RESUELVE NUNCA:
+        // ni el .then ni el .catch, y el boton se queda sin feedback y Pablo no
+        // sabe si copio. Un boton de copiar que no dice si copio es peor que no
+        // tenerlo, porque Pablo pegaria algo y creeria que si.
+        var previo = btn ? btn.textContent : '';
+        if (btn) btn.textContent = 'Copiando...';
+
+        var marcarOk = function () {
             if (!btn) return;
-            var previo = btn.textContent;
             btn.textContent = '✓ Copiado';
             btn.classList.add('consulta__btn-copiar--hecho');
             setTimeout(function () {
                 btn.textContent = previo;
                 btn.classList.remove('consulta__btn-copiar--hecho');
-            }, 2200);
+            }, 2400);
         };
-        var fallback = function () {
-            // clipboard.writeText no existe en http:// ni sin permiso. Sin este
-            // fallback el botón falla en silencio y Pablo cree que copió.
+        var marcarFallo = function () {
+            if (!btn) return;
+            btn.textContent = 'No pude copiar';
+        };
+
+        // execCommand es SINCRONO: no puede quedar colgado y da feedback en el
+        // mismo tick. Por eso va primero, y la Clipboard API es solo el bonus
+        // para dejar el portapapeles limpio en navegadores modernos.
+        var conExec = function () {
             var ta = document.createElement('textarea');
             ta.value = texto;
             ta.setAttribute('readonly', '');
@@ -135,14 +149,19 @@
             var ex = false;
             try { ex = document.execCommand('copy'); } catch (e) { ex = false; }
             document.body.removeChild(ta);
-            if (ex) ok();
-            else window.alert('No se pudo copiar automáticamente. Texto:\n\n' + texto);
+            return ex;
         };
 
+        if (conExec()) {
+            marcarOk();
+            return;
+        }
+
+        // execCommand fallo. El texto YA esta a la vista en el textarea de la
+        // card, asi que Pablo lo selecciona a mano. No hay nada que perder.
+        marcarFallo();
         if (navigator.clipboard && navigator.clipboard.writeText) {
-            navigator.clipboard.writeText(texto).then(ok, fallback);
-        } else {
-            fallback();
+            navigator.clipboard.writeText(texto).then(marcarOk, function () { });
         }
     }
 
@@ -213,6 +232,15 @@
             h.push('<span class="consulta__hint">Respondé al Arquitecto con el número. '
                 + 'La respuesta llega al equipo por mí, no directo.</span>');
             h.push('</div>');
+            // El texto a copiar esta SIEMPRE a la vista, no solo en el
+            // portapapeles. Motivo medido el 2026-10-04: en un contexto sin
+            // permiso de portapapeles el copy automatico no da ningun feedback
+            // y Pablo no tiene de donde recuperarlo. Con el textarea, el peor
+            // caso es seleccionar y copiar a mano: una accion que siempre
+            // funciona, sin depender de permisos del navegador.
+            h.push('<textarea class="consulta__texto" readonly spellcheck="false" '
+                + 'aria-label="Texto para responder a esta consulta">'
+                + _esc(_textoParaCopiar(c)) + '</textarea>');
         }
 
         h.push('</article>');

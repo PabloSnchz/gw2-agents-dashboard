@@ -224,6 +224,32 @@
     color: var(--tx-3, #7f8796);
 }
 
+/* El texto a copiar, siempre visible y seleccionable. Es el respaldo cuando
+   el portapapeles no responde: Pablo selecciona y copia a mano, que siempre
+   funciona. Sin esto el boton "Copiar" puede fallar en silencio. */
+.consulta__texto {
+    display: block;
+    width: 100%;
+    margin-top: 0.7rem;
+    min-height: 7.5rem;
+    resize: vertical;
+    padding: 0.6rem 0.7rem;
+    background: var(--bg-1, #0f1115);
+    border: 1px solid rgba(255, 255, 255, 0.12);
+    border-radius: 6px;
+    color: var(--tx-2, #b8bec9);
+    font-family: ui-monospace, "Cascadia Mono", Consolas, monospace;
+    font-size: 0.78rem;
+    line-height: 1.5;
+    white-space: pre;
+    overflow-x: auto;
+}
+
+.consulta__texto:focus {
+    outline: 1px solid #7aa2f7;
+    border-color: #7aa2f7;
+}
+
 /* Respuesta ya dada por Pablo */
 .consulta__respuesta {
     margin-top: 0.75rem;
