@@ -79,6 +79,10 @@
         return (typeof window !== 'undefined') ? window.DASHBOARD_CONFIG : null;
     }
 
+    // Ultimo render de para_pablo. La usa ConsultasArq.copiar(), que es lo que
+    // llama el onclick inline del boton.
+    var _ultimo = [];
+
     // -------------------------------------------------------------------------
     // Bloque para pegar en el chat del Arquitecto.
     //
@@ -227,8 +231,15 @@
         // decidir, y eso es una fuente nueva de respuestas viejas.
         if (estado === 'esperando') {
             h.push('<div class="consulta__acciones">');
+            // Handler INLINE, no delegate. Medido el 2026-10-04: con
+            // querySelectorAll + addEventListener el click no llegaba (probado
+            // con click de locator y con click de mouse por coordenadas: dos
+            // intentos, el label nunca cambio) y el gancho se agregaba al final
+            // de render(), un paso que puede no ejecutarse. Un onclick en el
+            // HTML que genera el propio render viaja con el boton: no hay
+            // orden que pueda romperlo.
             h.push('<button type="button" class="consulta__btn-copiar" '
-                + 'data-consulta-idx="__IDX__">Copiar para responder</button>');
+                + 'onclick="ConsultasArq.copiar(__IDX__, this)">Copiar para responder</button>');
             h.push('<span class="consulta__hint">Respondé al Arquitecto con el número. '
                 + 'La respuesta llega al equipo por mí, no directo.</span>');
             h.push('</div>');
@@ -363,20 +374,10 @@
 
         c.innerHTML = '<div class="consultas-wrap">' + h.join('') + '</div>';
 
-        // Botones: se enganchan por delegate, no onclick inline, porque los ids
-        // se reasignan en cada render y el onclick inline queda apuntando al
-        // índice viejo después de un re-render.
-        var btns = c.querySelectorAll('[data-consulta-idx]');
-        for (var b = 0; b < btns.length; b++) {
-            (function (btn) {
-                var idx = parseInt(btn.getAttribute('data-consulta-idx'), 10);
-                var cons = paraPablo[idx];
-                if (!cons) return;
-                btn.addEventListener('click', function () {
-                    _copiar(_textoParaCopiar(cons), btn);
-                });
-            })(btns[b]);
-        }
+        // _ultimo se guarda para que el onclick inline encuentre la consulta
+        // sin depender de window.__consultas (que se pisa en cada carga) ni de
+        // un indice que pueda quedar viejo si el render cambia entremedio.
+        _ultimo = paraPablo;
     }
 
     // -------------------------------------------------------------------------
@@ -408,5 +409,16 @@
             });
     }
 
-    window.ConsultasArq = { load: load, render: render };
+    window.ConsultasArq = {
+        load: load,
+        render: render,
+        // Lo invoca el onclick inline del boton. Publico a proposito: es el
+        // unico punto de entrada de la UI al portapapeles, y asi se puede
+        // probar desde la consola sin abrir el DOM.
+        copiar: function (idx, btn) {
+            var c = _ultimo[idx];
+            if (!c) return;
+            _copiar(_textoParaCopiar(c), btn);
+        }
+    };
 })();
