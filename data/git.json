@@ -1,6 +1,6 @@
 {
- "generado_utc": "20261005T002139Z",
- "generado_h": "2026-10-05 00:21 UTC",
+ "generado_utc": "20261005T003637Z",
+ "generado_h": "2026-10-05 00:36 UTC",
  "origen": "git local + ls-remote (sin cuota). protected cacheado TTL 6h.",
  "commits": [
   {
@@ -412,9 +412,9 @@
    "repo": "gw2-agents-dashboard",
    "label": "Dashboard",
    "role": "dashboard",
-   "sha": "96aac1ec1764e6b514036db8fe45e097c6b3d848",
-   "short_sha": "96aac1e",
-   "commit": "fix: el deep-link #/consultas no abria la tab",
+   "sha": "e90cc9b27c1dc7f37cf0306a0be7fea78d6237dd",
+   "short_sha": "e90cc9b",
+   "commit": "chore(dashboard): pulso automatico 2026-10-05_00-21_UTC",
    "estado": "open",
    "protected": false,
    "protected_fresco": true,
