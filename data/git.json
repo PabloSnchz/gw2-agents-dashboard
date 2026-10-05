@@ -1,8 +1,15 @@
 {
- "generado_utc": "20261005T023630Z",
- "generado_h": "2026-10-05 02:36 UTC",
+ "generado_utc": "20261005T025131Z",
+ "generado_h": "2026-10-05 02:51 UTC",
  "origen": "git local + ls-remote (sin cuota). protected cacheado TTL 6h.",
  "commits": [
+  {
+   "sha": "7fe57df3818bbad0db7c7c344ab3c31d762f4f70",
+   "short": "7fe57df",
+   "autor": "Pablo Sanchez",
+   "fecha": "2026-10-04T23:40:08-03:00",
+   "msg": "docs(hb203): rescate de 3 commits sin pushear + ALERT-261 y ALERT-262"
+  },
   {
    "sha": "df9131b7430e341ef78d9aaa8f9ca2ef1ee80434",
    "short": "df9131b",
@@ -345,13 +352,6 @@
    "autor": "Pablo Sanchez",
    "fecha": "2026-10-03T02:22:32-03:00",
    "msg": "docs(hb161): ALERT-230 - un commit local sin pushear es invisible para el PASO -1"
-  },
-  {
-   "sha": "fe905878591421d2cf1a0deb79349e59de565bec",
-   "short": "fe90587",
-   "autor": "Pablo Sanchez",
-   "fecha": "2026-10-03T02:19:16-03:00",
-   "msg": "docs(hb161): rescata el bloque HB#158 de TEAM_STATUS.md, que estaba commiteado sin pushear"
   }
  ],
  "archivos_md": [
@@ -412,9 +412,9 @@
    "repo": "gw2-agents-dashboard",
    "label": "Dashboard",
    "role": "dashboard",
-   "sha": "3abdfe70820a354155f7a67c859ef4749952dfa4",
-   "short_sha": "3abdfe7",
-   "commit": "chore(dashboard): pulso automatico 2026-10-05_02-21_UTC",
+   "sha": "108bf93fd528a3cc37d2d55d23e81af473321853",
+   "short_sha": "108bf93",
+   "commit": "chore(dashboard): pulso automatico 2026-10-05_02-36_UTC",
    "estado": "open",
    "protected": false,
    "protected_fresco": true,
