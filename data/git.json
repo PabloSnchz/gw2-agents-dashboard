@@ -1,14 +1,42 @@
 {
- "generado_utc": "20261005T025131Z",
- "generado_h": "2026-10-05 02:51 UTC",
+ "generado_utc": "20261005T030629Z",
+ "generado_h": "2026-10-05 03:06 UTC",
  "origen": "git local + ls-remote (sin cuota). protected cacheado TTL 6h.",
  "commits": [
+  {
+   "sha": "771daa945c62d588c8c7bf589d65fbb926386045",
+   "short": "771daa9",
+   "autor": "Pablo Sanchez",
+   "fecha": "2026-10-05T00:05:58-03:00",
+   "msg": "chore(gitignore): la regla de scratch HB cubre todo el rango, no solo 1xx"
+  },
+  {
+   "sha": "648f419b80e3dfbb96ad495cdaa02c2422c5404d",
+   "short": "648f419",
+   "autor": "Pablo Sanchez",
+   "fecha": "2026-10-05T00:01:00-03:00",
+   "msg": "merge(po/hb202): punta unica de la ronda 66 con la 65 adentro"
+  },
+  {
+   "sha": "530ab88c7c673598103688ff7cfc178c2dd43582",
+   "short": "530ab88",
+   "autor": "Pablo Sanchez",
+   "fecha": "2026-10-04T23:49:27-03:00",
+   "msg": "PO ronda 66 bis (HB#202): RETRACTO el Hallazgo 3 y la punta deja de ser hermana de la anterior"
+  },
   {
    "sha": "7fe57df3818bbad0db7c7c344ab3c31d762f4f70",
    "short": "7fe57df",
    "autor": "Pablo Sanchez",
    "fecha": "2026-10-04T23:40:08-03:00",
    "msg": "docs(hb203): rescate de 3 commits sin pushear + ALERT-261 y ALERT-262"
+  },
+  {
+   "sha": "260eb277cbe1a0f89912b9f9f56f610ebfdc3151",
+   "short": "260eb27",
+   "autor": "Pablo Sanchez",
+   "fecha": "2026-10-04T23:12:45-03:00",
+   "msg": "PO ronda 66 (HB#202): RECOLECTAR. El unico verbo de teclado de47 modulos es \"Escape\", y mi hipotesis de bug sobre los 7 listeners murio en la verificacion"
   },
   {
    "sha": "df9131b7430e341ef78d9aaa8f9ca2ef1ee80434",
@@ -324,34 +352,6 @@
    "autor": "Pablo Sanchez",
    "fecha": "2026-10-03T05:42:26-03:00",
    "msg": "docs(hb166): ALERT-235 (PRE_BACKLOG.md tiene dos canonicos) y ALERT-236 (mi detector daba un 0 vacio)"
-  },
-  {
-   "sha": "6f38c8059b236a41b255be697ed4736728915cf9",
-   "short": "6f38c80",
-   "autor": "Pablo Sanchez",
-   "fecha": "2026-10-03T05:19:09-03:00",
-   "msg": "fix(hb165): rescatar el HB#164 y reparar la corrupcion que el mismo HB#164 documento"
-  },
-  {
-   "sha": "128cfbe02d2820fb3eb584e2782a4583045d7a47",
-   "short": "128cfbe",
-   "autor": "Pablo Sanchez",
-   "fecha": "2026-10-03T03:43:39-03:00",
-   "msg": "docs(hb163): el paso 3 del PO lee UN canal y hay TRES (ALERT-231) + ALERT-232"
-  },
-  {
-   "sha": "eb42c3b6e517d0f0f649c9bce83f5f0d1e994a6a",
-   "short": "eb42c3b",
-   "autor": "Pablo Sanchez",
-   "fecha": "2026-10-03T02:39:28-03:00",
-   "msg": "docs(hb162): ALERT-231 - el criterio de rama viva del paso 3 mira un canal de los dos"
-  },
-  {
-   "sha": "0138fb15fae72a1ca4e4fd9eba65a349d9712614",
-   "short": "0138fb1",
-   "autor": "Pablo Sanchez",
-   "fecha": "2026-10-03T02:22:32-03:00",
-   "msg": "docs(hb161): ALERT-230 - un commit local sin pushear es invisible para el PASO -1"
   }
  ],
  "archivos_md": [
@@ -398,9 +398,9 @@
    "repo": "gw2-wallet-agents",
    "label": "Desarrollo",
    "role": "dev",
-   "sha": "df9131b7430e341ef78d9aaa8f9ca2ef1ee80434",
-   "short_sha": "df9131b",
-   "commit": "fix(cache): las 5 familias de homestead entran en",
+   "sha": "771daa945c62d588c8c7bf589d65fbb926386045",
+   "short_sha": "771daa9",
+   "commit": "chore(gitignore): la regla de scratch HB cubre todo el rango,",
    "estado": "open",
    "protected": false,
    "protected_fresco": true,
@@ -412,9 +412,9 @@
    "repo": "gw2-agents-dashboard",
    "label": "Dashboard",
    "role": "dashboard",
-   "sha": "108bf93fd528a3cc37d2d55d23e81af473321853",
-   "short_sha": "108bf93",
-   "commit": "chore(dashboard): pulso automatico 2026-10-05_02-36_UTC",
+   "sha": "7c407cfad8703569cfc5fcbc1f4342a67913c239",
+   "short_sha": "7c407cf",
+   "commit": "chore(dashboard): pulso automatico 2026-10-05_02-51_UTC",
    "estado": "open",
    "protected": false,
    "protected_fresco": true,
