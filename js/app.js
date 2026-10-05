@@ -43,7 +43,7 @@
       // filtrado. El equipo escribe su parte cruda en CONSULTAS.md; lo que
       // llega aca es lo que yo subi. Ojo con el aviso de arriba: si esta
       // entrada falta, el boton no hace nada y no hay error en consola.
-      const VALID_TABS = ['consultas', 'resumen', 'equipo', 'historial', 'proximas', 'promociones', 'salud', 'estructura', 'logs', 'notas'];
+      const VALID_TABS = ['resumen', 'prebacklog', 'backlog', 'desarrollo', 'promociones', 'consultas', 'salud', 'estructura', 'equipo', 'historial', 'notas'];
 
     // Orden persistido de las tabs, o el default si no hay nada guardado.
     // Se lee una sola vez al init y se escribe cada vez que cambia el orden.
@@ -198,6 +198,9 @@
     init();
 
     function init() {
+        // Cargar el estado del switch global ANTES de loadAll
+        // para que el botón muestre ON/OFF correcto desde el primer render.
+        window.loadAutoMode();
         // Orden de las tabs (nuevo modelo 2026-10-05). Se carga ANTES de
         // setDashboardTab porque el reorden del DOM depende de el.
         loadTabOrder();
@@ -623,4 +626,46 @@
         localStorage.setItem('gn:dashboard:comms:sort:dir', commsSortState.direction);
         DashboardRenderer.renderCommsTable(window.commsData, commsSortState, commsFilterState);
     };
+    // ============ MODO AUTOMÁTICO (switch global, cabecera) ============
+    // ON = heartbeats corren, el equipo trabaja solo.
+    // OFF = nada corre. Solo lo que vos apretás en cada tab.
+    // El estado se guarda en localStorage con prefijo gn: para que
+    // sobreviva al refresco del navegador.
+    const AUTO_MODE_KEY = 'gn:dashboard:auto-mode';
+    let autoModeOn = false;
+
+    window.loadAutoMode = function() {
+        try {
+            autoModeOn = localStorage.getItem(AUTO_MODE_KEY) === 'true';
+        } catch (e) { autoModeOn = false; }
+        window.updateAutoModeUI();
+    };
+
+    window.saveAutoMode = function(on) {
+        autoModeOn = on;
+        try { localStorage.setItem(AUTO_MODE_KEY, String(on)); } catch (e) {}
+        window.updateAutoModeUI();
+    };
+
+    window.updateAutoModeUI = function() {
+        const btn = document.getElementById('btn-auto-mode');
+        const detail = document.getElementById('auto-mode-detail');
+        if (!btn) return;
+        if (autoModeOn) {
+            btn.textContent = 'ON';
+            btn.className = 'btn btn-auto-on';
+            if (detail) detail.textContent = 'Los heartbeats corren. El equipo trabaja solo.';
+        } else {
+            btn.textContent = 'OFF';
+            btn.className = 'btn btn-auto-off';
+            if (detail) detail.textContent = 'Nada corre solo. Los botones de cada tab estan habilitados.';
+        }
+    };
+
+    window.toggleAutoMode = function() {
+        const next = !autoModeOn;
+        window.saveAutoMode(next);
+        showStatus(next ? 'Modo automático ON' : 'Modo automático OFF', 'status-ok');
+    };
+
 })();

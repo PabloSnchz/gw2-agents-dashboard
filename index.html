@@ -26,24 +26,52 @@
                     <span>Auto-refresh (10 min)</span>
                 </label>
             </div>
+            <!-- Switch global: Modo automático ON/OFF.
+                 ON = los heartbeats corren, el equipo trabaja solo.
+                 OFF = nada corre. Solo lo que vos apretás en cada tab.
+                 Visible desde cualquier tab porque es el control del modelo. -->
+            <div class="auto-mode-switch">
+                <span class="auto-mode-label">Modo automático</span>
+                <button id="btn-auto-mode" class="btn btn-auto-off" onclick="toggleAutoMode()">
+                    OFF
+                </button>
+                <span id="auto-mode-detail" class="auto-mode-detail">
+                    Nada corre solo. Los botones de cada tab están habilitados.
+                </span>
+            </div>
         </header>
 
         <!-- Tabs nav -->
         <nav class="dashboard-tabs">
             <div class="dashboard-tab-row">
                 <span class="dashboard-tab-drag-hint" title="Arrastrá los botones para reordenar las pestañas">⋮⋮</span>
-                <button class="dashboard-tab active" data-tab="consultas" draggable="true" onclick="setDashboardTab('consultas')" ondragstart="window.startTabDrag(event)" ondragover="window.allowTabDrop(event)" ondrop="window.dropTab(event)">💬 Consultas</button>
-                <button class="dashboard-tab" data-tab="resumen" draggable="true" onclick="setDashboardTab('resumen')" ondragstart="window.startTabDrag(event)" ondragover="window.allowTabDrop(event)" ondrop="window.dropTab(event)">📊 Resumen</button>
-                <button class="dashboard-tab" data-tab="equipo" draggable="true" onclick="setDashboardTab('equipo')" ondragstart="window.startTabDrag(event)" ondragover="window.allowTabDrop(event)" ondrop="window.dropTab(event)">👥 Equipo</button>
-                <button class="dashboard-tab" data-tab="historial" draggable="true" onclick="setDashboardTab('historial')" ondragstart="window.startTabDrag(event)" ondragover="window.allowTabDrop(event)" ondrop="window.dropTab(event)">📅 Historial</button>
-                <button class="dashboard-tab" data-tab="proximas" draggable="true" onclick="setDashboardTab('proximas')" ondragstart="window.startTabDrag(event)" ondragover="window.allowTabDrop(event)" ondrop="window.dropTab(event)">⏰ Próximas</button>
-                <button class="dashboard-tab" data-tab="promociones" draggable="true" onclick="setDashboardTab('promociones')" ondragstart="window.startTabDrag(event)" ondragover="window.allowTabDrop(event)" ondrop="window.dropTab(event)">🚀 Promociones</button>
-                <button class="dashboard-tab" data-tab="salud" draggable="true" onclick="setDashboardTab('salud')" ondragstart="window.startTabDrag(event)" ondragover="window.allowTabDrop(event)" ondrop="window.dropTab(event)">🩺 Salud</button>
-                <button class="dashboard-tab" data-tab="estructura" draggable="true" onclick="setDashboardTab('estructura')" ondragstart="window.startTabDrag(event)" ondragover="window.allowTabDrop(event)" ondrop="window.dropTab(event)">🗺️ Estructura</button>
-                <button class="dashboard-tab" data-tab="logs" draggable="true" onclick="setDashboardTab('logs')" ondragstart="window.startTabDrag(event)" ondragover="window.allowTabDrop(event)" ondrop="window.dropTab(event)">📋 Logs</button>
-                <button class="dashboard-tab" data-tab="notas" draggable="true" onclick="setDashboardTab('notas')" ondragstart="window.startTabDrag(event)" ondragover="window.allowTabDrop(event)" ondrop="window.dropTab(event)">🔧 Lo que arreglé</button>
-            </div>
-        </nav>
+            <button class="dashboard-tab active" data-tab="resumen" draggable="true" onclick="setDashboardTab('resumen')" ondragstart="window.startTabDrag(event)" ondragover="window.allowTabDrop(event)" ondrop="window.dropTab(event)">[R] Resumen</button>
+            <button class="dashboard-tab" data-tab="prebacklog" draggable="true" onclick="setDashboardTab('prebacklog')" ondragstart="window.startTabDrag(event)" ondragover="window.allowTabDrop(event)" ondrop="window.dropTab(event)">[P] Pre-backlog</button>
+            <button class="dashboard-tab" data-tab="backlog" draggable="true" onclick="setDashboardTab('backlog')" ondragstart="window.startTabDrag(event)" ondragover="window.allowTabDrop(event)" ondrop="window.dropTab(event)">[B] Backlog</button>
+            <button class="dashboard-tab" data-tab="desarrollo" draggable="true" onclick="setDashboardTab('desarrollo')" ondragstart="window.startTabDrag(event)" ondragover="window.allowTabDrop(event)" ondrop="window.dropTab(event)">[D] Desarrollo</button>
+            <button class="dashboard-tab" data-tab="promociones" draggable="true" onclick="setDashboardTab('promociones')" ondragstart="window.startTabDrag(event)" ondragover="window.allowTabDrop(event)" ondrop="window.dropTab(event)">[O] Promociones</button>
+            <button class="dashboard-tab" data-tab="consultas" draggable="true" onclick="setDashboardTab('consultas')" ondragstart="window.startTabDrag(event)" ondragover="window.allowTabDrop(event)" ondrop="window.dropTab(event)">[C] Consultas</button>
+            <button class="dashboard-tab" data-tab="salud" draggable="true" onclick="setDashboardTab('salud')" ondragstart="window.startTabDrag(event)" ondragover="window.allowTabDrop(event)" ondrop="window.dropTab(event)">[S] Salud</button>
+            <button class="dashboard-tab" data-tab="estructura" draggable="true" onclick="setDashboardTab('estructura')" ondragstart="window.startTabDrag(event)" ondragover="window.allowTabDrop(event)" ondrop="window.dropTab(event)">[E] Estructura</button>
+            <button class="dashboard-tab" data-tab="equipo" draggable="true" onclick="setDashboardTab('equipo')" ondragstart="window.startTabDrag(event)" ondragover="window.allowTabDrop(event)" ondrop="window.dropTab(event)">[Q] Equipo</button>
+            <button class="dashboard-tab" data-tab="historial" draggable="true" onclick="setDashboardTab('historial')" ondragstart="window.startTabDrag(event)" ondragover="window.allowTabDrop(event)" ondrop="window.dropTab(event)">[H] Historial</button>
+            <button class="dashboard-tab" data-tab="notas" draggable="true" onclick="setDashboardTab('notas')" ondragstart="window.startTabDrag(event)" ondragover="window.allowTabDrop(event)" ondrop="window.dropTab(event)">[N] Lo que arregle</button>
+            </nav>
+
+
+        <!-- Tab: Pre-backlog. Ideas del PO. Botones: Mover a backlog, Descartar.
+             Lee PRE_BACKLOG.md de agents/main. -->
+        <div class="dashboard-tab-content" data-tab-content="prebacklog">
+            <section class="prebacklog-section">
+                <h2>🗂️ Pre-backlog</h2>
+                <p class="org-source">
+                    Ideas del Product Owner, antes de que suban al backlog.
+                    Vos y las revisamos juntos. El botón <code>Mover a backlog</code>
+                    sube la idea; <code>Descartar</code> la saca con motivo.
+                </p>
+                <div id="prebacklog-container" class="prebacklog-container"></div>
+            </section>
+        </div>
 
         <!-- Tab: Resumen -->
         <div class="dashboard-tab-content active" data-tab-content="resumen">
@@ -76,6 +104,20 @@
                     </p>
                     <div id="attention-container" class="attention-container"></div>
                 </details>
+            </section>
+        </div>
+
+
+        <!-- Tab: Backlog. Tareas priorizadas. Botones: Iniciar, Pausar, Revisar. -->
+        <div class="dashboard-tab-content" data-tab-content="backlog">
+            <section class="backlog-section">
+                <h2>📋 Backlog</h2>
+                <p class="org-source">
+                    Lo que el equipo tiene que hacer, priorizado.
+                    <code>Iniciar</code> la lleva a desarrollo; <code>Pausar</code>
+                    vuelve a backlog; <code>Revisar</code> pide validación al Reviewer.
+                </p>
+                <div id="backlog-container" class="backlog-container"></div>
             </section>
         </div>
 
@@ -132,11 +174,21 @@
             </section>
         </div>
 
-        <!-- Tab: Próximas -->
-        <div class="dashboard-tab-content" data-tab-content="proximas">
-            <section class="upcoming-section">
-                <h2>⏰ Próximas horas</h2>
-                <div id="upcoming-container" class="upcoming-container"></div>
+        <!-- Tab: Desarrollo. Cruza gw2-dev + gw2-prod.
+             Muestra la rama activa de cada clon, cambios no commiteados,
+             commits recientes y estado de cada feature.
+             Botones: Pausar, Verificar, Reintentar. -->
+        <div class="dashboard-tab-content" data-tab-content="desarrollo">
+            <section class="desarrollo-section">
+                <h2>🛠️ Desarrollo</h2>
+                <p class="org-source">
+                    Estado real de cada clon. La rama activa, los cambios sin
+                    commitear y los commits recientes. No es lo que el equipo
+                    <em>dice</em> que está haciendo: es lo que está en disco.
+                </p>
+                <div id="desarrollo-clones" class="desarrollo-clones"></div>
+                <div id="desarrollo-ramas" class="desarrollo-ramas"></div>
+                <div id="desarrollo-features" class="desarrollo-features"></div>
             </section>
         </div>
 
