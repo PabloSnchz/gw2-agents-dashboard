@@ -1,12 +1,12 @@
 {
- "generado_utc": "20261005T035102Z",
- "generado_h": "2026-10-05 03:51 UTC",
+ "generado_utc": "20261005T040602Z",
+ "generado_h": "2026-10-05 04:06 UTC",
  "archivos_estado": [
   {
    "archivo": "TEAM_STATUS.md",
    "quien": "Principal /30min",
    "estado": "ok",
-   "edad_h": 0.6,
+   "edad_h": 0.8,
    "kb": 310.7,
    "crecimiento": "EXCEDE 80 KB (311 KB)"
   },
@@ -14,7 +14,7 @@
    "archivo": "SESSION_LOG.md",
    "quien": "Documentador /4h",
    "estado": "ROTO",
-   "edad_h": 49.7,
+   "edad_h": 50.0,
    "kb": 309.5,
    "crecimiento": "EXCEDE 60 KB (310 KB)"
   },
@@ -22,14 +22,14 @@
    "archivo": "COMMS_LOG.md",
    "quien": "Principal /30min",
    "estado": "ROTO",
-   "edad_h": 35.9,
+   "edad_h": 36.1,
    "kb": 254.2
   },
   {
    "archivo": "PRE_BACKLOG.md",
    "quien": "PO /2h",
    "estado": "ok",
-   "edad_h": 0.8,
+   "edad_h": 1.0,
    "kb": 357.6,
    "crecimiento": "EXCEDE 120 KB (358 KB)"
   },
@@ -37,14 +37,14 @@
    "archivo": "ALERTS_LOG.md",
    "quien": "Principal /30min",
    "estado": "ok",
-   "edad_h": 0.2,
+   "edad_h": 0.4,
    "kb": 556.5
   },
   {
    "archivo": "DECISIONS_LOG.md",
    "quien": "Principal",
    "estado": "ROTO",
-   "edad_h": 121.8,
+   "edad_h": 122.1,
    "kb": 10.2
   }
  ],
@@ -316,6 +316,11 @@
    "fecha": "2026-10-04"
   },
   {
+   "rama": "po/hb205-1",
+   "commits": 1,
+   "fecha": "2026-10-05"
+  },
+  {
    "rama": "po/hb56-forma-raids",
    "commits": 1,
    "fecha": "2026-09-30"
@@ -484,29 +489,29 @@
   },
   {
    "dia": "2026-10-05",
-   "llamadas": 363,
-   "prompt": 43767774,
-   "cache_read": 41737691,
-   "cache_pct": 95.4,
-   "prompt_por_llamada": 120572,
+   "llamadas": 447,
+   "prompt": 53792344,
+   "cache_read": 51186701,
+   "cache_pct": 95.2,
+   "prompt_por_llamada": 120340,
    "por_agente": [
     {
      "agente": "default",
-     "llamadas": 227,
-     "prompt": 31096487,
-     "cache_pct": 95.5
+     "llamadas": 251,
+     "prompt": 34448075,
+     "cache_pct": 95.2
+    },
+    {
+     "agente": "product-owner",
+     "llamadas": 101,
+     "prompt": 10982588,
+     "cache_pct": 95.3
     },
     {
      "agente": "documenter",
      "llamadas": 47,
      "prompt": 4428710,
      "cache_pct": 96.5
-    },
-    {
-     "agente": "product-owner",
-     "llamadas": 41,
-     "prompt": 4309606,
-     "cache_pct": 95.3
     },
     {
      "agente": "architect",
