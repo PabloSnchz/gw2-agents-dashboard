@@ -1,21 +1,14 @@
 {
- "generado_utc": "20261004T235143Z",
- "generado_h": "2026-10-04 23:51 UTC",
+ "generado_utc": "20261005T000649Z",
+ "generado_h": "2026-10-05 00:06 UTC",
  "origen": "git local + ls-remote (sin cuota). protected cacheado TTL 6h.",
  "commits": [
   {
-   "sha": "ce5849f5251682455f4c583d115a888bff3ff25c",
-   "short": "ce5849f",
+   "sha": "d8139e61b1dd7a3c8ca956023d8e87d6369c96b9",
+   "short": "d8139e6",
    "autor": "Pablo Sanchez",
-   "fecha": "2026-09-29T12:36:34-03:00",
-   "msg": "fix(homestead): normalizar glyphs de la API (schema real = strings, no objetos)"
-  },
-  {
-   "sha": "83775dc0b7de728d0450eca87a96659727d6908e",
-   "short": "83775dc",
-   "autor": "Pablo Sanchez",
-   "fecha": "2026-10-04T20:46:18-03:00",
-   "msg": "feat(homestead): wiring de e855e67 a mano sobre main, sin merge  El modulo js/homestead-tracker.js YA estaba en main, identico byte a byte a e855e67 (verificado con fc /b). Faltaba todo el wiring, y sin el el modulo fallaba en el primer fetch con TypeError: llama 5 metodos que no existian (medido: 0 matches de getHomestead* en main).  El numero que circulaba --'257 archivos, 88706 borrados'-- es ruido: la rama nacio 53 commits atras. No se hizo merge, que habria revertido el sharding de la Idea 49. Se extrajeron a mano los 3 bloques de e855e67:  - index.html: el <section id=homesteadTrackerPanel>, el   <a id=navHomestead> en el side-nav, y el <script defer> del modulo.   Ubicados junto a sus pares, no al final del archivo. - js/api-gw2.js: los 5 metodos (2 TTL nuevos), respetando el patron de   cache/inflightOnce/fetchWithRetry del archivo actual. No se copio el   archivo entero: api-gw2.js cambio 1940 lineas desde la base de la rama. - js/router.js: la entrada en el mapa de vistas, la rama del switch de   showPanel, el call site de activate, y el bloque de gn:tokenchange.  Correccion de un comentario que el wiring dejo viejo: MODULOS_CON_LATCH exclodia a HomesteadTracker, y la razon escrita (no tiene panel propio, nadie lo activa) era correcta al escribirse pero es falsa con el wiring. Medido hoy: ambas cosas ya no son cero. HomesteadTracker entra al latch, igual que LegendaryTracker.  Icono: assets/icons/Cuentas/homestead-icon.png NO existe en el repo (medido: dir sobre la carpeta). No fue un bloqueo. Se resolvio con SVG inline en el panel y en el nav, que no depende de ningun archivo externo y por lo tanto no puede mostrar borde roto. Verificado ademas contra la API publica que /v2/homestead/glyphs devuelve objetos con id string, item_id y slot -- sin name, sin icon, sin upgrade_item -- lo que confirma que los IDs 21234/21244 de CONFIG.GLYPH_UPGRADES son inventados."
+   "fecha": "2026-10-04T21:03:54-03:00",
+   "msg": "merge(arq): chore-proceso-promocion-medido a main  Rama del Arquitecto, 1 commit (0cb87d0), +92/-11 sobre ORG_MAP.md. Verificado antes de mergear: - hb197 (ronda 65 del PO) NO toca ORG_MAP.md: su --stat da solo   DASHBOARD_PO_IDEAS.md (+62) y PRE_BACKLOG.md (+113/-1). Los -79 y -120   del diff contra main NO son borrados de esta rama: su unico commit no   toca esos dos archivos (commits=0). Es main avanzando. - ALERT-258 CONFIRMADO: worktree CRLF (291 CRLF), blob de main LF puro.   Stage con -c core.autocrlf=false para no committed el CRLF. - Blob resultante debe quedar identico al que declaro el Arquitecto   (8f0295d94005b04fc1b861c43377b5cddebc84c5)."
   },
   {
    "sha": "714ae3e9e34a15aaefcbf8e4b53d4fce771d2f14",
@@ -23,6 +16,13 @@
    "autor": "Pablo Sanchez",
    "fecha": "2026-10-04T18:07:08-03:00",
    "msg": "merge(po): rama hb196-una-sola-ronda a main, sin resolver el deadlock de las 27 ramas po/* sin mergear (ronda 64 del PO)"
+  },
+  {
+   "sha": "0cb87d052f9141563492a974cec08c22b4b1afa6",
+   "short": "0cb87d0",
+   "autor": "Pablo Sanchez",
+   "fecha": "2026-10-04T17:54:16-03:00",
+   "msg": "docs(ORG_MAP): escribir el proceso de promocion y medir su rollback"
   },
   {
    "sha": "f79ee89f8ea92ac408ed354678909b0fa6837d80",
@@ -412,9 +412,9 @@
    "repo": "gw2-agents-dashboard",
    "label": "Dashboard",
    "role": "dashboard",
-   "sha": "32dde3a1487a93705c39d1bedbf0de131b1302cd",
-   "short_sha": "32dde3a",
-   "commit": "fix: el boton Copiar dependia de una promesa que puede no",
+   "sha": "4074441797d5244e379bb3f92b606b7e684dff2f",
+   "short_sha": "4074441",
+   "commit": "fix: el onclick del boton Copiar viaja con el boton",
    "estado": "open",
    "protected": false,
    "protected_fresco": true,
