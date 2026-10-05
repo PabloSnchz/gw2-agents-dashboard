@@ -1,8 +1,15 @@
 {
- "generado_utc": "20261005T133630Z",
- "generado_h": "2026-10-05 13:36 UTC",
+ "generado_utc": "20261005T135129Z",
+ "generado_h": "2026-10-05 13:51 UTC",
  "origen": "git local + ls-remote (sin cuota). protected cacheado TTL 6h.",
  "commits": [
+  {
+   "sha": "c8ad0954a7373cac223948d4395d7014167870a2",
+   "short": "c8ad095",
+   "autor": "Pablo Sanchez",
+   "fecha": "2026-10-05T10:37:17-03:00",
+   "msg": "rescate(hb211): fila Homestead cerrada con medicion + ALERT-265 (unidad: ocurrencias vs lineas)"
+  },
   {
    "sha": "712f846d5752729907ab71a2895d2cb2924421f0",
    "short": "712f846",
@@ -345,13 +352,6 @@
    "autor": "Pablo Sanchez",
    "fecha": "2026-10-03T11:13:03-03:00",
    "msg": "docs(backlog): podar 2 filas verificadas por tema (HB#176 del PO)"
-  },
-  {
-   "sha": "7ffab6285a63176c1666be6e44a6bdcbd5f130d0",
-   "short": "7ffab62",
-   "autor": "Pablo Sanchez",
-   "fecha": "2026-10-03T10:23:57-03:00",
-   "msg": "docs(hb244): rescate del ciclo HB#244 - ALERT-244 y la tabla de control de carga vive en el canonico"
   }
  ],
  "archivos_md": [
@@ -412,9 +412,9 @@
    "repo": "gw2-agents-dashboard",
    "label": "Dashboard",
    "role": "dashboard",
-   "sha": "a52c59622889a88b734ae95902277571797eef1d",
-   "short_sha": "a52c596",
-   "commit": "chore(dashboard): pulso automatico 2026-10-05_13-21_UTC",
+   "sha": "d5be81a4823a60c209715571b6d0c3e5f3b5fead",
+   "short_sha": "d5be81a",
+   "commit": "chore(dashboard): pulso automatico 2026-10-05_13-36_UTC",
    "estado": "open",
    "protected": false,
    "protected_fresco": true,
