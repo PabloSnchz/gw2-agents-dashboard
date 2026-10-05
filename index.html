@@ -32,16 +32,16 @@
         <nav class="dashboard-tabs">
             <div class="dashboard-tab-row">
                 <span class="dashboard-tab-drag-hint" title="Arrastrá los botones para reordenar las pestañas">⋮⋮</span>
-                <button class="dashboard-tab active" data-tab="consultas" draggable="true" ondragstart="window.startTabDrag(event)" ondragover="window.allowTabDrop(event)" ondrop="window.dropTab(event)">💬 Consultas</button>
-                <button class="dashboard-tab" data-tab="resumen" draggable="true" ondragstart="window.startTabDrag(event)" ondragover="window.allowTabDrop(event)" ondrop="window.dropTab(event)">📊 Resumen</button>
-                <button class="dashboard-tab" data-tab="equipo" draggable="true" ondragstart="window.startTabDrag(event)" ondragover="window.allowTabDrop(event)" ondrop="window.dropTab(event)">👥 Equipo</button>
-                <button class="dashboard-tab" data-tab="historial" draggable="true" ondragstart="window.startTabDrag(event)" ondragover="window.allowTabDrop(event)" ondrop="window.dropTab(event)">📅 Historial</button>
-                <button class="dashboard-tab" data-tab="proximas" draggable="true" ondragstart="window.startTabDrag(event)" ondragover="window.allowTabDrop(event)" ondrop="window.dropTab(event)">⏰ Próximas</button>
-                <button class="dashboard-tab" data-tab="promociones" draggable="true" ondragstart="window.startTabDrag(event)" ondragover="window.allowTabDrop(event)" ondrop="window.dropTab(event)">🚀 Promociones</button>
-                <button class="dashboard-tab" data-tab="salud" draggable="true" ondragstart="window.startTabDrag(event)" ondragover="window.allowTabDrop(event)" ondrop="window.dropTab(event)">🩺 Salud</button>
-                <button class="dashboard-tab" data-tab="estructura" draggable="true" ondragstart="window.startTabDrag(event)" ondragover="window.allowTabDrop(event)" ondrop="window.dropTab(event)">🗺️ Estructura</button>
-                <button class="dashboard-tab" data-tab="logs" draggable="true" ondragstart="window.startTabDrag(event)" ondragover="window.allowTabDrop(event)" ondrop="window.dropTab(event)">📋 Logs</button>
-                <button class="dashboard-tab" data-tab="notas" draggable="true" ondragstart="window.startTabDrag(event)" ondragover="window.allowTabDrop(event)" ondrop="window.dropTab(event)">🔧 Lo que arreglé</button>
+                <button class="dashboard-tab active" data-tab="consultas" draggable="true" onclick="setDashboardTab('consultas')" ondragstart="window.startTabDrag(event)" ondragover="window.allowTabDrop(event)" ondrop="window.dropTab(event)">💬 Consultas</button>
+                <button class="dashboard-tab" data-tab="resumen" draggable="true" onclick="setDashboardTab('resumen')" ondragstart="window.startTabDrag(event)" ondragover="window.allowTabDrop(event)" ondrop="window.dropTab(event)">📊 Resumen</button>
+                <button class="dashboard-tab" data-tab="equipo" draggable="true" onclick="setDashboardTab('equipo')" ondragstart="window.startTabDrag(event)" ondragover="window.allowTabDrop(event)" ondrop="window.dropTab(event)">👥 Equipo</button>
+                <button class="dashboard-tab" data-tab="historial" draggable="true" onclick="setDashboardTab('historial')" ondragstart="window.startTabDrag(event)" ondragover="window.allowTabDrop(event)" ondrop="window.dropTab(event)">📅 Historial</button>
+                <button class="dashboard-tab" data-tab="proximas" draggable="true" onclick="setDashboardTab('proximas')" ondragstart="window.startTabDrag(event)" ondragover="window.allowTabDrop(event)" ondrop="window.dropTab(event)">⏰ Próximas</button>
+                <button class="dashboard-tab" data-tab="promociones" draggable="true" onclick="setDashboardTab('promociones')" ondragstart="window.startTabDrag(event)" ondragover="window.allowTabDrop(event)" ondrop="window.dropTab(event)">🚀 Promociones</button>
+                <button class="dashboard-tab" data-tab="salud" draggable="true" onclick="setDashboardTab('salud')" ondragstart="window.startTabDrag(event)" ondragover="window.allowTabDrop(event)" ondrop="window.dropTab(event)">🩺 Salud</button>
+                <button class="dashboard-tab" data-tab="estructura" draggable="true" onclick="setDashboardTab('estructura')" ondragstart="window.startTabDrag(event)" ondragover="window.allowTabDrop(event)" ondrop="window.dropTab(event)">🗺️ Estructura</button>
+                <button class="dashboard-tab" data-tab="logs" draggable="true" onclick="setDashboardTab('logs')" ondragstart="window.startTabDrag(event)" ondragover="window.allowTabDrop(event)" ondrop="window.dropTab(event)">📋 Logs</button>
+                <button class="dashboard-tab" data-tab="notas" draggable="true" onclick="setDashboardTab('notas')" ondragstart="window.startTabDrag(event)" ondragover="window.allowTabDrop(event)" ondrop="window.dropTab(event)">🔧 Lo que arreglé</button>
             </div>
         </nav>
 
