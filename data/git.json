@@ -1,8 +1,15 @@
 {
- "generado_utc": "20261005T052130Z",
- "generado_h": "2026-10-05 05:21 UTC",
+ "generado_utc": "20261005T053628Z",
+ "generado_h": "2026-10-05 05:36 UTC",
  "origen": "git local + ls-remote (sin cuota). protected cacheado TTL 6h.",
  "commits": [
+  {
+   "sha": "fbc91a780b9415e0b438236f5fe1b6de2109f3ff",
+   "short": "fbc91a7",
+   "autor": "Pablo Sanchez",
+   "fecha": "2026-10-05T02:33:59-03:00",
+   "msg": "docs(regla): el instrumento de suite necesita path explicito"
+  },
   {
    "sha": "47a1d4cba2485287909ec3706d51421f9e0b98c7",
    "short": "47a1d4c",
@@ -345,13 +352,6 @@
    "autor": "Pablo Sanchez",
    "fecha": "2026-10-03T07:16:51-03:00",
    "msg": "chore(heartbeat): HB#169 - ALERT-239, el filtro de la API de crons no filtra y hay una capa de disparadores que cron list no ve"
-  },
-  {
-   "sha": "2561416ea631c0f0da63e3c1d92d3a47a5f873cd",
-   "short": "2561416",
-   "autor": "Pablo Sanchez",
-   "fecha": "2026-10-03T06:37:33-03:00",
-   "msg": "docs(hb168): ALERT-238 - el texto \"para pegar\" del PO traia un control positivo falso"
   }
  ],
  "archivos_md": [
@@ -398,9 +398,9 @@
    "repo": "gw2-wallet-agents",
    "label": "Desarrollo",
    "role": "dev",
-   "sha": "47a1d4cba2485287909ec3706d51421f9e0b98c7",
-   "short_sha": "47a1d4c",
-   "commit": "rescue(hb206): documentacion del ciclo muerto + ALERT-263 +",
+   "sha": "fbc91a780b9415e0b438236f5fe1b6de2109f3ff",
+   "short_sha": "fbc91a7",
+   "commit": "docs(regla): el instrumento de suite necesita path explicito",
    "estado": "open",
    "protected": false,
    "protected_fresco": true,
@@ -412,9 +412,9 @@
    "repo": "gw2-agents-dashboard",
    "label": "Dashboard",
    "role": "dashboard",
-   "sha": "dcba3e43d7226674d24e14e965c83b0e766cb59f",
-   "short_sha": "dcba3e4",
-   "commit": "chore(dashboard): pulso automatico 2026-10-05_05-06_UTC",
+   "sha": "e435cbf3bce2c392cd75d35ab9181a1ef2ac42b4",
+   "short_sha": "e435cbf",
+   "commit": "chore(dashboard): pulso automatico 2026-10-05_05-21_UTC",
    "estado": "open",
    "protected": false,
    "protected_fresco": true,
