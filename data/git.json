@@ -1,6 +1,6 @@
 {
- "generado_utc": "20261005T193631Z",
- "generado_h": "2026-10-05 19:36 UTC",
+ "generado_utc": "20261005T195133Z",
+ "generado_h": "2026-10-05 19:51 UTC",
  "origen": "git local + ls-remote (sin cuota). protected cacheado TTL 6h.",
  "commits": [
   {
@@ -412,9 +412,9 @@
    "repo": "gw2-agents-dashboard",
    "label": "Dashboard",
    "role": "dashboard",
-   "sha": "7a499c2b6cd5a7cc46222f81d6213d33330ccc60",
-   "short_sha": "7a499c2",
-   "commit": "fix: restore onclick handlers on draggable tab buttons  When",
+   "sha": "b7df5065e22ab0204267cf1fffbae342d7700861",
+   "short_sha": "b7df506",
+   "commit": "chore(dashboard): pulso automatico 2026-10-05_19-36_UTC",
    "estado": "open",
    "protected": false,
    "protected_fresco": true,
