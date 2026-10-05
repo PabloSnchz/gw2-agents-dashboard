@@ -1,0 +1,60 @@
+/* ==========================================================================
+   css/feat-notas.css ƒ?" tab "Lo que arreglé"
+   --------------------------------------------------------------------------
+   Mismo criterio que feat-consultas.css y feat-promociones.css: una hoja
+   aparte porque main.css lo tocan 9 tabs y un selector mal cerrado acá rompe
+   pestañas que no tienen nada que ver.
+
+   Que sea contenido estatico en index.html y no un render de JS es
+   deliberado: esto lo escribe el arquitecto a mano, es estructura, y no
+   depende de ningun fetch. Si lo meto en un renderer, hereda los modos de
+   falla del resto (un panel desplegado y vacio es indistinguible de uno que
+   no tiene nada). Aca no hay nada que pueda fallar en silencio.
+
+   Sin !important. Receta del proyecto: main.css = layout, theme = piel,
+   *-theme.js = solo borderLeft.
+   ========================================================================== */
+
+.nota-card {
+    background: var(--bg-2, #16181d);
+    border-left: 3px solid #7dc98f;
+    border-radius: 6px;
+    padding: 0.9rem 1.1rem;
+    margin-bottom: 0.9rem;
+}
+
+.nota-card h3 {
+    margin: 0 0 0.45rem 0;
+    font-size: 1rem;
+    font-weight: 600;
+    color: var(--tx-1, #e6e8ee);
+}
+
+.nota-card p {
+    margin: 0;
+    font-size: 0.92rem;
+    line-height: 1.55;
+    color: var(--tx-2, #a8b0c0);
+}
+
+.nota-card code {
+    background: var(--bg-1, #101216);
+    padding: 0 0.25rem;
+    border-radius: 3px;
+    font-size: 0.86em;
+    font-family: Consolas, "Courier New", monospace;
+}
+
+/* En movil el texto largo sin hyphens se desborda si no. */
+.nota-card p {
+    overflow-wrap: break-word;
+}
+
+@media (max-width: 640px) {
+    .nota-card {
+        padding: 0.75rem 0.85rem;
+    }
+    .nota-card h3 {
+        font-size: 0.95rem;
+    }
+}

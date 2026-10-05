@@ -1,24 +1,33 @@
 {
-  "generado": "20261005T153636Z",
+  "generado": "20261005T154602Z",
   "regla": "Los agentes ya no te preguntan a vos: me preguntan a mi. Aca llega solo lo que decidi que necesita una decision tuya y que no puedo resolver por medicion o por regla. Si no hay nada esperando, es porque lo resolvi yo, y eso se ve abajo. Ningun agente te escribe directo desde el 2026-10-04.",
   "para_pablo": [
+    {
+      "id": "ARQ-FRACTAL-ARRANQUE-001",
+      "agente": "architect",
+      "origen": "arquitecto",
+      "pregunta": "El Fractal Tracker (Idea 39) esta aprobado por el Reviewer desde el 29/09 y nunca arranco. Arranco o se cae?",
+      "bloqueante": "Nada tecnico. Esta aprobado con cambios y esperando a que alguien lo adopte. El problema es que no aparecia en ninguna pestana del dashboard, asi que en la practica estaba invisible: aprobado, sin codigo, sin consulta, sin duena.",
+      "estado": "parada",
+      "opciones": [
+        "Arrancar: primero 'fractal-data.js' como fuente unica de verdad, migrar activities.js a importarla, recien ahi el tracker.",
+        "Dejarlo en pausa y revisarlo cuando la Armeria este cerrada."
+      ],
+      "nota_interna": "Pablo 2026-10-05: 'no lo arranques aun, pero tengamos visibilizado'. Por eso el estado es 'parada' y no 'esperando': no esta esperando una respuesta inmediata, esta esperando que el tiempo lo vuelva relevante. Aparece en cada informe hasta que responda.",
+      "por_que_estaba_invisible": "Promociones mide el delta de codigo entre dev y prod. Sin codigo, no hay delta, no aparece. Y en Consultas no estaba porque nunca se registro como decision."
+    }
+  ],
+  "resueltas_architecto": [
     {
       "id": "ARQ-ARMERIA-MIPROGRESO-001",
       "agente": "architect",
       "origen": "arquitecto",
       "pregunta": "Mi progreso en la Armería: ¿cuántas legendarias y qué muestra cada una?",
-      "bloqueante": "El Principal no puede avanzar porque las dos definiciones posibles dan interfaces distintas y no es un default que se pueda declarar: es qué ve Pablo cuando abre la app. El código actual renderiza la lista global de las 206 legendarias, que es una copia del Catálogo y no dice si algo falta de fabricar.",
-      "opciones": [
-        "Cola de 3 legendarias elegidas a mano. Cada una muestra: cuánto falta de cada material, el total, y un botón para abrir el árbol de crafteo. Es lo que veníamos pensando y se ajusta al ejemplo de las 3 backlog.",
-        "Cola de 5, con lo mismo. Da más margen de planificación y ocupa más pantalla en móvil.",
-        "Volver a la lista global de desbloqueadas, pero marcando las que son de fabricar. Es lo que hay hoy, sin tocar el render."
-      ],
-      "due": "20261006T180000Z",
-      "estado": "esperando",
-      "nota_interna": "Replace la idea abierta de 3-5: ahora la pregunta es cerrada, con 3 opciones numeradas, y el boton de copiar arma el bloque para que responda con un numero. Default si vence: la opcion 1."
-    }
-  ],
-  "resueltas_architecto": [
+      "resolucion": "Pablo eligio la opcion 1: cola de 3 a 5 legendarias elegidas a mano. Cada una muestra cuanto falta de cada material, el total, y un boton para abrir el arbol de crafteo. Descarto la lista global de las 206, que era una copia del Catalogo.",
+      "estado": "resuelta",
+      "respondio": "pablo",
+      "nota_interna": "Lo que bloqueo despues ya no es una decision de Pablo: es un bug. La fila 'Tengo' del modal de Materiales totales devuelve siempre 0, y por eso 'Falta' no calcula. Delegado al Principal el 2026-10-05 (task-15ee5cb1cabf) con la advertencia de que 'Tengo' es banco + inventario de personaje, no solo banco."
+    },
     {
       "id": "ARQ-HOMESTEAD-ICONO-001",
       "agente": "default",

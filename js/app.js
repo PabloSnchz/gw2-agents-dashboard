@@ -24,7 +24,7 @@
     let commsFilterState = { statusFilter: 'all', importanceFilter: 'all', searchTerm: '' };
 
     // Estado del tab activo
-    const TAB_STORAGE_KEY = 'gn:dashboard:active-tab';
+    const TAB_STORAGE_KEY = 'gn:dashboard:active-tab:v2';
     // OJO: esta lista decide que tabs funcionan. setDashboardTab hace
     // `if (!VALID_TABS.includes(tabName)) return;`, asi que un tab que no este
     // aca NO cambia: el click no hace nada y no hay error en consola. Cuando se
@@ -36,7 +36,7 @@
       // filtrado. El equipo escribe su parte cruda en CONSULTAS.md; lo que
       // llega aca es lo que yo subi. Ojo con el aviso de arriba: si esta
       // entrada falta, el boton no hace nada y no hay error en consola.
-      const VALID_TABS = ['resumen', 'equipo', 'historial', 'proximas', 'promociones', 'consultas', 'salud', 'estructura', 'logs'];
+      const VALID_TABS = ['consultas', 'resumen', 'equipo', 'historial', 'proximas', 'promociones', 'salud', 'estructura', 'logs', 'notas'];
 
     // ============ TABS (definido PRIMERO, antes de init) ============
     window.setDashboardTab = function(tabName, silent) {
@@ -63,7 +63,7 @@
 
     function getActiveTab() {
         const active = document.querySelector('.dashboard-tab.active');
-        return active ? active.dataset.tab : 'resumen';
+        return active ? active.dataset.tab : 'consultas';
     }
 
     // Ruta del hash, tolerante a las dos formas que existen en la practica.
@@ -98,7 +98,7 @@
         const savedTab = localStorage.getItem(TAB_STORAGE_KEY);
         const initialTab = VALID_TABS.includes(hashTab) ? hashTab
                           : VALID_TABS.includes(savedTab) ? savedTab
-                          : 'resumen';
+                          : 'consultas';
         setDashboardTab(initialTab, true);
 
           // Consultas del Arquitecto: carga independiente de los .md, asi que
