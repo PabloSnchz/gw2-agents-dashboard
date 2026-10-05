@@ -1,8 +1,15 @@
 {
- "generado_utc": "20261005T015130Z",
- "generado_h": "2026-10-05 01:51 UTC",
+ "generado_utc": "20261005T020629Z",
+ "generado_h": "2026-10-05 02:06 UTC",
  "origen": "git local + ls-remote (sin cuota). protected cacheado TTL 6h.",
  "commits": [
+  {
+   "sha": "df9131b7430e341ef78d9aaa8f9ca2ef1ee80434",
+   "short": "df9131b",
+   "autor": "Pablo Sanchez",
+   "fecha": "2026-10-04T23:05:03-03:00",
+   "msg": "fix(cache): las 5 familias de homestead entran en CACHE_KEYS_EXACT + el censo nombra el salto 8 -> 11"
+  },
   {
    "sha": "ca673ac52ea6703402d864607afe793e7d07baf7",
    "short": "ca673ac",
@@ -345,13 +352,6 @@
    "autor": "Pablo Sanchez",
    "fecha": "2026-10-03T02:19:16-03:00",
    "msg": "docs(hb161): rescata el bloque HB#158 de TEAM_STATUS.md, que estaba commiteado sin pushear"
-  },
-  {
-   "sha": "14b2631cb1ac0b6fa27732c0cc4ec6e09732b43d",
-   "short": "14b2631",
-   "autor": "Pablo Sanchez",
-   "fecha": "2026-10-03T02:14:54-03:00",
-   "msg": "docs(hb161): el espejo de HEARTBEAT.md estaba desactualizado y los 2 chequeos del banner lo approveban"
   }
  ],
  "archivos_md": [
@@ -412,9 +412,9 @@
    "repo": "gw2-agents-dashboard",
    "label": "Dashboard",
    "role": "dashboard",
-   "sha": "62b08ef6f76f50cabeaef2c4c767d680e1bd4340",
-   "short_sha": "62b08ef",
-   "commit": "chore(dashboard): pulso automatico 2026-10-05_01-36_UTC",
+   "sha": "70528b034e5e14d5c88ae5282a8fd8a818f9d3f6",
+   "short_sha": "70528b0",
+   "commit": "chore(dashboard): pulso automatico 2026-10-05_01-51_UTC",
    "estado": "open",
    "protected": false,
    "protected_fresco": true,
