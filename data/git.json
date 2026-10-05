@@ -1,8 +1,15 @@
 {
- "generado_utc": "20261005T153631Z",
- "generado_h": "2026-10-05 15:36 UTC",
+ "generado_utc": "20261005T155132Z",
+ "generado_h": "2026-10-05 15:51 UTC",
  "origen": "git local + ls-remote (sin cuota). protected cacheado TTL 6h.",
  "commits": [
+  {
+   "sha": "e57846ac10fe167336aaa6143a406105d051e37d",
+   "short": "e57846a",
+   "autor": "Pablo Sanchez",
+   "fecha": "2026-10-05T12:39:24-03:00",
+   "msg": "doc(cache): IDEA 50-D y Tramo E al CHANGELOG; tabla de modulos alineada al codigo"
+  },
   {
    "sha": "c8ad0954a7373cac223948d4395d7014167870a2",
    "short": "c8ad095",
@@ -345,13 +352,6 @@
    "autor": "Pablo Sanchez",
    "fecha": "2026-10-03T12:55:52-03:00",
    "msg": "fix(ui): 4 escapes \\U invalidos en wallet-dashboard.js pasan a \\u{...}"
-  },
-  {
-   "sha": "7f575bcfdaa7a8d0d3cbaa2870dad5bbb0a0eb31",
-   "short": "7f575bc",
-   "autor": "Pablo Sanchez",
-   "fecha": "2026-10-03T11:13:03-03:00",
-   "msg": "docs(backlog): podar 2 filas verificadas por tema (HB#176 del PO)"
   }
  ],
  "archivos_md": [
@@ -412,9 +412,9 @@
    "repo": "gw2-agents-dashboard",
    "label": "Dashboard",
    "role": "dashboard",
-   "sha": "8179d1cc0d430ad5211f39e2671fbe9ce9b2c107",
-   "short_sha": "8179d1c",
-   "commit": "chore(dashboard): pulso automatico 2026-10-05_15-21_UTC",
+   "sha": "3984253e553d79ba7e915bda65137a8737a76635",
+   "short_sha": "3984253",
+   "commit": "feat: dashboard con foco en lo que decide Pablo, no en el",
    "estado": "open",
    "protected": false,
    "protected_fresco": true,
