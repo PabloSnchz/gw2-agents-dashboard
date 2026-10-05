@@ -1,8 +1,15 @@
 {
- "generado_utc": "20261005T030629Z",
- "generado_h": "2026-10-05 03:06 UTC",
+ "generado_utc": "20261005T032129Z",
+ "generado_h": "2026-10-05 03:21 UTC",
  "origen": "git local + ls-remote (sin cuota). protected cacheado TTL 6h.",
  "commits": [
+  {
+   "sha": "c7f329a260a7fce6de91741af6accb456a953a19",
+   "short": "c7f329a",
+   "autor": "Pablo Sanchez",
+   "fecha": "2026-10-05T00:14:46-03:00",
+   "msg": "docs(hb205): merge de la punta 66 con la 65 adentro, y la regla de scratch"
+  },
   {
    "sha": "771daa945c62d588c8c7bf589d65fbb926386045",
    "short": "771daa9",
@@ -345,13 +352,6 @@
    "autor": "Pablo Sanchez",
    "fecha": "2026-10-03T06:06:31-03:00",
    "msg": "docs(hb167): ALERT-237 - la medicion correcta no llego a la fila que la decide"
-  },
-  {
-   "sha": "1372eb18df3e87f8e2879e9c817e767fe7f01059",
-   "short": "1372eb1",
-   "autor": "Pablo Sanchez",
-   "fecha": "2026-10-03T05:42:26-03:00",
-   "msg": "docs(hb166): ALERT-235 (PRE_BACKLOG.md tiene dos canonicos) y ALERT-236 (mi detector daba un 0 vacio)"
   }
  ],
  "archivos_md": [
@@ -398,9 +398,9 @@
    "repo": "gw2-wallet-agents",
    "label": "Desarrollo",
    "role": "dev",
-   "sha": "771daa945c62d588c8c7bf589d65fbb926386045",
-   "short_sha": "771daa9",
-   "commit": "chore(gitignore): la regla de scratch HB cubre todo el rango,",
+   "sha": "c7f329a260a7fce6de91741af6accb456a953a19",
+   "short_sha": "c7f329a",
+   "commit": "docs(hb205): merge de la punta 66 con la 65 adentro, y la",
    "estado": "open",
    "protected": false,
    "protected_fresco": true,
@@ -412,9 +412,9 @@
    "repo": "gw2-agents-dashboard",
    "label": "Dashboard",
    "role": "dashboard",
-   "sha": "7c407cfad8703569cfc5fcbc1f4342a67913c239",
-   "short_sha": "7c407cf",
-   "commit": "chore(dashboard): pulso automatico 2026-10-05_02-51_UTC",
+   "sha": "f692b3aee2cf03dcfdafb41615dcaeae57176805",
+   "short_sha": "f692b3a",
+   "commit": "cierra ARQ-ARMERIA-MIPROGRESO-001: la consulta estaba",
    "estado": "open",
    "protected": false,
    "protected_fresco": true,

@@ -1,22 +1,24 @@
 {
-  "generado": "20261005T030634Z",
+  "generado": "20261005T032134Z",
   "regla": "Los agentes ya no te preguntan a vos: me preguntan a mi. Aca llega solo lo que decidi que necesita una decision tuya y que no puedo resolver por medicion o por regla. Si no hay nada esperando, es porque lo resolvi yo, y eso se ve abajo. Ningun agente te escribe directo desde el 2026-10-04.",
-  "para_pablo": [],
-  "resueltas_architecto": [
+  "para_pablo": [
     {
       "id": "ARQ-ARMERIA-MIPROGRESO-001",
       "agente": "architect",
       "origen": "arquitecto",
       "pregunta": "Mi progreso en la Armería: ¿cuántas legendarias y qué muestra cada una?",
-      "respuesta": "Opción 2 — cola de 5 legendarias elegidas a mano.",
-      "estado": "resuelta",
-      "respondio": "pablo",
-      "cierre": "2026-10-05",
-      "resolucion": "OBSOLETA AL HACERSE: ya estaba implementada y en producción antes de que esta consulta se emitiera. Verificado en gw2-prod/js/legendary-tracker.js:164 — `var QUEUE_MAX = 5`, con el comentario 'El plan lo fija en 5 y aclara que NO es el objetivo de posesion del PO (16): 5 es foco, 16 es inventario'. La línea 860 confirma el segundo punto de la pregunta: '\"Mi progreso\" deja de ser la grilla global y pasa a ser la COLA'. El contador de cabecera ya renderiza '3/5' (línea 563) y al llenarse avisa 'La cola de crafteo esta llena' (línea 774).",
-      "bloqueante_falso": "El campo 'bloqueante' afirmaba que 'el código actual renderiza la lista global de las 206 legendarias'. Era FALSO: describe un estado anterior a la promoción. La grilla global ya no es lo que renderiza 'Mi progreso'.",
-      "nota_interna": "Retirada de para_pablo el 2026-10-05. Su nota_interna anterior decía 'Default si vence: la opcion 1' (=3). Ese default quedó SIN EFECTO y no se aplicó: la decisión real fue la opción 2 (=5). No reescribir este registro suponiendo que la respuesta fue 3.",
-      "metodo": "grep + lectura directa sobre gw2-prod/js/legendary-tracker.js. Pablo lo detects: 'eso es viejo, en productivo muestra 5 en total'."
-    },
+      "bloqueante": "El Principal no puede avanzar porque las dos definiciones posibles dan interfaces distintas y no es un default que se pueda declarar: es qué ve Pablo cuando abre la app. El código actual renderiza la lista global de las 206 legendarias, que es una copia del Catálogo y no dice si algo falta de fabricar.",
+      "opciones": [
+        "Cola de 3 legendarias elegidas a mano. Cada una muestra: cuánto falta de cada material, el total, y un botón para abrir el árbol de crafteo. Es lo que veníamos pensando y se ajusta al ejemplo de las 3 backlog.",
+        "Cola de 5, con lo mismo. Da más margen de planificación y ocupa más pantalla en móvil.",
+        "Volver a la lista global de desbloqueadas, pero marcando las que son de fabricar. Es lo que hay hoy, sin tocar el render."
+      ],
+      "due": "20261006T180000Z",
+      "estado": "esperando",
+      "nota_interna": "Replace la idea abierta de 3-5: ahora la pregunta es cerrada, con 3 opciones numeradas, y el boton de copiar arma el bloque para que responda con un numero. Default si vence: la opcion 1."
+    }
+  ],
+  "resueltas_architecto": [
     {
       "id": "ARQ-HOMESTEAD-ICONO-001",
       "agente": "default",
