@@ -66,12 +66,35 @@
         return active ? active.dataset.tab : 'resumen';
     }
 
+    // Ruta del hash, tolerante a las dos formas que existen en la practica.
+    //
+    // El bug, medido 2026-10-05: abrir el dashboard con #/consultas NO abria la
+    // tab. Motivo exacto: se hacia location.hash.replace('#','')
+    // -> '/consultas', que no esta en VALID_TABS, asi que initialTab caia al
+    // localStorage y se abria otra tab. El render igual escribia el DOM, pero
+    // dentro del panel oculto: #consultas-container existia con todo su
+    // contenido y visible=false. Por eso el boton 'Copiar para responder' se
+    // media como roto por tres vias distintas cuando jamas se habia mostrado.
+    //
+    // setDashboardTab escribe '#' + tabName (sin barra), asi que la forma que
+    // el propio dashboard genera es '#consultas'. La forma que se copia de la
+    // barra de direcciones de cualquier otra pagina es '#/consultas'. Se
+    // aceptan las dos en vez de elegir una: un link compartido que abre la
+    // pagina con la tab cerrada no se distingue de un link roto.
+    function _tabDelHash() {
+        return (location.hash || '')
+            .replace(/^#\/?/, '')
+            .split('?')[0]
+            .trim()
+            .toLowerCase();
+    }
+
     // ============ INIT ============
     init();
 
     function init() {
         // Restaurar tab activo (desde hash o localStorage)
-        const hashTab = location.hash.replace('#', '').toLowerCase();
+        const hashTab = _tabDelHash();
         const savedTab = localStorage.getItem(TAB_STORAGE_KEY);
         const initialTab = VALID_TABS.includes(hashTab) ? hashTab
                           : VALID_TABS.includes(savedTab) ? savedTab
@@ -99,7 +122,7 @@
 
         // Listener de hashchange
         window.addEventListener('hashchange', () => {
-            const t = location.hash.replace('#', '').toLowerCase();
+            const t = _tabDelHash();
             if (VALID_TABS.includes(t) && t !== getActiveTab()) {
                 setDashboardTab(t, true);
             }
