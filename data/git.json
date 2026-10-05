@@ -1,6 +1,6 @@
 {
- "generado_utc": "20261005T213634Z",
- "generado_h": "2026-10-05 21:36 UTC",
+ "generado_utc": "20261005T215130Z",
+ "generado_h": "2026-10-05 21:51 UTC",
  "origen": "git local + ls-remote (sin cuota). protected cacheado TTL 6h.",
  "commits": [
   {
@@ -427,9 +427,9 @@
    "repo": "gw2-agents-dashboard",
    "label": "Dashboard",
    "role": "dashboard",
-   "sha": "928c6d16dc265b8b2be51fc0f187c29ddc7e493e",
-   "short_sha": "928c6d1",
-   "commit": "chore(dashboard): pulso automatico 2026-10-05_21-21_UTC",
+   "sha": "3e259b6851b6c526314c9c050661b6d4d1d7d48a",
+   "short_sha": "3e259b6",
+   "commit": "chore(dashboard): pulso automatico 2026-10-05_21-36_UTC",
    "estado": "open",
    "protected": false,
    "protected_fresco": true,
@@ -437,14 +437,18 @@
    "proteccion_detalle": null,
    "proteccion_detalle_motivo": "sin token",
    "rama": "main",
-   "sin_commitear": 6,
+   "sin_commitear": 10,
    "archivos_modificados": [
     "M ata/comms.json",
     "M ata/estructura.json",
-    "M ata/git.json",
     "M ata/salud.json",
+    "?? _dump.py",
+    "?? _w1.py",
+    "?? _w2.py",
     "?? _write_test.py",
-    "?? js/desarrollo.js"
+    "?? js/backlog.js",
+    "?? js/desarrollo.js",
+    "?? js/prebacklog.js"
    ],
    "clon_error": null
   }
