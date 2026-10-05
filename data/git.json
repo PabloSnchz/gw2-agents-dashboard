@@ -1,8 +1,15 @@
 {
- "generado_utc": "20261005T073628Z",
- "generado_h": "2026-10-05 07:36 UTC",
+ "generado_utc": "20261005T075131Z",
+ "generado_h": "2026-10-05 07:51 UTC",
  "origen": "git local + ls-remote (sin cuota). protected cacheado TTL 6h.",
  "commits": [
+  {
+   "sha": "50ca91f6466220914586bdd4a6f0ad20c59c190f",
+   "short": "50ca91f",
+   "autor": "Pablo Sanchez",
+   "fecha": "2026-10-05T04:43:11-03:00",
+   "msg": "docs(hb209): RESCATE del HB#208 - ALERT-264 (el control de carga se pudria solo) + su parrafo en HEARTBEAT.md"
+  },
   {
    "sha": "fbc91a780b9415e0b438236f5fe1b6de2109f3ff",
    "short": "fbc91a7",
@@ -345,13 +352,6 @@
    "autor": "Pablo Sanchez",
    "fecha": "2026-10-03T07:45:00-03:00",
    "msg": "docs(hb170): ALERT-240 - el corte de seccion puede invertir el veredicto de una ronda del PO. El bloque de la ronda 49 son 90 lineas y mis 8 lineas decia PAUSA-cero-propuestas; con 90 hay 2 tramos. Confirma la tesis del glifo [x] ambiguo contra HEARTBEAT.md:643 y refuta 2 cifras: Completed no esta vacia (17 casillas) y son 18 filas no 21. No se manda nada al Reviewer."
-  },
-  {
-   "sha": "b4eb16011a2da32be56a7988d77e25f17eb11960",
-   "short": "b4eb160",
-   "autor": "Pablo Sanchez",
-   "fecha": "2026-10-03T07:16:51-03:00",
-   "msg": "chore(heartbeat): HB#169 - ALERT-239, el filtro de la API de crons no filtra y hay una capa de disparadores que cron list no ve"
   }
  ],
  "archivos_md": [
@@ -412,9 +412,9 @@
    "repo": "gw2-agents-dashboard",
    "label": "Dashboard",
    "role": "dashboard",
-   "sha": "e1d55bfc4792e8c436a59fe1da7a8c6ee0b5d78b",
-   "short_sha": "e1d55bf",
-   "commit": "chore(dashboard): pulso automatico 2026-10-05_07-21_UTC",
+   "sha": "fc5afc835a85b3887f0190a1898f235513cc193d",
+   "short_sha": "fc5afc8",
+   "commit": "chore(dashboard): pulso automatico 2026-10-05_07-36_UTC",
    "estado": "open",
    "protected": false,
    "protected_fresco": true,
