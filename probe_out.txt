@@ -1,1 +1,0 @@
-'dashboard-tab-drag-hint" title="Arrastrá los botones para reordenar las pestañas">⋮⋮</span>\n                <button class="dashboard-tab active" data-tab="consultas" draggable="true" onclick="setDashboardTab(\'consultas\')" ondragstart="window.startTabDrag(event)" ondragover="window.allowTabDrop(event'
