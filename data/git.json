@@ -1,6 +1,6 @@
 {
- "generado_utc": "20261005T233644Z",
- "generado_h": "2026-10-05 23:36 UTC",
+ "generado_utc": "20261005T235208Z",
+ "generado_h": "2026-10-05 23:52 UTC",
  "origen": "git local + ls-remote (sin cuota). protected cacheado TTL 6h.",
  "commits": [
   {
@@ -427,9 +427,9 @@
    "repo": "gw2-agents-dashboard",
    "label": "Dashboard",
    "role": "dashboard",
-   "sha": "546af9ae8906ff0014cbdb21f9b41b19e488c4de",
-   "short_sha": "546af9a",
-   "commit": "chore(dashboard): pulso automatico 2026-10-05_23-22_UTC",
+   "sha": "5d116e3497e5d3e552d536597b3b101ece684f1b",
+   "short_sha": "5d116e3",
+   "commit": "chore(dashboard): pulso automatico 2026-10-05_23-36_UTC",
    "estado": "open",
    "protected": false,
    "protected_fresco": true,
@@ -437,7 +437,7 @@
    "proteccion_detalle": null,
    "proteccion_detalle_motivo": "sin token",
    "rama": "main",
-   "sin_commitear": 22,
+   "sin_commitear": 21,
    "archivos_modificados": [
     "M ata/comms.json",
     "M ata/estructura.json",
@@ -448,7 +448,6 @@
     "M s/fetcher.js",
     "M s/parser.js",
     "?? _dump.py",
-    "?? _eco/",
     "?? _find.py",
     "?? _find2.py",
     "?? _find3.py",
