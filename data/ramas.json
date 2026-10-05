@@ -1,12 +1,259 @@
 {
-  "generado": "2026-10-04T07:00:26.768Z",
+  "generado": "2026-10-05T07:00:33.943Z",
   "resumen": {
-    "TOTAL": 110,
-    "BORRABLE": 51,
-    "RESCATAR": 41,
-    "PROTEGIDA": 18
+    "TOTAL": 130,
+    "BORRABLE": 65,
+    "RESCATAR": 50,
+    "PROTEGIDA": 15
   },
   "ramas": [
+    {
+      "nombre": "main",
+      "sha": "fbc91a7",
+      "fecha": "2026-10-05 02:34:24 -0300",
+      "veredicto": "PROTEGIDA",
+      "motivo": "es el trunk"
+    },
+    {
+      "nombre": "po/hb206",
+      "sha": "5dbdb87",
+      "fecha": "2026-10-05 01:14:39 -0300",
+      "veredicto": "PROTEGIDA",
+      "motivo": "un worktree activo la esta usando"
+    },
+    {
+      "nombre": "po/hb207",
+      "sha": "5dbdb87",
+      "fecha": "2026-10-05 01:14:39 -0300",
+      "veredicto": "PROTEGIDA",
+      "motivo": "un worktree activo la esta usando"
+    },
+    {
+      "nombre": "po/hb205-1",
+      "sha": "f17960a",
+      "fecha": "2026-10-05 00:59:39 -0300",
+      "en_main": false,
+      "commits_no_main": 1,
+      "commits_sueltos": 1,
+      "veredicto": "RESCATAR",
+      "motivo": "1 commit(s) cuyo contenido NO esta en main",
+      "rescatar": [
+        {
+          "sha": "f17960a",
+          "resumen": ""
+        }
+      ]
+    },
+    {
+      "nombre": "po/hb202",
+      "sha": "530ab88",
+      "fecha": "2026-10-04 23:49:44 -0300",
+      "en_main": true,
+      "veredicto": "BORRABLE",
+      "motivo": "su HEAD ya esta en origin/main"
+    },
+    {
+      "nombre": "rescate/homestead-hb199",
+      "sha": "df9131b",
+      "fecha": "2026-10-04 23:05:16 -0300",
+      "en_main": true,
+      "veredicto": "BORRABLE",
+      "motivo": "su HEAD ya esta en origin/main"
+    },
+    {
+      "nombre": "feat/homestead-rescate",
+      "sha": "ce5849f",
+      "fecha": "2026-10-04 20:46:18 -0300",
+      "en_main": false,
+      "commits_no_main": 2,
+      "commits_sueltos": 0,
+      "veredicto": "BORRABLE",
+      "motivo": "no esta en main pero sus 2 commit(s) estan por cherry-pick"
+    },
+    {
+      "nombre": "po/hb197-esquema",
+      "sha": "672c51f",
+      "fecha": "2026-10-04 19:10:58 -0300",
+      "en_main": false,
+      "commits_no_main": 1,
+      "commits_sueltos": 1,
+      "veredicto": "RESCATAR",
+      "motivo": "1 commit(s) cuyo contenido NO esta en main",
+      "rescatar": [
+        {
+          "sha": "672c51f",
+          "resumen": ""
+        }
+      ]
+    },
+    {
+      "nombre": "merge-hb196-prebacklog",
+      "sha": "714ae3e",
+      "fecha": "2026-10-04 18:07:08 -0300",
+      "en_main": true,
+      "veredicto": "BORRABLE",
+      "motivo": "su HEAD ya esta en origin/main"
+    },
+    {
+      "nombre": "po/hb196-una-sola-ronda",
+      "sha": "f79ee89",
+      "fecha": "2026-10-04 17:12:45 -0300",
+      "en_main": true,
+      "veredicto": "BORRABLE",
+      "motivo": "su HEAD ya esta en origin/main"
+    },
+    {
+      "nombre": "chore-hb195-rescate-hb194",
+      "sha": "482e5bf",
+      "fecha": "2026-10-04 16:15:25 -0300",
+      "en_main": true,
+      "veredicto": "BORRABLE",
+      "motivo": "su HEAD ya esta en origin/main"
+    },
+    {
+      "nombre": "po/hb193-emotes",
+      "sha": "efd645b",
+      "fecha": "2026-10-04 15:37:45 -0300",
+      "en_main": false,
+      "commits_no_main": 1,
+      "commits_sueltos": 1,
+      "veredicto": "RESCATAR",
+      "motivo": "1 commit(s) cuyo contenido NO esta en main",
+      "rescatar": [
+        {
+          "sha": "efd645b",
+          "resumen": ""
+        }
+      ]
+    },
+    {
+      "nombre": "chore-hb193-banda-medida",
+      "sha": "9a19aab",
+      "fecha": "2026-10-04 15:08:21 -0300",
+      "en_main": false,
+      "commits_no_main": 1,
+      "commits_sueltos": 1,
+      "veredicto": "RESCATAR",
+      "motivo": "1 commit(s) cuyo contenido NO esta en main",
+      "rescatar": [
+        {
+          "sha": "504e217",
+          "resumen": ""
+        }
+      ]
+    },
+    {
+      "nombre": "po/hb193-banda-medida-en-git",
+      "sha": "504e217",
+      "fecha": "2026-10-04 14:58:48 -0300",
+      "en_main": false,
+      "commits_no_main": 1,
+      "commits_sueltos": 1,
+      "veredicto": "RESCATAR",
+      "motivo": "1 commit(s) cuyo contenido NO esta en main",
+      "rescatar": [
+        {
+          "sha": "504e217",
+          "resumen": ""
+        }
+      ]
+    },
+    {
+      "nombre": "rescate/hb193",
+      "sha": "504e217",
+      "fecha": "2026-10-04 14:58:48 -0300",
+      "en_main": false,
+      "commits_no_main": 1,
+      "commits_sueltos": 1,
+      "veredicto": "RESCATAR",
+      "motivo": "1 commit(s) cuyo contenido NO esta en main",
+      "rescatar": [
+        {
+          "sha": "504e217",
+          "resumen": ""
+        }
+      ]
+    },
+    {
+      "nombre": "po/hb192-preguntas-no-trabajo",
+      "sha": "d484658",
+      "fecha": "2026-10-04 13:09:50 -0300",
+      "en_main": false,
+      "commits_no_main": 1,
+      "commits_sueltos": 1,
+      "veredicto": "RESCATAR",
+      "motivo": "1 commit(s) cuyo contenido NO esta en main",
+      "rescatar": [
+        {
+          "sha": "d484658",
+          "resumen": ""
+        }
+      ]
+    },
+    {
+      "nombre": "rescate-hb187-prebacklog-ronda53",
+      "sha": "b74848b",
+      "fecha": "2026-10-04 08:04:07 -0300",
+      "en_main": true,
+      "veredicto": "BORRABLE",
+      "motivo": "su HEAD ya esta en origin/main"
+    },
+    {
+      "nombre": "po/hb185-indice-podado",
+      "sha": "f085428",
+      "fecha": "2026-10-04 07:12:49 -0300",
+      "en_main": false,
+      "commits_no_main": 1,
+      "commits_sueltos": 1,
+      "veredicto": "RESCATAR",
+      "motivo": "1 commit(s) cuyo contenido NO esta en main",
+      "rescatar": [
+        {
+          "sha": "f085428",
+          "resumen": ""
+        }
+      ]
+    },
+    {
+      "nombre": "rescate/hb186-logs-muertos",
+      "sha": "2e7eb19",
+      "fecha": "2026-10-04 05:15:18 -0300",
+      "en_main": true,
+      "veredicto": "BORRABLE",
+      "motivo": "su HEAD ya esta en origin/main"
+    },
+    {
+      "nombre": "po/hb187-destino-podado",
+      "sha": "e4fd471",
+      "fecha": "2026-10-04 05:07:52 -0300",
+      "en_main": false,
+      "commits_no_main": 1,
+      "commits_sueltos": 1,
+      "veredicto": "RESCATAR",
+      "motivo": "1 commit(s) cuyo contenido NO esta en main",
+      "rescatar": [
+        {
+          "sha": "e4fd471",
+          "resumen": ""
+        }
+      ]
+    },
+    {
+      "nombre": "rescate/hb187-destino-podado",
+      "sha": "e4fd471",
+      "fecha": "2026-10-04 05:07:52 -0300",
+      "en_main": false,
+      "commits_no_main": 1,
+      "commits_sueltos": 1,
+      "veredicto": "RESCATAR",
+      "motivo": "1 commit(s) cuyo contenido NO esta en main",
+      "rescatar": [
+        {
+          "sha": "e4fd471",
+          "resumen": ""
+        }
+      ]
+    },
     {
       "nombre": "po/hb186-poda",
       "sha": "5e5f930",
@@ -35,31 +282,25 @@
       "nombre": "rescate/hb185-alert255",
       "sha": "219ed5f",
       "fecha": "2026-10-04 02:40:57 -0300",
-      "veredicto": "PROTEGIDA",
-      "motivo": "un worktree activo la esta usando"
+      "en_main": true,
+      "veredicto": "BORRABLE",
+      "motivo": "su HEAD ya esta en origin/main"
     },
     {
       "nombre": "po/hb184-entrega-prebacklog",
       "sha": "7bf1cba",
       "fecha": "2026-10-04 01:12:42 -0300",
-      "veredicto": "PROTEGIDA",
-      "motivo": "un worktree activo la esta usando"
+      "en_main": true,
+      "veredicto": "BORRABLE",
+      "motivo": "su HEAD ya esta en origin/main"
     },
     {
       "nombre": "rescate/hb184-entrega",
       "sha": "7bf1cba",
       "fecha": "2026-10-04 01:12:42 -0300",
-      "en_main": false,
-      "commits_no_main": 1,
-      "commits_sueltos": 1,
-      "veredicto": "RESCATAR",
-      "motivo": "1 commit(s) cuyo contenido NO esta en main",
-      "rescatar": [
-        {
-          "sha": "7bf1cba",
-          "resumen": ""
-        }
-      ]
+      "en_main": true,
+      "veredicto": "BORRABLE",
+      "motivo": "su HEAD ya esta en origin/main"
     },
     {
       "nombre": "po/hb182-l88-molde",
@@ -158,13 +399,6 @@
       ]
     },
     {
-      "nombre": "main",
-      "sha": "2e29ed6",
-      "fecha": "2026-10-03 15:27:54 -0300",
-      "veredicto": "PROTEGIDA",
-      "motivo": "es el trunk"
-    },
-    {
       "nombre": "rescate/hb180-logs-hb179",
       "sha": "c558b85",
       "fecha": "2026-10-03 15:14:34 -0300",
@@ -256,8 +490,9 @@
       "nombre": "po/hb163-prune",
       "sha": "eb42c3b",
       "fecha": "2026-10-03 02:39:28 -0300",
-      "veredicto": "PROTEGIDA",
-      "motivo": "un worktree activo la esta usando"
+      "en_main": true,
+      "veredicto": "BORRABLE",
+      "motivo": "su HEAD ya esta en origin/main"
     },
     {
       "nombre": "po/hb160-poda",
@@ -609,8 +844,11 @@
       "nombre": "po/hb122-poda",
       "sha": "f41ab87",
       "fecha": "2026-10-02 01:06:27 -0300",
-      "veredicto": "PROTEGIDA",
-      "motivo": "un worktree activo la esta usando"
+      "en_main": false,
+      "commits_no_main": 1,
+      "commits_sueltos": 0,
+      "veredicto": "BORRABLE",
+      "motivo": "no esta en main pero sus 1 commit(s) estan por cherry-pick"
     },
     {
       "nombre": "feat-armeria-merge-22a6a71",
@@ -759,8 +997,9 @@
       "nombre": "po/hb114-dashboard",
       "sha": "81372a6",
       "fecha": "2026-10-01 19:09:56 -0300",
-      "veredicto": "PROTEGIDA",
-      "motivo": "un worktree activo la esta usando"
+      "en_main": true,
+      "veredicto": "BORRABLE",
+      "motivo": "su HEAD ya esta en origin/main"
     },
     {
       "nombre": "docs-features-md",
