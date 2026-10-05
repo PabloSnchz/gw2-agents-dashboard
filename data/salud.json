@@ -1,12 +1,12 @@
 {
- "generado_utc": "20261005T060604Z",
- "generado_h": "2026-10-05 06:06 UTC",
+ "generado_utc": "20261005T062104Z",
+ "generado_h": "2026-10-05 06:21 UTC",
  "archivos_estado": [
   {
    "archivo": "TEAM_STATUS.md",
    "quien": "Principal /30min",
    "estado": "ok",
-   "edad_h": 0.9,
+   "edad_h": 1.2,
    "kb": 319.6,
    "crecimiento": "EXCEDE 80 KB (320 KB)"
   },
@@ -14,7 +14,7 @@
    "archivo": "SESSION_LOG.md",
    "quien": "Documentador /4h",
    "estado": "ROTO",
-   "edad_h": 52.0,
+   "edad_h": 52.2,
    "kb": 309.5,
    "crecimiento": "EXCEDE 60 KB (310 KB)"
   },
@@ -22,14 +22,14 @@
    "archivo": "COMMS_LOG.md",
    "quien": "Principal /30min",
    "estado": "ROTO",
-   "edad_h": 38.1,
+   "edad_h": 38.4,
    "kb": 254.2
   },
   {
    "archivo": "PRE_BACKLOG.md",
    "quien": "PO /2h",
    "estado": "ok",
-   "edad_h": 3.0,
+   "edad_h": 3.3,
    "kb": 357.6,
    "crecimiento": "EXCEDE 120 KB (358 KB)"
   },
@@ -37,14 +37,14 @@
    "archivo": "ALERTS_LOG.md",
    "quien": "Principal /30min",
    "estado": "ok",
-   "edad_h": 0.9,
+   "edad_h": 1.2,
    "kb": 556.5
   },
   {
    "archivo": "DECISIONS_LOG.md",
    "quien": "Principal",
    "estado": "ROTO",
-   "edad_h": 124.1,
+   "edad_h": 124.3,
    "kb": 10.2
   }
  ],
@@ -326,6 +326,11 @@
    "fecha": "2026-10-05"
   },
   {
+   "rama": "po/hb207",
+   "commits": 1,
+   "fecha": "2026-10-05"
+  },
+  {
    "rama": "po/hb56-forma-raids",
    "commits": 1,
    "fecha": "2026-09-30"
@@ -494,23 +499,23 @@
   },
   {
    "dia": "2026-10-05",
-   "llamadas": 719,
-   "prompt": 86163845,
-   "cache_read": 80832115,
-   "cache_pct": 93.8,
-   "prompt_por_llamada": 119838,
+   "llamadas": 761,
+   "prompt": 90998873,
+   "cache_read": 85589187,
+   "cache_pct": 94.1,
+   "prompt_por_llamada": 119578,
    "por_agente": [
     {
      "agente": "default",
-     "llamadas": 407,
-     "prompt": 55356504,
-     "cache_pct": 93.2
+     "llamadas": 420,
+     "prompt": 57214323,
+     "cache_pct": 93.3
     },
     {
      "agente": "product-owner",
-     "llamadas": 158,
-     "prompt": 16828224,
-     "cache_pct": 95.6
+     "llamadas": 187,
+     "prompt": 19805433,
+     "cache_pct": 96.1
     },
     {
      "agente": "architect",
