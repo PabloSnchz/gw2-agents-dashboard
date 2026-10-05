@@ -1,14 +1,49 @@
 {
- "generado_utc": "20261005T000649Z",
- "generado_h": "2026-10-05 00:06 UTC",
+ "generado_utc": "20261005T002139Z",
+ "generado_h": "2026-10-05 00:21 UTC",
  "origen": "git local + ls-remote (sin cuota). protected cacheado TTL 6h.",
  "commits": [
+  {
+   "sha": "ca673ac52ea6703402d864607afe793e7d07baf7",
+   "short": "ca673ac",
+   "autor": "Pablo Sanchez",
+   "fecha": "2026-09-29T12:36:34-03:00",
+   "msg": "fix(homestead): normalizar glyphs de la API (schema real = strings, no objetos)"
+  },
+  {
+   "sha": "41c79d85e358f74a63bb4745aa808dcaa1c2c3ae",
+   "short": "41c79d8",
+   "autor": "Pablo Sanchez",
+   "fecha": "2026-10-04T20:46:18-03:00",
+   "msg": "feat(homestead): wiring de e855e67 a mano sobre main, sin merge  El modulo js/homestead-tracker.js YA estaba en main, identico byte a byte a e855e67 (verificado con fc /b). Faltaba todo el wiring, y sin el el modulo fallaba en el primer fetch con TypeError: llama 5 metodos que no existian (medido: 0 matches de getHomestead* en main).  El numero que circulaba --'257 archivos, 88706 borrados'-- es ruido: la rama nacio 53 commits atras. No se hizo merge, que habria revertido el sharding de la Idea 49. Se extrajeron a mano los 3 bloques de e855e67:  - index.html: el <section id=homesteadTrackerPanel>, el   <a id=navHomestead> en el side-nav, y el <script defer> del modulo.   Ubicados junto a sus pares, no al final del archivo. - js/api-gw2.js: los 5 metodos (2 TTL nuevos), respetando el patron de   cache/inflightOnce/fetchWithRetry del archivo actual. No se copio el   archivo entero: api-gw2.js cambio 1940 lineas desde la base de la rama. - js/router.js: la entrada en el mapa de vistas, la rama del switch de   showPanel, el call site de activate, y el bloque de gn:tokenchange.  Correccion de un comentario que el wiring dejo viejo: MODULOS_CON_LATCH exclodia a HomesteadTracker, y la razon escrita (no tiene panel propio, nadie lo activa) era correcta al escribirse pero es falsa con el wiring. Medido hoy: ambas cosas ya no son cero. HomesteadTracker entra al latch, igual que LegendaryTracker.  Icono: assets/icons/Cuentas/homestead-icon.png NO existe en el repo (medido: dir sobre la carpeta). No fue un bloqueo. Se resolvio con SVG inline en el panel y en el nav, que no depende de ningun archivo externo y por lo tanto no puede mostrar borde roto. Verificado ademas contra la API publica que /v2/homestead/glyphs devuelve objetos con id string, item_id y slot -- sin name, sin icon, sin upgrade_item -- lo que confirma que los IDs 21234/21244 de CONFIG.GLYPH_UPGRADES son inventados."
+  },
+  {
+   "sha": "fee1e506ea1ca4be905d213753a27d15728e5d8a",
+   "short": "fee1e50",
+   "autor": "Pablo Sanchez",
+   "fecha": "2026-10-04T21:07:57-03:00",
+   "msg": "merge(hb197/hb198): docblock de esquema en api-gw2.js + ALERT-260 + rescates  Trabajo TERMINADO de 2 ciclos mios sin mergear (HB#197 y HB#198), encontrado por el merge sin dejar nada afuera (merge-tree exit 0, 0 conflictos).  Verificado antes de mergear: - ALERT-260 (las '19 mergeables' de la ronda 64): 0 lo son. Todas son un   replace que pierde 56 a 1311 lineas de main. 'Solo tocan archivos del PO' es   condicion de RUTA; 'mergeable sin perdida' es de CONTENIDO. - El P3 de la ronda 65 del PO (5 lineas de prosa) YA estaba hecho en 531a5fe.   No lo rehice: lo mergee. - ORG_MAP.md: la rama NO lo edito (sha 80cde0f == el de 714ae3e). El -92/+11   del diff era el merge del Arquitecto de este mismo ciclo. - suite con este merge: 4581 pass / 0 FAIL en 86 archivos."
+  },
   {
    "sha": "d8139e61b1dd7a3c8ca956023d8e87d6369c96b9",
    "short": "d8139e6",
    "autor": "Pablo Sanchez",
    "fecha": "2026-10-04T21:03:54-03:00",
    "msg": "merge(arq): chore-proceso-promocion-medido a main  Rama del Arquitecto, 1 commit (0cb87d0), +92/-11 sobre ORG_MAP.md. Verificado antes de mergear: - hb197 (ronda 65 del PO) NO toca ORG_MAP.md: su --stat da solo   DASHBOARD_PO_IDEAS.md (+62) y PRE_BACKLOG.md (+113/-1). Los -79 y -120   del diff contra main NO son borrados de esta rama: su unico commit no   toca esos dos archivos (commits=0). Es main avanzando. - ALERT-258 CONFIRMADO: worktree CRLF (291 CRLF), blob de main LF puro.   Stage con -c core.autocrlf=false para no committed el CRLF. - Blob resultante debe quedar identico al que declaro el Arquitecto   (8f0295d94005b04fc1b861c43377b5cddebc84c5)."
+  },
+  {
+   "sha": "9366bf70fa616c26af9a5cd61a0288d7345998e8",
+   "short": "9366bf7",
+   "autor": "Pablo Sanchez",
+   "fecha": "2026-10-04T20:37:40-03:00",
+   "msg": "docs(hb198): TEAM_STATUS del ciclo + regla de instrumentos citados del Arquitecto  Rescate de trabajo terminado sin commitear. El arbol abrio sucio con AGENTS.md y TEAM_STATUS.md modificados (3353 inserciones, 0 borrados) en la rama chore-hb197-docblock-esquema, que ademas arrastra el commit 531a5fe (rescate del HB#197) que NO esta en origin/main.  Que aporta: 1) TEAM_STATUS.md, bloque del HB#198 (3325 lineas). El rescate del    HB#197 quedo commiteado en 531a5fe pero la rama nunca se mergeo a    main, asi que 2 ciclos seguidos de trabajo quedaron invisibles para    la Pages de dev. 2) AGENTS.md, regla de los instrumentos citados (28 lineas), escrita    por el Arquitecto: un commit que nombra una ruta tiene que poder    hallarla. 7 de los 8 instrumentos citados en 973 commits no existen    en el repo.  Verificado antes de commitear (contra origin/main @ 714ae3e): - modo de EOL identico worktree/blob en los 2: AGENTS LF PURO,   TEAM_STATUS CRLF PURO - BOM delta 0/0, encoding delta cjk/fw/cyr/ufffd = 0/0/0/0 - diff de insercion pura: 3353 inserciones / 0 borrados - stage con core.autocrlf=false, para no convertir el CRLF de   TEAM_STATUS.md"
+  },
+  {
+   "sha": "531a5fec6638bd18bee8bc89d22a1876774ce34d",
+   "short": "531a5fe",
+   "autor": "Pablo Sanchez",
+   "fecha": "2026-10-04T19:34:14-03:00",
+   "msg": "docs(api-gw2,alerts): rescate de HB#197 - docblock de esquema + ALERT-260  Rescate de trabajo terminado sin commitear. El arbol abrio sucio con ALERTS_LOG.md y js/api-gw2.js modificados (160 inserciones, 0 borrados) en la rama chore-hb197-docblock-esquema, sin commits propios. mtimes de ambos (22:09:14 y 22:29:22 UTC) anteriores al arranque de este ciclo (22:30:05) y estables en la re-medicion: escritor MUERTO, trabajo TERMINADO (PASO -1 pto 3).  Que aporta:  1) api-gw2.js, docblock (26 lineas). Las claves de cache NO codifican la version    del esquema: kMem/kLS son base + separador + fpToken(token), y de los 18 sitios    de lectura/escritura solo 2 piden ?v=latest. No hay ninguna pieza del sistema    que diga 'esto se lleno con el esquema viejo'. Hoy NO es un bug (la API no    cambia desde 2025-08-29 y el unico breaking change de ese dia no toca la app),    pero es una ventana SIN CALIBRAR. Documenta tambien que el escape ya existe y    esta medido: cacheClear() v2.29.0 con dryRun, boton en Ajustes, registro que    cubre los 18. Y lo que NO se hizo: poner ?v=latest en los 16 restantes seria    optar a todo cambio de la API para siempre.  2) ALERTS_LOG.md, ALERT-260 (134 lineas). Las '19 mergeables' de la ronda 64 del    PO no son 19 mergeables: 0 lo son. Todas son un replace que pierde 56 a 1311    lineas de main. 'Solo tocan archivos del PO' es condicion de RUTA; 'mergeable    sin perdida' es condicion de CONTENIDO, y ninguna cumple la segunda.  Cumple la propuesta P3 de la ronda 65 del PO (1 docblock, 5 lineas utiles).  Verificado antes de commitear: - node --check js/api-gw2.js: OK - encoding delta contra origin/main @ 714ae3e: cjk/fw/cyr/ufffd = 0/0/0/0 en ambos - EOL: worktree LF PURO en ambos, blob de origin/main LF PURO en ambos - las 19 cifras de la ronda 64 medidas una por una, coinciden con el PO - mount_guid = 0 usos reales y /v2/mounts = 0: los hits que aparecen son el   propio docblock citandose, no codigo. El PO lo advertia y tenia razon."
   },
   {
    "sha": "714ae3e9e34a15aaefcbf8e4b53d4fce771d2f14",
@@ -317,41 +352,6 @@
    "autor": "Pablo Sanchez",
    "fecha": "2026-10-03T02:14:54-03:00",
    "msg": "docs(hb161): el espejo de HEARTBEAT.md estaba desactualizado y los 2 chequeos del banner lo approveban"
-  },
-  {
-   "sha": "87ee48172c4ee1d48db95cdd12886e63d92180dc",
-   "short": "87ee481",
-   "autor": "Pablo Sanchez",
-   "fecha": "2026-10-03T01:46:47-03:00",
-   "msg": "HB#158 - ALERT-227: el paso 3 resolvia la rama del PO por FECHA, y la fecha dice lo contrario de lo que busca"
-  },
-  {
-   "sha": "7bfd8f4815584a1b805d1f0e8c1c789aafb3294b",
-   "short": "7bfd8f4",
-   "autor": "Pablo Sanchez",
-   "fecha": "2026-10-03T01:43:24-03:00",
-   "msg": "merge(po): f2b5a82 - poda de la ronda 47 del PO (HB#160), reencuadra L88 Coberturable y L242 WvW  Verificado antes de mergear, no despues: - Encoding DELTA contra main: CJK 0/0, U+FFFD 0/0, sin BOM. - EOL: main ya es LF puro (424 LF, 0 CRLF); hb160 tambien (400 LF, 0 CRLF).   NO es un archivo CRLF con LF sueltos: es LF en los dos. Sin mezcla. - git apply --check: aplica limpio. Control negativo (--reverse): FALLA, o sea   el parche no esta ya aplicado y el control discrimina. - Es el UNICO commit de hb160 que no esta en main.  El commit del PO sobre BACKLOG.md es correcto y lo requested el propio PO ('el PO no mergea: queda para el Principal')."
-  },
-  {
-   "sha": "159611c0fcef98ef762fb9d88541c1ca9818fc99",
-   "short": "159611c",
-   "autor": "Pablo Sanchez",
-   "fecha": "2026-10-03T01:20:05-03:00",
-   "msg": "docs(hb159): los 11 task_id del PASO 1 dan 404, y el veredicto del Reviewer era (B) con mi premisa FALSA"
-  },
-  {
-   "sha": "f2b5a822865c7b9cac6ddef243e8929f3d99c10c",
-   "short": "f2b5a82",
-   "autor": "Pablo Sanchez",
-   "fecha": "2026-10-03T01:08:28-03:00",
-   "msg": "docs(poda): reencuadra 2 de las 4 filas abiertas - el plazo no se puede escribir, y el Tramo 2 ya estaba"
-  },
-  {
-   "sha": "ceb5a601b724fa42767003590bb5846c55de5dbc",
-   "short": "ceb5a60",
-   "autor": "Pablo Sanchez",
-   "fecha": "2026-10-03T00:11:20-03:00",
-   "msg": "docs(hb158): seccion de TEAM_STATUS del ciclo - rescate de HB#157, y la hora que un ciclo firma sobre si mismo no cierra nada"
   }
  ],
  "archivos_md": [
@@ -398,9 +398,9 @@
    "repo": "gw2-wallet-agents",
    "label": "Desarrollo",
    "role": "dev",
-   "sha": "714ae3e9e34a15aaefcbf8e4b53d4fce771d2f14",
-   "short_sha": "714ae3e",
-   "commit": "docs(po/hb196): RECOLECTAR - 11 ramas tocan PRE_BACKLOG.md y",
+   "sha": "fee1e506ea1ca4be905d213753a27d15728e5d8a",
+   "short_sha": "fee1e50",
+   "commit": "docs(api-gw2,alerts): rescate de HB#197 - docblock de",
    "estado": "open",
    "protected": false,
    "protected_fresco": true,
@@ -412,9 +412,9 @@
    "repo": "gw2-agents-dashboard",
    "label": "Dashboard",
    "role": "dashboard",
-   "sha": "4074441797d5244e379bb3f92b606b7e684dff2f",
-   "short_sha": "4074441",
-   "commit": "fix: el onclick del boton Copiar viaja con el boton",
+   "sha": "96aac1ec1764e6b514036db8fe45e097c6b3d848",
+   "short_sha": "96aac1e",
+   "commit": "fix: el deep-link #/consultas no abria la tab",
    "estado": "open",
    "protected": false,
    "protected_fresco": true,
