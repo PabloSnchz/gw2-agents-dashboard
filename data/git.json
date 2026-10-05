@@ -1,8 +1,15 @@
 {
- "generado_utc": "20261005T132131Z",
- "generado_h": "2026-10-05 13:21 UTC",
+ "generado_utc": "20261005T133630Z",
+ "generado_h": "2026-10-05 13:36 UTC",
  "origen": "git local + ls-remote (sin cuota). protected cacheado TTL 6h.",
  "commits": [
+  {
+   "sha": "712f846d5752729907ab71a2895d2cb2924421f0",
+   "short": "712f846",
+   "autor": "Pablo Sanchez",
+   "fecha": "2026-10-05T10:33:40-03:00",
+   "msg": "docs(producto): bump de versiones de API/UI en README y entrada de Skins + keptBytes en CHANGELOG (rescate del arbol)"
+  },
   {
    "sha": "7bfc8bc721a31bbba796a4ff1043e8ebf87bc4c8",
    "short": "7bfc8bc",
@@ -345,13 +352,6 @@
    "autor": "Pablo Sanchez",
    "fecha": "2026-10-03T10:23:57-03:00",
    "msg": "docs(hb244): rescate del ciclo HB#244 - ALERT-244 y la tabla de control de carga vive en el canonico"
-  },
-  {
-   "sha": "d342c3c3791d90e8cf86a43ea14813f2c8bda5b8",
-   "short": "d342c3c",
-   "autor": "Pablo Sanchez",
-   "fecha": "2026-10-03T09:12:55-03:00",
-   "msg": "docs(hb173): ALERT-243 - el eje de conteo tiene TRES formas, no dos, y el umbral de MODO PODA esta a 1"
   }
  ],
  "archivos_md": [
@@ -412,9 +412,9 @@
    "repo": "gw2-agents-dashboard",
    "label": "Dashboard",
    "role": "dashboard",
-   "sha": "59073b115d8623c61cb8568669e79cf6ee4f8f32",
-   "short_sha": "59073b1",
-   "commit": "chore(dashboard): pulso automatico 2026-10-05_13-06_UTC",
+   "sha": "a52c59622889a88b734ae95902277571797eef1d",
+   "short_sha": "a52c596",
+   "commit": "chore(dashboard): pulso automatico 2026-10-05_13-21_UTC",
    "estado": "open",
    "protected": false,
    "protected_fresco": true,

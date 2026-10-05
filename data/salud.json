@@ -1,12 +1,12 @@
 {
- "generado_utc": "20261005T132104Z",
- "generado_h": "2026-10-05 13:21 UTC",
+ "generado_utc": "20261005T133603Z",
+ "generado_h": "2026-10-05 13:36 UTC",
  "archivos_estado": [
   {
    "archivo": "TEAM_STATUS.md",
    "quien": "Principal /30min",
    "estado": "ROTO",
-   "edad_h": 4.7,
+   "edad_h": 5.0,
    "kb": 328.7,
    "crecimiento": "EXCEDE 80 KB (329 KB)"
   },
@@ -14,7 +14,7 @@
    "archivo": "SESSION_LOG.md",
    "quien": "Documentador /4h",
    "estado": "ROTO",
-   "edad_h": 59.2,
+   "edad_h": 59.5,
    "kb": 309.5,
    "crecimiento": "EXCEDE 60 KB (310 KB)"
   },
@@ -22,14 +22,14 @@
    "archivo": "COMMS_LOG.md",
    "quien": "Principal /30min",
    "estado": "ROTO",
-   "edad_h": 45.4,
+   "edad_h": 45.6,
    "kb": 254.2
   },
   {
    "archivo": "PRE_BACKLOG.md",
    "quien": "PO /2h",
    "estado": "RARO",
-   "edad_h": 4.7,
+   "edad_h": 5.0,
    "kb": 367.6,
    "crecimiento": "EXCEDE 120 KB (368 KB)"
   },
@@ -37,14 +37,14 @@
    "archivo": "ALERTS_LOG.md",
    "quien": "Principal /30min",
    "estado": "ok",
-   "edad_h": 0.2,
+   "edad_h": 0.4,
    "kb": 554.5
   },
   {
    "archivo": "DECISIONS_LOG.md",
    "quien": "Principal",
    "estado": "ROTO",
-   "edad_h": 131.3,
+   "edad_h": 131.6,
    "kb": 10.2
   }
  ],
@@ -494,17 +494,17 @@
   },
   {
    "dia": "2026-10-05",
-   "llamadas": 1507,
-   "prompt": 183317954,
-   "cache_read": 171384603,
-   "cache_pct": 93.5,
-   "prompt_por_llamada": 121644,
+   "llamadas": 1541,
+   "prompt": 187019392,
+   "cache_read": 174350663,
+   "cache_pct": 93.2,
+   "prompt_por_llamada": 121362,
    "por_agente": [
     {
      "agente": "default",
-     "llamadas": 946,
-     "prompt": 128510172,
-     "cache_pct": 93.4
+     "llamadas": 968,
+     "prompt": 131402904,
+     "cache_pct": 93.2
     },
     {
      "agente": "product-owner",
@@ -514,9 +514,9 @@
     },
     {
      "agente": "architect",
-     "llamadas": 186,
-     "prompt": 17848630,
-     "cache_pct": 91.0
+     "llamadas": 198,
+     "prompt": 18657336,
+     "cache_pct": 89.5
     },
     {
      "agente": "documenter",
@@ -536,7 +536,7 @@
  "dashboard": [
   {
    "archivo": "comms.json",
-   "edad_min": 0.4,
+   "edad_min": 0.5,
    "estado": "ok"
   },
   {
