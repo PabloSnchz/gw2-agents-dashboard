@@ -1,6 +1,6 @@
 {
- "generado_utc": "20261005T032129Z",
- "generado_h": "2026-10-05 03:21 UTC",
+ "generado_utc": "20261005T033628Z",
+ "generado_h": "2026-10-05 03:36 UTC",
  "origen": "git local + ls-remote (sin cuota). protected cacheado TTL 6h.",
  "commits": [
   {
@@ -412,9 +412,9 @@
    "repo": "gw2-agents-dashboard",
    "label": "Dashboard",
    "role": "dashboard",
-   "sha": "f692b3aee2cf03dcfdafb41615dcaeae57176805",
-   "short_sha": "f692b3a",
-   "commit": "cierra ARQ-ARMERIA-MIPROGRESO-001: la consulta estaba",
+   "sha": "2782f0aea6eebdcf722fcdaa22c9062a8a1b1ad8",
+   "short_sha": "2782f0a",
+   "commit": "chore(dashboard): pulso automatico 2026-10-05_03-21_UTC",
    "estado": "open",
    "protected": false,
    "protected_fresco": true,
