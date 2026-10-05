@@ -1,6 +1,6 @@
 {
- "generado_utc": "20261005T212145Z",
- "generado_h": "2026-10-05 21:21 UTC",
+ "generado_utc": "20261005T213634Z",
+ "generado_h": "2026-10-05 21:36 UTC",
  "origen": "git local + ls-remote (sin cuota). protected cacheado TTL 6h.",
  "commits": [
   {
@@ -392,7 +392,11 @@
    "protected_fresco": true,
    "protected_verificado_utc": "20261005T170634Z",
    "proteccion_detalle": null,
-   "proteccion_detalle_motivo": "sin token"
+   "proteccion_detalle_motivo": "sin token",
+   "rama": "main",
+   "sin_commitear": 0,
+   "archivos_modificados": [],
+   "clon_error": null
   },
   {
    "repo": "gw2-wallet-agents",
@@ -406,21 +410,43 @@
    "protected_fresco": true,
    "protected_verificado_utc": "20261005T170635Z",
    "proteccion_detalle": null,
-   "proteccion_detalle_motivo": "sin token"
+   "proteccion_detalle_motivo": "sin token",
+   "rama": "fix-armeia-tengo-materiales",
+   "sin_commitear": 6,
+   "archivos_modificados": [
+    "M LERTS_LOG.md",
+    "M EARTBEAT.md",
+    "M ools/hb163-canales.mjs",
+    "?? CONSULTAS.md",
+    "?? _check_comms.py",
+    "?? tests/arme-tengo-materiales.test.js"
+   ],
+   "clon_error": null
   },
   {
    "repo": "gw2-agents-dashboard",
    "label": "Dashboard",
    "role": "dashboard",
-   "sha": "b3e27c885e4595309fb264c2323b2cb9ba66f3f1",
-   "short_sha": "b3e27c8",
-   "commit": "chore(dashboard): pulso automatico 2026-10-05_21-06_UTC",
+   "sha": "928c6d16dc265b8b2be51fc0f187c29ddc7e493e",
+   "short_sha": "928c6d1",
+   "commit": "chore(dashboard): pulso automatico 2026-10-05_21-21_UTC",
    "estado": "open",
    "protected": false,
    "protected_fresco": true,
    "protected_verificado_utc": "20261005T170637Z",
    "proteccion_detalle": null,
-   "proteccion_detalle_motivo": "sin token"
+   "proteccion_detalle_motivo": "sin token",
+   "rama": "main",
+   "sin_commitear": 6,
+   "archivos_modificados": [
+    "M ata/comms.json",
+    "M ata/estructura.json",
+    "M ata/git.json",
+    "M ata/salud.json",
+    "?? _write_test.py",
+    "?? js/desarrollo.js"
+   ],
+   "clon_error": null
   }
  ]
 }
