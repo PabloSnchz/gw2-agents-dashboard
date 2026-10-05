@@ -1,6 +1,6 @@
 {
- "generado_utc": "20261005T155132Z",
- "generado_h": "2026-10-05 15:51 UTC",
+ "generado_utc": "20261005T160630Z",
+ "generado_h": "2026-10-05 16:06 UTC",
  "origen": "git local + ls-remote (sin cuota). protected cacheado TTL 6h.",
  "commits": [
   {
@@ -412,9 +412,9 @@
    "repo": "gw2-agents-dashboard",
    "label": "Dashboard",
    "role": "dashboard",
-   "sha": "3984253e553d79ba7e915bda65137a8737a76635",
-   "short_sha": "3984253",
-   "commit": "feat: dashboard con foco en lo que decide Pablo, no en el",
+   "sha": "39d6e981ca5868de24b126ccffa7211183b36801",
+   "short_sha": "39d6e98",
+   "commit": "chore(dashboard): pulso automatico 2026-10-05_15-51_UTC",
    "estado": "open",
    "protected": false,
    "protected_fresco": true,
