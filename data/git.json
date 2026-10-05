@@ -1,8 +1,29 @@
 {
- "generado_utc": "20261005T080629Z",
- "generado_h": "2026-10-05 08:06 UTC",
+ "generado_utc": "20261005T082131Z",
+ "generado_h": "2026-10-05 08:21 UTC",
  "origen": "git local + ls-remote (sin cuota). protected cacheado TTL 6h.",
  "commits": [
+  {
+   "sha": "7bfc8bc721a31bbba796a4ff1043e8ebf87bc4c8",
+   "short": "7bfc8bc",
+   "autor": "Pablo Sanchez",
+   "fecha": "2026-10-05T05:14:53-03:00",
+   "msg": "docs(hb210): rescate del HB#209 (ALERT-264) + ronda 66 del PO, y el control que faltaba para mergear ramas divergentes"
+  },
+  {
+   "sha": "8d9707a71932f54ee49e6c17427c37d9964f306b",
+   "short": "8d9707a",
+   "autor": "Pablo Sanchez",
+   "fecha": "2026-10-05T05:09:05-03:00",
+   "msg": "docs(rescate hb209): ALERT-264 - el parrafo de carga transcribia un valor y el valor se pudre"
+  },
+  {
+   "sha": "411b9008bc849719229589821fc31ead28a9d3d7",
+   "short": "411b900",
+   "autor": "Pablo Sanchez",
+   "fecha": "2026-10-05T05:08:11-03:00",
+   "msg": "merge(po): hb205-1 al main - ronda 66 con la 65 adentro (+93/+95 en 2 .md, 0 borrados)"
+  },
   {
    "sha": "50ca91f6466220914586bdd4a6f0ad20c59c190f",
    "short": "50ca91f",
@@ -23,6 +44,13 @@
    "autor": "Pablo Sanchez",
    "fecha": "2026-10-05T02:09:01-03:00",
    "msg": "rescue(hb206): documentacion del ciclo muerto + ALERT-263 + fix del docblock"
+  },
+  {
+   "sha": "f17960a59066a045a13958c97f5bf59d86fb73f7",
+   "short": "f17960a",
+   "autor": "Pablo Sanchez",
+   "fecha": "2026-10-05T00:59:28-03:00",
+   "msg": "PO ronda 67 (HB#205): RECOLECTAR. El TRAMO A mueve [x] y el control cuenta [ ]; y la fila que decidia el wiring de Homestead ya la decidio otro"
   },
   {
    "sha": "c7f329a260a7fce6de91741af6accb456a953a19",
@@ -324,34 +352,6 @@
    "autor": "Pablo Sanchez",
    "fecha": "2026-10-03T09:12:55-03:00",
    "msg": "docs(hb173): ALERT-243 - el eje de conteo tiene TRES formas, no dos, y el umbral de MODO PODA esta a 1"
-  },
-  {
-   "sha": "ac205dcef382e149703efab59caca07065df3bff",
-   "short": "ac205dc",
-   "autor": "Pablo Sanchez",
-   "fecha": "2026-10-03T08:41:10-03:00",
-   "msg": "docs(hb172): ALERT-242 - un conteo por subcadena no puede decidir si un 0 es medicion"
-  },
-  {
-   "sha": "4dd5cca26af55ec8616003973a103e0c376d8d0d",
-   "short": "4dd5cca",
-   "autor": "Pablo Sanchez",
-   "fecha": "2026-10-03T08:39:26-03:00",
-   "msg": "docs(hb172): el guard del paso 3 esta sano y mi contador no - el eje es anclado vs subcadena"
-  },
-  {
-   "sha": "b366eb9298a01db1ebcfdfb8a32529640af07900",
-   "short": "b366eb9",
-   "autor": "Pablo Sanchez",
-   "fecha": "2026-10-03T08:10:44-03:00",
-   "msg": "docs(hb171): ALERT-241 - una regex anclada en $ por linea no da 0 sobre CRLF, da SOLO LA ULTIMA LINEA, y el 0 que se vio fue suerte"
-  },
-  {
-   "sha": "1ad8a080463d12cba15273022ab619a7ac6da858",
-   "short": "1ad8a08",
-   "autor": "Pablo Sanchez",
-   "fecha": "2026-10-03T07:45:00-03:00",
-   "msg": "docs(hb170): ALERT-240 - el corte de seccion puede invertir el veredicto de una ronda del PO. El bloque de la ronda 49 son 90 lineas y mis 8 lineas decia PAUSA-cero-propuestas; con 90 hay 2 tramos. Confirma la tesis del glifo [x] ambiguo contra HEARTBEAT.md:643 y refuta 2 cifras: Completed no esta vacia (17 casillas) y son 18 filas no 21. No se manda nada al Reviewer."
   }
  ],
  "archivos_md": [
@@ -412,9 +412,9 @@
    "repo": "gw2-agents-dashboard",
    "label": "Dashboard",
    "role": "dashboard",
-   "sha": "79ad3c10a6cfd778529081a222358fe6b371a435",
-   "short_sha": "79ad3c1",
-   "commit": "chore(dashboard): pulso automatico 2026-10-05_07-51_UTC",
+   "sha": "816bbcd334400b8be2e344c636d922d5398195a8",
+   "short_sha": "816bbcd",
+   "commit": "chore(dashboard): pulso automatico 2026-10-05_08-06_UTC",
    "estado": "open",
    "protected": false,
    "protected_fresco": true,

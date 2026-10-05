@@ -1,9 +1,9 @@
 {
-  "generado_utc": "2026-10-05T07:51:34Z",
+  "generado_utc": "2026-10-05T08:21:34Z",
   "base_url": "https://pablosnchz.github.io/gw2-wallet-agents/",
   "origen_config": "PabloSnchz/gw2-wallet-agents@main",
   "fuente": "gw2-dev/index.html (menu lateral) + js/router.js (sub-vistas)",
-  "fuente_sha": "50ca91f",
+  "fuente_sha": "7bfc8bc",
   "total": 11,
   "rutas": [
     {
