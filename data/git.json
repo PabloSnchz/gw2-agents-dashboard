@@ -1,8 +1,15 @@
 {
- "generado_utc": "20261005T050628Z",
- "generado_h": "2026-10-05 05:06 UTC",
+ "generado_utc": "20261005T052130Z",
+ "generado_h": "2026-10-05 05:21 UTC",
  "origen": "git local + ls-remote (sin cuota). protected cacheado TTL 6h.",
  "commits": [
+  {
+   "sha": "47a1d4cba2485287909ec3706d51421f9e0b98c7",
+   "short": "47a1d4c",
+   "autor": "Pablo Sanchez",
+   "fecha": "2026-10-05T02:09:01-03:00",
+   "msg": "rescue(hb206): documentacion del ciclo muerto + ALERT-263 + fix del docblock"
+  },
   {
    "sha": "c7f329a260a7fce6de91741af6accb456a953a19",
    "short": "c7f329a",
@@ -345,13 +352,6 @@
    "autor": "Pablo Sanchez",
    "fecha": "2026-10-03T06:37:33-03:00",
    "msg": "docs(hb168): ALERT-238 - el texto \"para pegar\" del PO traia un control positivo falso"
-  },
-  {
-   "sha": "6fda7fac416a1ac6846a02d82f24a2da85135414",
-   "short": "6fda7fa",
-   "autor": "Pablo Sanchez",
-   "fecha": "2026-10-03T06:06:31-03:00",
-   "msg": "docs(hb167): ALERT-237 - la medicion correcta no llego a la fila que la decide"
   }
  ],
  "archivos_md": [
@@ -398,9 +398,9 @@
    "repo": "gw2-wallet-agents",
    "label": "Desarrollo",
    "role": "dev",
-   "sha": "c7f329a260a7fce6de91741af6accb456a953a19",
-   "short_sha": "c7f329a",
-   "commit": "docs(hb205): merge de la punta 66 con la 65 adentro, y la",
+   "sha": "47a1d4cba2485287909ec3706d51421f9e0b98c7",
+   "short_sha": "47a1d4c",
+   "commit": "rescue(hb206): documentacion del ciclo muerto + ALERT-263 +",
    "estado": "open",
    "protected": false,
    "protected_fresco": true,
@@ -412,9 +412,9 @@
    "repo": "gw2-agents-dashboard",
    "label": "Dashboard",
    "role": "dashboard",
-   "sha": "52140d1e8cb5bdabbbc337aed7657fc932d7855e",
-   "short_sha": "52140d1",
-   "commit": "chore(dashboard): pulso automatico 2026-10-05_04-51_UTC",
+   "sha": "dcba3e43d7226674d24e14e965c83b0e766cb59f",
+   "short_sha": "dcba3e4",
+   "commit": "chore(dashboard): pulso automatico 2026-10-05_05-06_UTC",
    "estado": "open",
    "protected": false,
    "protected_fresco": true,
