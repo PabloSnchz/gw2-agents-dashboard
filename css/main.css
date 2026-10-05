@@ -511,6 +511,23 @@ body {
     overflow-x: auto;
     scrollbar-width: thin;
 }
+.dashboard-tab-row {
+    display: flex;
+    gap: 4px;
+    align-items: center;
+}
+.dashboard-tab-drag-hint {
+    color: #555;
+    font-size: 0.85rem;
+    padding: 0 6px;
+    cursor: grab;
+    user-select: none;
+    opacity: 0.5;
+}
+.dashboard-tab-drag-hint:hover {
+    opacity: 0.9;
+    color: #888;
+}
 .dashboard-tab {
     padding: 10px 20px;
     background: none;
@@ -519,7 +536,7 @@ body {
     color: #888;
     font-size: 0.9rem;
     font-weight: 600;
-    cursor: pointer;
+    cursor: grab;
     transition: all 0.15s ease;
     white-space: nowrap;
     margin-bottom: -1px;
@@ -529,8 +546,17 @@ body {
     background: rgba(255,255,255,0.02);
 }
 .dashboard-tab.active {
-    color: #e0e0e0;
+    color: #e0e0d0;
     border-bottom-color: #6a1b9a;
+}
+.dashboard-tab-dragging {
+    opacity: 0.45;
+    border-bottom-color: transparent;
+}
+.dashboard-tab-row-drag-over {
+    outline: 1px dashed rgba(255,255,255,0.25);
+    outline-offset: -2px;
+    border-radius: 4px;
 }
 
 /* ===== Tab Contents ===== */

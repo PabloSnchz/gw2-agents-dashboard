@@ -23,8 +23,15 @@
     let commsSortState = null;
     let commsFilterState = { statusFilter: 'all', importanceFilter: 'all', searchTerm: '' };
 
-    // Estado del tab activo
-    const TAB_STORAGE_KEY = 'gn:dashboard:active-tab:v2';
+    // Estado de las tabs: ORDEN (array) + activa (string). 2026-10-05.
+    // Antes era solo el tab activo, un escalar. Eso no permitia reordenar:
+    // si Pablo queria Consultas primero, habia que hardcodearlo en VALID_TABS.
+    // Ahora el orden es un array guardado, y arrastrar los botones lo
+    // modifica. Dos keys separados: el :v2 guardaba solo el tab activo, un
+    // string, y lo usaba tanto para la tab activa como para el orden, lo que
+    // era confuso. El orden es un array; la tab activa, un string.
+    const TAB_ORDER_STORAGE_KEY = 'gn:dashboard:tab-order:v3';
+    const TAB_ACTIVE_STORAGE_KEY = 'gn:dashboard:active-tab:v3';
     // OJO: esta lista decide que tabs funcionan. setDashboardTab hace
     // `if (!VALID_TABS.includes(tabName)) return;`, asi que un tab que no este
     // aca NO cambia: el click no hace nada y no hay error en consola. Cuando se
@@ -38,12 +45,110 @@
       // entrada falta, el boton no hace nada y no hay error en consola.
       const VALID_TABS = ['consultas', 'resumen', 'equipo', 'historial', 'proximas', 'promociones', 'salud', 'estructura', 'logs', 'notas'];
 
+    // Orden persistido de las tabs, o el default si no hay nada guardado.
+    // Se lee una sola vez al init y se escribe cada vez que cambia el orden.
+    let tabOrder = null;
+
+    function loadTabOrder() {
+        try {
+            const raw = localStorage.getItem(TAB_ORDER_STORAGE_KEY);
+            if (raw) {
+                const parsed = JSON.parse(raw);
+                if (Array.isArray(parsed) && parsed.length === VALID_TABS.length
+                    && VALID_TABS.every(t => parsed.includes(t))) {
+                    tabOrder = parsed;
+                    return;
+                }
+            }
+        } catch (e) { /* corrupto: cae al default */ }
+        tabOrder = VALID_TABS.slice();
+    }
+
+    function saveTabOrder() {
+        try {
+            localStorage.setItem(TAB_ORDER_STORAGE_KEY, JSON.stringify(tabOrder));
+        } catch (e) { /* storage lleno o desactivado: sin efecto, no rompe */ }
+    }
+
+    // Reordena el DOM de los botones segun tabOrder, sin tocar el estado
+    // de la tab activa. Se llama despues de loadTabOrder() y cada vez que
+    // termina un drop. Los contenidos .dashboard-tab-content no se
+    // reordenan: se buscan por data-tab-content, asi que el orden de los
+    // botones es el unico que importa.
+    function applyTabOrder() {
+        const row = document.querySelector('.dashboard-tab-row');
+        if (!row || !tabOrder) return;
+        const btns = Array.from(row.querySelectorAll('.dashboard-tab'));
+        const byTab = {};
+        btns.forEach(b => { byTab[b.dataset.tab] = b; });
+        const hint = row.querySelector('.dashboard-tab-drag-hint');
+        row.innerHTML = '';
+        if (hint) row.appendChild(hint);
+        tabOrder.forEach(t => {
+            const b = byTab[t];
+            if (b) row.appendChild(b);
+        });
+    }
+
+    // Drag and drop entre botones de la barra de tabs.
+    // Cada botón lleva sus propios handlers de dragstart/dragover/drop, y el
+    // contenedor .dashboard-tab-row es el unico target de drop. Asi un drop
+    // que cae fuera del row no se pierde en el body: el row es el contenedor
+    // logico de la barra.
+    //
+    // 2026-10-05. Pablo: 'las tabs del dashboard deberian ser tipo drag and
+    // drop, que las pueda arrastrar y reordenar como me quiera'.
+    window.startTabDrag = function(e) {
+        const btn = e.currentTarget;
+        e.dataTransfer.setData('text/plain', btn.dataset.tab);
+        e.dataTransfer.effectAllowed = 'move';
+        btn.classList.add('dashboard-tab-dragging');
+    };
+
+    window.allowTabDrop = function(e) {
+        e.preventDefault();
+        e.dataTransfer.dropEffect = 'move';
+        const row = e.currentTarget.closest('.dashboard-tab-row');
+        if (row) row.classList.add('dashboard-tab-row-drag-over');
+    };
+
+    window.dropTab = function(e) {
+        e.preventDefault();
+        const from = e.dataTransfer.getData('text/plain');
+        const to = e.currentTarget.dataset.tab;
+        const row = e.currentTarget.closest('.dashboard-tab-row');
+        if (row) row.classList.remove('dashboard-tab-row-drag-over');
+        if (!from || !to || from === to) return;
+        if (!tabOrder) loadTabOrder();
+        const i = tabOrder.indexOf(from);
+        const j = tabOrder.indexOf(to);
+        if (i === -1 || j === -1) return;
+        // splice(i,1) desplaza los índices posteriores: si i < j, el nuevo
+        // índice de `to` es j-1. Sin este ajuste, arrastrar un botón hacia
+        // la derecha lo dejaba un puesto más abajo del previsto. Medido en
+        // tests/tab-drag-reorder.test.js: sin ajuste, 'consultas' sobre
+        // 'equipo' quedaba en la posición de 'equipo', no antes.
+        const item = tabOrder[i];
+        tabOrder.splice(i, 1);
+        const insertAt = i < j ? j - 1 : j;
+        tabOrder.splice(insertAt, 0, item);
+        saveTabOrder();
+        applyTabOrder();
+        // Mantener la tab activa visible despues del reorden.
+        const active = getActiveTab();
+        if (active) {
+            document.querySelectorAll('.dashboard-tab-content').forEach(c => {
+                c.classList.toggle('active', c.dataset.tabContent === active);
+            });
+        }
+    };
+
     // ============ TABS (definido PRIMERO, antes de init) ============
     window.setDashboardTab = function(tabName, silent) {
         if (!VALID_TABS.includes(tabName)) return;
 
         // Guardar en localStorage
-        localStorage.setItem(TAB_STORAGE_KEY, tabName);
+        localStorage.setItem(TAB_ACTIVE_STORAGE_KEY, tabName);
 
         // Actualizar hash (si no es silencioso)
         if (!silent && location.hash !== '#' + tabName) {
@@ -93,9 +198,26 @@
     init();
 
     function init() {
+        // Orden de las tabs (nuevo modelo 2026-10-05). Se carga ANTES de
+        // setDashboardTab porque el reorden del DOM depende de el.
+        loadTabOrder();
+        applyTabOrder();
+
+        // Migrar storage legacy: el key :v2 guardaba solo el tab activo, un
+        // string, y lo usaba tanto para la tab activa como para el orden, lo
+        // que era confuso. Ahora son dos keys separados. Si lo hay, lo uso como
+        // punto de partida para la tab activa y lo elimino para que no se
+        // quede como ruido. No es un reorden: el array se inicializa con
+        // VALID_TABS y la tab activa se conserva en el storage key nuevo.
+        const legacyActive = localStorage.getItem('gn:dashboard:active-tab:v2');
+        if (legacyActive && VALID_TABS.includes(legacyActive)) {
+            localStorage.setItem(TAB_ACTIVE_STORAGE_KEY, legacyActive);
+            try { localStorage.removeItem('gn:dashboard:active-tab:v2'); } catch (e) {}
+        }
+
         // Restaurar tab activo (desde hash o localStorage)
         const hashTab = _tabDelHash();
-        const savedTab = localStorage.getItem(TAB_STORAGE_KEY);
+        const savedTab = localStorage.getItem(TAB_ACTIVE_STORAGE_KEY);
         const initialTab = VALID_TABS.includes(hashTab) ? hashTab
                           : VALID_TABS.includes(savedTab) ? savedTab
                           : 'consultas';
