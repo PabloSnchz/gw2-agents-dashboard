@@ -1,12 +1,12 @@
 {
- "generado_utc": "20261005T190604Z",
- "generado_h": "2026-10-05 19:06 UTC",
+ "generado_utc": "20261005T192102Z",
+ "generado_h": "2026-10-05 19:21 UTC",
  "archivos_estado": [
   {
    "archivo": "TEAM_STATUS.md",
    "quien": "Principal /30min",
    "estado": "ROTO",
-   "edad_h": 10.5,
+   "edad_h": 10.7,
    "kb": 328.7,
    "crecimiento": "EXCEDE 80 KB (329 KB)"
   },
@@ -14,7 +14,7 @@
    "archivo": "SESSION_LOG.md",
    "quien": "Documentador /4h",
    "estado": "ROTO",
-   "edad_h": 65.0,
+   "edad_h": 65.2,
    "kb": 309.5,
    "crecimiento": "EXCEDE 60 KB (310 KB)"
   },
@@ -22,14 +22,14 @@
    "archivo": "COMMS_LOG.md",
    "quien": "Principal /30min",
    "estado": "ROTO",
-   "edad_h": 51.1,
+   "edad_h": 51.4,
    "kb": 254.2
   },
   {
    "archivo": "PRE_BACKLOG.md",
    "quien": "PO /2h",
    "estado": "ROTO",
-   "edad_h": 10.5,
+   "edad_h": 10.7,
    "kb": 367.6,
    "crecimiento": "EXCEDE 120 KB (368 KB)"
   },
@@ -37,14 +37,14 @@
    "archivo": "ALERTS_LOG.md",
    "quien": "Principal /30min",
    "estado": "ROTO",
-   "edad_h": 4.4,
+   "edad_h": 4.7,
    "kb": 563.5
   },
   {
    "archivo": "DECISIONS_LOG.md",
    "quien": "Principal",
    "estado": "ROTO",
-   "edad_h": 137.1,
+   "edad_h": 137.3,
    "kb": 10.2
   }
  ],
@@ -499,11 +499,11 @@
   },
   {
    "dia": "2026-10-05",
-   "llamadas": 2202,
-   "prompt": 258092961,
-   "cache_read": 231748677,
+   "llamadas": 2208,
+   "prompt": 258511497,
+   "cache_read": 232027205,
    "cache_pct": 89.8,
-   "prompt_por_llamada": 117208,
+   "prompt_por_llamada": 117079,
    "por_agente": [
     {
      "agente": "default",
@@ -513,9 +513,9 @@
     },
     {
      "agente": "architect",
-     "llamadas": 450,
-     "prompt": 36366774,
-     "cache_pct": 78.5
+     "llamadas": 456,
+     "prompt": 36785310,
+     "cache_pct": 78.3
     },
     {
      "agente": "product-owner",

@@ -1,6 +1,6 @@
 {
- "generado_utc": "20261005T190603Z",
- "generado_h": "2026-10-05 19:06Z",
+ "generado_utc": "20261005T192101Z",
+ "generado_h": "2026-10-05 19:21Z",
  "fuente": "C:/Users/psanc/.qwenpaw/_comms (canal durable, archivos)",
  "estados": [
   "waiting",
@@ -1600,23 +1600,11 @@
  },
  "disciplina": [
   {
-   "agente": "default",
-   "cadencia_min": 30,
-   "ultima_lectura": "2026-10-05T18:04:25Z",
-   "lecturas": 814,
-   "minutos_sin_mirar": 61,
-   "vigencia": "automatica",
-   "lectura_vencida": false,
-   "umbral_min": 75,
-   "preguntas_sin_responder": 0,
-   "ok": true
-  },
-  {
    "agente": "documenter",
    "cadencia_min": 240,
    "ultima_lectura": "2026-10-05T15:35:52Z",
    "lecturas": 11,
-   "minutos_sin_mirar": 210,
+   "minutos_sin_mirar": 225,
    "vigencia": "automatica",
    "lectura_vencida": false,
    "umbral_min": 600,
@@ -1628,7 +1616,7 @@
    "cadencia_min": null,
    "ultima_lectura": "2026-10-02T06:33:53Z",
    "lecturas": 3,
-   "minutos_sin_mirar": 5072,
+   "minutos_sin_mirar": 5087,
    "vigencia": "bajo demanda",
    "lectura_vencida": false,
    "umbral_min": null,
@@ -1636,11 +1624,23 @@
    "ok": true
   },
   {
+   "agente": "default",
+   "cadencia_min": 30,
+   "ultima_lectura": "2026-10-05T18:04:25Z",
+   "lecturas": 814,
+   "minutos_sin_mirar": 76,
+   "vigencia": "automatica",
+   "lectura_vencida": true,
+   "umbral_min": 75,
+   "preguntas_sin_responder": 0,
+   "ok": false
+  },
+  {
    "agente": "product-owner",
    "cadencia_min": 120,
    "ultima_lectura": "2026-10-03T13:22:23Z",
    "lecturas": 31,
-   "minutos_sin_mirar": 3223,
+   "minutos_sin_mirar": 3238,
    "vigencia": "automatica",
    "lectura_vencida": true,
    "umbral_min": 300,
@@ -1652,7 +1652,7 @@
    "cadencia_min": null,
    "ultima_lectura": "2026-09-30T18:55:15Z",
    "lecturas": 5,
-   "minutos_sin_mirar": 7210,
+   "minutos_sin_mirar": 7225,
    "vigencia": "bajo demanda",
    "lectura_vencida": false,
    "umbral_min": null,
