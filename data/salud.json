@@ -1,12 +1,12 @@
 {
- "generado_utc": "20261006T195115Z",
- "generado_h": "2026-10-06 19:51 UTC",
+ "generado_utc": "20261006T200609Z",
+ "generado_h": "2026-10-06 20:06 UTC",
  "archivos_estado": [
   {
    "archivo": "TEAM_STATUS.md",
    "quien": "Principal /30min",
    "estado": "ROTO",
-   "edad_h": 35.2,
+   "edad_h": 35.5,
    "kb": 328.7,
    "crecimiento": "EXCEDE 80 KB (329 KB)"
   },
@@ -14,7 +14,7 @@
    "archivo": "SESSION_LOG.md",
    "quien": "Documentador /4h",
    "estado": "ROTO",
-   "edad_h": 89.7,
+   "edad_h": 90.0,
    "kb": 309.5,
    "crecimiento": "EXCEDE 60 KB (310 KB)"
   },
@@ -22,28 +22,28 @@
    "archivo": "COMMS_LOG.md",
    "quien": "Principal /30min",
    "estado": "ROTO",
-   "edad_h": 75.9,
+   "edad_h": 76.1,
    "kb": 254.2
   },
   {
    "archivo": "PRE_BACKLOG.md",
    "quien": "PO /2h",
    "estado": "ok",
-   "edad_h": 1.6,
+   "edad_h": 1.9,
    "kb": 1.3
   },
   {
    "archivo": "ALERTS_LOG.md",
    "quien": "Principal /30min",
    "estado": "ROTO",
-   "edad_h": 29.2,
+   "edad_h": 29.4,
    "kb": 563.5
   },
   {
    "archivo": "DECISIONS_LOG.md",
    "quien": "Principal",
    "estado": "ROTO",
-   "edad_h": 161.9,
+   "edad_h": 162.1,
    "kb": 10.2
   }
  ],
@@ -516,17 +516,17 @@
  "dashboard": [
   {
    "archivo": "comms.json",
-   "edad_min": 2.0,
+   "edad_min": 1.1,
    "estado": "ok"
   },
   {
    "archivo": "salud.json",
-   "edad_min": 15.6,
+   "edad_min": 14.1,
    "estado": "ok"
   },
   {
    "archivo": "estructura.json",
-   "edad_min": 2.0,
+   "edad_min": 1.1,
    "estado": "ok"
   }
  ],
