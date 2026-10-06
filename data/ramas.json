@@ -1,18 +1,49 @@
 {
-  "generado": "2026-10-05T07:00:33.943Z",
+  "generado": "2026-10-06T07:02:04.590Z",
   "resumen": {
-    "TOTAL": 130,
-    "BORRABLE": 65,
-    "RESCATAR": 50,
-    "PROTEGIDA": 15
+    "TOTAL": 135,
+    "BORRABLE": 69,
+    "RESCATAR": 49,
+    "PROTEGIDA": 17
   },
   "ramas": [
     {
+      "nombre": "fix-armeia-tengo-materiales",
+      "sha": "e57846a",
+      "fecha": "2026-10-05 12:39:24 -0300",
+      "veredicto": "PROTEGIDA",
+      "motivo": "un worktree activo la esta usando"
+    },
+    {
       "nombre": "main",
-      "sha": "fbc91a7",
-      "fecha": "2026-10-05 02:34:24 -0300",
+      "sha": "c8ad095",
+      "fecha": "2026-10-05 10:37:17 -0300",
       "veredicto": "PROTEGIDA",
       "motivo": "es el trunk"
+    },
+    {
+      "nombre": "chore-hb210-rescate-y-ronda66",
+      "sha": "7bfc8bc",
+      "fecha": "2026-10-05 05:14:53 -0300",
+      "en_main": true,
+      "veredicto": "BORRABLE",
+      "motivo": "su HEAD ya esta en origin/main"
+    },
+    {
+      "nombre": "chore-hb209-rescate-hb208",
+      "sha": "50ca91f",
+      "fecha": "2026-10-05 04:43:11 -0300",
+      "en_main": true,
+      "veredicto": "BORRABLE",
+      "motivo": "su HEAD ya esta en origin/main"
+    },
+    {
+      "nombre": "rescate/hb209-pendiente",
+      "sha": "50ca91f",
+      "fecha": "2026-10-05 04:43:11 -0300",
+      "en_main": true,
+      "veredicto": "BORRABLE",
+      "motivo": "su HEAD ya esta en origin/main"
     },
     {
       "nombre": "po/hb206",
@@ -32,17 +63,16 @@
       "nombre": "po/hb205-1",
       "sha": "f17960a",
       "fecha": "2026-10-05 00:59:39 -0300",
-      "en_main": false,
-      "commits_no_main": 1,
-      "commits_sueltos": 1,
-      "veredicto": "RESCATAR",
-      "motivo": "1 commit(s) cuyo contenido NO esta en main",
-      "rescatar": [
-        {
-          "sha": "f17960a",
-          "resumen": ""
-        }
-      ]
+      "en_main": true,
+      "veredicto": "BORRABLE",
+      "motivo": "su HEAD ya esta en origin/main"
+    },
+    {
+      "nombre": "po/hb209",
+      "sha": "f17960a",
+      "fecha": "2026-10-05 00:59:39 -0300",
+      "veredicto": "PROTEGIDA",
+      "motivo": "un worktree activo la esta usando"
     },
     {
       "nombre": "po/hb202",
