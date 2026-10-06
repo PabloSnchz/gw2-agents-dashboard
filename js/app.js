@@ -194,6 +194,61 @@
             .toLowerCase();
     }
 
+    // ============ MODO AUTOMÁTICO (switch global, cabecera) ============
+    // ON = heartbeats corren, el equipo trabaja solo.
+    // OFF = nada corre. Solo lo que vos apretás en cada tab.
+    // El estado se guarda en localStorage con prefijo gn: para que
+    // sobreviva al refresco del navegador.
+    //
+    // 2026-10-05. Este bloque VA ANTES de init(), no después. La primera
+    // versión lo tenía al final del IIFE y `init()` llamaba a
+    // `window.loadAutoMode()` en su línea 203, pero como `init()` se
+    // ejecuta al instante (línea 198) y la función se definía en la
+    // línea 682, el motor encontró `undefined` y tiró
+    // `TypeError: window.loadAutoMode is not a function`. Eso cortó
+    // `init()` allá mismo, antes de que `loadAll(true)` pudiera
+    // dispararse, y el panel entero quedó vacío con un error en la
+    // barra de estado. La definición tiene que estar antes de la
+    // llamada, no después. No es un problema de hoisting: son
+    // `function expression` asignadas a `window.X`, que no se
+    // elevan.
+    const AUTO_MODE_KEY = 'gn:dashboard:auto-mode';
+    let autoModeOn = false;
+
+    window.loadAutoMode = function() {
+        try {
+            autoModeOn = localStorage.getItem(AUTO_MODE_KEY) === 'true';
+        } catch (e) { autoModeOn = false; }
+        window.updateAutoModeUI();
+    };
+
+    window.saveAutoMode = function(on) {
+        autoModeOn = on;
+        try { localStorage.setItem(AUTO_MODE_KEY, String(on)); } catch (e) {}
+        window.updateAutoModeUI();
+    };
+
+    window.updateAutoModeUI = function() {
+        const btn = document.getElementById('btn-auto-mode');
+        const detail = document.getElementById('auto-mode-detail');
+        if (!btn) return;
+        if (autoModeOn) {
+            btn.textContent = 'ON';
+            btn.className = 'btn btn-auto-on';
+            if (detail) detail.textContent = 'Los heartbeats corren. El equipo trabaja solo.';
+        } else {
+            btn.textContent = 'OFF';
+            btn.className = 'btn btn-auto-off';
+            if (detail) detail.textContent = 'Nada corre solo. Los botones de cada tab estan habilitados.';
+        }
+    };
+
+    window.toggleAutoMode = function() {
+        const next = !autoModeOn;
+        window.saveAutoMode(next);
+        showStatus(next ? 'Modo automático ON' : 'Modo automático OFF', 'status-ok');
+    };
+
     // ============ INIT ============
     init();
 
@@ -452,6 +507,51 @@
             inProgress: inProgressFile
         });
 
+        // NUEVO 2026-10-05: tabs Pre-backlog, Backlog y Desarrollo.
+        // Antes los containers existian en index.html pero ningún
+        // script los llenaba: cajas vacias con botones que no hacia
+        // nada. Ahora se parsean los .md y se llaman a los modulos.
+        const preBacklogFile = fileMap['PRE_BACKLOG.md']?.success
+            ? DashboardParser.parsePreBacklog(fileMap['PRE_BACKLOG.md'].content)
+            : null;
+        if (preBacklogFile) {
+            window.__prebacklogIdeas = preBacklogFile.ideas || [];
+            if (window.Prebacklog) window.Prebacklog.load();
+        }
+
+        const backlogFile = fileMap['BACKLOG.md']?.success
+            ? DashboardParser.parseBacklog(fileMap['BACKLOG.md'].content)
+            : null;
+        if (backlogFile) {
+            window.__backlogTareas = backlogFile.tareas || [];
+            if (window.Backlog) window.Backlog.load();
+        }
+
+        // Desarrollo lee data/git.json (rama activa, trabajo sin
+        // commitear, commits recientes), data/ramas.json y FEATURES.md.
+        // Los tres son fetches independientes: git.json lo escribe
+        // git_export.py cada pulso, ramas.json lo genera gen_ramas.py
+        // con `git for-each-ref` + los 4 checks del wt.js, y FEATURES.md
+        // lo escribe el equipo al mergear a agents/main. Ninguno es un
+        // .md del equipo, así que no entran en fetchAll. Si falla, la tab
+        // lo dice en lugar de quedarse vacía en silencio.
+        const gitPromise = fetcher.fetchGitData().catch(e => ({ success: false, data: null, error: e.message }));
+        const ramasPromise = fetcher.fetchRamas().catch(e => ({ success: false, data: null, error: e.message }));
+        const featuresPromise = fetcher.fetchFeatures().catch(e => ({ success: false, content: null, error: e.message }));
+        Promise.all([gitPromise, ramasPromise, featuresPromise]).then(([git, ramas, features]) => {
+            window.__gitData = git.success ? git.data : null;
+            window.__gitError = git.success ? null : (git.error || 'sin datos');
+            window.__ramasData = ramas.success ? ramas.data : null;
+            window.__ramasError = ramas.success ? null : (ramas.error || 'sin datos');
+            if (features.success) {
+                const parsed = DashboardParser.parseFeatures(features.content);
+                window.__featuresData = parsed;
+            } else {
+                window.__featuresData = { parseable: false, features: [], error: features.error };
+            }
+            if (window.Desarrollo) window.Desarrollo.load();
+        });
+
         // Render del Panel "Estado en vivo"
         DashboardLiveStatus.render({
             commits: commits,
@@ -626,46 +726,4 @@
         localStorage.setItem('gn:dashboard:comms:sort:dir', commsSortState.direction);
         DashboardRenderer.renderCommsTable(window.commsData, commsSortState, commsFilterState);
     };
-    // ============ MODO AUTOMÁTICO (switch global, cabecera) ============
-    // ON = heartbeats corren, el equipo trabaja solo.
-    // OFF = nada corre. Solo lo que vos apretás en cada tab.
-    // El estado se guarda en localStorage con prefijo gn: para que
-    // sobreviva al refresco del navegador.
-    const AUTO_MODE_KEY = 'gn:dashboard:auto-mode';
-    let autoModeOn = false;
-
-    window.loadAutoMode = function() {
-        try {
-            autoModeOn = localStorage.getItem(AUTO_MODE_KEY) === 'true';
-        } catch (e) { autoModeOn = false; }
-        window.updateAutoModeUI();
-    };
-
-    window.saveAutoMode = function(on) {
-        autoModeOn = on;
-        try { localStorage.setItem(AUTO_MODE_KEY, String(on)); } catch (e) {}
-        window.updateAutoModeUI();
-    };
-
-    window.updateAutoModeUI = function() {
-        const btn = document.getElementById('btn-auto-mode');
-        const detail = document.getElementById('auto-mode-detail');
-        if (!btn) return;
-        if (autoModeOn) {
-            btn.textContent = 'ON';
-            btn.className = 'btn btn-auto-on';
-            if (detail) detail.textContent = 'Los heartbeats corren. El equipo trabaja solo.';
-        } else {
-            btn.textContent = 'OFF';
-            btn.className = 'btn btn-auto-off';
-            if (detail) detail.textContent = 'Nada corre solo. Los botones de cada tab estan habilitados.';
-        }
-    };
-
-    window.toggleAutoMode = function() {
-        const next = !autoModeOn;
-        window.saveAutoMode(next);
-        showStatus(next ? 'Modo automático ON' : 'Modo automático OFF', 'status-ok');
-    };
-
-})();
+    })();

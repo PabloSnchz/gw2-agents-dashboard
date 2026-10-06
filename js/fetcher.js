@@ -143,6 +143,55 @@ class MarkdownFetcher {
         }
     }
 
+    async fetchGitData() {
+        const cfg = window.DASHBOARD_CONFIG;
+        const url = (cfg && cfg.getGitDataUrl) ? cfg.getGitDataUrl() : null;
+        if (!url) return { success: false, data: null, error: 'sin config de git' };
+        try {
+            const response = await fetch(url);
+            if (!response.ok) throw new Error('HTTP ' + response.status);
+            const json = await response.json();
+            return { success: true, data: json, error: null };
+        } catch (error) {
+            console.warn('[fetcher] git.json no disponible:', error.message);
+            return { success: false, data: null, error: error.message };
+        }
+    }
+
+    async fetchRamas() {
+        const cfg = window.DASHBOARD_CONFIG;
+        const url = (cfg && cfg.getRamasUrl) ? cfg.getRamasUrl() : null;
+        if (!url) return { success: false, data: null, error: 'sin config de ramas' };
+        try {
+            const response = await fetch(url);
+            if (!response.ok) throw new Error('HTTP ' + response.status);
+            const json = await response.json();
+            if (!json || !Array.isArray(json.ramas)) throw new Error('el JSON no tiene la forma esperada');
+            return { success: true, data: json, error: null };
+        } catch (error) {
+            console.warn('[fetcher] ramas no disponibles:', error.message);
+            return { success: false, data: null, error: error.message };
+        }
+    }
+
+    async fetchFeatures() {
+        const cfg = window.DASHBOARD_CONFIG;
+        const url = (cfg && cfg.getFeaturesUrl) ? cfg.getFeaturesUrl() : null;
+        if (!url) return { success: false, content: null, error: 'sin config de features' };
+        try {
+            const response = await fetch(url);
+            if (response.status === 404) {
+                return { success: false, content: null, error: 'FEATURES.md no existe en agents/main' };
+            }
+            if (!response.ok) throw new Error('HTTP ' + response.status);
+            const text = await response.text();
+            return { success: true, content: text, error: null };
+        } catch (error) {
+            console.warn('[fetcher] features no disponibles:', error.message);
+            return { success: false, content: null, error: error.message };
+        }
+    }
+
     async fetchCommits(limit = 50) {
         // Los commits salen de data/git.json (campo commits), que git_export.py
         // arma con `git log` del clon local de gw2-dev. Antes: commits API con

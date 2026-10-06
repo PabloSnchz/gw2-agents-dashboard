@@ -2006,4 +2006,118 @@ class DashboardParser {
 
         return { nombre: txt, detalle: null, cola: null };
     }
+
+    /**
+     * Parsea PRE_BACKLOG.md → ideas en espera del PO.
+     *
+     * 2026-10-05. La tab [P] Pre-backlog existia en index.html con su
+     * container #prebacklog-container pero ningún script la llenaba:
+     * era una caja vacia con dos botones que no hacia nada. El parser
+     * faltaba, y con el la informacion del PO nunca llegaba al panel.
+     *
+     * Formato esperado (el PO escribe estos .md con su heartbeat):
+     *   ## Ideas
+     *   | ID | Idea | Fuente | Estado | Observaciones |
+     *   |----|------|--------|--------|---------------|
+     *   | PB-01 | ... | Reddit | pendiente | ... |
+     */
+    static parsePreBacklog(md) {
+        const data = { parseable: true, updatedAt: null, ideas: [] };
+        if (!md || typeof md !== 'string') {
+            return { parseable: false, ...data };
+        }
+        const updatedMatch = md.match(/>\s*Actualizado:\s*(.+)/i);
+        if (updatedMatch) data.updatedAt = updatedMatch[1].trim();
+
+        const section = this._extractSection(md, 'Ideas');
+        if (section) {
+            const rows = this._parseTable(section);
+            rows.forEach(row => {
+                data.ideas.push({
+                    id: this._cleanCell(row[0]),
+                    titulo: this._cleanCell(row[1]),
+                    fuente: this._cleanCell(row[2]),
+                    estado: this._cleanCell(row[3]),
+                    observaciones: this._cleanCell(row[4])
+                });
+            });
+        }
+        return data;
+    }
+
+    /**
+     * Parsea BACKLOG.md → tareas priorizadas.
+     *
+     * 2026-10-05. Mismo caso que parsePreBacklog: la tab [B] Backlog
+     * tenia #backlog-container vacio. Este parser lee la tabla "Tareas
+     * priorizadas" que escribe el Principal en cada heartbeat.
+     */
+    static parseBacklog(md) {
+        const data = { parseable: true, updatedAt: null, tareas: [] };
+        if (!md || typeof md !== 'string') {
+            return { parseable: false, ...data };
+        }
+        const updatedMatch = md.match(/>\s*Actualizado:\s*(.+)/i);
+        if (updatedMatch) data.updatedAt = updatedMatch[1].trim();
+
+        const section = this._extractSection(md, 'Tareas priorizadas');
+        if (section) {
+            const rows = this._parseTable(section);
+            rows.forEach(row => {
+                data.tareas.push({
+                    id: this._cleanCell(row[0]),
+                    titulo: this._cleanCell(row[1]),
+                    prioridad: this._cleanCell(row[2]),
+                    estado: this._cleanCell(row[3]),
+                    observaciones: this._cleanCell(row[4])
+                });
+            });
+        }
+        return data;
+    }
+
+    /**
+     * Parsea FEATURES.md → features construidas por el equipo.
+     *
+     * 2026-10-05. La tab [D] Desarrollo tenia tres containers vacios
+     * (clones / ramas / features). Los clones ya los llenaba git.json;
+     * las ramas y las features faltaban. Este parser lee FEATURES.md,
+     * que escribe el equipo al mergear a agents/main.
+     *
+     * Formato esperado (FEATURES.md, tabla principal):
+     *   | ID | Feature | Estado | Archivos | Observaciones |
+     *   |----|---------|--------|----------|---------------|
+     *   | F-01 | ... | Activo | js/foo.js | ... |
+     */
+    static parseFeatures(md) {
+        const data = { parseable: true, updatedAt: null, features: [] };
+        if (!md || typeof md !== 'string') {
+            return { parseable: false, ...data };
+        }
+        const updatedMatch = md.match(/>\s*Actualizado:\s*(.+)/i);
+        if (updatedMatch) data.updatedAt = updatedMatch[1].trim();
+
+        const tables = this._parseTables(md);
+        let features = [];
+        tables.forEach(tbl => {
+            const rows = this._parseTable(tbl);
+            rows.forEach(row => {
+                if (row.length < 2) return;
+                const id = this._cleanCell(row[0]);
+                const nombre = this._cleanCell(row[1]);
+                if (!id && !nombre) return;
+                features.push({
+                    id: id || '?',
+                    nombre: nombre || id,
+                    estado: row[2] ? this._cleanCell(row[2]) : 'pendiente',
+                    archivos: row[3] ? this._cleanCell(row[3]).split(',').map(a => a.trim()).filter(Boolean) : [],
+                    description: row[4] ? this._cleanCell(row[4]) : null,
+                    sha: null
+                });
+            });
+        });
+        data.features = features;
+        return data;
+    }
 }
+

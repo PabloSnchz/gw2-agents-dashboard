@@ -185,6 +185,23 @@ const DASHBOARD_CONFIG = {
         return `https://raw.githubusercontent.com/${this.structureRepoOwner}/${this.structureRepoName}/${this.structureBranch}/data/git.json${this._cacheBust()}`;
     },
 
+    // Ramas del repo de desarrollo (gw2-wallet-agents), con su veredicto
+    // de borrable/rescatar/protegida. Lo escribe _eco\gen_ramas.py con
+    // `git for-each-ref` + los 4 checks del wt.js. No es la API de GitHub:
+    // la API anonima da 0 ramas con la cuota agotada, y el panel quedaba
+    // vacio sin aviso. Este archivo llega pre-calculado.
+    getRamasUrl() {
+        return `https://raw.githubusercontent.com/${this.structureRepoOwner}/${this.structureRepoName}/${this.structureBranch}/data/ramas.json${this._cacheBust()}`;
+    },
+
+    // FEATURES.md del repo de desarrollo (agents). Lo escribe el equipo al
+    // mergear. El dashboard no mantiene una copia: si la version de acá se
+    // desincroniza con la del equipo, el panel miente. Por eso sale del
+    // repo del equipo, igual que los .md del resto del dashboard.
+    getFeaturesUrl() {
+        return `https://raw.githubusercontent.com/${this.devRepoOwner}/${this.devRepoName}/${this.devBranch}/FEATURES.md`;
+    },
+
     // Heurística de zonas para archivos descubiertos dinámicamente via API
     getZoneForFile(filename) {
         const f = filename.toUpperCase();
