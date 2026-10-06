@@ -37,9 +37,9 @@
             + '<div class="bl-attrs">' + attrsHtml + '</div>'
             + obsHtml
             + '<div class="bl-actions">'
-            + '<button class="btn btn-primary btn-sm" onclick="backlogIniciar('' + id + '')">Iniciar</button>'
-            + '<button class="btn btn-ghost btn-sm" onclick="backlogPausar('' + id + '')">Pausar</button>'
-            + '<button class="btn btn-ghost btn-sm" onclick="backlogRevisar('' + id + '')">Revisar</button>'
+            + '<button class="btn btn-primary btn-sm" onclick="backlogIniciar(\'' + id + '\')">Iniciar</button>'
+            + '<button class="btn btn-ghost btn-sm" onclick="backlogPausar(\'' + id + '\')">Pausar</button>'
+            + '<button class="btn btn-ghost btn-sm" onclick="backlogRevisar(\'' + id + '\')">Revisar</button>'
             + '</div></article>';
     }
 

@@ -185,7 +185,13 @@ class MarkdownFetcher {
             }
             if (!response.ok) throw new Error('HTTP ' + response.status);
             const text = await response.text();
-            return { success: true, content: text, error: null };
+            // 2026-10-06. GitHub a veces devuelve 200 con body vacío o
+            // Content-Type raro, y response.text() llega como string
+            // vacío. No es un error: es que el archivo existe pero está
+            // vacío. Devolvemos success=true con content='' para que el
+            // parser devuelva "sin features" en lugar de tirar
+            // `text.split is not a function` por content=null.
+            return { success: true, content: (text == null ? '' : text), error: null };
         } catch (error) {
             console.warn('[fetcher] features no disponibles:', error.message);
             return { success: false, content: null, error: error.message };

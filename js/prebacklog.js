@@ -42,8 +42,8 @@
             + '<div class="pb-attrs">' + attrsHtml + '</div>'
             + obsHtml
             + '<div class="pb-actions">'
-            + '<button class="btn btn-primary btn-sm" onclick="prebacklogMover('' + id + '')">Mover a backlog</button>'
-            + '<button class="btn btn-ghost btn-sm" onclick="prebacklogDescartar('' + id + '')">Descartar</button>'
+            + '<button class="btn btn-primary btn-sm" onclick="prebacklogMover(\'' + id + '\')">Mover a backlog</button>'
+            + '<button class="btn btn-ghost btn-sm" onclick="prebacklogDescartar(\'' + id + '\')">Descartar</button>'
             + '</div></article>';
     }
 
