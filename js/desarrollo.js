@@ -137,7 +137,12 @@
             filterWrap = document.createElement('div');
             filterWrap.id = FILTER_ID;
             filterWrap.className = 'd-features-filter';
-            container.parentNode.insertBefore(filterWrap, container);
+            // Insertar antes del container; fallback: prepend al container
+            if (container.parentNode) {
+                container.parentNode.insertBefore(filterWrap, container);
+            } else {
+                container.prepend(filterWrap);
+            }
         }
 
         const checked = hidePromoted ? ' checked' : '';
@@ -160,6 +165,9 @@
 
         const filtradas = filterFeatures(features);
 
+        // SIEMPRE renderizar el filtro (antes del early return)
+        renderFilter();
+
         if (!filtradas.length) {
             const msg = hidePromoted && promoShas.length
                 ? 'No hay features sin promover (todas ' + promoShas.length + ' SHAs en PROMOTIONS.md).'
@@ -167,8 +175,6 @@
             c.innerHTML = subHeader('Features', 0) + empty(msg);
             return;
         }
-
-        renderFilter();
 
         // Marcar cuáles están promovidas
         const withPromo = filtradas.map(f => {
