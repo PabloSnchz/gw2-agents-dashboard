@@ -71,7 +71,12 @@
 /* ===== Hover unified ===== */
 .kpi-card:hover,
 .agent-card:hover,
-.column-section:hover {
+.column-section:hover,
+.pb-card:hover,
+.bl-card:hover,
+.d-clone-card:hover,
+.d-rama-card:hover,
+.d-feature-card:hover {
     transform: translateY(-3px);
     box-shadow: 0 4px 16px rgba(0, 0, 0, 0.4);
 }
