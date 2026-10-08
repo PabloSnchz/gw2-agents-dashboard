@@ -127,32 +127,13 @@
         c.innerHTML = subHeader('Ramas vivas', ramas.length) + ramas.map(ramaCard).join('');
     }
 
-    function renderFilter() {
-        const container = document.getElementById(FEATURES_ID);
-        if (!container) return;
-
-        // Buscar o crear el contenedor del filtro DENTRO del container de features
-        let filterWrap = document.getElementById(FILTER_ID);
-        if (!filterWrap) {
-            filterWrap = document.createElement('div');
-            filterWrap.id = FILTER_ID;
-            filterWrap.className = 'd-features-filter';
-            // Insertar como PRIMER hijo del container de features
-            container.insertBefore(filterWrap, container.firstChild);
-        }
-
+    function renderFilterHTML() {
         const checked = hidePromoted ? ' checked' : '';
-        filterWrap.innerHTML = '<label class="d-features-filter-checkbox">'
+        return '<div id="' + FILTER_ID + '" class="d-features-filter">'
+            + '<label class="d-features-filter-checkbox">'
             + '<input type="checkbox" id="d-hide-promoted" onchange="Desarrollo.toggleHidePromoted(this.checked)"' + checked + '>'
-            + '<span>Ocultar promovidas</span></label>';
-    }
-
-    function filterFeatures(features) {
-        if (!hidePromoted || !promoShas.length) return features;
-        return features.filter(f => {
-            const sha = f.sha ? f.sha.toLowerCase() : '';
-            return sha && !promoShas.includes(sha);
-        });
+            + '<span>Ocultar promovidas</span></label>'
+            + '</div>';
     }
 
     function renderFeatures(features) {
@@ -161,14 +142,11 @@
 
         const filtradas = filterFeatures(features);
 
-        // SIEMPRE renderizar el filtro (antes del early return)
-        renderFilter();
-
         if (!filtradas.length) {
             const msg = hidePromoted && promoShas.length
                 ? 'No hay features sin promover (todas ' + promoShas.length + ' SHAs en PROMOTIONS.md).'
                 : 'Sin features';
-            c.innerHTML = subHeader('Features', 0) + empty(msg);
+            c.innerHTML = subHeader('Features', 0) + renderFilterHTML() + empty(msg);
             return;
         }
 
@@ -178,7 +156,7 @@
             return { ...f, _promoted: sha && promoShas.includes(sha) };
         });
 
-        c.innerHTML += withPromo.map(f => featureCard(f, f._promoted)).join('');
+        c.innerHTML = subHeader('Features', filtradas.length) + renderFilterHTML() + withPromo.map(f => featureCard(f, f._promoted)).join('');
     }
 
     function load(promoShasParam) {
