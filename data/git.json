@@ -1,6 +1,6 @@
 {
- "generado_utc": "20261008T232157Z",
- "generado_h": "2026-10-08 23:21 UTC",
+ "generado_utc": "20261008T233706Z",
+ "generado_h": "2026-10-08 23:37 UTC",
  "origen": "git local + ls-remote (sin cuota). protected cacheado TTL 6h.",
  "commits": [
   {
@@ -458,9 +458,9 @@
    "repo": "gw2-agents-dashboard",
    "label": "Dashboard",
    "role": "dashboard",
-   "sha": "6a2f2b171f8fb99958d8dc33790e44f9fa701e5f",
-   "short_sha": "6a2f2b1",
-   "commit": "fix: restaurar filterFeatures() que se",
+   "sha": "8bf6809380cf39e55aeb4c2721dc6505a5603dca",
+   "short_sha": "8bf6809",
+   "commit": "fix: filtro features - grid-column 1/-1 para que ocupe todo",
    "estado": "open",
    "protected": false,
    "protected_fresco": true,
