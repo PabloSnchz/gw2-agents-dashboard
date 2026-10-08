@@ -1,6 +1,6 @@
 {
- "generado_utc": "20261008T195132Z",
- "generado_h": "2026-10-08 19:51 UTC",
+ "generado_utc": "20261008T200640Z",
+ "generado_h": "2026-10-08 20:06 UTC",
  "origen": "git local + ls-remote (sin cuota). protected cacheado TTL 6h.",
  "commits": [
   {
@@ -412,8 +412,9 @@
    "proteccion_detalle": null,
    "proteccion_detalle_motivo": "sin token",
    "rama": "fix-armeia-tengo-materiales",
-   "sin_commitear": 37,
+   "sin_commitear": 38,
    "archivos_modificados": [
+    "M GENTS.md",
     "M LERTS_LOG.md",
     "M EARTBEAT.md",
     "M RE_BACKLOG.md",
@@ -458,9 +459,9 @@
    "repo": "gw2-agents-dashboard",
    "label": "Dashboard",
    "role": "dashboard",
-   "sha": "818106d4dde940518488a327cfc3ebf5d924f0f2",
-   "short_sha": "818106d",
-   "commit": "chore(dashboard): pulso automatico 2026-10-08_19-36_UTC",
+   "sha": "2797a48dc0af6fb04bb15d400b9ebb3da5f69ed5",
+   "short_sha": "2797a48",
+   "commit": "chore(dashboard): pulso automatico 2026-10-08_19-51_UTC",
    "estado": "open",
    "protected": false,
    "protected_fresco": true,
