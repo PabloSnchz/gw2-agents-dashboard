@@ -296,6 +296,81 @@ body {
 .pb-empty,
 .bl-empty { text-align: center; padding: 20px; color: #666; }
 
+/* Filtro de Backlog */
+.bl-filter {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    margin-bottom: 12px;
+    padding: 8px 12px;
+    background: rgba(15, 15, 25, 0.6);
+    border: 1px solid rgba(255,255,255,0.06);
+    border-radius: 6px;
+}
+.bl-filter-checkbox {
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    cursor: pointer;
+    font-size: 0.8rem;
+    color: #d0d0d0;
+    user-select: none;
+}
+.bl-filter-checkbox input[type="checkbox"] {
+    width: 14px;
+    height: 14px;
+    accent-color: #6a1b9a;
+    cursor: pointer;
+}
+
+/* Filtro de Features (Desarrollo) */
+.d-features-filter {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    margin-bottom: 12px;
+    padding: 8px 12px;
+    background: rgba(15, 15, 25, 0.6);
+    border: 1px solid rgba(255,255,255,0.06);
+    border-radius: 6px;
+}
+.d-features-filter-checkbox {
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    cursor: pointer;
+    font-size: 0.8rem;
+    color: #d0d0d0;
+    user-select: none;
+}
+.d-features-filter-checkbox input[type="checkbox"] {
+    width: 14px;
+    height: 14px;
+    accent-color: #6a1b9a;
+    cursor: pointer;
+}
+
+/* Badge promovida */
+.d-badge--promoted {
+    background: linear-gradient(135deg, #4caf50, #2e7d32);
+    color: #fff;
+    padding: 2px 8px;
+    border-radius: 10px;
+    font-size: 0.65rem;
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 0.3px;
+}
+
+/* Feature card promovida - leve desaturación visual */
+.d-feature-card.d-promoted {
+    opacity: 0.85;
+}
+.d-feature-card.d-promoted .d-label {
+    text-decoration: line-through;
+    text-decoration-color: rgba(76, 175, 80, 0.5);
+}
+
 /* ===== Contenedores grid para tabs nuevas ===== */
 .prebacklog-container,
 .backlog-container,

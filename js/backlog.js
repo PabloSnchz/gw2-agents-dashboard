@@ -7,14 +7,21 @@
  *
  * 2026-10-05. La tab existía en index.html (#backlog-container) pero ningún
  * script la llenaba. Mismo diagnóstico que las otras dos tabs nuevas.
+ *
+ * 2026-10-08. Añadido filtro de estado: por defecto muestra solo "activos"
+ * (pendiente + en curso). Opciones: activos | todas | pendiente | en curso | completado.
  */
 (function () {
     const CONTAINER_ID = 'backlog-container';
+    const FILTER_ID = 'backlog-filter';
+
+    // Estado del filtro
+    let hideCompleted = true; // default: ocultar completadas
 
     function esc(s) {
         return String(s == null ? '' : s)
-            .replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;')
-            .replace(/"/g, '&quot;');
+            .replace(/&/g, '&').replace(/</g, '<').replace(/>/g, '>')
+            .replace(/"/g, '"');
     }
 
     function card(tarea) {
@@ -30,7 +37,7 @@
         ).join('');
         const obs = tarea.observaciones || tarea.obs;
         const obsHtml = obs ? '<div class="bl-obs">' + esc(obs) + '</div>' : '';
-        return '<article class="bl-card" data-id="' + id + '">'
+        return '<article class="bl-card" data-id="' + id + '" data-estado="' + estado.toLowerCase().replace(/[^a-z0-9]/g, '-') + '">'
             + '<div class="bl-head"><span class="bl-id">' + id + '</span>'
             + '<span class="bl-estado bl-estado--' + estado.replace(/[^a-z0-9]/g, '-') + '">' + estado + '</span></div>'
             + '<h4 class="bl-title">' + titulo + '</h4>'
@@ -47,16 +54,63 @@
         return '<div class="bl-empty"><p>' + esc(msg) + '</p></div>';
     }
 
+    function filterTareas(tareas) {
+        if (hideCompleted) {
+            return tareas.filter(t => {
+                const e = (t.estado || 'pendiente').toLowerCase();
+                return e !== 'completado';
+            });
+        }
+        return tareas;
+    }
+
+    function renderFilter() {
+        const container = document.getElementById(CONTAINER_ID);
+        if (!container) return;
+
+        // Buscar o crear el contenedor del filtro
+        let filterWrap = document.getElementById(FILTER_ID);
+        if (!filterWrap) {
+            filterWrap = document.createElement('div');
+            filterWrap.id = FILTER_ID;
+            filterWrap.className = 'bl-filter';
+            container.parentNode.insertBefore(filterWrap, container);
+        }
+
+        const checked = hideCompleted ? ' checked' : '';
+        filterWrap.innerHTML = '<label class="bl-filter-checkbox">'
+            + '<input type="checkbox" id="bl-hide-completed" onchange="Backlog.toggleHideCompleted(this.checked)"' + checked + '>'
+            + '<span>Ocultar completadas</span></label>';
+    }
+
+    function render(tareas) {
+        const c = document.getElementById(CONTAINER_ID);
+        if (!c) return;
+
+        const filtradas = filterTareas(tareas);
+
+        if (!filtradas.length) {
+            const msg = hideCompleted
+                ? 'No hay tareas activas (pendientes o en curso).'
+                : 'El backlog está vacío.';
+            c.innerHTML = empty(msg);
+            return;
+        }
+
+        c.innerHTML = filtradas.map(card).join('');
+    }
+
     window.Backlog = {
         load: function () {
-            const c = document.getElementById(CONTAINER_ID);
-            if (!c) return;
             const tareas = window.__backlogTareas || [];
-            if (!tareas.length) {
-                c.innerHTML = empty('El backlog está vacío. BACKLOG.md no se pudo leer o no tiene tareas.');
-                return;
-            }
-            c.innerHTML = tareas.map(card).join('');
+            renderFilter();
+            render(tareas);
+        },
+
+        toggleHideCompleted: function (checked) {
+            hideCompleted = checked;
+            const tareas = window.__backlogTareas || [];
+            render(tareas);
         }
     };
 

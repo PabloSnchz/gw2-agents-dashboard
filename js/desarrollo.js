@@ -9,11 +9,19 @@
  *
  * 2026-10-08. Agregados sub-headers con conteo y grid layout
  * para consistencia visual con el resto del dashboard.
+ *
+ * 2026-10-08b. Filtro "Ocultar promovidas" en Features: cruza SHA
+ * con PROMOTIONS.md (viene en window.__promoShas desde app.js).
  */
 (function () {
     const CLONES_ID = 'desarrollo-clones';
     const RAMAS_ID = 'desarrollo-ramas';
     const FEATURES_ID = 'desarrollo-features';
+    const FILTER_ID = 'desarrollo-features-filter';
+
+    // Estado del filtro Features
+    let promoShas = [];
+    let hidePromoted = true; // default: ocultar promovidas
 
     function esc(s) {
         return String(s == null ? '' : s)
@@ -74,11 +82,12 @@
             + '<div class="d-rama-msg">' + msg + '</div></article>';
     }
 
-    function featureCard(f) {
+    function featureCard(f, isPromoted) {
         const nombre = esc(f.nombre);
         const estado = esc(f.estado);
         const estadoClass = 'd-estado--' + estado;
         const sha = f.sha ? ' <span class="d-sha">' + esc(f.sha) + '</span>' : '';
+        const promotedBadge = isPromoted ? ' <span class="d-badge d-badge--promoted">promovida</span>' : '';
         const files = (f.archivos || []).slice(0, 4).map(a =>
             '<li>' + esc(a) + '</li>'
         ).join('');
@@ -86,9 +95,9 @@
             ? '<li>... ' + ((f.archivos || []).length - 4) + ' mas</li>'
             : '';
         const desc = f.description ? '<div class="d-f-desc">' + esc(f.description) + '</div>' : '';
-        return '<article class="d-feature-card">'
+        return '<article class="d-feature-card' + (isPromoted ? ' d-promoted' : '') + '">'
             + '<div class="d-feature-head"><span class="d-label">' + nombre + '</span>'
-            + '<span class="' + estadoClass + '">' + estado + '</span>' + sha + '</div>'
+            + '<span class="' + estadoClass + '">' + estado + '</span>' + sha + promotedBadge + '</div>'
             + desc
             + (files || more ? '<ul class="d-files">' + files + more + '</ul>' : '')
             + '</article>';
@@ -118,17 +127,61 @@
         c.innerHTML = subHeader('Ramas vivas', ramas.length) + ramas.map(ramaCard).join('');
     }
 
+    function renderFilter() {
+        const container = document.getElementById(FEATURES_ID);
+        if (!container) return;
+
+        // Buscar o crear el contenedor del filtro
+        let filterWrap = document.getElementById(FILTER_ID);
+        if (!filterWrap) {
+            filterWrap = document.createElement('div');
+            filterWrap.id = FILTER_ID;
+            filterWrap.className = 'd-features-filter';
+            container.parentNode.insertBefore(filterWrap, container);
+        }
+
+        const checked = hidePromoted ? ' checked' : '';
+        filterWrap.innerHTML = '<label class="d-features-filter-checkbox">'
+            + '<input type="checkbox" id="d-hide-promoted" onchange="Desarrollo.toggleHidePromoted(this.checked)"' + checked + '>'
+            + '<span>Ocultar promovidas</span></label>';
+    }
+
+    function filterFeatures(features) {
+        if (!hidePromoted || !promoShas.length) return features;
+        return features.filter(f => {
+            const sha = f.sha ? f.sha.toLowerCase() : '';
+            return sha && !promoShas.includes(sha);
+        });
+    }
+
     function renderFeatures(features) {
         const c = document.getElementById(FEATURES_ID);
         if (!c) return;
-        if (!features || !features.length) {
-            c.innerHTML = subHeader('Features', 0) + empty('sin features');
+
+        const filtradas = filterFeatures(features);
+
+        if (!filtradas.length) {
+            const msg = hidePromoted && promoShas.length
+                ? 'No hay features sin promover (todas ' + promoShas.length + ' SHAs en PROMOTIONS.md).'
+                : 'Sin features';
+            c.innerHTML = subHeader('Features', 0) + empty(msg);
             return;
         }
-        c.innerHTML = subHeader('Features', features.length) + features.map(featureCard).join('');
+
+        renderFilter();
+
+        // Marcar cuáles están promovidas
+        const withPromo = filtradas.map(f => {
+            const sha = f.sha ? f.sha.toLowerCase() : '';
+            return { ...f, _promoted: sha && promoShas.includes(sha) };
+        });
+
+        c.innerHTML += withPromo.map(f => featureCard(f, f._promoted)).join('');
     }
 
-    function load() {
+    function load(promoShasParam) {
+        promoShas = promoShasParam || window.__promoShas || [];
+
         const gitData = window.__gitData || null;
         const ramasData = window.__ramasData || null;
         const featuresData = window.__featuresData || null;
@@ -146,9 +199,24 @@
     }
 
     if (document.readyState === 'loading') {
-        document.addEventListener('DOMContentLoaded', load);
+        document.addEventListener('DOMContentLoaded', function () { load(); });
     } else {
         load();
     }
-    window.Desarrollo = { renderClones: renderClones, renderRamas: renderRamas, renderFeatures: renderFeatures, load: load };
+
+    window.Desarrollo = {
+        renderClones: renderClones,
+        renderRamas: renderRamas,
+        renderFeatures: renderFeatures,
+        load: load,
+        toggleHidePromoted: function (checked) {
+            hidePromoted = checked;
+            const featuresData = window.__featuresData || null;
+            const feats = (featuresData && featuresData.features) || [];
+            renderFeatures(feats);
+            // Actualizar checkbox
+            const cb = document.getElementById('d-hide-promoted');
+            if (cb) cb.checked = checked;
+        }
+    };
 })();

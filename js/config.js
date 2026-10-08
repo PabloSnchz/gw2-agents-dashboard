@@ -210,6 +210,12 @@ const DASHBOARD_CONFIG = {
         return `https://raw.githubusercontent.com/${this.devRepoOwner}/${this.devRepoName}/${this.devBranch}/FEATURES.md`;
     },
 
+    // PROMOTIONS.md del repo de desarrollo (agents). Lo usa el dashboard
+    // para cruzar SHAs y saber qué features ya están en producción.
+    getPromotionsUrl() {
+        return `https://raw.githubusercontent.com/${this.devRepoOwner}/${this.devRepoName}/${this.devBranch}/PROMOTIONS.md`;
+    },
+
     // Heurística de zonas para archivos descubiertos dinámicamente via API
     getZoneForFile(filename) {
         const f = filename.toUpperCase();

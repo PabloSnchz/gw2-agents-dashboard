@@ -2311,6 +2311,36 @@ class DashboardParser {
      *   |----|---------|--------|----------|---------------|
      *   | F-01 | ... | Activo | js/foo.js | ... |
      */
+    /**
+     * Parsea FEATURES.md — fichas de features construidas.
+     *
+     * Formato esperado (FEATURES.md):
+     *   ## Nombre de fantasía
+     *   - **Tipo:** nueva | mejora visible | mejora oculta
+     *   - **Estado:** listo | probado ok | probado no va | autorizado | rechazado | revertido
+     *   - **Dónde la veo:** ...
+     *   - **Ruta:** ...
+     *   - **Descripción:** ...
+     *   - **Commits:** `<sha>`, `<sha>` / merge `<sha>`
+     *   - **Rama:** `<nombre de rama>`
+     *   - **Si no entra:** ...
+     *   - **Si sale mal:** ...
+     */
+    /**
+     * Parsea FEATURES.md — fichas de features construidas.
+     *
+     * Formato esperado (FEATURES.md):
+     *   ## Nombre de fantasía
+     *   - **Tipo:** nueva | mejora visible | mejora oculta
+     *   - **Estado:** listo | probado ok | probado no va | autorizado | rechazado | revertido
+     *   - **Dónde la veo:** ...
+     *   - **Ruta:** ...
+     *   - **Descripción:** ...
+     *   - **Commits:** `<sha>`, `<sha>` / merge `<sha>`
+     *   - **Rama:** `<nombre de rama>`
+     *   - **Si no entra:** ...
+     *   - **Si sale mal:** ...
+     */
     static parseFeatures(md) {
         const data = { parseable: true, updatedAt: null, features: [] };
         if (!md || typeof md !== 'string') {
@@ -2319,26 +2349,93 @@ class DashboardParser {
         const updatedMatch = md.match(/>\s*Actualizado:\s*(.+)/i);
         if (updatedMatch) data.updatedAt = updatedMatch[1].trim();
 
-        const tables = this._parseTables(md);
-        let features = [];
-        tables.forEach(tbl => {
-            const rows = this._parseTable(tbl);
-            rows.forEach(row => {
-                if (row.length < 2) return;
-                const id = this._cleanCell(row[0]);
-                const nombre = this._cleanCell(row[1]);
-                if (!id && !nombre) return;
-                features.push({
-                    id: id || '?',
-                    nombre: nombre || id,
-                    estado: row[2] ? this._cleanCell(row[2]) : 'pendiente',
-                    archivos: row[3] ? this._cleanCell(row[3]).split(',').map(a => a.trim()).filter(Boolean) : [],
-                    description: row[4] ? this._cleanCell(row[4]) : null,
-                    sha: null
-                });
+        // Normalizar finales de línea ANTES de procesar
+        md = md.replace(/\r/g, '');
+
+        // Buscar secciones que empiezan con ## (fichas de features)
+        // Excluir secciones de documentación/meta
+        const sectionRegex = /^##\s+(.+)$/gm;
+        let match;
+        const sections = [];
+
+        while ((match = sectionRegex.exec(md)) !== null) {
+            const title = match[1].trim();
+            // Saltar secciones de documentación/meta
+            if (title.match(/^(C[óo]mo|Fichas|Qu[ée] significa|Regla|Importar|Nombre de fantas[ií]a|C[oó]mo leer)/i)) continue;
+            const start = match.index + match[0].length;
+            sections.push({ title, start, end: md.length });
+        }
+        // Calcular end de cada sección
+        for (let i = 0; i < sections.length - 1; i++) {
+            sections[i].end = sections[i + 1].start;
+        }
+
+        // Mapear estado a clases CSS
+        const estadoMap = {
+            'listo': 'listo',
+            'probado ok': 'probado-ok',
+            'probado no va': 'probado-no-va',
+            'autorizado': 'autorizado',
+            'rechazado': 'rechazado',
+            'revertido': 'revertido',
+            'pendiente': 'pendiente'
+        };
+
+        for (const sec of sections) {
+            const content = md.substring(sec.start, sec.end);
+            
+            // Extraer campos clave-valor: - **Campo:** valor (el ** cierra después de los dos puntos)
+            // Solo tomar la PRIMERA ocurrencia de cada campo (los datos del feature vienen antes que la plantilla/doc)
+            const fields = {};
+            const fieldRegex = /^-\s*\*\*([^:]+):\*\*\s*(.+)/gm;
+            let fieldMatch;
+            while ((fieldMatch = fieldRegex.exec(content)) !== null) {
+                const key = fieldMatch[1].trim().toLowerCase();
+                const value = fieldMatch[2].trim();
+                if (!(key in fields)) {
+                    fields[key] = value;
+                }
+            }
+
+            // Solo procesar si tiene campos esperados de una ficha
+            if (!fields.tipo && !fields.estado && !fields['dónde la veo'] && !fields.ruta) {
+                continue;
+            }
+
+            const estadoRaw = fields.estado || 'pendiente';
+            const estado = estadoMap[estadoRaw.toLowerCase()] || estadoRaw.toLowerCase().replace(/[^a-z0-9]/g, '-');
+
+            // Extraer commits y rama
+            let sha = null;
+            if (fields.commits) {
+                const shaMatch = fields.commits.match(/`([a-f0-9]{7,40})`/i);
+                if (shaMatch) sha = shaMatch[1].substring(0, 7);
+            }
+
+            // Archivos (no hay en el formato actual, dejar vacío)
+            const archivos = [];
+
+            // Normalizar ID: quitar acentos, reemplazar no alfanuméricos por -
+            const normalizeId = (str) => str
+                .normalize('NFD').replace(/[\u0300-\u036f]/g, '') // quitar acentos
+                .replace(/[^a-zA-Z0-9]+/g, '-') // reemplazar secuencias no alfanum por -
+                .replace(/^-+|-+$/g, '') // quitar guiones al inicio/fin
+                .toLowerCase()
+                .substring(0, 50);
+
+            data.features.push({
+                id: normalizeId(sec.title),
+                nombre: sec.title,
+                estado: estado,
+                archivos: archivos,
+                description: fields.descripción || fields.descripcion || fields['dónde la veo'] || null,
+                sha: sha,
+                tipo: fields.tipo || '',
+                rama: fields.rama || '',
+                ruta: fields.ruta || ''
             });
-        });
-        data.features = features;
+        }
+
         return data;
     }
 }

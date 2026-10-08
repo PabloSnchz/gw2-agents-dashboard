@@ -535,10 +535,14 @@
         // lo escribe el equipo al mergear a agents/main. Ninguno es un
         // .md del equipo, así que no entran en fetchAll. Si falla, la tab
         // lo dice en lugar de quedarse vacía en silencio.
+        // Desarrollo: tres fuentes independientes (estado git del clon
+        // + trabajo sin commitear, commits recientes), data/ramas.json y FEATURES.md.
+        // PROMOTIONS.md se usa para cruzar SHAs y marcar features promovidas.
         const gitPromise = fetcher.fetchGitData().catch(e => ({ success: false, data: null, error: e.message }));
         const ramasPromise = fetcher.fetchRamas().catch(e => ({ success: false, data: null, error: e.message }));
         const featuresPromise = fetcher.fetchFeatures().catch(e => ({ success: false, content: null, error: e.message }));
-        Promise.all([gitPromise, ramasPromise, featuresPromise]).then(([git, ramas, features]) => {
+        const promosPromise = fetcher.fetchPromotions().catch(e => ({ success: false, content: null, error: e.message }));
+        Promise.all([gitPromise, ramasPromise, featuresPromise, promosPromise]).then(([git, ramas, features, promos]) => {
             window.__gitData = git.success ? git.data : null;
             window.__gitError = git.success ? null : (git.error || 'sin datos');
             window.__ramasData = ramas.success ? ramas.data : null;
@@ -549,7 +553,14 @@
             } else {
                 window.__featuresData = { parseable: false, features: [], error: features.error };
             }
-            if (window.Desarrollo) window.Desarrollo.load();
+            // Extraer SHAs de PROMOTIONS.md
+            let promoShas = [];
+            if (promos.success && promos.content) {
+                const matches = promos.content.match(/\`([a-f0-9]{7,40})\`/g);
+                if (matches) promoShas = matches.map(m => m.slice(1, -1).substring(0, 7));
+            }
+            window.__promoShas = promoShas;
+            if (window.Desarrollo) window.Desarrollo.load(promoShas);
         });
 
         // Render del Panel "Estado en vivo"
