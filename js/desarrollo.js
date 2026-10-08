@@ -127,6 +127,14 @@
         c.innerHTML = subHeader('Ramas vivas', ramas.length) + ramas.map(ramaCard).join('');
     }
 
+    function filterFeatures(features) {
+        if (!hidePromoted || !promoShas.length) return features;
+        return features.filter(f => {
+            const sha = f.sha ? f.sha.toLowerCase() : '';
+            return sha && !promoShas.includes(sha);
+        });
+    }
+
     function renderFilterHTML() {
         const checked = hidePromoted ? ' checked' : '';
         return '<div id="' + FILTER_ID + '" class="d-features-filter">'
