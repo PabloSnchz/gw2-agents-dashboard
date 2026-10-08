@@ -1,6 +1,6 @@
 {
- "generado_utc": "20261008T212146Z",
- "generado_h": "2026-10-08 21:21 UTC",
+ "generado_utc": "20261008T213645Z",
+ "generado_h": "2026-10-08 21:36 UTC",
  "origen": "git local + ls-remote (sin cuota). protected cacheado TTL 6h.",
  "commits": [
   {
@@ -458,9 +458,9 @@
    "repo": "gw2-agents-dashboard",
    "label": "Dashboard",
    "role": "dashboard",
-   "sha": "21174cc7a1177d31f89768a50eb7d5232ff7abfe",
-   "short_sha": "21174cc",
-   "commit": "fix(ui): add card styles + hover glow for Pre-backlog,",
+   "sha": "0a75042178ed71a0cb3e528e1eaf64dfd6b47b21",
+   "short_sha": "0a75042",
+   "commit": "ui: grid layout, sub-headers, border-left accents for",
    "estado": "open",
    "protected": false,
    "protected_fresco": true,
