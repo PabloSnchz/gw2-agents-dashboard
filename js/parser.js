@@ -1,14 +1,14 @@
 /**
  * js/parser.js
  * Extrae KPIs estructurados del markdown de los 7 archivos.
- * Cada método devuelve datos estructurados; si el parsing falla,
- * devuelve { parseable: false } y el renderer hará fallback a marked.js.
+ * Cada mÃ©todo devuelve datos estructurados; si el parsing falla,
+ * devuelve { parseable: false } y el renderer harÃ¡ fallback a marked.js.
  */
 
 class DashboardParser {
 
     /**
-     * Parsea TEAM_STATUS.md → estados de agentes + crons
+     * Parsea TEAM_STATUS.md â†’ estados de agentes + crons
      * KPIs: agent states (running/idle/timeout/ok), cron status
      */
     static parseTeamStatus(md) {
@@ -24,11 +24,11 @@ class DashboardParser {
             return { parseable: false, ...data };
         }
 
-        // Extraer timestamp de actualización
+        // Extraer timestamp de actualizaciÃ³n
         const tsMatch = md.match(/> Actualizado:?\s*(.+)/i);
         if (tsMatch) data.lastHeartbeat = tsMatch[1].trim();
 
-        // Parsear "Estado de tareas" o "Tareas en curso" → estados de agentes
+        // Parsear "Estado de tareas" o "Tareas en curso" â†’ estados de agentes
         const tareasSection = this._extractSection(md, 'Estado de tareas') 
                             || this._extractSection(md, 'Tareas en curso');
         if (tareasSection) {
@@ -122,7 +122,7 @@ class DashboardParser {
     }
 
     /**
-     * Parsea ALERTS_LOG.md → alertas por severidad
+     * Parsea ALERTS_LOG.md â†’ alertas por severidad
      * KPIs: active count, critical/medium/low breakdown
      */
     static parseAlerts(md) {
@@ -142,10 +142,10 @@ class DashboardParser {
 
         // Alertas activas.
         //
-        // FIX: se lee por NOMBRE de columna, no por posición. ALERTS_LOG.md
-        // mezcla una tabla de 6 columnas y otra de 8. Con índices fijos la
-        // descripción caía en el campo `agent`, y live-status usaba ese campo
-        // para decidir que un agente estaba CAÍDO: bastaba con que su nombre
+        // FIX: se lee por NOMBRE de columna, no por posiciÃ³n. ALERTS_LOG.md
+        // mezcla una tabla de 6 columnas y otra de 8. Con Ã­ndices fijos la
+        // descripciÃ³n caÃ­a en el campo `agent`, y live-status usaba ese campo
+        // para decidir que un agente estaba CAÃDO: bastaba con que su nombre
         // apareciera en el texto de cualquier alerta para marcarlo rojo.
         const activeSection = this._extractSection(md, 'Alertas activas');
         if (activeSection) {
@@ -155,15 +155,15 @@ class DashboardParser {
                     data.active++;
                     data.total++;
 
-                    // "??" no es información: 1 fila de 27 (ALERT-60) tiene el
+                    // "??" no es informaciÃ³n: 1 fila de 27 (ALERT-60) tiene el
                     // emoji escrito como "??" en el archivo. Verificado a nivel
                     // de bytes (3f 3f), o sea es basura de escritura, no un
-                    // problema de decodificación. Se quita para que no se vea
-                    // "🟢 ?? Baja". Si al quitarlo no queda nada, se deja la
-                    // celda como estaba: convertir un dato roto en un vacío
-                    // sería peor que mostrarlo.
+                    // problema de decodificaciÃ³n. Se quita para que no se vea
+                    // "ðŸŸ¢ ?? Baja". Si al quitarlo no queda nada, se deja la
+                    // celda como estaba: convertir un dato roto en un vacÃ­o
+                    // serÃ­a peor que mostrarlo.
                     const sevRaw = this._cell(row, t.cols.severity);
-                    let severity = this._cleanCell(sevRaw).replace(/[?¿]+/g, '').replace(/\s+/g, ' ').trim();
+                    let severity = this._cleanCell(sevRaw).replace(/[?Â¿]+/g, '').replace(/\s+/g, ' ').trim();
                     if (!severity) severity = this._cleanCell(sevRaw);
 
                     const level = this._parseSeverity(severity);
@@ -177,16 +177,16 @@ class DashboardParser {
                         resolution: this._cleanCell(this._cell(row, t.cols.resolution)),
                         detected: this._cell(row, t.cols.detectado),
                         // ALERTS_LOG.md no tiene columna de agente: el nombre
-                        // aparece dentro del texto de la descripción. Se deja
-                        // vacío a propósito. Antes iba la descripción entera
-                        // acá, y eso era indistinguible de "este agente falló".
+                        // aparece dentro del texto de la descripciÃ³n. Se deja
+                        // vacÃ­o a propÃ³sito. Antes iba la descripciÃ³n entera
+                        // acÃ¡, y eso era indistinguible de "este agente fallÃ³".
                         agent: ''
                     });
                 });
             });
         }
 
-        // Alertas cerradas (últimas 7 días)
+        // Alertas cerradas (Ãºltimas 7 dÃ­as)
         const closedSection = this._extractSection(md, 'Alertas cerradas');
         if (closedSection) {
             const rows = this._parseTable(closedSection);
@@ -197,7 +197,7 @@ class DashboardParser {
     }
 
     /**
-     * Parsea COMMS_LOG.md → comunicaciones pendientes
+     * Parsea COMMS_LOG.md â†’ comunicaciones pendientes
      * KPIs: pending count, in-progress count, timeout count
      */
     static parseComms(md) {
@@ -221,9 +221,9 @@ class DashboardParser {
                 if (row.length >= 5) {
                     data.total++;
                     const state = row[4] || '';
-                    if (/⏳|Esperando/.test(state)) data.pending++;
-                    if (/🔁|progreso/i.test(state)) data.inProgress++;
-                    if (/⏱|timeout/i.test(state)) data.timeout++;
+                    if (/â³|Esperando/.test(state)) data.pending++;
+                    if (/ðŸ”|progreso/i.test(state)) data.inProgress++;
+                    if (/â±|timeout/i.test(state)) data.timeout++;
                     data.details.push({
                         from: row[1]?.replace(/[`]/g, '') || '',
                         to: row[2]?.replace(/[`]/g, '') || '',
@@ -238,7 +238,7 @@ class DashboardParser {
     }
 
     /**
-     * Parsea COMMS_LOG.md → comunicaciones detalladas (activas + cerradas)
+     * Parsea COMMS_LOG.md â†’ comunicaciones detalladas (activas + cerradas)
      * KPIs: total, active, closed, pending, timeouts, resolved
      *
      * Modelo de datos:
@@ -313,7 +313,7 @@ class DashboardParser {
             });
         }
 
-        // Parsear "Comunicaciones cerradas (últimas 24h)"
+        // Parsear "Comunicaciones cerradas (Ãºltimas 24h)"
         const closedSection = this._extractSection(md, 'Comunicaciones cerradas');
         if (closedSection) {
             const rows = this._parseTable(closedSection);
@@ -358,16 +358,16 @@ class DashboardParser {
             });
         }
 
-        // Tiempo promedio de respuesta (solo cerradas con duración válida)
+        // Tiempo promedio de respuesta (solo cerradas con duraciÃ³n vÃ¡lida)
         const durations = data.details
-            .filter(d => d.duration && d.duration !== '' && d.duration !== '—')
+            .filter(d => d.duration && d.duration !== '' && d.duration !== 'â€”')
             .map(d => this._parseDurationMs(d.duration))
             .filter(ms => ms > 0);
         if (durations.length > 0) {
             data.avgResponseTimeMs = Math.round(durations.reduce((a, b) => a + b, 0) / durations.length);
         }
 
-        // Críticas pendientes
+        // CrÃ­ticas pendientes
         data.criticalPending = data.details.filter(d =>
             d.importanceKey === 'critical' &&
             ['pending', 'inProgress', 'timeout'].includes(d.status)
@@ -384,19 +384,19 @@ class DashboardParser {
         return cleaned;
     }
 
-    /** Parsea el estado de una comunicación (emoji → status enum + label) */
+    /** Parsea el estado de una comunicaciÃ³n (emoji â†’ status enum + label) */
     static _parseCommStatus(text) {
-        if (/⏳|esperando/i.test(text)) return { status: 'pending', label: 'Esperando' };
-        if (/⏱|timeout/i.test(text)) return { status: 'timeout', label: 'Timeout' };
+        if (/â³|esperando/i.test(text)) return { status: 'pending', label: 'Esperando' };
+        if (/â±|timeout/i.test(text)) return { status: 'timeout', label: 'Timeout' };
         if (/consumido|completad/i.test(text)) return { status: 'resolved', label: 'Consumido' };
-        if (/✅/.test(text)) return { status: 'resolved', label: 'Respondido' };
-        if (/🔄|en progreso/i.test(text)) return { status: 'inProgress', label: 'En progreso' };
-        if (/❌|fallid/i.test(text)) return { status: 'error', label: 'Fallido' };
+        if (/âœ…/.test(text)) return { status: 'resolved', label: 'Respondido' };
+        if (/ðŸ”„|en progreso/i.test(text)) return { status: 'inProgress', label: 'En progreso' };
+        if (/âŒ|fallid/i.test(text)) return { status: 'error', label: 'Fallido' };
         return { status: 'unknown', label: 'Desconocido' };
     }
 
     /**
-     * Parsea SESSION_LOG.md → sesiones recientes + decisiones
+     * Parsea SESSION_LOG.md â†’ sesiones recientes + decisiones
      * KPIs: session count, last activity
      */
     static parseSessionLog(md) {
@@ -416,14 +416,14 @@ class DashboardParser {
         const headers = md.match(/^## .+/gm);
         data.sessionCount = headers ? headers.length : 0;
 
-        // Extraer última actividad
+        // Extraer Ãºltima actividad
         const tsMatch = md.match(/> Actualizado:?\s*(.+)/i) ||
                        md.match(/> \[.*?\]:\s*(\d{4}-\S+)/i);
         if (tsMatch) data.lastActivity = tsMatch[1].trim();
 
         // Contar tareas completadas/pendientes (emojis)
-        const okMatches = md.match(/✅/g);
-        const pendingMatches = md.match(/⏳|⏱|🔄/g);
+        const okMatches = md.match(/âœ…/g);
+        const pendingMatches = md.match(/â³|â±|ðŸ”„/g);
         data.completedTasks = okMatches ? okMatches.length : 0;
         data.pendingTasks = pendingMatches ? pendingMatches.length : 0;
 
@@ -431,8 +431,8 @@ class DashboardParser {
     }
 
     /**
-     * Parsea ORG_MAP.md → mapa organizacional del ecosistema (tab Estructura).
-     * 7 secciones + pendientes de verificación.
+     * Parsea ORG_MAP.md â†’ mapa organizacional del ecosistema (tab Estructura).
+     * 7 secciones + pendientes de verificaciÃ³n.
      * Si el formato del .md cambia, devuelve parseable:false y el renderer
      * cae a marked.js (mismo contrato que el resto de los parsers).
      */
@@ -464,8 +464,8 @@ class DashboardParser {
             return { parseable: false, ...data };
         }
 
-        // Fecha de verificación contra el código real
-        const tsMatch = md.match(/>\s*Verificado contra el código real el\s*(.+)/i);
+        // Fecha de verificaciÃ³n contra el cÃ³digo real
+        const tsMatch = md.match(/>\s*Verificado contra el cÃ³digo real el\s*(.+)/i);
         if (tsMatch) data.verifiedAt = tsMatch[1].trim().replace(/\.$/, '');
 
         // Blockquotes del header (contexto del documento)
@@ -474,7 +474,7 @@ class DashboardParser {
             .map(l => l.replace(/^>\s?/, '').trim())
             .filter(l => l.length > 0);
 
-        // --- §1 Agentes y roles ---
+        // --- Â§1 Agentes y roles ---
         const sec1 = this._extractSection(md, '1. Agentes y roles');
         if (sec1) {
             this._parseTable(sec1).forEach(row => {
@@ -494,7 +494,7 @@ class DashboardParser {
             });
         }
 
-        // --- §2 Interacciones entre agentes ---
+        // --- Â§2 Interacciones entre agentes ---
         const sec2 = this._extractSection(md, '2. Interacciones entre agentes');
         if (sec2) {
             this._parseTable(sec2).forEach(row => {
@@ -511,7 +511,7 @@ class DashboardParser {
 
             const bug = this._extractSubsection(sec2, 'Bug del Reviewer y workarounds');
             if (bug) {
-                // Descripción = todo lo que no es un item numerado
+                // DescripciÃ³n = todo lo que no es un item numerado
                 const desc = bug.split('\n')
                     .map(l => l.trim())
                     .filter(l => l && !/^#/.test(l) && !/^\d+\.\s/.test(l))
@@ -523,7 +523,7 @@ class DashboardParser {
             }
         }
 
-        // --- §3 Permisos de escritura (archivos) ---
+        // --- Â§3 Permisos de escritura (archivos) ---
         const sec3 = this._extractSection(md, '3. Permisos de escritura');
         if (sec3) {
             this._parseTable(this._primaryTable(sec3)).forEach(row => {
@@ -538,7 +538,7 @@ class DashboardParser {
             data.filePermsRules = this._bulletsAfter(sec3, 'Reglas transversales de escritura');
         }
 
-        // --- §4 Permisos de escritura (repos) ---
+        // --- Â§4 Permisos de escritura (repos) ---
         const sec4 = this._extractSection(md, '4. Permisos de escritura');
         if (sec4) {
             this._parseTable(this._primaryTable(sec4)).forEach(row => {
@@ -572,8 +572,8 @@ class DashboardParser {
             if (wtSec) data.worktrees = this._paragraph(wtSec);
         }
 
-        // --- §5 Permisos de configuración ---
-        const sec5 = this._extractSection(md, '5. Permisos de configuración');
+        // --- Â§5 Permisos de configuraciÃ³n ---
+        const sec5 = this._extractSection(md, '5. Permisos de configuraciÃ³n');
         if (sec5) {
             this._parseTable(sec5).forEach(row => {
                 if (row.length >= 3) {
@@ -594,8 +594,8 @@ class DashboardParser {
             }
         }
 
-        // --- §6 Comunicación con Pablo ---
-        const sec6 = this._extractSection(md, '6. Comunicación con Pablo');
+        // --- Â§6 ComunicaciÃ³n con Pablo ---
+        const sec6 = this._extractSection(md, '6. ComunicaciÃ³n con Pablo');
         if (sec6) {
             this._parseTables(sec6).forEach(table => {
                 if (!table.length) return;
@@ -618,8 +618,8 @@ class DashboardParser {
                     });
                 }
             });
-            // Notas de cierre: párrafos que no son tabla, lista ni heading.
-            // El párrafo del canal habilitado se excluye: el renderer ya lo muestra.
+            // Notas de cierre: pÃ¡rrafos que no son tabla, lista ni heading.
+            // El pÃ¡rrafo del canal habilitado se excluye: el renderer ya lo muestra.
             data.commsNotes = sec6.split(/\n\s*\n/)
                 .map(block => block.split('\n')
                     .map(l => l.trim())
@@ -627,16 +627,16 @@ class DashboardParser {
                                  && !/^[-*]\s/.test(l) && !/^-{3,}$/.test(l))
                     .join(' '))
                 .map(p => p.trim())
-                .filter(p => p.length > 0 && !/^Único canal/i.test(p));
+                .filter(p => p.length > 0 && !/^Ãšnico canal/i.test(p));
         }
 
-        // --- §7 Excepciones y reglas de oro ---
+        // --- Â§7 Excepciones y reglas de oro ---
         const sec7 = this._extractSection(md, '7. Excepciones y reglas de oro');
         if (sec7) {
-            const promo = this._extractSubsection(sec7, '7.1 Promoción a');
+            const promo = this._extractSubsection(sec7, '7.1 PromociÃ³n a');
             if (promo) data.rules.promotion = this._numberedList(promo);
 
-            const auto = this._extractSubsection(sec7, '7.2 Autonomía');
+            const auto = this._extractSubsection(sec7, '7.2 AutonomÃ­a');
             if (auto) data.rules.autonomy = this._bullets(auto);
 
             const fb = this._extractSubsection(sec7, '7.3 Fallbacks');
@@ -655,10 +655,10 @@ class DashboardParser {
             if (trans) data.rules.transversales = this._bullets(trans);
         }
 
-        // --- Pendientes de verificación ---
-        // Items numerados con continuación indentada: se agrupan por item,
-        // no por línea (si no, el detail queda cortado en la primera coma).
-        const pend = this._extractSection(md, 'Pendientes de verificación');
+        // --- Pendientes de verificaciÃ³n ---
+        // Items numerados con continuaciÃ³n indentada: se agrupan por item,
+        // no por lÃ­nea (si no, el detail queda cortado en la primera coma).
+        const pend = this._extractSection(md, 'Pendientes de verificaciÃ³n');
         if (pend) {
             const items = [];
             let current = null;
@@ -684,7 +684,7 @@ class DashboardParser {
             });
         }
 
-        // Si no se encontró nada parseable → el renderer cae a marked.js
+        // Si no se encontrÃ³ nada parseable â†’ el renderer cae a marked.js
         const found = data.agents.length > 0 || data.interactions.length > 0
                    || data.repoPerms.length > 0 || data.configPerms.length > 0;
         if (!found) data.parseable = false;
@@ -695,9 +695,9 @@ class DashboardParser {
     // --- Util ---
 
     /**
-     * Devuelve solo la parte de la sección anterior a su primera subsección
-     * (###). Necesario porque _parseTable() seguiría leyendo las tablas de las
-     * subsecciones y las mezclaría con la tabla principal.
+     * Devuelve solo la parte de la secciÃ³n anterior a su primera subsecciÃ³n
+     * (###). Necesario porque _parseTable() seguirÃ­a leyendo las tablas de las
+     * subsecciones y las mezclarÃ­a con la tabla principal.
      */
     static _primaryTable(sectionText) {
         if (!sectionText) return '';
@@ -706,8 +706,8 @@ class DashboardParser {
     }
 
     /**
-     * Extrae una subsección (### Heading) dentro de un texto ya acotado,
-     * hasta el próximo heading (## o ###).
+     * Extrae una subsecciÃ³n (### Heading) dentro de un texto ya acotado,
+     * hasta el prÃ³ximo heading (## o ###).
      */
     static _extractSubsection(text, heading) {
         if (!text || typeof text !== 'string') return null;
@@ -721,7 +721,7 @@ class DashboardParser {
     }
 
     /**
-     * Parsea TODAS las tablas markdown de un texto → array de tablas,
+     * Parsea TODAS las tablas markdown de un texto â†’ array de tablas,
      * cada una = array de filas (array de celdas). A diferencia de
      * _parseTable(), que solo devuelve la primera.
      */
@@ -729,9 +729,11 @@ class DashboardParser {
         const tables = [];
         let current = null;
 
+        if (!text || typeof text !== 'string') return tables;
+
         text.split('\n').forEach(raw => {
             const line = raw.trim();
-            // Línea separadora '|---|---|' → arranca una tabla nueva
+            // LÃ­nea separadora '|---|---|' â†’ arranca una tabla nueva
             if (/^\|[-:| ]+\|$/.test(line)) {
                 current = [];
                 tables.push(current);
@@ -749,8 +751,8 @@ class DashboardParser {
     }
 
     /**
-     * Lista con guiones ('- ') → array de strings, sin el prefijo.
-     * Soporta envoltura suave: las líneas indentadas son continuación del bullet.
+     * Lista con guiones ('- ') â†’ array de strings, sin el prefijo.
+     * Soporta envoltura suave: las lÃ­neas indentadas son continuaciÃ³n del bullet.
      */
     static _bullets(text) {
         if (!text) return [];
@@ -766,7 +768,7 @@ class DashboardParser {
         return items.filter(l => l.length > 0);
     }
 
-    /** Bullets que siguen a un label en línea (ej. 'Reglas transversales de escritura:') */
+    /** Bullets que siguen a un label en lÃ­nea (ej. 'Reglas transversales de escritura:') */
     static _bulletsAfter(text, label) {
         if (!text || !label) return [];
         const escaped = label.replace(/[.*+?^${}()|[\]\\]/g, '\\$&');
@@ -777,7 +779,7 @@ class DashboardParser {
     }
 
     /**
-     * Lista numerada ('1. ') → array de strings, sin el prefijo.
+     * Lista numerada ('1. ') â†’ array de strings, sin el prefijo.
      * Soporta envoltura suave igual que _bullets().
      */
     static _numberedList(text) {
@@ -794,7 +796,7 @@ class DashboardParser {
         return items.filter(l => l.length > 0);
     }
 
-    /** Parrafo de texto plano: une líneas, quita viñetas y separadores '---' */
+    /** Parrafo de texto plano: une lÃ­neas, quita viÃ±etas y separadores '---' */
     static _paragraph(text) {
         if (!text) return '';
         return text.split('\n')
@@ -810,12 +812,12 @@ class DashboardParser {
     }
 
     /**
-     * Extrae el contenido de una sección (## Heading) hasta el siguiente ##.
+     * Extrae el contenido de una secciÃ³n (## Heading) hasta el siguiente ##.
      * FIX: usa ^## con flag m para no confundirse con sub-secciones ### y
-     * no depender de lookahead frágil (que cortaba el contenido antes de tiempo).
+     * no depender de lookahead frÃ¡gil (que cortaba el contenido antes de tiempo).
      */
     static _extractSection(md, heading) {
-        // Buscar la línea que empieza con "## heading" (case-insensitive)
+        // Buscar la lÃ­nea que empieza con "## heading" (case-insensitive)
         const startRegex = new RegExp(`^##\\s+${heading}[^\\n]*\\n`, 'im');
         const startMatch = md.match(startRegex);
         if (!startMatch) return null;
@@ -823,7 +825,7 @@ class DashboardParser {
         const startIdx = startMatch.index + startMatch[0].length;
         const rest = md.substring(startIdx);
 
-        // Buscar el próximo "## " al inicio de línea
+        // Buscar el prÃ³ximo "## " al inicio de lÃ­nea
         const endMatch = rest.match(/^##\s/m);
         const sectionContent = endMatch ? rest.substring(0, endMatch.index) : rest;
 
@@ -833,8 +835,8 @@ class DashboardParser {
     /**
      * Igual que _parseTables(), pero conserva el header de cada tabla.
      * Es lo que hace falta en ALERTS_LOG.md, que mezcla dos formatos:
-     * Una tabla de 6 columnas (# | Severidad | Tipo | Descripción | Estado |
-     * Resolución) y otra de 8 (... | Detectado | Última actualización).
+     * Una tabla de 6 columnas (# | Severidad | Tipo | DescripciÃ³n | Estado |
+     * ResoluciÃ³n) y otra de 8 (... | Detectado | Ãšltima actualizaciÃ³n).
      */
     static _parseTablesWithHeader(text) {
         const tables = [];
@@ -865,8 +867,8 @@ class DashboardParser {
     /**
      * Tablas de alertas de un texto, con las columnas YA resueltas por nombre.
      * Devuelve [{ cols: {severity: 1, ...}, rows: [[...]] }]. Descarta toda
-     * tabla que no tenga 'Severidad' y 'Descripción': antes no hacía falta
-     * distinguir, porque se leían posiciones fijas.
+     * tabla que no tenga 'Severidad' y 'DescripciÃ³n': antes no hacÃ­a falta
+     * distinguir, porque se leÃ­an posiciones fijas.
      */
     static _alertTables(text) {
         return this._parseTablesWithHeader(text)
@@ -891,15 +893,16 @@ class DashboardParser {
             .filter(t => t.cols.severity !== -1 && t.cols.description !== -1);
     }
 
-    /** Celda por índice de columna mapeada. Columna ausente (-1) → '' */
+    /** Celda por Ã­ndice de columna mapeada. Columna ausente (-1) â†’ '' */
     static _cell(row, idx) {
         return (idx >= 0 && idx < row.length) ? (row[idx] || '') : '';
     }
 
-    /** Parsea una tabla markdown → array de arrays (sin header ni separador) */
+    /** Parsea una tabla markdown â†’ array de arrays (sin header ni separador) */
     static _parseTable(text) {
+        if (!text || typeof text !== 'string') return [];
         const lines = text.split('\n').filter(l => l.trim());
-        // Encontrar la línea del header de tabla
+        // Encontrar la lÃ­nea del header de tabla
         const headerIdx = lines.findIndex(l => l.includes('|') && l.match(/\|[-:| ]+\|/));
         if (headerIdx === -1) return [];
 
@@ -913,24 +916,24 @@ class DashboardParser {
         }).filter(row => row.length > 0);
     }
 
-    /** Extrae estado de agente de descripción */
+    /** Extrae estado de agente de descripciÃ³n */
     static _extractAgentStatus(desc) {
         if (!desc) return 'unknown';
 
-        // Timeout explícito
-        if (/TIMEOUT|timed?\s*out|⏱/i.test(desc)) return 'timeout';
+        // Timeout explÃ­cito
+        if (/TIMEOUT|timed?\s*out|â±/i.test(desc)) return 'timeout';
 
-        // Error explícito
-        if (/❌|\(error\)|\berror:/i.test(desc)) return 'error';
+        // Error explÃ­cito
+        if (/âŒ|\(error\)|\berror:/i.test(desc)) return 'error';
 
-        // Éxito explícito (✅ o palabras de completado)
-        if (/✅|ejecutado|completad|done|resuelt/i.test(desc)) return 'ok';
+        // Ã‰xito explÃ­cito (âœ… o palabras de completado)
+        if (/âœ…|ejecutado|completad|done|resuelt/i.test(desc)) return 'ok';
 
         // En progreso
-        if (/🔄|en progreso|running/i.test(desc)) return 'running';
+        if (/ðŸ”„|en progreso|running/i.test(desc)) return 'running';
 
         // Idle
-        if (/⏳|⏸/.test(desc)) return 'idle';
+        if (/â³|â¸/.test(desc)) return 'idle';
 
         // Sin marcadores
         return 'unknown';
@@ -939,14 +942,14 @@ class DashboardParser {
     /** Parsea severidad de alerta */
     static _parseSeverity(text) {
         const normalized = text.toLowerCase();
-        if (/🔴|alta|critical/i.test(normalized)) return 'critical';
-        if (/🟡|media|medium/i.test(normalized)) return 'medium';
-        if (/🟢|baja|low/i.test(normalized)) return 'low';
+        if (/ðŸ”´|alta|critical/i.test(normalized)) return 'critical';
+        if (/ðŸŸ¡|media|medium/i.test(normalized)) return 'medium';
+        if (/ðŸŸ¢|baja|low/i.test(normalized)) return 'low';
         return null;
     }
 
     /**
-     * Parsea CRON_SCHEDULE.md → crons, tareas en curso, bloqueadas, últimos resultados.
+     * Parsea CRON_SCHEDULE.md â†’ crons, tareas en curso, bloqueadas, Ãºltimos resultados.
      */
     static parseCronSchedule(md) {
         const data = {
@@ -967,7 +970,7 @@ class DashboardParser {
         // Timestamps del header
         const updatedMatch = md.match(/>\s*Actualizado:\s*(.+)/i);
         if (updatedMatch) data.updatedAt = updatedMatch[1].trim();
-        const nextMatch = md.match(/>\s*Próxima actualización esperada:\s*(.+)/i);
+        const nextMatch = md.match(/>\s*PrÃ³xima actualizaciÃ³n esperada:\s*(.+)/i);
         if (nextMatch) data.nextUpdate = nextMatch[1].trim();
 
         // Parsear "Crons activos"
@@ -987,7 +990,7 @@ class DashboardParser {
             });
         }
 
-        // Parsear "Descripciones" — bloques: **Nombre**\nDescripción
+        // Parsear "Descripciones" â€” bloques: **Nombre**\nDescripciÃ³n
         const descSection = this._extractSection(md, 'Descripciones');
         if (descSection) {
             const blocks = descSection.split(/\n(?=\*\*)/);
@@ -1028,8 +1031,8 @@ class DashboardParser {
             });
         }
 
-        // Parsear "Últimos resultados de crons"
-        const resultsSection = this._extractSection(md, 'Últimos resultados de crons');
+        // Parsear "Ãšltimos resultados de crons"
+        const resultsSection = this._extractSection(md, 'Ãšltimos resultados de crons');
         if (resultsSection) {
             const rows = this._parseTable(resultsSection);
             rows.forEach(row => {
@@ -1046,7 +1049,7 @@ class DashboardParser {
     }
 
     /**
-     * Parsea DASHBOARD_PO_IDEAS.md → top prioridades + pospuestas.
+     * Parsea DASHBOARD_PO_IDEAS.md â†’ top prioridades + pospuestas.
      */
     static parsePoIdeas(md) {
         const data = {
@@ -1117,17 +1120,17 @@ class DashboardParser {
 
         const lines = md.split('\n');
         lines.forEach(line => {
-            // Ignorar líneas de tabla markdown (empiezan con |)
+            // Ignorar lÃ­neas de tabla markdown (empiezan con |)
             if (line.trim().startsWith('|')) return;
 
             // "ESCALADO a Pablo" (con o sin markdown bold)
             if (/ESCALADO a Pablo/i.test(line)) {
                 let clean = line
                     .replace(/\*+/g, '')
-                    .replace(/^\s*[-*🚨⚠️\d.]+\s*/, '')          // guiones, emojis, números al inicio
-                    .replace(/^\d+\.\s*/, '')                     // numeración "1. "
+                    .replace(/^\s*[-*ðŸš¨âš ï¸\d.]+\s*/, '')          // guiones, emojis, nÃºmeros al inicio
+                    .replace(/^\d+\.\s*/, '')                     // numeraciÃ³n "1. "
                     .replace(/^ESCALADO a Pablo[.:]?\s*/i, '')    // prefijo redundante
-                    .replace(/^🚨\s*/, '')                        // emoji extra
+                    .replace(/^ðŸš¨\s*/, '')                        // emoji extra
                     .trim();
 
                 if (clean.length > 15) {
@@ -1135,15 +1138,15 @@ class DashboardParser {
                         severity: 'critical',
                         title: 'Escalado a Pablo',
                         detail: clean.substring(0, 250),
-                        action: 'Requiere tu decisión'
+                        action: 'Requiere tu decisiÃ³n'
                     });
                 }
             }
-            // "Requires Pablo" (no duplicar si ya matcheó ESCALADO)
+            // "Requires Pablo" (no duplicar si ya matcheÃ³ ESCALADO)
             else if (/Requires Pablo/i.test(line)) {
                 let clean = line
                     .replace(/\*+/g, '')
-                    .replace(/^\s*[-*🚨⚠️\d.]+\s*/, '')
+                    .replace(/^\s*[-*ðŸš¨âš ï¸\d.]+\s*/, '')
                     .replace(/^\d+\.\s*/, '')
                     .trim();
 
@@ -1152,7 +1155,7 @@ class DashboardParser {
                         severity: 'critical',
                         title: 'Requiere OK de Pablo',
                         detail: clean.substring(0, 250),
-                        action: 'Requiere tu decisión'
+                        action: 'Requiere tu decisiÃ³n'
                     });
                 }
             }
@@ -1168,7 +1171,7 @@ class DashboardParser {
     }
 
     /**
-     * Parsea READY_FOR_PROMOTION.md → items listos para promover.
+     * Parsea READY_FOR_PROMOTION.md â†’ items listos para promover.
      */
     static parseReadyForPromotion(md) {
         const data = {
@@ -1202,7 +1205,7 @@ class DashboardParser {
     }
 
     /**
-     * Parsea IN_PROGRESS.md → ramas activas.
+     * Parsea IN_PROGRESS.md â†’ ramas activas.
      */
     static parseInProgress(md) {
         const data = {
@@ -1248,7 +1251,7 @@ class DashboardParser {
                     // una rama mergeada como "en curso" es un item fantasma.
                     vivo: esEncabezado ? false : this._ramaViva(state, notes, started),
                     esFilaEncabezado: esEncabezado,
-                    // ¿Esperando una decision de Pablo? La pregunta se extrae
+                    // Â¿Esperando una decision de Pablo? La pregunta se extrae
                     // con las palabras del equipo, no redactedada por mi.
                     decision: esEncabezado ? null : this._detectaDecision(`${state} ${notes}`),
                     fila: data.branches.length + 1
@@ -1261,7 +1264,7 @@ class DashboardParser {
         // decision" perderia la mitad de lo que hay que decidir.
         //
         // OJO: NO usar _extractSection() aca. Esa pide "^##\s+", y esta
-        // seccion del archivo real es "### Cerradas en este ciclo" — tras los
+        // seccion del archivo real es "### Cerradas en este ciclo" â€” tras los
         // dos "#" viene un "#", no un espacio, asi que no matchea y la tabla
         // entera pasaba inadvertida. Se extrae con su propio patron porque
         // _extractSection distingue a proposito ## de ### y otros callers
@@ -1297,7 +1300,7 @@ class DashboardParser {
      * A diferencia de _extractSection (que distingue a proposito), esta
      * matchea cualquiera de los dos niveles. Existe porque "Cerradas en este
      * ciclo" esta en ### en IN_PROGRESS.md real, y con _extractSection la
-     * tabla — y el item de cacheClear que espera a Pablo — no se veian.
+     * tabla â€” y el item de cacheClear que espera a Pablo â€” no se veian.
      */
     static _extractHeadingAny(md, heading) {
         if (!md) return null;
@@ -1332,18 +1335,18 @@ class DashboardParser {
 
         // Marcadores FUERTES: la decision es de Pablo por dicho explicito.
         const fuertes = [
-            /queda la decisi[oó]n de ([^.;|]+)/i,
-            /decisi[oó]n de (Pablo|ALERT-\d+|ALERTA-\d+)/i,
+            /queda la decisi[oÃ³]n de ([^.;|]+)/i,
+            /decisi[oÃ³]n de (Pablo|ALERT-\d+|ALERTA-\d+)/i,
             /esperando (?:a |tu )?Pablo/i,
-            /requiere (?:tu |la )?decisi[oó]n (?:de Pablo )?/i,
-            /falta (?:tu |la )?decisi[oó]n/i
+            /requiere (?:tu |la )?decisi[oÃ³]n (?:de Pablo )?/i,
+            /falta (?:tu |la )?decisi[oÃ³]n/i
         ];
         for (const re of fuertes) {
             const m = t.match(re);
             // El motivo se muestra en el panel, la pegable en el boton: los
             // dos van como texto plano, asi que los dos se limpian. El
             // motivo sin limpiar dejaba "** El boton de cacheClear NO esta
-            // aca: **P3**" — el ** de apertura caia antes de la palabra y
+            // aca: **P3**" â€” el ** de apertura caia antes de la palabra y
             // el de cierre despues, dejando asteriscos colgados.
             if (m) return { motivo: this._limpiaMarkdown(m[0]), pregunta: this._oracionCon(t, m[0]) };
         }
@@ -1398,13 +1401,13 @@ class DashboardParser {
     }
 
     /**
-     * ¿Esta rama realmente en curso?
+     * Â¿Esta rama realmente en curso?
      *
-     * No pregunta "¿tiene texto?" sino "¿el texto dice que terminó?".
+     * No pregunta "Â¿tiene texto?" sino "Â¿el texto dice que terminÃ³?".
      * Un item que dice MERGEADO y borrada no es un item en curso, por muy
      * completo que parezca su fila.
      *
-     * ⚠️ LA NEGACION ES EL TRAMPA. El archivo dice literalmente
+     * âš ï¸ LA NEGACION ES EL TRAMPA. El archivo dice literalmente
      * "NO mergeada a `agents/main`" y "NO esta en main". Un match de
      * /mergead/ sin mirar la negacion clasifica como TERMINADA una rama que
      * sigue viva, y deja el panel en "0 en curso" con el ecosistema lleno de
@@ -1459,7 +1462,7 @@ class DashboardParser {
         }
 
         // 5) Aprobada pero nunca empezada. "a crear" lo delata.
-        if (/\(a crear\)|todav[ií]a\s+NO\s+iniciad/i.test(crudo)) {
+        if (/\(a crear\)|todav[iÃ­]a\s+NO\s+iniciad/i.test(crudo)) {
             return { viva: false, motivo: 'no_iniciada' };
         }
 
@@ -1467,10 +1470,10 @@ class DashboardParser {
     }
 
     /**
-     * Parsea la importancia de una comm (emoji → key interno).
+     * Parsea la importancia de una comm (emoji â†’ key interno).
      */
     /**
-     * Parsea "1h 15min" o "45min" o "2h" → milisegundos.
+     * Parsea "1h 15min" o "45min" o "2h" â†’ milisegundos.
      */
     static _parseDurationMs(str) {
         if (!str) return 0;
@@ -1485,15 +1488,15 @@ class DashboardParser {
     static _parseImportance(text) {
         if (!text) return 'unclassified';
         const t = text.toLowerCase();
-        if (/🔴|crítica|critica|critical/.test(t)) return 'critical';
-        if (/🟡|importante|important/.test(t)) return 'important';
-        if (/🟢|rutinaria|routine/.test(t)) return 'routine';
+        if (/ðŸ”´|crÃ­tica|critica|critical/.test(t)) return 'critical';
+        if (/ðŸŸ¡|importante|important/.test(t)) return 'important';
+        if (/ðŸŸ¢|rutinaria|routine/.test(t)) return 'routine';
         return 'unclassified';
     }
 
     /**
-     * Parsea COMMS_DETAILS.md → conversación completa de cada comm.
-     * Estructura: ## comm-NNN + bloques (📤 PEDIDO / 📥 RESPUESTA / 🔄 REINTENTO / ✅ CONSUMO).
+     * Parsea COMMS_DETAILS.md â†’ conversaciÃ³n completa de cada comm.
+     * Estructura: ## comm-NNN + bloques (ðŸ“¤ PEDIDO / ðŸ“¥ RESPUESTA / ðŸ”„ REINTENTO / âœ… CONSUMO).
      */
     static parseCommsDetails(md) {
         const data = {
@@ -1505,7 +1508,7 @@ class DashboardParser {
             return { parseable: false, ...data };
         }
 
-        // Dividir por "## comm-" (cada conversación)
+        // Dividir por "## comm-" (cada conversaciÃ³n)
         const parts = md.split(/^## (comm-\d+)/gm);
         // parts = ["...intro...", "comm-001", "...content...", "comm-002", "...content...", ...]
 
@@ -1519,14 +1522,14 @@ class DashboardParser {
                 blocks: []
             };
 
-            // Parsear metadata (líneas tipo "- Campo: valor")
+            // Parsear metadata (lÃ­neas tipo "- Campo: valor")
             const metaLines = content.match(/^-\s*([^:]+):\s*(.+)$/gm) || [];
             metaLines.forEach(line => {
                 const m = line.match(/^-\s*([^:]+):\s*(.+)$/);
                 if (m) conv.meta[m[1].trim()] = m[2].trim();
             });
 
-            // Parsear bloques (### título + cita)
+            // Parsear bloques (### tÃ­tulo + cita)
             const blockRegex = /^###\s+(.+?)(?:\s+\(([^)]+)\))?\s*\n+>\s*([\s\S]*?)(?=\n###|\n*$)/gm;
             let bMatch;
             while ((bMatch = blockRegex.exec(content)) !== null) {
@@ -1548,51 +1551,51 @@ class DashboardParser {
     }
 
     /**
-     * Parsea PROMOTIONS.md → feats pendientes de decisión de Pablo +
+     * Parsea PROMOTIONS.md â†’ feats pendientes de decisiÃ³n de Pablo +
      * decisiones ya tomadas (tab "Promociones").
      *
      * Robusto a cambios de formato: NO asume nombres de columna ni de
-     * sección, y NO busca el estado en toda la fila (eso produce falsos
+     * secciÃ³n, y NO busca el estado en toda la fila (eso produce falsos
      * positivos con frases como "No revertir ni modificar"). El estado se
-     * lee del primer término en negrita de la fila —que es la convención
-     * del archivo— y solo si falta se busca en el texto con límites de
+     * lee del primer tÃ©rmino en negrita de la fila â€”que es la convenciÃ³n
+     * del archivoâ€” y solo si falta se busca en el texto con lÃ­mites de
      * palabra.
      */
     /**
-     * Parsea PROMOTIONS.md → lo que espera tu decisión, lo que está
-     * explícitamente fuera, lo congelado, y el historial.
+     * Parsea PROMOTIONS.md â†’ lo que espera tu decisiÃ³n, lo que estÃ¡
+     * explÃ­citamente fuera, lo congelado, y el historial.
      *
-     * POR QUÉ ESTE PARSER FUE REESCRITO (2026-09-30)
+     * POR QUÃ‰ ESTE PARSER FUE REESCRITO (2026-09-30)
      *
-     * Antes las filas se aplastaban en un solo string con " — " y el estado
+     * Antes las filas se aplastaban en un solo string con " â€” " y el estado
      * se sacaba del PRIMER texto en negrita. Con la tabla real de
      * PROMOTIONS.md eso daba tres mentiras:
      *
-     *   1. La tabla se titula "Por qué NO es candidato". El primer **...** de
-     *      cada fila es "**0 callers.**" o "**Es código de test.**", que no es
+     *   1. La tabla se titula "Por quÃ© NO es candidato". El primer **...** de
+     *      cada fila es "**0 callers.**" o "**Es cÃ³digo de test.**", que no es
      *      un estado. Resultado: state "unknown".
-     *   2. Con state "unknown" los items caían en la sección de "Decisiones
+     *   2. Con state "unknown" los items caÃ­an en la secciÃ³n de "Decisiones
      *      tomadas" por descarte, NO porque estuvieran decididos. Se mostraban
-     *      como decisiones tomadas cosas que nadie decidió.
+     *      como decisiones tomadas cosas que nadie decidiÃ³.
      *   3. El peor: 392c3b9 dice "**PENDIENTE**. No revertir ni modificar hasta
-     *      instrucción de Pablo". El primer **...** es PENDIENTE, así que
-     *      entraba en "Esperando tu decisión" con un badge de pendiente, que
-     *      se lee como "dale que sí". La tab convertía un "no toques esto" en
-     *      un "decidí esto".
+     *      instrucciÃ³n de Pablo". El primer **...** es PENDIENTE, asÃ­ que
+     *      entraba en "Esperando tu decisiÃ³n" con un badge de pendiente, que
+     *      se lee como "dale que sÃ­". La tab convertÃ­a un "no toques esto" en
+     *      un "decidÃ­ esto".
      *
      * Arreglo de fondo: las columnas se identifican por NOMBRE de encabezado,
-     * nunca por posición. Si el equipo agrega, saca o reordena columnas, el
-     * parser sigue leyéndolas bien. Y hay un estado nuevo, "congelado", que
-     * es el más importante de la tab y no existía.
+     * nunca por posiciÃ³n. Si el equipo agrega, saca o reordena columnas, el
+     * parser sigue leyÃ©ndolas bien. Y hay un estado nuevo, "congelado", que
+     * es el mÃ¡s importante de la tab y no existÃ­a.
      */
     static parsePromotions(md) {
         const data = {
             parseable: true,
             updatedAt: null,
-            esperando: [],      // espera una decisión de Pablo
-            congelado: [],      // "no revertir ni modificar" → NO es decisión
-            prodSinVerificar: [],  // YA en producción, sin confirmar que funcione
-            noCandidato: [],    // explícitamente no es candidato a promoción
+            esperando: [],      // espera una decisiÃ³n de Pablo
+            congelado: [],      // "no revertir ni modificar" â†’ NO es decisiÃ³n
+            prodSinVerificar: [],  // YA en producciÃ³n, sin confirmar que funcione
+            noCandidato: [],    // explÃ­citamente no es candidato a promociÃ³n
             indeterminado: [],  // no se pudo leer el estado; se dice, no se supone
             decidido: []        // historial de decisiones tomadas
         };
@@ -1604,12 +1607,12 @@ class DashboardParser {
         // La fecha sale de las FILAS, no de todo el documento.
         //
         // Antes tomaba la primera fecha del texto entero, y en un archivo que
-        // explica en su prosa que el estado "EN PRODUCCIÓN, SIN VERIFICAR"
+        // explica en su prosa que el estado "EN PRODUCCIÃ“N, SIN VERIFICAR"
         // existe "desde el 2026-10-01", esa prosa le ganaba a los datos: la tab
-        // decía "actualizado 2026-10-01" el mismo día que se registraba la
-        // promoción del 2026-10-04. "Última actualización" tiene que ser el
-        // dato más reciente que escribió el equipo, no una fecha citada de
-        // pasada en un párrafo explicativo.
+        // decÃ­a "actualizado 2026-10-01" el mismo dÃ­a que se registraba la
+        // promociÃ³n del 2026-10-04. "Ãšltima actualizaciÃ³n" tiene que ser el
+        // dato mÃ¡s reciente que escribiÃ³ el equipo, no una fecha citada de
+        // pasada en un pÃ¡rrafo explicativo.
         const filas = md.split('\n').filter(l => l.trim().startsWith('|'));
         const dFecha = filas.join('\n').match(/\d{4}-\d{2}-\d{2}/);
         if (dFecha) data.updatedAt = dFecha[0];
@@ -1622,7 +1625,7 @@ class DashboardParser {
             const title = (nl === -1 ? section : section.substring(0, nl)).trim();
             const body = nl === -1 ? '' : section.substring(nl + 1);
 
-            // "decididas" tiene que ir antes que "decisión": /decisi/ matchea
+            // "decididas" tiene que ir antes que "decisiÃ³n": /decisi/ matchea
             // "Decisiones tomadas" y las dos reglas se pisan.
             const isDecision = /decidid|tomadas|historial|aprobad/i.test(title);
             const isPending = !isDecision &&
@@ -1654,32 +1657,32 @@ class DashboardParser {
 
     /**
      * Mete el item en su bucket. El orden importa: "congelado" se prueba
-     * PRIMERO porque su texto suele decir también "pendiente" y ganaría el
-     * primer partido si se probara después.
+     * PRIMERO porque su texto suele decir tambiÃ©n "pendiente" y ganarÃ­a el
+     * primer partido si se probara despuÃ©s.
      */
     static _clasificarPromo(data, item, isDecision) {
         // Antes de la rama de decisiones, y antes que congelado.
         //
-        // El item está en la tabla de "Decisiones tomadas" (isDecision), así
-        // que sin esto caería en `congelado` por su "No revertir ni modificar
-        // hasta que se verifique" — y quedaría pidiendo una decisión sobre algo
-        // que ya está resuelto, que es el bug que esta tab ya tuvo una vez.
-        // Lo que le falta no es la decisión: es la PRUEBA.
+        // El item estÃ¡ en la tabla de "Decisiones tomadas" (isDecision), asÃ­
+        // que sin esto caerÃ­a en `congelado` por su "No revertir ni modificar
+        // hasta que se verifique" â€” y quedarÃ­a pidiendo una decisiÃ³n sobre algo
+        // que ya estÃ¡ resuelto, que es el bug que esta tab ya tuvo una vez.
+        // Lo que le falta no es la decisiÃ³n: es la PRUEBA.
         if (item.prodSinVerificar) {
             data.prodSinVerificar.push(item);
             return;
         }
         if (isDecision) {
             // En el historial "PENDIENTE" no significa "esperando tu
-            // decisión": significa "así quedó, sin resolver". 392c3b9 dice
-            // "PENDIENTE. No revertir ni modificar hasta instrucción de Pablo":
+            // decisiÃ³n": significa "asÃ­ quedÃ³, sin resolver". 392c3b9 dice
+            // "PENDIENTE. No revertir ni modificar hasta instrucciÃ³n de Pablo":
             // eso NO es una tarea para vos, es un aviso de que hay que
             // dejarlo quieto. Va a su propio bucket con su propio cartel.
             //
-            // En cambio 57008ae dice "AUTORIZADO en producción. No tocar.":
-            // también dice "no tocar", pero la decisión YA está tomada, así
+            // En cambio 57008ae dice "AUTORIZADO en producciÃ³n. No tocar.":
+            // tambiÃ©n dice "no tocar", pero la decisiÃ³n YA estÃ¡ tomada, asÃ­
             // que va al historial con la nota de "no tocar" al lado. Meterlo
-            // en "congelado" lo haría parecer que falta algo por decidir.
+            // en "congelado" lo harÃ­a parecer que falta algo por decidir.
             if (item.congelado && !item.decidido) {
                 data.congelado.push(item);
             } else {
@@ -1697,24 +1700,24 @@ class DashboardParser {
         }
         // Sin estado legible NO se inventa uno. Va a su propio bucket para que
         // la tab lo muestre como "no se pudo leer", no como si estuviera
-        // resuelto. Antes caía en "decisiones tomadas" por descarte.
+        // resuelto. Antes caÃ­a en "decisiones tomadas" por descarte.
         data.indeterminado.push(item);
     }
 
     /**
      * Tabla con encabezado. A diferencia de _parseTable(), NO tira la fila
-     * de encabezados: sin ella las columnas son anónimas y no hay forma de
-     * saber cuál es cuál salvo por posición, que es exactamente el
-     * supuesto que rompió todo lo anterior.
+     * de encabezados: sin ella las columnas son anÃ³nimas y no hay forma de
+     * saber cuÃ¡l es cuÃ¡l salvo por posiciÃ³n, que es exactamente el
+     * supuesto que rompiÃ³ todo lo anterior.
      */
     // Todas las tablas de un texto, con su encabezado.
     //
-    // Antes esta función devolvía SÓLO la primera y cortaba al terminar.
-    // Eso está bien para las tablas de una sola, pero la sección "Pendientes
-    // de decisión" de PROMOTIONS.md tiene dos tablas separadas por prosa: la
-    // primera con el único feat que sí espera tu decisión, y la segunda —
-    // "Por qué NO es candidato" — con el resto. Con una sola tabla, el
-    // segundo grupo no se leía NADA y sus filas desaparecían sin dejar rastro,
+    // Antes esta funciÃ³n devolvÃ­a SÃ“LO la primera y cortaba al terminar.
+    // Eso estÃ¡ bien para las tablas de una sola, pero la secciÃ³n "Pendientes
+    // de decisiÃ³n" de PROMOTIONS.md tiene dos tablas separadas por prosa: la
+    // primera con el Ãºnico feat que sÃ­ espera tu decisiÃ³n, y la segunda â€”
+    // "Por quÃ© NO es candidato" â€” con el resto. Con una sola tabla, el
+    // segundo grupo no se leÃ­a NADA y sus filas desaparecÃ­an sin dejar rastro,
     // que es peor que mostrarlas mal: un item que no aparece no se puede
     // auditar.
     static _parseTablesConHeader(text) {
@@ -1748,8 +1751,8 @@ class DashboardParser {
     }
 
     /**
-     * Convierte una fila con encabezado conocido → item. Busca cada campo por
-     * el NOMBRE de su columna, con un orden de preferencia, así que agregar o
+     * Convierte una fila con encabezado conocido â†’ item. Busca cada campo por
+     * el NOMBRE de su columna, con un orden de preferencia, asÃ­ que agregar o
      * reordenar columnas no rompe nada. Las columnas que no aparecen valen
      * null y la tab lo dice: nunca inventa un valor.
      */
@@ -1767,21 +1770,21 @@ class DashboardParser {
         const cComm   = celda(/commit|sha|merge/i);
         const cFecha  = celda(/fecha|date/i);
         const cDec    = celda(/decisi|estado|autoriz/i);
-        // La columna que antes se perdía. Es la razón por la que un item NO es
+        // La columna que antes se perdÃ­a. Es la razÃ³n por la que un item NO es
         // candidato, que es justo lo que hace falta para no molestarlo.
-        const cMotivo = celda(/por qu|criterio|motivo|raz[oó]n|porque|nota/i);
-        // La columna nueva, opcional: dónde probar el cambio en dev.
-        const cRuta   = celda(/d[oó]nde verlo|ruta|ver en dev|pantalla|screen|deep.?link/i);
+        const cMotivo = celda(/por qu|criterio|motivo|raz[oÃ³]n|porque|nota/i);
+        // La columna nueva, opcional: dÃ³nde probar el cambio en dev.
+        const cRuta   = celda(/d[oÃ³]nde verlo|ruta|ver en dev|pantalla|screen|deep.?link/i);
 
-        // Que la columna se llame "Por qué NO es candidato" ES la señal de no
+        // Que la columna se llame "Por quÃ© NO es candidato" ES la seÃ±al de no
         // candidato, y estaba en el encabezado, que se descartaba. Sin esto el
-        // motivo ("Es código de test") llegaba como texto suelto y el item
-        // caía en "no se pudo leer". Con esto se lee lo que el equipo escribió
-        // como título de la columna.
+        // motivo ("Es cÃ³digo de test") llegaba como texto suelto y el item
+        // caÃ­a en "no se pudo leer". Con esto se lee lo que el equipo escribiÃ³
+        // como tÃ­tulo de la columna.
         let motivoHdr = null;
         if (header && header.length) {
             for (let i = 0; i < header.length; i++) {
-                if (/por qu|criterio|motivo|raz[oó]n|porque|nota/i.test(header[i] || '')) {
+                if (/por qu|criterio|motivo|raz[oÃ³]n|porque|nota/i.test(header[i] || '')) {
                     motivoHdr = (header[i] || '').trim();
                     break;
                 }
@@ -1794,7 +1797,7 @@ class DashboardParser {
         // que al menos no rompe.
         if (!cFeat && !cRama && !cComm) return this._promoRow(row, isDecision);
 
-        const todo = [cFeat, cRama, cComm, cDec, cMotivo, cRuta].filter(Boolean).join(' — ');
+        const todo = [cFeat, cRama, cComm, cDec, cMotivo, cRuta].filter(Boolean).join(' â€” ');
         const shas = (cComm || '').match(/[0-9a-f]{7,40}/gi) || [];
 
         return this._armarPromo({
@@ -1816,7 +1819,7 @@ class DashboardParser {
      * Se devuelve SIN el "#" inicial, que es el mismo formato que usa
      * data/rutas-dev.json ("/account/raids", no "#/account/raids"). Con los
      * dos formatos distintos, validar una ruta contra la lista real exige
-     * normalizar en el render, y ahí es donde se cuelan los links rotos.
+     * normalizar en el render, y ahÃ­ es donde se cuelan los links rotos.
      * El "#" lo pone el render al armar la URL.
      */
     static _promoRuta(celda) {
@@ -1832,14 +1835,14 @@ class DashboardParser {
      * desconocido). Mantiene el comportamiento anterior como respaldo.
      */
     static _promoRow(cells, isDecision) {
-        const raw = (Array.isArray(cells) ? cells.join(' — ') : String(cells)).trim();
+        const raw = (Array.isArray(cells) ? cells.join(' â€” ') : String(cells)).trim();
         if (!raw) return null;
         return this._armarPromo({ texto: raw, raw: raw }, isDecision);
     }
 
     /**
-     * Armado común: acá se decide el estado, el nombre del feature y la
-     * separación nombre/detalle.
+     * Armado comÃºn: acÃ¡ se decide el estado, el nombre del feature y la
+     * separaciÃ³n nombre/detalle.
      */
     static _armarPromo(entrada, isDecision) {
         const raw = entrada.raw || entrada.texto || '';
@@ -1853,31 +1856,31 @@ class DashboardParser {
         const fecha = entrada.fecha
             || (raw.match(/\d{4}-\d{2}-\d{2}/) || [])[0] || null;
 
-        // "congelado" se evalúa sobre TODO el texto de la fila, no sobre el
-        // primer **...**. La razón: en 392c3b9 el primer término en negrita
+        // "congelado" se evalÃºa sobre TODO el texto de la fila, no sobre el
+        // primer **...**. La razÃ³n: en 392c3b9 el primer tÃ©rmino en negrita
         // es PENDIENTE, pero la frase que define el estado real es "No
-        // revertir ni modificar hasta instrucción de Pablo", y está más
+        // revertir ni modificar hasta instrucciÃ³n de Pablo", y estÃ¡ mÃ¡s
         // abajo. Mirar solo el primer bold es lo que produjo el bug.
         const congelado = !!(
             /no revertir|sin revertir|no modificar|sin modificar|no tocar|intocable|congelad|hasta instrucci|hasta que Pablo|no revertir ni/i.test(raw)
         );
 
-        // "Está en producción pero nadie confirmó que funcione" (2026-10-01).
+        // "EstÃ¡ en producciÃ³n pero nadie confirmÃ³ que funcione" (2026-10-01).
         //
-        // Se evalúa ANTES que congelado y antes que el state, por una razón
+        // Se evalÃºa ANTES que congelado y antes que el state, por una razÃ³n
         // concreta: la fila dice "No revertir ni modificar hasta que se
-        // verifique", así que el regex de congelado la matchea y se la lleva.
-        // Con el orden viejo, un item que YA está en producción se renderiza
-        // como "congelado" — que es exactamente lo que dice la fila, pero
-        // esconde lo único que le importa a Pablo: que falta probarlo.
+        // verifique", asÃ­ que el regex de congelado la matchea y se la lleva.
+        // Con el orden viejo, un item que YA estÃ¡ en producciÃ³n se renderiza
+        // como "congelado" â€” que es exactamente lo que dice la fila, pero
+        // esconde lo Ãºnico que le importa a Pablo: que falta probarlo.
         //
-        // El patrón busca SOLO expresiones de duda: "sin verificar", "nadie lo
-        // verificó", "todavía no se verificó". Deliberadamente NO matchea
+        // El patrÃ³n busca SOLO expresiones de duda: "sin verificar", "nadie lo
+        // verificÃ³", "todavÃ­a no se verificÃ³". Deliberadamente NO matchea
         // "verificado": un "AUTORIZADO, verificado por Pablo" es lo contrario
         // de lo que representa este estado, y un regex que lo absorbiera
-        // mandaría lo ya revisado al bloque de "falta probar".
+        // mandarÃ­a lo ya revisado al bloque de "falta probar".
         const prodSinVerificar = !!(
-            /(?:sin|no)\s+verific|nadie\s+(?:lo|la|los|las)?\s*verific|no\s+se\s+pudo\s+verific|todav[ií]a\s+no\s+(?:se|lo|la)?\s*verific|queda\s+(?:por|pendiente)?\s*verificar|falta\s+verificar|(?:sin|nadie\s+)\s*confirm\w*/i.test(raw)
+            /(?:sin|no)\s+verific|nadie\s+(?:lo|la|los|las)?\s*verific|no\s+se\s+pudo\s+verific|todav[iÃ­]a\s+no\s+(?:se|lo|la)?\s*verific|queda\s+(?:por|pendiente)?\s*verificar|falta\s+verificar|(?:sin|nadie\s+)\s*confirm\w*/i.test(raw)
         );
 
         const noCandidato = !!entrada.noCandidatoPorColumna || !!(
@@ -1887,13 +1890,13 @@ class DashboardParser {
         // Estado: sale de la columna "Estado" si la tabla la tiene, y recien
         // si no del primer **...** de la fila.
         //
-        // Por qué el orden importa y por qué esto estaba roto: el primer
-        // negrita de la fila del botón de caché es el NOMBRE del feature
-        // ("**Idea 50 completa — el botón de liberar caché**"), porque la
+        // Por quÃ© el orden importa y por quÃ© esto estaba roto: el primer
+        // negrita de la fila del botÃ³n de cachÃ© es el NOMBRE del feature
+        // ("**Idea 50 completa â€” el botÃ³n de liberar cachÃ©**"), porque la
         // columna Feat viene antes que la columna Estado y la celda viene en
         // negrita. El estado real ("**LISTO.**") era el segundo. Con el
-        // "primer negrita" el único item accionable de la tab caía en
-        // "no se pudo leer" y nadie podía verlo.
+        // "primer negrita" el Ãºnico item accionable de la tab caÃ­a en
+        // "no se pudo leer" y nadie podÃ­a verlo.
         const primerBold = s => {
             const m = String(s || '').match(/\*\*([^*]+)\*\*/);
             return m ? m[1] : null;
@@ -1902,14 +1905,14 @@ class DashboardParser {
         let state = 'unknown';
         // prodSinVerificar va PRIMERO: si no, la frase "hasta que se verifique"
         // de la fila la manda a 'congelado', que es verdad pero no es lo que
-        // hay que mostrar. Lo que hay que mostrar es que ya está en
-        // producción y le falta la prueba.
+        // hay que mostrar. Lo que hay que mostrar es que ya estÃ¡ en
+        // producciÃ³n y le falta la prueba.
         if (prodSinVerificar) state = 'prod_sin_verificar';
         else if (congelado) state = 'congelado';
         else if (noCandidato) state = 'no_candidato';
-        // "LISTO." a secas es el estado real del botón de cacheClear. Las dos
-        // reglas anteriores pedían "listo para probar" y caían en unknown, que
-        // mandaba el único item accionable de la tab al bucket "no se pudo
+        // "LISTO." a secas es el estado real del botÃ³n de cacheClear. Las dos
+        // reglas anteriores pedÃ­an "listo para probar" y caÃ­an en unknown, que
+        // mandaba el Ãºnico item accionable de la tab al bucket "no se pudo
         // leer". Se prueba el probe como palabra suelta, no la fila entera:
         // "listo" en la letra chica de otro texto no debe convertirlo en
         // candidato.
@@ -1920,22 +1923,22 @@ class DashboardParser {
         else if (/autorizad|aprobad|promovid/i.test(probe)) state = 'authorized';
         else if (/probado|testeado/i.test(probe)) state = 'tested';
 
-        // "¿Está esto ya decidido?" va aparte del estado, porque "congelado" y
-        // "decidido" no se excluyen: 57008ae está autorizado Y dice "no
-        // tocar", y 392c3b9 está pendiente Y dice "no revertir". Los dos
+        // "Â¿EstÃ¡ esto ya decidido?" va aparte del estado, porque "congelado" y
+        // "decidido" no se excluyen: 57008ae estÃ¡ autorizado Y dice "no
+        // tocar", y 392c3b9 estÃ¡ pendiente Y dice "no revertir". Los dos
         // mentions "no tocar"; solo uno falta que se decida. Sin este campo,
-        // el bucket "congelado" se llevaba también el que ya estaba resuelto.
+        // el bucket "congelado" se llevaba tambiÃ©n el que ya estaba resuelto.
         const decidido = /autorizad|aprobad|promovid|revertid|rechazad|descartad|sacad/i.test(probe);
 
         // Nombre del feature y detalle: NO se parte por el primer ":".
         //
-        // El nombre real del botón es "Idea 50 completa — el botón de liberar
-        // caché" y después viene un paréntesis largo que empieza con un ":"
+        // El nombre real del botÃ³n es "Idea 50 completa â€” el botÃ³n de liberar
+        // cachÃ©" y despuÃ©s viene un parÃ©ntesis largo que empieza con un ":"
         // ("(Tramos A-F: cacheClear con dryRun, ...)"). Partir por el primer
         // dos puntos cortaba el nombre a mitad de palabra y dejaba
-        // "Idea 50 completa — el botón de liberar caché (Tramos A-F" como
-        // título. Los dos puntos solo separan un detalle cuando están
-        // FUERA del paréntesis.
+        // "Idea 50 completa â€” el botÃ³n de liberar cachÃ© (Tramos A-F" como
+        // tÃ­tulo. Los dos puntos solo separan un detalle cuando estÃ¡n
+        // FUERA del parÃ©ntesis.
         const { nombre, detalle: det, cola } = this._nombreYDetalle(texto);
         const detalle = entrada.detalle || det || null;
 
@@ -1945,7 +1948,7 @@ class DashboardParser {
             fecha,
             commit,
             commits: shas,
-            nombre: nombre || '(sin descripción)',
+            nombre: nombre || '(sin descripciÃ³n)',
             detalle,
             cola,
             rama: entrada.rama || null,
@@ -1963,13 +1966,13 @@ class DashboardParser {
     /**
      * Separa nombre / detalle / cola sin cortar palabras.
      *
-     *   "Idea 50 completa — el botón (Tramos A-F: cacheClear …)"
-     *       → nombre "Idea 50 completa — el botón"
-     *         cola   "Tramos A-F: cacheClear …"
+     *   "Idea 50 completa â€” el botÃ³n (Tramos A-F: cacheClear â€¦)"
+     *       â†’ nombre "Idea 50 completa â€” el botÃ³n"
+     *         cola   "Tramos A-F: cacheClear â€¦"
      *
-     *   "(Solitary Throne CM daily tracker): PENDIENTE. No revertir…"
-     *       → nombre "Solitary Throne CM daily tracker"
-     *         detalle "PENDIENTE. No revertir…"
+     *   "(Solitary Throne CM daily tracker): PENDIENTE. No revertirâ€¦"
+     *       â†’ nombre "Solitary Throne CM daily tracker"
+     *         detalle "PENDIENTE. No revertirâ€¦"
      *
      * Los shas SOLO se quitan del principio. Si se limpian de todo el texto,
      * "revertido con `a1a53c4`" queda como "revertido con ." y el dashboard
@@ -1977,18 +1980,18 @@ class DashboardParser {
      */
     static _nombreYDetalle(textoCrudo) {
         let txt = String(textoCrudo)
-            .replace(/^(?:[`\s,]*[0-9a-f]{7,40}[`\s,–-]*)+/i, '')  // shas al inicio
-            .replace(/^[-—–:.\s]+/, '')
+            .replace(/^(?:[`\s,]*[0-9a-f]{7,40}[`\s,â€“-]*)+/i, '')  // shas al inicio
+            .replace(/^[-â€”â€“:.\s]+/, '')
             .trim();
         if (!txt) return { nombre: '', detalle: null, cola: null };
 
         // "(nombre): detalle"
-        const abre = txt.match(/^\(([^)]*)\)\s*[:—–]\s*(.+)$/);
+        const abre = txt.match(/^\(([^)]*)\)\s*[:â€”â€“]\s*(.+)$/);
         if (abre && abre[1].trim().length >= 3) {
             return { nombre: abre[1].trim(), detalle: abre[2].trim(), cola: null };
         }
 
-        // "nombre (cola larga)"  → la cola no es el detalle de una decisión,
+        // "nombre (cola larga)"  â†’ la cola no es el detalle de una decisiÃ³n,
         // es la letra chica del feature.
         const colaLarga = txt.match(/^([^(]{3,90}?)\s*\(([^)]{25,})\)\s*$/);
         if (colaLarga) {
@@ -2000,7 +2003,7 @@ class DashboardParser {
         const solo = txt.match(/^\(([^)]{3,90})\)\s*$/);
         if (solo) return { nombre: solo[1].trim(), detalle: null, cola: null };
 
-        // "nombre: detalle" (dos puntos fuera de paréntesis)
+        // "nombre: detalle" (dos puntos fuera de parÃ©ntesis)
         const punto = txt.match(/^([^:]{3,90}):\s*(.+)$/);
         if (punto) return { nombre: punto[1].trim(), detalle: punto[2].trim(), cola: null };
 
@@ -2008,10 +2011,10 @@ class DashboardParser {
     }
 
     /**
-     * Parsea PRE_BACKLOG.md → ideas en espera del PO.
+     * Parsea PRE_BACKLOG.md â†’ ideas en espera del PO.
      *
      * 2026-10-05. La tab [P] Pre-backlog existia en index.html con su
-     * container #prebacklog-container pero ningún script la llenaba:
+     * container #prebacklog-container pero ningÃºn script la llenaba:
      * era una caja vacia con dos botones que no hacia nada. El parser
      * faltaba, y con el la informacion del PO nunca llegaba al panel.
      *
@@ -2021,36 +2024,202 @@ class DashboardParser {
      *   |----|------|--------|--------|---------------|
      *   | PB-01 | ... | Reddit | pendiente | ... |
      */
+    /**
+     * Parsea PRE_BACKLOG.md â€” pre-backlog del Product Owner.
+     *
+     * 2026-10-05. Formato NARRATIVO (no tabla). El archivo tiene:
+     * 1. SecciÃ³n "Ideas en bruto" con ideas sin filtrar
+     * 2. Secciones "Heartbeat PO <fecha>" con anÃ¡lisis detallados
+     * 3. Cada Heartbeat puede contener mÃºltiples IDEAs numeradas
+     *
+     * Extraemos:
+     * - updatedAt del marcador "> Actualizado: <fecha>"
+     * - Ideas de la secciÃ³n "Ideas en bruto" (formato libre)
+     * - IDEAs de cada Heartbeat (patrÃ³n "IDEA NN" o "IDEA NNX")
+     */
+    /**
+     * Parsea PRE_BACKLOG.md â€” pre-backlog del Product Owner.
+     *
+     * 2026-10-05. Formato NARRATIVO (no tabla). El archivo tiene:
+     * 1. SecciÃ³n "Ideas en bruto" con ideas sin filtrar
+     * 2. Secciones "Heartbeat PO <fecha>" separadas por lÃ­neas `---` (horizontal rule)
+     * 3. Cada Heartbeat puede contener mÃºltiples IDEAs numeradas
+     *
+     * Extraemos:
+     * - updatedAt del marcador "> Actualizado: <fecha>" (si existe)
+     * - Ideas de la secciÃ³n "Ideas en bruto" (formato libre)
+     * - IDEAs de cada Heartbeat (patrÃ³n "IDEA NN" o "IDEA NNX")
+     */
     static parsePreBacklog(md) {
         const data = { parseable: true, updatedAt: null, ideas: [] };
         if (!md || typeof md !== 'string') {
             return { parseable: false, ...data };
         }
-        const updatedMatch = md.match(/>\s*Actualizado:\s*(.+)/i);
+
+        // updatedAt - buscar varios formatos posibles
+        const updatedMatch = md.match(/>\s*Actualizado:\s*(.+)/i) ||
+                             md.match(/Actualizado:\s*(.+)/i) ||
+                             md.match(/^#.*?(\d{4}-\d{2}-\d{2})/m);
         if (updatedMatch) data.updatedAt = updatedMatch[1].trim();
 
-        const section = this._extractSection(md, 'Ideas');
-        if (section) {
-            const rows = this._parseTable(section);
-            rows.forEach(row => {
-                data.ideas.push({
-                    id: this._cleanCell(row[0]),
-                    titulo: this._cleanCell(row[1]),
-                    fuente: this._cleanCell(row[2]),
-                    estado: this._cleanCell(row[3]),
-                    observaciones: this._cleanCell(row[4])
-                });
-            });
+        // 1) SecciÃ³n "Ideas en bruto" - formato libre
+        const ideasSection = this._extractSection(md, 'Ideas en bruto');
+        if (ideasSection) {
+            const lines = ideasSection.split('\n');
+            let currentIdea = null;
+            for (const line of lines) {
+                const trimmed = line.trim();
+                if (!trimmed) continue;
+
+                const isNewIdea = /^[-*]/.test(trimmed) ||
+                                  /^IDEA\s+\d+/.test(trimmed) ||
+                                  (trimmed.length > 20 && !/^---/.test(trimmed));
+
+                if (isNewIdea && currentIdea) {
+                    data.ideas.push(currentIdea);
+                }
+
+                if (isNewIdea) {
+                    currentIdea = {
+                        id: 'raw-' + data.ideas.length,
+                        titulo: trimmed.substring(0, 120),
+                        fuente: 'PO (bruto)',
+                        estado: 'bruto',
+                        observaciones: trimmed.substring(120)
+                    };
+                } else if (currentIdea) {
+                    currentIdea.observaciones += ' ' + trimmed;
+                }
+            }
+            if (currentIdea) data.ideas.push(currentIdea);
         }
+
+        // 2) Heartbeats del PO - dividir por lÃ­neas `---` (horizontal rules)
+        // El archivo usa `---` como separador entre Heartbeats
+        const sections = md.split(/^---$/m);
+        for (const section of sections) {
+            // Verificar si esta secciÃ³n es un Heartbeat PO
+            if (!/Heartbeat PO/i.test(section)) continue;
+
+            // Extraer fecha del heartbeat
+            const dateMatch = section.match(/Heartbeat PO\s+([\d\-]+\s+[\d:]+)/i);
+            const hbDate = dateMatch ? dateMatch[1].trim() : 'fecha desconocida';
+
+            // Buscar IDEAs en este heartbeat - varios formatos
+            // Formato 1: "### IDEA NN: tÃ­tulo" o "## IDEA NN - tÃ­tulo"
+            let ideaMatches = section.match(/^###?\s*IDEA\s+(\d+[A-Z]?)\s*[:\-]\s*(.+)/gim);
+            if (ideaMatches) {
+                for (const im of ideaMatches) {
+                    const imMatch = im.match(/IDEA\s+(\d+[A-Z]?)\s*[:\-]\s*(.+)/i);
+                    if (imMatch) {
+                        const ideaNum = imMatch[1];
+                        const ideaTitle = imMatch[2].trim().substring(0, 120);
+
+                        // Extraer contexto: primeras lÃ­neas despuÃ©s del tÃ­tulo
+                        const afterTitle = section.substring(section.indexOf(im) + im.length);
+                        const contextLines = afterTitle.split('\n').slice(0, 10)
+                            .map(l => l.trim())
+                            .filter(l => l && !/^###?\s*(IDEA|Heartbeat|P\d)/i.test(l))
+                            .join(' ').substring(0, 300);
+
+                        data.ideas.push({
+                            id: 'PO-' + ideaNum,
+                            titulo: ideaTitle,
+                            fuente: 'PO Heartbeat ' + hbDate,
+                            estado: 'propuesta',
+                            observaciones: contextLines || 'Ver Heartbeat completo en PRE_BACKLOG.md'
+                        });
+                    }
+                }
+            }
+
+            // Formato 2: "## 1. IDEA XX ..." o "1. IDEA XX ..."
+            const altIdeas = section.match(/^\d+\.\s*(IDEA\s+\d+[A-Z]?\b.*?)(?=\n\d+\.|\n###?\s|\Z)/gim);
+            if (altIdeas) {
+                for (const ai of altIdeas) {
+                    const aiMatch = ai.match(/IDEA\s+(\d+[A-Z]?)\b(.*)/i);
+                    if (aiMatch) {
+                        const ideaNum = aiMatch[1];
+                        const ideaTitle = aiMatch[2].trim().substring(0, 120);
+                        if (!data.ideas.some(i => i.id === 'PO-' + ideaNum)) {
+                            data.ideas.push({
+                                id: 'PO-' + ideaNum,
+                                titulo: ideaTitle,
+                                fuente: 'PO Heartbeat ' + hbDate,
+                                estado: 'propuesta',
+                                observaciones: 'Ver Heartbeat completo en PRE_BACKLOG.md'
+                            });
+                        }
+                    }
+                }
+            }
+
+            // Formato 3: IDEA en el tÃ­tulo del Heartbeat mismo
+            // "## Heartbeat PO ... - IDEA 49G: tÃ­tulo"
+            const titleIdeaMatch = section.match(/Heartbeat PO.*?- IDEA\s+(\d+[A-Z]?)\s*[:\-]\s*(.+)/i);
+            if (titleIdeaMatch && !data.ideas.some(i => i.id === 'PO-' + titleIdeaMatch[1])) {
+                data.ideas.push({
+                    id: 'PO-' + titleIdeaMatch[1],
+                    titulo: titleIdeaMatch[2].trim().substring(0, 120),
+                    fuente: 'PO Heartbeat ' + hbDate,
+                    estado: 'propuesta',
+                    observaciones: 'Ver Heartbeat completo en PRE_BACKLOG.md'
+                });
+            }
+
+            // Formato 4: Buscar "IDEA NN" en cualquier parte de la secciÃ³n (fallback)
+            if (data.ideas.filter(i => i.fuente.includes(hbDate)).length === 0) {
+                const fallbackMatches = section.match(/IDEA\s+(\d+[A-Z]?)\s*[:\-]\s*(.+)/gi);
+                if (fallbackMatches) {
+                    for (const fm of fallbackMatches) {
+                        const fmMatch = fm.match(/IDEA\s+(\d+[A-Z]?)\s*[:\-]\s*(.+)/i);
+                        if (fmMatch && !data.ideas.some(i => i.id === 'PO-' + fmMatch[1])) {
+                            data.ideas.push({
+                                id: 'PO-' + fmMatch[1],
+                                titulo: fmMatch[2].trim().substring(0, 120),
+                                fuente: 'PO Heartbeat ' + hbDate,
+                                estado: 'propuesta',
+                                observaciones: 'Ver Heartbeat completo en PRE_BACKLOG.md'
+                            });
+                        }
+                    }
+                }
+            }
+        }
+
+        // 3) Fallback global: buscar cualquier "IDEA XX" en el archivo completo
+        if (data.ideas.length === 0) {
+            const allIdeas = md.match(/IDEA\s+(\d+[A-Z]?)\s*[:\-]\s*(.+)/gi);
+            if (allIdeas) {
+                for (const ai of allIdeas) {
+                    const aiMatch = ai.match(/IDEA\s+(\d+[A-Z]?)\s*[:\-]\s*(.+)/i);
+                    if (aiMatch) {
+                        data.ideas.push({
+                            id: 'PO-' + aiMatch[1],
+                            titulo: aiMatch[2].trim().substring(0, 120),
+                            fuente: 'PRE_BACKLOG.md',
+                            estado: 'propuesta',
+                            observaciones: 'ExtracciÃ³n fallback'
+                        });
+                    }
+                }
+            }
+        }
+
         return data;
     }
 
     /**
-     * Parsea BACKLOG.md → tareas priorizadas.
+    /**
+     * Parsea BACKLOG.md — tareas priorizadas.
      *
-     * 2026-10-05. Mismo caso que parsePreBacklog: la tab [B] Backlog
-     * tenia #backlog-container vacio. Este parser lee la tabla "Tareas
-     * priorizadas" que escribe el Principal en cada heartbeat.
+     * Formato esperado (BACKLOG.md):
+     *   > Actualizado: ...
+     *   ## EN CURSO ...
+     *   - [x] **Título** — Descripción
+     *   - [ ] **Título** — Descripción
+     *   ## Pendientes (prioridad alta)
+     *   - [ ] **Título** — Descripción
      */
     static parseBacklog(md) {
         const data = { parseable: true, updatedAt: null, tareas: [] };
@@ -2060,24 +2229,77 @@ class DashboardParser {
         const updatedMatch = md.match(/>\s*Actualizado:\s*(.+)/i);
         if (updatedMatch) data.updatedAt = updatedMatch[1].trim();
 
-        const section = this._extractSection(md, 'Tareas priorizadas');
-        if (section) {
-            const rows = this._parseTable(section);
-            rows.forEach(row => {
-                data.tareas.push({
-                    id: this._cleanCell(row[0]),
-                    titulo: this._cleanCell(row[1]),
-                    prioridad: this._cleanCell(row[2]),
-                    estado: this._cleanCell(row[3]),
-                    observaciones: this._cleanCell(row[4])
-                });
-            });
+        // Buscar todas las secciones que contienen checkboxes
+        // Patrón: ## Título de sección
+        const sectionRegex = /^##\s+(.+)$/gm;
+        let match;
+        const sections = [];
+
+        while ((match = sectionRegex.exec(md)) !== null) {
+            const title = match[1].trim();
+            const start = match.index + match[0].length;
+            sections.push({ title, start, end: md.length });
         }
+        // Calcular end de cada sección
+        for (let i = 0; i < sections.length - 1; i++) {
+            sections[i].end = sections[i + 1].start;
+        }
+
+        // Determinar prioridad basada en el título de la sección
+        function getPriority(sectionTitle) {
+            const t = sectionTitle.toLowerCase();
+            if (t.includes('urgente')) return 'urgente';
+            if (t.includes('en curso') || t.includes('en progreso')) return 'en curso';
+            if (t.includes('alta')) return 'alta';
+            if (t.includes('media')) return 'media';
+            if (t.includes('baja')) return 'baja';
+            return 'normal';
+        }
+
+        // Procesar cada sección
+        for (const sec of sections) {
+            const sectionContent = md.substring(sec.start, sec.end);
+            const priority = getPriority(sec.title);
+
+            // Buscar checkboxes: - [x] o - [ ]
+            const checkboxRegex = /^-\s*\[([ x])\]\s*(.+)$/gm;
+            let cbMatch;
+            while ((cbMatch = checkboxRegex.exec(sectionContent)) !== null) {
+                const checked = cbMatch[1] === 'x';
+                const fullText = cbMatch[2].trim();
+
+                // Extraer título (entre ** **) y observaciones
+                let titulo = fullText;
+                let observaciones = '';
+                const boldMatch = fullText.match(/^\*\*(.+?)\*\*(?:\s*[—-]\s*(.+))?$/);
+                if (boldMatch) {
+                    titulo = boldMatch[1].trim();
+                    observaciones = boldMatch[2] ? boldMatch[2].trim() : '';
+                } else {
+                    // Fallback: primera frase como título
+                    const parts = fullText.split(/[.!?]\s+/);
+                    titulo = parts[0].trim();
+                    observaciones = parts.slice(1).join(' ').trim();
+                }
+
+                // Generar ID simple
+                const id = titulo.substring(0, 40).replace(/[^a-zA-Z0-9]/g, '-').toLowerCase();
+
+                data.tareas.push({
+                    id: id || 'tarea-' + data.tareas.length,
+                    titulo: this._cleanCell(titulo),
+                    prioridad: priority,
+                    estado: checked ? 'completado' : 'pendiente',
+                    observaciones: this._cleanCell(observaciones)
+                });
+            }
+        }
+
         return data;
     }
 
     /**
-     * Parsea FEATURES.md → features construidas por el equipo.
+     * Parsea FEATURES.md â†’ features construidas por el equipo.
      *
      * 2026-10-05. La tab [D] Desarrollo tenia tres containers vacios
      * (clones / ramas / features). Los clones ya los llenaba git.json;
@@ -2120,4 +2342,6 @@ class DashboardParser {
         return data;
     }
 }
+
+
 

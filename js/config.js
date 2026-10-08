@@ -31,16 +31,24 @@ const DASHBOARD_CONFIG = {
     // Zone 'structure' = Mapa organizacional (tab Estructura)
     // Zone 'promotions'= Promociones a producción (tab Promociones)
     //
-    // PRE_BACKLOG.md y COMMS_DETAILS.md NO estan en agents/main: viven en el
-    // workspace del Product Owner. No los listamos aca para no generar un 404 en
-    // cada carga. Si alguna vez se versionan, el auto-descubrimiento por API los
-    // trae solo.
+    // PRE_BACKLOG.md y COMMS_DETAILS.md SÍ están en agents/main desde el
+    // HB#205 (merge fee1e50 + c7f329a). El antiguo comentario decía que
+    // vivían en el workspace del PO y no los listábamos para evitar 404:
+    // era falso, y el dashboard tabulaba vacío por eso mismo.
+    //
+    // 2026-10-06. Aunque el auto-descubrimiento por git.json (archivos_md)
+    // los incluye, no confiamos en que fetchFileList() no falle: si falla,
+    // fetchAll cae a esta lista y sin PRE_BACKLOG.md la tab queda vacía en
+    // silencio. Por eso va explícita acá, con zone 'recent'. Si el archivo
+    // no existe en agents/main, fetchFile devuelve 404 y el parser
+    // recibe null — que es el otro bug que ya cerramos abajo.
     files: [
         { name: 'TEAM_STATUS.md', zone: 'current', label: 'Estado del Equipo' },
         { name: 'ALERTS_LOG.md',   zone: 'current', label: 'Alertas' },
         { name: 'COMMS_LOG.md',   zone: 'current', label: 'Comunicaciones' },
         { name: 'SESSION_LOG.md', zone: 'recent',  label: 'Session Log' },
         { name: 'BACKLOG.md',      zone: 'recent',  label: 'Backlog' },
+        { name: 'PRE_BACKLOG.md',  zone: 'recent',  label: 'Pre-backlog' },
         { name: 'DECISIONS_LOG.md', zone: 'recent', label: 'Decisiones' },
         { name: 'CRON_SCHEDULE.md', zone: 'recent', label: 'Programación' },
         { name: 'DASHBOARD_PO_IDEAS.md', zone: 'recent', label: 'Ideas del PO' },
