@@ -131,18 +131,14 @@
         const container = document.getElementById(FEATURES_ID);
         if (!container) return;
 
-        // Buscar o crear el contenedor del filtro
+        // Buscar o crear el contenedor del filtro DENTRO del container de features
         let filterWrap = document.getElementById(FILTER_ID);
         if (!filterWrap) {
             filterWrap = document.createElement('div');
             filterWrap.id = FILTER_ID;
             filterWrap.className = 'd-features-filter';
-            // Insertar antes del container; fallback: prepend al container
-            if (container.parentNode) {
-                container.parentNode.insertBefore(filterWrap, container);
-            } else {
-                container.prepend(filterWrap);
-            }
+            // Insertar como PRIMER hijo del container de features
+            container.insertBefore(filterWrap, container.firstChild);
         }
 
         const checked = hidePromoted ? ' checked' : '';
