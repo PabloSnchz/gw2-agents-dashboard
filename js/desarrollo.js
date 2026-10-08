@@ -2,10 +2,13 @@
  * js/desarrollo.js - Tab [D] Desarrollo.
  *
  * 2026-10-05. Tres containers vacios (clones / ramas / features) que
- * ningún script llenaba. Este modulo los poblá con los datos que
+ * ningun script llenaba. Este modulo los puebla con los datos que
  * llegan por separado: data/git.json (rama activa de cada clon,
  * trabajo sin commitear), data/ramas.json (ramas vivas del repo de
  * desarrollo) y FEATURES.md (features construidas por el equipo).
+ *
+ * 2026-10-08. Agregados sub-headers con conteo y grid layout
+ * para consistencia visual con el resto del dashboard.
  */
 (function () {
     const CLONES_ID = 'desarrollo-clones';
@@ -14,8 +17,15 @@
 
     function esc(s) {
         return String(s == null ? '' : s)
-            .replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;')
-            .replace(/"/g, '&quot;');
+            .replace(/&/g, '&').replace(/</g, '<').replace(/>/g, '>')
+            .replace(/"/g, '"');
+    }
+
+    function subHeader(title, count) {
+        return '<div class="desarrollo-subheader">'
+            + '<span>' + esc(title) + '</span>'
+            + '<span class="desarrollo-subheader-count">' + count + '</span>'
+            + '</div>';
     }
 
     function cloneCard(repo) {
@@ -92,30 +102,30 @@
         const c = document.getElementById(CLONES_ID);
         if (!c) return;
         if (!clones || !clones.length) {
-            c.innerHTML = empty('sin datos de clon');
+            c.innerHTML = subHeader('Clones', 0) + empty('sin datos de clon');
             return;
         }
-        c.innerHTML = clones.map(cloneCard).join('');
+        c.innerHTML = subHeader('Clones', clones.length) + clones.map(cloneCard).join('');
     }
 
     function renderRamas(ramas) {
         const c = document.getElementById(RAMAS_ID);
         if (!c) return;
         if (!ramas || !ramas.length) {
-            c.innerHTML = empty('sin ramas vivas');
+            c.innerHTML = subHeader('Ramas vivas', 0) + empty('sin ramas vivas');
             return;
         }
-        c.innerHTML = ramas.map(ramaCard).join('');
+        c.innerHTML = subHeader('Ramas vivas', ramas.length) + ramas.map(ramaCard).join('');
     }
 
     function renderFeatures(features) {
         const c = document.getElementById(FEATURES_ID);
         if (!c) return;
         if (!features || !features.length) {
-            c.innerHTML = empty('sin features');
+            c.innerHTML = subHeader('Features', 0) + empty('sin features');
             return;
         }
-        c.innerHTML = features.map(featureCard).join('');
+        c.innerHTML = subHeader('Features', features.length) + features.map(featureCard).join('');
     }
 
     function load() {

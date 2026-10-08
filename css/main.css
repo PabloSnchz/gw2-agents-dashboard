@@ -296,6 +296,53 @@ body {
 .pb-empty,
 .bl-empty { text-align: center; padding: 20px; color: #666; }
 
+/* ===== Contenedores grid para tabs nuevas ===== */
+.prebacklog-container,
+.backlog-container,
+.desarrollo-clones,
+.desarrollo-ramas,
+.desarrollo-features {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+    gap: 16px;
+    margin-top: 16px;
+}
+
+/* Sub-sección headers (para Desarrollo: Clones / Ramas / Features) */
+.desarrollo-subheader {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    font-size: 0.78rem;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    margin: 24px 0 12px;
+    padding-bottom: 8px;
+    border-bottom: 1px solid rgba(255,255,255,0.06);
+    color: #aaa;
+}
+.desarrollo-subheader:first-child { margin-top: 0; }
+.desarrollo-subheader-count {
+    background: rgba(255,255,255,0.08);
+    padding: 1px 8px;
+    border-radius: 10px;
+    font-size: 0.72rem;
+    color: #888;
+}
+
+/* ===== Border-left accents para cards nuevas ===== */
+/* Pre-backlog: morado (ideas del PO) */
+.pb-card { border-left: 3px solid rgba(106, 27, 185, 0.5); }
+/* Backlog: ámbar (tareas pendientes) */
+.bl-card { border-left: 3px solid rgba(255, 152, 0, 0.5); }
+/* Desarrollo: clones - cian */
+.d-clone-card { border-left: 3px solid rgba(0, 188, 212, 0.5); }
+/* Desarrollo: ramas - verde menta */
+.d-rama-card { border-left: 3px solid rgba(76, 175, 80, 0.5); }
+/* Desarrollo: features - azul */
+.d-feature-card { border-left: 3px solid rgba(33, 150, 243, 0.5); }
+
 /* ===== Footer ===== */
 .dashboard-footer {
     text-align: center; padding: 20px 0;
