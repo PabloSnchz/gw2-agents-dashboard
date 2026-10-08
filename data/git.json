@@ -1,6 +1,6 @@
 {
- "generado_utc": "20261008T202158Z",
- "generado_h": "2026-10-08 20:21 UTC",
+ "generado_utc": "20261008T203648Z",
+ "generado_h": "2026-10-08 20:36 UTC",
  "origen": "git local + ls-remote (sin cuota). protected cacheado TTL 6h.",
  "commits": [
   {
@@ -412,12 +412,11 @@
    "proteccion_detalle": null,
    "proteccion_detalle_motivo": "sin token",
    "rama": "fix-armeia-tengo-materiales",
-   "sin_commitear": 38,
+   "sin_commitear": 37,
    "archivos_modificados": [
     "M GENTS.md",
     "M LERTS_LOG.md",
     "M EARTBEAT.md",
-    "M RE_BACKLOG.md",
     "M ools/hb163-canales.mjs",
     "?? CONSULTAS.md",
     "?? _backlog_main.txt",
@@ -459,9 +458,9 @@
    "repo": "gw2-agents-dashboard",
    "label": "Dashboard",
    "role": "dashboard",
-   "sha": "cad44584db42b99d41c51f34547098b0a2995042",
-   "short_sha": "cad4458",
-   "commit": "chore(dashboard): pulso automatico 2026-10-08_20-06_UTC",
+   "sha": "d98b8e506edd35fe78bdb14df69068a09a336c66",
+   "short_sha": "d98b8e5",
+   "commit": "chore(dashboard): pulso automatico 2026-10-08_20-22_UTC",
    "estado": "open",
    "protected": false,
    "protected_fresco": true,
@@ -469,13 +468,15 @@
    "proteccion_detalle": null,
    "proteccion_detalle_motivo": "sin token",
    "rama": "main",
-   "sin_commitear": 6,
+   "sin_commitear": 8,
    "archivos_modificados": [
     "M ata/comms.json",
     "M ata/estructura.json",
     "M ata/salud.json",
     "M s/config.js",
     "M s/parser.js",
+    "?? test_parse.js",
+    "?? test_parse2.js",
     "?? tests/parser-nullguard.test.js"
    ],
    "clon_error": null

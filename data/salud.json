@@ -1,12 +1,12 @@
 {
- "generado_utc": "20261008T202107Z",
- "generado_h": "2026-10-08 20:21 UTC",
+ "generado_utc": "20261008T203607Z",
+ "generado_h": "2026-10-08 20:36 UTC",
  "archivos_estado": [
   {
    "archivo": "TEAM_STATUS.md",
    "quien": "Principal /30min",
    "estado": "ROTO",
-   "edad_h": 83.7,
+   "edad_h": 84.0,
    "kb": 328.7,
    "crecimiento": "EXCEDE 80 KB (329 KB)"
   },
@@ -14,7 +14,7 @@
    "archivo": "SESSION_LOG.md",
    "quien": "Documentador /4h",
    "estado": "ROTO",
-   "edad_h": 138.2,
+   "edad_h": 138.5,
    "kb": 309.5,
    "crecimiento": "EXCEDE 60 KB (310 KB)"
   },
@@ -22,28 +22,29 @@
    "archivo": "COMMS_LOG.md",
    "quien": "Principal /30min",
    "estado": "ROTO",
-   "edad_h": 124.4,
+   "edad_h": 124.6,
    "kb": 254.2
   },
   {
    "archivo": "PRE_BACKLOG.md",
    "quien": "PO /2h",
-   "estado": "ROTO",
-   "edad_h": 50.1,
-   "kb": 1.3
+   "estado": "ok",
+   "edad_h": 0.0,
+   "kb": 367.6,
+   "crecimiento": "EXCEDE 120 KB (368 KB)"
   },
   {
    "archivo": "ALERTS_LOG.md",
    "quien": "Principal /30min",
    "estado": "ROTO",
-   "edad_h": 77.7,
+   "edad_h": 77.9,
    "kb": 563.5
   },
   {
    "archivo": "DECISIONS_LOG.md",
    "quien": "Principal",
    "estado": "ROTO",
-   "edad_h": 210.3,
+   "edad_h": 210.6,
    "kb": 10.2
   }
  ],
@@ -480,17 +481,17 @@
   },
   {
    "dia": "2026-10-08",
-   "llamadas": 156,
-   "prompt": 15302932,
-   "cache_read": 11430720,
-   "cache_pct": 74.7,
-   "prompt_por_llamada": 98095,
+   "llamadas": 219,
+   "prompt": 22996260,
+   "cache_read": 17807040,
+   "cache_pct": 77.4,
+   "prompt_por_llamada": 105005,
    "por_agente": [
     {
      "agente": "architect",
-     "llamadas": 133,
-     "prompt": 12911825,
-     "cache_pct": 74.7
+     "llamadas": 196,
+     "prompt": 20605153,
+     "cache_pct": 77.7
     },
     {
      "agente": "product-owner",
@@ -504,17 +505,17 @@
  "dashboard": [
   {
    "archivo": "comms.json",
-   "edad_min": 0.8,
+   "edad_min": 0.7,
    "estado": "ok"
   },
   {
    "archivo": "salud.json",
-   "edad_min": 15.3,
+   "edad_min": 14.8,
    "estado": "ok"
   },
   {
    "archivo": "estructura.json",
-   "edad_min": 0.8,
+   "edad_min": 0.7,
    "estado": "ok"
   }
  ],
