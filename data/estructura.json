@@ -1,10 +1,10 @@
 {
   "meta": {
     "schema": 2,
-    "titulo": "Estructura real del ecosistema Bóveda del Gato Negro",
-    "autoridad": "Arquitecto (agente `architect`) — director de la ESTRUCTURA por decisión de Pablo, 2026-09-30",
-    "verificado": "2026-10-09T07:51:02Z",
-    "metodo": "GENERADO, no escrito a mano. Regenerar con _eco\\gen_estructura.py. Lee workspaces/<agente>/agent.json (heartbeat.enabled, .every) y workspaces/<agente>/jobs.json (crons: enabled, expr). Nada se supone: un cron deshabilitado se marca activo=false aunque conserve su cron_expr.",
+    "titulo": "Estructura real del ecosistema Boveda del Gato Negro",
+    "autoridad": "Arquitecto (agente `architect`) — director de la ESTRUCTURA por decision de Pablo, 2026-09-30",
+    "verificado": "2026-10-09T08:06:40Z",
+    "metodo": "GENERADO, no escrito a mano. Regenerar con _eco\\gen_estructura.py. Lee workspaces/<agente>/agent.json (heartbeat.enabled, .every) y workspaces/<agente>/jobs.json (crons: enabled, expr). Nada se supone: un cron deshabilitado se marca activo=False aunque conserve su cron_expr.",
     "nota_admin": "El chat 'Principal (Admin)' fue retirado el 2026-09-30: no era un agente, era una sesion manual dentro de `default`. Esa tarea la hace el Arquitecto."
   },
   "agentes": [
@@ -20,11 +20,11 @@
         "cron_expr": null,
         "timeout_s": 300,
         "session_id": null,
-        "cron_apagado_id": "13dc22e6-2feb-4acd-9bea-ff1de7f86361",
+        "cron_apagado_id": "13dc22e6",
         "cron_apagado_expr": "*/30 * * * *",
         "cron_apagado_nombre": "Heartbeat Principal",
         "nota": "Cron 13dc22e6 presente pero DESHABILITADO: no es un canal.",
-        "texto_canal": "apagado por diseño — el mantenimiento lo hace GW2-Comms-Export"
+        "texto_canal": "apagado por diseno — el mantenimiento lo hace GW2-Comms-Export"
       }
     },
     {
@@ -65,7 +65,7 @@
         "activo": true,
         "agent_json_enabled": false,
         "agent_json_every": "2h",
-        "cron_id": "c3f30dc2-ccdd-4fc0-aa6d-f890c482ac87",
+        "cron_id": "c3f30dc2",
         "cron_expr": "0 */2 * * *",
         "timeout_s": 1200,
         "session_id": "1790264876233-s66k3aw"
@@ -83,11 +83,11 @@
         "cron_expr": null,
         "timeout_s": 300,
         "session_id": null,
-        "cron_apagado_id": "17e51119-23d7-4465-b31a-51eaabe5f72d",
+        "cron_apagado_id": "17e51119",
         "cron_apagado_expr": "0,30 * * * *",
         "cron_apagado_nombre": "Heartbeat Arquitecto - sonda de comunicacion",
         "nota": "Cron 17e51119 presente pero DESHABILITADO: no es un canal.",
-        "texto_canal": "apagado por diseño — el mantenimiento lo hace GW2-Comms-Export"
+        "texto_canal": "apagado por diseno — el mantenimiento lo hace GW2-Comms-Export"
       }
     },
     {
