@@ -1,51 +1,57 @@
 {
- "generado_utc": "20261009T082556Z",
- "generado_h": "2026-10-09 08:25 UTC",
+ "generado_utc": "20261009T092902Z",
+ "generado_h": "2026-10-09 09:29 UTC",
  "archivos_estado": [
   {
    "archivo": "TEAM_STATUS.md",
-   "quien": "Principal /30min",
+   "agente": "default",
    "estado": "ROTO",
-   "edad_h": 95.8,
+   "edad_h": 96.9,
    "kb": 328.7,
+   "causa": "cron DESHABILITADO: Heartbeat Principal (*/30 * * * *)",
    "crecimiento": "EXCEDE 80 KB (329 KB)"
   },
   {
    "archivo": "SESSION_LOG.md",
-   "quien": "Documentador /4h",
+   "agente": "documenter",
    "estado": "ROTO",
-   "edad_h": 150.3,
+   "edad_h": 151.3,
    "kb": 309.5,
+   "causa": "heartbeat DESHABILITADO en agent.json (every=6h)",
    "crecimiento": "EXCEDE 60 KB (310 KB)"
   },
   {
    "archivo": "COMMS_LOG.md",
-   "quien": "Principal /30min",
+   "agente": "default",
    "estado": "ROTO",
-   "edad_h": 136.5,
-   "kb": 254.2
+   "edad_h": 137.5,
+   "kb": 254.2,
+   "causa": "cron DESHABILITADO: Heartbeat Principal (*/30 * * * *)"
   },
   {
    "archivo": "PRE_BACKLOG.md",
-   "quien": "PO /2h",
+   "agente": "product-owner",
    "estado": "ROTO",
-   "edad_h": 11.9,
+   "edad_h": 12.9,
    "kb": 367.6,
+   "causa": "activo",
    "crecimiento": "EXCEDE 120 KB (368 KB)"
   },
   {
    "archivo": "ALERTS_LOG.md",
-   "quien": "Principal /30min",
+   "agente": "default",
    "estado": "ROTO",
-   "edad_h": 89.8,
-   "kb": 563.5
+   "edad_h": 90.8,
+   "kb": 563.5,
+   "causa": "cron DESHABILITADO: Heartbeat Principal (*/30 * * * *)"
   },
   {
    "archivo": "DECISIONS_LOG.md",
-   "quien": "Principal",
+   "agente": "default",
    "estado": "ROTO",
-   "edad_h": 222.4,
-   "kb": 10.2
+   "edad_h": 223.5,
+   "kb": 10.2,
+   "causa": "cron DESHABILITADO: Heartbeat Principal (*/30 * * * *)"
   }
  ],
  "crons": [
@@ -475,23 +481,23 @@
   },
   {
    "dia": "2026-10-09",
-   "llamadas": 67,
-   "prompt": 7081363,
-   "cache_read": 4622400,
-   "cache_pct": 65.3,
-   "prompt_por_llamada": 105691,
+   "llamadas": 91,
+   "prompt": 9066845,
+   "cache_read": 5676480,
+   "cache_pct": 62.6,
+   "prompt_por_llamada": 99635,
    "por_agente": [
+    {
+     "agente": "architect",
+     "llamadas": 55,
+     "prompt": 5115393,
+     "cache_pct": 60.7
+    },
     {
      "agente": "product-owner",
      "llamadas": 35,
      "prompt": 3820916,
      "cache_pct": 67.3
-    },
-    {
-     "agente": "architect",
-     "llamadas": 31,
-     "prompt": 3129911,
-     "cache_pct": 65.6
     },
     {
      "agente": "default",
@@ -505,17 +511,17 @@
  "dashboard": [
   {
    "archivo": "comms.json",
-   "edad_min": 1.1,
+   "edad_min": 0.8,
    "estado": "ok"
   },
   {
    "archivo": "salud.json",
-   "edad_min": 20.3,
+   "edad_min": 14.6,
    "estado": "ok"
   },
   {
    "archivo": "estructura.json",
-   "edad_min": 1.1,
+   "edad_min": 0.8,
    "estado": "ok"
   }
  ],
