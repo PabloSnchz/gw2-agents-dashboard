@@ -1,1554 +1,688 @@
 /**
- * js/renderer.js
- * Renderiza componentes visuales del dashboard:
- * KPIs, agent cards, alertas/comms badges, y acordeones.
+ * renderer.js — GW2 Agents Dashboard
+ * Migrated to Andreani Cartesian Design System v1
+ * Uses semantic tokens only. No hex literals. No !important.
  */
 
-class DashboardRenderer {
+import { state } from './state.js';
+import { api } from './api.js';
+import { formatRelativeTime, formatNumber, formatDuration } from './utils.js';
 
-    /**
-     * Renderiza las 4 KPI cards en grid 2×2
-     * @param {Object} data — { agents, alerts, comms, sessions } parsed data
-     */
-    static renderKPIs(data) {
-        const container = document.getElementById('kpi-grid');
-        if (!container) return;
+// =============================================================================
+// HELPER: Cartesian component builders
+// =============================================================================
 
-        const agentCount = data.agents ? data.agents.length : 0;
-        const running = data.agents ? data.agents.filter(a => a.status === 'ok' || a.status === 'running').length : 0;
-        const issues = agentCount - running;
+function btn(classes, text, attrs = {}) {
+    const c = ['btn', ...classes].join(' ');
+    const a = Object.entries(attrs).map(([k, v]) => `${k}="${v}"`).join(' ');
+    return `<button class="${c}" ${a}>${text}</button>`;
+}
 
-        const alertActive = data.alerts ? data.alerts.active : 0;
-        const alertCritical = data.alerts ? data.alerts.bySeverity.critical : 0;
+function btnPrimary(text, attrs) { return btn(['btn-primary'], text, attrs); }
+function btnSecondary(text, attrs) { return btn(['btn-secondary'], text, attrs); }
+function btnGhost(text, attrs) { return btn(['btn-ghost'], text, attrs); }
+function btnDanger(text, attrs) { return btn(['btn-danger'], text, attrs); }
+function btnSm(classes, text, attrs) { return btn([...classes, 'btn-sm'], text, attrs); }
 
-        const commsPending = data.comms ? data.comms.pending : 0;
-        const commsTimeout = data.comms ? data.comms.timeout : 0;
+function alertBox(type, title, message) {
+    return `<div class="alert alert-${type}" role="alert"><div class="alert-content"><div class="alert-title">${title}</div><div class="alert-message">${message}</div></div></div>`;
+}
 
-        const sessions = data.sessions ? data.sessions.sessionCount : 0;
+function chip(text, removable = false, onRemove = '') {
+    const r = removable ? `<button class="chip-remove" onclick="${onRemove}">&times;</button>` : '';
+    return `<span class="chip chip-removable">${text}${r}</span>`;
+}
 
-        container.innerHTML = `
-            <div class="kpi-card kpi-agents">
-                <div class="kpi-header">
-                    <span class="kpi-icon">🐈</span>
-                    <span class="kpi-title">Agentes</span>
-                </div>
-                <div class="kpi-value">${running}/${agentCount}</div>
-                <div class="kpi-sub">${issues} con issues</div>
-            </div>
-            <div class="kpi-card kpi-alerts">
-                <div class="kpi-header">
-                    <span class="kpi-icon">⚠️</span>
-                    <span class="kpi-title">Alertas</span>
-                </div>
-                <div class="kpi-value">${alertActive}</div>
-                <div class="kpi-sub">${alertCritical} críticas</div>
-            </div>
-            <div class="kpi-card kpi-comms">
-                <div class="kpi-header">
-                    <span class="kpi-icon">💬</span>
-                    <span class="kpi-title">Comms</span>
-                </div>
-                <div class="kpi-value">${commsPending}</div>
-                <div class="kpi-sub">${commsTimeout} timeouts</div>
-            </div>
-            <div class="kpi-card kpi-logs">
-                <div class="kpi-header">
-                    <span class="kpi-icon">📋</span>
-                    <span class="kpi-title">Logs</span>
-                </div>
-                <div class="kpi-value">${sessions}</div>
-                <div class="kpi-sub">sesiones</div>
-            </div>
-        `;
+function badge(type, text) {
+    return `<span class="badge badge-${type}">${text}</span>`;
+}
+
+function card(title, body, footer = '') {
+    return `<article class="card"><header class="card-header"><h3 class="card-title">${title}</h3></header><div class="card-body">${body}</div>${footer ? `<footer class="card-footer">${footer}</footer>` : ''}</article>`;
+}
+
+function tableWrap(html) {
+    return `<div class="table-wrap">${html}</div>`;
+}
+
+function table(headers, rows, opts = {}) {
+    const head = headers.map(h => `<th>${h}</th>`).join('');
+    const body = rows.map(r => `<tr${r.class ? ` class="${r.class}"` : ''}>${r.cells.map(c => `<td${c.class ? ` class="${c.class}"` : ''}>${c.html}</td>`).join('')}</tr>`).join('');
+    return `<table class="table"><thead><tr>${head}</tr></thead><tbody>${body}</tbody></table>`;
+}
+
+function accordion(items) {
+    return `<div class="accordion-container">${items.map(item => `<details class="accordion"${item.open ? ' open' : ''}><summary class="accordion-header">${item.title}<span class="accordion-toggle">▸</span></summary><div class="accordion-body">${item.content}</div></details>`).join('')}</div>`;
+}
+
+function modal(id, title, body, footer) {
+    return `<div class="modal-overlay" id="${id}-overlay" tabindex="-1" aria-hidden="true"><div class="modal" role="dialog" aria-modal="true" aria-labelledby="${id}-title"><header class="modal-header"><h2 class="modal-title" id="${id}-title">${title}</h2><button class="modal-close" onclick="closeModal('${id}')" aria-label="Cerrar">&times;</button></header><div class="modal-body">${body}</div>${footer ? `<footer class="modal-footer">${footer}</footer>` : ''}</div></div>`;
+}
+
+function toast(type, title, message) {
+    const id = `toast-${Date.now()}`;
+    return `<div class="toast" id="${id}" role="alert" aria-live="polite">${alertBox(type, title, message)}</div>`;
+}
+
+function input(id, label, type = 'text', placeholder = '', value = '', error = '') {
+    return `<div class="form-group"><label class="form-label" for="${id}">${label}</label><input class="input${error ? ' input-error' : ''}" type="${type}" id="${id}" placeholder="${placeholder}" value="${value}"${error ? ` aria-invalid="true" aria-describedby="${id}-error"` : ''}>${error ? `<span class="form-error" id="${id}-error">${error}</span>` : ''}</div>`;
+}
+
+function select(id, label, options, value = '', error = '') {
+    const opts = options.map(o => `<option value="${o.value}"${o.value === value ? ' selected' : ''}>${o.label}</option>`).join('');
+    return `<div class="form-group"><label class="form-label" for="${id}">${label}</label><select class="select${error ? ' select-error' : ''}" id="${id}"${error ? ` aria-invalid="true" aria-describedby="${id}-error"` : ''}>${opts}</select>${error ? `<span class="form-error" id="${id}-error">${error}</span>` : ''}</div>`;
+}
+
+function checkbox(id, label, checked = false, name = '') {
+    return `<label class="checkbox-inline"><input type="checkbox" class="checkbox-input" id="${id}" name="${name}"${checked ? ' checked' : ''}><span class="checkbox-box" aria-hidden="true"></span><span class="checkbox-label">${label}</span></label>`;
+}
+
+function kebab(triggerLabel, items, triggerClass = '') {
+    const menuItems = items.map(i => `<button class="kebab-item${i.danger ? ' kebab-item-danger' : ''}" onclick="${i.onclick}">${i.icon ? `<span>${i.icon}</span>` : ''}${i.label}</button>`).join('');
+    return `<div class="kebab${triggerClass}"><button class="kebab-trigger" aria-label="${triggerLabel}" aria-expanded="false" aria-haspopup="true"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="1"/><circle cx="12" cy="5" r="1"/><circle cx="12" cy="19" r="1"/></svg></button><div class="kebab-menu" role="menu">${menuItems}</div></div>`;
+}
+
+// =============================================================================
+// RENDER: ORG (Estructura del ecosistema)
+// =============================================================================
+
+export function renderOrg(data) {
+    if (!data || !data.org) return alertBox('warning', 'Sin datos', 'No hay datos de estructura disponibles.');
+
+    const { agents, worktrees, crons, remotes, paths, mcp, alerts } = data.org;
+
+    let html = '';
+
+    // KPIs
+    const kpis = [
+        { label: 'Agentes', value: agents?.length ?? 0, icon: '🤖' },
+        { label: 'Worktrees', value: worktrees?.length ?? 0, icon: '🌳' },
+        { label: 'Crons activos', value: crons?.filter(c => c.enabled).length ?? 0, icon: '⏰' },
+        { label: 'Alertas', value: alerts?.length ?? 0, icon: '🚨' }
+    ];
+    html += `<div class="pulso-kpis">${kpis.map(k => `<div class="card"><div class="card-body" style="text-align:center"><div style="font-size:var(--text-3xl)">${k.icon}</div><div class="cell-mono" style="font-size:var(--text-2xl)">${k.value}</div><div style="font-size:var(--text-xs);color:var(--text-tertiary)">${k.label}</div></div></div>`).join('')}</div>`;
+
+    // Agents grid
+    if (agents?.length) {
+        html += `<h4 style="margin:var(--space-6) 0 var(--space-3)">Agentes</h4>`;
+        html += `<div class="agent-grid">${agents.map(a => card(a.id, `<div class="grid grid-2" style="font-size:var(--text-sm)"><div><strong>Modelo:</strong> ${a.model}</div><div><strong>Heartbeat:</strong> ${a.heartbeat}</div><div><strong>Repo:</strong> ${a.repo}</div><div><strong>MCP:</strong> ${a.mcp?.enabled ? '✅' : '❌'}</div></div>`)).join('')}</div>`;
     }
 
-    /**
-     * Renderiza las cards de agentes (5 agentes con status color)
-     * @param {Array} agents — [{ name, desc, status, raw }]
-     */
-    static renderAgentCards(agents) {
-        const container = document.getElementById('agent-cards');
-        if (!container) return;
-
-        if (!agents || agents.length === 0) {
-            container.innerHTML = '<p class="loading">No se pudieron extraer estados de agentes.</p>';
-            return;
-        }
-
-        container.innerHTML = agents.map(agent => {
-            const statusClass = this._agentStatusClass(agent.status);
-            const statusIcon = this._agentStatusIcon(agent.status);
-            const statusLabel = this._agentStatusLabel(agent.status);
-
-            return `
-                <div class="agent-card ${statusClass}">
-                    <div class="agent-header">
-                        <span class="agent-badge">${statusIcon}</span>
-                        <span class="agent-name">${agent.name}</span>
-                    </div>
-                    <div class="agent-status">${statusLabel}</div>
-                    <div class="agent-desc">${this._truncate(agent.desc, 120)}</div>
-                </div>
-            `;
-        }).join('');
+    // Worktrees
+    if (worktrees?.length) {
+        html += `<h4 style="margin:var(--space-6) 0 var(--space-3)">Worktrees</h4>`;
+        html += tableWrap(table(
+            ['Path', 'Rama', 'HEAD', 'Estado'],
+            worktrees.map(w => ({
+                class: w.dirty ? 'table-row-warning' : '',
+                cells: [
+                    { html: `<code class="cell-mono">${w.path}</code>` },
+                    { html: `<code class="cell-mono">${w.branch}</code>` },
+                    { html: `<code class="cell-mono">${w.head?.slice(0, 8)}</code>` },
+                    { html: w.dirty ? badge('warning', 'Con cambios') : badge('success', 'Limpio') }
+                ]
+            }))
+        ));
     }
 
-    /**
-     * Renderiza alertas y comunicaciones en 2-columnas
-     * @param {Object} alerts — parsed alerts data
-     * @param {Object} comms — parsed comms data
-     */
-    static renderAlertsAndComms(alerts, comms) {
-        const container = document.getElementById('alerts-comms');
-        if (!container) return;
-
-        const alertItems = (alerts.details || []).slice(0, 5).map(a => `
-            <div class="item-row">
-                <span class="badge ${this._severityBadgeClass(a.severity)}">
-                    ${this._severityIcon(a.severity)} ${a.severity.replace(/[🔴🟡🟢⚠️]\s*/g, '').trim()}
-                </span>
-                <span class="item-text">${this._truncate(a.description || '', 100)}</span>
-                <span class="item-agent">${a.agent || ''}</span>
-            </div>
-        `).join('') || '<p class="loading">Sin alertas activas</p>';
-
-        const commItems = (comms.details || []).slice(0, 5).map(c => `
-            <div class="item-row">
-                <span class="badge badge-info">⏳</span>
-                <span class="item-text">${this._truncate(c.request || '', 100)}</span>
-                <span class="item-agent">${c.from}→${c.to}</span>
-            </div>
-        `).join('') || '<p class="loading">Sin comunicaciones pendientes</p>';
-
-        container.innerHTML = `
-            <div class="column-section">
-                <h3>🔴 Alertas Activas (${alerts.active || 0})</h3>
-                ${alertItems}
-            </div>
-            <div class="column-section">
-                <h3>💬 Comunicaciones (${comms.pending || 0} pendientes)</h3>
-                ${commItems}
-            </div>
-        `;
+    // Crons
+    if (crons?.length) {
+        html += `<h4 style="margin:var(--space-6) 0 var(--space-3)">Crons</h4>`;
+        html += tableWrap(table(
+            ['ID', 'Agente', 'Schedule', 'Próx. ejecución', 'Estado'],
+            crons.map(c => ({
+                cells: [
+                    { html: `<code class="cell-mono">${c.id}</code>` },
+                    { html: c.agent },
+                    { html: `<code class="cell-mono">${c.schedule}</code>` },
+                    { html: c.nextRun ? formatRelativeTime(c.nextRun) : '—' },
+                    { html: c.enabled ? badge('success', 'Activo') : badge('neutral', 'Pausado') }
+                ]
+            }))
+        ));
     }
 
-    /**
-     * Renderiza KPIs específicas de comunicaciones (4 cards)
-     * @param {Object} comms — parsed communications data
-     */
-    static renderCommsKPIs(comms) {
-        const container = document.getElementById('comms-kpis');
-        if (!container) return;
-
-        const active = comms.active || 0;
-        const pending = comms.pending || 0;
-        const closed = comms.closed || 0;
-        const timeouts = comms.timeout || 0;
-        const criticalPending = comms.criticalPending || 0;
-
-        // Formato del tiempo promedio
-        let avgLabel = '—';
-        if (comms.avgResponseTimeMs > 0) {
-            const min = Math.round(comms.avgResponseTimeMs / 60000);
-            if (min < 60) avgLabel = `${min} min`;
-            else {
-                const h = Math.floor(min / 60);
-                const m = min % 60;
-                avgLabel = m > 0 ? `${h}h ${m}min` : `${h}h`;
-            }
-        }
-
-        container.innerHTML = `
-            <div class="kpi-card kpi-comms-active">
-                <div class="kpi-header">
-                    <span class="kpi-icon">💬</span>
-                    <span class="kpi-title">Activas</span>
-                </div>
-                <div class="kpi-value">${active}</div>
-                <div class="kpi-sub">en seguimiento</div>
-            </div>
-            <div class="kpi-card kpi-comms-pending">
-                <div class="kpi-header">
-                    <span class="kpi-icon">⏳</span>
-                    <span class="kpi-title">Pendientes</span>
-                </div>
-                <div class="kpi-value">${pending}</div>
-                <div class="kpi-sub">sin respuesta</div>
-            </div>
-            <div class="kpi-card kpi-comms-closed">
-                <div class="kpi-header">
-                    <span class="kpi-icon">✅</span>
-                    <span class="kpi-title">Cerradas</span>
-                </div>
-                <div class="kpi-value">${closed}</div>
-                <div class="kpi-sub">últimas 24h</div>
-            </div>
-            <div class="kpi-card kpi-comms-timeout">
-                <div class="kpi-header">
-                    <span class="kpi-icon">⏱</span>
-                    <span class="kpi-title">Timeouts</span>
-                </div>
-                <div class="kpi-value">${timeouts}</div>
-                <div class="kpi-sub">sin respuesta</div>
-            </div>
-            <div class="comms-summary-bar">
-                <div class="comms-summary-item">
-                    <span class="comms-summary-icon">⏱</span>
-                    <span class="comms-summary-label">Tiempo promedio</span>
-                    <span class="comms-summary-value">${avgLabel}</span>
-                </div>
-                <div class="comms-summary-item ${criticalPending > 0 ? 'comms-summary-item--alert' : ''}">
-                    <span class="comms-summary-icon">🔴</span>
-                    <span class="comms-summary-label">Críticas pendientes</span>
-                    <span class="comms-summary-value">${criticalPending}</span>
-                </div>
-            </div>
-        `;
+    // Remotes
+    if (remotes?.length) {
+        html += `<h4 style="margin:var(--space-6) 0 var(--space-3)">Remotes</h4>`;
+        html += tableWrap(table(
+            ['Nombre', 'URL', 'Tipo'],
+            remotes.map(r => ({
+                cells: [
+                    { html: `<strong>${r.name}</strong>` },
+                    { html: `<code class="cell-mono">${r.url}</code>` },
+                    { html: badge(r.type === 'origin' ? 'info' : 'neutral', r.type) }
+                ]
+            }))
+        ));
     }
 
-    /**
-     * Configura el toolbar de comunicaciones (filtros + search)
-     * @param {Object} filterState — { statusFilter, searchTerm }
-     */
-    static renderCommsToolbar(filterState) {
-        const toolbar = document.getElementById('comms-toolbar');
-        if (!toolbar) return;
-
-        // Recolectar agentes únicos de los datos actuales
-        const agents = new Set();
-        if (window.commsData && window.commsData.details) {
-            window.commsData.details.forEach(d => {
-                if (d.from) agents.add(d.from);
-                if (d.to) agents.add(d.to);
-            });
-        }
-        const agentList = Array.from(agents).sort();
-
-        toolbar.innerHTML = `
-            <select id="comms-filter-status" class="comms-filter-select">
-                <option value="all">Todos los estados</option>
-                <option value="pending">⏳ Pendientes</option>
-                <option value="timeout">⏱ Timeouts</option>
-                <option value="resolved">✅ Resueltas</option>
-                <option value="inProgress">🔄 En progreso</option>
-            </select>
-            <select id="comms-filter-importance" class="comms-filter-select">
-                <option value="all">Todas las importancias</option>
-                <option value="critical">🔴 Críticas</option>
-                <option value="important">🟡 Importantes</option>
-                <option value="routine">🟢 Rutinarias</option>
-                <option value="unclassified">❔ Sin clasificar</option>
-            </select>
-            <select id="comms-filter-agent" class="comms-filter-select">
-                <option value="all">Todos los agentes</option>
-                ${agentList.map(a => `<option value="${this._escape(a)}">${this._escape(a)}</option>`).join('')}
-            </select>
-            <input type="text" id="comms-search" class="comms-search" placeholder="Buscar en pedidos...">
-        `;
-
-        // Restaurar filtros guardados
-        const savedStatus = localStorage.getItem('gn:dashboard:comms:filter:status') || 'all';
-        const statusSel = toolbar.querySelector('#comms-filter-status');
-        if (statusSel) statusSel.value = savedStatus;
-
-        const savedImportance = localStorage.getItem('gn:dashboard:comms:filter:importance') || 'all';
-        const impSel = toolbar.querySelector('#comms-filter-importance');
-        if (impSel) impSel.value = savedImportance;
-
-        const savedAgent = localStorage.getItem('gn:dashboard:comms:filter:agent') || 'all';
-        const agentSel = toolbar.querySelector('#comms-filter-agent');
-        if (agentSel) agentSel.value = savedAgent;
-
-        const savedSearch = localStorage.getItem('gn:dashboard:comms:search') || '';
-        const searchInput = toolbar.querySelector('#comms-search');
-        if (searchInput) searchInput.value = savedSearch;
+    // Paths
+    if (paths?.length) {
+        html += `<h4 style="margin:var(--space-6) 0 var(--space-3)">Paths del ecosistema</h4>`;
+        html += tableWrap(table(
+            ['Clave', 'Path', 'Existe'],
+            paths.map(p => ({
+                cells: [
+                    { html: `<code class="cell-mono">${p.key}</code>` },
+                    { html: `<code class="cell-mono">${p.path}</code>` },
+                    { html: p.exists ? badge('success', 'Sí') : badge('danger', 'No') }
+                ]
+            }))
+        ));
     }
 
-    /**
-     * Renderiza la tabla de comunicaciones con ordenamiento
-     * @param {Object} comms — parsed communications data
-     * @param {Object} sortState — { key, direction } o null
-     * @param {Object} filterState — { statusFilter, searchTerm }
-     */
-    static renderCommsTable(comms, sortState, filterState) {
-        const container = document.getElementById('comms-list-container');
-        if (!container) return;
-
-        let rows = comms.details || [];
-
-        // Aplicar filtros
-        if (filterState) {
-            if (filterState.statusFilter && filterState.statusFilter !== 'all') {
-                rows = rows.filter(r => r.status === filterState.statusFilter);
-            }
-            if (filterState.importanceFilter && filterState.importanceFilter !== 'all') {
-                rows = rows.filter(r => r.importanceKey === filterState.importanceFilter);
-            }
-            if (filterState.agentFilter && filterState.agentFilter !== 'all') {
-                rows = rows.filter(r => r.from === filterState.agentFilter || r.to === filterState.agentFilter);
-            }
-            if (filterState.searchTerm) {
-                const term = filterState.searchTerm.toLowerCase();
-                rows = rows.filter(r =>
-                    (r.summary || '').toLowerCase().includes(term) ||
-                    (r.from || '').toLowerCase().includes(term) ||
-                    (r.to || '').toLowerCase().includes(term)
-                );
-            }
-        }
-
-        if (rows.length === 0) {
-            container.innerHTML = '<p class="loading">No hay comunicaciones con los filtros aplicados.</p>';
-            return;
-        }
-
-        // Agrupar por importancia
-        const groups = {
-            critical: { label: '🔴 CRÍTICAS', items: [] },
-            important: { label: '🟡 IMPORTANTES', items: [] },
-            routine: { label: '🟢 RUTINARIAS', items: [] },
-            unclassified: { label: '❔ SIN CLASIFICAR', items: [] }
-        };
-
-        rows.forEach(r => {
-            const key = r.importanceKey || 'unclassified';
-            if (groups[key]) groups[key].items.push(r);
-        });
-
-        // Renderizar cada grupo
-        let html = '';
-        for (const [key, group] of Object.entries(groups)) {
-            if (group.items.length === 0) continue;
-            html += `
-                <div class="comms-group comms-group--${key}">
-                    <div class="comms-group__header">
-                        <span class="comms-group__label">${group.label}</span>
-                        <span class="comms-group__count">${group.items.length}</span>
-                    </div>
-                    <div class="comms-group__items">
-                        ${group.items.map(d => this._commCardHTML(d)).join('')}
-                    </div>
-                </div>
-            `;
-        }
-
-        container.innerHTML = html;
+    // MCP
+    if (mcp) {
+        html += `<h4 style="margin:var(--space-6) 0 var(--space-3)">MCP mi-repo-boveda</h4>`;
+        html += `<div class="grid grid-2" style="font-size:var(--text-sm)"><div><strong>Directorios permitidos:</strong></div><div><pre class="cell-mono" style="max-height:200px;overflow:auto">${mcp.allowedDirs?.join('\n') || '—'}</pre></div><div><strong>Política:</strong></div><div><code class="cell-mono">${mcp.policy}</code></div></div>`;
     }
 
-    /** Renderiza una card individual de comm. */
-    static _commCardHTML(d) {
-        const badgeClass = this._commBadgeClass(d.status);
-        const dateCol = d.sourceSection === 'activas' ? d.updated : d.closed;
-        const dateLabel = d.sourceSection === 'activas' ? 'Actualizado' : 'Cerrado';
-        const typeLabel = d.type ? `<span class="comm-card__type">${this._escape(d.type)}</span>` : '';
-        const attemptLabel = d.attempt && d.attempt !== '1' ? `<span class="comm-card__attempt">Intento ${this._escape(d.attempt)}</span>` : '';
-        const durationLabel = d.duration ? `<span class="comm-card__duration">⏱ ${this._escape(d.duration)}</span>` : '';
+    return html;
+}/**
+ * renderer.js — GW2 Agents Dashboard (Chunk 2: Pulso + Guardianes + Atención)
+ * Migrated to Andreani Cartesian Design System v1
+ */
 
-        return `
-            <div class="comm-card" onclick="openCommsModal('${d.id}')">
-                <div class="comm-card__header">
-                    <span class="badge ${badgeClass}">${this._escape(d.statusLabel)}</span>
-                    ${typeLabel}
-                    ${attemptLabel}
-                </div>
-                <div class="comm-card__agents">
-                    <strong>${this._escape(d.from)}</strong> → <strong>${this._escape(d.to)}</strong>
-                </div>
-                <div class="comm-card__summary">${this._escape(this._truncate(d.summary, 120))}</div>
-                <div class="comm-card__meta">
-                    <span>📅 ${this._escape(d.created || '')}</span>
-                    ${durationLabel}
-                </div>
-            </div>
-        `;
+// =============================================================================
+// RENDER: PULSO (Health check del ecosistema)
+// =============================================================================
+
+export function renderPulso(data) {
+    if (!data || !data.pulso) return alertBox('warning', 'Sin datos', 'No hay datos de pulso disponibles.');
+
+    const { timestamp, agents, crons, mcp, disk, github, alerts } = data.pulso;
+
+    let html = `<p class="org-source">Última actualización: ${formatRelativeTime(timestamp)}</p>`;
+
+    // Agents health
+    if (agents?.length) {
+        html += `<h4 style="margin:var(--space-6) 0 var(--space-3)">Agentes</h4>`;
+        html += tableWrap(table(
+            ['Agente', 'Estado', 'Último HB', 'Tokens (24h)', 'Errores'],
+            agents.map(a => ({
+                class: a.healthy ? '' : 'table-row-danger',
+                cells: [
+                    { html: `<strong>${a.id}</strong>` },
+                    { html: a.healthy ? badge('success', 'OK') : badge('danger', 'FAIL') },
+                    { html: a.lastHeartbeat ? formatRelativeTime(a.lastHeartbeat) : '—' },
+                    { html: a.tokens24h ? formatNumber(a.tokens24h) : '—' },
+                    { html: a.errors > 0 ? badge('warning', a.errors) : badge('neutral', '0') }
+                ]
+            }))
+        ));
     }
 
-    /**
-     * Renderiza el detalle modal de una comunicación
-     * @param {Object} comm — single communication detail
-     */
-    static renderCommsDetail(comm) {
-        const titleEl = document.getElementById('comms-modal-title');
-        const bodyEl = document.getElementById('comms-modal-body');
-        if (!titleEl || !bodyEl) return;
-
-        titleEl.textContent = comm.id ? `Detalle ${comm.id}` : 'Detalle de comunicación';
-
-        const dateCol = comm.sourceSection === 'activas' ? comm.updated : comm.closed;
-        const dateLabel = comm.sourceSection === 'activas' ? 'Última actualización' : 'Cerrado';
-
-        // Buscar conversación completa en COMMS_DETAILS
-        const conv = (window.commsDetails && window.commsDetails.conversations)
-            ? window.commsDetails.conversations[comm.id]
-            : null;
-
-        let blocksHTML = '';
-        if (conv && conv.blocks && conv.blocks.length > 0) {
-            blocksHTML = conv.blocks.map(b => `
-                <div class="comm-detail-block">
-                    <div class="comm-detail-block__title">
-                        ${this._escape(b.title)}
-                        ${b.author ? `<span class="comm-detail-block__author">${this._escape(b.author)}</span>` : ''}
-                    </div>
-                    <blockquote class="comm-detail-block__quote">${this._escape(b.text)}</blockquote>
-                </div>
-            `).join('');
-        } else {
-            blocksHTML = '<p class="loading">Sin conversación detallada. El COMMS_DETAILS.md no tiene entrada para esta comm.</p>';
-        }
-
-        const importanceEmoji = { critical: '🔴', important: '🟡', routine: '🟢', unclassified: '❔' }[comm.importanceKey] || '❔';
-
-        bodyEl.innerHTML = `
-            <div class="comm-detail-header">
-                <span class="comm-detail-importance">${importanceEmoji}</span>
-                <span class="comm-detail-title">${this._escape(comm.summary || '')}</span>
-            </div>
-            <div class="comm-detail-grid">
-                <div class="comm-detail-row">
-                    <span class="comm-detail-label">De:</span>
-                    <span class="comm-detail-value">${this._escape(comm.from)}</span>
-                </div>
-                <div class="comm-detail-row">
-                    <span class="comm-detail-label">A:</span>
-                    <span class="comm-detail-value">${this._escape(comm.to)}</span>
-                </div>
-                <div class="comm-detail-row">
-                    <span class="comm-detail-label">Estado:</span>
-                    <span class="comm-detail-value">
-                        <span class="badge ${this._commBadgeClass(comm.status)}">${comm.statusLabel}</span>
-                    </span>
-                </div>
-                ${comm.type ? `
-                <div class="comm-detail-row">
-                    <span class="comm-detail-label">Tipo:</span>
-                    <span class="comm-detail-value">${this._escape(comm.type)}</span>
-                </div>` : ''}
-                ${comm.attempt && comm.attempt !== '1' ? `
-                <div class="comm-detail-row">
-                    <span class="comm-detail-label">Intentos:</span>
-                    <span class="comm-detail-value">${this._escape(comm.attempt)}</span>
-                </div>` : ''}
-                <div class="comm-detail-row">
-                    <span class="comm-detail-label">Creado:</span>
-                    <span class="comm-detail-value">${this._escape(comm.created)}</span>
-                </div>
-                <div class="comm-detail-row">
-                    <span class="comm-detail-label">${dateLabel}:</span>
-                    <span class="comm-detail-value">${this._escape(dateCol || '—')}</span>
-                </div>
-                ${comm.duration ? `
-                <div class="comm-detail-row">
-                    <span class="comm-detail-label">Duración:</span>
-                    <span class="comm-detail-value">⏱ ${this._escape(comm.duration)}</span>
-                </div>` : ''}
-            </div>
-            <div class="comm-detail-conversation">
-                <h4>Conversación</h4>
-                ${blocksHTML}
-            </div>
-        `;
-
-        const modal = document.getElementById('comms-detail-modal');
-        if (modal) modal.style.display = 'flex';
+    // Crons health
+    if (crons?.length) {
+        html += `<h4 style="margin:var(--space-6) 0 var(--space-3)">Crons</h4>`;
+        html += tableWrap(table(
+            ['ID', 'Agente', 'Schedule', 'Última ejecución', 'Estado', 'Próx. ejecución'],
+            crons.map(c => ({
+                class: c.healthy ? '' : 'table-row-warning',
+                cells: [
+                    { html: `<code class="cell-mono">${c.id}</code>` },
+                    { html: c.agent },
+                    { html: `<code class="cell-mono">${c.schedule}</code>` },
+                    { html: c.lastRun ? formatRelativeTime(c.lastRun) : 'Nunca' },
+                    { html: c.healthy ? badge('success', 'OK') : badge('warning', 'Degradado') },
+                    { html: c.nextRun ? formatRelativeTime(c.nextRun) : '—' }
+                ]
+            }))
+        ));
     }
 
-    /** Map status → badge CSS class (theme.css) */
-    static _commBadgeClass(status) {
-        const map = {
-            pending:    'badge-pending',
-            timeout:    'badge-timeout',
-            resolved:   'badge-resolved',
-            inProgress: 'badge-inprogress',
-            error:      'badge-error',
-            unknown:    'badge-info'
-        };
-        return map[status] || 'badge-info';
+    // MCP health
+    if (mcp) {
+        html += `<h4 style="margin:var(--space-6) 0 var(--space-3)">MCP</h4>`;
+        html += `<div class="grid grid-2" style="font-size:var(--text-sm)"><div><strong>Servidor:</strong></div><div>${mcp.serverHealthy ? badge('success', 'Conectado') : badge('danger', 'Desconectado')}</div><div><strong>Directorios:</strong></div><div>${mcp.dirsHealthy ? badge('success', 'OK') : badge('warning', 'Parcial')}</div><div><strong>Latencia:</strong></div><div>${mcp.latencyMs ? `${mcp.latencyMs}ms` : '—'}</div></div>`;
     }
 
-    /** Escape HTML para evitar XSS en datos de agentes */
-    static _escape(str) {
-        if (!str) return '';
-        return str.replace(/[&<>"']/g, m => {
-            const map = { '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' };
-            return map[m];
-        });
+    // Disk
+    if (disk) {
+        html += `<h4 style="margin:var(--space-6) 0 var(--space-3)">Disco</h4>`;
+        html += `<div class="grid grid-3" style="font-size:var(--text-sm)"><div><strong>Total:</strong></div><div><strong>Usado:</strong></div><div><strong>Libre:</strong></div><div>${formatNumber(disk.totalGB)} GB</div><div>${formatNumber(disk.usedGB)} GB</div><div>${formatNumber(disk.freeGB)} GB</div></div>`;
     }
 
-    /**
-     * Renderiza el mapa organizacional del ecosistema (tab Estructura).
-     * @param {Object} org — parsed ORG_MAP data
-     * @param {string} rawMd — markdown crudo (fallback si el parseo falla)
-     */
-    static renderOrgMap(org, rawMd) {
-        const container = document.getElementById('org-map-container');
-        if (!container) return;
-
-        // Fallback: si el parseo no encuentra secciones, mostrar el .md crudo
-        if (!org || !org.parseable) {
-            try {
-                container.innerHTML = `
-                    <div class="org-fallback">
-                        <p class="org-callout org-callout--warn">
-                            No se pudo parsear la estructura. Se muestra el documento original.
-                        </p>
-                        <div class="markdown-body">${marked.parse(rawMd || '')}</div>
-                    </div>`;
-            } catch (e) {
-                container.innerHTML = `<div class="card-error">⚠️ ${this._escape(e.message)}</div>`;
-            }
-            return;
-        }
-
-        const parts = [];
-
-        // --- Cabecera ---
-        parts.push(`
-            <div class="org-header">
-                <h2>🗺️ Mapa organizacional del ecosistema</h2>
-                ${org.verifiedAt ? `<p class="org-verified">Verificado contra el código real el ${this._escape(org.verifiedAt)}</p>` : ''}
-                ${org.preamble.length ? `
-                    <ul class="org-preamble">
-                        ${org.preamble.map(p => `<li>${this._escape(p)}</li>`).join('')}
-                    </ul>` : ''}
-            </div>
-        `);
-
-        // --- §1 Agentes y roles ---
-        if (org.agents.length) {
-            parts.push(this._orgSection('👥 1. Agentes y roles', `
-                ${this._orgTable(
-                    ['Agente', 'ID', 'Rol', 'Heartbeat', 'Estado actual'],
-                    org.agents.map(a => [a.name, a.id, a.role, a.heartbeat, a.status])
-                )}
-                ${org.agentNotes.map(n => `
-                    <p class="org-note"><strong>Nota ${this._escape(n.number)}:</strong> ${this._escape(n.text)}</p>
-                `).join('')}
-            `));
-        }
-
-        // --- §2 Interacciones entre agentes ---
-        if (org.interactions.length) {
-            parts.push(this._orgSection('🔄 2. Interacciones entre agentes', `
-                <p class="org-rule">
-                    <strong>Regla global:</strong> nunca <code>chat_with_agent</code> (foreground) entre agentes.
-                    Siempre <code>submit_to_agent</code> (background).
-                </p>
-                ${this._orgTable(
-                    ['Emisor', 'Receptor', 'Canal', 'Para qué', 'Estado'],
-                    org.interactions.map(i => [i.from, i.to, i.channel, i.purpose, i.state])
-                )}
-            `));
-
-            if (org.reviewerBug) {
-                parts.push(`
-                    <div class="org-callout org-callout--danger">
-                        <h4>🐛 Bug del Reviewer</h4>
-                        <p>${this._escape(org.reviewerBug.description)}</p>
-                        ${org.reviewerBug.workarounds.length ? `
-                            <h5>Workarounds documentados</h5>
-                            <ol class="org-workarounds">
-                                ${org.reviewerBug.workarounds.map(w => `<li>${this._escape(w)}</li>`).join('')}
-                            </ol>` : ''}
-                    </div>
-                `);
-            }
-        }
-
-        // --- §3 Permisos de escritura (archivos) ---
-        if (org.filePerms.length) {
-            parts.push(this._orgSection('📝 3. Permisos de escritura — archivos del repo agents', `
-                ${this._orgTable(
-                    ['Archivo', 'Quién escribe', 'Quién solo lee'],
-                    org.filePerms.map(f => [f.file, f.writer, f.reader])
-                )}
-                ${this._orgRuleList('Reglas transversales de escritura', org.filePermsRules)}
-            `));
-        }
-
-        // --- §4 Permisos de escritura (repos) ---
-        if (org.repoPerms.length) {
-            parts.push(this._orgSection('🗄️ 4. Permisos de escritura — repos', `
-                ${this._orgTable(
-                    ['Repo', 'Quién pushea', 'Quién solo lee', 'Quién no toca'],
-                    org.repoPerms.map(r => [r.repo, r.push, r.reader, r.excluded])
-                )}
-                ${org.remotes.length ? `
-                    <h4>Los 3 repos y sus remotes</h4>
-                    ${this._orgTable(
-                        ['Path local', 'Remotes', 'Aclaración crítica'],
-                        org.remotes.map(r => [r.path, r.remotes, r.note])
-                    )}` : ''}
-                ${org.refspec ? `
-                    <h4>Refspec de push</h4>
-                    <p class="org-rule">${this._escape(org.refspec)}</p>` : ''}
-                ${org.worktrees ? `
-                    <h4>Worktrees</h4>
-                    <p class="org-rule">${this._escape(org.worktrees)}</p>` : ''}
-            `));
-        }
-
-        // --- §5 Permisos de configuración ---
-        if (org.configPerms.length) {
-            parts.push(this._orgSection('🔑 5. Permisos de configuración', `
-                ${this._orgTable(
-                    ['Recurso', 'Quién puede tocarlo', 'Tipo de enforcement'],
-                    org.configPerms.map(c => [c.resource, c.who, c.enforcement])
-                )}
-                ${org.enforcement.real.length || org.enforcement.honor.length ? `
-                    <h4>Enforcement real vs regla de honor</h4>
-                    <div class="org-enforcement">
-                        <div class="org-enforcement__col org-enforcement__col--real">
-                            <h5>🔒 Enforcement real</h5>
-                            <p class="org-enforcement__hint">Lo impone la plataforma, no el equipo.</p>
-                            ${this._orgList(org.enforcement.real)}
-                        </div>
-                        <div class="org-enforcement__col org-enforcement__col--honor">
-                            <h5>🤝 Regla de honor</h5>
-                            <p class="org-enforcement__hint">Nada lo impide técnicamente, solo la regla escrita.</p>
-                            ${this._orgList(org.enforcement.honor)}
-                        </div>
-                    </div>` : ''}
-            `));
-        }
-
-        // --- §6 Comunicación con Pablo ---
-        if (org.chats.length || org.notifications.length) {
-            parts.push(this._orgSection('💬 6. Comunicación con Pablo', `
-                <p class="org-rule">Único canal habilitado: <code>console</code>. Los demás están <code>disabled</code>.</p>
-                ${org.chats.length ? `
-                    <h4>Chats</h4>
-                    ${this._orgTable(
-                        ['Chat', 'Agente', 'Session id', 'Para qué'],
-                        org.chats.map(c => [c.chat, c.agent, c.session, c.purpose])
-                    )}` : ''}
-                ${org.notifications.length ? `
-                    <h4>Notificaciones</h4>
-                    ${this._orgTable(
-                        ['Emisor', 'Cómo notifica a Pablo', 'Para qué'],
-                        org.notifications.map(n => [n.sender, n.how, n.purpose])
-                    )}` : ''}
-                ${org.commsNotes.map(n => `<p class="org-note">${this._escape(n)}</p>`).join('')}
-            `));
-        }
-
-        // --- §7 Excepciones y reglas de oro ---
-        if (org.rules.promotion.length || org.rules.autonomy.length
-            || org.rules.fallbacks.length || org.rules.transversales.length) {
-            parts.push(this._orgSection('⚖️ 7. Excepciones y reglas de oro', `
-                ${org.rules.promotion.length ? `
-                    <h4>7.1 Promoción a origin (producción)</h4>
-                    <ol class="org-list">${org.rules.promotion.map(r => `<li>${this._escape(r)}</li>`).join('')}</ol>` : ''}
-                ${org.rules.autonomy.length ? `
-                    <h4>7.2 Autonomía</h4>
-                    ${this._orgList(org.rules.autonomy)}` : ''}
-                ${org.rules.fallbacks.length ? `
-                    <h4>7.3 Fallbacks</h4>
-                    ${this._orgTable(
-                        ['Situación', 'Regla'],
-                        org.rules.fallbacks.map(f => [f.situation, f.rule])
-                    )}` : ''}
-                ${org.rules.transversales.length ? `
-                    <h4>7.4 Otras reglas de oro</h4>
-                    ${this._orgList(org.rules.transversales)}` : ''}
-            `));
-        }
-
-        // --- Pendientes de verificación ---
-        if (org.pending.length) {
-            parts.push(this._orgSection('❓ Pendientes de verificación', `
-                <p class="org-callout org-callout--warn">
-                    Datos que no se pudieron confirmar contra una fuente. Requieren decisión.
-                </p>
-                <ol class="org-pending">
-                    ${org.pending.map(p => `
-                        <li class="org-pending__item">
-                            <span class="org-pending__title">${this._escape(p.title)}</span>
-                            <span class="org-pending__detail">${this._escape(p.detail)}</span>
-                        </li>`).join('')}
-                </ol>
-            `));
-        }
-
-        container.innerHTML = parts.join('');
+    // GitHub
+    if (github) {
+        html += `<h4 style="margin:var(--space-6) 0 var(--space-3)">GitHub</h4>`;
+        html += `<div class="grid grid-2" style="font-size:var(--text-sm)"><div><strong>API:</strong></div><div>${github.apiHealthy ? badge('success', 'OK') : badge('danger', 'Fail')}</div><div><strong>Rate limit:</strong></div><div>${github.rateLimitRemaining}/${github.rateLimitTotal}</div></div>`;
     }
 
-    /** Envuelve contenido en un bloque de sección del tab Estructura */
-    static _orgSection(title, inner) {
-        return `
-            <section class="org-section">
-                <h3>${title}</h3>
-                ${inner}
-            </section>
-        `;
+    // Alerts
+    if (alerts?.length) {
+        html += `<h4 style="margin:var(--space-6) 0 var(--space-3)">Alertas recientes</h4>`;
+        html += `<div class="accordion-container">${alerts.slice(0, 10).map(a => `<details class="accordion"><summary class="accordion-header">${a.level === 'critical' ? badge('danger', 'CRIT') : badge('warning', 'WARN')} ${a.message}<span class="accordion-toggle">▸</span></summary><div class="accordion-body"><div class="grid grid-2" style="font-size:var(--text-sm)"><div><strong>Origen:</strong> ${a.source}</div><div><strong>Hora:</strong> ${formatRelativeTime(a.timestamp)}</div></div></div></details>`).join('')}</div>`;
     }
 
-    /** Tabla genérica del tab Estructura (reutiliza estilos de comms-table) */
-    static _orgTable(headers, rows) {
-        if (!rows || rows.length === 0) return '';
-        return `
-            <div class="comms-table-wrapper org-table">
-                <table class="comms-table">
-                    <thead>
-                        <tr>${headers.map(h => `<th>${this._escape(h)}</th>`).join('')}</tr>
-                    </thead>
-                    <tbody>
-                        ${rows.map(row => `
-                            <tr>${row.map(cell => `<td>${this._escape(cell)}</td>`).join('')}</tr>
-                        `).join('')}
-                    </tbody>
-                </table>
-            </div>
-        `;
+    return html;
+}
+
+// =============================================================================
+// RENDER: GUARDIANES (Code Reviewer findings)
+// =============================================================================
+
+export function renderGuardianes(data) {
+    if (!data || !data.guardianes) return alertBox('info', 'Sin hallazgos', 'No hay hallazgos del Code Reviewer.');
+
+    const { findings, summary } = data.guardianes;
+
+    let html = '';
+
+    if (summary) {
+        html += `<div class="pulso-kpis"><div class="card"><div class="card-body" style="text-align:center"><div class="cell-mono" style="font-size:var(--text-3xl)">${summary.total}</div><div style="font-size:var(--text-xs);color:var(--text-tertiary)">Total</div></div></div><div class="card"><div class="card-body" style="text-align:center"><div class="cell-mono" style="font-size:var(--text-3xl);color:var(--text-danger)">${summary.critical}</div><div style="font-size:var(--text-xs);color:var(--text-tertiary)">Críticos</div></div></div><div class="card"><div class="card-body" style="text-align:center"><div class="cell-mono" style="font-size:var(--text-3xl);color:var(--text-warning)">${summary.high}</div><div style="font-size:var(--text-xs);color:var(--text-tertiary)">Altos</div></div></div><div class="card"><div class="card-body" style="text-align:center"><div class="cell-mono" style="font-size:var(--text-3xl);color:var(--text-info)">${summary.medium}</div><div style="font-size:var(--text-xs);color:var(--text-tertiary)">Medios</div></div></div></div>`;
     }
 
-    /** Lista con viñetas del tab Estructura */
-    static _orgList(items) {
-        if (!items || items.length === 0) return '';
-        return `<ul class="org-list">${items.map(i => `<li>${this._escape(i)}</li>`).join('')}</ul>`;
+    if (findings?.length) {
+        html += `<h4 style="margin:var(--space-6) 0 var(--space-3)">Hallazgos</h4>`;
+        html += `<div class="accordion-container">${findings.map(f => `<details class="accordion"><summary class="accordion-header">${badge(f.severity, f.severity.toUpperCase())} ${f.title}<span class="accordion-toggle">▸</span></summary><div class="accordion-body"><div style="margin-bottom:var(--space-3)"><strong>Archivo:</strong> <code class="cell-mono">${f.file}</code>${f.line ? ` <strong>Línea:</strong> <code class="cell-mono">${f.line}</code>` : ''}</div><div style="margin-bottom:var(--space-3)"><strong>Descripción:</strong> ${f.description}</div>${f.suggestion ? `<div><strong>Sugerencia:</strong> ${f.suggestion}</div>` : ''}</div></details>`).join('')}</div>`;
     }
 
-    /** Lista de reglas con título + viñetas del tab Estructura */
-    static _orgRuleList(title, items) {
-        if (!items || items.length === 0) return '';
-        return `
-            <h4>${this._escape(title)}</h4>
-            ${this._orgList(items)}
-        `;
+    return html;
+}
+
+// =============================================================================
+// RENDER: ATENCIÓN (Items que requieren acción)
+// =============================================================================
+
+export function renderAtencion(data) {
+    if (!data || !data.atencion) return alertBox('info', 'Todo tranquilo', 'No hay items que requieran atención.');
+
+    const { items, summary } = data.atencion;
+
+    let html = '';
+
+    if (summary) {
+        html += `<div class="pulso-kpis"><div class="card"><div class="card-body" style="text-align:center"><div class="cell-mono" style="font-size:var(--text-3xl)">${summary.total}</div><div style="font-size:var(--text-xs);color:var(--text-tertiary)">Total</div></div></div><div class="card"><div class="card-body" style="text-align:center"><div class="cell-mono" style="font-size:var(--text-3xl);color:var(--text-danger)">${summary.urgent}</div><div style="font-size:var(--text-xs);color:var(--text-tertiary)">Urgentes</div></div></div><div class="card"><div class="card-body" style="text-align:center"><div class="cell-mono" style="font-size:var(--text-3xl);color:var(--text-warning)">${summary.pending}</div><div style="font-size:var(--text-xs);color:var(--text-tertiary)">Pendientes</div></div></div></div>`;
     }
 
-    /**
-     * Renderiza los acordeones de logs (7 archivos)
-     * @param {Array} files — [{ name, label, success, content, error }]
-     */
-    static renderAccordions(files) {
-        const container = document.getElementById('accordion-container');
-        if (!container) return;
-
-        // Orden: TEAM_STATUS.md abierto por default, resto cerrado
-        const order = [
-            'TEAM_STATUS.md', 'ALERTS_LOG.md', 'COMMS_LOG.md',
-            'SESSION_LOG.md', 'BACKLOG.md', 'DECISIONS_LOG.md',
-            'PRE_BACKLOG.md'
-        ];
-
-        const html = order.map(filename => {
-            const file = files.find(f => f.filename === filename);
-            const isOpen = filename === 'TEAM_STATUS.md'; // abierto por default
-            const configItem = DASHBOARD_CONFIG.files.find(f => f.name === filename);
-            const label = configItem ? configItem.label : filename;
-
-            if (!file) {
-                return `<div class="accordion">
-                    <div class="accordion-header" onclick="toggleAccordion('${filename}')">
-                        <span>${label} <span class="status-warning">⚠️</span></span>
-                        <span class="accordion-toggle">▸</span>
-                    </div>
-                </div>`;
-            }
-
-            let body = '';
-            if (file.success && file.content) {
-                try {
-                    body = marked.parse(file.content);
-                } catch (e) {
-                    body = `<div class="card-error">⚠️ Parse error: ${e.message}</div><pre>${file.content}</pre>`;
-                }
-            } else {
-                const is404 = file.error && file.error.includes('no encontrado');
-                body = `<div class="card-error">
-                    ${file.error || 'Error'}
-                    ${is404 ? '' : '<button class="btn btn-secondary btn-sm" onclick="retryAccordion(\'' + filename + '\')">Reintentar</button>'}
-                </div>`;
-            }
-
-            return `
-                <div class="accordion">
-                    <div class="accordion-header" onclick="toggleAccordion('${filename}')">
-                        <span>${label}</span>
-                        <span class="accordion-toggle">${isOpen ? '▾' : '▸'}</span>
-                    </div>
-                    <div class="accordion-body" id="acc-${filename}" style="display:${isOpen ? 'block' : 'none'}">
-                        <div class="markdown-body">${body}</div>
-                    </div>
-                </div>
-            `;
-        }).join('');
-
-        container.innerHTML = html;
+    if (items?.length) {
+        html += `<h4 style="margin:var(--space-6) 0 var(--space-3)">Items</h4>`;
+        html += `<div class="attention-container">${items.map(item => card(
+            `${badge(item.priority, item.priority.toUpperCase())} ${item.title}`,
+            `<div class="grid grid-2" style="font-size:var(--text-sm);margin-bottom:var(--space-3)"><div><strong>Tipo:</strong> ${item.type}</div><div><strong>Desde:</strong> ${formatRelativeTime(item.since)}</div></div><div>${item.description}</div>${item.actions?.length ? `<div style="margin-top:var(--space-3)">${item.actions.map(a => btnPrimary(a.label, { onclick: a.onclick })).join(' ')}</div>` : ''}`
+        )).join('')}</div>`;
     }
 
-    // --- Utils ---
+    return html;
+}/**
+ * renderer.js — GW2 Agents Dashboard (Chunk 3: PreBacklog + Backlog + Desarrollo)
+ * Migrated to Andreani Cartesian Design System v1
+ */
 
-    static _truncate(str, max) {
-        if (!str) return '';
-        return str.length > max ? str.substring(0, max) + '...' : str;
+// =============================================================================
+// RENDER: PRE-BACKLOG (Ideas del PO)
+// =============================================================================
+
+export function renderPreBacklog(data) {
+    if (!data || !data.prebacklog) return alertBox('info', 'Sin propuestas', 'El PO no tiene propuestas pendientes.');
+
+    const { ideas, summary } = data.prebacklog;
+
+    let html = '';
+
+    if (summary) {
+        html += `<div class="pulso-kpis"><div class="card"><div class="card-body" style="text-align:center"><div class="cell-mono" style="font-size:var(--text-3xl)">${summary.total}</div><div style="font-size:var(--text-xs);color:var(--text-tertiary)">Ideas</div></div></div><div class="card"><div class="card-body" style="text-align:center"><div class="cell-mono" style="font-size:var(--text-3xl);color:var(--text-info)">${summary.new}</div><div style="font-size:var(--text-xs);color:var(--text-tertiary)">Nuevas</div></div></div><div class="card"><div class="card-body" style="text-align:center"><div class="cell-mono" style="font-size:var(--text-3xl);color:var(--text-warning)">${summary.review}</div><div style="font-size:var(--text-xs);color:var(--text-tertiary)">En revisión</div></div></div></div>`;
     }
 
-    static _agentStatusClass(status) {
-        const map = {
-            ok: 'agent-ok', timeout: 'agent-warning',
-            running: 'agent-running', idle: 'agent-idle',
-            error: 'agent-error', unknown: 'agent-unknown'
-        };
-        return map[status] || 'agent-unknown';
+    if (ideas?.length) {
+        html += `<h4 style="margin:var(--space-6) 0 var(--space-3)">Propuestas</h4>`;
+        html += `<div class="prebacklog-container">${ideas.map(idea => card(
+            `${badge(idea.status, idea.status.toUpperCase())} ${idea.title}`,
+            `<div class="grid grid-2" style="font-size:var(--text-sm);margin-bottom:var(--space-3)"><div><strong>Fuente:</strong> ${idea.source}</div><div><strong>Desde:</strong> ${formatRelativeTime(idea.timestamp)}</div></div><div>${idea.description}</div><div style="margin-top:var(--space-3)">${btnGhost('Ver detalle', { onclick: `openPrebacklogDetail('${idea.id}')` })} ${btnPrimary('Promover a Backlog', { onclick: `promoteToBacklog('${idea.id}')` })}</div>`
+        )).join('')}</div>`;
     }
 
-    static _agentStatusIcon(status) {
-        const map = {
-            ok: '✅', timeout: '⏱', running: '🔄',
-            idle: '⏸', error: '🔴', unknown: '❔'
-        };
-        return map[status] || '❔';
+    return html;
+}
+
+// =============================================================================
+// RENDER: BACKLOG (Items priorizados)
+// =============================================================================
+
+export function renderBacklog(data) {
+    if (!data || !data.backlog) return alertBox('info', 'Backlog vacío', 'No hay items en el backlog.');
+
+    const { items, summary } = data.backlog;
+
+    let html = '';
+
+    if (summary) {
+        html += `<div class="pulso-kpis"><div class="card"><div class="card-body" style="text-align:center"><div class="cell-mono" style="font-size:var(--text-3xl)">${summary.total}</div><div style="font-size:var(--text-xs);color:var(--text-tertiary)">Total</div></div></div><div class="card"><div class="card-body" style="text-align:center"><div class="cell-mono" style="font-size:var(--text-3xl);color:var(--text-info)">${summary.ready}</div><div style="font-size:var(--text-xs);color:var(--text-tertiary)">Listos</div></div></div><div class="card"><div class="card-body" style="text-align:center"><div class="cell-mono" style="font-size:var(--text-3xl);color:var(--text-warning)">${summary.inProgress}</div><div style="font-size:var(--text-xs);color:var(--text-tertiary)">En progreso</div></div></div><div class="card"><div class="card-body" style="text-align:center"><div class="cell-mono" style="font-size:var(--text-3xl);color:var(--text-success)">${summary.done}</div><div style="font-size:var(--text-xs);color:var(--text-tertiary)">Hechos</div></div></div></div>`;
     }
 
-    static _agentStatusLabel(status) {
-        const map = {
-            ok: 'Operativo', timeout: 'Timeout', running: 'Running',
-            idle: 'Idle', error: 'Error', unknown: 'Desconocido'
-        };
-        return map[status] || 'Desconocido';
+    if (items?.length) {
+        html += `<h4 style="margin:var(--space-6) 0 var(--space-3)">Items</h4>`;
+        html += tableWrap(table(
+            ['ID', 'Título', 'Estado', 'Prioridad', 'Asignado', 'Acciones'],
+            items.map(item => ({
+                cells: [
+                    { html: `<code class="cell-mono">${item.id}</code>` },
+                    { html: `<strong>${item.title}</strong>` },
+                    { html: badge(item.status, item.status) },
+                    { html: badge(item.priority, item.priority) },
+                    { html: item.assignee || '—' },
+                    { html: btnGhost('Ver', { onclick: `openBacklogItem('${item.id}')` }) }
+                ]
+            }))
+        ));
     }
 
-    static _severityBadgeClass(severity) {
-        const normalized = severity.toLowerCase();
-        if (/🔴|alta|critical/i.test(normalized)) return 'badge-critical';
-        if (/🟡|media|medium/i.test(normalized)) return 'badge-medium';
-        if (/🟢|baja|low/i.test(normalized)) return 'badge-low';
-        return 'badge-info';
+    return html;
+}
+
+// =============================================================================
+// RENDER: DESARROLLO (Estado del repo agents)
+// =============================================================================
+
+export function renderDesarrollo(data) {
+    if (!data || !data.desarrollo) return alertBox('warning', 'Sin datos', 'No hay datos de desarrollo disponibles.');
+
+    const { clones, ramas, features, worktrees, status } = data.desarrollo;
+
+    let html = '';
+
+    // Clones
+    if (clones?.length) {
+        html += `<h4 style="margin:var(--space-6) 0 var(--space-3)">Clones</h4>`;
+        html += `<div class="desarrollo-clones">${clones.map(c => card(c.name, `<div class="grid grid-3" style="font-size:var(--text-sm)"><div><strong>Path:</strong> <code class="cell-mono">${c.path}</code></div><div><strong>Remote:</strong> <code class="cell-mono">${c.remote}</code></div><div><strong>HEAD:</strong> <code class="cell-mono">${c.head?.slice(0, 8)}</code></div><div><strong>Branch:</strong> ${c.branch}</div><div><strong>Clean:</strong> ${c.clean ? badge('success', 'Sí') : badge('warning', 'No')}</div><div><strong>Sync:</strong> ${c.synced ? badge('success', 'OK') : badge('danger', 'Desync')}</div></div>`)).join('')}</div>`;
     }
 
-    static _severityIcon(severity) {
-        const normalized = severity.toLowerCase();
-        if (/🔴|alta|critical/i.test(normalized)) return '🔴';
-        if (/🟡|media|medium/i.test(normalized)) return '🟡';
-        if (/🟢|baja|low/i.test(normalized)) return '🟢';
-        return '⚠️';
+    // Ramas
+    if (ramas?.length) {
+        html += `<h4 style="margin:var(--space-6) 0 var(--space-3)">Ramas activas</h4>`;
+        html += tableWrap(table(
+            ['Rama', 'Tipo', 'Commits', 'Último commit', 'Estado'],
+            ramas.map(r => ({
+                cells: [
+                    { html: `<code class="cell-mono">${r.name}</code>` },
+                    { html: badge(r.type, r.type) },
+                    { html: r.commitsAhead + ' ↑ / ' + r.commitsBehind + ' ↓' },
+                    { html: r.lastCommit ? formatRelativeTime(r.lastCommit) : '—' },
+                    { html: r.merged ? badge('success', 'Mergeado') : badge('info', 'Activa') }
+                ]
+            }))
+        ));
     }
 
-    /**
-     * Renderiza el inventario de promociones (tab Promociones).
-     *
-     * Reusa _orgSection()/_orgTable() a propósito: comparten clases
-     * (org-section, comms-table) ya estiladas, así el tab se ve idéntico
-     * al resto del dashboard sin duplicar CSS.
-     *
-     * @param {Object} promo — parsed PROMOTIONS data
-     * @param {string} rawMd — markdown crudo (fallback si el parseo falla)
-     */
-// ======================================================================
-    // PROMOCIONES — "¿hay algo esperando tu decisión?"
-    // ======================================================================
-    //
-    // QUÉ PREGUNTA CONTESTA ESTA TAB
-    //
-    // Antes mezclaba en un solo bloque cuatro cosas que no son lo mismo: lo que
-    // espera tu decisión, lo que el equipo ya descartó, lo que está congelado y
-    // el historial. Mezcladas, se leía como una lista de cinco tareas. En
-    // realidad solo había UNA: el botón de liberar caché.
-    //
-    // El error de fondo eran dos, y los dos de truthful-ness:
-    //
-    //   1. 392c3b9 ("**PENDIENTE**. No revertir ni modificar hasta instrucción
-    //      de Pablo") aparecía con un badge de PENDIENTE en "Esperando tu
-    //      decisión". Eso convierte un "no toques esto" en un "decidí esto".
-    //   2. Dos feats que el equipo marcó como NO candidatos aparecían bajo
-    //      "Decisiones tomadas", que se lee como "esto ya está resuelto".
-    //
-    // Los dos están arreglados en el parser; acá los bloques son distintos y
-    // no se mezclan, y un item que no se puede leer NO se disfraza de
-    // resuelto: sale en su propio bloque, con el motivo escrito.
-    //
-    // @param {Object|null} promo       — resultado de parsePromotions()
-    // @param {string}      rawMd       — PROMOTIONS.md original, para el fallback
-    // @param {Object|null} rutas       — data/rutas-dev.json (pantallas reales)
-    // @param {string|null} rutasError  — por qué no hay rutas, si no hay
-    static renderPromotions(promo, rawMd, rutas, rutasError, catalogo, catalogoError, fichas, fichasError) {
-        const container = document.getElementById('promotions-container');
-        if (!container) return;
-
-        if (!promo || !promo.parseable) {
-            try {
-                container.innerHTML = `
-                    <div class="promo-fallback">
-                        <p class="promo-callout promo-callout--warn">
-                            No se pudo parsear el inventario. Se muestra el documento original.
-                        </p>
-                        <div class="markdown-body">${marked.parse(rawMd || '')}</div>
-                    </div>`;
-            } catch (e) {
-                container.innerHTML = `<div class="card-error">⚠️ ${this._escape(e.message)}</div>`;
-            }
-            return;
-        }
-
-        const esperando = promo.esperando || [];
-        const congelado = promo.congelado || [];
-        const noCandidato = promo.noCandidato || [];
-        const indeterminado = promo.indeterminado || [];
-        const sinVerificar = promo.prodSinVerificar || [];
-        const decidido = promo.decidido || [];
-
-        const cfg = window.DASHBOARD_CONFIG || {};
-        const repoOwner = cfg.repoOwner || 'PabloSnchz';
-        const repoName = cfg.repoName || 'gw2-wallet-agents';
-        const baseDev = (rutas && rutas.base_url) ? rutas.base_url
-            : 'https://pablosnchz.github.io/gw2-wallet-agents/';
-
-        const self = this;
-        const esc = s => self._escape(s == null ? '' : String(s));
-
-        // Un link al commit es un dato, no una interpretación: el sha viene de
-        // la tabla. Es la forma de que "esto cambia lo que vos ves" se pueda
-        // verificar sin instalar nada.
-        const linkCommit = sha => `https://github.com/${repoOwner}/${repoName}/commit/${sha}`;
-
-        // Valida una ruta contra las pantallas reales. Una ruta que no está en
-        // la lista NO se enlaza: abriría la portada sin error y el que
-        // pierde el tiempo es Pablo.
-        const rutaValida = r => {
-            if (!r || !rutas) return false;
-            return rutas.rutas.some(x => x.ruta === r) ||
-                   (rutas.sub_vistas || []).some(x => x.ruta === r);
-        };
-
-        // ── Link de prueba en dev ──────────────────────────────────────────
-        // Tres casos, y se distinguen a propósito:
-        //   ruta declarada y válida  → link directo a esa pantalla
-        //   ruta declarada e inválida → NO se enlaza, se dice por qué
-        //   sin ruta declarada        → link a la raíz, y se dice que falta
-        const bloqueDev = item => {
-            if (item.ruta && rutaValida(item.ruta)) {
-                return `<a class="promo-btn promo-btn--go"
-                           href="${esc(baseDev + '#' + item.ruta)}"
-                           target="_blank" rel="noopener">
-                            Probar en dev
-                            <span class="promo-btn__hint">${esc(item.ruta)}</span>
-                        </a>`;
-            }
-            if (item.ruta) {
-                return `<span class="promo-btn promo-btn--roto"
-                              title="La ruta que declaró el equipo no existe en la app de desarrollo">
-                            <strong>Ruta inválida:</strong> ${esc(item.ruta)}
-                            <span class="promo-btn__hint">no existe en dev</span>
-                        </span>`;
-            }
-            return `<a class="promo-btn promo-btn--weak"
-                       href="${esc(baseDev)}" target="_blank" rel="noopener">
-                        Abrir dev
-                        <span class="promo-btn__hint">sin ruta declarada</span>
-                    </a>`;
-        };
-
-        // ── Tarjeta de lo que espera decisión ─────────────────────────────
-        const cardEspera = item => {
-            const cuerpo = item.detalle || item.cola || null;
-            const cola = item.detalle ? item.cola : null;
-            const shas = (item.commits || []).map(
-                s => `<a class="promo-sha" href="${esc(linkCommit(s))}"
-                        target="_blank" rel="noopener">${esc(s)}</a>`).join(' ');
-            return `
-            <article class="promo-card promo-card--esperando">
-                <header class="promo-card__head">
-                    <h4 class="promo-card__title">${esc(item.nombre)}</h4>
-                    <span class="promo-badge promo-badge--ready">listo para probar</span>
-                </header>
-
-                ${cuerpo ? `<p class="promo-card__body">${esc(cuerpo)}</p>` : ''}
-                ${cola ? `<p class="promo-card__cola">${esc(cola)}</p>` : ''}
-
-                <dl class="promo-meta">
-                    ${item.rama ? `<dt>rama</dt><dd><code>${esc(item.rama)}</code></dd>` : ''}
-                    ${shas ? `<dt>commits</dt><dd>${shas}</dd>` : ''}
-                </dl>
-
-                <div class="promo-card__links">
-                    ${bloqueDev(item)}
-                    ${item.commit ? `<a class="promo-btn promo-btn--weak"
-                        href="${esc(linkCommit(item.commit))}"
-                        target="_blank" rel="noopener">
-                        Ver el diff<span class="promo-btn__hint">${esc(item.commit)}</span>
-                    </a>` : ''}
-                </div>
-
-                <p class="promo-card__inertial">
-                    <strong>Si no decidís nada:</strong> se queda en
-                    <code>agents/main</code>. No pasa a producción y tampoco se
-                    pierde ni se rompe nada.
-                </p>
-            </article>`;
-        };
-
-        // ── Tarjeta de "en producción sin verificar" ───────────────────────
-        // Un cuarto estado que no existía. No es una tarea (ya está
-        // resuelto) ni un congelado (no hay que protegerlo). Es lo más
-        // incómodo de los cuatro: algo que YA ESTÁ VIVO y que nadie
-        // confirmó que haga lo que dice hacer.
-        //
-        // Por qué tiene bloque propio y no va al historial con los decididos:
-        // marcado AUTORIZADO desaparece de la vista, y eso sería afirmar que
-        // funciona. Al lado del 57008ae (autorizado y revisado por Pablo)
-        // se leería como que también se revisó.
-        const cardSinVerificar = item => `
-            <article class="promo-card promo-card--sin-verificar">
-                <header class="promo-card__head">
-                    <h4 class="promo-card__title">${esc(item.nombre)}</h4>
-                    <span class="promo-badge promo-badge--sin-verificar">en producción · sin verificar</span>
-                </header>
-                ${item.detalle ? `<p class="promo-card__body">${esc(item.detalle)}</p>` : ''}
-                <p class="promo-card__inertial">
-                    <strong>Ya está en producción, pero nadie confirmó que funcione.</strong>
-                    Que se vea no es lo mismo que haga lo que dice hacer. No
-                    espera tu decisión: espera que alguien lo pruebe.
-                </p>
-            </article>`;
-
-        // ── Tarjeta de congelado ───────────────────────────────────────────
-        // Esto NO es una tarea. Es un aviso de que hay algo que no hay que
-        // tocar. Por eso va con su propio bloque y no mezclado con lo que
-        // espera decisión: confundirlos fue el bug más caro de esta tab.
-        const cardCongelado = item => `
-            <article class="promo-card promo-card--congelado">
-                <header class="promo-card__head">
-                    <h4 class="promo-card__title">${esc(item.nombre)}</h4>
-                    <span class="promo-badge promo-badge--congelado">congelado</span>
-                </header>
-                ${item.detalle ? `<p class="promo-card__body">${esc(item.detalle)}</p>` : ''}
-                <p class="promo-card__inertial">
-                    <strong>No espera ninguna decisión tuya.</strong> Está marcado
-                    para no tocarlo; solo se mueve si vos lo decís.
-                </p>
-            </article>`;
-
-        // ── Fila de historial ──────────────────────────────────────────────
-        const filaDecidido = item => {
-            const detalle = item.detalle || '';
-            const clase = /revertid|rechazad/i.test(detalle) ? ' es-revertido'
-                        : (/autorizad|aprobad|promovid/i.test(detalle) ? ' es-autorizado' : '');
-            return `
-            <li class="promo-hist__item${clase}">
-                <span class="promo-hist__fecha">${esc(item.fecha || '—')}</span>
-                <span class="promo-hist__nombre">${esc(item.nombre)}</span>
-                <span class="promo-hist__detalle">${esc(detalle)}</span>
-                ${item.commit ? `<a class="promo-sha" href="${esc(linkCommit(item.commit))}"
-                    target="_blank" rel="noopener">${esc(item.commit)}</a>` : ''}
-            </li>`;
-        };
-
-        // ── Fila de no candidato ───────────────────────────────────────────
-        // El motivo del equipo es el contenido de esta fila. Es la razón por la
-        // que la columna existe, y antes se descartaba: el item desaparecía
-        // sin dejar rastro.
-        const filaNoCandidato = item => `
-            <li class="promo-fuera__item">
-                <span class="promo-fuera__nombre">${esc(item.nombre)}</span>
-                ${item.motivo ? `<span class="promo-fuera__motivo">${esc(item.motivo)}</span>` : ''}
-                ${item.commit ? `<a class="promo-sha" href="${esc(linkCommit(item.commit))}"
-                    target="_blank" rel="noopener">${esc(item.commit)}</a>` : ''}
-            </li>`;
-
-        // ── Aviso de rutas ─────────────────────────────────────────────────
-        const avisoRutas = !rutas
-            ? `<p class="promo-aviso promo-aviso--warn">
-                   No pude cargar la lista de pantallas de dev
-                   (${esc(rutasError || 'motivo desconocido')}), así que no hay
-                   forma de validar los links profundos. Por eso no se muestra
-                   ningún link directo a una pantalla.
-               </p>`
-            : '';
-
-        // ── Referencia de rutas ────────────────────────────────────────────
-        const referenciaRutas = rutas ? `
-            <details class="promo-ref">
-                <summary class="promo-ref__sum">
-                    <span class="promo-ref__q">¿Qué pantallas tiene la app de desarrollo?</span>
-                    <span class="promo-ref__n">${rutas.total} del menú
-                        + ${rutas.total_sub_vistas || 0} sub-vistas</span>
-                </summary>
-                <div class="promo-ref__body">
-                    <p class="promo-ref__nota">
-                        Medido sobre <code>${esc(rutas.fuente || 'gw2-dev')}</code>
-                        ${rutas.fuente_sha ? `(<code>${esc(rutas.fuente_sha)}</code>)` : ''}
-                        el ${esc((rutas.generado_utc || '').slice(0, 10))}.
-                        No es una lista escrita a mano: se genera del menú de la
-                        app, así que si aparece una pantalla nueva, aparece acá.
-                    </p>
-                    <ul class="promo-ref__lista">
-                        ${rutas.rutas.map(x => `<li>
-                            <a href="${esc(baseDev + '#' + x.ruta)}"
-                               target="_blank" rel="noopener">${esc(x.pantalla)}</a>
-                            <code>${esc(x.ruta)}</code>
-                        </li>`).join('')}
-                    </ul>
-                    ${(rutas.sub_vistas || []).length ? `
-                    <p class="promo-ref__label">Sub-vistas (no están en el menú, pero son pantallas reales):</p>
-                    <ul class="promo-ref__lista">
-                        ${rutas.sub_vistas.map(x => `<li>
-                            <a href="${esc(baseDev + '#' + x.ruta)}"
-                               target="_blank" rel="noopener">${esc(x.ruta)}</a>
-                        </li>`).join('')}
-                    </ul>` : ''}
-                </div>
-            </details>` : '';
-
-        // ── Encabezado: la respuesta primero ───────────────────────────────
-        const respuesta = esperando.length === 0
-            ? `<p class="promo-respuesta promo-respuesta--vacio">
-                   <strong>Nada esperando tu decisión.</strong>
-                   ${congelado.length ? `Hay ${congelado.length} cosa${congelado.length > 1 ? 's' : ''} congelada${congelado.length > 1 ? 's' : ''} que pedía no tocar.` : ''}
-               </p>`
-            : `<p class="promo-respuesta promo-respuesta--hay">
-                   <strong>${esperando.length} ${esperando.length > 1 ? 'cosas esperan' : 'cosa espera'} tu decisión.</strong>
-                   Solo lo que ya está en desarrollo y funciona. Nada de esto va a
-                   producción por su cuenta.
-               </p>`;
-
-        // ── Ensamblado ─────────────────────────────────────────────────────
-        const bExpecta = esperando.length ? `
-            <section class="promo-bloque">
-                <h3 class="promo-bloque__t">Esperando tu decisión</h3>
-                ${esperando.map(cardEspera).join('')}
-            </section>` : '';
-
-        const bSinVerificar = sinVerificar.length ? `
-            <section class="promo-bloque promo-bloque--sin-verificar">
-                <h3 class="promo-bloque__t">
-                    <span class="promo-bloque__lock" aria-hidden="true">⚠</span>
-                    En producción, sin verificar
-                </h3>
-                <p class="promo-bloque__sub">
-                    Esto ya está vivo en la web que usás, pero nadie confirmó
-                    que funcione. No espera tu decisión: espera que alguien lo pruebe.
-                </p>
-                ${sinVerificar.map(cardSinVerificar).join('')}
-            </section>` : '';
-
-        const bCongelado = congelado.length ? `
-            <section class="promo-bloque promo-bloque--congelado">
-                <h3 class="promo-bloque__t">
-                    <span class="promo-bloque__lock" aria-hidden="true">🔒</span>
-                    Congelado — no tocar
-                </h3>
-                <p class="promo-bloque__sub">
-                    Esto no está esperando tu decisión: está marcado para que
-                    nadie lo mueva.
-                </p>
-                ${congelado.map(cardCongelado).join('')}
-            </section>` : '';
-
-        const bDecidido = decidido.length ? `
-            <section class="promo-bloque">
-                <h3 class="promo-bloque__t">Ya decidido</h3>
-                <ul class="promo-hist">${decidido.map(filaDecidido).join('')}</ul>
-            </section>` : '';
-
-        const bFuera = noCandidato.length ? `
-            <section class="promo-bloque promo-bloque--gris">
-                <h3 class="promo-bloque__t">
-                    No es candidato
-                    <span class="promo-bloque__n">${noCandidato.length}</span>
-                </h3>
-                <p class="promo-bloque__sub">
-                    El equipo los anotó para que sepas que existen, no como
-                    pedido. No hay nada que hacer con estos.
-                </p>
-                <ul class="promo-fuera">${noCandidato.map(filaNoCandidato).join('')}</ul>
-            </section>` : '';
-
-        const bIndet = indeterminado.length ? `
-            <section class="promo-bloque promo-bloque--gris">
-                <h3 class="promo-bloque__t">
-                    No se pudo leer
-                    <span class="promo-bloque__n">${indeterminado.length}</span>
-                </h3>
-                <p class="promo-bloque__sub">
-                    Hay filas en el archivo cuyo estado no se puede leer. Se
-                    muestran tal cual en vez de contarlas como resueltas: si
-                    alguna de estas fuera tuya, no te la quiero mostrar como si
-                    no existiera.
-                </p>
-                <ul class="promo-fuera">
-                    ${indeterminado.map(i => `<li class="promo-fuera__item">
-                        <span class="promo-fuera__nombre">${esc(i.nombre)}</span>
-                        <span class="promo-fuera__motivo"><code>${esc((i.raw || '').slice(0, 240))}</code></span>
-                    </li>`).join('')}
-                </ul>
-            </section>` : '';
-
-        const notaStorage = `
-            <p class="promo-aviso promo-aviso--info">
-                <strong>Ojo al probar en dev.</strong> Desarrollo y producción se
-                sirven del mismo origen (<code>pablosnchz.github.io</code>) y
-                <code>storage.js</code> usa el prefijo <code>gn:</code> sin
-                separar por entorno: si abrís dev y jugás, estás escribiendo
-                sobre los mismos datos que lee producción. No lo cambié — es
-                del equipo y no es parte de esta tab — pero conviene saberlo
-                antes de clickear.
-            </p>`;
-
-        // ── Bloque "qué construyó y dónde se ve" ─────────────────────────
-        // Va PRIMERO, antes de la respuesta a "qué espera decisión", porque la
-        // pregunta más común no es esa: es "dónde veo lo que hicieron".
-        //
-        // Si el módulo no está cargado o el catálogo no llegó, se dibuja el
-        // aviso (o nada), pero nunca un catálogo vacío: un bloque en cero
-        // parece "el equipo no construyó nada", que es una conclusión
-        // distinta de "no pudimos leerlo".
-        let bloqueCatalogo = '';
-        if (window.DevCatalogo && typeof window.DevCatalogo.build === 'function') {
-            try {
-                bloqueCatalogo = window.DevCatalogo.build(fichas, catalogo, fichasError);
-                if (!bloqueCatalogo && window.DevCatalogo.aviso) {
-                    bloqueCatalogo = window.DevCatalogo.aviso(
-                        fichasError || catalogoError || 'sin datos');
-                }
-            } catch (ec) {
-                bloqueCatalogo = window.DevCatalogo.aviso
-                    ? window.DevCatalogo.aviso((ec && ec.message) || String(ec))
-                    : '';
-            }
-        }
-
-        container.innerHTML = `
-            ${bloqueCatalogo}
-            <div class="promo-head">
-                ${respuesta}                <p class="promo-head__meta">
-                    Fuente: <code>PROMOTIONS.md</code> en
-                    <code>${esc(repoName)}</code>
-                    ${promo.updatedAt ? `· última fecha del archivo: ${esc(promo.updatedAt)}` : ''}
-                </p>
-                ${avisoRutas}
-            </div>
-
-            ${bExpecta}
-            ${bSinVerificar}
-            ${bCongelado}
-            ${bIndet}
-            ${bFuera}
-            ${bDecidido}
-            ${notaStorage}
-            ${referenciaRutas}
-        `;
+    // Features
+    if (features?.length) {
+        html += `<h4 style="margin:var(--space-6) 0 var(--space-3)">Features</h4>`;
+        html += `<div class="desarrollo-features">${features.map(f => card(
+            `${badge(f.status, f.status.toUpperCase())} ${f.name}`,
+            `<div class="grid grid-2" style="font-size:var(--text-sm);margin-bottom:var(--space-3)"><div><strong>Rama:</strong> <code class="cell-mono">${f.branch}</code></div><div><strong>Commits:</strong> ${f.commits}</div></div><div>${f.description}</div><div style="margin-top:var(--space-3)">${f.prUrl ? `<a href="${f.prUrl}" target="_blank" class="btn btn-ghost btn-sm">Ver PR</a>` : btnPrimary('Crear PR', { onclick: `createPR('${f.branch}')` })}</div>`
+        )).join('')}</div>`;
     }
 
-    static renderEstructura(est) {
-        const container = document.getElementById('estructura-real-container');
-        if (!container) return;
-
-        if (!est || !est.agentes) {
-            container.innerHTML = `
-                <p class="org-callout org-callout--warn">
-                    No se pudo cargar <code>data/estructura.json</code>, que es la fuente de verdad de la
-                    estructura. Abajo se muestra igual el documento del equipo
-                    (<code>ORG_MAP.md</code>), pero puede no reflejar los permisos reales.
-                </p>`;
-            return;
-        }
-
-        // Orden por ARGUMENTO, no por inventario. La pregunta de la tab es
-        // "que pasa si alguien hace algo mal por error", asi que arriba va lo
-        // que se mide solo, en medio lo que separa candado de regla de honor, y
-        // abajo lo que es referencia o trabajo abierto.
-        //
-        // Lo que se SACO y por que (2026-09-30):
-        //   - crons y heartbeats  -> Salud. Es estado, y Salud ya lo muestra
-        //     con el mismo dato. Aqui era el segundo lugar del mismo numero.
-        //   - worktrees           -> Salud, por la misma razon.
-        //   - tabla de agentes    -> Equipo. Es estado, no limite, y Equipo ya
-        //     tiene su matriz.
-        //   - pendientes (5)      -> no son informacion. Dos esperan una
-        //     decision tuya (van a Proximas) y tres son commits que no se
-        //     resuelven mirando. Ninguno va aqui.
-        //   - contador de discrepancias arriba. Un numero suelto hace que todo
-        //     parezca igual de urgente, y era la mitad del problema.
-        const disc  = est.discrepancias_vs_org_map || [];
-        const inv   = est.invariantes || [];
-        const imeta = est.invariantes_meta || {};
-        const dmeta = est.discrepancias_meta || {};
-
-        container.innerHTML = [
-            this._estFirma(est),
-            this._estInvariantes(inv, imeta),
-            this._estEnforcement(est.enforcement),
-            this._estClones(est.clones),
-            this._estChecklistDoc(disc, dmeta)
-        ].join('');
+    // Worktrees
+    if (worktrees?.length) {
+        html += `<h4 style="margin:var(--space-6) 0 var(--space-3)">Worktrees</h4>`;
+        html += tableWrap(table(
+            ['Path', 'Rama', 'HEAD', 'Estado'],
+            worktrees.map(w => ({
+                class: w.dirty ? 'table-row-warning' : '',
+                cells: [
+                    { html: `<code class="cell-mono">${w.path}</code>` },
+                    { html: `<code class="cell-mono">${w.branch}</code>` },
+                    { html: `<code class="cell-mono">${w.head?.slice(0, 8)}</code>` },
+                    { html: w.dirty ? badge('warning', 'Con cambios') : badge('success', 'Limpio') }
+                ]
+            }))
+        ));
     }
 
-    /**
-     * Firma. Antes eran 6 líneas de metadatos arriba de todo; ahora es UNA.
-     * "Quién verificó y cuándo" es contexto de archivo, no información del
-     * sistema, y compite por la atención con el bloque que sí importa.
-     */
-    static _estFirma(est) {
-        const m = est.meta || {};
-        return `
-            <p class="org-note est-firma">
-                Fuente de verdad: <strong>${this._escape(m.autoridad || '—')}</strong>.
-                Generado el ${this._escape(m.verificado || '?')}, cada 15 min.
-            </p>`;
+    return html;
+}/**
+ * renderer.js — GW2 Agents Dashboard (Chunk 4: Promociones + Consultas + AgentesCC)
+ * Migrated to Andreani Cartesian Design System v1
+ */
+
+// =============================================================================
+// RENDER: PROMOCIONES (Promotion candidates to origin)
+// =============================================================================
+
+export function renderPromociones(data) {
+    if (!data || !data.promociones) return alertBox('info', 'Sin promociones', 'No hay features listos para promover.');
+
+    const { candidates, summary, lastPromotion } = data.promociones;
+
+    let html = '';
+
+    if (lastPromotion) {
+        html += `<div class="alert alert-success" style="margin-bottom:var(--space-6)"><div class="alert-content"><div class="alert-title">Última promoción</div><div class="alert-message">${lastPromotion.feat} → origin/main (${formatRelativeTime(lastPromotion.timestamp)})</div></div></div>`;
     }
 
-    static _estClones(clones) {
-        const rows = (clones || []).map(c => [
-            '<code>' + this._escape(c.path.replace('C:\\Mis Archivos\\GW2 online\\', '')) + '</code>',
-            this._escape(c.repo || '—'),
-            this._escape(c.rol),
-            c.remote ? '<code>' + this._escape(c.remote.replace('https://github.com/PabloSnchz/', '').replace('.git', '')) + '</code>' : '<span class="org-note">sin remote</span>',
-            c.head ? '<code>' + this._escape(c.head) + '</code>' : '—',
-            c.estado === 'ELIMINADO' ? this._estBadge('danger', 'eliminado')
-                                      : this._estBadge(c.rol === 'PRODUCCIÓN' ? 'warn' : 'ok', c.estado)
-        ]);
-
-        // Plegado: la topologia es referencia, no interpretacion. La tabla
-        // estaba siempre abierta y empujaba hacia abajo los dos bloques que
-        // si responden la pregunta de la tab.
-        return `<details class="est-fold">
-            <summary>🗄️ Clones y repos — referencia</summary>
-            <p class="org-note">Dónde vive cada clon y a qué repo apunta. La dirección de cada puerta.</p>
-            ${this._estTable(['Path local', 'Repo', 'Rol', 'Remote', 'HEAD', 'Estado'], rows)}
-            ${this._estNotas((clones || []).map(c => ({
-                titulo: c.path.replace('C:\\Mis Archivos\\GW2 online\\', ''),
-                nota: c.notas,
-                tono: c.estado === 'ELIMINADO' ? 'danger' : (c.rol === 'PRODUCCIÓN' ? 'warn' : 'ok')
-            })))}
-        </details>`;
+    if (summary) {
+        html += `<div class="pulso-kpis"><div class="card"><div class="card-body" style="text-align:center"><div class="cell-mono" style="font-size:var(--text-3xl)">${summary.ready}</div><div style="font-size:var(--text-xs);color:var(--text-tertiary)">Listos</div></div></div><div class="card"><div class="card-body" style="text-align:center"><div class="cell-mono" style="font-size:var(--text-3xl);color:var(--text-info)">${summary.files}</div><div style="font-size:var(--text-xs);color:var(--text-tertiary)">Archivos</div></div></div><div class="card"><div class="card-body" style="text-align:center"><div class="cell-mono" style="font-size:var(--text-3xl);color:var(--text-warning)">${summary.commits}</div><div style="font-size:var(--text-xs);color:var(--text-tertiary)">Commits</div></div></div></div>`;
     }
 
-    static _estEnforcement(enc) {
-        if (!enc) return '';
-        const col = (titulo, items, clase) => `
-            <div class="org-enforcement__col ${clase}">
-                <h4>${titulo}</h4>
-                <ul class="org-list">
-                    ${(items || []).map(i => '<li>' + this._escape(i) + '</li>').join('')}
-                </ul>
-            </div>`;
-        return this._estSection(
-            '🔒 Enforcement real vs regla de honor',
-            `<div class="org-enforcement">
-                ${col('Lo que la plataforma impone', enc.real, 'org-enforcement__col--real')}
-                ${col('Lo que solo está escrito', enc.regla_de_honor, 'org-enforcement__col--honor')}
-            </div>
-            <p class="org-note">
-                Un <code>AGENTS.md</code> sin enforcement es una declaración de intenciones, no un candado.
-                La diferencia entre las dos columnas es toda la diferencia entre un incidente y un susto.
-            </p>`
-        );
+    if (candidates?.length) {
+        html += `<h4 style="margin:var(--space-6) 0 var(--space-3)">Candidatos</h4>`;
+        html += `<div class="promo-container">${candidates.map(c => card(
+            `${badge(c.status, c.status.toUpperCase())} ${c.name}`,
+            `<div class="grid grid-2" style="font-size:var(--text-sm);margin-bottom:var(--space-3)"><div><strong>Rama:</strong> <code class="cell-mono">${c.branch}</code></div><div><strong>Commits:</strong> ${c.commits}</div></div><div>${c.description}</div><div style="margin-top:var(--space-3)">${c.approved ? btnPrimary('Promover a origin', { onclick: `promoteToOrigin('${c.branch}')` }) : btnGhost('Solicitar revisión', { onclick: `requestReview('${c.branch}')` })}</div>`
+        )).join('')}</div>`;
     }
 
-    /**
-     * Invariantes: el bloque que responde la pregunta de la tab.
-     *
-     * Esto antes NO era un monitor. Los estados eran las palabras "OK" y
-     * "PARCIAL" escritas a mano en el JSON, con un campo "verificado" en
-     * prosa. Pablo lo objected de forma exacta: "no es un indicador dinamico,
-     * podria serlo?", porque un OK que no se apaga nunca no dice nada.
-     *
-     * Ahora cada invariante trae un estado MEDIDO en la ultima corrida del
-     * generador, y hay cuatro, no dos:
-     *   vigente                 -> se cumplio, y recien se comprobo
-     *   violada                 -> se incumplio AHORA. Alarma real.
-     *   escrita_no_verificable  -> es una convencion; se puede comprobar que
-     *                               la regla exista, no que se cumpla
-     *   no_verificable          -> vive fuera del disco (GitHub Settings)
-     *
-     * Los dos ultimos importan tanto como los primeros: una invariante que no
-     * se puede medir tiene que DECIR que no se puede medir. Antes las cinco
-     * parecian medidas y solo tres lo estaban.
-     */
-    static _estInvariantes(inv, meta) {
-        if (!inv || inv.length === 0) {
-            return this._estSection('📐 Invariantes',
-                '<p class="org-note">Sin datos de invariantes.</p>');
-        }
-        meta = meta || {};
-        const T = {
-            'vigente':                { tono: 'ok',      ico: '✓' },
-            'violada':                { tono: 'danger',  ico: '✕' },
-            'escrita_no_verificable': { tono: 'neutral', ico: '✎' },
-            'no_verificable':         { tono: 'neutral', ico: '?' }
-        };
-        const t = e => T[e] || { tono: 'neutral', ico: '?' };
+    return html;
+}
 
-        const items = inv.map(i => {
-            const s = t(i.estado);
-            return '<li class="est-inv est-inv--' + this._escape(i.estado) + '">' +
-                   s.ico + ' ' + this._escape(i.texto) +
-                   '<br><span class="org-note">' +
-                   (i.estado === 'vigente' ? 'Comprobado: ' : 'Por qué: ') +
-                   this._escape(i.verificado || '—') + '</span></li>';
-        }).join('');
+// =============================================================================
+// RENDER: CONSULTAS (Architect ↔ Principal communications)
+// =============================================================================
 
-        // El numero de violadas se cuenta DESDE LAS FILAS, no desde
-        // meta.violadas. Razon: si el metadato llega en otra forma (un numero
-        // en vez de una lista) un `(meta.violadas || []).length` da undefined,
-        // que es falsy, y el callout rojo desaparece calladito. El peor
-        // fallo posible en un bloque de alarma es noShownarla. Y si el
-        // metadato y las filas no coinciden, eso se dice, no se elige una.
-        const violadasRows = inv.filter(i => i.estado === 'violada');
-        const metaRaw = meta.violadas;
-        const metaN = Array.isArray(metaRaw) ? metaRaw.length
-                     : (typeof metaRaw === 'number' ? metaRaw : null);
-        const desacuerdo = metaN !== null && metaN !== violadasRows.length
-            ? `<p class="org-note">⚠ El contador del generador dice ${metaN} y las filas dicen ${violadasRows.length}. No se elige una: se muestran las filas, que son lo que se está pintando.</p>`
-            : '';
+export function renderConsultas(data) {
+    if (!data || !data.consultas) return alertBox('info', 'Sin consultas', 'No hay consultas pendientes.');
 
-        const cab = violadasRows.length
-            ? `<div class="org-callout org-callout--danger">
-                   <strong>${violadasRows.length} invariante${violadasRows.length === 1 ? '' : 's'} violada${violadasRows.length === 1 ? '' : 's'}.</strong>
-                   Algo que tenía que ser imposible pasó a ser posible. Esto se midió en la última
-                   corrida, no viene de una lista escrita a mano.
-               </div>` + desacuerdo
-            : (metaN ? desacuerdo : '');
+    const { threads, summary } = data.consultas;
 
-        return this._estSection(
-            '📐 Invariantes — qué se midió en la última corrida',
-            cab +
-            '<ul class="org-list est-inv-list">' + items + '</ul>' +
-            `<p class="org-note">
-                ${meta.medidas || 0} de ${meta.total || inv.length} se miden solas en cada ciclo
-                (cada 15 min). Las otras declaran por qué no se pueden medir: un
-                <em>no verificado</em> con el motivo vale más que un <em>OK</em> imaginario.
-            </p>`
-        );
+    let html = '';
+
+    if (summary) {
+        html += `<div class="pulso-kpis"><div class="card"><div class="card-body" style="text-align:center"><div class="cell-mono" style="font-size:var(--text-3xl)">${summary.total}</div><div style="font-size:var(--text-xs);color:var(--text-tertiary)">Total</div></div></div><div class="card"><div class="card-body" style="text-align:center"><div class="cell-mono" style="font-size:var(--text-3xl);color:var(--text-warning)">${summary.open}</div><div style="font-size:var(--text-xs);color:var(--text-tertiary)">Abiertas</div></div></div><div class="card"><div class="card-body" style="text-align:center"><div class="cell-mono" style="font-size:var(--text-3xl);color:var(--text-success)">${summary.resolved}</div><div style="font-size:var(--text-xs);color:var(--text-tertiary)">Resueltas</div></div></div></div>`;
     }
 
-    /**
-     * El documento del equipo vs la realidad. Checklist, NO semáforo.
-     *
-     * Por qué no es un semáforo: comparar ORG_MAP.md con la realidad es leer
-     * prosa, no leer un schema. No hay predicado que lo automátice, y no tiene
-     * que haberlo: este bloque no es un indicador, es una lista de cosas para
-     * ir a arreglar. Lo que se cambió:
-     *
-     *   - sin contador grande arriba. Un número suelto hace que todo parezca
-     *     igual de urgente, y era la mitad del problema.
-     *   - cada fila dice si está ABIERTA o RESUELTA, y desde cuándo se
-     *     revisó. Antes el generador copiaba esta lista de sí misma para
-     *     siempre: tres filas seguían gritando horas después de corregidas.
-     *   - las resueltas van aparte y se pueden ignorar.
-     */
-    static _estChecklistDoc(disc, meta) {
-        if (!disc || disc.length === 0) return '';
-        meta = meta || {};
-        const abiertas  = disc.filter(d => d.estado === 'abierta');
-        const resueltas = disc.filter(d => d.estado === 'resuelta');
-        const orden = { grave: 0, media: 1, baja: 2 };
-        const sev = s => ({ grave: 'danger', media: 'warn', baja: 'neutral' }[s] || 'neutral');
-
-        const filas = abiertas.slice()
-            .sort((a, b) => (orden[a.severidad] || 9) - (orden[b.severidad] || 9))
-            .map(d => `
-                <li class="doc-check">
-                    <div class="doc-check__head">
-                        ${this._estBadge(sev(d.severidad), d.severidad)}
-                        <strong>${this._escape(d.tema)}</strong>
-                        <span class="org-note">revisado ${this._escape(d.verificada || '?')}</span>
-                    </div>
-                    <div class="doc-check__body">
-                        <span class="disc-dice">Dice <code>ORG_MAP.md</code>: ${this._escape(d.dice_org_map)}</span>
-                        <span class="disc-real">Es: ${this._escape(d.realidad)}</span>
-                        ${d.nota ? `<span class="org-note">${this._escape(d.nota)}</span>` : ''}
-                    </div>
-                </li>`).join('');
-
-        const hechas = resueltas.length
-            ? `<details class="doc-check__done">
-                   <summary>${resueltas.length} ya resuelta${resueltas.length === 1 ? '' : 's'}</summary>
-                   <ul class="org-list">
-                       ${resueltas.map(d => `<li>${this._estBadge('ok', '✓')} ${this._escape(d.tema)}
-                           <span class="org-note">· ${this._escape(d.resuelta_el || d.verificada || '')}</span></li>`).join('')}
-                   </ul>
-               </details>`
-            : '';
-
-        const commit = meta.org_map_commit
-            ? String(meta.org_map_commit).slice(0, 8) : '?';
-
-        return this._estSection(
-            '🧷 El mapa del equipo vs la realidad — cosas por arreglar',
-            `<p class="org-note">
-                El equipo describe su propia estructura en <code>ORG_MAP.md</code>. Esto no se mide
-                solo: es un checklist, revisado a mano contra el commit <code>${this._escape(commit)}</code>
-                el ${this._escape(meta.org_map_leido || '?')}.
-            </p>` +
-            (abiertas.length
-                ? `<ul class="doc-check__list">${filas}</ul>`
-                : `<p class="org-callout org-callout--ok">Sin discrepancias abiertas. El documento del equipo coincide con lo medido.</p>`) +
-            hechas
-        );
+    if (threads?.length) {
+        html += `<h4 style="margin:var(--space-6) 0 var(--space-3)">Hilos</h4>`;
+        html += `<div class="consultas-container">${threads.map(t => card(
+            `${badge(t.status, t.status.toUpperCase())} ${t.subject}`,
+            `<div class="grid grid-2" style="font-size:var(--text-sm);margin-bottom:var(--space-3)"><div><strong>De:</strong> ${t.from}</div><div><strong>Iniciado:</strong> ${formatRelativeTime(t.started)}</div></div><div>${t.lastMessage}</div><div style="margin-top:var(--space-3)">${t.status === 'open' ? btnPrimary('Responder', { onclick: `replyConsulta('${t.id}')` }) : btnGhost('Ver historial', { onclick: `viewConsulta('${t.id}')` })}</div>`
+        )).join('')}</div>`;
     }
 
-    // ---------------- helpers ----------------
+    return html;
+}
 
-    static _estSection(title, inner) {
-        return `
-            <section class="org-section est-section">
-                <h3>${title}</h3>
-                ${inner}
-            </section>`;
+// =============================================================================
+// RENDER: AGENTES CC (Code Reviewer agents view)
+// =============================================================================
+
+export function renderAgentesCC(data) {
+    if (!data || !data.agentescc) return alertBox('info', 'Sin datos', 'No hay datos de agentes CC.');
+
+    const { agents, reviews } = data.agentescc;
+
+    let html = '';
+
+    if (agents?.length) {
+        html += `<h4 style="margin:var(--space-6) 0 var(--space-3)">Agentes</h4>`;
+        html += `<div class="cc-agents-grid">${agents.map(a => card(a.id, `<div class="grid grid-2" style="font-size:var(--text-sm)"><div><strong>Rol:</strong> ${a.role}</div><div><strong>Estado:</strong> ${a.active ? badge('success', 'Activo') : badge('neutral', 'Inactivo')}</div><div><strong>Última revisión:</strong> ${a.lastReview ? formatRelativeTime(a.lastReview) : 'Nunca'}</div><div><strong>Hallazgos:</strong> ${a.findingsCount ?? 0}</div></div>`)).join('')}</div>`;
     }
 
-    static _estTable(headers, rows) {
-        if (!rows || rows.length === 0) return '';
-        return `
-            <div class="comms-table-wrapper org-table">
-                <table class="comms-table est-table">
-                    <thead>
-                        <tr>${headers.map(h => `<th>${this._escape(h)}</th>`).join('')}</tr>
-                    </thead>
-                    <tbody>
-                        ${rows.map(row => `<tr>${row.map(c => `<td>${c}</td>`).join('')}</tr>`).join('')}
-                    </tbody>
-                </table>
-            </div>`;
+    if (reviews?.length) {
+        html += `<h4 style="margin:var(--space-6) 0 var(--space-3)">Revisiones recientes</h4>`;
+        html += tableWrap(table(
+            ['Fecha', 'Agente', 'Archivos', 'Hallazgos', 'Estado'],
+            reviews.map(r => ({
+                cells: [
+                    { html: formatRelativeTime(r.timestamp) },
+                    { html: r.agent },
+                    { html: r.filesCount },
+                    { html: badge(r.severity, `${r.findings} hallazgos`) },
+                    { html: r.approved ? badge('success', 'Aprobado') : badge('warning', 'Con cambios') }
+                ]
+            }))
+        ));
     }
 
-    static _estBadge(tono, texto) {
-        return `<span class="est-badge est-badge--${tono}">${this._escape(texto)}</span>`;
+    return html;
+}/**
+ * renderer.js — GW2 Agents Dashboard (Chunk 5: Live + Timeline + Comms + Utils)
+ * Migrated to Andreani Cartesian Design System v1
+ */
+
+// =============================================================================
+// RENDER: LIVE (Live status / heartbeat monitor)
+// =============================================================================
+
+export function renderLive(data) {
+    if (!data || !data.live) return alertBox('warning', 'Sin señal', 'No hay datos en vivo.');
+
+    const { agents, system, lastUpdate } = data.live;
+
+    let html = `<p class="org-source">Actualizado: ${formatRelativeTime(lastUpdate)}</p>`;
+
+    // System status
+    html += `<h4 style="margin:var(--space-6) 0 var(--space-3)">Sistema</h4>`;
+    html += `<div class="grid grid-3" style="font-size:var(--text-sm)"><div><strong>QwenPaw:</strong></div><div><strong>Memoria:</strong></div><div><strong>CPU:</strong></div><div>${system.qwenpaw ? badge('success', 'OK') : badge('danger', 'Down')}</div><div>${system.memoryUsage ?? '—'}</div><div>${system.cpuUsage ?? '—'}</div></div>`;
+
+    // Agents live
+    if (agents?.length) {
+        html += `<h4 style="margin:var(--space-6) 0 var(--space-3)">Agentes en vivo</h4>`;
+        html += `<div class="live-container">${agents.map(a => card(
+            `${a.heartbeatOk ? badge('success', 'VIVO') : badge('danger', 'SILENCIADO')} ${a.id}`,
+            `<div class="grid grid-3" style="font-size:var(--text-sm)"><div><strong>Último HB:</strong> ${a.lastHeartbeat ? formatRelativeTime(a.lastHeartbeat) : 'Nunca'}</div><div><strong>Sesión:</strong> ${a.sessionId ? `<code class="cell-mono">${a.sessionId.slice(-8)}</code>` : '—'}</div><div><strong>Tokens:</strong> ${a.tokens ? formatNumber(a.tokens) : '—'}</div></div>`
+        )).join('')}</div>`;
     }
 
-    static _estNotas(items) {
-        const conNota = items.filter(i => i && i.nota);
-        if (conNota.length === 0) return '';
-        return `<ul class="est-notas">${conNota.map(i =>
-            `<li class="est-notas__item est-notas__item--${i.tono || 'ok'}">
-                <strong>${this._escape(i.titulo)}</strong>
-                <span>${this._escape(i.nota)}</span>
-            </li>`).join('')}</ul>`;
+    return html;
+}
+
+// =============================================================================
+// RENDER: TIMELINE (Unified timeline of all events)
+// =============================================================================
+
+export function renderTimeline(data) {
+    if (!data || !data.timeline) return alertBox('info', 'Sin eventos', 'No hay eventos en la timeline.');
+
+    const { events, filters, range } = data.timeline;
+
+    let html = '';
+
+    // Controls
+    html += `<div class="timeline-controls"><div class="timeline-range-group">${['1h', '6h', '24h', '7d'].map(r => btnGhost(r.toUpperCase(), { class: `timeline-range-btn${range === r ? ' active' : ''}`, onclick: `setTimelineRange('${r}')` })).join('')}</div>${select('timeline-agent-filter', 'Agente', [{ value: '', label: 'Todos' }, ...(filters.agents?.map(a => ({ value: a, label: a })) || [])], filters.agent)}<span class="timeline-category-hint">${events.length} eventos</span></div>`;
+
+    // Events
+    if (events?.length) {
+        html += `<div class="timeline-container">${events.map(e => `<div class="card" style="margin-bottom:var(--space-2)"><div class="card-body"><div style="display:flex;align-items:center;gap:var(--space-3);flex-wrap:wrap"><span class="badge badge-${e.level}">${e.level.toUpperCase()}</span><strong>${e.title}</strong><span class="cell-mono" style="margin-inline-start:auto">${formatRelativeTime(e.timestamp)}</span></div><div style="margin-top:var(--space-2);font-size:var(--text-sm);color:var(--text-secondary)">${e.message}</div><div style="margin-top:var(--space-2);font-size:var(--text-xs);color:var(--text-tertiary)">${e.source} · ${e.agent || 'sistema'}</div></div></div>`).join('')}</div>`;
+    } else {
+        html += alertBox('info', 'Sin eventos', 'No hay eventos para el rango seleccionado.');
+    }
+
+    return html;
+}
+
+// =============================================================================
+// RENDER: COMMS (Inter-agent communications)
+// =============================================================================
+
+export function renderComms(data) {
+    if (!data || !data.comms) return alertBox('info', 'Sin comunicaciones', 'No hay mensajes entre agentes.');
+
+    const { channels, messages, kpis, toolbar } = data.comms;
+
+    let html = '';
+
+    // KPIs
+    if (kpis) {
+        html += `<div class="comms-kpi-grid"><div class="card"><div class="card-body" style="text-align:center"><div class="cell-mono" style="font-size:var(--text-3xl)">${kpis.total}</div><div style="font-size:var(--text-xs);color:var(--text-tertiary)">Total</div></div></div><div class="card"><div class="card-body" style="text-align:center"><div class="cell-mono" style="font-size:var(--text-3xl);color:var(--text-warning)">${kpis.waiting}</div><div style="font-size:var(--text-xs);color:var(--text-tertiary)">Esperando</div></div></div><div class="card"><div class="card-body" style="text-align:center"><div class="cell-mono" style="font-size:var(--text-3xl);color:var(--text-danger)">${kpis.overdue}</div><div style="font-size:var(--text-xs);color:var(--text-tertiary)">Vencidos</div></div></div><div class="card"><div class="card-body" style="text-align:center"><div class="cell-mono" style="font-size:var(--text-3xl);color:var(--text-success)">${kpis.answered}</div><div style="font-size:var(--text-xs);color:var(--text-tertiary)">Respondidos</div></div></div></div>`;
+    }
+
+    // Toolbar
+    if (toolbar) {
+        html += `<div class="comms-toolbar">${btnGhost('Actualizar', { onclick: 'refreshComms()' })} ${select('comms-channel-filter', 'Canal', [{ value: '', label: 'Todos' }, ...(toolbar.channels?.map(c => ({ value: c, label: c })) || [])], toolbar.selectedChannel)} ${btnGhost('Exportar', { onclick: 'exportComms()' })}</div>`;
+    }
+
+    // Channels
+    if (channels?.length) {
+        html += `<h4 style="margin:var(--space-6) 0 var(--space-3)">Canales</h4>`;
+        html += `<div class="comms-channel-estado">${channels.map(ch => card(
+            `${badge(ch.status, ch.status.toUpperCase())} ${ch.name}`,
+            `<div class="comms-channel-kpis"><div class="card"><div class="card-body" style="text-align:center"><div class="cell-mono" style="font-size:var(--text-xl)">${ch.pending}</div><div style="font-size:var(--text-xs);color:var(--text-tertiary)">Pendientes</div></div></div><div class="card"><div class="card-body" style="text-align:center"><div class="cell-mono" style="font-size:var(--text-xl);color:var(--text-danger)">${ch.overdue}</div><div style="font-size:var(--text-xs);color:var(--text-tertiary)">Vencidos</div></div></div></div><div class="comms-channel-lista">${ch.messages?.map(m => `<div class="alert alert-${m.status}" style="margin:var(--space-1) 0"><div class="alert-content"><div class="alert-title">${m.from} → ${m.to}</div><div class="alert-message">${m.subject}</div></div></div>`).join('') || '<em style="color:var(--text-tertiary)">Sin mensajes</em>'}</div>`
+        )).join('')}</div>`;
+    }
+
+    // All messages flat list
+    if (messages?.length) {
+        html += `<h4 style="margin:var(--space-6) 0 var(--space-3)">Todos los mensajes</h4>`;
+        html += `<div class="comms-list-container">${messages.map(m => `<details class="accordion"><summary class="accordion-header">${badge(m.status, m.status.toUpperCase())} ${m.from} → ${m.to}: ${m.subject}<span class="accordion-toggle">▸</span></summary><div class="accordion-body"><div class="grid grid-2" style="font-size:var(--text-sm);margin-bottom:var(--space-3)"><div><strong>Enviado:</strong> ${formatRelativeTime(m.sent)}</div><div><strong>Plazo:</strong> ${m.deadline ? formatRelativeTime(m.deadline) : 'Sin plazo'}</div></div><div>${m.body}</div></div></details>`).join('')}</div>`;
+    }
+
+    return html;
+}
+
+// =============================================================================
+// UTILIDADES GLOBALES
+// =============================================================================
+
+export function showToast(type, title, message) {
+    const container = document.getElementById('toast-container') || (() => {
+        const c = document.createElement('div');
+        c.id = 'toast-container';
+        c.style.cssText = 'position:fixed;bottom:var(--space-6);right:var(--space-6);z-index:var(--z-index-toast);display:flex;flex-direction:column;gap:var(--space-2);pointer-events:none';
+        document.body.appendChild(c);
+        return c;
+    })();
+    const toast = document.createElement('div');
+    toast.className = `toast`;
+    toast.setAttribute('role', 'alert');
+    toast.setAttribute('aria-live', 'polite');
+    toast.innerHTML = `<div class="alert alert-${type}" style="margin:0"><div class="alert-content"><div class="alert-title">${title}</div><div class="alert-message">${message}</div></div></div>`;
+    container.appendChild(toast);
+    setTimeout(() => toast.remove(), 5000);
+}
+
+export function openModal(id) {
+    const overlay = document.getElementById(`${id}-overlay`);
+    if (overlay) {
+        overlay.style.display = 'flex';
+        overlay.setAttribute('aria-hidden', 'false');
+        document.body.style.overflow = 'hidden';
+        const closeBtn = overlay.querySelector('.modal-close');
+        if (closeBtn) closeBtn.focus();
     }
 }
 
-/* Acordeón toggle (global para onclick inline) */
-window.toggleAccordion = function(filename) {
-    const body = document.getElementById('acc-' + filename);
-    if (!body) return;
-    const isHidden = body.style.display === 'none';
-    body.style.display = isHidden ? 'block' : 'none';
-    // Persistir estado en localStorage con prefijo gn:
-    localStorage.setItem('gn:dashboard:accordion:' + filename, String(isHidden));
-};
+export function closeModal(id) {
+    const overlay = document.getElementById(`${id}-overlay`);
+    if (overlay) {
+        overlay.style.display = 'none';
+        overlay.setAttribute('aria-hidden', 'true');
+        document.body.style.overflow = '';
+    }
+}
 
-/* Retry al fallar fetch en acordeón */
-window.retryAccordion = function(filename) {
-    loadAll(); // delegado a app.js
-};
+export function toggleSidebar() {
+    const sidebar = document.querySelector('.sidebar');
+    const overlay = document.querySelector('.sidebar-overlay');
+    if (sidebar && overlay) {
+        sidebar.classList.toggle('open');
+        overlay.classList.toggle('visible');
+    }
+}
 
-/* Comms modal + sorting (global para onclick inline) */
-window.commsData = null;
-
-window.openCommsModal = function(id) {
-    if (!window.commsData) return;
-    const comm = window.commsData.details.find(c => c.id === id);
-    if (comm) DashboardRenderer.renderCommsDetail(comm);
-};
-
-window.closeCommsModal = function() {
-    const modal = document.getElementById('comms-detail-modal');
-    if (modal) modal.style.display = 'none';
-};
-
-window.sortComms = function(key) {
-    if (typeof window.applyCommsSort === 'function') window.applyCommsSort(key);
-};
+// Initialize mobile sidebar overlay click handler
+document.addEventListener('DOMContentLoaded', () => {
+    const overlay = document.querySelector('.sidebar-overlay');
+    if (overlay) {
+        overlay.addEventListener('click', toggleSidebar);
+    }
+    // Toast container
+    if (!document.getElementById('toast-container')) {
+        const c = document.createElement('div');
+        c.id = 'toast-container';
+        c.style.cssText = 'position:fixed;bottom:var(--space-6);right:var(--space-6);z-index:var(--z-index-toast);display:flex;flex-direction:column;gap:var(--space-2);pointer-events:none';
+        document.body.appendChild(c);
+    }
+});

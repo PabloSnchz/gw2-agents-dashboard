@@ -1,0 +1,348 @@
+/* ==========================================================================
+   css/tokens.css — Andreani Cartesian Design System v1 (tokens mínimos viables)
+   Dashboard: Bóveda del Gato Negro (gw2-agents-dashboard)
+   Solo tokens que el dashboard USA HOY (auditoría real 2026-10-10).
+   Sin tokens decorativos ni futuros.
+   ========================================================================== */
+
+/* --------------------------------------------------------------------------
+   COLOR PRIMITIVES — Escalas 50–900 (solo las que usa el dashboard)
+   Nomenclatura: --color-{primitive}-{scale}
+   -------------------------------------------------------------------------- */
+
+/* Gray — neutros, fondos, bordes, texto atenuado */
+--color-gray-50:  #f8fafc;
+--color-gray-100: #f1f5f9;
+--color-gray-200: #e2e8f0;
+--color-gray-300: #cbd5e1;
+--color-gray-400: #94a3b8;
+--color-gray-500: #64748b;
+--color-gray-600: #475569;
+--color-gray-700: #334155;
+--color-gray-800: #1e293b;
+--color-gray-900: #0f172a;
+
+/* Blue — primario, enlaces, info, clones (cian), estado "en curso" */
+--color-blue-50:  #eff6ff;
+--color-blue-100: #dbeafe;
+--color-blue-200: #bfdbfe;
+--color-blue-300: #93c5fd;
+--color-blue-400: #60a5fa;
+--color-blue-500: #3b82f6;
+--color-blue-600: #2563eb;
+--color-blue-700: #1d4ed8;
+--color-blue-800: #1e3a5f;
+--color-blue-900: #172554;
+
+/* Green — éxito, ok, ramas, "listo para promover", estado "activo" */
+--color-green-50:  #f0fdf4;
+--color-green-100: #dcfce7;
+--color-green-200: #bbf7d0;
+--color-green-300: #86efac;
+--color-green-400: #4ade80;
+--color-green-500: #22c55e;
+--color-green-600: #16a34a;
+--color-green-700: #15803d;
+--color-green-800: #166534;
+--color-green-900: #052e16;
+
+/* Red/Orange — alerta, danger, error, crítico, timeout, "bloqueado" */
+--color-red-50:   #fef2f2;
+--color-red-100:  #fee2e2;
+--color-red-200:  #fecaca;
+--color-red-300:  #fca5a5;
+--color-red-400:  #f87171;
+--color-red-500:  #ef4444;
+--color-red-600:  #dc2626;
+--color-red-700:  #b91c1c;
+--color-red-800:  #991b1b;
+--color-red-900:  #7f1d1d;
+
+--color-orange-50:  #fff7ed;
+--color-orange-100: #ffedd5;
+--color-orange-200: #fed7aa;
+--color-orange-300: #fdba74;
+--color-orange-400: #fb923c;
+--color-orange-500: #f97316;
+--color-orange-600: #ea580c;
+--color-orange-700: #c2410c;
+--color-orange-800: #9a3412;
+--color-orange-900: #7c2d12;
+
+/* Purple — Arquitecto, pre-backlog, ideas PO, decisiones */
+--color-purple-50:  #faf5ff;
+--color-purple-100: #f3e8ff;
+--color-purple-200: #e9d5ff;
+--color-purple-300: #d8b4fe;
+--color-purple-400: #c084fc;
+--color-purple-500: #a855f7;
+--color-purple-600: #9333ea;
+--color-purple-700: #7e22ce;
+--color-purple-800: #6b21a8;
+--color-purple-900: #581c87;
+
+/* Cyan — Clones (desarrollo), info secundaria, "esperando" */
+--color-cyan-50:  #ecfeff;
+--color-cyan-100: #cffafe;
+--color-cyan-200: #a5f3fc;
+--color-cyan-300: #67e8f9;
+--color-cyan-400: #22d3ee;
+--color-cyan-500: #06b6d4;
+--color-cyan-600: #0891b2;
+--color-cyan-700: #0e7490;
+--color-cyan-800: #155e75;
+--color-cyan-900: #164e63;
+
+/* Mint — Ramas (feature branches), "en progreso", verde menta */
+--color-mint-50:  #f0fdfa;
+--color-mint-100: #ccfbf1;
+--color-mint-200: #99f6e4;
+--color-mint-300: #5eead4;
+--color-mint-400: #2dd4bf;
+--color-mint-500: #14b8a6;
+--color-mint-600: #0d9488;
+--color-mint-700: #0f766e;
+--color-mint-800: #115e59;
+--color-mint-900: #064e4b;
+
+/* --------------------------------------------------------------------------
+   SEMANTIC COLORS — LIGHT MODE
+   Capas: bg (página), surface (contenedores), fill (interactivos),
+   text, border, icon. Con variantes subtle/regular/strong.
+   -------------------------------------------------------------------------- */
+
+/* Background — fondo de página */
+--color-bg: var(--color-gray-50);
+--color-bg-inverted: var(--color-gray-900);
+
+/* Surface — contenedores elevados (cards, modals, dropdowns) */
+--color-surface-primary:       #ffffff;
+--color-surface-primary-hover: var(--color-gray-50);
+--color-surface-neutral:       var(--color-gray-100);
+--color-surface-neutral-hover: var(--color-gray-200);
+
+/* Fill — elementos interactivos (botones, inputs, selects) */
+--color-fill-primary:       var(--color-blue-600);
+--color-fill-primary-hover: var(--color-blue-700);
+--color-fill-primary-pressed: var(--color-blue-800);
+--color-fill-neutral:       var(--color-gray-200);
+--color-fill-neutral-hover: var(--color-gray-300);
+--color-fill-neutral-pressed: var(--color-gray-400);
+--color-fill-danger:       var(--color-red-600);
+--color-fill-danger-hover: var(--color-red-700);
+--color-fill-danger-pressed: var(--color-red-800);
+
+/* Text — jerarquía de legibilidad */
+--color-text-primary:   var(--color-gray-900);
+--color-text-secondary: var(--color-gray-600);
+--color-text-dim:       var(--color-gray-400);
+--color-text-inverted:  var(--color-gray-50);
+--color-text-link:      var(--color-blue-600);
+--color-text-link-hover: var(--color-blue-700);
+
+/* Border — división, contornos */
+--color-border-subtle:  var(--color-gray-200);
+--color-border-regular: var(--color-gray-300);
+--color-border-strong:  var(--color-gray-400);
+--color-border-focus:   var(--color-blue-500);
+
+/* Icon — mismo semántico que text pero para iconografía */
+--color-icon-primary:   var(--color-text-primary);
+--color-icon-secondary: var(--color-text-secondary);
+--color-icon-dim:       var(--color-text-dim);
+
+/* --------------------------------------------------------------------------
+   STATUS COLORS — Semánticos para KPIs, badges, border-left de cards
+   Cada estado tiene: bg (subtle), border, text, icon
+   -------------------------------------------------------------------------- */
+
+/* Success / OK / Activo / Listo */
+--color-status-success-bg:      var(--color-green-50);
+--color-status-success-border:  var(--color-green-400);
+--color-status-success-text:    var(--color-green-700);
+--color-status-success-icon:    var(--color-green-600);
+
+/* Warning / Pendiente / En curso / Esperando */
+--color-status-warning-bg:      var(--color-orange-50);
+--color-status-warning-border:  var(--color-orange-400);
+--color-status-warning-text:    var(--color-orange-700);
+--color-status-warning-icon:    var(--color-orange-600);
+
+/* Danger / Crítico / Error / Bloqueado / Timeout */
+--color-status-danger-bg:       var(--color-red-50);
+--color-status-danger-border:   var(--color-red-400);
+--color-status-danger-text:     var(--color-red-700);
+--color-status-danger-icon:     var(--color-red-600);
+
+/* Info / Neutro / Sin clasificar / En desarrollo */
+--color-status-info-bg:         var(--color-blue-50);
+--color-status-info-border:     var(--color-blue-400);
+--color-status-info-text:       var(--color-blue-700);
+--color-status-info-icon:       var(--color-blue-600);
+
+/* Neutral / Idle / Cerrado / Completado antiguo */
+--color-status-neutral-bg:      var(--color-gray-100);
+--color-status-neutral-border:  var(--color-gray-300);
+--color-status-neutral-text:    var(--color-gray-600);
+--color-status-neutral-icon:    var(--color-gray-500);
+
+/* --------------------------------------------------------------------------
+   AGENT/AREA COLORS — Colores de identidad por agente/sección (border-left)
+   Usados en: KPI cards, Agent cards, Feature cards, Promo cards, Org sections
+   -------------------------------------------------------------------------- */
+--color-agent-principal:   var(--color-purple-500);
+--color-agent-reviewer:    var(--color-blue-500);
+--color-agent-documenter:  var(--color-green-500);
+--color-agent-po:          var(--color-orange-500);
+--color-agent-architect:   var(--color-purple-500);
+
+--color-area-prebacklog:   var(--color-purple-500);
+--color-area-backlog:      var(--color-orange-500);
+--color-area-clones:       var(--color-cyan-500);
+--color-area-branches:     var(--color-mint-500);
+--color-area-features:     var(--color-blue-500);
+--color-area-promociones:  var(--color-blue-600);
+--color-area-salud:        var(--color-green-500);
+--color-area-estructura:   var(--color-purple-500);
+--color-area-equipo:       var(--color-cyan-500);
+--color-area-historial:    var(--color-blue-500);
+--color-area-notas:        var(--color-green-500);
+--color-area-logs:         var(--color-gray-500);
+
+/* ==========================================================================
+   DARK MODE OVERRIDES
+   ========================================================================== */
+[data-theme="dark"] {
+  --color-bg: var(--color-gray-900);
+  --color-bg-inverted: var(--color-gray-50);
+  --color-surface-primary:       var(--color-gray-800);
+  --color-surface-primary-hover: var(--color-gray-700);
+  --color-surface-neutral:       var(--color-gray-700);
+  --color-surface-neutral-hover: var(--color-gray-600);
+  --color-fill-primary:       var(--color-blue-500);
+  --color-fill-primary-hover: var(--color-blue-400);
+  --color-fill-primary-pressed: var(--color-blue-600);
+  --color-fill-neutral:       var(--color-gray-600);
+  --color-fill-neutral-hover: var(--color-gray-500);
+  --color-fill-neutral-pressed: var(--color-gray-700);
+  --color-fill-danger:       var(--color-red-500);
+  --color-fill-danger-hover: var(--color-red-400);
+  --color-fill-danger-pressed: var(--color-red-600);
+  --color-text-primary:   var(--color-gray-50);
+  --color-text-secondary: var(--color-gray-300);
+  --color-text-dim:       var(--color-gray-500);
+  --color-text-inverted:  var(--color-gray-900);
+  --color-text-link:      var(--color-blue-400);
+  --color-text-link-hover: var(--color-blue-300);
+  --color-border-subtle:  var(--color-gray-700);
+  --color-border-regular: var(--color-gray-600);
+  --color-border-strong:  var(--color-gray-500);
+  --color-border-focus:   var(--color-blue-400);
+  --color-icon-primary:   var(--color-text-primary);
+  --color-icon-secondary: var(--color-text-secondary);
+  --color-icon-dim:       var(--color-text-dim);
+  --color-status-success-bg:      var(--color-green-900);
+  --color-status-success-border:  var(--color-green-400);
+  --color-status-success-text:    var(--color-green-300);
+  --color-status-success-icon:    var(--color-green-400);
+  --color-status-warning-bg:      var(--color-orange-900);
+  --color-status-warning-border:  var(--color-orange-400);
+  --color-status-warning-text:    var(--color-orange-300);
+  --color-status-warning-icon:    var(--color-orange-400);
+  --color-status-danger-bg:       var(--color-red-900);
+  --color-status-danger-border:   var(--color-red-400);
+  --color-status-danger-text:     var(--color-red-300);
+  --color-status-danger-icon:     var(--color-red-400);
+  --color-status-info-bg:         var(--color-blue-900);
+  --color-status-info-border:     var(--color-blue-400);
+  --color-status-info-text:       var(--color-blue-300);
+  --color-status-info-icon:       var(--color-blue-400);
+  --color-status-neutral-bg:      var(--color-gray-800);
+  --color-status-neutral-border:  var(--color-gray-600);
+  --color-status-neutral-text:    var(--color-gray-400);
+  --color-status-neutral-icon:    var(--color-gray-500);
+}
+
+/* ==========================================================================
+   BORDER — Widths y Radius
+   ========================================================================== */
+--border-width-subtle:  1px;
+--border-width-regular: 2px;
+--border-width-strong:  3px;
+--border-radius-none:     0;
+--border-radius-xsmall:   4px;
+--border-radius-small:    8px;
+--border-radius-medium:   16px;
+--border-radius-large:    24px;
+--border-radius-xlarge:   99px;
+
+/* ==========================================================================
+   TYPOGRAPHY — Rubik (Headline/Title) + Roboto (Body/Label/Caption/Overline)
+   ========================================================================== */
+--font-family-headline: 'Rubik', system-ui, -apple-system, sans-serif;
+--font-family-body:     'Roboto', system-ui, -apple-system, sans-serif;
+--font-family-mono:     'JetBrains Mono', 'Fira Code', Consolas, monospace;
+--font-headline-1-size: clamp(2rem, 5vw, 3rem);    --font-headline-1-line: 1.1;    --font-headline-1-weight: 700;
+--font-headline-2-size: clamp(1.5rem, 4vw, 2.25rem); --font-headline-2-line: 1.15;   --font-headline-2-weight: 600;
+--font-headline-3-size: clamp(1.25rem, 3vw, 1.75rem); --font-headline-3-line: 1.2;   --font-headline-3-weight: 600;
+--font-headline-4-size: clamp(1.125rem, 2.5vw, 1.5rem); --font-headline-4-line: 1.25; --font-headline-4-weight: 500;
+--font-title-1-size: 1.125rem; --font-title-1-line: 1.3; --font-title-1-weight: 600;
+--font-title-2-size: 1rem;     --font-title-2-line: 1.35; --font-title-2-weight: 600;
+--font-title-3-size: 0.875rem; --font-title-3-line: 1.4; --font-title-3-weight: 600;
+--font-body-1-size: 1rem;      --font-body-1-line: 1.5;   --font-body-1-weight: 400;
+--font-body-2-size: 0.875rem;  --font-body-2-line: 1.5;   --font-body-2-weight: 400;
+--font-label-1-size: 0.875rem; --font-label-1-line: 1.4; --font-label-1-weight: 500;
+--font-label-2-size: 0.75rem;  --font-label-2-line: 1.4; --font-label-2-weight: 500;
+--font-caption-size: 0.75rem;  --font-caption-line: 1.4;  --font-caption-weight: 400;
+--font-overline-size: 0.6875rem; --font-overline-line: 1.5; --font-overline-weight: 600; --font-overline-tracking: 0.05em;
+
+/* ==========================================================================
+   SPACING — Escala 0–9
+   ========================================================================== */
+--space-0: 0;
+--space-1: 4px;
+--space-2: 8px;
+--space-3: 12px;
+--space-4: 16px;
+--space-5: 24px;
+--space-6: 32px;
+--space-7: 48px;
+--space-8: 64px;
+--space-9: 80px;
+
+/* ==========================================================================
+   SHADOWS — 4 tokens + focus ring obligatorio
+   ========================================================================== */
+--shadow-sm:  0 1px 2px rgba(0, 0, 0, 0.05);
+--shadow-md:  0 4px 8px rgba(0, 0, 0, 0.1), 0 2px 4px rgba(0, 0, 0, 0.06);
+--shadow-lg:  0 10px 20px rgba(0, 0, 0, 0.12), 0 4px 8px rgba(0, 0, 0, 0.08);
+--shadow-xl:  0 20px 40px rgba(0, 0, 0, 0.15), 0 8px 16px rgba(0, 0, 0, 0.1);
+--shadow-focus-regular: 0 0 0 3px var(--color-blue-500);
+
+/* ==========================================================================
+   TRANSITIONS
+   ========================================================================== */
+--transition-fast:  150ms cubic-bezier(0.2, 0.9, 0.4, 1);
+--transition-normal: 220ms cubic-bezier(0.2, 0.9, 0.4, 1);
+--transition-slow:  300ms cubic-bezier(0.2, 0.9, 0.4, 1);
+
+/* ==========================================================================
+   Z-INDEX SCALE
+   ========================================================================== */
+--z-index-dropdown:   100;
+--z-index-sticky:     200;
+--z-index-modal:      1000;
+--z-index-toast:      1100;
+--z-index-tooltip:    1200;
+
+/* ==========================================================================
+   BREAKPOINTS
+   ========================================================================== */
+--bp-sm:  640px;
+--bp-md:  900px;
+--bp-lg:  1100px;
+--bp-xl:  1400px;
+
+/* ==========================================================================
+   MAPA DE USO — Referencia rápida
+   ========================================================================== */

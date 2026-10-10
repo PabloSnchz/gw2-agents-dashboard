@@ -1,0 +1,401 @@
+﻿/* ==========================================================================
+   css/base.css — Andreani Cartesian Design System v1 (base & reset)
+   Dashboard: Bóveda del Gato Negro (gw2-agents-dashboard)
+   ========================================================================== */
+
+/* --------------------------------------------------------------------------
+   RESET
+   -------------------------------------------------------------------------- */
+*, *::before, *::after {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+html {
+  font-size: 16px;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  text-rendering: optimizeLegibility;
+}
+
+body {
+  font-family: var(--font-family-body);
+  font-size: var(--font-body-1-size);
+  line-height: var(--font-body-1-line);
+  font-weight: var(--font-body-1-weight);
+  color: var(--color-text-primary);
+  background-color: var(--color-bg);
+  min-height: 100vh;
+}
+
+/* --------------------------------------------------------------------------
+   TIPOGRAFÍA — Clases utilitarias usando tokens
+   -------------------------------------------------------------------------- */
+/* Headlines (Rubik) */
+.h1, .headline-1 { font-family: var(--font-family-headline); font-size: var(--font-headline-1-size); line-height: var(--font-headline-1-line); font-weight: var(--font-headline-1-weight); }
+.h2, .headline-2 { font-family: var(--font-family-headline); font-size: var(--font-headline-2-size); line-height: var(--font-headline-2-line); font-weight: var(--font-headline-2-weight); }
+.h3, .headline-3 { font-family: var(--font-family-headline); font-size: var(--font-headline-3-size); line-height: var(--font-headline-3-line); font-weight: var(--font-headline-3-weight); }
+.h4, .headline-4 { font-family: var(--font-family-headline); font-size: var(--font-headline-4-size); line-height: var(--font-headline-4-line); font-weight: var(--font-headline-4-weight); }
+
+/* Titles (Rubik) */
+.title-1 { font-family: var(--font-family-headline); font-size: var(--font-title-1-size); line-height: var(--font-title-1-line); font-weight: var(--font-title-1-weight); }
+.title-2 { font-family: var(--font-family-headline); font-size: var(--font-title-2-size); line-height: var(--font-title-2-line); font-weight: var(--font-title-2-weight); }
+.title-3 { font-family: var(--font-family-headline); font-size: var(--font-title-3-size); line-height: var(--font-title-3-line); font-weight: var(--font-title-3-weight); }
+
+/* Body (Roboto) */
+.body-1 { font-size: var(--font-body-1-size); line-height: var(--font-body-1-line); font-weight: var(--font-body-1-weight); }
+.body-2 { font-size: var(--font-body-2-size); line-height: var(--font-body-2-line); font-weight: var(--font-body-2-weight); }
+
+/* Labels (Roboto) */
+.label-1 { font-size: var(--font-label-1-size); line-height: var(--font-label-1-line); font-weight: var(--font-label-1-weight); }
+.label-2 { font-size: var(--font-label-2-size); line-height: var(--font-label-2-line); font-weight: var(--font-label-2-weight); }
+
+/* Caption / Overline (Roboto) */
+.caption { font-size: var(--font-caption-size); line-height: var(--font-caption-line); font-weight: var(--font-caption-weight); }
+.overline { font-size: var(--font-overline-size); line-height: var(--font-overline-line); font-weight: var(--font-overline-weight); letter-spacing: var(--font-overline-tracking); text-transform: uppercase; }
+
+/* Mono */
+.mono { font-family: var(--font-family-mono); }
+
+/* --------------------------------------------------------------------------
+   FOCUS VISIBLE — OBLIGATORIO (WCAG 2.1 AA)
+   Nunca outline: none sin box-shadow de reemplazo.
+   -------------------------------------------------------------------------- */
+:focus-visible {
+  outline: none;
+  box-shadow: var(--shadow-focus-regular);
+  border-radius: var(--border-radius-xsmall);
+}
+
+/* Excepción: elementos que no deben mostrar focus ring visible (ej. tabs internos) */
+.no-focus-ring:focus-visible {
+  box-shadow: none;
+}
+
+/* --------------------------------------------------------------------------
+   REDUCED MOTION — Accesibilidad
+   -------------------------------------------------------------------------- */
+@media (prefers-reduced-motion: reduce) {
+  *, *::before, *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+    scroll-behavior: auto !important;
+  }
+}
+
+/* --------------------------------------------------------------------------
+   TOUCH TARGETS — Mínimo 44×44px (WCAG 2.1 AA)
+   -------------------------------------------------------------------------- */
+button, [role="button"], input, select, textarea, a[href], [tabindex]:not([tabindex="-1"]) {
+  min-height: 44px;
+  min-width: 44px;
+}
+
+/* En tablas/dense UIs se permite 32px height (Cartesian Small button) */
+.btn-sm, .btn-small, [data-size="small"] {
+  min-height: 32px;
+  min-width: 32px;
+}
+
+/* --------------------------------------------------------------------------
+   SELECTION COLORS
+   -------------------------------------------------------------------------- */
+::selection {
+  background-color: var(--color-fill-primary);
+  color: var(--color-text-inverted);
+}
+
+::-moz-selection {
+  background-color: var(--color-fill-primary);
+  color: var(--color-text-inverted);
+}
+/* --------------------------------------------------------------------------
+   SCROLLBAR — Thin, con tokens (opcional, solo WebKit/Blink + Firefox 64+)
+   -------------------------------------------------------------------------- */
+* {
+  scrollbar-width: thin;
+  scrollbar-color: var(--color-border-regular) transparent;
+}
+
+*::-webkit-scrollbar {
+  width: 8px;
+  height: 8px;
+}
+
+*::-webkit-scrollbar-track {
+  background: transparent;
+}
+
+*::-webkit-scrollbar-thumb {
+  background-color: var(--color-border-regular);
+  border-radius: var(--border-radius-xlarge);
+  border: 2px solid transparent;
+  background-clip: content-box;
+}
+
+*::-webkit-scrollbar-thumb:hover {
+  background-color: var(--color-border-strong);
+}
+
+*::-webkit-scrollbar-corner {
+  background: transparent;
+}
+
+/* --------------------------------------------------------------------------
+   LAYOUT UTILITIES — Clases de ayuda usando tokens de spacing
+   -------------------------------------------------------------------------- */
+/* Gap / Gap utilities */
+.gap-0 { gap: var(--space-0); }
+.gap-1 { gap: var(--space-1); }
+.gap-2 { gap: var(--space-2); }
+.gap-3 { gap: var(--space-3); }
+.gap-4 { gap: var(--space-4); }
+.gap-5 { gap: var(--space-5); }
+.gap-6 { gap: var(--space-6); }
+
+/* Padding utilities */
+.p-0 { padding: var(--space-0); }
+.p-1 { padding: var(--space-1); }
+.p-2 { padding: var(--space-2); }
+.p-3 { padding: var(--space-3); }
+.p-4 { padding: var(--space-4); }
+.p-5 { padding: var(--space-5); }
+.p-6 { padding: var(--space-6); }
+
+/* Margin utilities */
+.m-0 { margin: var(--space-0); }
+.m-1 { margin: var(--space-1); }
+.m-2 { margin: var(--space-2); }
+.m-3 { margin: var(--space-3); }
+.m-4 { margin: var(--space-4); }
+.m-5 { margin: var(--space-5); }
+.m-6 { margin: var(--space-6); }
+
+/* Padding X / Y */
+.px-1 { padding-left: var(--space-1); padding-right: var(--space-1); }
+.px-2 { padding-left: var(--space-2); padding-right: var(--space-2); }
+.px-3 { padding-left: var(--space-3); padding-right: var(--space-3); }
+.px-4 { padding-left: var(--space-4); padding-right: var(--space-4); }
+.px-5 { padding-left: var(--space-5); padding-right: var(--space-5); }
+.px-6 { padding-left: var(--space-6); padding-right: var(--space-6); }
+
+.py-1 { padding-top: var(--space-1); padding-bottom: var(--space-1); }
+.py-2 { padding-top: var(--space-2); padding-bottom: var(--space-2); }
+.py-3 { padding-top: var(--space-3); padding-bottom: var(--space-3); }
+.py-4 { padding-top: var(--space-4); padding-bottom: var(--space-4); }
+.py-5 { padding-top: var(--space-5); padding-bottom: var(--space-5); }
+.py-6 { padding-top: var(--space-6); padding-bottom: var(--space-6); }
+
+/* Margin X / Y (auto centrado) */
+.mx-auto { margin-left: auto; margin-right: auto; }
+.my-auto { margin-top: auto; margin-bottom: auto; }
+
+/* --------------------------------------------------------------------------
+   DISPLAY / FLEX / GRID HELPERS
+   -------------------------------------------------------------------------- */
+.flex { display: flex; }
+.inline-flex { display: inline-flex; }
+.grid { display: grid; }
+.block { display: block; }
+.inline-block { display: inline-block; }
+.hidden { display: none; }
+
+.flex-1 { flex: 1 1 0%; }
+.flex-auto { flex: 1 1 auto; }
+.flex-initial { flex: 0 1 auto; }
+.flex-none { flex: none; }
+
+.flex-row { flex-direction: row; }
+.flex-col { flex-direction: column; }
+.flex-wrap { flex-wrap: wrap; }
+.flex-nowrap { flex-wrap: nowrap; }
+
+.items-start { align-items: flex-start; }
+.items-center { align-items: center; }
+.items-end { align-items: flex-end; }
+.items-stretch { align-items: stretch; }
+.items-baseline { align-items: baseline; }
+
+.justify-start { justify-content: flex-start; }
+.justify-center { justify-content: center; }
+.justify-end { justify-content: flex-end; }
+.justify-between { justify-content: space-between; }
+.justify-around { justify-content: space-around; }
+.justify-evenly { justify-content: space-evenly; }
+
+/* Grid templates comunes del dashboard */
+.grid-cols-1 { grid-template-columns: repeat(1, 1fr); }
+.grid-cols-2 { grid-template-columns: repeat(2, 1fr); }
+.grid-cols-3 { grid-template-columns: repeat(3, 1fr); }
+.grid-cols-4 { grid-template-columns: repeat(4, 1fr); }
+.grid-cols-5 { grid-template-columns: repeat(5, 1fr); }
+.grid-cols-6 { grid-template-columns: repeat(6, 1fr); }
+
+/* Responsive grid breakpoints (mobile-first) */
+@media (max-width: 1099px) {
+  .lg\:grid-cols-4 { grid-template-columns: repeat(4, 1fr); }
+  .lg\:grid-cols-3 { grid-template-columns: repeat(3, 1fr); }
+  .lg\:grid-cols-2 { grid-template-columns: repeat(2, 1fr); }
+  .lg\:grid-cols-1 { grid-template-columns: 1fr; }
+}
+
+@media (max-width: 899px) {
+  .md\:grid-cols-3 { grid-template-columns: repeat(3, 1fr); }
+  .md\:grid-cols-2 { grid-template-columns: repeat(2, 1fr); }
+  .md\:grid-cols-1 { grid-template-columns: 1fr; }
+}
+
+@media (max-width: 639px) {
+  .sm\:grid-cols-2 { grid-template-columns: repeat(2, 1fr); }
+  .sm\:grid-cols-1 { grid-template-columns: 1fr; }
+}
+
+/* --------------------------------------------------------------------------
+   TEXT ALIGNMENT / WRAPPING / OVERFLOW
+   -------------------------------------------------------------------------- */
+.text-left { text-align: left; }
+.text-center { text-align: center; }
+.text-right { text-align: right; }
+
+.truncate { overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+.break-words { overflow-wrap: break-word; word-wrap: break-word; }
+.whitespace-nowrap { white-space: nowrap; }
+.whitespace-normal { white-space: normal; }
+
+.overflow-hidden { overflow: hidden; }
+.overflow-auto { overflow: auto; }
+.overflow-x-auto { overflow-x: auto; }
+.overflow-y-auto { overflow-y: auto; }
+
+/* --------------------------------------------------------------------------
+   POSITION / Z-INDEX HELPERS
+   -------------------------------------------------------------------------- */
+.relative { position: relative; }
+.absolute { position: absolute; }
+.fixed { position: fixed; }
+.sticky { position: sticky; }
+
+.z-dropdown { z-index: var(--z-index-dropdown); }
+.z-sticky { z-index: var(--z-index-sticky); }
+.z-modal { z-index: var(--z-index-modal); }
+.z-toast { z-index: var(--z-index-toast); }
+.z-tooltip { z-index: var(--z-index-tooltip); }
+
+/* --------------------------------------------------------------------------
+   BORDER HELPERS
+   -------------------------------------------------------------------------- */
+.border { border: var(--border-width-regular) solid var(--color-border-regular); }
+.border-subtle { border: var(--border-width-subtle) solid var(--color-border-subtle); }
+.border-strong { border: var(--border-width-strong) solid var(--color-border-strong); }
+.border-none { border: none; }
+
+.border-t { border-top: var(--border-width-regular) solid var(--color-border-regular); }
+.border-b { border-bottom: var(--border-width-regular) solid var(--color-border-regular); }
+.border-l { border-left: var(--border-width-regular) solid var(--color-border-regular); }
+.border-r { border-right: var(--border-width-regular) solid var(--color-border-regular); }
+
+.border-l-strong { border-left: var(--border-width-strong) solid var(--color-border-strong); }
+.border-l-success { border-left: var(--border-width-strong) solid var(--color-status-success-border); }
+.border-l-warning { border-left: var(--border-width-strong) solid var(--color-status-warning-border); }
+.border-l-danger { border-left: var(--border-width-strong) solid var(--color-status-danger-border); }
+.border-l-info { border-left: var(--border-width-strong) solid var(--color-status-info-border); }
+.border-l-neutral { border-left: var(--border-width-strong) solid var(--color-status-neutral-border); }
+
+/* Agent/Area border-left colors */
+.border-l-principal { border-left: var(--border-width-strong) solid var(--color-agent-principal); }
+.border-l-reviewer { border-left: var(--border-width-strong) solid var(--color-agent-reviewer); }
+.border-l-documenter { border-left: var(--border-width-strong) solid var(--color-agent-documenter); }
+.border-l-po { border-left: var(--border-width-strong) solid var(--color-agent-po); }
+.border-l-architect { border-left: var(--border-width-strong) solid var(--color-agent-architect); }
+
+.border-l-prebacklog { border-left: var(--border-width-strong) solid var(--color-area-prebacklog); }
+.border-l-backlog { border-left: var(--border-width-strong) solid var(--color-area-backlog); }
+.border-l-clones { border-left: var(--border-width-strong) solid var(--color-area-clones); }
+.border-l-branches { border-left: var(--border-width-strong) solid var(--color-area-branches); }
+.border-l-features { border-left: var(--border-width-strong) solid var(--color-area-features); }
+.border-l-promociones { border-left: var(--border-width-strong) solid var(--color-area-promociones); }
+.border-l-salud { border-left: var(--border-width-strong) solid var(--color-area-salud); }
+.border-l-estructura { border-left: var(--border-width-strong) solid var(--color-area-estructura); }
+.border-l-equipo { border-left: var(--border-width-strong) solid var(--color-area-equipo); }
+.border-l-historial { border-left: var(--border-width-strong) solid var(--color-area-historial); }
+.border-l-notas { border-left: var(--border-width-strong) solid var(--color-area-notas); }
+.border-l-logs { border-left: var(--border-width-strong) solid var(--color-area-logs); }
+
+.rounded-none { border-radius: var(--border-radius-none); }
+.rounded-xs { border-radius: var(--border-radius-xsmall); }
+.rounded-sm { border-radius: var(--border-radius-small); }
+.rounded-md { border-radius: var(--border-radius-medium); }
+.rounded-lg { border-radius: var(--border-radius-large); }
+.rounded-xl { border-radius: var(--border-radius-xlarge); } /* pill para botones */
+
+/* --------------------------------------------------------------------------
+   SHADOW HELPERS
+   -------------------------------------------------------------------------- */
+.shadow-sm { box-shadow: var(--shadow-sm); }
+.shadow-md { box-shadow: var(--shadow-md); }
+.shadow-lg { box-shadow: var(--shadow-lg); }
+.shadow-xl { box-shadow: var(--shadow-xl); }
+.shadow-none { box-shadow: none; }
+.shadow-focus { box-shadow: var(--shadow-focus-regular); }
+
+/* --------------------------------------------------------------------------
+   SURFACE / BACKGROUND HELPERS
+   -------------------------------------------------------------------------- */
+.bg-primary { background-color: var(--color-surface-primary); }
+.bg-primary-hover:hover { background-color: var(--color-surface-primary-hover); }
+.bg-neutral { background-color: var(--color-surface-neutral); }
+.bg-neutral-hover:hover { background-color: var(--color-surface-neutral-hover); }
+
+/* Status backgrounds */
+.bg-success { background-color: var(--color-status-success-bg); }
+.bg-warning { background-color: var(--color-status-warning-bg); }
+.bg-danger { background-color: var(--color-status-danger-bg); }
+.bg-info { background-color: var(--color-status-info-bg); }
+.bg-neutral { background-color: var(--color-status-neutral-bg); }
+
+/* --------------------------------------------------------------------------
+   TEXT COLOR HELPERS
+   -------------------------------------------------------------------------- */
+.text-primary { color: var(--color-text-primary); }
+.text-secondary { color: var(--color-text-secondary); }
+.text-dim { color: var(--color-text-dim); }
+.text-inverted { color: var(--color-text-inverted); }
+.text-link { color: var(--color-text-link); }
+.text-link:hover { color: var(--color-text-link-hover); }
+
+.text-success { color: var(--color-status-success-text); }
+.text-warning { color: var(--color-status-warning-text); }
+.text-danger { color: var(--color-status-danger-text); }
+.text-info { color: var(--color-status-info-text); }
+.text-neutral { color: var(--color-status-neutral-text); }
+
+/* --------------------------------------------------------------------------
+   FONT WEIGHT HELPERS
+   -------------------------------------------------------------------------- */
+.font-light { font-weight: 300; }
+.font-normal { font-weight: 400; }
+.font-medium { font-weight: 500; }
+.font-semibold { font-weight: 600; }
+.font-bold { font-weight: 700; }
+.font-extrabold { font-weight: 800; }
+.font-black { font-weight: 900; }
+
+/* --------------------------------------------------------------------------
+   TRANSITION HELPERS
+   -------------------------------------------------------------------------- */
+.transition-fast { transition: all var(--transition-fast); }
+.transition-normal { transition: all var(--transition-normal); }
+.transition-slow { transition: all var(--transition-slow); }
+.transition-none { transition: none; }
+
+/* --------------------------------------------------------------------------
+   CURSOR HELPERS
+   -------------------------------------------------------------------------- */
+.cursor-pointer { cursor: pointer; }
+.cursor-default { cursor: default; }
+.cursor-not-allowed { cursor: not-allowed; }
+.cursor-text { cursor: text; }
+.cursor-grab { cursor: grab; }
+.cursor-grabbing { cursor: grabbing; }

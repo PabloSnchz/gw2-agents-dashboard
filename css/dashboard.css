@@ -1,0 +1,10 @@
+/**
+ * dashboard.css — GW2 Agents Dashboard
+ * Single entry point importing Andreani Cartesian Design System v1
+ * Legacy CSS (main.css, theme.css, feat-*.css, pulso.css) removed.
+ */
+
+@import './tokens.css';
+@import './base.css';
+@import './components.css';
+@import './layout.css';
