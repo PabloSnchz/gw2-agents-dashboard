@@ -437,3 +437,146 @@
     padding: var(--space-2) var(--space-3);
     border-bottom: 1px solid var(--color-border-subtle);
 }
+
+/* ==========================================================================
+   ESTILOS DE GRILLA Y TARJETAS (Para todas las tabs)
+   ========================================================================== */
+
+/* --- GRILLAS CONTENEDORAS --- */
+.prebacklog-container, 
+.backlog-container,
+.consultas-container,
+.comms-channel-lista,
+.attention-container,
+.live-container {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(320px, 1fr));
+    gap: var(--space-4);
+    margin-top: var(--space-4);
+}
+
+/* --- KPI CARDS (Promociones / Resumen) --- */
+.feat-enc__kpis, 
+.comms-kpi-grid, 
+.pulso-kpis {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+    gap: var(--space-3);
+    margin-bottom: var(--space-5);
+}
+
+.feat-kpi, 
+.kpi-card {
+    background-color: var(--color-surface-primary);
+    border: var(--border-width-subtle) solid var(--color-border-regular);
+    border-radius: var(--border-radius-large);
+    padding: var(--space-4);
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+}
+
+.feat-kpi__n, 
+.kpi-value {
+    font-size: var(--font-headline-2-size);
+    font-weight: var(--font-headline-2-weight);
+    color: var(--color-text-primary);
+    line-height: 1;
+    margin-bottom: var(--space-1);
+}
+
+.feat-kpi__l, 
+.kpi-title {
+    font-size: var(--font-label-1-size);
+    font-weight: var(--font-label-1-weight);
+    color: var(--color-text-secondary);
+}
+
+.feat-kpi__src {
+    font-size: var(--font-caption-size);
+    color: var(--color-text-dim);
+    margin-top: var(--space-1);
+}
+
+/* Colores de KPI de comms */
+.kpi-card--critical { border-left: 4px solid var(--color-status-danger-border); }
+.kpi-card--important { border-left: 4px solid var(--color-status-warning-border); }
+.kpi-card--routine { border-left: 4px solid var(--color-status-success-border); }
+
+/* --- TARJETAS PRE-BACKLOG Y BACKLOG --- */
+.pb-actions, 
+.bl-actions {
+    display: flex;
+    gap: var(--space-2);
+    margin-top: auto;
+    padding-top: var(--space-4);
+    border-top: 1px solid var(--color-border-subtle);
+}
+
+.pb-attrs, 
+.bl-attrs {
+    display: flex;
+    gap: var(--space-3);
+    font-size: var(--font-caption-size);
+    color: var(--color-text-secondary);
+    background: var(--color-surface-neutral);
+    padding: var(--space-2);
+    border-radius: var(--border-radius-small);
+    margin-top: var(--space-2);
+}
+
+/* --- ALERTAS & COMMS --- */
+.comms-toolbar {
+    display: flex;
+    gap: var(--space-3);
+    margin-bottom: var(--space-4);
+    flex-wrap: wrap;
+}
+
+.comm-card {
+    background-color: var(--color-surface-primary);
+    border: var(--border-width-subtle) solid var(--color-border-regular);
+    border-radius: var(--border-radius-medium);
+    padding: var(--space-4);
+    margin-bottom: var(--space-3);
+    border-left: 4px solid var(--color-status-info-border);
+}
+
+.comm-card__agents {
+    font-size: var(--font-caption-size);
+    color: var(--color-text-secondary);
+    margin-bottom: var(--space-2);
+    font-weight: bold;
+}
+
+.comm-card__summary {
+    font-size: var(--font-body-2-size);
+    color: var(--color-text-primary);
+    margin-bottom: var(--space-2);
+}
+
+.comm-card__meta {
+    font-size: var(--font-caption-size);
+    color: var(--color-text-dim);
+}
+
+/* Arreglar los asteriscos del markdown en alertas */
+.alert-list, 
+.alert-item {
+    list-style: none;
+    padding: 0;
+}
+
+/* --- INPUTS Y CHECKBOXES (Header) --- */
+.toggle-auto-refresh {
+    display: inline-flex;
+    align-items: center;
+    gap: var(--space-2);
+    font-size: var(--font-body-2-size);
+    cursor: pointer;
+}
+.toggle-auto-refresh input[type="checkbox"] {
+    width: 18px;
+    height: 18px;
+    accent-color: var(--color-fill-primary);
+}
