@@ -1,0 +1,213 @@
+/* ==========================================================================
+   app-components.css - Estilos para los componentes generados por JS
+   Usa EXCLUSIVAMENTE los tokens de tokens.css (Andreani Design System)
+   ========================================================================== */
+
+/* --- PULSO (Resumen) --- */
+.pulso-kpis {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+    gap: var(--space-4);
+    margin-bottom: var(--space-6);
+}
+
+.pulso-kpi {
+    background-color: var(--color-surface-primary);
+    border: var(--border-width-subtle) solid var(--color-border-regular);
+    border-radius: var(--border-radius-large);
+    padding: var(--space-4);
+    display: flex;
+    flex-direction: column;
+}
+
+.pulso-kpi__label {
+    font-size: var(--font-label-2-size);
+    font-weight: var(--font-label-2-weight);
+    color: var(--color-text-secondary);
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+    margin-bottom: var(--space-2);
+}
+
+.pulso-kpi__value {
+    font-size: var(--font-headline-2-size);
+    font-weight: var(--font-headline-2-weight);
+    color: var(--color-text-primary);
+    line-height: 1.1;
+    margin-bottom: var(--space-1);
+}
+
+.pulso-kpi__sub {
+    font-size: var(--font-caption-size);
+    color: var(--color-text-dim);
+}
+
+/* Colores semánticos de los KPIs */
+.pulso-kpi--warn { border-left: 4px solid var(--color-status-warning-border); }
+.pulso-kpi--warn .pulso-kpi__value { color: var(--color-status-warning-text); }
+.pulso-kpi--ok { border-left: 4px solid var(--color-status-success-border); }
+.pulso-kpi--ok .pulso-kpi__value { color: var(--color-status-success-text); }
+.pulso-kpi--info { border-left: 4px solid var(--color-status-info-border); }
+.pulso-kpi--info .pulso-kpi__value { color: var(--color-status-info-text); }
+
+/* --- INCIDENCIAS (Resumen) --- */
+.inc-list {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+    border: var(--border-width-subtle) solid var(--color-border-regular);
+    border-radius: var(--border-radius-large);
+    overflow: hidden;
+}
+
+.inc {
+    border-bottom: var(--border-width-subtle) solid var(--color-border-regular);
+    background-color: var(--color-surface-primary);
+}
+.inc:last-child { border-bottom: none; }
+
+.inc summary {
+    padding: var(--space-3) var(--space-4);
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    gap: var(--space-3);
+}
+
+.inc__sev {
+    font-size: var(--font-caption-size);
+    font-weight: bold;
+    text-transform: uppercase;
+    padding: 2px 8px;
+    border-radius: var(--border-radius-xlarge);
+}
+.inc--alta .inc__sev { background-color: var(--color-status-danger-bg); color: var(--color-status-danger-text); }
+.inc--media .inc__sev { background-color: var(--color-status-warning-bg); color: var(--color-status-warning-text); }
+.inc--baja .inc__sev { background-color: var(--color-status-neutral-bg); color: var(--color-status-neutral-text); }
+
+.inc__detail {
+    padding: 0 var(--space-4) var(--space-4) var(--space-4);
+    margin: 0;
+    font-size: var(--font-body-2-size);
+    color: var(--color-text-secondary);
+}
+
+/* --- TRABAJO NOMBRADO (Resumen) --- */
+.trab-list {
+    list-style: none;
+    padding: 0;
+    margin: 0 0 var(--space-6) 0;
+}
+
+.trab {
+    display: flex;
+    flex-wrap: wrap;
+    gap: var(--space-2);
+    align-items: baseline;
+    padding: var(--space-2) 0;
+    border-bottom: 1px solid var(--color-border-subtle);
+    font-size: var(--font-body-2-size);
+}
+.trab:last-child { border-bottom: none; }
+
+.trab__rama { font-family: var(--font-family-mono); color: var(--color-text-secondary); }
+.trab__item { font-weight: var(--font-label-1-weight); color: var(--color-text-primary); }
+.trab__estado { color: var(--color-text-dim); font-size: var(--font-caption-size); }
+
+/* --- PRE-BACKLOG Y BACKLOG (Tarjetas) --- */
+.pb-card, .bl-card {
+    background-color: var(--color-surface-primary);
+    border: var(--border-width-subtle) solid var(--color-border-regular);
+    border-radius: var(--border-radius-large);
+    padding: var(--space-4);
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-2);
+    transition: box-shadow var(--transition-fast);
+}
+.pb-card:hover, .bl-card:hover { box-shadow: var(--shadow-md); }
+
+.pb-head, .bl-head {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    font-size: var(--font-caption-size);
+    color: var(--color-text-secondary);
+}
+
+.pb-id, .bl-id { font-family: var(--font-family-mono); }
+
+.pb-estado, .bl-estado {
+    padding: 2px 8px;
+    border-radius: var(--border-radius-xlarge);
+    background-color: var(--color-fill-neutral);
+}
+
+.pb-title, .bl-title {
+    font-size: var(--font-title-2-size);
+    font-weight: var(--font-title-2-weight);
+    color: var(--color-text-primary);
+    margin: 0;
+}
+
+.pb-attrs, .bl-attrs { display: flex; gap: var(--space-3); flex-wrap: wrap; font-size: var(--font-caption-size); color: var(--color-text-secondary); }
+.pb-obs, .bl-obs { font-size: var(--font-body-2-size); color: var(--color-text-secondary); margin-top: var(--space-2); }
+
+.pb-actions, .bl-actions {
+    display: flex;
+    gap: var(--space-2);
+    margin-top: auto;
+    padding-top: var(--space-3);
+}
+
+/* --- DESARROLLO (Clones, Ramas, Features) --- */
+.desarrollo-subheader {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin: var(--space-5) 0 var(--space-3) 0;
+    padding-bottom: var(--space-2);
+    border-bottom: 2px solid var(--color-border-regular);
+    font-size: var(--font-title-1-size);
+    font-weight: var(--font-title-1-weight);
+}
+
+.desarrollo-subheader-count {
+    background-color: var(--color-fill-neutral);
+    padding: 2px 10px;
+    border-radius: var(--border-radius-xlarge);
+    font-size: var(--font-caption-size);
+}
+
+.d-clone-card, .d-rama-card, .d-feature-card {
+    background-color: var(--color-surface-primary);
+    border: var(--border-width-subtle) solid var(--color-border-regular);
+    border-radius: var(--border-radius-medium);
+    padding: var(--space-4);
+    margin-bottom: var(--space-3);
+}
+
+.d-clone-head, .d-rama-head, .d-feature-head {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: var(--space-2);
+}
+
+.d-label { font-weight: bold; color: var(--color-text-primary); }
+.d-sha { font-family: var(--font-family-mono); font-size: var(--font-caption-size); color: var(--color-text-dim); }
+.d-clone-meta, .d-rama-meta { font-size: var(--font-caption-size); color: var(--color-text-secondary); display: flex; gap: var(--space-2); }
+.d-badge { font-size: 0.7rem; padding: 2px 6px; border-radius: 4px; }
+.d-badge--clean { background-color: var(--color-status-success-bg); color: var(--color-status-success-text); }
+.d-badge--work { background-color: var(--color-status-warning-bg); color: var(--color-status-warning-text); }
+
+/* --- CONSULTAS (Arquitecto) --- */
+.consultas-wrap { display: flex; flex-direction: column; gap: var(--space-4); }
+.consulta {
+    background-color: var(--color-surface-primary);
+    border: var(--border-width-subtle) solid var(--color-border-regular);
+    border-radius: var(--border-radius-large);
+    padding: var(--space-4);
+}
+.consulta__pregunta { font-size: var(--font-title-2-size); font-weight: 600; margin-bottom: var(--space-2); }
+.consulta__opciones { padding-left: var(--space-4); margin-bottom: var(--space-3); }
