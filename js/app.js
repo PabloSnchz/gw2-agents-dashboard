@@ -43,7 +43,7 @@
       // filtrado. El equipo escribe su parte cruda en CONSULTAS.md; lo que
       // llega aca es lo que yo subi. Ojo con el aviso de arriba: si esta
       // entrada falta, el boton no hace nada y no hay error en consola.
-      const VALID_TABS = ['resumen', 'prebacklog', 'backlog', 'desarrollo', 'promociones', 'consultas', 'salud', 'estructura', 'equipo', 'historial', 'notas'];
+      const VALID_TABS = ['resumen', 'prebacklog', 'backlog', 'desarrollo', 'promociones', 'consultas', 'salud', 'estructura', 'equipo', 'historial', 'notas', 'logs'];
 
     // Orden persistido de las tabs, o el default si no hay nada guardado.
     // Se lee una sola vez al init y se escribe cada vez que cambia el orden.
@@ -156,19 +156,20 @@
         }
 
         // Actualizar botones activos
-        document.querySelectorAll('.dashboard-tab').forEach(btn => {
+        document.querySelectorAll('.sidebar-link').forEach(btn => {
             btn.classList.toggle('active', btn.dataset.tab === tabName);
         });
 
         // Mostrar/ocultar contenidos
-        document.querySelectorAll('.dashboard-tab-content').forEach(content => {
-            content.classList.toggle('active', content.dataset.tabContent === tabName);
+        document.querySelectorAll('.tab-panel').forEach(content => {
+            const contentTabName = content.id.replace('tab-', '');
+            content.classList.toggle('active', contentTabName === tabName);
         });
     };
 
     function getActiveTab() {
-        const active = document.querySelector('.dashboard-tab.active');
-        return active ? active.dataset.tab : 'consultas';
+        const active = document.querySelector('.sidebar-link.active');
+        return active ? active.dataset.tab : 'resumen';
     }
 
     // Ruta del hash, tolerante a las dos formas que existen en la practica.
