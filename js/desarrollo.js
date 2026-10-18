@@ -95,10 +95,17 @@
             ? '<li>... ' + ((f.archivos || []).length - 4) + ' mas</li>'
             : '';
         const desc = f.description ? '<div class="d-f-desc">' + esc(f.description) + '</div>' : '';
+        const meta = [];
+        if (f.registeredAt) meta.push('<span class="d-meta"><strong>Registrado:</strong> ' + esc(f.registeredAt) + '</span>');
+        if (f.autor) meta.push('<span class="d-meta"><strong>Autor:</strong> ' + esc(f.autor) + '</span>');
+        if (f.quien_escribe) meta.push('<span class="d-meta"><strong>Escribe:</strong> ' + esc(f.quien_escribe) + '</span>');
+        if (f.dependencia) meta.push('<span class="d-meta"><strong>Depende:</strong> ' + esc(f.dependencia) + '</span>');
+        const metaHtml = meta.length ? '<div class="d-f-meta">' + meta.join(' ') + '</div>' : '';
         return '<article class="d-feature-card' + (isPromoted ? ' d-promoted' : '') + '">'
             + '<div class="d-feature-head"><span class="d-label">' + nombre + '</span>'
             + '<span class="' + estadoClass + '">' + estado + '</span>' + sha + promotedBadge + '</div>'
             + desc
+            + metaHtml
             + (files || more ? '<ul class="d-files">' + files + more + '</ul>' : '')
             + '</article>';
     }

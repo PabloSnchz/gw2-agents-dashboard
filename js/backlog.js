@@ -32,9 +32,21 @@
         const attrs = [];
         if (prioridad) attrs.push(['Prioridad', prioridad]);
         attrs.push(['Estado', estado]);
+        attrs.push(['Autor', tarea.autor || '—']);
+        attrs.push(['Escribe la card', tarea.quien_escribe || tarea.autor || '—']);
+        // registeredAt: fecha de cuando se registro en el dashboard
+        const reg = tarea.registeredAt || tarea.registradoEn || null;
+        const regHtml = reg
+            ? '<span class="bl-attr"><strong>Registrado:</strong> ' + esc(formatDate(reg)) + '</span>'
+            : '';
+        // Dependencia: de quien depende esta tarea
+        const dep = tarea.dependencia || tarea.dep || null;
+        const depHtml = dep
+            ? '<span class="bl-attr"><strong>Depende:</strong> ' + esc(dep) + '</span>'
+            : '';
         const attrsHtml = attrs.map(a =>
             '<span class="bl-attr"><strong>' + a[0] + ':</strong> ' + a[1] + '</span>'
-        ).join('');
+        ).join('') + regHtml + depHtml;
         const obs = tarea.observaciones || tarea.obs;
         const obsHtml = obs ? '<div class="bl-obs">' + esc(obs) + '</div>' : '';
         return '<article class="bl-card" data-id="' + id + '" data-estado="' + estado.toLowerCase().replace(/[^a-z0-9]/g, '-') + '">'

@@ -26,11 +26,23 @@
         const estado = esc(idea.estado || 'pendiente');
         const attrs = [
             ['Origen', fuente],
-            ['Estado', estado]
+            ['Estado', estado],
+            ['Autor', idea.autor || '—'],
+            ['Escribe la card', idea.quien_escribe || idea.autor || '—']
         ];
+        // registeredAt: fecha de cuando se registro en el dashboard
+        const reg = idea.registeredAt || idea.registradoEn || null;
+        const regHtml = reg
+            ? '<span class="pb-attr"><strong>Registrado:</strong> ' + esc(formatDate(reg)) + '</span>'
+            : '';
+        // Dependencia: de quien depende esta idea
+        const dep = idea.dependencia || idea.dep || null;
+        const depHtml = dep
+            ? '<span class="pb-attr"><strong>Depende:</strong> ' + esc(dep) + '</span>'
+            : '';
         const attrsHtml = attrs.filter(a => a[1]).map(a =>
             '<span class="pb-attr"><strong>' + a[0] + ':</strong> ' + a[1] + '</span>'
-        ).join('');
+        ).join('') + regHtml + depHtml;
         const obs = idea.observaciones || idea.obs;
         const obsHtml = obs
             ? '<div class="pb-obs">' + esc(obs) + '</div>'

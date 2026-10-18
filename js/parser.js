@@ -939,6 +939,19 @@ class DashboardParser {
         return 'unknown';
     }
 
+    /**
+     * Extrae un campo opcional del texto markdown por patrones comunes.
+     * Devuelve el valor capturado o null si no lo encuentra.
+     */
+    static _extraerCampo(texto, patrones) {
+        if (!texto || typeof texto !== 'string') return null;
+        for (const p of patrones) {
+            const m = texto.match(p);
+            if (m && m[1]) return m[1].trim();
+        }
+        return null;
+    }
+
     /** Parsea severidad de alerta */
     static _parseSeverity(text) {
         const normalized = text.toLowerCase();
@@ -2085,7 +2098,10 @@ class DashboardParser {
                         titulo: trimmed.substring(0, 120),
                         fuente: 'PO (bruto)',
                         estado: 'bruto',
-                        observaciones: trimmed.substring(120)
+                        registeredAt: data.updatedAt || null,
+                        observaciones: trimmed.substring(120),
+                        autor: this._extraerCampo(trimmed, [/Autor:\s*([^\n]+)/i]),
+                        dependencia: this._extraerCampo(trimmed, [/Depende:\s*([^\n]+)/i])
                     };
                 } else if (currentIdea) {
                     currentIdea.observaciones += ' ' + trimmed;
@@ -2127,7 +2143,10 @@ class DashboardParser {
                             titulo: ideaTitle,
                             fuente: 'PO Heartbeat ' + hbDate,
                             estado: 'propuesta',
-                            observaciones: contextLines || 'Ver Heartbeat completo en PRE_BACKLOG.md'
+                            registeredAt: hbDate,
+                            observaciones: contextLines || 'Ver Heartbeat completo en PRE_BACKLOG.md',
+                            autor: this._extraerCampo(im, [/Autor:\s*([^\n]+)/i]),
+                            dependencia: this._extraerCampo(im, [/Depende:\s*([^\n]+)/i])
                         });
                     }
                 }
@@ -2147,7 +2166,10 @@ class DashboardParser {
                                 titulo: ideaTitle,
                                 fuente: 'PO Heartbeat ' + hbDate,
                                 estado: 'propuesta',
-                                observaciones: 'Ver Heartbeat completo en PRE_BACKLOG.md'
+                                registeredAt: hbDate,
+                                observaciones: 'Ver Heartbeat completo en PRE_BACKLOG.md',
+                                autor: this._extraerCampo(ai, [/Autor:\s*([^\n]+)/i]),
+                                dependencia: this._extraerCampo(ai, [/Depende:\s*([^\n]+)/i])
                             });
                         }
                     }
@@ -2163,7 +2185,10 @@ class DashboardParser {
                     titulo: titleIdeaMatch[2].trim().substring(0, 120),
                     fuente: 'PO Heartbeat ' + hbDate,
                     estado: 'propuesta',
-                    observaciones: 'Ver Heartbeat completo en PRE_BACKLOG.md'
+                    registeredAt: hbDate,
+                    observaciones: 'Ver Heartbeat completo en PRE_BACKLOG.md',
+                    autor: this._extraerCampo(titleIdeaMatch[0], [/Autor:\s*([^\n]+)/i]),
+                    dependencia: this._extraerCampo(titleIdeaMatch[0], [/Depende:\s*([^\n]+)/i])
                 });
             }
 
@@ -2179,7 +2204,10 @@ class DashboardParser {
                                 titulo: fmMatch[2].trim().substring(0, 120),
                                 fuente: 'PO Heartbeat ' + hbDate,
                                 estado: 'propuesta',
-                                observaciones: 'Ver Heartbeat completo en PRE_BACKLOG.md'
+                                registeredAt: hbDate,
+                                observaciones: 'Ver Heartbeat completo en PRE_BACKLOG.md',
+                                autor: this._extraerCampo(fm, [/Autor:\s*([^\n]+)/i]),
+                                dependencia: this._extraerCampo(fm, [/Depende:\s*([^\n]+)/i])
                             });
                         }
                     }
@@ -2199,6 +2227,7 @@ class DashboardParser {
                             titulo: aiMatch[2].trim().substring(0, 120),
                             fuente: 'PRE_BACKLOG.md',
                             estado: 'propuesta',
+                            registeredAt: data.updatedAt || null,
                             observaciones: 'ExtracciÃ³n fallback'
                         });
                     }
@@ -2290,7 +2319,10 @@ class DashboardParser {
                     titulo: this._cleanCell(titulo),
                     prioridad: priority,
                     estado: checked ? 'completado' : 'pendiente',
-                    observaciones: this._cleanCell(observaciones)
+                    registeredAt: data.updatedAt || null,
+                    observaciones: this._cleanCell(observaciones),
+                    autor: this._extraerCampo(fullText, [/Autor:\s*([^\n]+)/i]),
+                    dependencia: this._extraerCampo(fullText, [/Depende:\s*([^\n]+)/i])
                 });
             }
         }

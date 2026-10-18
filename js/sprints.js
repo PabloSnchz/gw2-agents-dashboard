@@ -35,11 +35,17 @@
             const tareaId = h.tarea_id ? ' <span class="sp-task-id">task:' + esc(h.tarea_id) + '</span>' : '';
             const estadoClass = 'sp-estado--' + estado.replace(/[^a-z0-9]/g, '-');
 
+            const description = h.description || h.desc || '';
+            const descHtml = description
+                ? '<p class="sp-h-desc">' + esc(description) + '</p>'
+                : '';
+
             return '<article class="sp-historia-card">'
                 + '<div class="sp-h-head"><span class="sp-h-id">' + id + '</span>'
                 + '<span class="sp-estado ' + estadoClass + '">' + estado + '</span>'
                 + '</div>'
                 + '<h4 class="sp-h-title">' + nombre + '</h4>'
+                + descHtml
                 + '<div class="sp-h-meta">'
                 + (dificultad ? '<span class="sp-h-diff">⏱ ' + dificultad + '</span>' : '')
                 + (responsable ? '<span class="sp-h-resp">👤 ' + responsable + '</span>' : '')
