@@ -590,3 +590,68 @@ code { font-family: var(--font-family-mono); font-size: 0.85em; background: var(
     line-height: 1.5;
     white-space: pre-wrap; /* Respeta los saltos de línea del mensaje */
 }
+
+/* ==========================================================================
+   FIX DEFINITIVO PARA "Clones y repos — referencia" (Tab Estructura)
+   ========================================================================== */
+
+/* 1. Arreglar la tabla de arriba */
+#org-map-container table {
+    width: 100%;
+    border-collapse: collapse;
+    margin-bottom: var(--space-5);
+    font-size: 0.85rem;
+    background: var(--color-surface-primary);
+}
+#org-map-container th {
+    text-align: left;
+    background: var(--color-surface-neutral);
+    padding: var(--space-2) var(--space-3);
+    border-bottom: 2px solid var(--color-border-regular);
+    font-weight: 600;
+    color: var(--color-text-secondary);
+}
+#org-map-container td {
+    padding: var(--space-2) var(--space-3);
+    border-bottom: 1px solid var(--color-border-subtle);
+    vertical-align: top;
+}
+
+/* 2. Aplanar la lista de repos (quitar los cuadros gigantes) */
+#org-map-container ul {
+    list-style: none !important;
+    padding: 0 !important;
+    margin: var(--space-4) 0 0 0 !important;
+}
+#org-map-container li {
+    background: transparent !important;
+    border: none !important;
+    border-bottom: 1px solid var(--color-border-subtle) !important;
+    border-radius: 0 !important;
+    padding: var(--space-4) 0 !important;
+    margin: 0 !important;
+    display: block !important;
+    box-shadow: none !important;
+}
+#org-map-container li:last-child {
+    border-bottom: none !important;
+}
+#org-map-container li strong,
+#org-map-container li b {
+    display: block;
+    font-size: 1.1rem;
+    color: var(--color-text-primary);
+    margin-bottom: var(--space-1);
+}
+/* Quitamos el fondo, bordes y paddings gigantes de los divs internos */
+#org-map-container li p,
+#org-map-container li div {
+    background: transparent !important;
+    border: none !important;
+    padding: 0 !important;
+    margin: 0 !important;
+    font-size: 0.9rem;
+    color: var(--color-text-secondary);
+    line-height: 1.5;
+    box-shadow: none !important;
+}
