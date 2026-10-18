@@ -827,3 +827,8 @@
 #tab-logs h2:first-child {
     margin-top: 0 !important;
 }
+
+/* FIX: la tab Logs estaba siempre visible por display:flex !important */
+#tab-logs:not(.active) {
+    display: none !important;
+}
