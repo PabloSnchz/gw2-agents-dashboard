@@ -321,3 +321,75 @@
     font-size: 0.75rem; 
     color: var(--color-text-dim); 
 }
+
+/* ==========================================================================
+   FIX QUIRÚRGICO: SOLO TAB PRE-BACKLOG (SCOPED)
+   ========================================================================== */
+
+#tab-prebacklog .pb-card {
+    gap: var(--space-3);
+    transition: transform var(--transition-fast), box-shadow var(--transition-fast);
+}
+#tab-prebacklog .pb-card:hover {
+    transform: translateY(-2px);
+    box-shadow: var(--shadow-md);
+}
+
+#tab-prebacklog .pb-head {
+    margin-bottom: var(--space-1);
+    align-items: center;
+}
+#tab-prebacklog .pb-id {
+    font-size: 0.8rem;
+    font-weight: bold;
+    letter-spacing: 0.05em;
+}
+#tab-prebacklog .pb-estado {
+    font-size: 0.7rem;
+    padding: 4px 10px;
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+    border-radius: var(--border-radius-xlarge);
+}
+#tab-prebacklog .pb-estado--bruto {
+    background-color: var(--color-status-neutral-bg);
+    color: var(--color-status-neutral-text);
+}
+#tab-prebacklog .pb-estado--propuesta {
+    background-color: var(--color-status-info-bg);
+    color: var(--color-status-info-text);
+}
+#tab-prebacklog .pb-title {
+    font-size: 1.05rem;
+    line-height: 1.4;
+    margin-bottom: var(--space-2);
+    color: var(--color-text-primary);
+}
+#tab-prebacklog .pb-attrs {
+    background-color: var(--color-surface-neutral);
+    padding: var(--space-2) var(--space-3);
+    border-radius: var(--border-radius-small);
+    font-size: 0.8rem;
+    gap: var(--space-4);
+    margin-bottom: var(--space-2);
+}
+#tab-prebacklog .pb-attr strong {
+    color: var(--color-text-dim);
+    font-weight: normal;
+}
+#tab-prebacklog .pb-attr {
+    color: var(--color-text-primary);
+    font-weight: 500;
+}
+#tab-prebacklog .pb-obs {
+    font-size: 0.85rem;
+    color: var(--color-text-secondary);
+    line-height: 1.5;
+    margin-bottom: var(--space-2);
+}
+#tab-prebacklog .pb-actions {
+    padding-top: var(--space-3);
+    margin-top: auto;
+    gap: var(--space-3);
+    border-top: 1px solid var(--color-border-subtle);
+}
