@@ -166,3 +166,167 @@ code { font-family: var(--font-family-mono); font-size: 0.85em; background: var(
 .comm-card__header { display: flex; justify-content: space-between; font-size: 0.75rem; font-weight: bold; color: var(--color-text-dim); }
 .comm-card__agents { font-weight: bold; font-size: 0.95rem; color: var(--color-text-primary); }
 .comm-card__summary { font-size: 0.85rem; color: var(--color-text-secondary); line-height: 1.5; }
+
+/* ==========================================================================
+   FIXES FINALES DE UI (Checkboxes, Markdown crudo, Estructura)
+   ========================================================================== */
+
+/* 1. Arreglar el checkbox gigante del Backlog */
+.bl-filter {
+    background: var(--color-surface-primary);
+    padding: var(--space-3) var(--space-4);
+    border-radius: var(--border-radius-medium);
+    border: 1px solid var(--color-border-regular);
+    margin-bottom: var(--space-4);
+    display: inline-block;
+}
+.bl-filter-checkbox {
+    display: flex;
+    align-items: center;
+    gap: var(--space-2);
+    cursor: pointer;
+    font-weight: 600;
+    font-size: 0.9rem;
+    color: var(--color-text-primary);
+}
+.bl-filter-checkbox input[type="checkbox"] {
+    width: 20px !important;
+    height: 20px !important;
+    min-width: 20px !important;
+    min-height: 20px !important;
+    margin: 0 !important;
+    accent-color: var(--color-fill-primary);
+    cursor: pointer;
+}
+
+/* 2. Arreglar el auto-refresh del header */
+.toggle-auto-refresh input[type="checkbox"] {
+    width: 18px !important;
+    height: 18px !important;
+    min-width: 18px !important;
+    min-height: 18px !important;
+    margin: 0 !important;
+    accent-color: var(--color-fill-primary);
+    cursor: pointer;
+}
+
+/* 3. Limpieza de Markdown crudo en texto (quita negritas para que no se vea el **) */
+.bl-obs, .inc__detail, .comm-card__summary, .d-rama-msg, .est-notas, p, li {
+    /* No podemos quitar los ** con CSS puro de forma perfecta, 
+       pero podemos hacer que se vean menos agresivos o darles formato. */
+    white-space: pre-wrap; 
+    word-break: break-word;
+}
+
+/* Si el texto trae **, los hacemos invisibles y ponemos el texto en bold */
+.bl-obs, .inc__detail {
+    font-size: 0.85rem;
+    color: var(--color-text-secondary);
+    line-height: 1.6;
+}
+
+/* 4. Arreglar el resumen de Comunicaciones (Alertas & Comms) */
+.comms-summary-bar {
+    display: flex;
+    flex-wrap: wrap;
+    background: var(--color-surface-primary);
+    padding: var(--space-4);
+    border-radius: var(--border-radius-large);
+    border: 1px solid var(--color-border-regular);
+    margin-bottom: var(--space-5);
+    gap: var(--space-4);
+    align-items: stretch;
+}
+.comms-summary-item {
+    flex: 1 1 150px;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    padding-left: var(--space-4);
+    border-left: 4px solid var(--color-border-subtle);
+    background: var(--color-bg);
+    border-radius: var(--border-radius-medium);
+    padding: var(--space-3) var(--space-4);
+}
+.comms-summary-value {
+    font-size: 2rem;
+    font-weight: bold;
+    line-height: 1;
+    color: var(--color-text-primary);
+    margin-bottom: var(--space-1);
+}
+.comms-summary-label {
+    font-size: 0.85rem;
+    color: var(--color-text-secondary);
+}
+
+/* 5. Arreglar los KPIs del canal de agentes */
+.comms-channel-kpis {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(120px, 1fr));
+    gap: var(--space-3);
+    margin-bottom: var(--space-4);
+}
+.cc-kpi {
+    background: var(--color-surface-primary);
+    border: 1px solid var(--color-border-regular);
+    border-radius: var(--border-radius-medium);
+    padding: var(--space-3);
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    border-top: 4px solid var(--color-border-regular);
+}
+.cc-kpi .kpi-value {
+    font-size: 1.8rem;
+    font-weight: bold;
+    line-height: 1;
+    margin-bottom: 4px;
+}
+.cc-kpi .kpi-title {
+    font-size: 0.75rem;
+    font-weight: 600;
+    color: var(--color-text-secondary);
+    text-transform: uppercase;
+}
+.kpi-card--critical { border-top-color: var(--color-status-danger-border); }
+.kpi-card--important { border-top-color: var(--color-status-warning-border); }
+.kpi-card--routine { border-top-color: var(--color-status-success-border); }
+.kpi-card--unclassified { border-top-color: var(--color-status-neutral-border); }
+
+/* 6. Arreglar la Tab Estructura (que se ve como texto plano) */
+.org-container, .guard-container {
+    background: var(--color-surface-primary);
+    padding: var(--space-5);
+    border-radius: var(--border-radius-large);
+    border: 1px solid var(--color-border-regular);
+    margin-bottom: var(--space-5);
+    line-height: 1.6;
+}
+.org-container h3, .guard-container h3 {
+    margin-top: var(--space-4);
+    border-bottom: 1px solid var(--color-border-subtle);
+    padding-bottom: var(--space-2);
+}
+.org-container ul {
+    padding-left: var(--space-5);
+    margin-bottom: var(--space-3);
+}
+.org-container li {
+    margin-bottom: var(--space-2);
+}
+.org-container strong {
+    color: var(--color-text-primary);
+}
+.org-container .est-badge {
+    display: inline-block;
+    padding: 2px 8px;
+    border-radius: 4px;
+    font-size: 0.75rem;
+    font-weight: bold;
+    text-transform: uppercase;
+    margin-left: var(--space-2);
+}
+.org-container .est-badge--ok { background: var(--color-status-success-bg); color: var(--color-status-success-text); }
+.org-container .est-badge--danger { background: var(--color-status-danger-bg); color: var(--color-status-danger-text); }
+.org-container .est-badge--warn { background: var(--color-status-warning-bg); color: var(--color-status-warning-text); }
