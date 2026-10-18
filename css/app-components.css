@@ -195,3 +195,129 @@
     font-size: 0.85rem !important;
     color: var(--color-text-secondary) !important;
 }
+
+/* ==========================================================================
+   FIX QUIRÚRGICO: SOLO TAB RESUMEN (SCOPED)
+   ========================================================================== */
+
+/* 1. Espaciado general de los títulos dentro de Resumen */
+#tab-resumen .pulso-section h2 { 
+    margin-top: var(--space-6); 
+    margin-bottom: var(--space-2); 
+    font-size: 1.5rem; 
+    color: var(--color-text-primary);
+}
+#tab-resumen .pulso-section h3 { 
+    margin-top: var(--space-6); 
+    margin-bottom: var(--space-3); 
+    font-size: 1.2rem; 
+    color: var(--color-text-primary); 
+    border-bottom: 1px solid var(--color-border-subtle); 
+    padding-bottom: var(--space-2); 
+}
+#tab-resumen .org-source { 
+    margin-bottom: var(--space-4); 
+}
+
+/* 2. Incidencias abiertas (Lista desplegable) */
+#tab-resumen .inc-list { 
+    list-style: none; 
+    padding: 0; 
+    margin: 0 0 var(--space-6) 0; 
+    border: 1px solid var(--color-border-regular); 
+    border-radius: var(--border-radius-large); 
+    overflow: hidden; 
+    background: var(--color-surface-primary); 
+}
+#tab-resumen .inc { 
+    border-bottom: 1px solid var(--color-border-regular); 
+}
+#tab-resumen .inc:last-child { 
+    border-bottom: none; 
+}
+#tab-resumen .inc details { 
+    width: 100%; 
+}
+#tab-resumen .inc summary { 
+    padding: var(--space-3) var(--space-4); 
+    display: flex; 
+    align-items: center; 
+    gap: var(--space-3); 
+    cursor: pointer; 
+    list-style: none; 
+}
+#tab-resumen .inc summary::-webkit-details-marker { 
+    display: none; 
+}
+#tab-resumen .inc__sev { 
+    font-size: 0.7rem; 
+    font-weight: bold; 
+    padding: 2px 8px; 
+    border-radius: var(--border-radius-xlarge); 
+    text-transform: uppercase; 
+    white-space: nowrap; 
+}
+#tab-resumen .inc--alta .inc__sev { 
+    background: var(--color-status-danger-bg); 
+    color: var(--color-status-danger-text); 
+}
+#tab-resumen .inc--media .inc__sev {
+    background: var(--color-status-warning-bg);
+    color: var(--color-status-warning-text);
+}
+#tab-resumen .inc--baja .inc__sev { 
+    background: var(--color-status-info-bg); 
+    color: var(--color-status-info-text); 
+}
+#tab-resumen .inc__txt { 
+    font-size: 0.9rem; 
+    font-weight: 500; 
+    color: var(--color-text-primary); 
+    flex: 1; 
+}
+#tab-resumen .inc__detail { 
+    padding: 0 var(--space-4) var(--space-4) calc(var(--space-4) + 60px); 
+    margin: 0; 
+    font-size: 0.85rem; 
+    color: var(--color-text-secondary); 
+    line-height: 1.5; 
+}
+
+/* 3. El trabajo, nombrado (Ramas y Decisiones) */
+#tab-resumen .trab-list { 
+    list-style: none; 
+    padding: 0; 
+    margin: 0 0 var(--space-6) 0; 
+    display: flex; 
+    flex-direction: column; 
+    gap: var(--space-2); 
+}
+#tab-resumen .trab { 
+    display: flex; 
+    flex-wrap: wrap; 
+    align-items: center; 
+    gap: var(--space-3); 
+    padding: var(--space-3) var(--space-4); 
+    background: var(--color-surface-primary); 
+    border: 1px solid var(--color-border-regular); 
+    border-radius: var(--border-radius-medium); 
+    font-size: 0.875rem; 
+}
+#tab-resumen .trab__rama { 
+    font-family: var(--font-family-mono); 
+    color: var(--color-text-primary); 
+    font-weight: 600; 
+    background: var(--color-surface-neutral); 
+    padding: 2px 6px; 
+    border-radius: 4px; 
+}
+#tab-resumen .trab__item { 
+    font-weight: 500; 
+    color: var(--color-text-secondary); 
+    flex: 1; 
+    min-width: 200px; 
+}
+#tab-resumen .trab__estado { 
+    font-size: 0.75rem; 
+    color: var(--color-text-dim); 
+}
