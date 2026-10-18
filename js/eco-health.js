@@ -90,7 +90,7 @@ const EcoHealth = {
             const v = this._semaforo(s.estado === 'ok', s.estado === 'RARO');
             const icon = s.estado === 'ok' ? '🟢' : (s.estado === 'RARO' ? '🟡' : '🔴');
             return '<tr><td>' + icon + ' <strong>' + this._esc(s.archivo) + '</strong></td>' +
-                '<td>' + this._esc(s.quien) + '</td>' +
+                '<td>' + this._esc(s.agente || s.quien || '—') + '</td>' +
                 '<td>' + (s.edad_h != null ? s.edad_h + ' h' : '—') + '</td>' +
                 '<td>' + (s.kb != null ? s.kb + ' KB' : '—') +
                     (s.crecimiento ? ' <span class="cc-meta--warn">' +
