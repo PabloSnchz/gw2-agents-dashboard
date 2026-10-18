@@ -330,3 +330,263 @@ code { font-family: var(--font-family-mono); font-size: 0.85em; background: var(
 .org-container .est-badge--ok { background: var(--color-status-success-bg); color: var(--color-status-success-text); }
 .org-container .est-badge--danger { background: var(--color-status-danger-bg); color: var(--color-status-danger-text); }
 .org-container .est-badge--warn { background: var(--color-status-warning-bg); color: var(--color-status-warning-text); }
+
+/* ==========================================================================
+   FIXES PARA TAB ESTRUCTURA (Renderer & OrgMap)
+   ========================================================================== */
+
+/* Contenedor general de la estructura */
+#estructura-real-container, .org-container {
+    background: var(--color-surface-primary);
+    border: 1px solid var(--color-border-regular);
+    border-radius: var(--border-radius-large);
+    padding: var(--space-5);
+    margin-bottom: var(--space-5);
+}
+
+/* Secciones dentro de estructura */
+.org-section, .est-section {
+    margin-bottom: var(--space-6);
+    padding-bottom: var(--space-4);
+    border-bottom: 1px solid var(--color-border-subtle);
+}
+.org-section:last-child, .est-section:last-child {
+    border-bottom: none;
+    margin-bottom: 0;
+}
+
+/* Títulos de sección */
+.org-section h3, .est-section h3 {
+    font-size: 1.2rem;
+    color: var(--color-text-primary);
+    margin-top: 0;
+    margin-bottom: var(--space-3);
+    display: flex;
+    align-items: center;
+    gap: var(--space-2);
+}
+
+/* Badges de estado (Aprobado, Rechazado, etc) */
+.est-badge {
+    display: inline-flex;
+    align-items: center;
+    padding: 2px 8px;
+    border-radius: var(--border-radius-xlarge);
+    font-size: 0.75rem;
+    font-weight: bold;
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+}
+.est-badge--ok { background: var(--color-status-success-bg); color: var(--color-status-success-text); }
+.est-badge--danger { background: var(--color-status-danger-bg); color: var(--color-status-danger-text); }
+.est-badge--warn { background: var(--color-status-warning-bg); color: var(--color-status-warning-text); }
+.est-badge--neutral { background: var(--color-surface-neutral); color: var(--color-text-secondary); }
+
+/* Listas de invariantes */
+.est-inv-list {
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-2);
+    margin-top: var(--space-3);
+}
+.est-inv {
+    background: var(--color-surface-primary);
+    border: 1px solid var(--color-border-regular);
+    border-radius: var(--border-radius-medium);
+    padding: var(--space-3) var(--space-4);
+    font-size: 0.9rem;
+}
+.est-inv--violada {
+    border-left: 4px solid var(--color-status-danger-border);
+    background: var(--color-status-danger-bg);
+}
+.est-inv--vigente {
+    border-left: 4px solid var(--color-status-success-border);
+}
+.est-inv--no_verificable, .est-inv--escrita_no_verificable {
+    border-left: 4px solid var(--color-status-warning-border);
+}
+
+/* Notas y callouts (Avisos importantes) */
+.org-callout, .org-note, .org-source {
+    font-size: 0.9rem;
+    color: var(--color-text-secondary);
+    line-height: 1.5;
+    margin-bottom: var(--space-3);
+}
+.org-callout--danger {
+    background: var(--color-status-danger-bg);
+    color: var(--color-status-danger-text);
+    padding: var(--space-3) var(--space-4);
+    border-radius: var(--border-radius-medium);
+    border-left: 4px solid var(--color-status-danger-border);
+    font-weight: 500;
+}
+
+/* Textos de discrepancias (El mapa del equipo vs la realidad) */
+.est-notas {
+    margin-top: var(--space-4);
+}
+.est-notas__item {
+    background: var(--color-bg);
+    border: 1px solid var(--color-border-subtle);
+    border-radius: var(--border-radius-medium);
+    padding: var(--space-3) var(--space-4);
+    margin-bottom: var(--space-2);
+    font-size: 0.85rem;
+}
+.est-notas__item strong {
+    color: var(--color-text-primary);
+    display: block;
+    margin-bottom: 4px;
+}
+
+
+/* ==========================================================================
+   FIXES PARA TAB ALERTAS Y COMUNICACIONES
+   ========================================================================== */
+
+/* Contenedor de Alertas Activas */
+.alerts-comms-container {
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-4);
+    margin-bottom: var(--space-6);
+}
+.alert-list {
+    background: var(--color-surface-primary);
+    border: 1px solid var(--color-border-regular);
+    border-radius: var(--border-radius-large);
+    padding: var(--space-4);
+}
+.alert-list ul {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+}
+.alert-list li {
+    padding: var(--space-3) 0;
+    border-bottom: 1px solid var(--color-border-subtle);
+    font-size: 0.9rem;
+    display: flex;
+    align-items: flex-start;
+    gap: var(--space-2);
+}
+.alert-list li:last-child { border-bottom: none; }
+
+/* KPIs de Comunicaciones (Log manual) */
+.comms-kpi-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+    gap: var(--space-3);
+    margin-bottom: var(--space-4);
+}
+.kpi-card {
+    background: var(--color-surface-primary);
+    border: 1px solid var(--color-border-regular);
+    border-radius: var(--border-radius-large);
+    padding: var(--space-3);
+    text-align: center;
+    border-left: 4px solid var(--color-border-regular);
+}
+.kpi-header {
+    font-size: 0.75rem;
+    font-weight: bold;
+    color: var(--color-text-secondary);
+    text-transform: uppercase;
+    margin-bottom: var(--space-1);
+}
+.kpi-value {
+    font-size: 2rem;
+    font-weight: bold;
+    color: var(--color-text-primary);
+    line-height: 1;
+    margin-bottom: var(--space-1);
+}
+.kpi-title {
+    font-size: 0.8rem;
+    color: var(--color-text-dim);
+}
+/* Colores semánticos para los KPIs */
+.kpi-card--pending { border-left-color: var(--color-status-warning-border); }
+.kpi-card--timeout { border-left-color: var(--color-status-danger-border); }
+.kpi-card--resolved { border-left-color: var(--color-status-success-border); }
+
+/* Canal de agentes (KPIs automáticos) */
+.comms-channel-kpis {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(120px, 1fr));
+    gap: var(--space-3);
+    margin-bottom: var(--space-5);
+}
+.cc-kpi {
+    background: var(--color-surface-primary);
+    border: 1px solid var(--color-border-regular);
+    border-radius: var(--border-radius-medium);
+    padding: var(--space-3) var(--space-4);
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    border-top: 4px solid var(--color-border-regular);
+}
+.cc-kpi .kpi-value {
+    font-size: 1.8rem;
+    font-weight: bold;
+    margin-bottom: 2px;
+}
+.cc-kpi .kpi-title {
+    font-size: 0.8rem;
+    font-weight: 600;
+    color: var(--color-text-secondary);
+}
+/* Semáforo del canal */
+.kpi-card--critical { border-top-color: var(--color-status-danger-border); }
+.kpi-card--important { border-top-color: var(--color-status-warning-border); }
+.kpi-card--routine { border-top-color: var(--color-status-success-border); }
+.kpi-card--unclassified { border-top-color: var(--color-status-neutral-border); }
+
+/* Tarjetas de mensajes (Canal de agentes) */
+.comms-group {
+    margin-bottom: var(--space-5);
+}
+.comms-group__header {
+    background: var(--color-surface-neutral);
+    padding: var(--space-2) var(--space-4);
+    border-radius: var(--border-radius-medium);
+    font-weight: bold;
+    display: flex;
+    justify-content: space-between;
+    margin-bottom: var(--space-3);
+}
+.comm-card, .cc-card {
+    background: var(--color-surface-primary);
+    border: 1px solid var(--color-border-regular);
+    border-left: 4px solid var(--color-status-info-border);
+    border-radius: var(--border-radius-medium);
+    padding: var(--space-4);
+    margin-bottom: var(--space-3);
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-2);
+}
+.comm-card__header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    font-size: 0.8rem;
+    color: var(--color-text-dim);
+    border-bottom: 1px dashed var(--color-border-subtle);
+    padding-bottom: var(--space-2);
+    margin-bottom: var(--space-1);
+}
+.comm-card__agents {
+    font-weight: bold;
+    color: var(--color-text-primary);
+    font-size: 0.95rem;
+}
+.comm-card__summary {
+    font-size: 0.9rem;
+    color: var(--color-text-secondary);
+    line-height: 1.5;
+    white-space: pre-wrap; /* Respeta los saltos de línea del mensaje */
+}
