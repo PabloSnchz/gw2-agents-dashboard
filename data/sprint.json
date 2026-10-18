@@ -9,7 +9,7 @@
           "nombre": "Construir tab Sprints en el dashboard",
           "dificultad": "M",
           "responsable": "Arquitecto",
-          "estado": "en-curso",
+          "estado": "completado",
           "tarea_id": "sprints-tab"
         },
         {
