@@ -393,3 +393,146 @@
     gap: var(--space-3);
     border-top: 1px solid var(--color-border-subtle);
 }
+/* ==========================================================================
+   FIX QUIRÚRGICO: SOLO TAB BACKLOG (SCOPED)
+   ========================================================================== */
+
+/* 1. El checkbox de filtrar completadas (evita que se vea gigante) */
+#tab-backlog .bl-filter {
+    margin-bottom: var(--space-4);
+    background: var(--color-surface-primary);
+    padding: var(--space-2) var(--space-3);
+    border-radius: var(--border-radius-medium);
+    border: 1px solid var(--color-border-regular);
+    display: inline-block;
+}
+#tab-backlog .bl-filter-checkbox {
+    display: flex;
+    align-items: center;
+    gap: var(--space-2);
+    cursor: pointer;
+    font-weight: 600;
+    font-size: 0.9rem;
+    color: var(--color-text-primary);
+}
+#tab-backlog .bl-filter-checkbox input[type="checkbox"] {
+    width: 20px !important;
+    height: 20px !important;
+    min-width: 20px !important;
+    min-height: 20px !important;
+    margin: 0 !important;
+    accent-color: var(--color-fill-primary);
+    cursor: pointer;
+}
+
+/* 2. Las tarjetas del Backlog */
+#tab-backlog .bl-card {
+    background: var(--color-surface-primary);
+    border: 1px solid var(--color-border-regular);
+    border-radius: var(--border-radius-large);
+    padding: var(--space-4);
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-3);
+    box-shadow: var(--shadow-sm);
+    transition: transform var(--transition-fast), box-shadow var(--transition-fast);
+}
+#tab-backlog .bl-card:hover {
+    transform: translateY(-2px);
+    box-shadow: var(--shadow-md);
+}
+
+/* 3. Cabecera de la tarjeta (ID y Estado) */
+#tab-backlog .bl-head {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+#tab-backlog .bl-id {
+    font-family: var(--font-family-mono);
+    font-size: 0.75rem;
+    color: var(--color-text-dim);
+    word-break: break-all;
+}
+#tab-backlog .bl-estado {
+    font-size: 0.7rem;
+    padding: 4px 10px;
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+    border-radius: var(--border-radius-xlarge);
+    white-space: nowrap;
+}
+/* Colores semánticos para el estado del Backlog */
+#tab-backlog .bl-estado--pendiente {
+    background-color: var(--color-status-warning-bg);
+    color: var(--color-status-warning-text);
+}
+#tab-backlog .bl-estado--en-curso {
+    background-color: var(--color-status-info-bg);
+    color: var(--color-status-info-text);
+}
+#tab-backlog .bl-estado--completado {
+    background-color: var(--color-status-success-bg);
+    color: var(--color-status-success-text);
+}
+
+/* 4. Título */
+#tab-backlog .bl-title {
+    font-size: 1.1rem;
+    font-weight: 600;
+    margin: 0;
+    color: var(--color-text-primary);
+    line-height: 1.4;
+}
+
+/* 5. Atributos (Prioridad y Estado) */
+#tab-backlog .bl-attrs {
+    display: flex;
+    flex-wrap: wrap;
+    gap: var(--space-4);
+    background-color: var(--color-surface-neutral);
+    padding: var(--space-2) var(--space-3);
+    border-radius: var(--border-radius-small);
+    font-size: 0.8rem;
+    color: var(--color-text-secondary);
+}
+#tab-backlog .bl-attr {
+    display: inline-flex;
+    gap: 4px;
+    align-items: baseline;
+}
+#tab-backlog .bl-attr strong {
+    color: var(--color-text-dim);
+    font-weight: normal;
+}
+
+/* 6. Observaciones (El texto kilométrico) */
+#tab-backlog .bl-obs {
+    font-size: 0.85rem;
+    color: var(--color-text-secondary);
+    line-height: 1.5;
+    white-space: pre-wrap;
+    word-wrap: break-word;
+    background-color: var(--color-surface-primary);
+    max-height: 250px;
+    overflow-y: auto;
+    padding-right: var(--space-2); /* Espacio para la barra de scroll */
+    margin-bottom: var(--space-1);
+}
+/* Scrollbar sutil para las observaciones */
+#tab-backlog .bl-obs::-webkit-scrollbar {
+    width: 6px;
+}
+#tab-backlog .bl-obs::-webkit-scrollbar-thumb {
+    background: var(--color-border-regular);
+    border-radius: 4px;
+}
+
+/* 7. Botones de acción */
+#tab-backlog .bl-actions {
+    margin-top: auto;
+    padding-top: var(--space-3);
+    display: flex;
+    gap: var(--space-2);
+    border-top: 1px solid var(--color-border-subtle);
+}
