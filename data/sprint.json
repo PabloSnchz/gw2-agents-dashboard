@@ -41,8 +41,32 @@
           "nombre": "Revisar PRE_BACKLOG.md del PO y filtrar qué entra al BACKLOG",
           "dificultad": "M",
           "responsable": "Arquitecto",
-          "estado": "en-curso",
-          "tarea_id": "backlog-filter"
+          "estado": "completado",
+          "tarea_id": "backlog-filter-done"
+        },
+        {
+          "id": "H3",
+          "nombre": "buildstorage: wrapper + call site en Inventory Dashboard",
+          "dificultad": "M",
+          "responsable": "Principal",
+          "estado": "asignado",
+          "tarea_id": "buildstorage"
+        },
+        {
+          "id": "H4",
+          "nombre": "L349 Homestead - limpieza de fila",
+          "dificultad": "S",
+          "responsable": "Principal",
+          "estado": "asignado",
+          "tarea_id": "homestead-cleanup"
+        },
+        {
+          "id": "H5",
+          "nombre": "ALERT-41: marcado manual de strikes (workaround)",
+          "dificultad": "S",
+          "responsable": "Principal",
+          "estado": "bloqueado",
+          "tarea_id": "ALERT-41"
         }
       ],
       "bloqueados_pablo": [],
