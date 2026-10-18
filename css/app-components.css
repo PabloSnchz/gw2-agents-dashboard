@@ -224,3 +224,32 @@
 #tab-logs .comms-summary-item { background: var(--color-surface-primary) !important; border: 1px solid var(--color-border-regular) !important; border-radius: var(--border-radius-large) !important; padding: var(--space-4) !important; display: flex !important; flex-direction: column !important; align-items: center !important; text-align: center !important; border-left: 4px solid var(--color-border-regular) !important; }
 #tab-logs .comms-summary-value { font-size: 2rem !important; font-weight: bold !important; line-height: 1 !important; margin-bottom: var(--space-1) !important; }
 #tab-logs .comms-summary-label { font-size: 0.85rem !important; color: var(--color-text-secondary) !important; }
+
+/* ==========================================================================
+   RESTAURACIÓN DE GRILLAS (Los contenedores padre que olvidé)
+   ========================================================================== */
+
+/* Resumen (KPIs) */
+.pulso-kpis { 
+    display: grid; 
+    grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); 
+    gap: var(--space-4); 
+    margin-bottom: var(--space-5); 
+}
+
+/* Pre-backlog, Backlog y Consultas */
+.prebacklog-container, 
+.backlog-container, 
+.consultas-container {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(320px, 1fr));
+    gap: var(--space-4);
+}
+
+/* Promociones (El grid interno de los grupos) */
+#tab-promociones .feat-grupo__body {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(340px, 1fr));
+    gap: var(--space-5);
+    background: var(--color-bg);
+}
