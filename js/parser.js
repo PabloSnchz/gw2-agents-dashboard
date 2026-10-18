@@ -2101,7 +2101,8 @@ class DashboardParser {
                         registeredAt: data.updatedAt || null,
                         observaciones: trimmed.substring(120),
                         autor: this._extraerCampo(trimmed, [/Autor:\s*([^\n]+)/i]),
-                        dependencia: this._extraerCampo(trimmed, [/Depende:\s*([^\n]+)/i])
+                        dependencia: this._extraerCampo(trimmed, [/Depende:\s*([^\n]+)/i]),
+                        quien_escribe: this._extraerCampo(trimmed, [/Escribe:\s*([^\n]+)/i])
                     };
                 } else if (currentIdea) {
                     currentIdea.observaciones += ' ' + trimmed;
@@ -2146,7 +2147,8 @@ class DashboardParser {
                             registeredAt: hbDate,
                             observaciones: contextLines || 'Ver Heartbeat completo en PRE_BACKLOG.md',
                             autor: this._extraerCampo(im, [/Autor:\s*([^\n]+)/i]),
-                            dependencia: this._extraerCampo(im, [/Depende:\s*([^\n]+)/i])
+                            dependencia: this._extraerCampo(im, [/Depende:\s*([^\n]+)/i]),
+                            quien_escribe: this._extraerCampo(im, [/Escribe:\s*([^\n]+)/i])
                         });
                     }
                 }
@@ -2169,7 +2171,8 @@ class DashboardParser {
                                 registeredAt: hbDate,
                                 observaciones: 'Ver Heartbeat completo en PRE_BACKLOG.md',
                                 autor: this._extraerCampo(ai, [/Autor:\s*([^\n]+)/i]),
-                                dependencia: this._extraerCampo(ai, [/Depende:\s*([^\n]+)/i])
+                                dependencia: this._extraerCampo(ai, [/Depende:\s*([^\n]+)/i]),
+                                quien_escribe: this._extraerCampo(ai, [/Escribe:\s*([^\n]+)/i])
                             });
                         }
                     }
@@ -2188,7 +2191,8 @@ class DashboardParser {
                     registeredAt: hbDate,
                     observaciones: 'Ver Heartbeat completo en PRE_BACKLOG.md',
                     autor: this._extraerCampo(titleIdeaMatch[0], [/Autor:\s*([^\n]+)/i]),
-                    dependencia: this._extraerCampo(titleIdeaMatch[0], [/Depende:\s*([^\n]+)/i])
+                    dependencia: this._extraerCampo(titleIdeaMatch[0], [/Depende:\s*([^\n]+)/i]),
+                    quien_escribe: this._extraerCampo(titleIdeaMatch[0], [/Escribe:\s*([^\n]+)/i])
                 });
             }
 
@@ -2207,7 +2211,8 @@ class DashboardParser {
                                 registeredAt: hbDate,
                                 observaciones: 'Ver Heartbeat completo en PRE_BACKLOG.md',
                                 autor: this._extraerCampo(fm, [/Autor:\s*([^\n]+)/i]),
-                                dependencia: this._extraerCampo(fm, [/Depende:\s*([^\n]+)/i])
+                                dependencia: this._extraerCampo(fm, [/Depende:\s*([^\n]+)/i]),
+                                quien_escribe: this._extraerCampo(fm, [/Escribe:\s*([^\n]+)/i])
                             });
                         }
                     }
@@ -2322,7 +2327,8 @@ class DashboardParser {
                     registeredAt: data.updatedAt || null,
                     observaciones: this._cleanCell(observaciones),
                     autor: this._extraerCampo(fullText, [/Autor:\s*([^\n]+)/i]),
-                    dependencia: this._extraerCampo(fullText, [/Depende:\s*([^\n]+)/i])
+                    dependencia: this._extraerCampo(fullText, [/Depende:\s*([^\n]+)/i]),
+                    quien_escribe: this._extraerCampo(fullText, [/Escribe:\s*([^\n]+)/i])
                 });
             }
         }
@@ -2464,7 +2470,11 @@ class DashboardParser {
                 sha: sha,
                 tipo: fields.tipo || '',
                 rama: fields.rama || '',
-                ruta: fields.ruta || ''
+                ruta: fields.ruta || '',
+                registeredAt: data.updatedAt || null,
+                autor: fields.autor || null,
+                dependencia: fields.dependencia || null,
+                quien_escribe: fields['quien escribe'] || fields['quien_escribe'] || null
             });
         }
 
