@@ -23,6 +23,41 @@
       ],
       "bloqueados_pablo": [],
       "proximo_sprint": "Sprint 2 (2026-10-25 → 2026-10-31)"
+    },
+    {
+      "sprint": "2",
+      "periodo": "2026-10-25 → 2026-10-31",
+      "historias": [
+        {
+          "id": "H1",
+          "nombre": "buildstorage: wrapper + call site en Inventory Dashboard",
+          "dificultad": "M",
+          "responsable": "Principal",
+          "estado": "bloqueado",
+          "tarea_id": "buildstorage"
+        },
+        {
+          "id": "H2",
+          "nombre": "ALERT-41: marcado manual de strikes (workaround)",
+          "dificultad": "S",
+          "responsable": "Principal",
+          "estado": "bloqueado",
+          "tarea_id": "ALERT-41"
+        },
+        {
+          "id": "H3",
+          "nombre": "Propuestas A-E: validación técnica en Reviewer",
+          "dificultad": "M",
+          "responsable": "Reviewer",
+          "estado": "en-curso",
+          "tarea_id": "task-75db1c5874e1"
+        }
+      ],
+      "bloqueados_pablo": [
+        "Permiso inventories para buildstorage",
+        "Token progression para ALERT-41"
+      ],
+      "proximo_sprint": "Sprint 3 (2026-11-01 → 2026-11-07)"
     }
   ]
 }
