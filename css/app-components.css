@@ -536,3 +536,182 @@
     gap: var(--space-2);
     border-top: 1px solid var(--color-border-subtle);
 }
+
+/* ==========================================================================
+   FIX QUIRÚRGICO: SOLO TAB DESARROLLO (SCOPED)
+   ========================================================================== */
+
+/* 1. Contenedores en Grilla (para que las tarjetas se pongan lado a lado) */
+#tab-desarrollo .desarrollo-clones,
+#tab-desarrollo .desarrollo-ramas,
+#tab-desarrollo .desarrollo-features {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(340px, 1fr));
+    gap: var(--space-4);
+    margin-bottom: var(--space-6);
+}
+
+/* 2. Sub-headers (Clones, Ramas vivas, Features) */
+#tab-desarrollo .desarrollo-subheader {
+    grid-column: 1 / -1; /* Ocupa todo el ancho del grid */
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin: var(--space-6) 0 var(--space-2) 0;
+    padding-bottom: var(--space-2);
+    border-bottom: 2px solid var(--color-border-regular);
+    font-size: 1.2rem;
+    font-weight: bold;
+    color: var(--color-text-primary);
+}
+#tab-desarrollo .desarrollo-subheader-count {
+    background: var(--color-fill-neutral);
+    padding: 2px 10px;
+    border-radius: var(--border-radius-xlarge);
+    font-size: 0.85rem;
+    color: var(--color-text-secondary);
+}
+
+/* 3. Tarjetas Base (Clones, Ramas, Features) */
+#tab-desarrollo .d-clone-card,
+#tab-desarrollo .d-rama-card,
+#tab-desarrollo .d-feature-card {
+    background: var(--color-surface-primary);
+    border: 1px solid var(--color-border-regular);
+    border-radius: var(--border-radius-large);
+    padding: var(--space-4);
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-3);
+    box-shadow: var(--shadow-sm);
+}
+
+/* 4. Cabeceras de las Tarjetas */
+#tab-desarrollo .d-clone-head,
+#tab-desarrollo .d-rama-head,
+#tab-desarrollo .d-feature-head {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    flex-wrap: wrap;
+    gap: var(--space-2);
+}
+#tab-desarrollo .d-label {
+    font-size: 1.05rem;
+    font-weight: 600;
+    color: var(--color-text-primary);
+}
+#tab-desarrollo .d-role {
+    font-size: 0.7rem;
+    text-transform: uppercase;
+    background: var(--color-surface-neutral);
+    color: var(--color-text-dim);
+    padding: 2px 8px;
+    border-radius: var(--border-radius-small);
+    font-weight: bold;
+}
+
+/* 5. Metadatos (SHA, Rama, Estado) */
+#tab-desarrollo .d-clone-meta,
+#tab-desarrollo .d-rama-meta {
+    display: flex;
+    flex-wrap: wrap;
+    gap: var(--space-3);
+    font-size: 0.8rem;
+    color: var(--color-text-secondary);
+    align-items: center;
+}
+#tab-desarrollo .d-sha {
+    font-family: var(--font-family-mono);
+    background: var(--color-surface-neutral);
+    padding: 2px 6px;
+    border-radius: 4px;
+    color: var(--color-text-primary);
+}
+#tab-desarrollo .d-rama {
+    font-family: var(--font-family-mono);
+    color: var(--color-text-secondary);
+}
+
+/* 6. Badges (Sin commitear, Limpio, Promovida) */
+#tab-desarrollo .d-badge {
+    font-size: 0.7rem;
+    padding: 2px 8px;
+    border-radius: var(--border-radius-xlarge);
+    font-weight: bold;
+}
+#tab-desarrollo .d-badge--work {
+    background-color: var(--color-status-warning-bg);
+    color: var(--color-status-warning-text);
+}
+#tab-desarrollo .d-badge--clean {
+    background-color: var(--color-status-success-bg);
+    color: var(--color-status-success-text);
+}
+#tab-desarrollo .d-badge--promoted {
+    background-color: var(--color-status-info-bg);
+    color: var(--color-status-info-text);
+}
+
+/* 7. Listas de Archivos Modificados */
+#tab-desarrollo .d-files {
+    list-style: none;
+    padding: var(--space-2) var(--space-3);
+    margin: 0;
+    font-family: var(--font-family-mono);
+    font-size: 0.75rem;
+    color: var(--color-text-secondary);
+    background: var(--color-surface-neutral);
+    border-radius: var(--border-radius-small);
+    max-height: 150px;
+    overflow-y: auto;
+}
+#tab-desarrollo .d-files li {
+    margin-bottom: var(--space-1);
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+#tab-desarrollo .d-files li:last-child {
+    margin-bottom: 0;
+}
+
+/* 8. Mensajes de Commit (Ramas) */
+#tab-desarrollo .d-rama-msg {
+    font-size: 0.85rem;
+    color: var(--color-text-primary);
+    line-height: 1.4;
+    background: var(--color-surface-neutral);
+    padding: var(--space-2) var(--space-3);
+    border-radius: var(--border-radius-small);
+    border-left: 3px solid var(--color-fill-primary);
+}
+
+/* 9. Filtro de Features (Checkbox) */
+#tab-desarrollo .d-features-filter {
+    grid-column: 1 / -1;
+    margin-bottom: var(--space-2);
+    background: var(--color-surface-primary);
+    padding: var(--space-2) var(--space-3);
+    border-radius: var(--border-radius-medium);
+    border: 1px solid var(--color-border-regular);
+    display: inline-block;
+    width: max-content;
+}
+#tab-desarrollo .d-features-filter-checkbox {
+    display: flex;
+    align-items: center;
+    gap: var(--space-2);
+    cursor: pointer;
+    font-weight: 600;
+    font-size: 0.9rem;
+}
+#tab-desarrollo .d-features-filter-checkbox input[type="checkbox"] {
+    width: 20px !important;
+    height: 20px !important;
+    min-width: 20px !important;
+    min-height: 20px !important;
+    margin: 0 !important;
+    accent-color: var(--color-fill-primary);
+    cursor: pointer;
+}
