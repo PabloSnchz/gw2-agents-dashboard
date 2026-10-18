@@ -30,34 +30,24 @@
       "historias": [
         {
           "id": "H1",
-          "nombre": "buildstorage: wrapper + call site en Inventory Dashboard",
-          "dificultad": "M",
-          "responsable": "Principal",
-          "estado": "bloqueado",
-          "tarea_id": "buildstorage"
+          "nombre": "Asignar tareas formales al equipo para Sprint 2",
+          "dificultad": "S",
+          "responsable": "Arquitecto",
+          "estado": "en-curso",
+          "tarea_id": "sprint2-assign"
         },
         {
           "id": "H2",
-          "nombre": "ALERT-41: marcado manual de strikes (workaround)",
-          "dificultad": "S",
-          "responsable": "Principal",
-          "estado": "bloqueado",
-          "tarea_id": "ALERT-41"
-        },
-        {
-          "id": "H3",
-          "nombre": "Propuestas A-E: validación técnica en Reviewer",
+          "nombre": "Revisar PRE_BACKLOG.md del PO y filtrar qué entra al BACKLOG",
           "dificultad": "M",
-          "responsable": "Reviewer",
+          "responsable": "Arquitecto",
           "estado": "en-curso",
-          "tarea_id": "task-75db1c5874e1"
+          "tarea_id": "backlog-filter"
         }
       ],
-      "bloqueados_pablo": [
-        "Permiso inventories para buildstorage",
-        "Token progression para ALERT-41"
-      ],
-      "proximo_sprint": "Sprint 3 (2026-11-01 → 2026-11-07)"
+      "bloqueados_pablo": [],
+      "proximo_sprint": "Sprint 3 (2026-11-01 → 2026-11-07)",
+      "nota": "El equipo tiene trabajo en dev (buildstorage, ALERT-41, propuestas A-E) pero NO fue asignado formalmente por el Arquitecto. Eso cambia ahora."
     }
   ]
 }
