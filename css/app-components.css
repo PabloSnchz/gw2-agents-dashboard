@@ -253,3 +253,130 @@
     gap: var(--space-5);
     background: var(--color-bg);
 }
+
+/* ==========================================================================
+   FIX QUIRÚRGICO: SOLO TAB ESTRUCTURA (SCOPED)
+   ========================================================================== */
+
+/* 1. Contenedores principales */
+#tab-estructura .org-container,
+#tab-estructura .guard-container {
+    background: var(--color-surface-primary);
+    border: 1px solid var(--color-border-regular);
+    border-radius: var(--border-radius-large);
+    padding: var(--space-5);
+    margin-bottom: var(--space-5);
+    font-size: 0.9rem;
+    line-height: 1.6;
+    color: var(--color-text-primary);
+}
+
+/* 2. Títulos */
+#tab-estructura .org-container h3,
+#tab-estructura .guard-container h3 {
+    font-size: 1.2rem;
+    font-weight: bold;
+    color: var(--color-text-primary);
+    margin-top: 0;
+    margin-bottom: var(--space-3);
+    padding-bottom: var(--space-2);
+    border-bottom: 1px solid var(--color-border-subtle);
+}
+#tab-estructura .org-container h4 {
+    font-size: 1rem;
+    font-weight: bold;
+    color: var(--color-text-primary);
+    margin-top: var(--space-5);
+    margin-bottom: var(--space-2);
+}
+
+/* 3. Párrafos y textos sueltos */
+#tab-estructura .org-container p,
+#tab-estructura .guard-container p {
+    margin-top: 0;
+    margin-bottom: var(--space-3);
+    color: var(--color-text-secondary);
+}
+
+/* 4. Listas (Invariantes y Reglas) */
+#tab-estructura .org-container ul,
+#tab-estructura .guard-container ul {
+    list-style: none;
+    padding: 0;
+    margin: 0 0 var(--space-4) 0;
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-2);
+}
+#tab-estructura .org-container li,
+#tab-estructura .guard-container li {
+    background: var(--color-surface-neutral);
+    border: 1px solid var(--color-border-subtle);
+    border-radius: var(--border-radius-medium);
+    padding: var(--space-3) var(--space-4);
+    line-height: 1.5;
+}
+/* Si la lista viene con viñetas (Markdown), las sacamos */
+#tab-estructura .org-container li:before,
+#tab-estructura .guard-container li:before {
+    display: none;
+}
+
+/* 5. Badges dentro de la lista (Ej: ✓, ❌, ⚠️) */
+#tab-estructura .org-container li strong {
+    color: var(--color-text-primary);
+    font-weight: 600;
+}
+
+/* 6. El Aviso Rojo (Frontera de Producción) */
+#tab-estructura .guard-alert,
+#tab-estructura .org-callout--danger {
+    background: var(--color-status-danger-bg);
+    color: var(--color-status-danger-text);
+    padding: var(--space-3) var(--space-4);
+    border-radius: var(--border-radius-medium);
+    border-left: 4px solid var(--color-status-danger-border);
+    font-weight: bold;
+    margin-bottom: var(--space-4);
+}
+
+/* 7. Tablas dentro de la estructura */
+#tab-estructura .org-container table,
+#tab-estructura .guard-container table {
+    width: 100%;
+    border-collapse: collapse;
+    margin-bottom: var(--space-4);
+    font-size: 0.85rem;
+}
+#tab-estructura .org-container th,
+#tab-estructura .guard-container th {
+    background: var(--color-surface-neutral);
+    padding: var(--space-2) var(--space-3);
+    text-align: left;
+    border-bottom: 2px solid var(--color-border-regular);
+    color: var(--color-text-secondary);
+    font-weight: 600;
+}
+#tab-estructura .org-container td,
+#tab-estructura .guard-container td {
+    padding: var(--space-2) var(--space-3);
+    border-bottom: 1px solid var(--color-border-subtle);
+}
+
+/* 8. El acordeón de ORG_MAP.md */
+#tab-estructura .accordion {
+    background: var(--color-surface-primary);
+    border: 1px solid var(--color-border-regular);
+    border-radius: var(--border-radius-medium);
+    margin-bottom: var(--space-4);
+}
+#tab-estructura .accordion-header {
+    padding: var(--space-3) var(--space-4);
+    background: var(--color-surface-neutral);
+    font-weight: bold;
+    cursor: pointer;
+    border-radius: var(--border-radius-medium);
+}
+#tab-estructura .accordion-body {
+    padding: var(--space-4);
+}
