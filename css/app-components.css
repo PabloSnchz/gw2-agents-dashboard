@@ -657,3 +657,57 @@
     color: var(--color-text-dim);
     margin-top: var(--space-2);
 }
+
+/* ==========================================================================
+   FIX DE LAYOUT: SOLO TAB ALERTAS & COMMS (#tab-logs)
+   Fuerza el apilado vertical y ancho completo para evitar columnas angostas.
+   ========================================================================== */
+
+/* 1. Forzar a que la tab entera sea una sola columna vertical */
+#tab-logs {
+    display: flex !important;
+    flex-direction: column !important;
+    gap: var(--space-6) !important;
+}
+
+/* 2. Cada sección ocupa todo el ancho */
+#tab-logs > section {
+    display: block !important;
+    width: 100% !important;
+    max-width: 100% !important;
+}
+
+/* 3. Títulos y textos introductorios a todo el ancho */
+#tab-logs h2 {
+    width: 100% !important;
+    font-size: 1.4rem !important;
+    margin-top: 0 !important;
+    margin-bottom: var(--space-2) !important;
+    color: var(--color-text-primary) !important;
+}
+
+#tab-logs .org-source {
+    width: 100% !important;
+    max-width: 100% !important;
+    margin-bottom: var(--space-4) !important;
+}
+
+/* 4. El contenedor de alertas, el toolbar y la lista de mensajes a todo el ancho */
+#tab-logs .alerts-comms-container,
+#tab-logs .comms-toolbar,
+#tab-logs .comms-list-container,
+#tab-logs .comms-channel-estado,
+#tab-logs #alerts-comms {
+    width: 100% !important;
+    max-width: 100% !important;
+    display: block !important;
+}
+
+/* 5. Asegurar que las listas de alertas no tengan límite de ancho */
+#tab-logs .alert-list {
+    width: 100% !important;
+    max-width: 100% !important;
+}
+#tab-logs .alert-list ul {
+    width: 100% !important;
+}
