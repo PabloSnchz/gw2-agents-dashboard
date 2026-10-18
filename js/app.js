@@ -43,7 +43,7 @@
       // filtrado. El equipo escribe su parte cruda en CONSULTAS.md; lo que
       // llega aca es lo que yo subi. Ojo con el aviso de arriba: si esta
       // entrada falta, el boton no hace nada y no hay error en consola.
-      const VALID_TABS = ['resumen', 'prebacklog', 'backlog', 'desarrollo', 'promociones', 'consultas', 'salud', 'estructura', 'equipo', 'historial', 'notas', 'logs'];
+      const VALID_TABS = ['resumen', 'prebacklog', 'backlog', 'sprints', 'desarrollo', 'promociones', 'consultas', 'salud', 'estructura', 'equipo', 'historial', 'notas', 'logs'];
 
     // Orden persistido de las tabs, o el default si no hay nada guardado.
     // Se lee una sola vez al init y se escribe cada vez que cambia el orden.
@@ -527,6 +527,19 @@
             window.__backlogTareas = backlogFile.tareas || [];
             if (window.Backlog) window.Backlog.load();
         }
+
+        // Tab Sprints: data/sprint.json. No es un .md del equipo, es un
+        // JSON que escribo el Arquitecto (vos) cuando asigno un sprint.
+        // Fetch independiente: si falla, la tab lo dice.
+        const sprintPromise = fetcher.fetchSprint().catch(e => ({ success: false, data: null, error: e.message }));
+        sprintPromise.then(sprint => {
+            if (sprint.success && sprint.data && Array.isArray(sprint.data.sprints)) {
+                window.__sprintData = sprint.data.sprints;
+            } else {
+                window.__sprintData = [];
+            }
+            if (window.Sprints) window.Sprints.load();
+        });
 
         // Desarrollo lee data/git.json (rama activa, trabajo sin
         // commitear, commits recientes), data/ramas.json y FEATURES.md.

@@ -46,7 +46,8 @@
                     <button class="sidebar-link" data-tab="backlog" onclick="setDashboardTab('backlog')"><span class="sidebar-icon">📋</span><span class="sidebar-label">Backlog</span></button>
                     <button class="sidebar-link" data-tab="desarrollo" onclick="setDashboardTab('desarrollo')"><span class="sidebar-icon">🛠️</span><span class="sidebar-label">Desarrollo</span></button>
                     <button class="sidebar-link" data-tab="promociones" onclick="setDashboardTab('promociones')"><span class="sidebar-icon">🚀</span><span class="sidebar-label">Promociones</span></button>
-                    <button class="sidebar-link" data-tab="consultas" onclick="setDashboardTab('consultas')"><span class="sidebar-icon">❓</span><span class="sidebar-label">Consultas</span></button>
+                    <button class="sidebar-link" data-tab="sprints" onclick="setDashboardTab('sprints')"><span class="sidebar-icon">🏃</span><span class="sidebar-label">Sprints</span></button>
+            <button class="sidebar-link" data-tab="consultas" onclick="setDashboardTab('consultas')"><span class="sidebar-icon">❓</span><span class="sidebar-label">Consultas</span></button>
                     <button class="sidebar-link" data-tab="salud" onclick="setDashboardTab('salud')"><span class="sidebar-icon">🩺</span><span class="sidebar-label">Salud</span></button>
                     <button class="sidebar-link" data-tab="estructura" onclick="setDashboardTab('estructura')"><span class="sidebar-icon">🗺️</span><span class="sidebar-label">Estructura</span></button>
                     <button class="sidebar-link" data-tab="equipo" onclick="setDashboardTab('equipo')"><span class="sidebar-icon">👥</span><span class="sidebar-label">Equipo</span></button>
@@ -142,6 +143,17 @@
                     </div>
                 </div>
                 <div id="promotions-container" class="promo-container"></div>
+            </div>
+
+            <!-- Tab: Sprints -->
+            <div class="tab-panel" id="tab-sprints" role="tabpanel" aria-labelledby="tab-btn-sprints">
+                <div class="page-header">
+                    <div class="page-title-group">
+                        <h1 class="page-title">🏃 Sprints</h1>
+                        <p class="page-subtitle">Historias activas por sprint. 1-2 historias por sprint. El equipo trabaja, devuelve solución, quede deployado en gw2-dev.</p>
+                    </div>
+                </div>
+                <div id="sprints-container" class="sprints-container"></div>
             </div>
 
             <!-- Tab: Consultas -->
@@ -394,6 +406,7 @@
     <script src="js/prebacklog.js?v=1"></script>
     <script src="js/backlog.js?v=1"></script>
     <script src="js/desarrollo.js"></script>
+    <script src="js/sprints.js?v=1"></script>
     <script src="js/app.js?v=28"></script>
 </body>
 </html>

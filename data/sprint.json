@@ -1,0 +1,28 @@
+{
+  "sprints": [
+    {
+      "sprint": "1",
+      "periodo": "2026-10-18 → 2026-10-24",
+      "historias": [
+        {
+          "id": "H1",
+          "nombre": "Construir tab Sprints en el dashboard",
+          "dificultad": "M",
+          "responsable": "Arquitecto",
+          "estado": "en-curso",
+          "tarea_id": "sprints-tab"
+        },
+        {
+          "id": "H2",
+          "nombre": "Activar heartbeats del equipo",
+          "dificultad": "S",
+          "responsable": "Arquitecto",
+          "estado": "completado",
+          "tarea_id": "hb-reactivar"
+        }
+      ],
+      "bloqueados_pablo": [],
+      "proximo_sprint": "Sprint 2 (2026-10-25 → 2026-10-31)"
+    }
+  ]
+}

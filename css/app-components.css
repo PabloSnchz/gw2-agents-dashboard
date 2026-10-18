@@ -964,3 +964,157 @@
     font-size: 0.75rem !important;
     color: var(--color-text-dim) !important;
 }
+
+/* ==========================================================================
+   TAB: SPRINTS (#tab-sprints)
+   ==========================================================================
+   2026-10-18. Nueva tab: el sprint no existía como concepto en el dashboard.
+   Las historias se veían dispersas en Backlog, Desarrollo y Promociones, y
+   nowhere decía "esto es el sprint actual". Ahora data/sprint.json (escrito
+   por el Arquitecto) las agrupa por sprint con su progreso.
+   ========================================================================== */
+#tab-sprints .sprints-container {
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-6);
+    width: 100%;
+}
+#tab-sprints .sp-sprint-card {
+    background: var(--color-surface-primary);
+    border: 1px solid var(--color-border-regular);
+    border-radius: var(--border-radius-large);
+    padding: var(--space-5);
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-4);
+    box-shadow: var(--shadow-sm);
+}
+#tab-sprints .sp-sprint-head {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    flex-wrap: wrap;
+    gap: var(--space-2);
+}
+#tab-sprints .sp-sprint-head h3 {
+    margin: 0;
+    font-size: 1.3rem;
+    color: var(--color-text-primary);
+}
+#tab-sprints .sp-periodo {
+    font-size: 0.85rem;
+    color: var(--color-text-dim);
+    background: var(--color-surface-neutral);
+    padding: 2px 10px;
+    border-radius: var(--border-radius-medium);
+}
+#tab-sprints .sp-progress-bar {
+    width: 100%;
+    height: 12px;
+    background: var(--color-surface-neutral);
+    border-radius: 6px;
+    overflow: hidden;
+}
+#tab-sprints .sp-progress-fill {
+    height: 100%;
+    background: var(--color-fill-primary);
+    border-radius: 6px;
+    transition: width 0.4s ease;
+}
+#tab-sprints .sp-progress-text {
+    display: block;
+    font-size: 0.85rem;
+    color: var(--color-text-secondary);
+    margin-top: var(--space-1);
+}
+#tab-sprints .sp-historias {
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-3);
+}
+#tab-sprints .sp-historia-card {
+    background: var(--color-surface-primary);
+    border: 1px solid var(--color-border-subtle);
+    border-radius: var(--border-radius-medium);
+    padding: var(--space-3) var(--space-4);
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-2);
+}
+#tab-sprints .sp-h-head {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+#tab-sprints .sp-h-id {
+    font-family: var(--font-family-mono);
+    font-size: 0.75rem;
+    color: var(--color-text-dim);
+    font-weight: bold;
+}
+#tab-sprints .sp-estado {
+    font-size: 0.7rem;
+    padding: 4px 10px;
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+    border-radius: var(--border-radius-xlarge);
+    white-space: nowrap;
+}
+#tab-sprints .sp-estado--asignado { background-color: var(--color-status-neutral-bg); color: var(--color-status-neutral-text); }
+#tab-sprints .sp-estado--en-curso { background-color: var(--color-status-info-bg); color: var(--color-status-info-text); }
+#tab-sprints .sp-estado--completado { background-color: var(--color-status-success-bg); color: var(--color-status-success-text); }
+#tab-sprints .sp-estado--bloqueado { background-color: var(--color-status-danger-bg); color: var(--color-status-danger-text); }
+#tab-sprints .sp-h-title {
+    margin: 0;
+    font-size: 1.05rem;
+    font-weight: 600;
+    color: var(--color-text-primary);
+    line-height: 1.4;
+}
+#tab-sprints .sp-h-meta {
+    display: flex;
+    flex-wrap: wrap;
+    gap: var(--space-3);
+    font-size: 0.8rem;
+    color: var(--color-text-secondary);
+}
+#tab-sprints .sp-h-diff, #tab-sprints .sp-h-resp, #tab-sprints .sp-task-id {
+    color: var(--color-text-dim);
+}
+#tab-sprints .sp-bloqueados-section {
+    margin-top: var(--space-2);
+    padding: var(--space-3);
+    background: var(--color-status-danger-bg);
+    border-radius: var(--border-radius-medium);
+}
+#tab-sprints .sp-bloqueados-section h3 {
+    margin: 0 0 var(--space-2) 0;
+    font-size: 1rem;
+    color: var(--color-status-danger-text);
+}
+#tab-sprints .sp-bloqueados-section ul {
+    margin: 0;
+    padding-left: var(--space-4);
+}
+#tab-sprints .sp-bloqueados-section li {
+    font-size: 0.85rem;
+    color: var(--color-status-danger-text);
+    line-height: 1.5;
+}
+#tab-sprints .sp-proximo {
+    margin-top: var(--space-2);
+    padding: var(--space-2) var(--space-3);
+    background: var(--color-surface-neutral);
+    border-radius: var(--border-radius-medium);
+    font-size: 0.85rem;
+    color: var(--color-text-secondary);
+}
+#tab-sprints .sp-empty {
+    text-align: center;
+    padding: var(--space-8) var(--space-4);
+    color: var(--color-text-dim);
+}
+#tab-sprints .sp-empty p {
+    margin: 0;
+    font-size: 0.95rem;
+}

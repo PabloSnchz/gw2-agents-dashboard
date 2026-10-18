@@ -216,6 +216,25 @@ class MarkdownFetcher {
         }
     }
 
+    async fetchSprint() {
+        const cfg = window.DASHBOARD_CONFIG;
+        const url = (cfg && cfg.getSprintUrl) ? cfg.getSprintUrl() : null;
+        if (!url) return { success: false, data: null, error: 'sin config de sprint' };
+        try {
+            const response = await fetch(url);
+            if (response.status === 404) {
+                return { success: false, data: null, error: 'data/sprint.json no existe' };
+            }
+            if (!response.ok) throw new Error('HTTP ' + response.status);
+            const json = await response.json();
+            if (!json || !Array.isArray(json.sprints)) throw new Error('el JSON no tiene la forma esperada');
+            return { success: true, data: json, error: null };
+        } catch (error) {
+            console.warn('[fetcher] sprint no disponible:', error.message);
+            return { success: false, data: null, error: error.message };
+        }
+    }
+
     async fetchCommits(limit = 50) {
         // Los commits salen de data/git.json (campo commits), que git_export.py
         // arma con `git log` del clon local de gw2-dev. Antes: commits API con

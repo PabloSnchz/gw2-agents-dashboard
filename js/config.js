@@ -229,6 +229,14 @@ const DASHBOARD_CONFIG = {
     // Genera label legible a partir del nombre de archivo
     getLabelForFile(filename) {
         return filename.replace(/_/g, ' ').replace(/\.md$/i, '');
+    },
+
+    // Sprints activos del ecosistema. Lo escribe el Arquitecto (vos) en
+    // data/sprint.json cuando asigna un sprint al equipo. No es un .md del
+    // equipo: las historias las escribe el Arquitecto, el equipo las ejecuta.
+    // Por eso sale del repo del dashboard, igual que estructura.json.
+    getSprintUrl() {
+        return `https://raw.githubusercontent.com/${this.structureRepoOwner}/${this.structureRepoName}/${this.structureBranch}/data/sprint.json`;
     }
 };
 
