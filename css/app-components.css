@@ -380,3 +380,114 @@
 #tab-estructura .accordion-body {
     padding: var(--space-4);
 }
+
+/* ==========================================================================
+   FIX QUIRÚRGICO: SOLO TAB EQUIPO (SCOPED)
+   ========================================================================== */
+
+/* 1. Contenedores en Grilla (Alineación perfecta de 6 columnas) */
+#tab-equipo .cc-agents-grid,
+#tab-equipo .eq-matrix {
+    display: grid;
+    grid-template-columns: 140px repeat(5, minmax(200px, 1fr));
+    gap: var(--space-3);
+    overflow-x: auto; /* Permite scroll horizontal si la pantalla es chica */
+    margin-bottom: var(--space-5);
+}
+
+/* 2. Rieles (Los títulos de las filas: "Qué decide", "Ahora", etc.) */
+#tab-equipo .eq-rail {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    gap: var(--space-1);
+    padding: var(--space-3) 0;
+    border-bottom: 1px solid var(--color-border-subtle);
+}
+#tab-equipo .eq-rail__emoji { font-size: 1.2rem; }
+#tab-equipo .eq-rail__label { 
+    font-weight: bold; 
+    font-size: 0.75rem; 
+    color: var(--color-text-dim); 
+    text-transform: uppercase; 
+}
+
+/* 3. Tarjetas de Agente (Celdas de la matriz y disciplina) */
+#tab-equipo .eq-cell, 
+#tab-equipo .cc-card-agent {
+    background: var(--color-surface-primary);
+    border: 1px solid var(--color-border-regular);
+    border-radius: var(--border-radius-medium);
+    padding: var(--space-3);
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-2);
+    border-top: 4px solid var(--color-border-regular); /* Color por defecto */
+}
+
+/* 4. Colores Semánticos de Estado (Borde superior) */
+#tab-equipo .eq-cell--active, 
+#tab-equipo .cc-card-agent--routine { border-top-color: var(--color-status-success-border); }
+
+#tab-equipo .eq-cell--error, 
+#tab-equipo .cc-card-agent--critical { border-top-color: var(--color-status-danger-border); }
+
+#tab-equipo .eq-cell--unknown, 
+#tab-equipo .cc-card-agent--unclassified { border-top-color: var(--color-status-warning-border); }
+
+#tab-equipo .eq-cell--idle { border-top-color: var(--color-status-neutral-border); }
+#tab-equipo .eq-cell--ondemand { border-top-color: var(--color-status-neutral-border); }
+
+/* 5. Textos dentro de las tarjetas */
+#tab-equipo .eq-cell__estado,
+#tab-equipo .cc-card-agent__head {
+    display: flex;
+    align-items: center;
+    gap: var(--space-1);
+    font-weight: bold;
+    font-size: 0.8rem;
+    text-transform: uppercase;
+    color: var(--color-text-primary);
+}
+#tab-equipo .eq-cell__texto,
+#tab-equipo .cc-card-agent__name {
+    font-size: 0.85rem;
+    color: var(--color-text-primary);
+    margin: 0;
+    line-height: 1.4;
+}
+#tab-equipo .eq-cell__pie,
+#tab-equipo .cc-card-agent__meta {
+    font-size: 0.75rem;
+    color: var(--color-text-dim);
+    margin: 0;
+}
+#tab-equipo .eq-cell__pie--alerta {
+    color: var(--color-status-danger-text);
+    font-weight: 500;
+}
+
+/* 6. Textos introductorios y notas (Leyendas) */
+#tab-equipo .eq-matrix__leyenda {
+    font-size: 0.9rem;
+    color: var(--color-text-secondary);
+    margin-bottom: var(--space-4);
+    line-height: 1.5;
+}
+#tab-equipo .eq-block__nota {
+    font-size: 0.85rem;
+    color: var(--color-text-dim);
+    background: var(--color-surface-neutral);
+    padding: var(--space-3);
+    border-radius: var(--border-radius-small);
+    margin-top: var(--space-4);
+    line-height: 1.5;
+}
+
+/* 7. Estado del Equipo (Detalle en tarjetas grandes) */
+#tab-equipo .agent-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+    gap: var(--space-4);
+    margin-top: var(--space-4);
+}
