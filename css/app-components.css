@@ -711,3 +711,119 @@
 #tab-logs .alert-list ul {
     width: 100% !important;
 }
+
+/* ==========================================================================
+   FIX DEFINITIVO: Texto suelto en Alertas & Comms
+   ========================================================================== */
+
+/* 1. Contenedor de "Alertas Activas" y "Comunicaciones (0 pendientes)" */
+#tab-logs .alerts-comms-container {
+    display: flex !important;
+    flex-direction: column !important;
+    width: 100% !important;
+    gap: var(--space-3) !important;
+    margin-bottom: var(--space-5) !important;
+}
+
+#tab-logs .alerts-comms-container h3,
+#tab-logs .alerts-comms-container h4 {
+    font-size: 1.1rem !important;
+    font-weight: bold !important;
+    color: var(--color-text-primary) !important;
+    margin: 0 !important;
+    padding-bottom: var(--space-2) !important;
+    border-bottom: 2px solid var(--color-border-subtle) !important;
+}
+
+/* 2. Cada alerta individual (los items de la lista) */
+#tab-logs .alerts-comms-container ul {
+    list-style: none !important;
+    padding: 0 !important;
+    margin: 0 !important;
+    width: 100% !important;
+    display: flex !important;
+    flex-direction: column !important;
+    gap: var(--space-2) !important;
+}
+
+#tab-logs .alerts-comms-container li {
+    background: var(--color-surface-primary) !important;
+    border: 1px solid var(--color-border-regular) !important;
+    border-left: 4px solid var(--color-status-info-border) !important;
+    border-radius: var(--border-radius-medium) !important;
+    padding: var(--space-3) var(--space-4) !important;
+    font-size: 0.85rem !important;
+    line-height: 1.5 !important;
+    color: var(--color-text-primary) !important;
+    width: 100% !important;
+    box-sizing: border-box !important;
+}
+
+/* Colores según severidad (si el texto empieza con 🔴 o 🟢 o 🟡) */
+#tab-logs .alerts-comms-container li:has(> :contains("🔴")),
+#tab-logs .alerts-comms-container li:contains("🔴") {
+    border-left-color: var(--color-status-danger-border) !important;
+}
+#tab-logs .alerts-comms-container li:contains("🟡") {
+    border-left-color: var(--color-status-warning-border) !important;
+}
+#tab-logs .alerts-comms-container li:contains("🟢") {
+    border-left-color: var(--color-status-success-border) !important;
+}
+
+/* 3. El texto "Sin comunicaciones pendientes" y otros vacíos */
+#tab-logs .alerts-comms-container p {
+    font-size: 0.9rem !important;
+    color: var(--color-text-dim) !important;
+    margin: 0 !important;
+    padding: var(--space-3) var(--space-4) !important;
+    background: var(--color-surface-neutral) !important;
+    border-radius: var(--border-radius-small) !important;
+    width: 100% !important;
+    box-sizing: border-box !important;
+}
+
+/* 4. La línea "Exportado ... · 77 mensajes · sonda racha 3/3" */
+#tab-logs #comms-channel-estado {
+    width: 100% !important;
+    margin-bottom: var(--space-3) !important;
+}
+#tab-logs .cc-meta {
+    display: block !important;
+    width: 100% !important;
+    font-size: 0.8rem !important;
+    color: var(--color-text-dim) !important;
+    background: var(--color-surface-neutral) !important;
+    padding: var(--space-2) var(--space-3) !important;
+    border-radius: var(--border-radius-small) !important;
+    box-sizing: border-box !important;
+}
+#tab-logs .cc-meta--warn {
+    background: var(--color-status-danger-bg) !important;
+    color: var(--color-status-danger-text) !important;
+}
+
+/* 5. Los textos descriptivos (org-source) */
+#tab-logs .org-source {
+    font-size: 0.85rem !important;
+    color: var(--color-text-secondary) !important;
+    margin: 0 0 var(--space-3) 0 !important;
+    padding: 0 !important;
+    line-height: 1.5 !important;
+    width: 100% !important;
+}
+
+/* 6. Los títulos de sección (h2) */
+#tab-logs h2 {
+    font-size: 1.3rem !important;
+    font-weight: bold !important;
+    color: var(--color-text-primary) !important;
+    margin-top: var(--space-5) !important;
+    margin-bottom: var(--space-3) !important;
+    padding-bottom: var(--space-2) !important;
+    border-bottom: 2px solid var(--color-border-regular) !important;
+    width: 100% !important;
+}
+#tab-logs h2:first-child {
+    margin-top: 0 !important;
+}
