@@ -65,7 +65,7 @@
           "nombre": "ALERT-41: marcado manual de strikes (workaround)",
           "dificultad": "S",
           "responsable": "Principal",
-          "estado": "bloqueado",
+          "estado": "completado",
           "tarea_id": "ALERT-41"
         }
       ],
