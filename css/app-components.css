@@ -1064,6 +1064,7 @@
 #tab-sprints .sp-estado--en-curso { background-color: var(--color-status-info-bg); color: var(--color-status-info-text); }
 #tab-sprints .sp-estado--completado { background-color: var(--color-status-success-bg); color: var(--color-status-success-text); }
 #tab-sprints .sp-estado--bloqueado { background-color: var(--color-status-danger-bg); color: var(--color-status-danger-text); }
+#tab-sprints .sp-estado--descartada { background-color: var(--color-status-neutral-bg); color: var(--color-status-neutral-text); text-decoration: line-through; }
 #tab-sprints .sp-h-title {
     margin: 0;
     font-size: 1.05rem;

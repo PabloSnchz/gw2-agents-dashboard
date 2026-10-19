@@ -1,58 +1,96 @@
 {
-  "_comentario": "Sprints del ecosistema. Cada historia tiene: id, nombre (técnico), description (coloquial, para Pablo), dificultad, responsable, estado, tarea_id. El Arquitecto asigna; el dashboard muestra. Ultima actualizacion: 2026-10-18.",
+  "_comentario": "Sprints del ecosistema. Cada historia tiene: id, nombre (tecnico), description (coloquial, para Pablo), dificultad, responsable, estado, tarea_id. El Arquitecto asigna; el dashboard muestra. Ultima actualizacion: 2026-10-19.",
   "sprints": [
     {
       "sprint": "1",
-      "periodo": "2026-10-18 ~ 2026-10-31",
+      "periodo": "2026-10-18 → 2026-10-18",
       "historias": [
         {
-          "id": "H-01",
-          "nombre": "Parser registeredAt en PreBacklog y Backlog",
-          "description": "Que cada idea y tarea muestre cuándo se registró en el dashboard, para que Pablo vea de un vistazo si el equipo estuvo activo recientemente.",
-          "dificultad": "S",
-          "responsable": "Arquitecto",
-          "estado": "completado",
-          "tarea_id": "PB-01"
-        },
-        {
-          "id": "H-02",
-          "nombre": "Parser registeredAt en fallback global",
-          "description": "El mismo campo de fecha también debe llegar al caso de último recurso, cuando el archivo no tiene Heartbeats identificables.",
-          "dificultad": "XS",
-          "responsable": "Arquitecto",
-          "estado": "completado",
-          "tarea_id": "PB-02"
-        },
-        {
-          "id": "H-03",
-          "nombre": "Parser registeredAt en Backlog",
-          "description": "Las tareas del Backlog (quien escribe la card, de quien depende) también llevan fecha de registro alongside con el autor.",
-          "dificultad": "S",
-          "responsable": "Arquitecto",
-          "estado": "completado",
-          "tarea_id": "BL-01"
-        },
-        {
-          "id": "H-04",
-          "nombre": "Description coloquial en historias de sprint",
-          "description": "Cada historia del sprint lleva un texto corto y claro, en lenguaje de negocio, para que Pablo entienda de qué se trata sin tener que leer el título técnico.",
-          "dificultad": "XS",
-          "responsable": "Arquitecto",
-          "estado": "completado",
-          "tarea_id": "SP-01"
-        },
-        {
-          "id": "H-05",
-          "nombre": "Renderer: mostrar registeredAt y description en cards",
-          "description": "Que las cards de Pre Backlog, Backlog y Desarrollo muestren fecha de registro, autor y dependencia; y las de Sprint muestren la description coloquial.",
+          "id": "H1",
+          "nombre": "Construir tab Sprints en el dashboard",
+          "description": "Una tab nueva en el dashboard que muestra el sprint en curso, en vez de tener el estado repartido entre el Backlog y Desarrollo.",
           "dificultad": "M",
           "responsable": "Arquitecto",
-          "estado": "en curso",
-          "tarea_id": "SP-02"
+          "estado": "completado",
+          "tarea_id": "sprints-tab"
+        },
+        {
+          "id": "H2",
+          "nombre": "Activar heartbeats del equipo",
+          "description": "Que Principal, Documentador y Product Owner vuelvan a trabajar solos cada 30 min, 6 h y 2 h respectivamente. El Revisor queda a pedido.",
+          "dificultad": "S",
+          "responsable": "Arquitecto",
+          "estado": "completado",
+          "tarea_id": "hb-reactivar"
         }
       ],
       "bloqueados_pablo": [],
-      "proximo_sprint": "Sprint 2 (por definir)"
+      "proximo_sprint": "Sprint 2 (2026-10-19 → 2026-10-25)"
+    },
+    {
+      "sprint": "2",
+      "periodo": "2026-10-19 → 2026-10-25",
+      "historias": [
+        {
+          "id": "H1",
+          "nombre": "Asignar tareas formales al equipo para Sprint 2",
+          "description": "Que el equipo trabaje solo sobre una lista que asigné, en vez de hacer lo que se le ocurra. Pablo solo ve el resultado y autoriza la promoción.",
+          "dificultad": "S",
+          "responsable": "Arquitecto",
+          "estado": "completado",
+          "tarea_id": "sprint2-assign"
+        },
+        {
+          "id": "H2",
+          "nombre": "Revisar PRE_BACKLOG.md del PO y filtrar qué entra al BACKLOG",
+          "description": "Leer las propuestas del Product Owner y decidir cuáles entran al Backlog como trabajo real. Lo que no entra, no se trabaja.",
+          "dificultad": "M",
+          "responsable": "Arquitecto",
+          "estado": "completado",
+          "tarea_id": "backlog-filter-done"
+        },
+        {
+          "id": "H3",
+          "nombre": "buildstorage: wrapper + call site en Inventory Dashboard",
+          "description": "El endpoint /v2/account/buildstorage es donde GW2 guarda los items duplicados. Hoy la webapp no lo consulta. Es el gap competitivo mas real que quedo: MetaForge si lo muestra.",
+          "dificultad": "M",
+          "responsable": "Principal",
+          "estado": "bloqueado",
+          "tarea_id": "buildstorage"
+        },
+        {
+          "id": "H4",
+          "nombre": "L349 Homestead - limpieza de fila",
+          "description": "Una fila vieja del Backlog que pedia limpiar una referencia ya borrada.",
+          "dificultad": "S",
+          "responsable": "Principal",
+          "estado": "descartada",
+          "tarea_id": "homestead-cleanup"
+        },
+        {
+          "id": "H5",
+          "nombre": "ALERT-41: marcado manual de strikes (workaround)",
+          "description": "GW2 no tiene API que diga si una strike ya la completaste. Se agregar un boton para marcarla a mano hasta que exista ese endpoint.",
+          "dificultad": "S",
+          "responsable": "Principal",
+          "estado": "completado",
+          "tarea_id": "ALERT-41"
+        },
+        {
+          "id": "H6",
+          "nombre": "Limpieza del repo de desarrollo",
+          "description": "El repo de desarrollo tiene mas de 30 archivos temporales sueltos, 7 archivos modificados sin commitear y varios worktrees viejos. Hay que ordenarlo para que el trabajo real se vea.",
+          "dificultad": "S",
+          "responsable": "Principal",
+          "estado": "asignado",
+          "tarea_id": "repo-cleanup"
+        }
+      ],
+      "bloqueados_pablo": [
+        "buildstorage: /v2/account/buildstorage exige el scope 'inventories' en el token. El wrapper se puede escribir sin token, pero no se puede probar contra datos reales hasta que amplies el permiso."
+      ],
+      "proximo_sprint": "Sprint 3 (2026-10-26 → 2026-11-01)",
+      "nota": "El equipo estuvo 38 h sin heartbeat: el jobs.json del workspace default no cargaba por dos jobs con un campo 'task' que el schema de QwenPaw no soporta, y eso tumbaba TODO el archivo, incluido el Heartbeat Principal. Corregido el 2026-10-19 16:45 UTC. H3 y H6 asignadas al Principal en el mismo ciclo."
     }
   ]
 }
