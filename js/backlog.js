@@ -37,7 +37,7 @@
         // registeredAt: fecha de cuando se registro en el dashboard
         const reg = tarea.registeredAt || tarea.registradoEn || null;
         const regHtml = reg
-            ? '<span class="bl-attr"><strong>Registrado:</strong> ' + esc(formatDate(reg)) + '</span>'
+            ? '<span class="bl-attr"><strong>Registrado:</strong> ' + esc(reg) + '</span>'
             : '';
         // Dependencia: de quien depende esta tarea
         const dep = tarea.dependencia || tarea.dep || null;

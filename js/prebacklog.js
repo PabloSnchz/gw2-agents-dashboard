@@ -33,7 +33,7 @@
         // registeredAt: fecha de cuando se registro en el dashboard
         const reg = idea.registeredAt || idea.registradoEn || null;
         const regHtml = reg
-            ? '<span class="pb-attr"><strong>Registrado:</strong> ' + esc(formatDate(reg)) + '</span>'
+            ? '<span class="pb-attr"><strong>Registrado:</strong> ' + esc(reg) + '</span>'
             : '';
         // Dependencia: de quien depende esta idea
         const dep = idea.dependencia || idea.dep || null;
