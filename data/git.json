@@ -1,6 +1,6 @@
 {
- "generado_utc": "20261020T160632Z",
- "generado_h": "2026-10-20 16:06 UTC",
+ "generado_utc": "20261020T162132Z",
+ "generado_h": "2026-10-20 16:21 UTC",
  "origen": "git local + ls-remote (sin cuota). protected cacheado TTL 6h.",
  "commits": [
   {
@@ -463,9 +463,9 @@
    "repo": "gw2-agents-dashboard",
    "label": "Dashboard",
    "role": "dashboard",
-   "sha": "5faf93487a5e17a2b5590e4ba2284855a0923b97",
-   "short_sha": "5faf934",
-   "commit": "chore(cache): bumpeo config.js y parser.js tras el fix de",
+   "sha": "6363fb56aa500f123512f51efcfc8fa93633f6a8",
+   "short_sha": "6363fb5",
+   "commit": "chore(dashboard): pulso automatico 2026-10-20_16-06_UTC",
    "estado": "open",
    "protected": false,
    "protected_fresco": true,
