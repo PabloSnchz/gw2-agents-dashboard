@@ -21,7 +21,9 @@ class DashboardParser {
         };
 
         if (!md || typeof md !== 'string') {
-            return { parseable: false, ...data };
+            // El spread va PRIMERO: con el orden viejo, data.parseable=true
+            // pisaba al false y el campo nunca valia false. Bug heredado.
+            return { ...data, parseable: false };
         }
 
         // Extraer timestamp de actualizaciÃ³n
@@ -2066,166 +2068,213 @@ class DashboardParser {
     static parsePreBacklog(md) {
         const data = { parseable: true, updatedAt: null, ideas: [] };
         if (!md || typeof md !== 'string') {
-            return { parseable: false, ...data };
+            // El spread va PRIMERO: con el orden viejo, data.parseable=true
+            // pisaba al false y el campo nunca valia false. Bug heredado.
+            return { ...data, parseable: false };
         }
 
-        // updatedAt - buscar varios formatos posibles
+        // --- updatedAt ---
         const updatedMatch = md.match(/>\s*Actualizado:\s*(.+)/i) ||
-                             md.match(/Actualizado:\s*(.+)/i) ||
-                             md.match(/^#.*?(\d{4}-\d{2}-\d{2})/m);
+                             md.match(/Actualizado:\s*(.+)/i);
         if (updatedMatch) data.updatedAt = updatedMatch[1].trim();
 
-        // 1) SecciÃ³n "Ideas en bruto" - formato libre
-        const ideasSection = this._extractSection(md, 'Ideas en bruto');
-        if (ideasSection) {
-            const lines = ideasSection.split('\n');
-            let currentIdea = null;
-            for (const line of lines) {
-                const trimmed = line.trim();
-                if (!trimmed) continue;
-
-                const isNewIdea = /^[-*]/.test(trimmed) ||
-                                  /^IDEA\s+\d+/.test(trimmed) ||
-                                  (trimmed.length > 20 && !/^---/.test(trimmed));
-
-                if (isNewIdea && currentIdea) {
-                    data.ideas.push(currentIdea);
-                }
-
-                if (isNewIdea) {
-                    currentIdea = {
-                        id: 'raw-' + data.ideas.length,
-                        titulo: trimmed.substring(0, 120),
-                        fuente: 'PO (bruto)',
-                        estado: 'bruto',
-                        registeredAt: data.updatedAt || null,
-                        observaciones: trimmed.substring(120),
-                        autor: this._extraerCampo(trimmed, [/Autor:\s*([^\n]+)/i]),
-                        dependencia: this._extraerCampo(trimmed, [/Depende:\s*([^\n]+)/i]),
-                        quien_escribe: this._extraerCampo(trimmed, [/Escribe:\s*([^\n]+)/i])
-                    };
-                } else if (currentIdea) {
-                    currentIdea.observaciones += ' ' + trimmed;
-                }
+        // --- 1) BLOQUES DE RONDA ---
+        // El PO cambio el encabezado de sus rondas mas de una vez:
+        //   "## Heartbeat PO 2026-10-18 - ..."                    (formato viejo)
+        //   "## HB#222 / PO ronda 84 (2026-10-20 00:05 UTC) - ..." (formato actual)
+        //   "## PO ronda 86 (2026-10-20 07:2xZ) - ..."              (sin HB#)
+        // Ademas puede venir con "> " adelante (blockquote). Los 3 se detectan.
+        const lineas = md.split(/\r?\n/);
+        const reHeading = /^\s*>?\s*#{1,4}\s+(.*)$/;
+        const bloques = [];
+        let actual = null;
+        for (let i = 0; i < lineas.length; i++) {
+            const m = lineas[i].match(reHeading);
+            const texto = m ? m[1] : '';
+            const esRonda = /HB#\d+|PO\s+ronda\s+\d+|Heartbeat\s+PO/i.test(texto);
+            if (esRonda) {
+                actual = { titulo: texto, lineas: [] };
+                bloques.push(actual);
+            } else if (actual) {
+                actual.lineas.push(lineas[i]);
             }
-            if (currentIdea) data.ideas.push(currentIdea);
         }
 
-        // 2) Heartbeats del PO - dividir por lÃ­neas `---` (horizontal rules)
-        // El archivo usa `---` como separador entre Heartbeats
-        const sections = md.split(/^---$/m);
-        for (const section of sections) {
-            // Verificar si esta secciÃ³n es un Heartbeat PO
-            if (!/Heartbeat PO/i.test(section)) continue;
+        // --- 2) IDEAS ---
+        // Linea de idea: un heading ### cuyo texto trae el token IDEA.
+        //   "### Idea 77 - Festival/Seasonal Tracker (Halloween 2026)"
+        //   "### \u{1F534} IDEA 80 - Matriz de logros (NUEVA - ALTA)"
+        //   "### \u{1F7E1} IDEA 82 (NUEVA) - Capa de temporada"
+        //   "### \u{26AA} IDEAS 78 y 81 - sin novedad"   <- nota sobre 2 ideas
+        // "IDEAS" en plural (o 2 numeros) es una RE-VERIFICACION de ideas ya
+        // conocidas, no una idea nueva: se anota, no se agrega.
+        const reIdea = /\bIDEAS?\b\s*(\d+[A-Z]?)\s*([^\u2014\u2013\-:]*)(\u2014|\u2013|-|\:)?\s*(.*)$/i;
+        const porNumero = new Map();
+        const orden = [];
 
-            // Extraer fecha del heartbeat
-            const dateMatch = section.match(/Heartbeat PO\s+([\d\-]+\s+[\d:]+)/i);
-            const hbDate = dateMatch ? dateMatch[1].trim() : 'fecha desconocida';
-
-            // Buscar IDEAs en este heartbeat - varios formatos
-            // Formato 1: "### IDEA NN: tÃ­tulo" o "## IDEA NN - tÃ­tulo"
-            let ideaMatches = section.match(/^###?\s*IDEA\s+(\d+[A-Z]?)\s*[:\-]\s*(.+)/gim);
-            if (ideaMatches) {
-                for (const im of ideaMatches) {
-                    const imMatch = im.match(/IDEA\s+(\d+[A-Z]?)\s*[:\-]\s*(.+)/i);
-                    if (imMatch) {
-                        const ideaNum = imMatch[1];
-                        const ideaTitle = imMatch[2].trim().substring(0, 120);
-
-                        // Extraer contexto: primeras lÃ­neas despuÃ©s del tÃ­tulo
-                        const afterTitle = section.substring(section.indexOf(im) + im.length);
-                        const contextLines = afterTitle.split('\n').slice(0, 10)
-                            .map(l => l.trim())
-                            .filter(l => l && !/^###?\s*(IDEA|Heartbeat|P\d)/i.test(l))
-                            .join(' ').substring(0, 300);
-
-                        data.ideas.push({
-                            id: 'PO-' + ideaNum,
-                            titulo: ideaTitle,
-                            fuente: 'PO Heartbeat ' + hbDate,
-                            estado: 'propuesta',
-                            registeredAt: hbDate,
-                            observaciones: contextLines || 'Ver Heartbeat completo en PRE_BACKLOG.md',
-                            autor: this._extraerCampo(im, [/Autor:\s*([^\n]+)/i]),
-                            dependencia: this._extraerCampo(im, [/Depende:\s*([^\n]+)/i]),
-                            quien_escribe: this._extraerCampo(im, [/Escribe:\s*([^\n]+)/i])
-                        });
-                    }
+        for (const b of bloques) {
+            const hb = (b.titulo.match(/HB#(\d+)/i) || [])[1] || null;
+            const ronda = (b.titulo.match(/ronda\s+(\d+)/i) || [])[1] || null;
+            // La fecha no siempre esta en el encabezado de la ronda: varias
+            // la traen solo en el cuerpo. Se busca en el bloque entero; si
+            // tampoco hay, se busca en las lineas propias de la idea. Si no
+            // aparece ninguna, queda null y la card no muestra la fecha en
+            // vez de inventar una.
+            const fechaEnc = (b.titulo.match(/(\d{4}-\d{2}-\d{2})/) || [])[1] || null;
+            let fechaBloque = fechaEnc;
+            if (!fechaBloque) {
+                for (let q = 0; q < b.lineas.length && !fechaBloque; q++) {
+                    const dm = b.lineas[q].match(/(\d{4}-\d{2}-\d{2})/);
+                    if (dm) fechaBloque = dm[1];
                 }
             }
+            const etiqueta = ronda ? ('PO ronda ' + ronda)
+                        : fechaBloque ? ('PO ' + fechaBloque)
+                        : hb      ? ('PO HB#' + hb)
+                                  : 'PO';
 
-            // Formato 2: "## 1. IDEA XX ..." o "1. IDEA XX ..."
-            const altIdeas = section.match(/^\d+\.\s*(IDEA\s+\d+[A-Z]?\b.*?)(?=\n\d+\.|\n###?\s|\Z)/gim);
-            if (altIdeas) {
-                for (const ai of altIdeas) {
-                    const aiMatch = ai.match(/IDEA\s+(\d+[A-Z]?)\b(.*)/i);
-                    if (aiMatch) {
-                        const ideaNum = aiMatch[1];
-                        const ideaTitle = aiMatch[2].trim().substring(0, 120);
-                        if (!data.ideas.some(i => i.id === 'PO-' + ideaNum)) {
-                            data.ideas.push({
-                                id: 'PO-' + ideaNum,
-                                titulo: ideaTitle,
-                                fuente: 'PO Heartbeat ' + hbDate,
-                                estado: 'propuesta',
-                                registeredAt: hbDate,
-                                observaciones: 'Ver Heartbeat completo en PRE_BACKLOG.md',
-                                autor: this._extraerCampo(ai, [/Autor:\s*([^\n]+)/i]),
-                                dependencia: this._extraerCampo(ai, [/Depende:\s*([^\n]+)/i]),
-                                quien_escribe: this._extraerCampo(ai, [/Escribe:\s*([^\n]+)/i])
-                            });
+            for (let j = 0; j < b.lineas.length; j++) {
+                const hm = b.lineas[j].match(/^\s*>?\s*#{3,4}\s+(.*)$/);
+                if (!hm) continue;
+                const im = hm[1].match(reIdea);
+                if (!im) continue;
+
+                const numero = im[1];
+                const entre = (im[2] || '').trim();
+                const cola = (im[4] || '').trim();
+                const esPlural = /\bIDEAS\b/i.test(hm[1]) || /\d+\s*(y|,|&)\s*\d+/.test(entre);
+
+                // Titulo: se descarta el separador y el marcador entre el
+                // numero y el texto real ("(NUEVA)", "(RE-VERIFICADA HOY)").
+                let titulo = cola
+                    .replace(/^\(?\s*(NUEVA|RE-VERIFICADA[^)]*|REVISADA[^)]*|NUEVO|VIGENTE)\s*\)\s*/i, '')
+                    .replace(/^[\u2014\u2013\-:]\s*/, '')
+                    .trim();
+                if (!titulo) titulo = 'Idea ' + numero;
+
+                // Cuerpo: lineas hasta el proximo heading.
+                const cuerpo = [];
+                for (let k = j + 1; k < b.lineas.length; k++) {
+                    if (/^\s*>?\s*#{1,4}\s+/.test(b.lineas[k])) break;
+                    const t = b.lineas[k].trim();
+                    if (t) cuerpo.push(t);
+                }
+                const descripcion = cuerpo.join(' ').substring(0, 420).trim();
+
+                if (esPlural) {
+                    // Nota de estado sobre ideas ya conocidas.
+                    const numeros = [numero];
+                    const extra = hm[1].match(/(\d+)\s*(?:y|,|&)\s*(\d+)/);
+                    if (extra) numeros.push(extra[2]);
+                    for (const n of numeros) {
+                        const previa = porNumero.get(n);
+                        if (previa) {
+                            previa.observaciones = (previa.observaciones + ' [Re-verificada en ' + etiqueta + ']').trim();
                         }
                     }
+                    continue;
                 }
-            }
 
-            // Formato 3: IDEA en el tÃ­tulo del Heartbeat mismo
-            // "## Heartbeat PO ... - IDEA 49G: tÃ­tulo"
-            const titleIdeaMatch = section.match(/Heartbeat PO.*?- IDEA\s+(\d+[A-Z]?)\s*[:\-]\s*(.+)/i);
-            if (titleIdeaMatch && !data.ideas.some(i => i.id === 'PO-' + titleIdeaMatch[1])) {
-                data.ideas.push({
-                    id: 'PO-' + titleIdeaMatch[1],
-                    titulo: titleIdeaMatch[2].trim().substring(0, 120),
-                    fuente: 'PO Heartbeat ' + hbDate,
+                if (porNumero.has(numero)) {
+                    // Re-verificacion de una idea ya vista: no se duplica la
+                    // card, se anota cuando y con que veredicto.
+                    const previa = porNumero.get(numero);
+                    const marca = /RE-VERIFICADA|FUSIONA|sin novedad/i.test(hm[1] + ' ' + cola)
+                        ? ' [Re-verificada en ' + etiqueta + ']'
+                        : ' [Vista de nuevo en ' + etiqueta + ']';
+                    if (previa.observaciones.indexOf(marca) === -1) {
+                        previa.observaciones = (previa.observaciones + marca).trim();
+                    }
+                    continue;
+                }
+
+                // Fecha propia de la idea: la de su bloque, o la primera
+                // fecha que el PO escribio junto a la idea.
+                let fechaIdea = fechaBloque;
+                if (!fechaIdea) {
+                    for (let q = j; q < Math.min(j + 6, b.lineas.length) && !fechaIdea; q++) {
+                        const dm = b.lineas[q].match(/(\d{4}-\d{2}-\d{2})/);
+                        if (dm) fechaIdea = dm[1];
+                    }
+                }
+
+                const idea = {
+                    id: 'PO-' + numero,
+                    titulo: titulo.substring(0, 120),
+                    fuente: etiqueta,
                     estado: 'propuesta',
-                    registeredAt: hbDate,
-                    observaciones: 'Ver Heartbeat completo en PRE_BACKLOG.md',
-                    autor: this._extraerCampo(titleIdeaMatch[0], [/Autor:\s*([^\n]+)/i]),
-                    dependencia: this._extraerCampo(titleIdeaMatch[0], [/Depende:\s*([^\n]+)/i]),
-                    quien_escribe: this._extraerCampo(titleIdeaMatch[0], [/Escribe:\s*([^\n]+)/i])
-                });
-            }
-
-            // Formato 4: Buscar "IDEA NN" en cualquier parte de la secciÃ³n (fallback)
-            if (data.ideas.filter(i => i.fuente.includes(hbDate)).length === 0) {
-                const fallbackMatches = section.match(/IDEA\s+(\d+[A-Z]?)\s*[:\-]\s*(.+)/gi);
-                if (fallbackMatches) {
-                    for (const fm of fallbackMatches) {
-                        const fmMatch = fm.match(/IDEA\s+(\d+[A-Z]?)\s*[:\-]\s*(.+)/i);
-                        if (fmMatch && !data.ideas.some(i => i.id === 'PO-' + fmMatch[1])) {
-                            data.ideas.push({
-                                id: 'PO-' + fmMatch[1],
-                                titulo: fmMatch[2].trim().substring(0, 120),
-                                fuente: 'PO Heartbeat ' + hbDate,
-                                estado: 'propuesta',
-                                registeredAt: hbDate,
-                                observaciones: 'Ver Heartbeat completo en PRE_BACKLOG.md',
-                                autor: this._extraerCampo(fm, [/Autor:\s*([^\n]+)/i]),
-                                dependencia: this._extraerCampo(fm, [/Depende:\s*([^\n]+)/i]),
-                                quien_escribe: this._extraerCampo(fm, [/Escribe:\s*([^\n]+)/i])
-                            });
-                        }
-                    }
-                }
+                    registeredAt: fechaIdea,
+                    observaciones: descripcion || ('Ver ' + etiqueta + ' en PRE_BACKLOG.md'),
+                    autor: this._extraerCampo(hm[1], [/Autor:\s*([^\n]+)/i]),
+                    dependencia: this._extraerCampo(hm[1], [/Depende:\s*([^\n]+)/i]),
+                    quien_escribe: this._extraerCampo(hm[1], [/Escribe:\s*([^\n]+)/i])
+                };
+                porNumero.set(numero, idea);
+                orden.push(idea);
             }
         }
 
-        // 3) Fallback global: buscar cualquier "IDEA XX" en el archivo completo
+        for (const idea of orden) data.ideas.push(idea);
+
+        // --- 3) SECCION "IDEAS EN BRUTO" ---
+        // El PO usa "## 4. Ideas en bruto -> consolidadas" como encabezado de
+        // seccion DENTRO de una ronda, y ahi sus ideas ya se tomaron arriba
+        // (son headings "### Idea NN"). Si se agregaran tambien, cada idea
+        // de ronda apareceria duplicada. Por eso se parsea siempre y se
+        // DESCARTAN las crudas cuyo texto ya esta dentro de una idea
+        // capturada. Asi el formato viejo (lista libre en esa seccion) sigue
+        // funcionando y el actual no se duplica.
+        const rawIdeas = [];
+        {
+            const ideasSection = this._extractSection(md, 'Ideas en bruto');
+            if (ideasSection) {
+                const lines = ideasSection.split('\n');
+                let currentIdea = null;
+                for (const line of lines) {
+                    const trimmed = line.trim();
+                    if (!trimmed) continue;
+                    const isNewIdea = /^[-*]/.test(trimmed) ||
+                                      /^IDEA\s+\d+/.test(trimmed) ||
+                                      (trimmed.length > 20 && !/^---/.test(trimmed));
+                    if (isNewIdea && currentIdea) {
+                        rawIdeas.push(currentIdea);
+                    }
+                    if (isNewIdea) {
+                        currentIdea = {
+                            id: 'raw-' + rawIdeas.length,
+                            titulo: trimmed.substring(0, 120),
+                            fuente: 'PO (bruto)',
+                            estado: 'bruto',
+                            registeredAt: data.updatedAt || null,
+                            observaciones: trimmed.substring(120),
+                            autor: this._extraerCampo(trimmed, [/Autor:\s*([^\n]+)/i]),
+                            dependencia: this._extraerCampo(trimmed, [/Depende:\s*([^\n]+)/i]),
+                            quien_escribe: this._extraerCampo(trimmed, [/Escribe:\s*([^\n]+)/i])
+                        };
+                    } else if (currentIdea) {
+                        currentIdea.observaciones += ' ' + trimmed;
+                    }
+                }
+                if (currentIdea) rawIdeas.push(currentIdea);
+            }
+        }
+        for (const raw of rawIdeas) {
+            const t = String(raw.titulo).toLowerCase();
+            const yaEsta = data.ideas.some(i => {
+                const dentro = (i.titulo + ' ' + i.observaciones).toLowerCase();
+                return t.length > 15 &&
+                       (dentro.indexOf(t.substring(0, 60)) > -1 ||
+                        t.indexOf(String(i.titulo).toLowerCase().substring(0, 40)) > -1);
+            });
+            if (!yaEsta) data.ideas.push(raw);
+        }
+
+        // --- 4) FALLBACK GLOBAL (formato viejo sin rondas ni "en bruto") ---
         if (data.ideas.length === 0) {
-            const allIdeas = md.match(/IDEA\s+(\d+[A-Z]?)\s*[:\-]\s*(.+)/gi);
+            const allIdeas = md.match(/IDEAS?\s+(\d+[A-Z]?)\s*[:\-\u2014]\s*(.+)/gi);
             if (allIdeas) {
                 for (const ai of allIdeas) {
-                    const aiMatch = ai.match(/IDEA\s+(\d+[A-Z]?)\s*[:\-]\s*(.+)/i);
+                    const aiMatch = ai.match(/IDEAS?\s+(\d+[A-Z]?)\s*[:\-\u2014]\s*(.+)/i);
                     if (aiMatch) {
                         data.ideas.push({
                             id: 'PO-' + aiMatch[1],
@@ -2233,7 +2282,7 @@ class DashboardParser {
                             fuente: 'PRE_BACKLOG.md',
                             estado: 'propuesta',
                             registeredAt: data.updatedAt || null,
-                            observaciones: 'ExtracciÃ³n fallback'
+                            observaciones: 'Extraccion fallback'
                         });
                     }
                 }
@@ -2242,6 +2291,7 @@ class DashboardParser {
 
         return data;
     }
+
 
     /**
     /**

@@ -48,7 +48,16 @@ const DASHBOARD_CONFIG = {
         { name: 'COMMS_LOG.md',   zone: 'current', label: 'Comunicaciones' },
         { name: 'SESSION_LOG.md', zone: 'recent',  label: 'Session Log' },
         { name: 'BACKLOG.md',      zone: 'recent',  label: 'Backlog' },
-        { name: 'PRE_BACKLOG.md',  zone: 'recent',  label: 'Pre-backlog' },
+        // 2026-10-20. PRE_BACKLOG.md YA NO esta en agents/main: el PO dejo
+        // de trackearlo (ALERT-269 opcion c) porque su archivo de trabajo
+        // colisionaba con el del equipo, y el dashboard se comia un 404.
+        // La fuente de verdad del PO nunca cambio de lugar: cambio su ruta
+        // de publicacion. Ahora vive en su workspace y el pulso la publica
+        // como data/prebacklog.md en ESTE repo.
+        // El nombre logico se mantiene ("PRE_BACKLOG.md") porque app.js y
+        // renderer.js lo buscan por ese nombre; lo que cambia es el repo
+        // de donde se trae, y eso lo resuelve getUrl() con src/path.
+        { name: 'PRE_BACKLOG.md',  zone: 'recent',  label: 'Pre-backlog', src: 'dashboard', path: 'data/prebacklog.md' },
         { name: 'DECISIONS_LOG.md', zone: 'recent', label: 'Decisiones' },
         { name: 'CRON_SCHEDULE.md', zone: 'recent', label: 'Programación' },
         { name: 'DASHBOARD_PO_IDEAS.md', zone: 'recent', label: 'Ideas del PO' },
@@ -60,6 +69,15 @@ const DASHBOARD_CONFIG = {
 
     // Genera URL raw de GitHub para un archivo
     getUrl(filename) {
+        // 2026-10-20: una entrada puede pedir su contenido en otro repo
+        // (src: 'dashboard'). El nombre logico del archivo no cambia, asi
+        // que app.js y renderer.js siguen encontrandolo por el mismo
+        // nombre; lo que cambia es de donde se trae.
+        const item = this.files.find(f => f.name === filename);
+        if (item && item.src === 'dashboard') {
+            const ruta = item.path || filename;
+            return `https://raw.githubusercontent.com/${this.structureRepoOwner}/${this.structureRepoName}/${this.structureBranch}/${ruta}${this._cacheBust()}`;
+        }
         return `https://raw.githubusercontent.com/${this.repoOwner}/${this.repoName}/${this.branch}/${filename}${this._cacheBust()}`;
     },
 
