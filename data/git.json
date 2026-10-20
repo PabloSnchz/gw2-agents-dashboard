@@ -1,6 +1,6 @@
 {
- "generado_utc": "20261020T213630Z",
- "generado_h": "2026-10-20 21:36 UTC",
+ "generado_utc": "20261020T215130Z",
+ "generado_h": "2026-10-20 21:51 UTC",
  "origen": "git local + ls-remote (sin cuota). protected cacheado TTL 6h.",
  "commits": [
   {
@@ -466,9 +466,9 @@
    "repo": "gw2-agents-dashboard",
    "label": "Dashboard",
    "role": "dashboard",
-   "sha": "ab3b9cb015966ee5ed8442b5b4bae82eaafa2443",
-   "short_sha": "ab3b9cb",
-   "commit": "chore(dashboard): pulso automatico 2026-10-20_21-21_UTC",
+   "sha": "77b41279b358c4f14af58cc335a3ddaaab906d5b",
+   "short_sha": "77b4127",
+   "commit": "chore(dashboard): pulso automatico 2026-10-20_21-36_UTC",
    "estado": "open",
    "protected": false,
    "protected_fresco": true,
