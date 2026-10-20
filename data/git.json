@@ -1,14 +1,105 @@
 {
- "generado_utc": "20261009T092950Z",
- "generado_h": "2026-10-09 09:29 UTC",
+ "generado_utc": "20261020T012534Z",
+ "generado_h": "2026-10-20 01:25 UTC",
  "origen": "git local + ls-remote (sin cuota). protected cacheado TTL 6h.",
  "commits": [
   {
-   "sha": "e57846ac10fe167336aaa6143a406105d051e37d",
-   "short": "e57846a",
+   "sha": "40e9280750c7885cd54100799ae62e7459fb9435",
+   "short": "40e9280",
    "autor": "Pablo Sanchez",
-   "fecha": "2026-10-05T12:39:24-03:00",
-   "msg": "doc(cache): IDEA 50-D y Tramo E al CHANGELOG; tabla de modulos alineada al codigo"
+   "fecha": "2026-10-19T22:13:42-03:00",
+   "msg": "chore(heartbeat): poda de historia muerta (-8144 B) para que el prompt del Principal quepa"
+  },
+  {
+   "sha": "9141b59f0c681295874812d59ed59100a46317c5",
+   "short": "9141b59",
+   "autor": "Pablo Sanchez",
+   "fecha": "2026-10-19T21:14:48-03:00",
+   "msg": "docs(po/hb222): fila 190 del Canal del PO - ronda 85 (5 verificaciones, Reddit caido, 9478 y 9363 no existen) + resolucion de la colision de la fila 188"
+  },
+  {
+   "sha": "13014c5c8cab2c1568a59324b0aa2e2750421881",
+   "short": "13014c5",
+   "autor": "Pablo Sanchez",
+   "fecha": "2026-10-19T21:12:35-03:00",
+   "msg": "docs(po/hb222): fila 189 del Canal del PO - ronda 84 (4 verificaciones, Reddit caido, 9478 y 9363 no existen)"
+  },
+  {
+   "sha": "daaf997afbb24d762056d89568a49854a16f5548",
+   "short": "daaf997",
+   "autor": "Pablo Sanchez",
+   "fecha": "2026-10-19T20:10:46-03:00",
+   "msg": "docs(po/hb221): ALERT-269 (c) - el archivo de trabajo del PO deja de trackearse y el canal del PO queda en COMMS_LOG.md"
+  },
+  {
+   "sha": "8a6dbb06926cd1496e9bc03a3704246b7faa93d3",
+   "short": "8a6dbb0",
+   "autor": "Pablo Sanchez",
+   "fecha": "2026-10-19T20:09:43-03:00",
+   "msg": "docs(po/hb221): snapshots CONGELADOS del canal del PO antes de dejar de trackear PRE_BACKLOG.md"
+  },
+  {
+   "sha": "563b98de013c3a00af332cf4851bd227239fc0ec",
+   "short": "563b98d",
+   "autor": "Pablo Sanchez",
+   "fecha": "2026-10-19T20:01:31-03:00",
+   "msg": "docs(hb173): las 3 propuestas del PO con las premisas VERIFICADAS contra la API + 3 filas en COMMS_LOG + ALERT-271/272/273"
+  },
+  {
+   "sha": "b68c21299fe8e3b5c12620687d82bf8fac3b83ec",
+   "short": "b68c212",
+   "autor": "Pablo Sanchez",
+   "fecha": "2026-10-19T19:59:53-03:00",
+   "msg": "docs(hb172): cierre - el PO respondio y ALERT-269 ya tiene decision (opcion c)"
+  },
+  {
+   "sha": "7a02c96487bb2265e7c2916b3faa805a321b4b2f",
+   "short": "7a02c96",
+   "autor": "Pablo Sanchez",
+   "fecha": "2026-10-19T19:56:10-03:00",
+   "msg": "docs(hb172): 3 propuestas al Reviewer + ALERT-270 (bloqueador FALSO del item #1 del Sprint 2) + espejo regenerado"
+  },
+  {
+   "sha": "bc1c00d8c7e45b6350083354c9dde6127654f920",
+   "short": "bc1c00d",
+   "autor": "Pablo Sanchez",
+   "fecha": "2026-10-19T19:38:22-03:00",
+   "msg": "docs(hb171): TEAM_STATUS #181 - cierre con verificaciones (suite 2326/7, push verificado)"
+  },
+  {
+   "sha": "3b48ba206127e74671ad5eca98763664d66887c0",
+   "short": "3b48ba2",
+   "autor": "Pablo Sanchez",
+   "fecha": "2026-10-19T19:36:36-03:00",
+   "msg": "docs(hb171): rescate de 3 ciclos muertos + ALERT-269 (copias disjuntas de PRE_BACKLOG y COMMS_LOG)"
+  },
+  {
+   "sha": "55beb0db0ce66cfb8adc93fc1780e076719620a5",
+   "short": "55beb0d",
+   "autor": "Pablo Sanchez",
+   "fecha": "2026-10-18T05:30:46-03:00",
+   "msg": "docs: ALERT-41 completado  Pablo decision (2026-10-18): como no hay API que devuelva si una strike esta realizada, se agrega marcado manual. Commit e9f1437 ya esta en dev. - Boton '✓ Manual' en cada strike pendiente - completeStrikeManually() agrega el ID a state.completedStrikes - Aviso visible #strikeManualNotice con feedback de 3s - Solo toca js/strike-tracker.js"
+  },
+  {
+   "sha": "c0598b2155118b0b585e659414750029403a1423",
+   "short": "c0598b2",
+   "autor": "Pablo Sanchez",
+   "fecha": "2026-10-18T05:24:19-03:00",
+   "msg": "docs: clarify Architect ownership of dev repo and agents  Pablo's model (2026-10-18): the Architect owns gw2-dev and the agents. Pablo only sees what dev produces and authorizes promotion to prd.  - AGENTS.md: Architect role updated from 'Asesor + Auditor' to   'Dueño del repo gw2-dev y de los agentes'. Reviewer and Documentador   now only act when the Architect invokes them. - BACKLOG.md: new section 'ASIGNADOS POR EL ARQUITECTO' for Sprint 2   items. These are the only items the team works on."
+  },
+  {
+   "sha": "a25c7b1a54aadad14aa8b939786e486b7f37c070",
+   "short": "a25c7b1",
+   "autor": "Pablo Sanchez",
+   "fecha": "2026-10-18T04:41:55-03:00",
+   "msg": "docs(TEAM_STATUS): Sprint 1 - ALERT-41 Strike Tracker completado  - Marcado manual de strikes implementado (commit e9f1437) - Boton '✓ Manual' + aviso visible en strike-tracker.js - Workaround disponible mientras el marcado automatico siga bloqueado"
+  },
+  {
+   "sha": "e9f14378765766e75a3f24d16ba30b408862e44b",
+   "short": "e9f1437",
+   "autor": "Pablo Sanchez",
+   "fecha": "2026-10-18T04:40:54-03:00",
+   "msg": "feat(strike-tracker): ALERT-41 - marcado manual de strikes + aviso visible  - Boton '✓ Manual' en cada strike pendiente (solo cuando no esta completado) - completeStrikeManually() agrega el ID a state.completedStrikes sin consultar la API - Aviso visible #strikeManualNotice: 'Marcado automatico a la espera de la API de GW2...' - showManualNotice() con feedback de 3s (ok/info/amber) sin popups - Solo toca js/strike-tracker.js, nada mas del modulo"
   },
   {
    "sha": "c8ad0954a7373cac223948d4395d7014167870a2",
@@ -261,97 +352,6 @@
    "autor": "Pablo Sanchez",
    "fecha": "2026-10-04T06:34:08-03:00",
    "msg": "rescate(hb187): PRE_BACKLOG.md ronda 53 del PO sin commitear (ARCHIVADAS CON FECHA)"
-  },
-  {
-   "sha": "2e7eb19b87a462a9f1caf0ed9c9721056c54c309",
-   "short": "2e7eb19",
-   "autor": "Pablo Sanchez",
-   "fecha": "2026-10-04T05:15:18-03:00",
-   "msg": "rescate(hb186): logs del HB#186 sin commitear (ALERT-256 + ALERT-255)"
-  },
-  {
-   "sha": "219ed5f2134e9da5516c567ad56635cb1410c23e",
-   "short": "219ed5f",
-   "autor": "Pablo Sanchez",
-   "fecha": "2026-10-04T02:40:57-03:00",
-   "msg": "rescate(hb185): 2 ciclos de logs muertos sin commitear (HB#181 + HB#183)"
-  },
-  {
-   "sha": "7bf1cba397a4a2e9bd13bb4d34623fdcfa30bb94",
-   "short": "7bf1cba",
-   "autor": "Pablo Sanchez",
-   "fecha": "2026-10-04T01:12:32-03:00",
-   "msg": "docs(po): ronda 55 (PAUSA, 14a) — 7 entregas de podado, 0 en main; consolido las 7 en una sola rama"
-  },
-  {
-   "sha": "cb369e55d1b105c6ac5180d621dd3ce8dee40da0",
-   "short": "cb369e5",
-   "autor": "Pablo Sanchez",
-   "fecha": "2026-10-03T21:33:50-03:00",
-   "msg": "docs: documentar la Armería Legendaria en los 5 documentos"
-  },
-  {
-   "sha": "ff6b8ce0546291b51b0162001eb827245ae022b7",
-   "short": "ff6b8ce",
-   "autor": "Pablo Sanchez",
-   "fecha": "2026-10-03T21:29:25-03:00",
-   "msg": "docs(PROMOTIONS): columna Feat propia para que las tarjetas tengan titulo corto"
-  },
-  {
-   "sha": "f3e7c0c3ea59f4059160bb4148d8d1ef043bd1d5",
-   "short": "f3e7c0c",
-   "autor": "Pablo Sanchez",
-   "fecha": "2026-10-03T21:27:06-03:00",
-   "msg": "docs(PROMOTIONS): registrar la promocion de la Armeria y las filas que la tab no leia"
-  },
-  {
-   "sha": "2e29ed61c9e16c8e2628dfb2072dc6b11f4a14ae",
-   "short": "2e29ed6",
-   "autor": "Pablo Sanchez",
-   "fecha": "2026-10-03T15:27:54-03:00",
-   "msg": "fix(ui): ocultar el boton Sincronizar (Gist) del header con display:none inline"
-  },
-  {
-   "sha": "a17aa8ea052953c226b4c4087652a7c5b17b1cc6",
-   "short": "a17aa8e",
-   "autor": "Pablo Sanchez",
-   "fecha": "2026-10-03T15:12:22-03:00",
-   "msg": "fix(wallet-dashboard): restituir la columna Suerte (MF) en la tabla de cuentas"
-  },
-  {
-   "sha": "e420a94cfc51d1aabedcd17e1619aff9a7569f08",
-   "short": "e420a94",
-   "autor": "Pablo Sanchez",
-   "fecha": "2026-10-03T15:00:18-03:00",
-   "msg": "refactor(wallet-dashboard): quitar las columnas de resumen y el selector de campos  Las 3 columnas de resumen (MF base / Apariencias / Personajes / Raids) y el selector 'Campos:' salen de la tabla. Se van con ellos los symbols, labels, el total de encuentros de raid y la persistencia de los campos elegidos.  El KPI 'Mejor MF base' queda incondicional: antes solo se dibujaba porque 'luck' estaba en state.summaryFields.  La tabla queda con Cuenta + las divisas elegidas. Selector de divisas, CURRENCY_LABELS, ACCOUNT_TYPE_ICONS y los totales de divisa sin tocar.  Verificado: node --check OK; grep de los 10 simbolos = 0 coincidencias (control positivo:36 en HEAD). Suite 4581 pass / 1 FAIL, y el unico FAIL (idea57t2-luck-sindato.test.js:255) es una asercion que exige el call site 'fieldErr ? unreadableCell(', que es justamente uno de los <td> de resumen que esta tarea ordena borrar. No se toco el test (fuera de alcance)."
-  },
-  {
-   "sha": "fa3b18232732a801b36b8df5c666464316554618",
-   "short": "fa3b182",
-   "autor": "Pablo Sanchez",
-   "fecha": "2026-10-03T14:44:11-03:00",
-   "msg": "fix(tools): ALERT-249 - el campo autoritativo openItems pasa a la forma que tolera sangria  Rescate del trabajo terminado del HB#179 (murio antes del commit: rama fix-hb179-openitems-autoritativo, worktree sucio con mtimes 17:08-17:10, 22 min anteriores al arranque, sin escritor vivo).  El defecto que corrige: hb163-canales.mjs contaba openItems con /^- [ ]/gm, anclado en columna 0, mientras el parrafo de ALERT-243 en HEARTBEAT.md concluia que la forma que no pierde un item abierto si alguien lo indenta bajo un subtitulo es la que TOLERA sangria. El parrafo tenia escrita la forma correcta a cinco lineas del campo que usaba la otra, y el modo de los 5 agentes se decidia con el numero de la forma que puede perder item sin avisar.  Ahora openItems ES la forma tolerante (el nombre no cambia, la cita no se rompe, y lo que la cita alcanza es el numero que no puede perder trabajo). openItemsAnclada + openItemsQueLaAncladaPierde + openItems_INCONSISTENTE_por_forma quedan como diagnostico. La guarda openItemsDiscrimina se calcula sobre RE_MARCA tambien tolerante: con la forma anclada era MAS ESTRECHA que el numero que custodia (una fila con la unica casilla sangrada daba marcadorPresente 0, openItemsDiscrimina false y openItems 1: tres campos, uno cierto).  Medido: BACKLOG.md openItems 5 = PAUSA, openItemsAnclada 5, perdidos 0, marcadorPresente 68 (era 65: son las 3 casillas con sangria L284/L420/L421, todas - [x]). Fixture control_sangria 2/1/1, que discrimina.  Fase roja VERIFICADA por el Principal antes de commitear, no heredada de la prosa: las 2 mutaciones colapsan RE_ABIERTO y RE_MARCA a la forma anclada y las 2 dan controles_ok false con exit 1, sin crash, restaurado byte a byte.  Sin js/ ni tests/ tocados: la suite NO aplica y no se corrio por costumbre."
-  },
-  {
-   "sha": "e67690e991f0f7c83e1abac73b8a21df90c95ab4",
-   "short": "e67690e",
-   "autor": "Pablo Sanchez",
-   "fecha": "2026-10-03T14:31:24-03:00",
-   "msg": "refactor(wallet-dashboard): quitar 3 tarjetas KPI de resumen (characters, achievements, raids) de renderKPIs  Solo se eliminan las 3 ramas dentro de renderKPIs. SUMMARY_FIELD_LABELS, SUMMARY_FIELD_SYMBOLS, DEFAULT_SUMMARY_FIELDS, renderSummarySelector, renderLuckCell y las columnas/celdas de la tabla multi-cuenta quedan intactos: los 3 campos siguen siendo opciones del dropdown Campos y columnas de la tabla."
-  },
-  {
-   "sha": "4dfeff82915f27ec1c0eef41482364a8e38b3490",
-   "short": "4dfeff8",
-   "autor": "Pablo Sanchez",
-   "fecha": "2026-10-03T12:56:39-03:00",
-   "msg": "docs(hb177): rescata los 4 logs que el ciclo dejo sin commitear"
-  },
-  {
-   "sha": "e295f2b8e899f94a40e03332eaa1f3601b756e20",
-   "short": "e295f2b",
-   "autor": "Pablo Sanchez",
-   "fecha": "2026-10-03T12:55:52-03:00",
-   "msg": "fix(ui): 4 escapes \\U invalidos en wallet-dashboard.js pasan a \\u{...}"
   }
  ],
  "archivos_md": [
@@ -369,7 +369,8 @@
   "IN_PROGRESS.md",
   "MEMORY.md",
   "ORG_MAP.md",
-  "PRE_BACKLOG.md",
+  "PRE_BACKLOG_PO_2026-10-05_a_2026-10-19.md",
+  "PRE_BACKLOG_PO_WORKSPACE_2026-10-19_rondas_78-83.md",
   "PROMOTIONS.md",
   "README.md",
   "READY_FOR_PROMOTION.md",
@@ -390,7 +391,7 @@
    "estado": "open",
    "protected": false,
    "protected_fresco": true,
-   "protected_verificado_utc": "20261009T080648Z",
+   "protected_verificado_utc": "20261020T012535Z",
    "proteccion_detalle": null,
    "proteccion_detalle_motivo": "sin token",
    "rama": "main",
@@ -402,54 +403,44 @@
    "repo": "gw2-wallet-agents",
    "label": "Desarrollo",
    "role": "dev",
-   "sha": "c8ad0954a7373cac223948d4395d7014167870a2",
-   "short_sha": "c8ad095",
-   "commit": "rescate(hb211): fila Homestead cerrada con medicion +",
+   "sha": "40e9280750c7885cd54100799ae62e7459fb9435",
+   "short_sha": "40e9280",
+   "commit": "chore(heartbeat): poda de historia muerta (-8144 B) para que",
    "estado": "open",
    "protected": false,
    "protected_fresco": true,
-   "protected_verificado_utc": "20261009T080650Z",
+   "protected_verificado_utc": "20261020T012537Z",
    "proteccion_detalle": null,
    "proteccion_detalle_motivo": "sin token",
-   "rama": "fix-armeia-tengo-materiales",
-   "sin_commitear": 37,
+   "rama": "main",
+   "sin_commitear": 27,
    "archivos_modificados": [
-    "M GENTS.md",
-    "M LERTS_LOG.md",
-    "M EARTBEAT.md",
-    "M ools/hb163-canales.mjs",
+    "M HANGELOG.md",
+    "M EADME.md",
+    "M ocs/ONBOARDING.md",
     "?? CONSULTAS.md",
-    "?? _backlog_main.txt",
-    "?? _bs.txt",
-    "?? _cat487.json",
-    "?? _check_comms.py",
-    "?? _closed.txt",
-    "?? _closed_items.txt",
-    "?? _comms.txt",
-    "?? _conv.json",
-    "?? _conv.txt",
-    "?? _conv_hits.txt",
-    "?? _hb_activities.js",
-    "?? _hb_activities_raw.txt",
-    "?? _hb_api.js",
-    "?? _hb_app.js",
-    "?? _hb_comms_raw.txt",
-    "?? _hb_homestead.js",
-    "?? _hb_index.html",
-    "?? _hb_latest_backlog.txt",
-    "?? _hb_pre_backlog.md",
-    "?? _hb_storage.js",
-    "?? _hb_wallet.js",
-    "?? _hs.txt",
-    "?? _jsfiles.txt",
-    "?? _nexus.txt",
-    "?? _nexus_all.txt",
-    "?? _open.txt",
-    "?? _open_items.txt",
-    "?? _open_items_raw.txt",
-    "?? _pending.txt",
-    "?? _v2.json",
-    "?? _vloxx.txt",
+    "?? _ac.js",
+    "?? _bl.txt",
+    "?? _cl.txt",
+    "?? _cl_po.txt",
+    "?? _hb_563.md",
+    "?? _hb_arme.md",
+    "?? _hb_branches.txt",
+    "?? _hb_canon.txt",
+    "?? _hb_daaf.md",
+    "?? _hb_diff_174.txt",
+    "?? _hb_diff_alerts.txt",
+    "?? _hb_diff_team.txt",
+    "?? _po_ach.json",
+    "?? _po_comms.md",
+    "?? _po_m.js",
+    "?? _po_meta.js",
+    "?? _rb.js",
+    "?? _t_canal.md",
+    "?? _t_fuera.md",
+    "?? _tmp_diff_alerts.txt",
+    "?? test_write4.txt",
+    "?? test_write5.txt",
     "?? tests/arme-tengo-materiales.test.js"
    ],
    "clon_error": null
@@ -458,21 +449,22 @@
    "repo": "gw2-agents-dashboard",
    "label": "Dashboard",
    "role": "dashboard",
-   "sha": "334549c1463aef471f9d452d52d2bb9c6b5d1200",
-   "short_sha": "334549c",
-   "commit": "chore(dashboard): pulso automatico 2026-10-09_08-27_UTC",
+   "sha": "ec85ab1db41d3ba56d32bf8d6f670a4262ea190b",
+   "short_sha": "ec85ab1",
+   "commit": "fix(dashboard): restaurar Sprint 2 (habia sido pisado),",
    "estado": "open",
    "protected": false,
    "protected_fresco": true,
-   "protected_verificado_utc": "20261009T080652Z",
+   "protected_verificado_utc": "20261020T012538Z",
    "proteccion_detalle": null,
    "proteccion_detalle_motivo": "sin token",
    "rama": "main",
-   "sin_commitear": 3,
+   "sin_commitear": 4,
    "archivos_modificados": [
     "M ata/comms.json",
     "M ata/estructura.json",
-    "M ata/salud.json"
+    "M ata/salud.json",
+    "?? dashboard-estructura.txt"
    ],
    "clon_error": null
   }

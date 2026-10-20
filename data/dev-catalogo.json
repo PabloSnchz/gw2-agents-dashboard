@@ -1,7 +1,7 @@
 {
- "generado": "2026-10-09T09:29:59Z",
+ "generado": "2026-10-20T01:25:41Z",
  "dev_base": "https://pablosnchz.github.io/gw2-wallet-agents/",
- "dev_sha": "e57846a",
+ "dev_sha": "40e9280",
  "pantallas": [
   {
    "ruta": "/welcome",
@@ -110,6 +110,26 @@
  "sueltos": [],
  "items": [
   {
+   "titulo": "buildstorage`: wrapper + call site en Inventory Dashboard",
+   "estado": "",
+   "fuente": "BACKLOG.md",
+   "pantalla": null
+  },
+  {
+   "titulo": "~~**L349 Homestead",
+   "estado": "x",
+   "fuente": "BACKLOG.md",
+   "pantalla": null
+  },
+  {
+   "titulo": "ALERT-41 — Strike Tracker: marcado manual de strikes (workaround)",
+   "estado": "x",
+   "fuente": "BACKLOG.md",
+   "pantalla": "https://pablosnchz.github.io/gw2-wallet-agents/#/account/strikes",
+   "pantalla_nombre": "Seguimiento de Strike Missions",
+   "pantalla_ruta": "/account/strikes"
+  },
+  {
    "titulo": "~~**Hook `onClear`: que el borrado de la cache de disco tambien vacie la `__mem",
    "estado": "x",
    "fuente": "BACKLOG.md",
@@ -164,12 +184,10 @@
    "pantalla": null
   },
   {
-   "titulo": "🔴 ALERT-41 — El Strike Tracker no puede marcar ningun strike como completado",
-   "estado": "",
+   "titulo": "~~**🔴 ALERT-41",
+   "estado": "x",
    "fuente": "BACKLOG.md",
-   "pantalla": "https://pablosnchz.github.io/gw2-wallet-agents/#/account/strikes",
-   "pantalla_nombre": "Seguimiento de Strike Missions",
-   "pantalla_ruta": "/account/strikes"
+   "pantalla": null
   },
   {
    "titulo": "Idea 47 — errores que se muestran como ceros",
@@ -209,7 +227,7 @@
   },
   {
    "titulo": "Dungeon dailies",
-   "estado": "",
+   "estado": "x",
    "fuente": "BACKLOG.md",
    "pantalla": null
   },
@@ -554,7 +572,7 @@
  ],
  "cobertura": {
   "con_pantalla": 26,
-  "sin_pantalla": 39,
-  "cobertura": 40.0
+  "sin_pantalla": 42,
+  "cobertura": 38.2
  }
 }

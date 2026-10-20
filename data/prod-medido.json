@@ -1,6 +1,6 @@
 {
-  "generado_utc": "2026-10-05T15:51:36Z",
-  "dev_head": "e57846a",
+  "generado_utc": "2026-10-20T01:25:42Z",
+  "dev_head": "40e9280",
   "prod_head": "c0471e0",
   "alcance": [
     "js/",
@@ -9,8 +9,8 @@
   ],
   "archivos": {
     "comparados": 74,
-    "identicos": 64,
-    "distintos": 3,
+    "identicos": 63,
+    "distintos": 4,
     "solo_dev": 7,
     "solo_prod": 0,
     "solo_dev_webapp": 1,
@@ -20,12 +20,14 @@
   "distintos_lista": [
     "index.html",
     "js/api-gw2.js",
-    "js/router.js"
+    "js/router.js",
+    "js/strike-tracker.js"
   ],
   "distintos_webapp_lista": [
     "index.html",
     "js/api-gw2.js",
-    "js/router.js"
+    "js/router.js",
+    "js/strike-tracker.js"
   ],
   "solo_dev_webapp_lista": [
     "js/homestead-tracker.js"

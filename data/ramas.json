@@ -1,25 +1,97 @@
 {
-  "generado": "2026-10-10T07:00:51.808Z",
+  "generado": "2026-10-20T01:25:40.266Z",
   "resumen": {
-    "TOTAL": 135,
-    "BORRABLE": 69,
-    "RESCATAR": 49,
+    "TOTAL": 140,
+    "BORRABLE": 71,
+    "RESCATAR": 52,
     "PROTEGIDA": 17
   },
   "ramas": [
     {
-      "nombre": "fix-armeia-tengo-materiales",
-      "sha": "e57846a",
-      "fecha": "2026-10-05 12:39:24 -0300",
+      "nombre": "main",
+      "sha": "40e9280",
+      "fecha": "2026-10-19 22:13:42 -0300",
+      "veredicto": "PROTEGIDA",
+      "motivo": "es el trunk"
+    },
+    {
+      "nombre": "rescate/hb222-fila189",
+      "sha": "13014c5",
+      "fecha": "2026-10-19 21:12:35 -0300",
+      "en_main": true,
+      "veredicto": "BORRABLE",
+      "motivo": "su HEAD ya esta en origin/main"
+    },
+    {
+      "nombre": "po/hb222-ronda84",
+      "sha": "760e8a8",
+      "fecha": "2026-10-19 21:08:58 -0300",
+      "en_main": false,
+      "commits_no_main": 1,
+      "commits_sueltos": 1,
+      "veredicto": "RESCATAR",
+      "motivo": "1 commit(s) cuyo contenido NO esta en main",
+      "rescatar": [
+        {
+          "sha": "760e8a8",
+          "resumen": ""
+        }
+      ]
+    },
+    {
+      "nombre": "po/hb221-pre-backlog-fuera",
+      "sha": "8c9c23b",
+      "fecha": "2026-10-19 20:19:59 -0300",
+      "en_main": false,
+      "commits_no_main": 3,
+      "commits_sueltos": 3,
+      "veredicto": "RESCATAR",
+      "motivo": "3 commit(s) cuyo contenido NO esta en main",
+      "rescatar": [
+        {
+          "sha": "e3675f3",
+          "resumen": ""
+        },
+        {
+          "sha": "dcca2a3",
+          "resumen": ""
+        },
+        {
+          "sha": "8c9c23b",
+          "resumen": ""
+        }
+      ]
+    },
+    {
+      "nombre": "po/hb221-canal",
+      "sha": "daaf997",
+      "fecha": "2026-10-19 20:10:46 -0300",
+      "en_main": true,
+      "veredicto": "BORRABLE",
+      "motivo": "su HEAD ya esta en origin/main"
+    },
+    {
+      "nombre": "docs/hb175-sync-docs",
+      "sha": "563b98d",
+      "fecha": "2026-10-19 20:01:31 -0300",
       "veredicto": "PROTEGIDA",
       "motivo": "un worktree activo la esta usando"
     },
     {
-      "nombre": "main",
-      "sha": "c8ad095",
-      "fecha": "2026-10-05 10:37:17 -0300",
-      "veredicto": "PROTEGIDA",
-      "motivo": "es el trunk"
+      "nombre": "fix-armeia-tengo-materiales",
+      "sha": "e57846a",
+      "fecha": "2026-10-05 12:39:24 -0300",
+      "en_main": false,
+      "commits_no_main": 1,
+      "commits_sueltos": 1,
+      "veredicto": "RESCATAR",
+      "motivo": "1 commit(s) cuyo contenido NO esta en main",
+      "rescatar": [
+        {
+          "sha": "e57846a",
+          "resumen": ""
+        }
+      ]
     },
     {
       "nombre": "chore-hb210-rescate-y-ronda66",
