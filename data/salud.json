@@ -1,12 +1,12 @@
 {
- "generado_utc": "20261020T022104Z",
- "generado_h": "2026-10-20 02:21 UTC",
+ "generado_utc": "20261020T023604Z",
+ "generado_h": "2026-10-20 02:36 UTC",
  "archivos_estado": [
   {
    "archivo": "TEAM_STATUS.md",
    "agente": "default",
    "estado": "RARO",
-   "edad_h": 3.4,
+   "edad_h": 3.6,
    "kb": 32.0,
    "causa": "activo"
   },
@@ -14,7 +14,7 @@
    "archivo": "SESSION_LOG.md",
    "agente": "documenter",
    "estado": "ROTO",
-   "edad_h": 408.2,
+   "edad_h": 408.5,
    "kb": 309.5,
    "causa": "activo",
    "crecimiento": "EXCEDE 60 KB (310 KB)"
@@ -23,7 +23,7 @@
    "archivo": "COMMS_LOG.md",
    "agente": "default",
    "estado": "RARO",
-   "edad_h": 2.1,
+   "edad_h": 2.4,
    "kb": 262.7,
    "causa": "activo"
   },
@@ -37,7 +37,7 @@
    "archivo": "ALERTS_LOG.md",
    "agente": "default",
    "estado": "RARO",
-   "edad_h": 3.4,
+   "edad_h": 3.6,
    "kb": 575.7,
    "causa": "activo"
   },
@@ -45,7 +45,7 @@
    "archivo": "DECISIONS_LOG.md",
    "agente": "default",
    "estado": "ROTO",
-   "edad_h": 480.3,
+   "edad_h": 480.6,
    "kb": 10.2,
    "causa": "activo"
   }
@@ -517,17 +517,17 @@
   },
   {
    "dia": "2026-10-19",
-   "llamadas": 2332,
-   "prompt": 233140511,
-   "cache_read": 217911650,
+   "llamadas": 2357,
+   "prompt": 235542529,
+   "cache_read": 220157759,
    "cache_pct": 93.5,
-   "prompt_por_llamada": 99974,
+   "prompt_por_llamada": 99933,
    "por_agente": [
     {
      "agente": "default",
-     "llamadas": 990,
-     "prompt": 111935853,
-     "cache_pct": 92.9
+     "llamadas": 1015,
+     "prompt": 114337871,
+     "cache_pct": 93.0
     },
     {
      "agente": "architect",
