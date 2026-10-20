@@ -1,6 +1,6 @@
 {
- "generado_utc": "20261020T060631Z",
- "generado_h": "2026-10-20 06:06 UTC",
+ "generado_utc": "20261020T062131Z",
+ "generado_h": "2026-10-20 06:21 UTC",
  "origen": "git local + ls-remote (sin cuota). protected cacheado TTL 6h.",
  "commits": [
   {
@@ -413,7 +413,7 @@
    "proteccion_detalle": null,
    "proteccion_detalle_motivo": "sin token",
    "rama": "main",
-   "sin_commitear": 31,
+   "sin_commitear": 32,
    "archivos_modificados": [
     "?? CONSULTAS.md",
     "?? _ac.js",
@@ -426,6 +426,7 @@
     "?? _hb_api.js",
     "?? _hb_arme.md",
     "?? _hb_bl2.txt",
+    "?? _hb_br_now.txt",
     "?? _hb_branches.txt",
     "?? _hb_canon.txt",
     "?? _hb_cl.txt",
@@ -453,9 +454,9 @@
    "repo": "gw2-agents-dashboard",
    "label": "Dashboard",
    "role": "dashboard",
-   "sha": "655195048282fab18da5367a3bf5fe0d1dfc8c68",
-   "short_sha": "6551950",
-   "commit": "chore(dashboard): pulso automatico 2026-10-20_05-51_UTC",
+   "sha": "b317bdb0e6cc549599594048c52c8573877f105b",
+   "short_sha": "b317bdb",
+   "commit": "chore(dashboard): pulso automatico 2026-10-20_06-06_UTC",
    "estado": "open",
    "protected": false,
    "protected_fresco": true,
