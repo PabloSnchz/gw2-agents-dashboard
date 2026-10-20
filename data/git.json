@@ -1,8 +1,15 @@
 {
- "generado_utc": "20261020T185133Z",
- "generado_h": "2026-10-20 18:51 UTC",
+ "generado_utc": "20261020T190635Z",
+ "generado_h": "2026-10-20 19:06 UTC",
  "origen": "git local + ls-remote (sin cuota). protected cacheado TTL 6h.",
  "commits": [
+  {
+   "sha": "053ba9be300f3cc5b32d488258b7e155a321fd03",
+   "short": "053ba9b",
+   "autor": "Pablo Sanchez",
+   "fecha": "2026-10-20T16:02:48-03:00",
+   "msg": "docs(po): ronda 87-b - point_cap SI esta en ACH_META_DROP; 95 de 8357 logros dependen del cap"
+  },
   {
    "sha": "11e2682383e7e42da90dd59db2ea2d913f3556a2",
    "short": "11e2682",
@@ -345,13 +352,6 @@
    "autor": "Pablo Sanchez",
    "fecha": "2026-10-04T09:15:27-03:00",
    "msg": "merge(po/hb184): entrega PRE_BACKLOG.md - rondas 53-55 a main  Resuelve el pedido #1 de la ronda 56 del PO.  MEDIDO antes de resolver (no verificado a ojo): - hb184 contiene TODAS las lineas no vacias de main local (0 ausentes) - la resolucion toma hb184 entero: 244006 -> 320468 bytes, +1300 lineas - el resultado staged == hb184 byte a byte (320468 = 320468) - 0 marcadores de conflicto, 0 BOM, CRLF puro (4956/4956) - PRE_BACKLOG.md: main termina en ronda 53, hb184 llega a ronda 55  El conflicto existia porque hb184 REORDENA (mete las entregas del PO antes de la ronda 37 del archivo), no porque pierda contenido. Resolver hacia main local habria perdido 1292 lineas del PO."
-  },
-  {
-   "sha": "b74848b830a55f462ac1280e7605281d60013b91",
-   "short": "b74848b",
-   "autor": "Pablo Sanchez",
-   "fecha": "2026-10-04T08:04:07-03:00",
-   "msg": "fix(logs): quita el prefijo '+' de 91 lineas de ALERT-255 en ALERTS_LOG.md  El blob de origin/main tenia 91 lineas con un '+' literal al inicio dentro del bloque ALERT-255 (HB#185), artefacto de un patch escrito como texto. El worktree ya tenia la version sin el prefijo; este commit la entrega.  Medido antes de escribir (hb188probe/hb188e): - A) lineas que arrancan con '+' en el BLOB de origin/main: 91 - B) lineas que arrancan con '+' en el WORKTREE: 0 - diff con --ignore-all-space: 91/91 -> es CONTENIDO, no EOL - stage sin -c core.autocrlf=false: LF PURO, igual que el blob - ALERT-255 en el worktree: 3665 lineas, 26 fences pares, 99   subsecciones -> el bloque esta completo, no truncado - AGENTS.md y SESSION_LOG.md tienen 1 linea con '+' en AMBOS   lados y es contenido legitimo (+11/-10, + archivos/commits):   preexistente, NO es la misma corrupcion"
   }
  ],
  "archivos_md": [
@@ -412,7 +412,7 @@
    "protected_verificado_utc": "20261020T135133Z",
    "proteccion_detalle": null,
    "proteccion_detalle_motivo": "sin token",
-   "rama": "feat/hb173-cola-po",
+   "rama": "po/hb223-ronda87",
    "sin_commitear": 42,
    "archivos_modificados": [
     "?? ').replace(",
@@ -464,9 +464,9 @@
    "repo": "gw2-agents-dashboard",
    "label": "Dashboard",
    "role": "dashboard",
-   "sha": "2fa7aef344603dd281100acc749b15b8dc76b5e2",
-   "short_sha": "2fa7aef",
-   "commit": "chore(dashboard): pulso automatico 2026-10-20_18-36_UTC",
+   "sha": "5183f87f38b0ac935b35a2c512c0e7d2e56b92f3",
+   "short_sha": "5183f87",
+   "commit": "chore(dashboard): pulso automatico 2026-10-20_18-51_UTC",
    "estado": "open",
    "protected": false,
    "protected_fresco": true,

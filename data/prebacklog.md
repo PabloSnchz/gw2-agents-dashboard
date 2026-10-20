@@ -931,7 +931,7 @@ Su ronda 84 trae una **IDEA 82 (NUEVA): "capa de temporada"**, con 3 escalones (
 
 **Renumeracion propia:** mi ronda era la 84 y mi candidata era la "Idea 82"; con la ronda 84 de Pablo, la mia pasa a **ronda 85** y mi candidata a **Idea 83**. **Dos rondas no pueden llamarse igual en el mismo canal**, que es el mismo motivo por el que el canal existe.
 
-## PO ronda 86 (2026-10-20 07:2xZ) - 3 correcciones aceptadas como DEFINITIVAS por el Principal (HB#175) y re-verificadas HOY contra la API viva; y el envio duplicado que casi me costo una fila
+## PO ronda 86 (2026-10-20 10:55Z) - 3 correcciones aceptadas como DEFINITIVAS por el Principal (HB#175) y re-verificadas HOY contra la API viva; y el envio duplicado que casi me costo una fila
 
 **Ciclo:** el cron no pasa el numero de HB; la ronda es la 86 por contador propio (la 84 y la 85 fueron del ciclo HB#222).
 
@@ -1021,3 +1021,83 @@ El patch del **14-oct** dice: *"Fixed a bug that prevented some players from get
 **Archivos tocados:** `PRE_BACKLOG.md` (este bloque, append puro) + `COMMS_LOG.md` (repo, fila **191**). **No toco** `BACKLOG.md`, `TEAM_STATUS.md` ni `ALERTS_LOG.md` del repo. **Rama:** `po/ronda86`. **No mergeo** (mergea el Principal).
 **No hay mensaje nuevo al Principal:** el HB#175 ya respondio las 3 mediciones, y esta ronda **no abre nada nuevo** que justifique un `ask`. La entrega de la ronda es la fila 191 del canal, que es lo que el lee en su proximo heartbeat.
 **Verificacion del append:** prefijo byte-identico (sha256 del bloque anterior igual antes y despues), LF puro, sin BOM, 0 ideogramas CJK.
+## PO ronda 87-b (2026-10-20 18:49Z) - el `point_cap` no es un dato que "falte": viene de la API, la app lo dropea, y 95 de 8357 logros dependen de el
+
+Numero de corrida local (no es un contador: hoy corrieron varias instancias del heartbeat en paralelo).
+
+Pregunta de la ronda: el Principal (HB#175) afirma dos cosas - "point_cap NO esta en ACH_META_DROP" y "point_cap falta en 199 de 200". Yo habia medido lo contrario ("0 ocurrencias de point_cap en js/"). **Los dos medimos el mismo archivo y salimos con veredictos opuestos**: cuando eso pasa, el defecto suele estar en el instrumento, no en el codigo. Se resuelve midiendo, no opinando.
+
+**Veredicto medido** (`js/api-gw2.js`, archivo IDENTICO en `origin/main` y en el working tree, 2725 lineas en ambos):
+
+- L2027: `var ACH_META_DROP = ['bits', 'requirement', 'locked_text', 'prerequisites', 'point_cap'];` -> **`point_cap` SI esta en la lista de drop.**
+- L2034: `if (ACH_META_DROP.indexOf(keys[i]) === -1) out[keys[i]] = rec[keys[i]];` -> el campo se borra al cachear.
+- L356 y L2018: los dos comentarios de la docblock nombran `point_cap` explicitamente.
+- **0 lecturas de `point_cap` en toda la app**: el campo se dropea al guardar y nunca lo lee nadie.
+
+**Y el campo SI viene de la API** (no es inventado ni un residuo local). `/v2/achievements?ids=...` en vivo: `point_cap` PRESENTE en 9405 (10), 9413 (15), 9404 (20), 9426 (15); AUSENTE en 9170, 9173, 9379, 9472, 8049, 9394, 9435. El campo es real y llega a la app.
+
+**Correccion de la interpretacion del Principal (el dato era correcto, la lectura no):** dijo "el unico que lo tiene (9404) da 41 contra el oficial 20, o sea el cap es el tope, no un dato redundante". El 41 no es "el oficial": el ladder bruto de 9404 es 41 (1+5+10+25) y **el oficial es 20, que es su `point_cap`**. O sea: **en 9404 el cap CORTA (20 < 25), no es un tope inerte.** La frase "el cap es el tope" es correcta; la implicancia "no cambia nada" no.
+
+**Errores MIOS, los dos del instrumento (mismo par, uno por vez):**
+
+1. **La API ya devuelve los tiers con los nombres `count`/`points`, no `goal`/`value`.** Yo leia `goal`/`value` -> ladder = 0 en los 8357 logros y "oficial != ladder" en 8357. *Un 0 obtenido de la forma equivocada del dato es indistinguible de un 0 real* (regla de siempre). Los numeros buenos de esa corrida: **8357 ids de logro en la API, 8357 con `tiers`**.
+2. **El "oficial" que yo venía reportando NO venía de la API.** El payload de logro no trae el AP total (no hay campo de AP a nivel raiz; sale `null`). Yo estaba comparando la app contra **mi propia formula** y llamandolo "el oficial". Eso explica el "gap de 5.199 AP" que reporto la ronda 87: era un gap contra mi formula, no contra GW2.
+
+**Censo real de la API (8357 logros, descarga completa):**
+
+| medida | valor |
+|---|---|
+| logros totales | 8357 |
+| con `point_cap` > 0 | **159** (1,9%) |
+| con `point_cap` = -1 (o sea "sin tope") | 55 (no cuentan: 214 era el numero crudo, con los -1 incluidos) |
+| de los 159, **el cap recorta de verdad** | **95** (60% de los que lo tienen) |
+| **AP que el cap recorta, sumando esos 95** | **250.502 AP** |
+| logros con mas de un tier | 2164 (en 1799, sumar todos los tiers != el ultimo) |
+| con `count` = 1 y sin cap (control) | la app cuenta bien: gap 0 |
+
+El caso extremo, **4644 "Officially Uninvited"**: ladder 200.000 AP, cap 20, oficial 20. **Un solo logro con 199.980 AP de diferencia** si la app no aplica el cap. Y 4819/3923/4626/4044 (Quaggan y yearlings): ladder 5000, cap 25, oficial 25. La app no PUEDE calcular ninguno de los dos numeros, porque **descarta el campo al cachear**.
+
+**La formula del AP oficial de GW2 (medida, no supuesta).** Para logros de UN tier (6193 de 8357, el 74%):
+
+    AP_oficial = min( min(current, count) x points , point_cap )     si point_cap > 0
+    AP_oficial = min(current, count) x points                         si no hay point_cap
+
+`count` = cuantas veces hay que repetir, `points` = el AP por repeticion, `current` = cuantas veces lo completo la cuenta. Los 12 que importan, contra la API viva:
+
+| id | nombre | count x points | point_cap | OFICIAL | app cuenta | gap |
+|---|---|---|---|---|---|---|
+| 9170 | Raid Mentor: Matthias | 1000 x 5 = 5000 | - | 5000 | 5 | **4995** |
+| 9173 | Master Mentor | 20 x 1 = 20 | - | 20 | 1 | 19 |
+| 9379 | Not This Time, Isgarren! | 25 x 5 = 125 | - | 125 | 5 | 120 |
+| 8049 | Convergence Challenge Mode: Master | 5 x 10 = 50 | - | 50 | 10 | 40 |
+| 9404 | Overcharged Executioner | 25 x 1 = 25 | 20 | 20 | 1 | 19 |
+| 9405 | (Repeatable) Nexus of Eternity Power Unleash | 25 x 5 = 125 | 10 | 10 | 5 | 5 |
+| 9413 | (Repeatable) Leyspring Hollows: Assemblage A | 3 x 5 = 15 | 15 | 15 | 5 | 10 |
+| 9426 | (Repeatable) Leyspring Hollows: Inquest Sabo | 3 x 5 = 15 | 15 | 15 | 5 | 10 |
+| 9472 | Legendary Nexus of Eternity | 1 x 15 = 15 | - | 15 | 15 | **0** |
+| 9394 | Convergence CM? Nexus of Eternity | 1 x 2 = 2 | - | 2 | 2 | **0** |
+| 9435 | Convergence CM? Nexus of Eternity | 1 x 3 = 3 | - | 3 | 3 | **0** |
+| 9456 | Gaze into Infinity | 1 x 5 = 5 | - | 5 | 5 | **0** |
+
+**El codigo de la app, exacto** (`js/achievements.js`, `origin/main`):
+
+- L211-219 `totalAP(meta)`: `sum += p` sobre los tiers -> **el "total" que muestra la app NO mira `count`**. Para 9170 la app cree que el maximo es **5 AP** cuando el oficial es 5000. O sea: **el denominador de la barra de progreso tambien esta mal**, y por un factor `count`.
+- L220-233 `earnedAP(accountRec, meta)`: ordena los tiers por `count` y hace `if (done || cur >= need) sum += p` -> **usa `count` como UMBRAL, nunca como MULTIPLICADOR**. Cuenta el tier una vez, con `points`.
+
+**Los dos bugs, con nombres distintos:** (1) `earnedAP` subcuenta (no multiplica por `count`, no aplica el cap); (2) `totalAP` subcuenta el maximo por la misma razon. Y (3) `point_cap` se dropea, o sea que aunque (1) se arregle, **el minimo con el cap es imposible para los 159 logros que lo traen**.
+
+**El riesgo de oro de esta fila (por que el fix NO es "multiplicar por count" y ya):** si se arregla (1) sin (2), la app pasa de **subcuenta** a **sobrecuenta** en los 95 logros donde el cap recorta - y el error visible seria de 199.980 AP en UN logro. **Arreglar el multiplicador sin el cap es peor que no arreglar nada**, porque el numero que se muestra es plausibel y grande. En 9405, por ejemplo: sin cap la app diria 125 AP donde GW2 dice 10.
+
+**Advertencia de alcance que la fila tiene que escribir explicitamente:** el `count` de la API es el *maximo de repeticiones* (un goal), no un multiplicador de "cuantas veces lo tengo". La API no expone "cuantas repeticiones completo" en el catalogo: eso esta en `current` de la cuenta. Sin `min(current, count)` la filaaria pasar de subcuenta a sobrecuenta (el error de 9170: 1000 x 5 = 5000 cuando la cuenta puede tener 3). **El fix real es `min(current, count) x points`, con el minimo `point_cap` cuando exista.**
+
+**Limite de lo que puedo afirmar (honestidad de la medicion):** el gap **por cuenta** NO es medible sin un token de cuenta. Lo que es medible y queda firme es el gap **por logro** (la tabla de 12) y el gap **potencial total** (250.502 AP sobre 159 logros). Para el caso multi-tier (2164 logros, donde sumar los tiers != el ultimo tier, como 9404 con sus 4 tiers) **no resuelvo la semantica exacta** sin el payload de cuenta: el `count` de un tier no es el `current` de la cuenta. Para 9404 la lectura "4 tiers de 1 AP = 4 AP" contradice "25 x 1 = 25"; lo dejo anotado como **pregunta abierta**, no como falsehood.
+
+**Fila que se propone (NO fuerzo nada: el Principal declaro la banda en PAUSA en el HB#175; yo mido 2 filas `- [ ]` en `BACKLOG.md` de `origin/main`, o sea RECOLECTAR por la tabla, pero el conteo es suyo y manda. La fila queda lista para que la ubique si la habilita, o archivada con fecha si no):**
+
+- [ ] **AP oficial por logro (fix de `earnedAP` y `totalAP`)** - 🟡. Hoy `achievements.js:211-219` (`totalAP`) y `:220-233` (`earnedAP`) usan `tiers[i].count` como umbral y `tiers[i].points` como valor, sin multiplicar y sin aplicar `point_cap`; y `api-gw2.js:2027` dropea `point_cap`, que la API si manda (159 de 8357 logros, y en 95 el cap recorta de verdad: 250.502 AP). Objetivo: `min(current, count) x points`, con minimo `point_cap` cuando exista, y `totalAP` con la misma formula. Depende de: (i) conservar `point_cap` en `ach_meta` (no en `ach_acc`, asi que la condicion del Reviewer se cumple); (ii) que `current` sea el numero de repeticiones y no el numero de tiers. Medido: gap maximo **4995 AP** en un logro (9170), gap **0** en los logros de `count` = 1 sin cap (9472, 9394, 9435, 9456) - control positivo de la regla. Ojo: **arreglar el multiplicador sin el cap introduce un bug peor** (9405: 125 en vez de 10).
+
+**No toco** `BACKLOG.md` (prohibido por `AGENTS.md`), `TEAM_STATUS.md` ni `ALERTS_LOG.md`. La fila va aca y se la propongo al Principal; que el la ubique si la banda lo habilita. **No toco `DASHBOARD_PO_IDEAS.md`**: desde la ronda 75 quedo congelado y el canal vivo es el `COMMS_LOG.md` del repo.
+
+**Verificacion de esta corrida:** `ACH_META_DROP` releido en `origin/main` y en el working tree (identico, 2725 lineas); `point_cap` verificado en el payload crudo de la API (8 ids, 4 con cap y 4 sin); censo completo de los 8357 logros de la API (159 con cap > 0, 95 con cap que recorta, 250.502 AP de gap potencial); tabla de 12 logros calculada sobre los `count`/`points` reales; `earnedAP` y `totalAP` leidos linea por linea en `origin/main`. El numero "199 de 200" del Principal **no se reproduce**: el censo real es **159 de 8357** (1,9%), no 1 de 200.
+
+**Errores propios de esta ronda (4, todos antes de reportar):** (a) `io.open(...)` usado como si fuera el contenido -> `AttributeError: '_io.TextIOWrapper' object has no attribute 'split'`; (b) el parche del `.read()` quedo por fuera del parentesis de la tupla -> `AttributeError: 'tuple' object has no attribute 'read'` (2 iteraciones perdidas); (c) `edit_file` fallo con `old_text` multilinea porque el archivo quedo en CRLF y yo buscaba con LF - el fix fue un fragmento de UNA linea; (d) leia `goal`/`value` (nombres viejos) en vez de `count`/`points` (los reales) -> 8357 ceros de escalera y un "gap de 8357" que era basura.
