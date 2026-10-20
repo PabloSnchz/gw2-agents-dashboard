@@ -1,12 +1,12 @@
 {
- "generado_utc": "20261020T123605Z",
- "generado_h": "2026-10-20 12:36 UTC",
+ "generado_utc": "20261020T125102Z",
+ "generado_h": "2026-10-20 12:51 UTC",
  "archivos_estado": [
   {
    "archivo": "TEAM_STATUS.md",
    "agente": "default",
    "estado": "ROTO",
-   "edad_h": 13.6,
+   "edad_h": 13.9,
    "kb": 32.0,
    "causa": "activo"
   },
@@ -14,7 +14,7 @@
    "archivo": "SESSION_LOG.md",
    "agente": "documenter",
    "estado": "ROTO",
-   "edad_h": 418.5,
+   "edad_h": 418.7,
    "kb": 309.5,
    "causa": "activo",
    "crecimiento": "EXCEDE 60 KB (310 KB)"
@@ -23,7 +23,7 @@
    "archivo": "COMMS_LOG.md",
    "agente": "default",
    "estado": "ROTO",
-   "edad_h": 12.4,
+   "edad_h": 12.6,
    "kb": 262.7,
    "causa": "activo"
   },
@@ -37,7 +37,7 @@
    "archivo": "ALERTS_LOG.md",
    "agente": "default",
    "estado": "ROTO",
-   "edad_h": 13.6,
+   "edad_h": 13.9,
    "kb": 575.7,
    "causa": "activo"
   },
@@ -45,7 +45,7 @@
    "archivo": "DECISIONS_LOG.md",
    "agente": "default",
    "estado": "ROTO",
-   "edad_h": 490.6,
+   "edad_h": 490.8,
    "kb": 10.2,
    "causa": "activo"
   }
@@ -535,29 +535,29 @@
   },
   {
    "dia": "2026-10-20",
-   "llamadas": 1019,
-   "prompt": 92427407,
-   "cache_read": 82444086,
-   "cache_pct": 89.2,
-   "prompt_por_llamada": 90704,
+   "llamadas": 1027,
+   "prompt": 93018095,
+   "cache_read": 82686042,
+   "cache_pct": 88.9,
+   "prompt_por_llamada": 90572,
    "por_agente": [
     {
      "agente": "default",
-     "llamadas": 815,
-     "prompt": 76525827,
-     "cache_pct": 89.7
+     "llamadas": 821,
+     "prompt": 76950162,
+     "cache_pct": 89.5
     },
     {
      "agente": "product-owner",
-     "llamadas": 143,
-     "prompt": 12393115,
-     "cache_pct": 86.4
+     "llamadas": 144,
+     "prompt": 12478104,
+     "cache_pct": 85.8
     },
     {
      "agente": "documenter",
-     "llamadas": 61,
-     "prompt": 3508465,
-     "cache_pct": 88.8
+     "llamadas": 62,
+     "prompt": 3589829,
+     "cache_pct": 86.8
     }
    ]
   }
@@ -575,7 +575,7 @@
   },
   {
    "archivo": "estructura.json",
-   "edad_min": 0.4,
+   "edad_min": 0.5,
    "estado": "ok"
   }
  ],
