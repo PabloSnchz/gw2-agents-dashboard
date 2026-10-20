@@ -1,6 +1,6 @@
 {
- "generado_utc": "20261020T012534Z",
- "generado_h": "2026-10-20 01:25 UTC",
+ "generado_utc": "20261020T013223Z",
+ "generado_h": "2026-10-20 01:32 UTC",
  "origen": "git local + ls-remote (sin cuota). protected cacheado TTL 6h.",
  "commits": [
   {
@@ -449,9 +449,9 @@
    "repo": "gw2-agents-dashboard",
    "label": "Dashboard",
    "role": "dashboard",
-   "sha": "ec85ab1db41d3ba56d32bf8d6f670a4262ea190b",
-   "short_sha": "ec85ab1",
-   "commit": "fix(dashboard): restaurar Sprint 2 (habia sido pisado),",
+   "sha": "13351726e117c2a20533ffc37427e8754993c4ca",
+   "short_sha": "1335172",
+   "commit": "chore(dashboard): pulso automatico 2026-10-20_01-25_UTC",
    "estado": "open",
    "protected": false,
    "protected_fresco": true,
