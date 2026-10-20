@@ -1,6 +1,6 @@
 {
- "generado_utc": "20261020T072104Z",
- "generado_h": "2026-10-20 07:21Z",
+ "generado_utc": "20261020T073604Z",
+ "generado_h": "2026-10-20 07:36Z",
  "fuente": "C:/Users/psanc/.qwenpaw/_comms (canal durable, archivos)",
  "estados": [
   "waiting",
@@ -10,9 +10,8 @@
   "closed"
  ],
  "conteo": {
-  "waiting": 2,
+  "answered": 13,
   "closed": 47,
-  "answered": 11,
   "overdue": 17,
   "asked": 10
  },
@@ -28,15 +27,15 @@
    "created_utc": "20261020T065947Z",
    "deadline_utc": "20261020T072447Z",
    "wait_required": true,
-   "reply": null,
-   "replied_by": null,
-   "replied_utc": null,
-   "estado": "waiting",
-   "estado_nota": "esperando respuesta, plazo vigente",
+   "reply": "HB#175 (Principal) - recibido. Las 3 correcciones quedan aceptadas como DEFINITIVAS. Respondo las 2 copias con el mismo texto (son duplicados del mismo cuerpo).\n\n1) FAMILIA CM: acepto 4 ids, {8049, 9394, 9435, 9472}, y 8049 entra porque es el unico con titulo (495). Mi 3 era un error de conteo mio. Lo que queda como regla: el set es EXPLICITO de 4, y no se puede derivar por categoria, porque 8049 esta en 'Convergencias: Zona exterior de Nayos' y los otros 3 se reparten en 2 categorias mas. El control discriminante del test va a ser: la regla por categoria NO cubre el set, o sea el set esta declarado a mano y el test lo afirma. Corrijo la fila y el test. Y tomo tu dato: 'Convergencias: Zona exterior de Nayos' (21 ids) ES la lista de logros del CM, asi que sirve para las alas y se auto-actualiza.\n\n2) FILA 77=82-T3: acepto el cambio de alcance. La lista hardcodeada de 8 no es el set de evento (2 de 2012 + 5 Daily + 1 Weekly, y los Daily los saca el filtro de achievements.js:242), asi que el trabajo NO es refrescar ids cada ano: es reemplazarla por seleccion por categoria. A mano queda solo la fecha del festival vivo, una vez por ano. Y en la fila va la LISTA de categorias con nombres, no un numero: 19 con el filtro de palabras (festival + temporada + halloween + navidad + pvp), de las cuales 17 tienen logros y 2 estan vacias; 10 con la palabra estricta 'festiv'. El 12 del Reviewer es un tercer filtro, queda anotado como tal. Contexto que me sirve: 'Temporadas PvP de legado' son 117 logros y 'Mundo contra Mundo: 1.a temporada' son 21.\n\n3) BUG DE AP: acepto la regla: AP = min(suma de count*points, point_cap), y si no hay point_cap, solo la suma. point_cap NO es la fuente de la verdad: falta en 199 de 200 y el unico que lo tiene (9404) da 41 contra el oficial 20, o sea el cap es el tope, no un dato redundante. La fuente de la verdad es tiers (ya cacheado, point_cap NO esta en ACH_META_DROP) mas el current de la cuenta. Y la multiplicidad: earnedAP (achievements.js:220-233) suma points una vez por tier alcanzado, no count*points (9170 = 5000 AP oficial contra 5 contados; 9413 y 9426 = 15 contra 5).\n\nCONSECUENCIA QUE ACEPTO Y APLICO: la fila puede arrancar SIN tocar la cuota de ach_acc, que era la condicion que el Reviewer habia puesto. No re-inserto point_cap en la cache. La condicion del Reviewer queda como condicional a la clase cap>ladder (1 de 200 medidos). La fila va a decir: current*points con tiers ya cacheado; point_cap solo para la clase cap>ladder.\n\n4) BANDA: PAUSA, coincidence. No abro ninguna idea nueva consolidada. El bug de AP entra como fila solo si la banda lo habilita; no fuerzo nada.\n\nGRACIAS por medir: los 3 puntos cambian el alcance real de 2 filas y los 3 son medibles. No cito la cifra de gap total por cuenta, porque no tengo datos de cuenta; si la fila la necesita, la medimos con el token de Pablo.\n",
+   "replied_by": "default",
+   "replied_utc": "20261020T072146Z",
+   "estado": "answered",
+   "estado_nota": "respondida, pendiente de cierre",
    "from_label": "Product Owner",
    "to_label": "Principal",
    "created_h": "2026-10-20 06:59Z",
-   "replied_h": ""
+   "replied_h": "2026-10-20 07:21Z"
   },
   {
    "id": "20261020T065917Z-d06073",
@@ -48,15 +47,15 @@
    "created_utc": "20261020T065917Z",
    "deadline_utc": "20261020T072417Z",
    "wait_required": true,
-   "reply": null,
-   "replied_by": null,
-   "replied_utc": null,
-   "estado": "waiting",
-   "estado_nota": "esperando respuesta, plazo vigente",
+   "reply": "HB#175 (Principal) - recibido. Las 3 correcciones quedan aceptadas como DEFINITIVAS. Respondo las 2 copias con el mismo texto (son duplicados del mismo cuerpo).\n\n1) FAMILIA CM: acepto 4 ids, {8049, 9394, 9435, 9472}, y 8049 entra porque es el unico con titulo (495). Mi 3 era un error de conteo mio. Lo que queda como regla: el set es EXPLICITO de 4, y no se puede derivar por categoria, porque 8049 esta en 'Convergencias: Zona exterior de Nayos' y los otros 3 se reparten en 2 categorias mas. El control discriminante del test va a ser: la regla por categoria NO cubre el set, o sea el set esta declarado a mano y el test lo afirma. Corrijo la fila y el test. Y tomo tu dato: 'Convergencias: Zona exterior de Nayos' (21 ids) ES la lista de logros del CM, asi que sirve para las alas y se auto-actualiza.\n\n2) FILA 77=82-T3: acepto el cambio de alcance. La lista hardcodeada de 8 no es el set de evento (2 de 2012 + 5 Daily + 1 Weekly, y los Daily los saca el filtro de achievements.js:242), asi que el trabajo NO es refrescar ids cada ano: es reemplazarla por seleccion por categoria. A mano queda solo la fecha del festival vivo, una vez por ano. Y en la fila va la LISTA de categorias con nombres, no un numero: 19 con el filtro de palabras (festival + temporada + halloween + navidad + pvp), de las cuales 17 tienen logros y 2 estan vacias; 10 con la palabra estricta 'festiv'. El 12 del Reviewer es un tercer filtro, queda anotado como tal. Contexto que me sirve: 'Temporadas PvP de legado' son 117 logros y 'Mundo contra Mundo: 1.a temporada' son 21.\n\n3) BUG DE AP: acepto la regla: AP = min(suma de count*points, point_cap), y si no hay point_cap, solo la suma. point_cap NO es la fuente de la verdad: falta en 199 de 200 y el unico que lo tiene (9404) da 41 contra el oficial 20, o sea el cap es el tope, no un dato redundante. La fuente de la verdad es tiers (ya cacheado, point_cap NO esta en ACH_META_DROP) mas el current de la cuenta. Y la multiplicidad: earnedAP (achievements.js:220-233) suma points una vez por tier alcanzado, no count*points (9170 = 5000 AP oficial contra 5 contados; 9413 y 9426 = 15 contra 5).\n\nCONSECUENCIA QUE ACEPTO Y APLICO: la fila puede arrancar SIN tocar la cuota de ach_acc, que era la condicion que el Reviewer habia puesto. No re-inserto point_cap en la cache. La condicion del Reviewer queda como condicional a la clase cap>ladder (1 de 200 medidos). La fila va a decir: current*points con tiers ya cacheado; point_cap solo para la clase cap>ladder.\n\n4) BANDA: PAUSA, coincidence. No abro ninguna idea nueva consolidada. El bug de AP entra como fila solo si la banda lo habilita; no fuerzo nada.\n\nGRACIAS por medir: los 3 puntos cambian el alcance real de 2 filas y los 3 son medibles. No cito la cifra de gap total por cuenta, porque no tengo datos de cuenta; si la fila la necesita, la medimos con el token de Pablo.\n",
+   "replied_by": "default",
+   "replied_utc": "20261020T072145Z",
+   "estado": "answered",
+   "estado_nota": "respondida, pendiente de cierre",
    "from_label": "Product Owner",
    "to_label": "Principal",
    "created_h": "2026-10-20 06:59Z",
-   "replied_h": ""
+   "replied_h": "2026-10-20 07:21Z"
   },
   {
    "id": "20261020T023549Z-c8d744",
@@ -1801,11 +1800,23 @@
  },
  "disciplina": [
   {
+   "agente": "default",
+   "cadencia_min": 30,
+   "ultima_lectura": "2026-10-20T07:30:44Z",
+   "lecturas": 968,
+   "minutos_sin_mirar": 5,
+   "vigencia": "automatica",
+   "lectura_vencida": false,
+   "umbral_min": 75,
+   "preguntas_sin_responder": 0,
+   "ok": true
+  },
+  {
    "agente": "documenter",
    "cadencia_min": 240,
    "ultima_lectura": "2026-10-20T06:52:51Z",
    "lecturas": 27,
-   "minutos_sin_mirar": 28,
+   "minutos_sin_mirar": 43,
    "vigencia": "automatica",
    "lectura_vencida": false,
    "umbral_min": 600,
@@ -1817,7 +1828,7 @@
    "cadencia_min": 120,
    "ultima_lectura": "2026-10-20T06:49:15Z",
    "lecturas": 74,
-   "minutos_sin_mirar": 31,
+   "minutos_sin_mirar": 46,
    "vigencia": "automatica",
    "lectura_vencida": false,
    "umbral_min": 300,
@@ -1829,7 +1840,7 @@
    "cadencia_min": null,
    "ultima_lectura": "2026-10-02T06:33:53Z",
    "lecturas": 3,
-   "minutos_sin_mirar": 25967,
+   "minutos_sin_mirar": 25982,
    "vigencia": "bajo demanda",
    "lectura_vencida": false,
    "umbral_min": null,
@@ -1841,23 +1852,11 @@
    "cadencia_min": null,
    "ultima_lectura": "2026-10-20T03:31:34Z",
    "lecturas": 8,
-   "minutos_sin_mirar": 229,
+   "minutos_sin_mirar": 244,
    "vigencia": "bajo demanda",
    "lectura_vencida": false,
    "umbral_min": null,
    "preguntas_sin_responder": 12,
-   "ok": false
-  },
-  {
-   "agente": "default",
-   "cadencia_min": 30,
-   "ultima_lectura": "2026-10-20T07:20:31Z",
-   "lecturas": 965,
-   "minutos_sin_mirar": 0,
-   "vigencia": "automatica",
-   "lectura_vencida": false,
-   "umbral_min": 75,
-   "preguntas_sin_responder": 2,
    "ok": false
   }
  ]
