@@ -1,6 +1,6 @@
 {
- "generado_utc": "20261020T065130Z",
- "generado_h": "2026-10-20 06:51 UTC",
+ "generado_utc": "20261020T070629Z",
+ "generado_h": "2026-10-20 07:06 UTC",
  "origen": "git local + ls-remote (sin cuota). protected cacheado TTL 6h.",
  "commits": [
   {
@@ -454,9 +454,9 @@
    "repo": "gw2-agents-dashboard",
    "label": "Dashboard",
    "role": "dashboard",
-   "sha": "cdd9c741555cc4b4c22636df8253d054a1e217db",
-   "short_sha": "cdd9c74",
-   "commit": "chore(dashboard): pulso automatico 2026-10-20_06-36_UTC",
+   "sha": "179f2d851c4eee6bc6434aec144b80391dfffe3c",
+   "short_sha": "179f2d8",
+   "commit": "chore(dashboard): pulso automatico 2026-10-20_06-51_UTC",
    "estado": "open",
    "protected": false,
    "protected_fresco": true,
@@ -464,10 +464,11 @@
    "proteccion_detalle": null,
    "proteccion_detalle_motivo": "sin token",
    "rama": "main",
-   "sin_commitear": 4,
+   "sin_commitear": 5,
    "archivos_modificados": [
     "M ata/comms.json",
     "M ata/estructura.json",
+    "M ata/ramas.json",
     "M ata/salud.json",
     "?? dashboard-estructura.txt"
    ],

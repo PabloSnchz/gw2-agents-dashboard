@@ -1,16 +1,24 @@
 {
-  "generado": "2026-10-20T01:33:09.152Z",
+  "generado": "2026-10-20T07:00:35.899Z",
   "resumen": {
-    "TOTAL": 140,
-    "BORRABLE": 71,
+    "TOTAL": 141,
+    "BORRABLE": 72,
     "RESCATAR": 52,
     "PROTEGIDA": 17
   },
   "ramas": [
     {
+      "nombre": "docs/hb174-rescate-documentador",
+      "sha": "11e2682",
+      "fecha": "2026-10-19 23:07:16 -0300",
+      "en_main": true,
+      "veredicto": "BORRABLE",
+      "motivo": "su HEAD ya esta en origin/main"
+    },
+    {
       "nombre": "main",
-      "sha": "40e9280",
-      "fecha": "2026-10-19 22:13:42 -0300",
+      "sha": "11e2682",
+      "fecha": "2026-10-19 23:07:16 -0300",
       "veredicto": "PROTEGIDA",
       "motivo": "es el trunk"
     },
