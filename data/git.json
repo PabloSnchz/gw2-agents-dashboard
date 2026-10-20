@@ -1,6 +1,6 @@
 {
- "generado_utc": "20261020T205133Z",
- "generado_h": "2026-10-20 20:51 UTC",
+ "generado_utc": "20261020T210633Z",
+ "generado_h": "2026-10-20 21:06 UTC",
  "origen": "git local + ls-remote (sin cuota). protected cacheado TTL 6h.",
  "commits": [
   {
@@ -413,8 +413,9 @@
    "proteccion_detalle": null,
    "proteccion_detalle_motivo": "sin token",
    "rama": "main",
-   "sin_commitear": 42,
+   "sin_commitear": 43,
    "archivos_modificados": [
+    "M s/legendary-tracker.js",
     "?? ').replace(",
     "?? CONSULTAS.md",
     "?? _ac.js",
@@ -464,9 +465,9 @@
    "repo": "gw2-agents-dashboard",
    "label": "Dashboard",
    "role": "dashboard",
-   "sha": "aec08c062c5f4752dd1b324f3669a4e0a25f391f",
-   "short_sha": "aec08c0",
-   "commit": "chore(dashboard): pulso automatico 2026-10-20_20-36_UTC",
+   "sha": "af324d4c1db82fdc9b4332af75b3ae2390954ad4",
+   "short_sha": "af324d4",
+   "commit": "chore(dashboard): pulso automatico 2026-10-20_20-51_UTC",
    "estado": "open",
    "protected": false,
    "protected_fresco": true,

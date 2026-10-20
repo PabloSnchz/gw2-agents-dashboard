@@ -1,6 +1,6 @@
 {
- "generado_utc": "20261020T205104Z",
- "generado_h": "2026-10-20 20:51Z",
+ "generado_utc": "20261020T210604Z",
+ "generado_h": "2026-10-20 21:06Z",
  "fuente": "C:/Users/psanc/.qwenpaw/_comms (canal durable, archivos)",
  "estados": [
   "waiting",
@@ -1820,26 +1820,26 @@
  },
  "disciplina": [
   {
-   "agente": "documenter",
-   "cadencia_min": 240,
-   "ultima_lectura": "2026-10-20T18:49:14Z",
-   "lecturas": 39,
-   "minutos_sin_mirar": 121,
-   "vigencia": "automatica",
-   "lectura_vencida": false,
-   "umbral_min": 600,
-   "preguntas_sin_responder": 0,
-   "ok": true
-  },
-  {
    "agente": "product-owner",
    "cadencia_min": 120,
    "ultima_lectura": "2026-10-20T20:50:12Z",
    "lecturas": 107,
-   "minutos_sin_mirar": 0,
+   "minutos_sin_mirar": 15,
    "vigencia": "automatica",
    "lectura_vencida": false,
    "umbral_min": 300,
+   "preguntas_sin_responder": 0,
+   "ok": true
+  },
+  {
+   "agente": "documenter",
+   "cadencia_min": 240,
+   "ultima_lectura": "2026-10-20T18:49:14Z",
+   "lecturas": 39,
+   "minutos_sin_mirar": 136,
+   "vigencia": "automatica",
+   "lectura_vencida": false,
+   "umbral_min": 600,
    "preguntas_sin_responder": 0,
    "ok": true
   },
@@ -1848,7 +1848,7 @@
    "cadencia_min": null,
    "ultima_lectura": "2026-10-02T06:33:53Z",
    "lecturas": 3,
-   "minutos_sin_mirar": 26777,
+   "minutos_sin_mirar": 26792,
    "vigencia": "bajo demanda",
    "lectura_vencida": false,
    "umbral_min": null,
@@ -1856,27 +1856,27 @@
    "ok": true
   },
   {
-   "agente": "code-reviewer",
-   "cadencia_min": null,
-   "ultima_lectura": "2026-10-20T03:31:34Z",
-   "lecturas": 8,
-   "minutos_sin_mirar": 1039,
-   "vigencia": "bajo demanda",
-   "lectura_vencida": false,
-   "umbral_min": null,
-   "preguntas_sin_responder": 12,
-   "ok": false
-  },
-  {
    "agente": "default",
    "cadencia_min": 30,
-   "ultima_lectura": "2026-10-20T20:50:32Z",
-   "lecturas": 1134,
-   "minutos_sin_mirar": 0,
+   "ultima_lectura": "2026-10-20T21:01:23Z",
+   "lecturas": 1137,
+   "minutos_sin_mirar": 4,
    "vigencia": "automatica",
    "lectura_vencida": false,
    "umbral_min": 75,
    "preguntas_sin_responder": 1,
+   "ok": false
+  },
+  {
+   "agente": "code-reviewer",
+   "cadencia_min": null,
+   "ultima_lectura": "2026-10-20T03:31:34Z",
+   "lecturas": 8,
+   "minutos_sin_mirar": 1054,
+   "vigencia": "bajo demanda",
+   "lectura_vencida": false,
+   "umbral_min": null,
+   "preguntas_sin_responder": 12,
    "ok": false
   }
  ]
