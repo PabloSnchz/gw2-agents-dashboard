@@ -1,12 +1,12 @@
 {
- "generado_utc": "20261020T023604Z",
- "generado_h": "2026-10-20 02:36 UTC",
+ "generado_utc": "20261020T025105Z",
+ "generado_h": "2026-10-20 02:51 UTC",
  "archivos_estado": [
   {
    "archivo": "TEAM_STATUS.md",
    "agente": "default",
    "estado": "RARO",
-   "edad_h": 3.6,
+   "edad_h": 3.9,
    "kb": 32.0,
    "causa": "activo"
   },
@@ -14,7 +14,7 @@
    "archivo": "SESSION_LOG.md",
    "agente": "documenter",
    "estado": "ROTO",
-   "edad_h": 408.5,
+   "edad_h": 408.7,
    "kb": 309.5,
    "causa": "activo",
    "crecimiento": "EXCEDE 60 KB (310 KB)"
@@ -23,7 +23,7 @@
    "archivo": "COMMS_LOG.md",
    "agente": "default",
    "estado": "RARO",
-   "edad_h": 2.4,
+   "edad_h": 2.6,
    "kb": 262.7,
    "causa": "activo"
   },
@@ -37,7 +37,7 @@
    "archivo": "ALERTS_LOG.md",
    "agente": "default",
    "estado": "RARO",
-   "edad_h": 3.6,
+   "edad_h": 3.9,
    "kb": 575.7,
    "causa": "activo"
   },
@@ -45,7 +45,7 @@
    "archivo": "DECISIONS_LOG.md",
    "agente": "default",
    "estado": "ROTO",
-   "edad_h": 480.6,
+   "edad_h": 480.8,
    "kb": 10.2,
    "causa": "activo"
   }
@@ -517,17 +517,17 @@
   },
   {
    "dia": "2026-10-19",
-   "llamadas": 2357,
-   "prompt": 235542529,
-   "cache_read": 220157759,
-   "cache_pct": 93.5,
-   "prompt_por_llamada": 99933,
+   "llamadas": 2367,
+   "prompt": 236216177,
+   "cache_read": 220529226,
+   "cache_pct": 93.4,
+   "prompt_por_llamada": 99795,
    "por_agente": [
     {
      "agente": "default",
-     "llamadas": 1015,
-     "prompt": 114337871,
-     "cache_pct": 93.0
+     "llamadas": 1021,
+     "prompt": 114762713,
+     "cache_pct": 92.9
     },
     {
      "agente": "architect",
@@ -537,9 +537,9 @@
     },
     {
      "agente": "product-owner",
-     "llamadas": 225,
-     "prompt": 23375064,
-     "cache_pct": 95.6
+     "llamadas": 229,
+     "prompt": 23623870,
+     "cache_pct": 94.8
     },
     {
      "agente": "Code-Reviewer",
@@ -569,7 +569,7 @@
   },
   {
    "archivo": "estructura.json",
-   "edad_min": 0.4,
+   "edad_min": 0.5,
    "estado": "ok"
   }
  ],
