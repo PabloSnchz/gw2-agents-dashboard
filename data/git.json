@@ -1,6 +1,6 @@
 {
- "generado_utc": "20261020T155135Z",
- "generado_h": "2026-10-20 15:51 UTC",
+ "generado_utc": "20261020T160632Z",
+ "generado_h": "2026-10-20 16:06 UTC",
  "origen": "git local + ls-remote (sin cuota). protected cacheado TTL 6h.",
  "commits": [
   {
@@ -463,9 +463,9 @@
    "repo": "gw2-agents-dashboard",
    "label": "Dashboard",
    "role": "dashboard",
-   "sha": "d0333e89496a055a1b66de7492fcb197d4c9bbfe",
-   "short_sha": "d0333e8",
-   "commit": null,
+   "sha": "5faf93487a5e17a2b5590e4ba2284855a0923b97",
+   "short_sha": "5faf934",
+   "commit": "chore(cache): bumpeo config.js y parser.js tras el fix de",
    "estado": "open",
    "protected": false,
    "protected_fresco": true,
@@ -473,13 +473,11 @@
    "proteccion_detalle": null,
    "proteccion_detalle_motivo": "sin token",
    "rama": "main",
-   "sin_commitear": 6,
+   "sin_commitear": 4,
    "archivos_modificados": [
     "M ata/comms.json",
     "M ata/estructura.json",
     "M ata/salud.json",
-    "M s/config.js",
-    "M s/parser.js",
     "?? dashboard-estructura.txt"
    ],
    "clon_error": null
