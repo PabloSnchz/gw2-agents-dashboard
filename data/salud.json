@@ -1,12 +1,12 @@
 {
- "generado_utc": "20261020T013151Z",
- "generado_h": "2026-10-20 01:31 UTC",
+ "generado_utc": "20261020T013341Z",
+ "generado_h": "2026-10-20 01:33 UTC",
  "archivos_estado": [
   {
    "archivo": "TEAM_STATUS.md",
    "agente": "default",
    "estado": "RARO",
-   "edad_h": 2.5,
+   "edad_h": 2.6,
    "kb": 32.0,
    "causa": "activo"
   },
@@ -37,7 +37,7 @@
    "archivo": "ALERTS_LOG.md",
    "agente": "default",
    "estado": "RARO",
-   "edad_h": 2.5,
+   "edad_h": 2.6,
    "kb": 575.7,
    "causa": "activo"
   },
@@ -45,7 +45,7 @@
    "archivo": "DECISIONS_LOG.md",
    "agente": "default",
    "estado": "ROTO",
-   "edad_h": 479.5,
+   "edad_h": 479.6,
    "kb": 10.2,
    "causa": "activo"
   }
@@ -517,22 +517,22 @@
   },
   {
    "dia": "2026-10-19",
-   "llamadas": 2190,
-   "prompt": 220230878,
-   "cache_read": 205988585,
+   "llamadas": 2197,
+   "prompt": 221062020,
+   "cache_read": 206786434,
    "cache_pct": 93.5,
-   "prompt_por_llamada": 100562,
+   "prompt_por_llamada": 100619,
    "por_agente": [
     {
      "agente": "default",
-     "llamadas": 921,
-     "prompt": 105159153,
+     "llamadas": 925,
+     "prompt": 105632512,
      "cache_pct": 93.1
     },
     {
      "agente": "architect",
-     "llamadas": 763,
-     "prompt": 67429962,
+     "llamadas": 766,
+     "prompt": 67787745,
      "cache_pct": 92.7
     },
     {
@@ -564,7 +564,7 @@
   },
   {
    "archivo": "salud.json",
-   "edad_min": 6.8,
+   "edad_min": 1.8,
    "estado": "ok"
   },
   {
