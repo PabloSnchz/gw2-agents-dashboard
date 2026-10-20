@@ -1,6 +1,6 @@
 {
- "generado_utc": "20261020T013630Z",
- "generado_h": "2026-10-20 01:36 UTC",
+ "generado_utc": "20261020T015132Z",
+ "generado_h": "2026-10-20 01:51 UTC",
  "origen": "git local + ls-remote (sin cuota). protected cacheado TTL 6h.",
  "commits": [
   {
@@ -412,12 +412,12 @@
    "protected_verificado_utc": "20261020T012537Z",
    "proteccion_detalle": null,
    "proteccion_detalle_motivo": "sin token",
-   "rama": "main",
+   "rama": "docs/hb174-rescate-documentador",
    "sin_commitear": 27,
    "archivos_modificados": [
-    "M HANGELOG.md",
-    "M EADME.md",
-    "M ocs/ONBOARDING.md",
+    "M CHANGELOG.md",
+    "M README.md",
+    "M docs/ONBOARDING.md",
     "?? CONSULTAS.md",
     "?? _ac.js",
     "?? _bl.txt",
@@ -449,9 +449,9 @@
    "repo": "gw2-agents-dashboard",
    "label": "Dashboard",
    "role": "dashboard",
-   "sha": "37d2f1f3097acd3d249b115ddd587f5379924fba",
-   "short_sha": "37d2f1f",
-   "commit": "chore(dashboard): pulso automatico 2026-10-20_01-34_UTC",
+   "sha": "b07e6a6c586c9b322cfcd888f633243031e8d954",
+   "short_sha": "b07e6a6",
+   "commit": "chore(dashboard): pulso automatico 2026-10-20_01-36_UTC",
    "estado": "open",
    "protected": false,
    "protected_fresco": true,
