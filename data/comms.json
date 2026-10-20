@@ -1,6 +1,6 @@
 {
- "generado_utc": "20261020T025104Z",
- "generado_h": "2026-10-20 02:51Z",
+ "generado_utc": "20261020T030603Z",
+ "generado_h": "2026-10-20 03:06Z",
  "fuente": "C:/Users/psanc/.qwenpaw/_comms (canal durable, archivos)",
  "estados": [
   "waiting",
@@ -10,10 +10,10 @@
   "closed"
  ],
  "conteo": {
-  "asked": 11,
+  "overdue": 18,
   "answered": 11,
   "closed": 46,
-  "overdue": 17
+  "asked": 10
  },
  "total": 85,
  "mensajes": [
@@ -30,8 +30,8 @@
    "reply": null,
    "replied_by": null,
    "replied_utc": null,
-   "estado": "asked",
-   "estado_nota": "entregada, sin registrar como esperando",
+   "estado": "overdue",
+   "estado_nota": "plazo vencido sin respuesta",
    "from_label": "Principal",
    "to_label": "Product Owner",
    "created_h": "2026-10-20 02:35Z",
@@ -1762,9 +1762,9 @@
   {
    "agente": "default",
    "cadencia_min": 30,
-   "ultima_lectura": "2026-10-20T02:30:51Z",
-   "lecturas": 909,
-   "minutos_sin_mirar": 20,
+   "ultima_lectura": "2026-10-20T03:00:28Z",
+   "lecturas": 916,
+   "minutos_sin_mirar": 5,
    "vigencia": "automatica",
    "lectura_vencida": false,
    "umbral_min": 75,
@@ -1776,7 +1776,7 @@
    "cadencia_min": 240,
    "ultima_lectura": "2026-10-20T00:19:07Z",
    "lecturas": 18,
-   "minutos_sin_mirar": 151,
+   "minutos_sin_mirar": 166,
    "vigencia": "automatica",
    "lectura_vencida": false,
    "umbral_min": 600,
@@ -1788,7 +1788,7 @@
    "cadencia_min": null,
    "ultima_lectura": "2026-10-02T06:33:53Z",
    "lecturas": 3,
-   "minutos_sin_mirar": 25697,
+   "minutos_sin_mirar": 25712,
    "vigencia": "bajo demanda",
    "lectura_vencida": false,
    "umbral_min": null,
@@ -1800,7 +1800,7 @@
    "cadencia_min": 120,
    "ultima_lectura": "2026-10-20T02:49:12Z",
    "lecturas": 66,
-   "minutos_sin_mirar": 1,
+   "minutos_sin_mirar": 16,
    "vigencia": "automatica",
    "lectura_vencida": false,
    "umbral_min": 300,
@@ -1812,7 +1812,7 @@
    "cadencia_min": null,
    "ultima_lectura": "2026-10-20T01:43:48Z",
    "lecturas": 7,
-   "minutos_sin_mirar": 67,
+   "minutos_sin_mirar": 82,
    "vigencia": "bajo demanda",
    "lectura_vencida": false,
    "umbral_min": null,
