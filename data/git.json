@@ -1,6 +1,6 @@
 {
- "generado_utc": "20261020T115132Z",
- "generado_h": "2026-10-20 11:51 UTC",
+ "generado_utc": "20261020T120632Z",
+ "generado_h": "2026-10-20 12:06 UTC",
  "origen": "git local + ls-remote (sin cuota). protected cacheado TTL 6h.",
  "commits": [
   {
@@ -413,7 +413,7 @@
    "proteccion_detalle": null,
    "proteccion_detalle_motivo": "sin token",
    "rama": "main",
-   "sin_commitear": 38,
+   "sin_commitear": 40,
    "archivos_modificados": [
     "?? CONSULTAS.md",
     "?? _ac.js",
@@ -446,10 +446,12 @@
     "?? _po_comms.md",
     "?? _po_m.js",
     "?? _po_meta.js",
+    "?? _prev_onb.txt",
     "?? _rb.js",
     "?? _t_canal.md",
     "?? _t_fuera.md",
     "?? _tmp_diff_alerts.txt",
+    "?? console.log((i+1)+'",
     "?? test_write4.txt",
     "?? test_write5.txt",
     "?? tests/arme-tengo-materiales.test.js"
@@ -460,9 +462,9 @@
    "repo": "gw2-agents-dashboard",
    "label": "Dashboard",
    "role": "dashboard",
-   "sha": "3a7ed28b4d9276e4a2eb378d83395e27bab68a16",
-   "short_sha": "3a7ed28",
-   "commit": "chore(dashboard): pulso automatico 2026-10-20_11-36_UTC",
+   "sha": "6af527786355ee26ef204028e6407a3ea07f4440",
+   "short_sha": "6af5277",
+   "commit": "chore(dashboard): pulso automatico 2026-10-20_11-51_UTC",
    "estado": "open",
    "protected": false,
    "protected_fresco": true,
