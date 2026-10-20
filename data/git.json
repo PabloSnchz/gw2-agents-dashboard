@@ -1,6 +1,6 @@
 {
- "generado_utc": "20261020T215130Z",
- "generado_h": "2026-10-20 21:51 UTC",
+ "generado_utc": "20261020T220630Z",
+ "generado_h": "2026-10-20 22:06 UTC",
  "origen": "git local + ls-remote (sin cuota). protected cacheado TTL 6h.",
  "commits": [
   {
@@ -413,7 +413,7 @@
    "proteccion_detalle": null,
    "proteccion_detalle_motivo": "sin token",
    "rama": "main",
-   "sin_commitear": 44,
+   "sin_commitear": 48,
    "archivos_modificados": [
     "M s/legendary-tracker.js",
     "?? ').replace(",
@@ -428,6 +428,7 @@
     "?? _hb_ach.js",
     "?? _hb_api.js",
     "?? _hb_arme.md",
+    "?? _hb_arme_out.txt",
     "?? _hb_bl2.txt",
     "?? _hb_bl_now.md",
     "?? _hb_br_now.txt",
@@ -442,6 +443,9 @@
     "?? _hb_diff_team.txt",
     "?? _hb_md.json",
     "?? _hb_me.json",
+    "?? _hb_probe_map.mjs",
+    "?? _hb_probe_render.mjs",
+    "?? _hb_probe_replica.mjs",
     "?? _hb_ts.txt",
     "?? _hb_ts2.txt",
     "?? _hb_ts_now.md",
@@ -466,9 +470,9 @@
    "repo": "gw2-agents-dashboard",
    "label": "Dashboard",
    "role": "dashboard",
-   "sha": "77b41279b358c4f14af58cc335a3ddaaab906d5b",
-   "short_sha": "77b4127",
-   "commit": "chore(dashboard): pulso automatico 2026-10-20_21-36_UTC",
+   "sha": "fc4dd636d6ce9f21c1f37238de92c79e59c27983",
+   "short_sha": "fc4dd63",
+   "commit": "chore(dashboard): pulso automatico 2026-10-20_21-51_UTC",
    "estado": "open",
    "protected": false,
    "protected_fresco": true,
