@@ -1,6 +1,6 @@
 {
- "generado_utc": "20261020T182131Z",
- "generado_h": "2026-10-20 18:21 UTC",
+ "generado_utc": "20261020T183631Z",
+ "generado_h": "2026-10-20 18:36 UTC",
  "origen": "git local + ls-remote (sin cuota). protected cacheado TTL 6h.",
  "commits": [
   {
@@ -412,7 +412,7 @@
    "protected_verificado_utc": "20261020T135133Z",
    "proteccion_detalle": null,
    "proteccion_detalle_motivo": "sin token",
-   "rama": "main",
+   "rama": "feat/hb173-cola-po",
    "sin_commitear": 41,
    "archivos_modificados": [
     "?? ').replace(",
@@ -463,9 +463,9 @@
    "repo": "gw2-agents-dashboard",
    "label": "Dashboard",
    "role": "dashboard",
-   "sha": "74f8e9367e19f088d3628335e3f12c1684247688",
-   "short_sha": "74f8e93",
-   "commit": "chore(dashboard): pulso automatico 2026-10-20_18-06_UTC",
+   "sha": "2cecf162dbcbd8f53b22b62b2acfb5522cb51c78",
+   "short_sha": "2cecf16",
+   "commit": "chore(dashboard): pulso automatico 2026-10-20_18-21_UTC",
    "estado": "open",
    "protected": false,
    "protected_fresco": true,
