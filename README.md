@@ -1,14 +1,14 @@
 # GW2 Agents Dashboard
 
-> 🐈 Tablero de monitoreo para el ecosistema de agentes de Bóveda del Gato Negro.
+> 🐈 Tablero de monitoreo para el ecosistema de Bóveda del Gato Negro.
 
-Visualiza estado de agentes, alertas, comunicaciones, backlog y propuestas en tiempo real.
+Visualiza estado del Arquitecto, desarrollo, promociones y estructura del ecosistema.
 
 ## Características
 
-- 📊 3 zonas: Estado actual (top), Últimas 24h (medio), Histórico (abajo)
-- 🔄 Auto-refresh configurable (5 min, default OFF)
-- ⚡ Fetch de 7 archivos .md vía GitHub raw
+- 📊 5 tabs: Resumen, Desarrollo, Promociones, Estructura, Notas
+- 🔄 Auto-refresh configurable (10 min, default OFF)
+- ⚡ Fetch de archivos .md vía GitHub raw
 - 🎨 CSS 2 capas (main.css layout + theme.css skin)
 - 📱 Responsive
 
@@ -17,28 +17,24 @@ Visualiza estado de agentes, alertas, comunicaciones, backlog y propuestas en ti
 ```
 gw2-agents-dashboard/
 ├── index.html          # Entry point
-├── css/main.css        # Layout (3 zonas, grid)
-├── css/theme.css       # Skin (colores, hover, glow)
-├── js/config.js        # URLs de .md, zonas, preferencias
-├── js/fetcher.js       # Fetch + cache + error handling
-├── js/app.js           # Render con marked.js, auto-refresh
-├── vendor/marked.min.js # CDN (no se commitea)
+├── css/main.css        # Layout
+├── css/theme.css       # Skin
+├── js/                 # Módulos JS
+├── data/               # JSON generados (estructura, salud, etc.)
 └── README.md
 ```
 
 **Tech:** Vanilla JS + marked.js v4 (CDN)
 
-## Archivos monitoreados
+## Tabs
 
-| Archivo | Zona | Descripción |
-|---------|------|-------------|
-| TEAM_STATUS.md | Estado actual | Estado del equipo + tareas |
-| ALERTS_LOG.md | Estado actual | Alertas del sistema |
-| COMMS_LOG.md | Estado actual | Comunicaciones entre agentes |
-| SESSION_LOG.md | Últimas 24h | Log de sesión |
-| BACKLOG.md | Últimas 24h | Tareas técnicas pendientes |
-| DECISIONS_LOG.md | Últimas 24h | Decisiones del equipo |
-| PRE_BACKLOG.md | Histórico | Propuestas del PO |
+| Tab | Descripción |
+|-----|-------------|
+| Resumen | Estado general del ecosistema |
+| Desarrollo | Actividad del repo dev (commits, ramas, rutas) |
+| Promociones | Qué está listo para promover a producción |
+| Estructura | Mapa organizacional y permisos |
+| Notas | Lo que el Arquitecto arregló |
 
 ## Deploy
 
