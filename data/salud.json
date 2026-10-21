@@ -1,12 +1,12 @@
 {
- "generado_utc": "20261021T013602Z",
- "generado_h": "2026-10-21 01:36 UTC",
+ "generado_utc": "20261021T015105Z",
+ "generado_h": "2026-10-21 01:51 UTC",
  "archivos_estado": [
   {
    "archivo": "TEAM_STATUS.md",
    "agente": "default",
    "estado": "ROTO",
-   "edad_h": 26.6,
+   "edad_h": 26.9,
    "kb": 32.0,
    "causa": "activo"
   },
@@ -14,7 +14,7 @@
    "archivo": "SESSION_LOG.md",
    "agente": "documenter",
    "estado": "ROTO",
-   "edad_h": 431.5,
+   "edad_h": 431.7,
    "kb": 309.5,
    "causa": "activo",
    "crecimiento": "EXCEDE 60 KB (310 KB)"
@@ -23,7 +23,7 @@
    "archivo": "COMMS_LOG.md",
    "agente": "default",
    "estado": "ROTO",
-   "edad_h": 5.1,
+   "edad_h": 5.3,
    "kb": 263.5,
    "causa": "activo"
   },
@@ -37,7 +37,7 @@
    "archivo": "ALERTS_LOG.md",
    "agente": "default",
    "estado": "ROTO",
-   "edad_h": 26.6,
+   "edad_h": 26.9,
    "kb": 575.7,
    "causa": "activo"
   },
@@ -45,7 +45,7 @@
    "archivo": "DECISIONS_LOG.md",
    "agente": "default",
    "estado": "ROTO",
-   "edad_h": 503.6,
+   "edad_h": 503.8,
    "kb": 10.2,
    "causa": "activo"
   }
@@ -540,11 +540,11 @@
   },
   {
    "dia": "2026-10-20",
-   "llamadas": 2417,
-   "prompt": 218323967,
-   "cache_read": 196902268,
+   "llamadas": 2419,
+   "prompt": 218384375,
+   "cache_read": 196903221,
    "cache_pct": 90.2,
-   "prompt_por_llamada": 90328,
+   "prompt_por_llamada": 90278,
    "por_agente": [
     {
      "agente": "default",
@@ -560,9 +560,9 @@
     },
     {
      "agente": "architect",
-     "llamadas": 98,
-     "prompt": 8856654,
-     "cache_pct": 90.8
+     "llamadas": 100,
+     "prompt": 8917062,
+     "cache_pct": 90.2
     },
     {
      "agente": "documenter",
@@ -576,17 +576,17 @@
  "dashboard": [
   {
    "archivo": "comms.json",
-   "edad_min": 0.5,
+   "edad_min": 0.6,
    "estado": "ok"
   },
   {
    "archivo": "salud.json",
-   "edad_min": 15.0,
+   "edad_min": 15.2,
    "estado": "ok"
   },
   {
    "archivo": "estructura.json",
-   "edad_min": 0.5,
+   "edad_min": 0.6,
    "estado": "ok"
   }
  ],
