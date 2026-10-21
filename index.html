@@ -42,18 +42,10 @@
                 <div class="sidebar-section">
                     <div class="sidebar-section-title">Tabs</div>
                     <button class="sidebar-link active" data-tab="resumen" onclick="setDashboardTab('resumen')"><span class="sidebar-icon">📊</span><span class="sidebar-label">Resumen</span></button>
-                    <button class="sidebar-link" data-tab="prebacklog" onclick="setDashboardTab('prebacklog')"><span class="sidebar-icon">🗂️</span><span class="sidebar-label">Pre-backlog</span></button>
-                    <button class="sidebar-link" data-tab="backlog" onclick="setDashboardTab('backlog')"><span class="sidebar-icon">📋</span><span class="sidebar-label">Backlog</span></button>
                     <button class="sidebar-link" data-tab="desarrollo" onclick="setDashboardTab('desarrollo')"><span class="sidebar-icon">🛠️</span><span class="sidebar-label">Desarrollo</span></button>
                     <button class="sidebar-link" data-tab="promociones" onclick="setDashboardTab('promociones')"><span class="sidebar-icon">🚀</span><span class="sidebar-label">Promociones</span></button>
-                    <button class="sidebar-link" data-tab="sprints" onclick="setDashboardTab('sprints')"><span class="sidebar-icon">🏃</span><span class="sidebar-label">Sprints</span></button>
-            <button class="sidebar-link" data-tab="consultas" onclick="setDashboardTab('consultas')"><span class="sidebar-icon">❓</span><span class="sidebar-label">Consultas</span></button>
-                    <button class="sidebar-link" data-tab="salud" onclick="setDashboardTab('salud')"><span class="sidebar-icon">🩺</span><span class="sidebar-label">Salud</span></button>
                     <button class="sidebar-link" data-tab="estructura" onclick="setDashboardTab('estructura')"><span class="sidebar-icon">🗺️</span><span class="sidebar-label">Estructura</span></button>
-                    <button class="sidebar-link" data-tab="equipo" onclick="setDashboardTab('equipo')"><span class="sidebar-icon">👥</span><span class="sidebar-label">Equipo</span></button>
-                    <button class="sidebar-link" data-tab="historial" onclick="setDashboardTab('historial')"><span class="sidebar-icon">📅</span><span class="sidebar-label">Historial</span></button>
                     <button class="sidebar-link" data-tab="notas" onclick="setDashboardTab('notas')"><span class="sidebar-icon">🔧</span><span class="sidebar-label">Lo que arreglé</span></button>
-                    <button class="sidebar-link" data-tab="logs" onclick="setDashboardTab('logs')"><span class="sidebar-icon">📋</span><span class="sidebar-label">Alertas & Comms</span></button>
                 </div>
             </nav>
             <div class="sidebar-footer">
@@ -99,29 +91,7 @@
                 </section>
             </div>
 
-            <!-- Tab: Pre-backlog -->
-            <div class="tab-panel" id="tab-prebacklog" role="tabpanel" aria-labelledby="tab-btn-prebacklog">
-                <div class="page-header">
-                    <div class="page-title-group">
-                        <h1 class="page-title">🗂️ Pre-backlog</h1>
-                        <p class="page-subtitle">Ideas del Product Owner antes de subir al backlog. Botones: Mover a backlog / Descartar</p>
-                    </div>
-                </div>
-                <div id="prebacklog-container" class="prebacklog-container"></div>
-            </div>
-
-            <!-- Tab: Backlog -->
-            <div class="tab-panel" id="tab-backlog" role="tabpanel" aria-labelledby="tab-btn-backlog">
-                <div class="page-header">
-                    <div class="page-title-group">
-                        <h1 class="page-title">📋 Backlog</h1>
-                        <p class="page-subtitle">Lo que el equipo tiene que hacer, priorizado. Botones: Iniciar / Pausar / Revisar</p>
-                    </div>
-                </div>
-                <div id="backlog-container" class="backlog-container"></div>
-            </div>
-
-            <!-- Tab: Desarrollo -->
+<!-- Tab: Desarrollo -->
             <div class="tab-panel" id="tab-desarrollo" role="tabpanel" aria-labelledby="tab-btn-desarrollo">
                 <div class="page-header">
                     <div class="page-title-group">
@@ -145,54 +115,7 @@
                 <div id="promotions-container" class="promo-container"></div>
             </div>
 
-            <!-- Tab: Sprints -->
-            <div class="tab-panel" id="tab-sprints" role="tabpanel" aria-labelledby="tab-btn-sprints">
-                <div class="page-header">
-                    <div class="page-title-group">
-                        <h1 class="page-title">🏃 Sprints</h1>
-                        <p class="page-subtitle">Historias activas por sprint. 1-2 historias por sprint. El equipo trabaja, devuelve solución, quede deployado en gw2-dev.</p>
-                    </div>
-                </div>
-                <div id="sprints-container" class="sprints-container"></div>
-            </div>
-
-            <!-- Tab: Consultas -->
-            <div class="tab-panel" id="tab-consultas" role="tabpanel" aria-labelledby="tab-btn-consultas">
-                <div class="page-header">
-                    <div class="page-title-group">
-                        <h1 class="page-title">❓ Consultas</h1>
-                        <p class="page-subtitle">Preguntas del Arquitecto a Pablo — el equipo escribe en CONSULTAS.md, el filtro es del Arquitecto</p>
-                    </div>
-                </div>
-                <div id="consultas-container" class="consultas-container"></div>
-            </div>
-
-            <!-- Tab: Salud -->
-            <div class="tab-panel" id="tab-salud" role="tabpanel" aria-labelledby="tab-btn-salud">
-                <div class="page-header">
-                    <div class="page-title-group">
-                        <h1 class="page-title">🩺 Salud del ecosistema</h1>
-                        <p class="page-subtitle">Archivos de estado, ramas sin integrar, automatización, consumo de tokens</p>
-                    </div>
-                </div>
-                <div id="eco-salud-estado"></div>
-                <h3>Archivos de estado</h3>
-                <p class="org-source">El equipo debería refrescarlos con cada heartbeat. Si uno envejece, ese heartbeat <em>no está corriendo</em>.</p>
-                <div class="table-wrap">
-                    <table class="table">
-                        <thead><tr><th>Archivo</th><th>Quién lo escribe</th><th>Antigüedad</th><th>Tamaño</th></tr></thead>
-                        <tbody id="eco-archivos"></tbody>
-                    </table>
-                </div>
-                <h3>Ramas sin integrar</h3>
-                <div id="eco-ramas"></div>
-                <h3>Automatización</h3>
-                <div id="eco-crons"></div>
-                <h3>Consumo de tokens</h3>
-                <div id="eco-tokens"></div>
-            </div>
-
-            <!-- Tab: Estructura -->
+<!-- Tab: Estructura -->
             <div class="tab-panel" id="tab-estructura" role="tabpanel" aria-labelledby="tab-btn-estructura">
                 <div class="page-header">
                     <div class="page-title-group">
@@ -217,66 +140,7 @@
                 </details>
             </div>
 
-            <!-- Tab: Equipo -->
-            <div class="tab-panel" id="tab-equipo" role="tabpanel" aria-labelledby="tab-btn-equipo">
-                <div class="page-header">
-                    <div class="page-title-group">
-                        <h1 class="page-title">👥 Equipo</h1>
-                        <p class="page-subtitle">Comunicación entre agentes, estado en vivo, detalle de cada agente</p>
-                    </div>
-                </div>
-                <section class="team-section">
-                    <h2>💬 Comunicación entre agentes</h2>
-                    <p class="org-source">El <strong>paso 0</strong> de cada heartbeat dice que el agente lea su bandeja. Si un agente no mira, el reloj lo delata.</p>
-                    <div id="equipo-disciplina" class="cc-agents-grid"></div>
-                </section>
-                <section class="live-section">
-                    <h2>🔴 Estado en vivo</h2>
-                    <div id="live-status-container" class="live-container"></div>
-                </section>
-                <section class="agent-section">
-                    <h2>👥 Estado del Equipo (detalle)</h2>
-                    <div id="agent-cards" class="agent-grid"></div>
-                </section>
-            </div>
-
-            <!-- Tab: Historial -->
-            <div class="tab-panel" id="tab-historial" role="tabpanel" aria-labelledby="tab-btn-historial">
-                <div class="page-header">
-                    <div class="page-title-group">
-                        <h1 class="page-title">📅 Historial</h1>
-                        <p class="page-subtitle">Mientras no estabas — timeline de actividad del ecosistema</p>
-                    </div>
-                </div>
-                <div class="timeline-controls">
-                    <div class="timeline-range-group" role="group" aria-label="Rango temporal">
-                        <button class="btn btn-ghost btn-sm timeline-range-btn" data-range="1h" onclick="setTimelineRange('1h')">1h</button>
-                        <button class="btn btn-primary btn-sm timeline-range-btn active" data-range="8h" onclick="setTimelineRange('8h')">8h</button>
-                        <button class="btn btn-ghost btn-sm timeline-range-btn" data-range="24h" onclick="setTimelineRange('24h')">24h</button>
-                        <button class="btn btn-ghost btn-sm timeline-range-btn" data-range="7d" onclick="setTimelineRange('7d')">7d</button>
-                    </div>
-                    <div class="input-wrap" style="width: auto;">
-                        <select class="input timeline-agent-filter" onchange="setTimelineAgent(this.value)" aria-label="Filtrar por agente">
-                            <option value="all">Todos los agentes</option>
-                            <option value="principal">Principal</option>
-                            <option value="po">PO</option>
-                            <option value="documenter">Documentador</option>
-                            <option value="reviewer">Code Reviewer</option>
-                            <option value="architect">Arquitecto</option>
-                            <option value="admin">Admin</option>
-                        </select>
-                    </div>
-                    <div class="input-wrap" style="width: auto;">
-                        <select class="input timeline-agent-filter" id="timeline-category-filter" onchange="setTimelineCategory(this.value)" aria-label="Filtrar por categoría">
-                            <option value="all" selected>Todas las categorías</option>
-                        </select>
-                    </div>
-                    <span id="timeline-category-hint" class="timeline-category-hint"></span>
-                </div>
-                <div id="timeline-container" class="timeline-container"></div>
-            </div>
-
-            <!-- Tab: Lo que arreglé -->
+<!-- Tab: Lo que arreglé -->
             <div class="tab-panel" id="tab-notas" role="tabpanel" aria-labelledby="tab-btn-notas">
                 <div class="page-header">
                     <div class="page-title-group">
@@ -324,38 +188,7 @@
                 </section>
             </div>
 
-            <!-- Tab: Logs (Alertas + Comunicaciones) -->
-            <div class="tab-panel" id="tab-logs" role="tabpanel" aria-labelledby="tab-btn-logs">
-                <div class="page-header">
-                    <div class="page-title-group">
-                        <h1 class="page-title">📋 Alertas & Comunicaciones</h1>
-                        <p class="page-subtitle">Alertas activas, log manual del equipo, canal automático de agentes, y logs en acordeones</p>
-                    </div>
-                </div>
-                <section class="alerts-section">
-                    <h2>⚠️ Alertas & Comunicaciones</h2>
-                    <div id="alerts-comms" class="alerts-comms-container"></div>
-                </section>
-                <section class="comms-section">
-                    <h2>💬 Comunicaciones (log manual)</h2>
-                    <p class="org-source">Log <strong>manual</strong> del equipo (<code>COMMS_LOG.md</code> en <code>agents/main</code>): lo que los agentes anotan a mano.</p>
-                    <div id="comms-toolbar" class="comms-toolbar"></div>
-                    <div id="comms-kpis" class="comms-kpi-grid"></div>
-                    <div id="comms-list-container" class="comms-list-container"></div>
-                </section>
-                <section class="comms-section">
-                    <h2>📬 Canal de agentes (automático)</h2>
-                    <p class="org-source">Canal <strong>durable</strong> entre agentes, agrupado por estado. Un mensaje en <em>Vencidas</em> es uno que se pasó de plazo sin respuesta.</p>
-                    <div id="comms-channel-estado"></div>
-                    <div id="comms-channel-kpis" class="comms-kpi-grid"></div>
-                    <div id="comms-channel-lista" class="comms-list-container"></div>
-                </section>
-                <section class="logs-section">
-                    <h2>📋 Logs (Acordeones)</h2>
-                    <div id="accordion-container" class="accordion-container"></div>
-                </section>
-            </div>
-        </main>
+</main>
     </div>
 
     <!-- Modals -->
@@ -402,11 +235,7 @@
     <script src="js/pulso.js?v=4"></script>
     <script src="js/dev-catalogo.js?v=4"></script>
     <script src="js/rutas-dev.js?v=5"></script>
-    <script src="js/consultas.js?v=4"></script>
-    <script src="js/prebacklog.js?v=2"></script>
-    <script src="js/backlog.js?v=2"></script>
     <script src="js/desarrollo.js?v=1"></script>
-    <script src="js/sprints.js?v=2"></script>
     <script src="js/app.js?v=29"></script>
 </body>
 </html>

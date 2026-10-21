@@ -30,8 +30,8 @@
     // modifica. Dos keys separados: el :v2 guardaba solo el tab activo, un
     // string, y lo usaba tanto para la tab activa como para el orden, lo que
     // era confuso. El orden es un array; la tab activa, un string.
-    const TAB_ORDER_STORAGE_KEY = 'gn:dashboard:tab-order:v3';
-    const TAB_ACTIVE_STORAGE_KEY = 'gn:dashboard:active-tab:v3';
+    const TAB_ORDER_STORAGE_KEY = 'gn:dashboard:tab-order:v4';
+    const TAB_ACTIVE_STORAGE_KEY = 'gn:dashboard:active-tab:v4';
     // OJO: esta lista decide que tabs funcionan. setDashboardTab hace
     // `if (!VALID_TABS.includes(tabName)) return;`, asi que un tab que no este
     // aca NO cambia: el click no hace nada y no hay error en consola. Cuando se
@@ -43,7 +43,7 @@
       // filtrado. El equipo escribe su parte cruda en CONSULTAS.md; lo que
       // llega aca es lo que yo subi. Ojo con el aviso de arriba: si esta
       // entrada falta, el boton no hace nada y no hay error en consola.
-      const VALID_TABS = ['resumen', 'prebacklog', 'backlog', 'sprints', 'desarrollo', 'promociones', 'consultas', 'salud', 'estructura', 'equipo', 'historial', 'notas', 'logs'];
+      const VALID_TABS = ['resumen', 'desarrollo', 'promociones', 'estructura', 'notas'];
 
     // Orden persistido de las tabs, o el default si no hay nada guardado.
     // Se lee una sola vez al init y se escribe cada vez que cambia el orden.
